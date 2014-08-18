@@ -1,0 +1,64 @@
+/****************************************************************************
+* Name:            ryque.css                                                *
+* Project:         Cambusa/ryQue                                            *
+* Version:         1.00                                                     *
+* Description:     Lightweight access to databases                          *
+* Copyright (C):   2013  Rodolfo Calzetti                                   *
+* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+.ryque-row-even {
+background-color: #FFFFFF;
+color:#000000;
+}
+
+.ryque-row-odd {
+background-color: #F2F9FF;
+color:#000000;
+}
+
+.ryque-row-selected {
+color:#000000;
+/* Blue */
+background-color:#C8DAE8;
+background-image:-webkit-gradient(linear, left top, left bottom, from(#DAE6F0), to(#A2C0DA));
+background-image:-webkit-linear-gradient(top, #DAE6F0, #A2C0DA);
+background-image:-moz-linear-gradient(top, #DAE6F0, #A2C0DA);
+background-image:-o-linear-gradient(top, #DAE6F0, #A2C0DA);
+background:-ms-linear-gradient(top, #DAE6F0 0%, #A2C0DA 100%); /* IE10+ */
+background-image:linear-gradient(to bottom, #DAE6F0, #A2C0DA);
+filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#DAE6F0', endColorstr='#A2C0DA',GradientType=0 ); /* IE6-9 */
+}
+
+.ryque-row-checked {
+color:#FFFFFF;
+/* Blue */
+background-color:#588EBC;
+}
+
+.ryque-focusin {
+/* Blue */
+background-color:#3F75A2;
+}
+
+.ryque-focusout {
+background-color:#E0E0E0;
+}
+
+.ryque a{
+outline-style:none;
+}
+
+.ryque::selection{
+background:#FFFFFF;
+}
+
+.ryque::-moz-selection{
+background:#FFFFFF;
+}
+
+.ryque::-webkit-selection{
+background:#FFFFFF;
+}
+

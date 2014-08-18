@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Uffici",
+    "params":{
+        "name":"qvuffici",
+        "path":"qvanagrafiche/",
+        "title":"Uffici"
+    }
+}

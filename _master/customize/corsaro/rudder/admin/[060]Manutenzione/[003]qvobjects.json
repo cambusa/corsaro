@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Oggetti",
+    "params":{
+        "name":"qvobjects",
+        "path":"qvtabelle/",
+        "title":"Oggetti"
+    }
+}

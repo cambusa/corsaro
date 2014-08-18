@@ -1,0 +1,101 @@
+a:3:{s:4:"type";s:7:"WEBSITE";s:11:"description";s:15:"Le Cose di Rudy";s:7:"program";a:21:{i:0;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:16:"OBJECTS_WEBSITES";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000000070002)]";s:4:"NAME";s:5:"rudyz";s:11:"DESCRIPTION";s:15:"Le Cose di Rudy";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBSITES00000";s:10:"HOMEPAGEID";s:24:"[>SYSID(A0000000070007)]";s:9:"DEFAULTID";s:24:"[>SYSID(A0000000070005)]";s:11:"NORMALWIDTH";s:3:"900";s:11:"NARROWWIDTH";s:1:"1";s:11:"GLOBALSTYLE";s:119:".frame-home .filibuster-subdate{display:none;}
+#frame_header a{color:black}
+#frame_header a:hover{text-decoration:none}";s:12:"GLOBALSCRIPT";s:0:"";s:10:"GLOBALHEAD";s:0:"";s:7:"FAVICON";N;s:10:"STATISTICS";s:1:"1";}}i:1;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A000000007002W)]";s:11:"DESCRIPTION";s:12:"Home MathJax";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:0:"";s:10:"FRAMESTYLE";s:93:"{
+"flb-top":"[!TOPAFTER(home_rudyz)]",
+"flb-left":340,
+"flb-width":"250",
+"font-size":"75%"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:24:"[>SYSID(A000000007002Z)]";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:2;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A000000007001M)]";s:11:"DESCRIPTION";s:10:"Home Rudyz";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:10:"home_rudyz";s:10:"FRAMESTYLE";s:70:"{
+"flb-top":30,
+"flb-left":340,
+"flb-width":"250",
+"font-size":"75%"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:24:"[>SYSID(A000000007001Q)]";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:3;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A0000000070014)]";s:11:"DESCRIPTION";s:13:"Home Contatto";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:0:"";s:10:"FRAMESTYLE";s:94:"{
+"flb-top":"[!TOPAFTER(home_attivita)]",
+"flb-left":0,
+"flb-width":"250",
+"font-size":"75%"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000000070012)]";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:4;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A000000007000Y)]";s:11:"DESCRIPTION";s:14:"Home Attività";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:13:"home_attivita";s:10:"FRAMESTYLE";s:86:"{
+"flb-top":30,
+"flb-left":0,
+"width":300,
+"font-size":"75%",
+"text-align":"justify"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:24:"[>SYSID(A000000007000W)]";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:5;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A0000000070007)]";s:11:"DESCRIPTION";s:10:"Frame Body";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:0:"";s:10:"FRAMESTYLE";s:26:"{
+"background":"#F8F8F8"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:0:"";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:6;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A000000007000E)]";s:11:"DESCRIPTION";s:12:"Frame Footer";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000000070007)]";s:12:"FUNCTIONNAME";s:12:"frame_footer";s:10:"FRAMESTYLE";s:214:"{
+"flb-top":"[!TOPAFTER(frame_middle)]+10",
+"flb-left":"[!SHEETLEFT]",
+"flb-height":"25",
+"flb-width":"[!SHEETWIDTH]", 
+"text-align":"right",
+"font-size":"10px",
+"color":"gray",
+"flb-gradient-x":"#F8F8F8-#EEEEEE"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:24:"[>SYSID(A000000007000H)]";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:7;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A000000007000D)]";s:11:"DESCRIPTION";s:12:"Frame Middle";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000000070007)]";s:12:"FUNCTIONNAME";s:12:"frame_middle";s:10:"FRAMESTYLE";s:68:"{
+"flb-top":"[!TOPAFTER(frame_header)]",
+"flb-left":"[!SHEETLEFT]"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:0:"";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:8;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A0000000070008)]";s:11:"DESCRIPTION";s:12:"Frame Header";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000000070007)]";s:12:"FUNCTIONNAME";s:12:"frame_header";s:10:"FRAMESTYLE";s:245:"{
+"flb-left":"[!SHEETLEFT]",
+"top":10, 
+"flb-width":"[!SHEETWIDTH]", 
+"height":50, 
+"font-size":"22px", 
+"text-align":"center",
+"white-space":"nowrap", 
+"color":"black",
+"flb-gradient-x":"#F8F8F8-#EEEEEE",
+"flb-googlefont":"The+Girl+Next+Door"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:24:"[>SYSID(A000000007000B)]";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:9;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A000000007000L)]";s:11:"DESCRIPTION";s:15:"Frame Navigator";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A000000007000D)]";s:12:"FUNCTIONNAME";s:0:"";s:10:"FRAMESTYLE";s:172:"{
+"flb-top":"[!TOPAFTER(frame_tools)]+20",
+"flb-left":"[!LEFTAFTER(frame_content)]",
+"flb-width":"300",
+"flb-radius":5,
+"flb-shadow":2,
+"flb-gradient-x":"#F8F8F8-#EEEEEE"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:24:"[>SYSID(A000000007000S)]";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:10;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A000000007000K)]";s:11:"DESCRIPTION";s:11:"Frame Tools";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A000000007000D)]";s:12:"FUNCTIONNAME";s:11:"frame_tools";s:10:"FRAMESTYLE";s:145:"{
+"flb-left":"[!LEFTAFTER(frame_content)]",
+"flb-top":20,
+"flb-width":"300",
+"flb-radius":5,
+"flb-shadow":2,
+"flb-gradient-x":"#F8F8F8-#EEEEEE"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:24:"[>SYSID(A000000007000O)]";s:11:"CURRENTPAGE";s:1:"0";s:10:"ORDINATORE";s:0:"";}}i:11;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:14:{s:5:"SYSID";s:24:"[:SYSID(A000000007000J)]";s:11:"DESCRIPTION";s:13:"Frame Content";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A000000007000D)]";s:12:"FUNCTIONNAME";s:13:"frame_content";s:10:"FRAMESTYLE";s:37:"{
+"flb-padding":20,
+"flb-width":600
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:9:"CONTENTID";s:0:"";s:11:"CURRENTPAGE";s:1:"1";s:10:"ORDINATORE";s:0:"";}}i:12;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:32:{s:5:"SYSID";s:24:"[:SYSID(A0000000070005)]";s:11:"DESCRIPTION";s:17:"Pagina principale";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20131201000000";s:7:"AUXTIME";s:14:"20131223071039";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000000070003)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000000070004)]";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:6:"frames";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:13;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A000000007000Z)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000000070003)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A000000007000Y)]";s:6:"SORTER";s:1:"1";}}i:14;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000000070015)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000000070003)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000000070014)]";s:6:"SORTER";s:1:"2";}}i:15;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A000000007001N)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000000070003)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A000000007001M)]";s:6:"SORTER";s:1:"3";}}i:16;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000000070031)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000000070003)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A000000007002W)]";s:6:"SORTER";s:1:"4";}}i:17;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:32:{s:5:"SYSID";s:24:"[:SYSID(A0000000070012)]";s:11:"DESCRIPTION";s:8:"Contatto";s:8:"REGISTRY";s:906:"<table border="0" cellpadding="3" cellspacing="0" class=" filibuster-nowrap" style="width:500px">
+	<tbody>
+		<tr>
+			<td><strong>Nome</strong></td>
+			<td>Rodolfo Calzetti</td>
+		</tr>
+		<tr>
+			<td><strong>Cellulare</strong></td>
+			<td>339 1459787</td>
+		</tr>
+		<tr>
+			<td><strong>Telefono e Fax</strong></td>
+			<td>02 6197122</td>
+		</tr>
+		<tr>
+			<td><strong>Email</strong></td>
+			<td>postmaster@rudyz.net</td>
+		</tr>
+		<tr>
+			<td><strong>Indirizzo</strong></td>
+			<td>V.le Matteotti 35, 20095 Cusano Milanino (MI)</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><a href="http://www.facebook.com/profile.php?id=1652852861" target="_blank"><img src="http://www.rudyz.net/images/facebook.gif" /></a></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.linkedin.com/profile/edit?id=85425572&amp;trk=hb_pro" target="_blank"><img src="http://www.rudyz.net/images/linkedin.gif" /></a></p>";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20131223141405";s:7:"AUXTIME";s:14:"20131223141405";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000000070010)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000000070011)]";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:18;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:32:{s:5:"SYSID";s:24:"[:SYSID(A000000007000W)]";s:11:"DESCRIPTION";s:9:"Attività";s:8:"REGISTRY";s:1207:"<p>Sono un matematico puro con tanto di numero di <em>Erdős</em> ufficiale ed errori di calcolo.</p>
+
+<p>Ho un&#39;esperienza ventennale come programmatore e analista informatico. Da maggio 2013 ho iniziato a lavorare come libero professionista per progettare, implementare e distribuire software per reti aziendali dai costi contenuti.</p>
+
+<p>La tecnologia proposta &egrave; puramente <strong>WEB</strong>, senza plugin: si configura la macchina server, sia essa Windows, Linux, i5/OS, e le funzionalit&agrave; sono subito disponibili sui terminali utilizzando comuni browser (Firefox, Internet Explorer, Opera, Safari, Chrome).</p>
+
+<p>Commercialmente, distribuisco il software con licenza <strong>GNU GPL v3</strong>. Per il cliente, questo significa poter modificare i programmi con le proprie risorse interne, non avere problemi di quanti utenti utilizzano il software, poter addirittura rivendere il prodotto, purch&eacute; la licenza venga ridistribuita inalterata e venga riconosciuta la paternit&agrave; agli autori originali.</p>
+
+<p><strong>Tecnologia WEB e licenza GPL, il futuro adesso...</strong> Ecco, ero riuscito a non fare discorsi bombastici ed ora mi &egrave; scappata la vision...</p>";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20131223095837";s:7:"AUXTIME";s:14:"20131223095837";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A000000007000U)]";s:10:"SETRELATED";s:24:"[:SYSID(A000000007000V)]";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:19;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:32:{s:5:"SYSID";s:24:"[:SYSID(A000000007000S)]";s:11:"DESCRIPTION";s:16:"Pagina Navigator";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20131223093751";s:7:"AUXTIME";s:14:"20131223093751";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A000000007000Q)]";s:10:"SETRELATED";s:24:"[:SYSID(A000000007000R)]";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:9:"navigator";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:20;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:32:{s:5:"SYSID";s:24:"[:SYSID(A000000007000O)]";s:11:"DESCRIPTION";s:12:"Pagina Tools";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20131223093547";s:7:"AUXTIME";s:14:"20131223093547";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A000000007000M)]";s:10:"SETRELATED";s:24:"[:SYSID(A000000007000N)]";s:6:"SITEID";s:24:"[:SYSID(A0000000070002)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:5:"tools";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}}}

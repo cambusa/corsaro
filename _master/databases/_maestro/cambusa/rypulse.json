@@ -1,0 +1,54 @@
+{
+    "QVSYSTEM":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "LASTBASE":{"type":"VARCHAR", "size":50},
+            "LASTPROGR":{"type":"VARCHAR", "size":20}
+        }
+    },
+    "QVSESSIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "SESSIONID":{"type":"VARCHAR", "size":24},
+            "USERID":{"type":"VARCHAR", "size":12},
+            "USERNAME":{"type":"VARCHAR", "size":100},
+            "ADMINISTRATOR":{"type":"BOOLEAN"},
+            "EMAIL":{"type":"VARCHAR", "size":100},
+            "ROLEID":{"type":"VARCHAR", "size":12},
+            "ROLENAME":{"type":"VARCHAR", "size":100},
+            "LANGUAGENAME":{"type":"VARCHAR", "size":50},
+            "COUNTRYCODE":{"type":"VARCHAR", "size":3},
+            "DEBUGMODE":{"type":"BOOLEAN"},
+            "CLIENTIP":{"type":"VARCHAR", "size":50},
+            "RENEWALTIME":{"type":"TIMESTAMP"}
+        }
+    },
+    "ENGAGES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
+            "NOTIFY":{"type":"VARCHAR", "size":1000},
+            "PARAMS":{"type":"VARCHAR", "size":1000},
+            "TOLERANCE":{"type":"VARCHAR", "size":10},
+            "LATENCY":{"type":"VARCHAR", "size":10},
+            "MINUTES":{"type":"VARCHAR", "size":180},
+            "HOURS":{"type":"VARCHAR", "size":1000},
+            "DAYS":{"type":"VARCHAR", "size":100},
+            "WEEK":{"type":"VARCHAR", "size":20},
+            "MONTHS":{"type":"VARCHAR", "size":50},
+            "BUSINESSDAY":{"type":"BOOLEAN"},
+            "ENGAGE":{"type":"VARCHAR", "size":200},
+            "LASTENGAGE":{"type":"TIMESTAMP"},
+            "LASTSUCCESS":{"type":"BOOLEAN"},
+            "LASTDESCRIPTION":{"type":"VARCHAR", "size":200},
+            "NEXTENGAGE":{"type":"TIMESTAMP"},
+            "ENABLED":{"type":"BOOLEAN"},
+            "RUNNING":{"type":"BOOLEAN"},
+            "UNATANTUM":{"type":"BOOLEAN"}
+        }
+    }
+}

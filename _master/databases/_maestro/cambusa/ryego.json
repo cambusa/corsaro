@@ -1,0 +1,244 @@
+{
+    "QVSYSTEM":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "LASTBASE":{"type":"VARCHAR", "size":50},
+            "LASTPROGR":{"type":"VARCHAR", "size":20}
+        }
+    },
+    "EGOUSERS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "PASSWORD":{"type":"VARCHAR", "size":100},
+            "ACTIVE":{"type":"BOOLEAN"},
+            "REGISTRY":{"type":"TEXT"},
+            "LASTCHANGE":{"type":"TIMESTAMP"},
+            "REQUESTID":{"type":"VARCHAR", "size":24},
+            "REQUESTIP":{"type":"VARCHAR", "size":30},
+            "REQUESTTIME":{"type":"TIMESTAMP"}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "INSERT INTO EGOUSERS(SYSID,PASSWORD,ACTIVE,LASTCHANGE) VALUES([:SYSID(0USERADMIN00)], '235af8c9f9d93e5e7bfb8c8c16617919bf09b727', '1', NULL)"
+                ]
+            }
+        ]
+    },
+    "EGOALIASES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "USERID":{"type":"SYSID", "ref":"EGOUSERS"},
+            "EMAIL":{"type":"VARCHAR", "size":50},
+            "MAIN":{"type":"BOOLEAN"},
+            "DEMIURGE":{"type":"BOOLEAN"},
+            "ADMINISTRATOR":{"type":"BOOLEAN"}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "INSERT INTO EGOALIASES(SYSID,USERID,NAME,EMAIL,MAIN,DEMIURGE,ADMINISTRATOR) VALUES([:SYSID(0ALSDEMIURGE)], [:SYSID(0USERADMIN00)], 'demiurge', ' ', 1, 1, 1)",
+                    "INSERT INTO EGOALIASES(SYSID,USERID,NAME,EMAIL,MAIN,DEMIURGE,ADMINISTRATOR) VALUES([:SYSID(0ALSPULSAR00)], [:SYSID(0USERADMIN00)], 'pulsar', ' ', 0, 0, 0)"
+                ]
+            }
+        ]
+    },
+    "EGOSETTINGS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "VALUE":{"type":"VARCHAR", "size":250}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETDURATION)], 'duration', '0')",
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETWARNING0)], 'warning', '0')",
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETSAVEUSER)], 'saveuser', '1')",
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETMINLEN00)], 'minlen', '6')",
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETDEFAULT0)], 'default', 'sonoio')",
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETUPPERLOW)], 'upperlower', '0')",
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETLETTDIGT)], 'letterdigit', '0')",
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETEMAILRST)], 'emailreset', '1')"
+                ]
+            }
+        ]
+    },
+    "EGOLANGUAGES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "INSERT INTO EGOLANGUAGES(SYSID,NAME,DESCRIPTION) VALUES([:SYSID(0LANGDEFAULT)], 'default', 'Default')",
+                    "INSERT INTO EGOLANGUAGES(SYSID,NAME,DESCRIPTION) VALUES([:SYSID(0LANGENGLISH)], 'english', 'English')"
+                ]
+            }
+        ]
+    },
+    "EGOSETUP":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "APPID":{"type":"SYSID", "ref":"EGOAPPLICATIONS"},
+            "ALIASID":{"type":"SYSID", "ref":"EGOALIASES"},
+            "ENVIRONID":{"type":"SYSID"},
+            "ROLEID":{"type":"SYSID"},
+            "LANGUAGEID":{"type":"SYSID"},
+            "COUNTRYCODE":{"type":"VARCHAR", "size":3},
+            "DEBUGMODE":{"type":"BOOLEAN"}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "CREATE UNIQUE INDEX UNIQUE_EGOSETUP ON EGOSETUP (APPID, ALIASID)"
+                ]
+            }
+        ]
+    },
+    "EGOAPPLICATIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "INSERT INTO EGOAPPLICATIONS(SYSID,NAME,DESCRIPTION) VALUES([:SYSID(0APPMAESTRO0)], 'maestro', 'Maestro')",
+                    "INSERT INTO EGOAPPLICATIONS(SYSID,NAME,DESCRIPTION) VALUES([:SYSID(0APPPULSE000)], 'pulse', 'Pulse')",
+                    "INSERT INTO EGOAPPLICATIONS(SYSID,NAME,DESCRIPTION) VALUES([:SYSID(0APPCORSARO0)], 'corsaro', 'Corsaro')"
+                ]
+            }
+        ]
+    },
+    "EGOENVIRONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "APPID":{"type":"SYSID", "ref":"EGOAPPLICATIONS"}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "CREATE UNIQUE INDEX UNIQUE_EGOENVIRONS ON EGOENVIRONS (APPID, NAME)",
+                    "INSERT INTO EGOENVIRONS(SYSID,APPID,NAME,DESCRIPTION) VALUES([:SYSID(0ENVMAESTRO0)], [:SYSID(0APPMAESTRO0)], 'predefinito', 'Predefinito')",
+                    "INSERT INTO EGOENVIRONS(SYSID,APPID,NAME,DESCRIPTION) VALUES([:SYSID(0ENVPULSE000)], [:SYSID(0APPPULSE000)], 'predefinito', 'Predefinito')",
+                    "INSERT INTO EGOENVIRONS(SYSID,APPID,NAME,DESCRIPTION) VALUES([:SYSID(0ENVCORSARO0)], [:SYSID(0APPCORSARO0)], 'acme', 'ACME')"
+                ]
+            }
+        ]
+    },
+    "EGOENVIRONUSER":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "ENVIRONID":{"type":"SYSID", "ref":"EGOENVIRONS"},
+            "USERID":{"type":"SYSID", "ref":"EGOUSERS"}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "CREATE UNIQUE INDEX UNIQUE_EGOENVIRONUSER ON EGOENVIRONUSER (ENVIRONID, USERID)",
+                    "INSERT INTO EGOENVIRONUSER(SYSID,ENVIRONID,USERID) VALUES([:SYSID(0USENMAESTRO)], [:SYSID(0ENVMAESTRO0)], [:SYSID(0USERADMIN00)])",
+                    "INSERT INTO EGOENVIRONUSER(SYSID,ENVIRONID,USERID) VALUES([:SYSID(0USENPULSE00)], [:SYSID(0ENVPULSE000)], [:SYSID(0USERADMIN00)])",
+                    "INSERT INTO EGOENVIRONUSER(SYSID,ENVIRONID,USERID) VALUES([:SYSID(0USENCORSARO)], [:SYSID(0ENVCORSARO0)], [:SYSID(0USERADMIN00)])"
+                ]
+            }
+        ]
+    },
+    "EGOROLES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "APPID":{"type":"SYSID", "ref":"EGOAPPLICATIONS"}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "CREATE UNIQUE INDEX UNIQUE_EGOROLES ON EGOROLES (APPID, NAME)",
+                    "INSERT INTO EGOROLES(SYSID,APPID,NAME,DESCRIPTION) VALUES([:SYSID(0ROLEMAESTRO)], [:SYSID(0APPMAESTRO0)], 'predefinito', 'Predefinito')",
+                    "INSERT INTO EGOROLES(SYSID,APPID,NAME,DESCRIPTION) VALUES([:SYSID(0ROLEPULSE00)], [:SYSID(0APPPULSE000)], 'predefinito', 'Predefinito')",
+                    "INSERT INTO EGOROLES(SYSID,APPID,NAME,DESCRIPTION) VALUES([:SYSID(0ROLECORSARO)], [:SYSID(0APPCORSARO0)], 'admin', 'Amministratore')"
+                ]
+            }
+        ]
+    },
+    "EGOROLEUSER":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "ROLEID":{"type":"SYSID", "ref":"EGOROLES"},
+            "USERID":{"type":"SYSID", "ref":"EGOUSERS"}
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "CREATE UNIQUE INDEX UNIQUE_EGOROLEUSER ON EGOROLEUSER (ROLEID, USERID)",
+                    "INSERT INTO EGOROLEUSER(SYSID,ROLEID,USERID) VALUES([:SYSID(0USROMAESTRO)], [:SYSID(0ROLEMAESTRO)], [:SYSID(0USERADMIN00)])",
+                    "INSERT INTO EGOROLEUSER(SYSID,ROLEID,USERID) VALUES([:SYSID(0USROPULSE00)], [:SYSID(0ROLEPULSE00)], [:SYSID(0USERADMIN00)])",
+                    "INSERT INTO EGOROLEUSER(SYSID,ROLEID,USERID) VALUES([:SYSID(0USROCORSARO)], [:SYSID(0ROLECORSARO)], [:SYSID(0USERADMIN00)])"
+                ]
+            }
+        ]
+    },
+    "EGOSESSIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "SESSIONID":{"type":"VARCHAR", "size":24, "unique":1},
+            "DEMIURGE":{"type":"BOOLEAN"},
+            "ADMINISTRATOR":{"type":"BOOLEAN"},
+            "ALIASID":{"type":"SYSID"},
+            "ENVIRONID":{"type":"SYSID"},
+            "ROLEID":{"type":"SYSID"},
+            "LANGUAGEID":{"type":"SYSID"},
+            "COUNTRYCODE":{"type":"VARCHAR", "size":3},
+            "DEBUGMODE":{"type":"BOOLEAN"},
+            "CLIENTIP":{"type":"VARCHAR", "size":30},
+            "BEGINTIME":{"type":"TIMESTAMP"},
+            "RENEWALTIME":{"type":"TIMESTAMP"},
+            "ENDTIME":{"type":"TIMESTAMP"}
+        }
+    },
+    "EGOVIEWSESSIONS":{
+        "type":"view",
+        "script":"@maestro/cambusa/ego_sessions.sql"
+    },
+    "EGOVIEWUSERS":{
+        "type":"view",
+        "script":"@maestro/cambusa/ego_users.sql"
+    },
+    "EGOVIEWENVIRONUSER":{
+        "type":"view",
+        "script":"@maestro/cambusa/ego_environuser.sql"
+    },
+    "EGOVIEWROLEUSER":{
+        "type":"view",
+        "script":"@maestro/cambusa/ego_roleuser.sql"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Prima nota",
+    "params":{
+        "name":"primanota_sel",
+        "path":"@customize/corsaro/reporting/movimenti/",
+        "title":"Prima nota"
+    }
+}

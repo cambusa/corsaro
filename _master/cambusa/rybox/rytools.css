@@ -1,0 +1,114 @@
+/****************************************************************************
+* Name:            rytools.css                                              *
+* Project:         Cambusa/ryBox                                            *
+* Version:         1.00                                                     *
+* Description:     Masked input and other form controls                     *
+* Copyright (C):   2013  Rodolfo Calzetti                                   *
+* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+.box-tool-new,
+.box-tool-open,
+.box-tool-refresh,
+.box-tool-engage,
+.box-tool-cut,
+.box-tool-copy,
+.box-tool-paste,
+.box-tool-clone,
+.box-tool-delete,
+.box-tool-print,
+.box-tool-stop
+{
+position:absolute;
+left:2px;
+top:2px;
+width:16px;
+height:16px;
+cursor:pointer;
+}
+.box-tool-new-gray,
+.box-tool-open-gray,
+.box-tool-refresh-gray,
+.box-tool-engage-gray,
+.box-tool-cut-gray,
+.box-tool-copy-gray,
+.box-tool-paste-gray,
+.box-tool-clone-gray,
+.box-tool-delete-gray,
+.box-tool-print-gray,
+.box-tool-stop-gray
+{
+position:absolute;
+left:2px;
+top:2px;
+width:16px;
+height:16px;
+cursor:default;
+}
+.box-tool-new{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -32px -96px;
+}
+.box-tool-new-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -32px -96px;
+}
+.box-tool-open{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -16px -96px;
+}
+.box-tool-open-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -16px -96px;
+}
+.box-tool-refresh{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -64px -80px;
+}
+.box-tool-refresh-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -64px -80px;
+}
+.box-tool-engage{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -32px -64px;
+}
+.box-tool-engage-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -32px -64px;
+}
+.box-tool-cut{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -144px -128px;
+}
+.box-tool-cut-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -144px -128px;
+}
+.box-tool-copy{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -160px -128px;
+}
+.box-tool-copy-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -160px -128px;
+}
+.box-tool-paste{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -176px -128px;
+}
+.box-tool-paste-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -176px -128px;
+}
+.box-tool-clone{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -48px -80px;
+}
+.box-tool-clone-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -48px -80px;
+}
+.box-tool-delete{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -176px -96px;
+}
+.box-tool-delete-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -176px -96px;
+}
+.box-tool-print{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat -160px -96px;
+}
+.box-tool-print-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat -160px -96px;
+}
+.box-tool-stop{
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat 0px -128px;
+}
+.box-tool-stop-gray{
+background: url(../jquery/css/images/ui-icons_888888_256x240.png) no-repeat 0px -128px;
+}

@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Proiezione saldi",
+    "params":{
+        "name":"proiezionesaldi_sel",
+        "path":"@customize/corsaro/reporting/saldi/",
+        "title":"Proiezione saldi"
+    }
+}

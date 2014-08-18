@@ -1,0 +1,10 @@
+{
+    "QVSYSTEM":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "LASTBASE":{"type":"VARCHAR", "size":50},
+            "LASTPROGR":{"type":"VARCHAR", "size":20}
+        }
+    }
+}

@@ -1,0 +1,87 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title></title>
+    <script type="text/javascript" src="../jquery/jquery.js"></script>
+    <script type="text/javascript" src="typeahead.js"></script>
+    <link href="examples.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            //Single DataSet
+
+            $('input.counties').typeahead({
+                name: 'countries',
+                local: ["Unites States", "Mexico", "Canada", "Cuba", "Guatemala"]
+
+            });
+            $('input.counties1').typeahead({
+                name: 'countries1',
+                local: ["Unites States", "Mexico", "Canada", "Cuba", "Guatemala"]
+
+            });
+
+            // Multiple DataSet
+
+            $('input.countries-cities').typeahead([
+                {
+                    name: 'Canada',
+                    prefetch: 'http://www.arungudelli.com/Tools/HTML5/jQueryAutoComplete/Canada.json',
+                    header: '<h3>Canada</h3>'
+
+                },
+                {
+                    name: 'United States',
+                    prefetch: 'http://www.arungudelli.com/Tools/HTML5/jQueryAutoComplete/US.json',
+                    header: '<h3>United States</h3>'
+
+                }
+
+            ]);
+
+            //Custom Template
+
+            $('.WordpressPosts').typeahead({
+                name: 'Wordpress',
+                valueKey: 'name',
+                prefetch: 'http://www.arungudelli.com/Tools/HTML5/jQueryAutoComplete/Tags.json',
+                template: [
+    '<p class="repo-tag">{{tag}}</p>',
+    '<p class="repo-name">{{name}}</p>',
+    '<p class="repo-description">{{description}}</p>'
+  ].join(''),
+                engine: Hogan
+            });
+        });
+    </script>
+</head>
+<body>
+    <div align="center">
+        <div>
+            <h3>
+                A Simple AutoComplete Using jQuery</h3>
+            <p>
+                by Arunkumar Gudelli</p>
+<p><a href="http://www.arungudelli.com/2013/10/simple-jquery-autocomplete-search-tutorial" target="_blank">Go Back to Tutorial</a></p>
+        </div>
+        <br />
+        <div style="height:800px">
+            <div style="width: 1000px; height: 300px;">
+                <div style="float: left; width: 500px">
+                    <h4>Uses Single DataSet</h4>
+                    <input class="counties typeahead" type="text" placeholder="Countries">
+                </div>
+                <div style="float: left; width: 500px">
+                    <h4>Uses Multiple DataSets</h4>
+                    <input class="countries-cities typeahead" type="text" placeholder="Countries And Cities">
+                </div>
+            </div>
+            <div class="CustomTemplate">
+                <h4>Uses Custom Template For rendering Suggesstions</h4>
+                <input class="WordpressPosts typeahead" type="text" placeholder="My Wordpress Posts" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>

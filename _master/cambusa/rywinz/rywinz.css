@@ -1,0 +1,150 @@
+/****************************************************************************
+* Name:            rywinz.css                                               *
+* Project:         Cambusa/ryWinz                                           *
+* Version:         1.00                                                     *
+* Description:     Multiple Document Interface                              *
+* Copyright (C):   2013  Rodolfo Calzetti                                   *
+* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+.winz-linkabout{
+cursor:pointer;
+text-decoration:underline;
+}
+#winz-dialog{
+display:none;
+}
+#winz-iframe{
+position:absolute;
+visibility:hidden;
+}
+#winz-printing{
+position:absolute;
+visibility:hidden;
+}
+.winz-rounded{
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-khtml-border-radius: 5px;
+border-radius: 5px;
+}
+.winz-header-left{
+text-align:left;
+padding:0px 5px;
+font-weight:bold;
+border-right:1px solid silver;
+}
+.winz-header-right{
+text-align:right;
+padding:0px 5px;
+font-weight:bold;
+border-right:1px solid silver;
+}
+.winz-cell-first{
+border-left:1px solid silver;
+}
+.winz-cell-left{
+text-align:left;
+padding:0px 5px;
+border-right:1px solid silver;
+}
+.winz-cell-right{
+text-align:right;
+padding:0px 5px;
+border-right:1px solid silver;
+}
+
+.winz_dither{
+position:absolute;
+background:#FFFFFF;
+display:none;
+opacity:0.50;
+filter:alpha(opacity=50); /* For IE8 and earlier */
+top:32px;
+right:0px;
+bottom:22px;
+left:0px;
+}
+
+.winz_dialog_outer{
+position:absolute;
+display:none;
+top:32px;
+right:0px;
+bottom:22px;
+left:0px;
+}
+
+.winz_dialog{
+position:relative;
+margin:10% auto;
+background:#F8F8F8;
+border:5px solid gray;
+-moz-border-radius: 7px;
+-webkit-border-radius: 7px;
+-khtml-border-radius: 7px;
+border-radius: 7px;
+}
+
+.winz_close {
+position: absolute;
+background: #606060;
+color: #FFFFFF;
+line-height: 19px;
+right: 6px;
+text-align: center;
+top: 6px;
+width: 18px;
+text-decoration: none;
+font-weight: bold;
+-webkit-border-radius: 9px;
+-moz-border-radius: 9px;
+border-radius: 9px;
+-moz-box-shadow: 1px 1px 3px #888;
+-webkit-box-shadow: 1px 1px 3px #888;
+box-shadow: 1px 1px 3px #888;
+}
+
+.winz_close:hover { 
+background: #808080; 
+}
+
+.winz_dialog_title{
+position:absolute;
+top:15px;
+height:30px;
+padding:0px 20px 0px;
+font-size:16px;
+line-height:22px;
+overflow:hidden;
+}
+
+.winz_msgbox{
+position:absolute;
+top:60px;
+height:180px;
+padding:0px 20px 0px;
+font-size:16px;
+line-height:22px;
+overflow-y:auto;
+}
+
+.winz_stop{
+position:absolute;
+left:5px;
+bottom:3px;
+width:16px;
+height:16px;
+cursor:pointer;
+display:none;
+background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat 0px -128px;
+}
+
+#winz-about a{
+color:navy;
+}
+
+#winz-about a:hover{
+color:navy;
+}

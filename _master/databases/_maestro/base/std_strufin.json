@@ -1,0 +1,130 @@
+{
+    "GENRES_FINCONDIZIONI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "FORMULA":{"type":"VARCHAR", "size":10},
+            "LIVELLO":{"type":"INTEGER"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVGENRETYPES(SYSID,NAME,DESCRIPTION,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0FINCONDIZ00)],'_FINCONDIZIONI', 'Condizioni', 'QW_FINCONDIZIONI', 'GENRES_FINCONDIZIONI', '1', '1', '')",
+                    "INSERT INTO QVGENREVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONDIZ00)], 'FORMULA', 'CHAR(10)', '', 'Formula', 1)",
+                    "INSERT INTO QVGENREVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONDIZ00)], 'LIVELLO', 'INTEGER', '', 'Livello', 1)",
+                    
+                    "-- Genere Tasso",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TASSOANNUO0)], '_TASSOANNUO', 'Tasso annuo', '%', 7, [:SYSID(0FINCONDIZ00)], '', 0)",
+                    "INSERT INTO GENRES_FINCONDIZIONI(SYSID,FORMULA,LIVELLO) VALUES([:SYSID(0TASSOANNUO0)], '1Y', 0)",
+                    
+                    "-- Genere Spread",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0SPREADANNUO)], '_SPREADANNUO', 'Spread annuo', '%', 7, [:SYSID(0FINCONDIZ00)], '', 0)",
+                    "INSERT INTO GENRES_FINCONDIZIONI(SYSID,FORMULA,LIVELLO) VALUES([:SYSID(0SPREADANNUO)], '1Y', 1)"
+                ]
+            }
+        ]
+    },
+    "MOTIVES_FINOPER":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVMOTIVETYPES(SYSID,NAME,DESCRIPTION,OBJECTTYPEID,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0FINOPER0000)], '_FINOPER', 'Operazioni', [:SYSID(0CONTI000000)],'QW_FINOPER', 'MOTIVES_FINOPER', '1', '1', '')",
+                    
+                    "-- Motivo Incasso",
+                    "INSERT INTO QVMOTIVES(SYSID,NAME,DESCRIPTION,TYPOLOGYID,DIRECTION,REFERENCEID,COUNTERPARTID,CONSISTENCY,SCOPE,UPDATING,DELETING,STATUS,DISCHARGE,TAG,DELETED) VALUES([:SYSID(0MOTFININC00)], '_MOTFININC', 'Incasso', [:SYSID(0FINOPER0000)], 1, '', '', 0, 0, 0, 2, 1, 0, '', 0)",
+                    "INSERT INTO MOTIVES_FINOPER(SYSID) VALUES([:SYSID(0MOTFININC00)])",
+
+                    "-- Motivo Pagamento",
+                    "INSERT INTO QVMOTIVES(SYSID,NAME,DESCRIPTION,TYPOLOGYID,DIRECTION,REFERENCEID,COUNTERPARTID,CONSISTENCY,SCOPE,UPDATING,DELETING,STATUS,DISCHARGE,TAG,DELETED) VALUES([:SYSID(0MOTFINPAG00)], '_MOTFINPAG', 'Pagamento', [:SYSID(0FINOPER0000)], 0, '', '', 0, 0, 0, 2, 1, 0, '', 0)",
+                    "INSERT INTO MOTIVES_FINOPER(SYSID) VALUES([:SYSID(0MOTFINPAG00)])"
+                ]
+            }
+        ]
+    },
+    "ARROWS_FINEVENTI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "SCAGLIONE":{"type":"RATIONAL"},
+            "CAPITALIZZAZIONE":{"type":"VARCHAR", "size":5},
+            "DIVIDENDO":{"type":"INTEGER"},
+            "DIVISORE":{"type":"INTEGER"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVARROWTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,MOTIVETYPEID,BOWTYPEID,TARGETTYPEID,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0FINEVENTI00)],'_FINEVENTI', 'Eventi finanziari', [:SYSID(0FINCONDIZ00)], [:SYSID(0FINOPER0000)], [:SYSID(0CONTI000000)], [:SYSID(0CONTI000000)], 'QW_FINEVENTI', 'ARROWS_FINEVENTI', '1', '0', '')",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINEVENTI00)], 'SCAGLIONE', 'RATIONAL', '', 'Scaglione', 1)",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINEVENTI00)], 'CAPITALIZZAZIONE', 'CHAR(5)', '', 'Capitalizzazione', 1)",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINEVENTI00)], 'DIVIDENDO', 'INTEGER', '', 'Dividendo', 1)",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINEVENTI00)], 'DIVISORE', 'INTEGER', '', 'Divisore', 1)"
+                ]
+            }
+        ]
+    },
+    "OBJECTS_FINCONFIG":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "PROCESSOID":{"type":"SYSID", "ref":"QVQUIVERS"},
+            "CONTOID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "CONTROID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "SEGNO":{"type":"INTEGER"},
+            "DIVIDENDO":{"type":"INTEGER"},
+            "DIVISORE":{"type":"INTEGER"},
+            "PARAMETRI":{"type":"VARCHAR", "size":1000}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVOBJECTTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,QUIVERTYPEID,TIMEUNIT,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0FINCONFIG00)], '_FINCONFIG', 'Configurazioni Pluto', '', '', 'S', 'QW_FINCONFIG', 'OBJECTS_FINCONFIG', '1', '0', '')",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONFIG00)], 'PROCESSOID', 'SYSID(QW_PROCESSI)', '', 'Processo', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONFIG00)], 'CONTOID', 'SYSID(QW_CONTI)', '', 'Conto finanz.', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONFIG00)], 'CONTROID', 'SYSID(QW_CONTI)', '', 'Conto contr.', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONFIG00)], 'SEGNO', 'INTEGER', '', 'Segno', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONFIG00)], 'DIVIDENDO', 'INTEGER', '', 'Dividendo', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONFIG00)], 'DIVISORE', 'INTEGER', '', 'Divisore', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINCONFIG00)], 'PARAMETRI', 'CHAR(1000)', '', 'Parametri', 1)"
+                ]
+            }
+        ]
+    },
+    "OBJECTS_FINSCRIPT":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "DEVELOPER":{"type":"VARCHAR", "size":300},
+            "OPZIONI":{"type":"VARCHAR", "size":1000}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVOBJECTTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,QUIVERTYPEID,TIMEUNIT,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0FINSCRIPT00)],'_FINSCRIPT', 'Script Pluto', '', '', 'S', 'QW_FINSCRIPT', 'OBJECTS_FINSCRIPT', '1', '0', '')",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINSCRIPT00)], 'DEVELOPER', 'CHAR(300)', '', 'Script', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0FINSCRIPT00)], 'OPZIONI', 'CHAR(1000)', '', 'Opzioni', 1)"
+                ]
+            }
+        ]
+    },
+    "QW_FINEVENTI":{
+        "type":"view",
+        "script":"@maestro/base/qw_fineventi.sql"
+    },
+    "QW_FINFLUSSI":{
+        "type":"view",
+        "script":"@maestro/base/qw_finflussi.sql"
+    },
+    "QW_FINGROUP":{
+        "type":"view",
+        "script":"@maestro/base/qw_fingroup.sql"
+    }
+}

@@ -1,0 +1,3 @@
+http://travistidwell.com/blog/2013/02/15/a-better-library-for-javascript-asymmetrical-rsa-encryption/
+
+https://github.com/travist/jsencrypt

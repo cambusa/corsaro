@@ -1,0 +1,19 @@
+{
+    "QVSYSTEM":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "LASTBASE":{"type":"VARCHAR", "size":50},
+            "LASTPROGR":{"type":"VARCHAR", "size":20}
+        }
+    },
+    "BABELITEMS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "CAPTION":{"type":"VARCHAR", "size":1000},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200}
+        }
+    }
+}

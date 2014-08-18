@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Generi",
+    "params":{
+        "name":"qvgenretypes",
+        "path":"qvtipologie/",
+        "title":"Tipologie di Genere"
+    }
+}

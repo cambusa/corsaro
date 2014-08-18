@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Oggetti",
+    "params":{
+        "name":"qvobjecttypes",
+        "path":"qvtipologie/",
+        "title":"Tipologie di Oggetti"
+    }
+}

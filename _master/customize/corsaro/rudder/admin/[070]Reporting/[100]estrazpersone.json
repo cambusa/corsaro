@@ -1,0 +1,23 @@
+{
+    "type":"form",
+    "title":"Estrazione Persone",
+    "params":{
+        "name":"qvestrazioni",
+        "path":"qvtabelle/",
+        "title":"Estrazione Persone",
+        "from":"QW_PERSONE",
+        "where":"",
+        "classtable":"QW_CLASSIPERSONA",
+        "orderby":"DESCRIPTION",
+        "columns":[
+            {"id":"DESCRIPTION", "caption":"Descrizione", "width":250},
+            {"id":"INDIRIZZO", "caption":"Indirizzo", "width":250},
+            {"id":"CAP", "caption":"CAP", "width":60},
+            {"id":"CITTA", "caption":"Città", "width":200},
+            {"id":"PROVINCIA", "caption":"Pr", "width":40},
+            {"id":"TELEFONO", "caption":"Telefono", "width":120},
+            {"id":"CELLULARE", "caption":"Cellulare", "width":120},
+            {"id":"EMAIL", "caption":"Posta", "width":250}
+        ]
+    }
+}

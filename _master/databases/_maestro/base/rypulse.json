@@ -1,0 +1,26 @@
+{
+    "QVSYSTEM":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "LASTBASE":{"type":"VARCHAR", "size":50},
+            "LASTPROGR":{"type":"VARCHAR", "size":20}
+        }
+    },
+    "QVSESSIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "SESSIONID":{"type":"VARCHAR", "size":24},
+            "USERID":{"type":"VARCHAR", "size":12},
+            "USERNAME":{"type":"VARCHAR", "size":100},
+            "ADMINISTRATOR":{"type":"BOOLEAN"},
+            "EMAIL":{"type":"VARCHAR", "size":100},
+            "ROLEID":{"type":"VARCHAR", "size":12},
+            "ROLENAME":{"type":"VARCHAR", "size":100},
+            "LANGUAGEID":{"type":"VARCHAR", "size":12},
+            "CLIENTIP":{"type":"VARCHAR", "size":50},
+            "RENEWALTIME":{"type":"TIMESTAMP"}
+        }
+    }
+}

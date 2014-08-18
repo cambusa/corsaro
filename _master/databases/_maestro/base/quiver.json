@@ -1,0 +1,752 @@
+{
+    "QVSYSTEM":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "LASTBASE":{"type":"VARCHAR", "size":50},
+            "LASTPROGR":{"type":"VARCHAR", "size":20}
+        }
+    },
+    "QUIVER_VERSION":{
+        "type":"version",
+        "current":1,
+        "table":"QVSETTINGS",
+        "keyname":"NAME",
+        "keyvalue":"VER_QUIVER",
+        "keyothers":"DESCRIPTION,DATATYPE",
+        "dataname":"DATAVALUE",
+        "dataothers":"'Versione tabelle Quiver','INTEGER'"
+    },
+    "QVSETTINGS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DATATYPE":{"type":"VARCHAR", "size":10},
+            "DATAVALUE":{"type":"VARCHAR", "size":250},
+            "TAG":{"type":"VARCHAR", "size":200}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVSETTINGS(SYSID,NAME,DESCRIPTION,DATATYPE,DATAVALUE,TAG) VALUES([:SYSID], '_VIRTUALDELETE', 'Cancellazione virtuale degli allegati', 'BOOLEAN', '0', 'SYSTEM')",
+                    "INSERT INTO QVSETTINGS(SYSID,NAME,DESCRIPTION,DATATYPE,DATAVALUE,TAG) VALUES([:SYSID], '_JOURNALLOG', 'Registrazione delle attivit&agrave;', 'BOOLEAN', '0', 'SYSTEM')",
+                    "INSERT INTO QVSETTINGS(SYSID,NAME,DESCRIPTION,DATATYPE,DATAVALUE,TAG) VALUES([:SYSID], '_TEMPENVIRON', 'Directory temporanea', 'STRING', 'temporary', 'SYSTEM')",
+                    "INSERT INTO QVSETTINGS(SYSID,NAME,DESCRIPTION,DATATYPE,DATAVALUE,TAG) VALUES([:SYSID], '_FILEENVIRON', 'Directory allegati', 'STRING', 'attachments', 'SYSTEM')"
+                ]
+            }
+        ]
+    },
+    "QVGENRETYPES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100,"notnull":1},
+            "VIEWNAME":{"type":"VARCHAR", "size":50},
+            "TABLENAME":{"type":"VARCHAR", "size":50},
+            "DELETABLE":{"type":"BOOLEAN"},
+            "SIMPLE":{"type":"BOOLEAN"},
+            "VIRTUALDELETE":{"type":"BOOLEAN"},
+            "HISTORICIZING":{"type":"BOOLEAN"},
+            "TAG":{"type":"VARCHAR", "size":200}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVGENRETYPES(SYSID,NAME,DESCRIPTION,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0MONEY000000)], '_MONEY', 'Denaro', '', '', 1, 1, '')",
+                    "INSERT INTO QVGENRETYPES(SYSID,NAME,DESCRIPTION,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0STUFF000000)], '_STUFF', 'Merce', '', '', 1, 1, '')",
+                    "INSERT INTO QVGENRETYPES(SYSID,NAME,DESCRIPTION,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0SERVICES000)], '_SERVICES', 'Servizi', '', '', 1, 1, '')",
+                    "INSERT INTO QVGENRETYPES(SYSID,NAME,DESCRIPTION,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0TIME0000000)], '_TIME', 'Tempo', '', '', 1, 1, '')"
+                ]
+            }
+        ]
+    },
+    "QVGENRES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "BREVITY":{"type":"VARCHAR", "size":10},
+            "REGISTRY":{"type":"TEXT"},
+            "ROUNDING":{"type":"INTEGER"},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVGENRETYPES"},
+            "TAG":{"type":"VARCHAR", "size":200},
+            "DELETED":{"type":"BOOLEAN"},
+            "ROLEID":{"type":"SYSID"},
+            "USERINSERTID":{"type":"SYSID"},
+            "USERUPDATEID":{"type":"SYSID"},
+            "USERDELETEID":{"type":"SYSID"},
+            "TIMEINSERT":{"type":"TIMESTAMP"},
+            "TIMEUPDATE":{"type":"TIMESTAMP"},
+            "TIMEDELETE":{"type":"TIMESTAMP"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "CREATE INDEX QVGENRENAME ON QVGENRES(NAME)",
+                    "CREATE INDEX QVGENRETYPOLOGYID ON QVGENRES(TYPOLOGYID)",
+                    "CREATE INDEX QVGENREDELETED ON QVGENRES(DELETED)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0MONEYEURO00)], '_MONEYEURO', 'Euro', 'EUR', 2, [:SYSID(0MONEY000000)], '', 0)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMESECONDS)], '_TIMESECONDS', 'Secondi', 'SEC', 0, [:SYSID(0TIME0000000)], '', 0)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEMINUTES)], '_TIMEMINUTES', 'Minuti', 'MIN', 0, [:SYSID(0TIME0000000)], '', 0)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEHOURS00)], '_TIMEHOURS', 'Ore', 'HOURS', 0, [:SYSID(0TIME0000000)], '', 0)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEDAYS000)], '_TIMEDAYS', 'Giorni', 'DAYS', 0, [:SYSID(0TIME0000000)], '', 0)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEWEEKS00)], '_TIMEWEEKS', 'Settimane', 'WEEKS', 0, [:SYSID(0TIME0000000)], '', 0)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEMONTHS0)], '_TIMEMONTHS', 'Mesi', 'MONTHS', 0, [:SYSID(0TIME0000000)], '', 0)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEYEARS00)], '_TIMEYEARS', 'Anni', 'YEARS', 0, [:SYSID(0TIME0000000)], '', 0)"
+                ]
+            }
+        ]
+    },
+    "QVGENREVIEWS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVGENRETYPES"},
+            "FIELDNAME":{"type":"VARCHAR", "size":50},
+            "FIELDTYPE":{"type":"VARCHAR", "size":50},
+            "FORMULA":{"type":"VARCHAR", "size":200},
+            "CAPTION":{"type":"VARCHAR", "size":50},
+            "WRITABLE":{"type":"BOOLEAN"}
+        }
+    },
+    "QVOBJECTTYPES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "GENRETYPEID":{"type":"SYSID", "ref":"QVGENRETYPES"},
+            "QUIVERTYPEID":{"type":"SYSID", "ref":"QVQUIVERTYPES"},
+            "TIMEUNIT":{"type":"VARCHAR", "size":1},
+            "VIEWNAME":{"type":"VARCHAR", "size":50},
+            "TABLENAME":{"type":"VARCHAR", "size":50},
+            "DELETABLE":{"type":"BOOLEAN"},
+            "SIMPLE":{"type":"BOOLEAN"},
+            "VIRTUALDELETE":{"type":"BOOLEAN"},
+            "HISTORICIZING":{"type":"BOOLEAN"},
+            "TAG":{"type":"VARCHAR", "size":200}
+        }
+    },
+    "QVOBJECTS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "REGISTRY":{"type":"TEXT"},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
+            "REFGENREID":{"type":"SYSID", "ref":"QVGENRES"},
+            "REFOBJECTID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "REFQUIVERID":{"type":"SYSID", "ref":"QVQUIVERS"},
+            "BEGINTIME":{"type":"TIMESTAMP"},
+            "ENDTIME":{"type":"TIMESTAMP"},
+            "REFERENCE":{"type":"VARCHAR", "size":50},
+            "AUXTIME":{"type":"TIMESTAMP"},
+            "AUXAMOUNT":{"type":"RATIONAL"},
+            "MAXAMOUNT":{"type":"RATIONAL"},
+            "BUFFERID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "TAG":{"type":"VARCHAR", "size":200},
+            "CONSISTENCY":{"type":"INTEGER"},
+            "SCOPE":{"type":"INTEGER"},
+            "UPDATING":{"type":"INTEGER"},
+            "DELETING":{"type":"INTEGER"},
+            "DELETED":{"type":"BOOLEAN"},
+            "ROLEID":{"type":"SYSID"},
+            "USERINSERTID":{"type":"SYSID"},
+            "USERUPDATEID":{"type":"SYSID"},
+            "USERDELETEID":{"type":"SYSID"},
+            "TIMEINSERT":{"type":"TIMESTAMP"},
+            "TIMEUPDATE":{"type":"TIMESTAMP"},
+            "TIMEDELETE":{"type":"TIMESTAMP"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "CREATE INDEX QVOBJECTNAME ON QVOBJECTS(NAME)",
+                    "CREATE INDEX QVOBJECTTYPOLOGYID ON QVOBJECTS(TYPOLOGYID)",
+                    "CREATE INDEX QVOBJECTDELETED ON QVOBJECTS(DELETED)"
+                ]
+            }
+        ]
+    },
+    "QVOBJECTVIEWS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
+            "FIELDNAME":{"type":"VARCHAR", "size":50},
+            "FIELDTYPE":{"type":"VARCHAR", "size":50},
+            "FORMULA":{"type":"VARCHAR", "size":200},
+            "CAPTION":{"type":"VARCHAR", "size":50},
+            "WRITABLE":{"type":"BOOLEAN"}
+        }
+    },
+    "QVINCLUSIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "OBJECTID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "PARENTID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "BEGINTIME":{"type":"TIMESTAMP"},
+            "ENDTIME":{"type":"TIMESTAMP"},
+            "TAG":{"type":"VARCHAR", "size":200},
+            "SORTER":{"type":"INTEGER"}
+        }
+    },
+    "QVMOTIVETYPES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "OBJECTTYPEID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
+            "VIEWNAME":{"type":"VARCHAR", "size":50},
+            "TABLENAME":{"type":"VARCHAR", "size":50},
+            "DELETABLE":{"type":"BOOLEAN"},
+            "SIMPLE":{"type":"BOOLEAN"},
+            "VIRTUALDELETE":{"type":"BOOLEAN"},
+            "HISTORICIZING":{"type":"BOOLEAN"},
+            "TAG":{"type":"VARCHAR", "size":200}
+        }
+    },    
+    "QVMOTIVES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "REGISTRY":{"type":"TEXT"},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVMOTIVETYPES"},
+            "DIRECTION":{"type":"INTEGER"},
+            "REFERENCEID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "COUNTERPARTID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "CONSISTENCY":{"type":"INTEGER"},
+            "SCOPE":{"type":"INTEGER"},
+            "UPDATING":{"type":"INTEGER"},
+            "DELETING":{"type":"INTEGER"},
+            "STATUS":{"type":"INTEGER"},
+            "DISCHARGE":{"type":"INTEGER"},
+            "TAG":{"type":"VARCHAR", "size":200},
+            "DELETED":{"type":"BOOLEAN"},
+            "ROLEID":{"type":"SYSID"},
+            "USERINSERTID":{"type":"SYSID"},
+            "USERUPDATEID":{"type":"SYSID"},
+            "USERDELETEID":{"type":"SYSID"},
+            "TIMEINSERT":{"type":"TIMESTAMP"},
+            "TIMEUPDATE":{"type":"TIMESTAMP"},
+            "TIMEDELETE":{"type":"TIMESTAMP"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "CREATE INDEX QVMOTIVENAME ON QVMOTIVES(NAME)",
+                    "CREATE INDEX QVMOTIVETYPOLOGYID ON QVMOTIVES(TYPOLOGYID)",
+                    "CREATE INDEX QVMOTIVEDELETED ON QVMOTIVES(DELETED)"
+                ]
+            }
+        ]
+    },
+    "QVMOTIVEVIEWS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVMOTIVETYPES"},
+            "FIELDNAME":{"type":"VARCHAR", "size":50},
+            "FIELDTYPE":{"type":"VARCHAR", "size":50},
+            "FORMULA":{"type":"VARCHAR", "size":200},
+            "CAPTION":{"type":"VARCHAR", "size":50},
+            "WRITABLE":{"type":"BOOLEAN"}
+        }
+    },
+    "QVARROWTYPES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "GENRETYPEID":{"type":"SYSID", "ref":"QVGENRETYPES"},
+            "MOTIVETYPEID":{"type":"SYSID", "ref":"QVMOTIVETYPES"},
+            "BOWTYPEID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
+            "TARGETTYPEID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
+            "VIEWNAME":{"type":"VARCHAR", "size":50},
+            "TABLENAME":{"type":"VARCHAR", "size":50},
+            "DELETABLE":{"type":"BOOLEAN"},
+            "SIMPLE":{"type":"BOOLEAN"},
+            "VIRTUALDELETE":{"type":"BOOLEAN"},
+            "HISTORICIZING":{"type":"BOOLEAN"},
+            "TAG":{"type":"VARCHAR", "size":200}
+        }
+    },
+    "QVARROWS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "REGISTRY":{"type":"TEXT"},
+            "BOWID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "BOWTIME":{"type":"TIMESTAMP"},
+            "TARGETID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "TARGETTIME":{"type":"TIMESTAMP"},
+            "AUXTIME":{"type":"TIMESTAMP"},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVARROWTYPES"},
+            "MOTIVEID":{"type":"SYSID", "ref":"QVMOTIVES"},
+            "GENREID":{"type":"SYSID", "ref":"QVGENRES"},
+            "AMOUNT":{"type":"RATIONAL"},
+            "REFERENCE":{"type":"VARCHAR", "size":50},
+            "REFARROWID":{"type":"SYSID", "ref":"QVARROWS"},
+            "TAG":{"type":"VARCHAR", "size":200},
+            "CONSISTENCY":{"type":"INTEGER"},
+            "AVAILABILITY":{"type":"INTEGER"},
+            "SCOPE":{"type":"INTEGER"},
+            "UPDATING":{"type":"INTEGER"},
+            "DELETING":{"type":"INTEGER"},
+            "STATUS":{"type":"INTEGER"},
+            "STATUSTIME":{"type":"TIMESTAMP"},
+            "STATUSRISK":{"type":"RATIONAL"},
+            "PHASE":{"type":"INTEGER"},
+            "PHASENOTE":{"type":"VARCHAR", "size":100},
+            "PROVIDER":{"type":"VARCHAR", "size":20},
+            "PARCEL":{"type":"VARCHAR", "size":20},
+            "DELETED":{"type":"BOOLEAN"},
+            "ROLEID":{"type":"SYSID"},
+            "USERINSERTID":{"type":"SYSID"},
+            "USERUPDATEID":{"type":"SYSID"},
+            "USERDELETEID":{"type":"SYSID"},
+            "TIMEINSERT":{"type":"TIMESTAMP"},
+            "TIMEUPDATE":{"type":"TIMESTAMP"},
+            "TIMEDELETE":{"type":"TIMESTAMP"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "CREATE INDEX QVARROWNAME ON QVARROWS(NAME)",
+                    "CREATE INDEX QVARROWTYPOLOGYID ON QVARROWS(TYPOLOGYID)",
+                    "CREATE INDEX QVARROWDELETED ON QVARROWS(DELETED)",
+                    "CREATE INDEX QVARROWBOWID ON QVARROWS(BOWID)",
+                    "CREATE INDEX QVARROWTARGETID ON QVARROWS(TARGETID)",
+                    "CREATE INDEX QVARROWMOTIVEID ON QVARROWS(MOTIVEID)",
+                    "CREATE INDEX QVARROWGENREID ON QVARROWS(GENREID)",
+                    "CREATE INDEX QVARROWREFARROWID ON QVARROWS(REFARROWID)",
+                    "CREATE INDEX QVARROWBOWTIME ON QVARROWS(BOWTIME)",
+                    "CREATE INDEX QVARROWTARGETTIME ON QVARROWS(TARGETTIME)",
+                    "CREATE INDEX QVARROWAUXTIME ON QVARROWS(AUXTIME)",
+                    "CREATE INDEX QVARROWSTATUS ON QVARROWS(STATUS)",
+                    "CREATE INDEX QVARROWCONSISTENCY ON QVARROWS(CONSISTENCY)"
+                ]
+            }
+        ]
+    },
+    "QVARROWVIEWS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVARROWTYPES"},
+            "FIELDNAME":{"type":"VARCHAR", "size":50},
+            "FIELDTYPE":{"type":"VARCHAR", "size":50},
+            "FORMULA":{"type":"VARCHAR", "size":200},
+            "CAPTION":{"type":"VARCHAR", "size":50},
+            "WRITABLE":{"type":"BOOLEAN"}
+        }
+    },
+    "QVEQUIVALENCES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "REFERENCEID":{"type":"SYSID", "ref":"QVARROWS"},
+            "EQUIVALENTID":{"type":"SYSID", "ref":"QVARROWS"}
+        }
+    },
+    "QVDISCHARGES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "OUTGOINGID":{"type":"SYSID", "ref":"QVARROWS"},
+            "INCOMINGID":{"type":"SYSID", "ref":"QVARROWS"},
+            "AMOUNT":{"type":"RATIONAL"},
+            "SORTER":{"type":"INTEGER"}
+        }
+    },
+    "QVQUIVERTYPES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":20, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "GENRETYPEID":{"type":"SYSID", "ref":"QVGENRETYPES"},
+            "OBJECTTYPEID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
+            "MOTIVETYPEID":{"type":"SYSID", "ref":"QVMOTIVETYPES"},
+            "ARROWTYPEID":{"type":"SYSID", "ref":"QVARROWTYPES"},
+            "QUIVERTYPEID":{"type":"SYSID", "ref":"QVQUIVERTYPES"},
+            "VIEWNAME":{"type":"VARCHAR", "size":50},
+            "TABLENAME":{"type":"VARCHAR", "size":50},
+            "DELETABLE":{"type":"BOOLEAN"},
+            "SIMPLE":{"type":"BOOLEAN"},
+            "VIRTUALDELETE":{"type":"BOOLEAN"},
+            "HISTORICIZING":{"type":"BOOLEAN"},
+            "TAG":{"type":"VARCHAR", "size":200}
+        }
+    },
+    "QVQUIVERS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "REGISTRY":{"type":"TEXT"},
+            "AUXTIME":{"type":"TIMESTAMP"},
+            "AUXAMOUNT":{"type":"RATIONAL"},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVQUIVERTYPES"},
+            "REFGENREID":{"type":"SYSID", "ref":"QVGENRES"},
+            "REFOBJECTID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "REFMOTIVEID":{"type":"SYSID", "ref":"QVMOTIVES"},
+            "REFARROWID":{"type":"SYSID", "ref":"QVARROWS"},
+            "REFQUIVERID":{"type":"SYSID", "ref":"QVQUIVERS"},
+            "REFERENCE":{"type":"VARCHAR", "size":50},
+            "TAG":{"type":"VARCHAR", "size":200},
+            "CONSISTENCY":{"type":"INTEGER"},
+            "AVAILABILITY":{"type":"INTEGER"},
+            "SCOPE":{"type":"INTEGER"},
+            "UPDATING":{"type":"INTEGER"},
+            "DELETING":{"type":"INTEGER"},
+            "STATUS":{"type":"INTEGER"},
+            "STATUSTIME":{"type":"TIMESTAMP"},
+            "PHASE":{"type":"INTEGER"},
+            "PHASENOTE":{"type":"VARCHAR", "size":100},
+            "MOREDATA":{"type":"JSON", "size":1000},
+            "DELETED":{"type":"BOOLEAN"},
+            "ROLEID":{"type":"SYSID"},
+            "USERINSERTID":{"type":"SYSID"},
+            "USERUPDATEID":{"type":"SYSID"},
+            "USERDELETEID":{"type":"SYSID"},
+            "TIMEINSERT":{"type":"TIMESTAMP"},
+            "TIMEUPDATE":{"type":"TIMESTAMP"},
+            "TIMEDELETE":{"type":"TIMESTAMP"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "CREATE INDEX QVQUIVERNAME ON QVQUIVERS(NAME)",
+                    "CREATE INDEX QVQUIVERTYPOLOGYID ON QVQUIVERS(TYPOLOGYID)",
+                    "CREATE INDEX QVQUIVERDELETED ON QVQUIVERS(DELETED)"
+                ]
+            }
+        ]
+    },
+    "QVQUIVERVIEWS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TYPOLOGYID":{"type":"SYSID", "ref":"QVQUIVERTYPES"},
+            "FIELDNAME":{"type":"VARCHAR", "size":50},
+            "FIELDTYPE":{"type":"VARCHAR", "size":50},
+            "FORMULA":{"type":"VARCHAR", "size":200},
+            "CAPTION":{"type":"VARCHAR", "size":50},
+            "WRITABLE":{"type":"BOOLEAN"}
+        }
+    },
+    "QVQUIVERARROW":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "QUIVERID":{"type":"SYSID", "ref":"QVQUIVERS"},
+            "ARROWID":{"type":"SYSID", "ref":"QVARROWS"},
+            "SORTER":{"type":"INTEGER"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "CREATE INDEX QUIVERARROWQUIVERID ON QVQUIVERARROW(QUIVERID)",
+                    "CREATE INDEX QUIVERARROWARROWID ON QVQUIVERARROW(ARROWID)"
+                ]
+            }
+        ]
+    },
+    "QVHISTORY":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "RECORDID":{"type":"SYSID"},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "RECORDTIME":{"type":"TIMESTAMP"},
+            "TABLEBASE":{"type":"VARCHAR", "size":20},
+            "TYPOLOGYID":{"type":"SYSID"},
+            "OPERTYPE":{"type":"INTEGER"},
+            "ROLEID":{"type":"SYSID"},
+            "USERID":{"type":"SYSID"},
+            "EVENTTIME":{"type":"TIMESTAMP"},
+            "DATABAG":{"type":"TEXT"}
+        }
+    },
+    "QVFILES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "REGISTRY":{"type":"TEXT"},
+            "AUXTIME":{"type":"TIMESTAMP"},
+            "SUBPATH":{"type":"VARCHAR", "size":100},
+            "IMPORTNAME":{"type":"VARCHAR", "size":100},
+            "EXTENSION":{"type":"VARCHAR", "size":10},
+            "TAG":{"type":"VARCHAR", "size":200},
+            "SCOPE":{"type":"INTEGER"},
+            "DELETED":{"type":"BOOLEAN"},
+            "ROLEID":{"type":"SYSID"},
+            "USERINSERTID":{"type":"SYSID"},
+            "USERUPDATEID":{"type":"SYSID"},
+            "USERDELETEID":{"type":"SYSID"},
+            "TIMEINSERT":{"type":"TIMESTAMP"},
+            "TIMEUPDATE":{"type":"TIMESTAMP"},
+            "TIMEDELETE":{"type":"TIMESTAMP"}
+        }
+    },
+    "QVTABLEFILE":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TABLENAME":{"type":"VARCHAR", "size":50},
+            "RECORDID":{"type":"SYSID"},
+            "FILEID":{"type":"SYSID"},
+            "SORTER":{"type":"INTEGER"}
+        }
+    },
+    "QVALLOCATIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TABLENAME":{"type":"VARCHAR", "size":50},
+            "RECORDID":{"type":"SYSID"},
+            "OWNERID":{"type":"SYSID"},
+            "AMOUNT":{"type":"RATIONAL"},
+            "BEGINTIME":{"type":"TIMESTAMP"},
+            "ENDTIME":{"type":"TIMESTAMP"}
+        }
+    },
+    "QVSELECTIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "PARENTTABLE":{"type":"VARCHAR", "size":50},
+            "PARENTFIELD":{"type":"VARCHAR", "size":50},
+            "PARENTID":{"type":"SYSID"},
+            "SELECTEDTABLE":{"type":"VARCHAR", "size":50},
+            "SELECTEDID":{"type":"SYSID"},
+            "ENABLED":{"type":"BOOLEAN"},
+            "UPWARD":{"type":"BOOLEAN"},
+            "FLAG1":{"type":"BOOLEAN"},
+            "FLAG2":{"type":"BOOLEAN"},
+            "FLAG3":{"type":"BOOLEAN"},
+            "FLAG4":{"type":"BOOLEAN"},
+            "SORTER":{"type":"INTEGER"},
+            "DISTANCE":{"type":"RATIONAL"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "CREATE INDEX QVSELECTIONPARENTID ON QVSELECTIONS(PARENTID)",
+                    "CREATE INDEX QVSELECTIONSELECTEDID ON QVSELECTIONS(SELECTEDID)"
+                ]
+            }
+        ]
+    },
+    "QVALIASES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TABLENAME":{"type":"VARCHAR", "size":50},
+            "RECORDID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "PROVIDER":{"type":"VARCHAR", "size":20},
+            "INDIVIDUATION":{"type":"VARCHAR", "size":100}
+        }
+    },
+    "QVUSERS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "EGOID":{"type":"VARCHAR", "size":30},
+            "USERNAME":{"type":"VARCHAR", "size":30},
+            "EMAIL":{"type":"VARCHAR", "size":50},
+            "ADMINISTRATOR":{"type":"BOOLEAN"},
+            "ARCHIVED":{"type":"BOOLEAN"}
+        }
+    },
+    "QVROLES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "EGOID":{"type":"VARCHAR", "size":30},
+            "ROLENAME":{"type":"VARCHAR", "size":30},
+            "ARCHIVED":{"type":"BOOLEAN"}
+        }
+    },
+    "QVMESSAGES":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "REGISTRY":{"type":"TEXT"},
+            "SENDERID":{"type":"SYSID", "ref":"QVUSERS"},
+            "RECEIVERID":{"type":"SYSID", "ref":"QVUSERS"},
+            "SENDINGTIME":{"type":"TIMESTAMP"},
+            "RECEIVINGTIME":{"type":"TIMESTAMP"},
+            "PRIORITY":{"type":"INTEGER"},
+            "STATUS":{"type":"INTEGER"},
+            "ACTION":{"type":"VARCHAR", "size":100}
+        }
+    },
+    "QVJSON":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "USERID":{"type":"SYSID"},
+            "ROLEID":{"type":"SYSID"},
+            "FUNCTNAME":{"type":"VARCHAR", "size":30},
+            "DOCNAME":{"type":"VARCHAR", "size":30},
+            "REGISTRY":{"type":"TEXT"}
+        }
+    },
+    "QVSESSIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "SESSIONID":{"type":"VARCHAR", "size":24},
+            "USERID":{"type":"VARCHAR", "size":30},
+            "USERNAME":{"type":"VARCHAR", "size":100},
+            "ADMINISTRATOR":{"type":"BOOLEAN"},
+            "EMAIL":{"type":"VARCHAR", "size":100},
+            "ROLEID":{"type":"VARCHAR", "size":30},
+            "ROLENAME":{"type":"VARCHAR", "size":100},
+            "LANGUAGENAME":{"type":"VARCHAR", "size":50},
+            "COUNTRYCODE":{"type":"VARCHAR", "size":3},
+            "DEBUGMODE":{"type":"BOOLEAN"},
+            "CLIENTIP":{"type":"VARCHAR", "size":50},
+            "RENEWALTIME":{"type":"TIMESTAMP"}
+        }
+    },
+    "QWGENRES":{
+        "type":"view",
+        "script":"@maestro/base/qwgenres.sql"
+    },
+    "QWOBJECTS":{
+        "type":"view",
+        "script":"@maestro/base/qwobjects.sql"
+    },
+    "QWMOTIVES":{
+        "type":"view",
+        "script":"@maestro/base/qwmotives.sql"
+    },
+    "QWARROWS":{
+        "type":"view",
+        "script":"@maestro/base/qwarrows.sql"
+    },
+    "QWQUIVERS":{
+        "type":"view",
+        "script":"@maestro/base/qwquivers.sql"
+    },
+    "QWQUIVERBROWSER":{
+        "type":"view",
+        "script":"@maestro/base/qwquiverbrowser.sql"
+    },
+    "QWQUIVERIN":{
+        "type":"view",
+        "script":"@maestro/base/qwquiverin.sql"
+    },
+    "QWQUIVEROUT":{
+        "type":"view",
+        "script":"@maestro/base/qwquiverout.sql"
+    },
+    "QWFILES":{
+        "type":"view",
+        "script":"@maestro/base/qwfiles.sql"
+    },
+    "QWINCLUSIONS":{
+        "type":"view",
+        "script":"@maestro/base/qwinclusions.sql"
+    },
+    "QWINCLBROWSER":{
+        "type":"view",
+        "script":"@maestro/base/qwinclbrowser.sql"
+    },
+    "QWINCLPARENTS":{
+        "type":"view",
+        "script":"@maestro/base/qwinclparents.sql"
+    },
+    "QWINCLCHILDREN":{
+        "type":"view",
+        "script":"@maestro/base/qwinclchildren.sql"
+    },
+    "QWEQUIVALENCES":{
+        "type":"view",
+        "script":"@maestro/base/qwequivalences.sql"
+    },
+    "QWEQUIBROWSER":{
+        "type":"view",
+        "script":"@maestro/base/qwequibrowser.sql"
+    },
+    "QWUSERS":{
+        "type":"view",
+        "script":"@maestro/base/qwusers.sql"
+    },
+    "QWROLES":{
+        "type":"view",
+        "script":"@maestro/base/qwroles.sql"
+    },
+    "QWPEVENTS":{
+        "type":"view",
+        "script":"@maestro/base/qwpevents.sql"
+    },
+    "QWEEVENTS":{
+        "type":"view",
+        "script":"@maestro/base/qweevents.sql"
+    },
+    "QWCEVENTS":{
+        "type":"view",
+        "script":"@maestro/base/qwcevents.sql"
+    },
+    "QWXEVENTS":{
+        "type":"view",
+        "script":"@maestro/base/qwxevents.sql"
+    },
+    "QWYEVENTS":{
+        "type":"view",
+        "script":"@maestro/base/qwyevents.sql"
+    },
+    "QWPBALANCES":{
+        "type":"view",
+        "script":"@maestro/base/qwpbalances.sql"
+    },
+    "QWEBALANCES":{
+        "type":"view",
+        "script":"@maestro/base/qwebalances.sql"
+    },
+    "QWRBALANCES":{
+        "type":"view",
+        "script":"@maestro/base/qwrbalances.sql"
+    },
+    "QWCBALANCES":{
+        "type":"view",
+        "script":"@maestro/base/qwcbalances.sql"
+    },
+    "QWXBALANCES":{
+        "type":"view",
+        "script":"@maestro/base/qwxbalances.sql"
+    },
+    "QWYBALANCES":{
+        "type":"view",
+        "script":"@maestro/base/qwybalances.sql"
+    }
+}

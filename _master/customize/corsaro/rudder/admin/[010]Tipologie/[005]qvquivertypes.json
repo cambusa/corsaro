@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Quiver",
+    "params":{
+        "name":"qvquivertypes",
+        "path":"qvtipologie/",
+        "title":"Tipologie di Quiver"
+    }
+}

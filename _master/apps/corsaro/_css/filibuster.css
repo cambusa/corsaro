@@ -1,0 +1,196 @@
+/****************************************************************************
+* Name:            filbuster.css                                            *
+* Project:         Corsaro                                                  *
+* Module:          Filibuster                                               *
+* Version:         1.00                                                     *
+* Description:     Arrows-oriented Library                                  *
+* Copyright (C):   2013  Rodolfo Calzetti                                   *
+* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+body{margin:0px;padding:0px;font-family:sans-serif;font-size:100%;width:99%;}
+table{font-family:inherit;font-size:inherit;border-collapse:collapse}
+textarea{resize:none;}
+p{
+  -webkit-hyphens: auto;
+     -moz-hyphens: auto;
+          hyphens: auto;
+}
+blockquote{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 1em;
+  padding-left: 1em;
+  border-left: 3px solid #ccc;
+  font-style: italic;
+} 
+a{color:#4E5A65;}
+a:hover{color:#708090;}
+.filibuster-svg{position:absolute;}
+.filibuster-div{position:absolute;padding:0px;margin:0px;}
+.filibuster-description{font-size:150%;padding-bottom:7px;}
+.filibuster-date{font-size:70%;padding-bottom:7px;}
+.filibuster-subtitle{font-size:120%;padding-bottom:10px;}
+.filibuster-content{font-size:100%;padding-bottom:20px;}
+.filibuster-abstract{font-size:100%;padding-bottom:20px;}
+
+/* ATTACHMENT */
+.filibuster-audio{margin-top:0px;margin-bottom:30px;}
+.filibuster-video{margin-top:0px;margin-bottom:30px;}
+
+/* GALLERY */
+.filibuster-gallery{position:relative;}
+.filibuster-transform{position:absolute;width:100%;height:100%}
+.filibuster-image{position:absolute;}
+.filibuster-image-inner{position:absolute;width:100%;height:100%;}
+.filibuster-image-inner img{width:100%;height:100%}
+
+/* ELENCHI */
+.filibuster-item{padding-bottom:0px;}
+.filibuster-item a{text-decoration:none;}
+.filibuster-item a:hover{text-decoration:underline;}
+.filibuster-item-title{
+  background:#F2F2F2;
+  color:black;
+  font-size:80%;
+  padding-left:3px;
+  padding-bottom:0px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  outline:none;
+}
+.filibuster-item-icon{border-left:0px solid silver;padding-left:6px;padding-top:1px;padding-bottom:0px;}
+.filibuster-item-abstract{border-left:0px solid silver;font-size:60%;color:gray;padding-left:6px;padding-top:1px;padding-bottom:0px;}
+.filibuster-related .filibuster-item-title{background:#E9E9E9}
+.filibuster-selected .filibuster-item-title{background:#C8DAE8}
+.filibuster-skip{overflow:hidden;font-size:50%;}
+.filibuster-levelA{padding-left:0.75em;}
+.filibuster-levelB{padding-left:1.5em;}
+
+/* NAVIGATOR */
+.filibuster-navigator-tool{font-family:arial,helvetica,sans-serif;padding-bottom:5px;text-align:center;}
+.filibuster-navigator-tool a{text-decoration:none;}
+.filibuster-navigator-first,.filibuster-navigator-last{font-size:120%;}
+.filibuster-navigator-back,.filibuster-navigator-forward{font-size:150%;}
+.filibuster-navigator-enabled{color:#4E5A65;}
+a.filibuster-navigator-enabled:hover{color:#708090;text-decoration:none;}
+.filibuster-navigator-disabled{color:silver;}
+.filibuster-surrogate{margin-top:6px;}
+.filibuster-navigator-back .filibuster-surrogate{height:0.59em;}
+.filibuster-navigator-forward .filibuster-surrogate{height:0.59em;}
+
+/* SUMMARY */
+.filibuster-summary .filibuster-description {font-size:100%;text-align:center;}
+.filibuster-summary .filibuster-abstract {font-size:75%;}
+
+/* HOMELINK */
+.filibuster-homelink a{text-decoration:none;}
+.filibuster-homelink a:hover{text-decoration:none;}
+
+/* MARQUEE */
+.filibuster-marquee{padding-bottom:0px;overflow:hidden;}
+.filibuster-marquee-sub{position:absolute;top:0px;padding-bottom:0px;}
+
+/* TOOL SEARCH */
+.filibuster-search{}
+.filibuster-search-text{
+  width:60%;
+  padding:3px 6px 3px 2em;
+  font-size:80%;
+  border:1px solid #ccc;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  outline:none;
+}
+.filibuster-search-button{
+  position:absolute;
+  left:6px;
+  top:0px;
+  font-size:120%;
+  line-height:120%;
+  cursor:pointer;
+  border:none;
+}
+.filibuster-search-button a{text-decoration:none;}
+.filibuster-found-back, .filibuster-found-notfound{padding-bottom:20px;}
+
+/* TOOL VOICE */
+.filibuster-voice-button{
+  position:absolute;
+  right:1.5em;
+  top:0px;
+  font-size:120%;
+  line-height:120%;
+  cursor:pointer;
+  border:none;
+}
+.filibuster-voice-button a{text-decoration:none;}
+#filibuster-player{position:absolute;display:none;}
+
+/* TOOL PRINT */
+.filibuster-print-button{
+  position:absolute;
+  right:0px;
+  top:0px;
+  font-size:120%;
+  line-height:120%;
+  cursor:pointer;
+  border:none;
+}
+.filibuster-print-button a{text-decoration:none;}
+#filibuster-printing{position:absolute;display:none;}
+
+.filibuster-search-button .filibuster-surrogate{height:0.95em;}
+.filibuster-voice-button .filibuster-surrogate{height:0.8em;}
+.filibuster-print-button .filibuster-surrogate{height:0.85em;}
+
+/* MAILUS */
+.filibuster-mailus-caption{padding-bottom:5px;}
+.filibuster-mailus-email{padding-bottom:10px;}
+.filibuster-mailus-email input{width:98%;font-size:100%;}
+.filibuster-mailus-body{padding-bottom:10px;}
+.filibuster-mailus-body textarea{width:98%;font-size:100%;font-family:sans-serif;}
+.filibuster-mailus-button{
+  width:20%;
+  padding:5px 5px 5px 5px;
+  text-align:center;
+  border:1px solid silver;
+  background:#F0F0F0;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  outline:none;
+  cursor:pointer;
+}
+.filibuster-mailus-message{padding-top:10px;color:black;}
+
+/*  COPYRIGHT */
+.filibuster-copyright a{color:inherit;text-decoration:underline;}
+
+/* FOOD4BOT */
+#filibuster-food4bot{position:absolute;display:none;}
+
+/* CLASSI UTILI */
+.noWrap{white-space:nowrap;}
+.noHyphen{
+  -webkit-hyphens: none;
+     -moz-hyphens: none;
+          hyphens: none;
+}
+.figureLeft{
+float:left;
+border-left:0em solid transparent;
+border-top:0.3em solid transparent;
+border-right:0.8em solid transparent;
+border-bottom:0.3em solid transparent;
+}
+.figureRight{
+float:right;
+border-left:0.8em solid transparent;
+border-top:0.3em solid transparent;
+border-right:0em solid transparent;
+border-bottom:0.3em solid transparent;
+}

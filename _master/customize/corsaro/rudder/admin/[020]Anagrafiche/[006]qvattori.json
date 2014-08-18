@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Attori",
+    "params":{
+        "name":"qvattori",
+        "path":"qvanagrafiche/",
+        "title":"Attori"
+    }
+}

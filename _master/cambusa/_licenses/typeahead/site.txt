@@ -1,0 +1,5 @@
+https://github.com/twitter/typeahead.js
+
+http://www.arungudelli.com/jquery/simple-jquery-autocomplete-search-tutorial/
+
+http://twitter.github.io/typeahead.js/

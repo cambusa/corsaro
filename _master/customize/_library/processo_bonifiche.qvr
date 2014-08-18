@@ -1,0 +1,94 @@
+a:3:{s:4:"type";s:8:"PROCESSO";s:11:"description";s:9:"Bonifiche";s:7:"program";a:40:{i:0;a:3:{s:5:"table";s:9:"QVQUIVERS";s:9:"extension";s:16:"QUIVERS_PROCESSI";s:4:"data";a:4:{s:5:"SYSID";s:24:"[:SYSID(A000000002000U)]";s:11:"DESCRIPTION";s:9:"Bonifiche";s:8:"REGISTRY";s:1022:"<p>&nbsp;</p>
+
+<table border="1" cellpadding="2" cellspacing="0" style="width:530px">
+	<tbody>
+		<tr>
+			<td>
+			<p>P03</p>
+
+			<p>CdS</p>
+			</td>
+			<td>
+			<p>MD01</p>
+			</td>
+			<td>
+			<p>Convocazione Conferenza Servizi</p>
+
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>P12</p>
+			</td>
+			<td>
+			<p>MD01</p>
+			</td>
+			<td>
+			<p>Decreto approvazione del piano/progetto/analisi rischio/monitoraggio</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>P12</p>
+			</td>
+			<td>
+			<p>MD02</p>
+			</td>
+			<td>
+			<p>Avviso di rilascio decreto</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>P12</p>
+			</td>
+			<td>
+			<p>MD03</p>
+			</td>
+			<td>
+			<p>Comunicazione Enti terzi di avvenuto rilascio</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>P12</p>
+			</td>
+			<td>
+			<p>MD04</p>
+			</td>
+			<td>
+			<p>Richiesta parere enti terzi</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>P01</p>
+			</td>
+			<td>
+			<p>MD07</p>
+			</td>
+			<td>
+			<p>Bollettino pagamento diritti</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>";s:10:"TYPOLOGYID";s:14:"0PROCESSI00000";}}i:1;a:3:{s:5:"table";s:9:"QVMOTIVES";s:9:"extension";s:16:"MOTIVES_ATTIVITA";s:4:"data";a:26:{s:5:"SYSID";s:24:"[:SYSID(A000000002002L)]";s:11:"DESCRIPTION";s:36:"Attesa comunicazione superamento CSC";s:8:"REGISTRY";s:0:"";s:10:"TYPOLOGYID";s:14:"0MOTIVIATTIV00";s:9:"DIRECTION";s:1:"0";s:11:"CONSISTENCY";s:1:"0";s:5:"SCOPE";s:1:"0";s:8:"UPDATING";s:1:"0";s:8:"DELETING";s:1:"0";s:6:"STATUS";s:1:"0";s:5:"GANTT";s:1:"1";s:10:"INVIOEMAIL";s:1:"1";s:13:"SETCONOSCENZA";s:24:"[:SYSID(D00000000000A0)]";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:10:"ORDINATORE";s:0:"";s:17:"RIFERIMENTOINIZIO";s:0:"";s:15:"RIFERIMENTOFINE";s:0:"";s:10:"MESEINIZIO";s:0:"";s:8:"MESEFINE";s:0:"";s:12:"GIORNOINIZIO";s:0:"";s:10:"GIORNOFINE";s:0:"";s:9:"ORAINIZIO";s:0:"";s:7:"ORAFINE";s:0:"";s:7:"CALCOLO";s:1:"0";s:9:"PREAVVISO";s:0:"";s:12:"INTESTAZIONE";s:1:"0";}}i:2;a:3:{s:5:"table";s:9:"QVMOTIVES";s:9:"extension";s:16:"MOTIVES_ATTIVITA";s:4:"data";a:26:{s:5:"SYSID";s:24:"[:SYSID(A000000002002M)]";s:11:"DESCRIPTION";s:28:"Compilare anagrafica azienda";s:8:"REGISTRY";s:0:"";s:10:"TYPOLOGYID";s:14:"0MOTIVIATTIV00";s:9:"DIRECTION";s:1:"0";s:11:"CONSISTENCY";s:1:"0";s:5:"SCOPE";s:1:"0";s:8:"UPDATING";s:1:"0";s:8:"DELETING";s:1:"0";s:6:"STATUS";s:1:"0";s:5:"GANTT";s:1:"1";s:10:"INVIOEMAIL";s:1:"1";s:13:"SETCONOSCENZA";s:24:"[:SYSID(D00000000000B0)]";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:10:"ORDINATORE";s:0:"";s:17:"RIFERIMENTOINIZIO";s:0:"";s:15:"RIFERIMENTOFINE";s:0:"";s:10:"MESEINIZIO";s:0:"";s:8:"MESEFINE";s:0:"";s:12:"GIORNOINIZIO";s:0:"";s:10:"GIORNOFINE";s:0:"";s:9:"ORAINIZIO";s:0:"";s:7:"ORAFINE";s:0:"";s:7:"CALCOLO";s:1:"0";s:9:"PREAVVISO";s:0:"";s:12:"INTESTAZIONE";s:1:"0";}}i:3;a:3:{s:5:"table";s:9:"QVMOTIVES";s:9:"extension";s:16:"MOTIVES_ATTIVITA";s:4:"data";a:26:{s:5:"SYSID";s:24:"[:SYSID(A000000002002N)]";s:11:"DESCRIPTION";s:35:"Convocazione conferenza dei servizi";s:8:"REGISTRY";s:0:"";s:10:"TYPOLOGYID";s:14:"0MOTIVIATTIV00";s:9:"DIRECTION";s:1:"0";s:11:"CONSISTENCY";s:1:"0";s:5:"SCOPE";s:1:"0";s:8:"UPDATING";s:1:"0";s:8:"DELETING";s:1:"0";s:6:"STATUS";s:1:"0";s:5:"GANTT";s:1:"1";s:10:"INVIOEMAIL";s:1:"1";s:13:"SETCONOSCENZA";s:24:"[:SYSID(D00000000000C0)]";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:10:"ORDINATORE";s:0:"";s:17:"RIFERIMENTOINIZIO";s:0:"";s:15:"RIFERIMENTOFINE";s:0:"";s:10:"MESEINIZIO";s:0:"";s:8:"MESEFINE";s:0:"";s:12:"GIORNOINIZIO";s:0:"";s:10:"GIORNOFINE";s:0:"";s:9:"ORAINIZIO";s:0:"";s:7:"ORAFINE";s:0:"";s:7:"CALCOLO";s:1:"0";s:9:"PREAVVISO";s:0:"";s:12:"INTESTAZIONE";s:1:"0";}}i:4;a:3:{s:5:"table";s:9:"QVMOTIVES";s:9:"extension";s:16:"MOTIVES_ATTIVITA";s:4:"data";a:26:{s:5:"SYSID";s:24:"[:SYSID(A000000002002O)]";s:11:"DESCRIPTION";s:27:"Predisposizione decreto CdS";s:8:"REGISTRY";s:0:"";s:10:"TYPOLOGYID";s:14:"0MOTIVIATTIV00";s:9:"DIRECTION";s:1:"0";s:11:"CONSISTENCY";s:1:"0";s:5:"SCOPE";s:1:"0";s:8:"UPDATING";s:1:"0";s:8:"DELETING";s:1:"0";s:6:"STATUS";s:1:"0";s:5:"GANTT";s:1:"1";s:10:"INVIOEMAIL";s:1:"1";s:13:"SETCONOSCENZA";s:24:"[:SYSID(D00000000000D0)]";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:10:"ORDINATORE";s:0:"";s:17:"RIFERIMENTOINIZIO";s:0:"";s:15:"RIFERIMENTOFINE";s:0:"";s:10:"MESEINIZIO";s:0:"";s:8:"MESEFINE";s:0:"";s:12:"GIORNOINIZIO";s:0:"";s:10:"GIORNOFINE";s:0:"";s:9:"ORAINIZIO";s:0:"";s:7:"ORAFINE";s:0:"";s:7:"CALCOLO";s:1:"0";s:9:"PREAVVISO";s:0:"";s:12:"INTESTAZIONE";s:1:"0";}}i:5;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002000X)]";s:11:"DESCRIPTION";s:17:"Avvio istruttoria";s:8:"REGISTRY";s:121:"<p>Arrivo comunicazione potenziale comunicazione e messa in sicurezza.</p>
+
+<p>Caricamento anagrafica.</p>
+
+<p>&nbsp;</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"1";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"1";}}i:6;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:12:{s:5:"SYSID";s:24:"[:SYSID(A000000002002R)]";s:11:"PARENTTABLE";s:9:"QVOBJECTS";s:11:"PARENTFIELD";s:5:"SYSID";s:8:"PARENTID";s:24:"[:SYSID(A000000002000X)]";s:13:"SELECTEDTABLE";s:9:"QVMOTIVES";s:10:"SELECTEDID";s:24:"[:SYSID(A000000002002L)]";s:7:"ENABLED";s:1:"1";s:5:"FLAG1";s:1:"1";s:5:"FLAG2";s:1:"1";s:5:"FLAG3";s:1:"1";s:5:"FLAG4";s:1:"0";s:6:"SORTER";s:1:"1";}}i:7;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:12:{s:5:"SYSID";s:24:"[:SYSID(A000000002002S)]";s:11:"PARENTTABLE";s:9:"QVOBJECTS";s:11:"PARENTFIELD";s:5:"SYSID";s:8:"PARENTID";s:24:"[:SYSID(A000000002000X)]";s:13:"SELECTEDTABLE";s:9:"QVMOTIVES";s:10:"SELECTEDID";s:24:"[:SYSID(A000000002002M)]";s:7:"ENABLED";s:1:"1";s:5:"FLAG1";s:1:"1";s:5:"FLAG2";s:1:"1";s:5:"FLAG3";s:1:"1";s:5:"FLAG4";s:1:"0";s:6:"SORTER";s:1:"2";}}i:8;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002000Y)]";s:11:"DESCRIPTION";s:29:"Attesa comunicazione (48 ore)";s:8:"REGISTRY";s:178:"<p>Verifica arrivo comunicazione superamento CsC entro 48 ore.</p>
+
+<p>Se comunicazione &egrave; &quot;non superamento&quot; inviare a &quot;Conclusione&quot;.</p>
+
+<p>&nbsp;</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"2";}}i:9;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002000Z)]";s:11:"DESCRIPTION";s:45:"Attesa piano di caratterizzazione (30 giorni)";s:8:"REGISTRY";s:99:"<p>Verifica arrivo proposta piano di caratterizzazione entro 30gg da precedente.</p>
+
+<p>&nbsp;</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"3";}}i:10;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020010)]";s:11:"DESCRIPTION";s:36:"Arrivo piano della caratterizzazione";s:8:"REGISTRY";s:81:"<p>Predisposizione e invio convocazione Conferenza di Servizi.</p>
+
+<p>&nbsp;</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"4";}}i:11;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:12:{s:5:"SYSID";s:24:"[:SYSID(A000000002002T)]";s:11:"PARENTTABLE";s:9:"QVOBJECTS";s:11:"PARENTFIELD";s:5:"SYSID";s:8:"PARENTID";s:24:"[:SYSID(A0000000020010)]";s:13:"SELECTEDTABLE";s:9:"QVMOTIVES";s:10:"SELECTEDID";s:24:"[:SYSID(A000000002002N)]";s:7:"ENABLED";s:1:"1";s:5:"FLAG1";s:1:"1";s:5:"FLAG2";s:1:"1";s:5:"FLAG3";s:1:"0";s:5:"FLAG4";s:1:"0";s:6:"SORTER";s:1:"1";}}i:12;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020011)]";s:11:"DESCRIPTION";s:29:"Predisposizione bozza verbale";s:8:"REGISTRY";s:37:"<p>Predisposizione bozza verbale.</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"6";}}i:13;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020012)]";s:11:"DESCRIPTION";s:15:"Svolgimento CdS";s:8:"REGISTRY";s:29:"<p>Completamento verbale.</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"7";}}i:14;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020013)]";s:11:"DESCRIPTION";s:20:"Decreto approvazione";s:8:"REGISTRY";s:95:"<p>Predisposizione decreto approvazione o diniego proposta di piano della caratterizzazione</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"8";}}i:15;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:12:{s:5:"SYSID";s:24:"[:SYSID(A000000002002U)]";s:11:"PARENTTABLE";s:9:"QVOBJECTS";s:11:"PARENTFIELD";s:5:"SYSID";s:8:"PARENTID";s:24:"[:SYSID(A0000000020013)]";s:13:"SELECTEDTABLE";s:9:"QVMOTIVES";s:10:"SELECTEDID";s:24:"[:SYSID(A000000002002O)]";s:7:"ENABLED";s:1:"1";s:5:"FLAG1";s:1:"1";s:5:"FLAG2";s:1:"1";s:5:"FLAG3";s:1:"0";s:5:"FLAG4";s:1:"0";s:6:"SORTER";s:1:"1";}}i:16;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020014)]";s:11:"DESCRIPTION";s:15:"Avviso rilascio";s:8:"REGISTRY";s:83:"<p>Avviso rilascio decreto azienda inclusiva diritti segreteria.</p>
+
+<p>&nbsp;</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"9";}}i:17;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020015)]";s:11:"DESCRIPTION";s:22:"Inoltro decreto a enti";s:8:"REGISTRY";s:45:"<p>Inoltro decreto a enti.</p>
+
+<p>&nbsp;</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:2:"10";}}i:18;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020016)]";s:11:"DESCRIPTION";s:11:"Conclusione";s:8:"REGISTRY";s:36:"<p>Chiusura pratica di bonifica.</p>";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"1";s:10:"ORDINATORE";s:2:"11";}}i:19;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:17:"OBJECTS_PROCSTATI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020070)]";s:11:"DESCRIPTION";s:16:"Convocazione CdS";s:8:"REGISTRY";s:0:"";s:10:"TYPOLOGYID";s:14:"0PROCSTATI0000";s:10:"PROCESSOID";s:24:"[:SYSID(A000000002000U)]";s:9:"GESTOREID";s:0:"";s:8:"INIZIALE";s:1:"0";s:6:"FINALE";s:1:"0";s:10:"ORDINATORE";s:1:"5";}}i:20;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020017)]";s:11:"DESCRIPTION";s:29:"Attesa comunicazione (48 ore)";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A000000002000X)]";s:8:"TARGETID";s:24:"[:SYSID(A000000002000Y)]";s:11:"SVINCOLANTE";s:1:"0";}}i:21;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A0000000020017)]";}}i:22;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002001C)]";s:11:"DESCRIPTION";s:45:"Attesa piano di caratterizzazione (30 giorni)";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A000000002000Y)]";s:8:"TARGETID";s:24:"[:SYSID(A000000002000Z)]";s:11:"SVINCOLANTE";s:1:"0";}}i:23;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A000000002001C)]";}}i:24;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002001H)]";s:11:"DESCRIPTION";s:11:"Conclusione";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A000000002000Y)]";s:8:"TARGETID";s:24:"[:SYSID(A0000000020016)]";s:11:"SVINCOLANTE";s:1:"0";}}i:25;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A000000002001H)]";}}i:26;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002001M)]";s:11:"DESCRIPTION";s:29:"Predisposizione bozza verbale";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A0000000020010)]";s:8:"TARGETID";s:24:"[:SYSID(A0000000020011)]";s:11:"SVINCOLANTE";s:1:"0";}}i:27;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A000000002001M)]";}}i:28;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002001R)]";s:11:"DESCRIPTION";s:16:"Convocazione CdS";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A000000002000Z)]";s:8:"TARGETID";s:24:"[:SYSID(A0000000020010)]";s:11:"SVINCOLANTE";s:1:"0";}}i:29;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A000000002001R)]";}}i:30;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002001W)]";s:11:"DESCRIPTION";s:21:"Completamento verbale";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A0000000020011)]";s:8:"TARGETID";s:24:"[:SYSID(A0000000020012)]";s:11:"SVINCOLANTE";s:1:"0";}}i:31;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A000000002001W)]";}}i:32;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020021)]";s:11:"DESCRIPTION";s:20:"Decreto approvazione";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A0000000020012)]";s:8:"TARGETID";s:24:"[:SYSID(A0000000020013)]";s:11:"SVINCOLANTE";s:1:"0";}}i:33;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A0000000020021)]";}}i:34;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A0000000020026)]";s:11:"DESCRIPTION";s:15:"Avviso rilascio";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A0000000020013)]";s:8:"TARGETID";s:24:"[:SYSID(A0000000020014)]";s:11:"SVINCOLANTE";s:1:"0";}}i:35;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A0000000020026)]";}}i:36;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002002B)]";s:11:"DESCRIPTION";s:22:"Inoltro decreto a enti";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A0000000020014)]";s:8:"TARGETID";s:24:"[:SYSID(A0000000020015)]";s:11:"SVINCOLANTE";s:1:"0";}}i:37;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A000000002002B)]";}}i:38;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_TRANSIZIONI";s:4:"data";a:9:{s:5:"SYSID";s:24:"[:SYSID(A000000002002G)]";s:11:"DESCRIPTION";s:11:"Conclusione";s:10:"TYPOLOGYID";s:14:"0TRANSIZIONI00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:6:"AMOUNT";s:1:"0";s:8:"MOTIVEID";s:14:"0MOTIVOTRANS00";s:5:"BOWID";s:24:"[:SYSID(A0000000020015)]";s:8:"TARGETID";s:24:"[:SYSID(A0000000020016)]";s:11:"SVINCOLANTE";s:1:"0";}}i:39;a:3:{s:5:"table";s:13:"QVQUIVERARROW";s:9:"extension";s:0:"";s:4:"data";a:2:{s:8:"QUIVERID";s:24:"[:SYSID(A000000002000U)]";s:7:"ARROWID";s:24:"[:SYSID(A000000002002G)]";}}}}

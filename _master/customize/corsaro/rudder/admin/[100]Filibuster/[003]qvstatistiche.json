@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Statistiche",
+    "params":{
+        "name":"qvstatistiche",
+        "path":"qvcontenuti/",
+        "title":"Statistiche"
+    }
+}

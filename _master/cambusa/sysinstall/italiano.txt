@@ -1,0 +1,10 @@
+@
+C00000000001
+Pippo
+Nome del cane
+@
+C00000000002
+Topolino
+@
+C00000000003
+Minnie

@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Elenco attivit&agrave;",
+    "params":{
+        "name":"elencoattivita_sel",
+        "path":"@customize/corsaro/reporting/pratiche/",
+        "title":"Elenco attivit&agrave;"
+    }
+}

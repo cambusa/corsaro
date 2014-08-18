@@ -1,0 +1,1 @@
+https://github.com/private-face/jquery.fullscreen

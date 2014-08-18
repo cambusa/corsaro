@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Frecce",
+    "params":{
+        "name":"qvarrowtypes",
+        "path":"qvtipologie/",
+        "title":"Tipologie di Frecce"
+    }
+}

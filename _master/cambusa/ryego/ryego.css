@@ -1,0 +1,36 @@
+a{color:#AA2222;text-decoration:none;font-weight:normal;}
+hr{color:#E0E0E0;font-size:1px;border:1px solid #E0E0E0;}
+.classicHR{border-top:1px solid #E0E0E0;font-size:1px;height:4px;}
+.classicBody{margin:0px;text-align:center;background-color:#E2E1DE;color:#424242;font-family:verdana,sans-serif;font-size:13px;}
+.classicTable{border:20px solid #F9F9F9;background-color:transparent;margin-left:13px;margin-right:13px;font-family:verdana,sans-serif;font-size:13px;border-collapse:separate;}
+.classicTopMargin{height:10px;font-size:1px;}
+.classicTopMenu{position:absolute;top:13px;right:13px;width:974px;height:18px;text-align:right;background-color:transparent;}
+.classicBottomMenu{position:absolute;top:-17px;right:8px;width:974px;height:18px;text-align:right;background-color:transparent;}
+.classicSkip4{height:4px;font-size:1px;}
+.classicSkip10{height:10px;font-size:1px;}
+.classicSkip20{height:20px;font-size:1px;}
+.classicSkip50{height:50px;font-size:1px;}
+.classicSkip100{height:100px;font-size:1px;}
+.classicSkip300{height:300px;font-size:1px;}
+.classicSkip500{height:500px;font-size:1px;}
+.classicSeparator{height:10px;font-size:1px;border-top:1px solid #E0E0E0;}
+.classicSheet{position:relative;width:1000px;text-align:left;background-color:#F9F9F9;margin:0px auto -1px auto;}
+.classicSkinTop{font-size:1px;height:13px;background-image:url(images/classic-shade-n.gif);background-position:top;background-repeat:no-repeat;}
+.classicSkinLeft{background-image:url(images/classic-shade-w.gif);background-position:left;background-repeat:repeat-y;}
+.classicSkinRight{background-image:url(images/classic-shade-e.gif);background-position:right;background-repeat:repeat-y;}
+.classicSkinBottom{font-size:1px;height:13px;background-image:url(images/classic-shade-s.gif);background-position:bottom;background-repeat:no-repeat;}
+.classicContainerOuter{width:660px;min-height:100px;overflow-x:hidden;text-align:justify;}
+.classicContainerInner{position:relative;line-height:150%;}
+.classicLateralLeft{position:relative;width:1px;overflow-x:hidden;min-height:300px;}
+.classicLateralRight{position:relative;width:229px;overflow-x:hidden;}
+.classicVertSkip{width:15px;}
+.classicVertSkipRow{width:15px;border-left:1px solid #E0E0E0;}
+.classicLabel{font-family:verdana,sans-serif;font-size:10px;font-weight:bold}
+.classicCurrent{background-color:#EAEAEA;}
+.classicMiniAnchor{text-decoration:none;font-family:verdana,sans-serif;font-size:9px;color:#DDDDFF;}
+.classicCreditsBox{text-align:right;}
+.classicSearchBox{position:absolute;right:23px;top:60px;text-align:right;height:30px;overflow-y:hidden;}
+.classicBackImage{position:absolute;background-repeat:no-repeat;background-position:top;right:13px;width:974px;}
+.classicAppName{position:absolute;top:10px;right:10px;font-size:24px;}
+.toolfunction{position:absolute;left:10px;display:none;}
+.form-title{font-size:large;}

@@ -1,0 +1,22 @@
+{
+    "OBJECTS_ESERCIZI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "PROPRIETAID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "ANNO":{"type":"INTEGER"},
+            "PROGRESSIVO":{"type":"INTEGER"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVOBJECTTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,QUIVERTYPEID,TIMEUNIT,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0ESERCIZI000)],'_ESERCIZI', 'Esercizi', [:SYSID(0MONEY000000)], '', 'D', 'QW_ESERCIZI', 'OBJECTS_ESERCIZI', '1', '0', '')",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ESERCIZI000)], 'PROPRIETAID', 'SYSID(QW_PROPRIETA)', '', 'Propriet&agrave;', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ESERCIZI000)], 'ANNO', 'INTEGER', '', 'Anno', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ESERCIZI000)], 'PROGRESSIVO', 'INTEGER', '', 'Progressivo', 1)"
+                ]
+            }
+        ]
+    }
+}

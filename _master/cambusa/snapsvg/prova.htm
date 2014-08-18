@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"></meta>
+<title>Snap SVG</title>
+
+<script type='text/javascript' src='dist/snap.svg-min.js'></script>
+
+<script>
+var S;
+function init(){
+    var S=Snap();
+    var c=S.circle(100, 100, 50);
+    c.animate({r:10}, 1000);
+}
+</script>
+
+<head>
+
+<body onload="init()">
+
+</body>
+</html>

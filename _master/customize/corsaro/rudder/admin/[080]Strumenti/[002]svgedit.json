@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Disegno",
+    "params":{
+        "name":"svgedit",
+        "path":"@cambusa/rywinz/svgedit/",
+        "icon":"@cambusa/rywinz/svgedit/svgedit",
+        "title":"Disegno"
+    }
+}

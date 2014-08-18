@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
+<meta name="description" content="JavaScript desktop environment built with jQuery." />
+<title>jQuery Desktop</title>
+<link rel="stylesheet" href="assets/css/reset.css" />
+<link rel="stylesheet" href="assets/css/desktop.ry.css" />
+
+</head>
+<body>
+<div class="abs" id="wrapper">
+  <div class="abs" id="desktop">
+    <div id="window_computer" class="abs window">
+      <div class="abs window_inner">
+        <div class="window_top">
+          <span class="float_left">
+            <img src="assets/images/icons/icon_16_computer.png" />
+            Computer
+          </span>
+          <span class="float_right">
+            <a href="#" class="window_min"></a>
+            <a href="#" class="window_resize"></a>
+            <a href="#icon_dock_computer" class="window_close"></a>
+          </span>
+        </div>
+        <div class="abs window_content">
+          <div class="window_toolbar">
+            <img class="tool-new"/>
+          </div>
+          <div class="window_main">
+
+			<div id="appiglio"></div>
+		  
+
+          </div>
+        </div>
+        <div class="abs window_bottom">
+          Build: TK421
+        </div>
+      </div>
+      <span class="abs ui-resizable-handle ui-resizable-se"></span>
+    </div>
+  </div>
+  <div class="abs" id="bar_top">
+    <span class="float_right" id="clock"></span>
+    <ul>
+      <li>
+        <a class="menu_trigger" href="#">File</a>
+        <ul class="menu">
+          <li>
+            <a class="rudyz" href="#icon_dock_computer">Computer</a>
+          </li>
+		  <li>
+			<a class="rudyz" href="#icon_dock_computer">Cicciarampa</a>
+		  </li>
+		  <li>
+			<a class="rudyz" href="#icon_dock_computer">Pastarito</a>
+		  </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="abs" id="bar_bottom">
+    <a class="float_left" href="#" id="show_desktop" title="Show Desktop">
+      <img src="assets/images/icons/icon_22_desktop.png" />
+    </a>
+    <ul id="dock">
+      <li id="icon_dock_computer">
+        <a href="#window_computer">
+          <img src="assets/images/icons/icon_22_computer.png" />
+          Computer
+        </a>
+      </li>
+    </ul>
+    <a class="float_right" href="http://www.firehost.com/?ref=spon_nsmith_desktop-sonspring" title="Secure Hosting">
+      <img src="assets/images/misc/firehost.png" />
+    </a>
+  </div>
+</div>
+<script src="../jquery/jquery.js"></script>
+<script type='text/javascript' src="../jquery/jquery.js"></script>
+<script type='text/javascript' src='../jquery/jquery.ui.core.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.position.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.widget.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.mouse.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.draggable.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.resizable.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.dialog.js' ></script>
+<script type='text/javascript' src='../jqdesktop/assets/js/jquery.desktop.ry.js' ></script>
+<script type='text/javascript' src='../rygeneral/rygeneral.js' ></script>
+<script type='text/javascript' src='../rybox/rybox.js' ></script>
+
+<script language="javascript">
+$(document).ready(function(){
+	var Box=new ryBox();
+    var b=new ryDate(20,40,200,"appiglio");
+});
+</script>
+
+
+</body>
+</html>

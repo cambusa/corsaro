@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Banche",
+    "params":{
+        "name":"qvbanche",
+        "path":"qvanagrafiche/",
+        "title":"Banche"
+    }
+}

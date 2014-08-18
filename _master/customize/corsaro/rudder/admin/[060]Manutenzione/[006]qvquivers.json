@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Quiver",
+    "params":{
+        "name":"qvquivers",
+        "path":"qvtabelle/",
+        "title":"Quiver"
+    }
+}

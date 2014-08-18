@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Motivi",
+    "params":{
+        "name":"qvmotivetypes",
+        "path":"qvtipologie/",
+        "title":"Tipologie di Motivi"
+    }
+}

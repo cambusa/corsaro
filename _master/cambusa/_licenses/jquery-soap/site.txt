@@ -1,0 +1,3 @@
+https://github.com/doedje/jquery.soap
+
+Remy Blom

@@ -1,0 +1,70 @@
+{
+    "QVSYSTEM":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "LASTBASE":{"type":"VARCHAR", "size":50},
+            "LASTPROGR":{"type":"VARCHAR", "size":20}
+        }
+    },
+    "GEOCONTINENTI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
+            "REGISTRY":{"type":"TEXT"}
+        }
+    },
+    "GEONAZIONI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
+            "REGISTRY":{"type":"TEXT"},
+            "ALFADUE":{"type":"VARCHAR", "size":2},
+            "ALFATRE":{"type":"VARCHAR", "size":3},
+            "NUMERICO":{"type":"VARCHAR", "size":3},
+            "CONTINENTEID":{"type":"SYSID", "ref":"GEOCONTINENTI"}
+        }
+    },
+    "GEOREGIONI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
+            "REGISTRY":{"type":"TEXT"},
+            "NAZIONEID":{"type":"SYSID", "ref":"GEONAZIONI"}
+        }
+    },
+    "GEOPROVINCE":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
+            "REGISTRY":{"type":"TEXT"},
+            "SIGLA":{"type":"VARCHAR", "size":10},
+            "NAZIONEID":{"type":"SYSID", "ref":"GEONAZIONI"},
+            "REGIONEID":{"type":"SYSID", "ref":"GEOREGIONI"}
+        }
+    },
+    "GEOCOMUNI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
+            "REGISTRY":{"type":"TEXT"},
+            "CAP":{"type":"VARCHAR", "size":10},
+            "NAZIONEID":{"type":"SYSID", "ref":"GEONAZIONI"},
+            "PROVINCIAID":{"type":"SYSID", "ref":"GEOPROVINCE"}
+        }
+    },
+    "GEO_COMUNI":{
+        "type":"view",
+        "script":"@maestro/cambusa/geo_comuni.sql"
+    }
+}

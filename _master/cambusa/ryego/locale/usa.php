@@ -1,0 +1,5 @@
+<?php
+
+$dateformat=1;
+
+?>

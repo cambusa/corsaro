@@ -1,0 +1,227 @@
+Kazakhstan|Eurasia
+Kyrgyzstan|Asia
+Tajikistan|Asia
+Turkmenistan|Asia
+Uzbekistan|Asia
+China|Asia
+North Korea|Asia
+South Korea|Asia
+Japan|Asia
+Mongolia|Asia
+Hong Kong|Asia
+Macao|Asia
+Taiwan|Asia
+Afghanistan|Asia
+Bangladesh|Asia
+Bhutan|Asia
+India|Asia
+Iran|Asia
+Maldives|Asia
+Nepal|Asia
+Pakistan|Asia
+Sri Lanka|Asia
+Saudi Arabia|Asia
+Armenia|Eurasia
+Azerbaijan|Eurasia
+Bahrain|Asia
+Cyprus|Eurasia
+United Arab Emirates|Asia
+Georgia|Eurasia
+Jordan|Asia
+Iraq|Asia
+Israel|Asia
+Kuwait|Asia
+Lebanon|Asia
+Oman|Asia
+Palestinian Territory|Asia
+Qatar|Asia
+Syria|Asia
+Turkey|Eurasia
+Yemen|Asia
+Brunei|Asia
+Cambodia|Asia
+Philippines|Asia
+Indonesia|Asia
+Laos|Asia
+Malaysia|Asia
+Singapore|Asia
+Thailand|Asia
+Timor-Leste|Asia
+Viet Nam|Asia
+Myanmar|Asia
+Argentina|South America
+Bolivia|South America
+Brazil|South America
+Chile|South America
+Colombia|South America
+Ecuador|South America
+Guyana|South America
+Paraguay|South America
+Peru|South America
+Suriname|South America
+Uruguay|South America
+Venezuela|South America
+Belize|Central America
+Costa Rica|Central America
+El Salvador|Central America
+Guatemala|Central America
+Honduras|Central America
+Nicaragua|Central America
+Panama|Central America
+Antigua and Barbuda|Central America
+Bahamas|Central America
+Barbados|Central America
+Cuba|Central America
+Dominica|Central America
+Jamaica|Central America
+Grenada|Central America
+Haiti|Central America
+Dominican Republic|Central America
+Saint Kitts and Nevis|Central America
+Saint Lucia|Central America
+Saint Vincent and Grenadines|Central America
+Trinidad and Tobago|Central America
+Canada|North America
+Mexico|North America
+United States of America|North America
+Algeria|Africa
+Angola|Africa
+Benin|Africa
+Botswana|Africa
+Burkina Faso|Africa
+Burundi|Africa
+Cameroon|Africa
+Cape Verde|Africa
+Chad|Africa
+Comoros|Africa
+Cote d'Ivoire|Africa
+Egypt|Africa
+Eritrea|Africa
+Ethiopia|Africa
+Gabon|Africa
+Gambia|Africa
+Ghana|Africa
+Djibouti|Africa
+Guinea|Africa
+Guinea-Bissau|Africa
+Equatorial Guinea|Africa
+Kenya|Africa
+Lesotho|Africa
+Liberia|Africa
+Libya|Africa
+Madagascar|Africa
+Malawi|Africa
+Mali|Africa
+Morocco|Africa
+Mauritania|Africa
+Mauritius|Africa
+Mozambique|Africa
+Namibia|Africa
+Niger|Africa
+Nigeria|Africa
+Central African Republic|Africa
+Congo-Brazzaville|Africa
+Congo-Kinshasa|Africa
+Rwanda|Africa
+Sao Tome and Principe|Africa
+Senegal|Africa
+Seychelles|Africa
+Sierra Leone|Africa
+Somalia|Africa
+South Africa|Africa
+Sudan|Africa
+South Sudan|Africa
+Swaziland|Africa
+Tanzania|Africa
+Togo|Africa
+Tunisia|Africa
+Uganda|Africa
+Zambia|Africa
+Zimbabwe|Africa
+Albania|Europe
+Andorra|Europe
+Austria|Europe
+Belgium|Europe
+Belarus|Europe
+Bosnia and Herzegovina|Europe
+Bulgaria|Europe
+Vatican|Europe
+Croatia|Europe
+Denmark|Europe
+Estonia|Europe
+Finland|Europe
+France|Europe
+Germany|Europe
+Greece|Europe
+Ireland|Europe
+Iceland|Europe
+Italy|Europe
+Latvia|Europe
+Liechtenstein|Europe
+Lithuania|Europe
+Luxembourg|Europe
+Macedonia|Europe
+Malta|Europe
+Moldova|Europe
+Monaco|Europe
+Serbia|Europe
+Montenegro|Europe
+Norway|Europe
+Netherlands|Europe
+Poland|Europe
+Portugal|Europe
+United Kingdom|Europe
+Czech Republic|Europe
+Romania|Europe
+Russian Federation|Europe
+San Marino|Europe
+Slovakia|Europe
+Slovenia|Europe
+Spain|Europe
+Sweden|Europe
+Switzerland|Europe
+Ukraine|Europe
+Hungary|Europe
+Australia|Oceania
+New Zealand|Oceania
+Papua New Guinea|Oceania
+Solomon Islands|Oceania
+Vanuatu|Oceania
+Guam|Oceania
+Marshall Islands|Oceania
+Northern Mariana Islands|Oceania
+Kiribati|Oceania
+Nauru|Oceania
+Palau|Oceania
+Cook Islands|Oceania
+French Polynesia|Oceania
+Wallis and Futuna Islands|Oceania
+Samoa|Oceania
+American Samoa|Oceania
+Tuvalu|Oceania
+Tokelau|Oceania
+Tonga|Oceania
+Niue|Oceania
+Pitcairn|Oceania
+Fiji|Oceania
+New Caledonia|Oceania
+Svalbard and Jan Mayen Islands|Europe
+South Georgia and the South Sandwich Islands|South America
+Netherlands Antilles|Central America
+French Guiana|South America
+Christmas Island|Oceania
+Cayman Islands|Central America
+Cocos Islands|Oceania
+Falkland Islands|South America
+Faroe Islands|Europe
+United States Minor Outlying Islands|North America
+Norfolk Island|Oceania
+Turks and Caicos Islands|Oceania
+US Virgin Islands|Central America
+British Virgin Islands|Central America
+Western Sahara|Africa
+Saint Pierre and Miquelon|North America
+Saint Helena|Africa
+Saint Lucia|Central America
+Micronesia|Oceania
+British Indian Ocean Territory|Asia

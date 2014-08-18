@@ -1,0 +1,9 @@
+{
+    "LASTMONAD":{
+        "type":"database",
+        "fields":{
+            "SYSLENGTH":{"type":"VARCHAR", "size":10, "key":1},
+            "SYSLAST":{"type":"VARCHAR", "size":50}
+        }
+    }
+}

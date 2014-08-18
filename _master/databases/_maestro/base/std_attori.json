@@ -1,0 +1,45 @@
+{
+    "OBJECTS_ATTORI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "EMAIL":{"type":"VARCHAR", "size":50},
+            "AZIENDAID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "PROPRIETAID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "UFFICIOID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "PERSONAID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "UTENTEID":{"type":"SYSID", "ref":"QVUSERS"},
+            "RUOLOID":{"type":"SYSID", "ref":"QVROLES"}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVOBJECTTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,QUIVERTYPEID,TIMEUNIT,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0ATTORI00000)],'_ATTORI', 'Attori', '', '', 'S', 'QW_ATTORI', 'OBJECTS_ATTORI', '1', '0', '')",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ATTORI00000)], 'EMAIL', 'CHAR(50)', '', 'Email', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ATTORI00000)], 'AZIENDAID', 'SYSID(QW_AZIENDE)', '', 'Azienda', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ATTORI00000)], 'PROPRIETAID', 'SYSID(QW_PROPRIETA)', '', 'Propriet&agrave;', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ATTORI00000)], 'UFFICIOID', 'SYSID(QW_UFFICI)', '', 'Ufficio', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ATTORI00000)], 'PERSONAID', 'SYSID(QW_PERSONE)', '', 'Persona', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ATTORI00000)], 'UTENTEID', 'SYSID(QWUSERS)', '', 'Utente', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ATTORI00000)], 'RUOLOID', 'SYSID(QWROLES)', '', 'Ruolo', 1)",
+                    
+                    "INSERT INTO QVOBJECTS(SYSID,NAME,DESCRIPTION,REGISTRY,TYPOLOGYID,REFGENREID,REFOBJECTID,REFQUIVERID,BEGINTIME,ENDTIME,REFERENCE,AUXTIME,AUXAMOUNT,TAG,CONSISTENCY,SCOPE,UPDATING,DELETING,DELETED) VALUES([:SYSID(0ATTJOLLYRIC)], '_ATTJOLLYRICHIEDENTE', '[Richiedente]', '', [:SYSID(0ATTORI00000)], '', '', '', [:DATE(19000101)], [:DATE(99991231)], '', [:DATE(19000101)], 0, '', 0, 0, 0, 0, 0)",
+                    "INSERT INTO OBJECTS_ATTORI(SYSID,EMAIL,AZIENDAID,PROPRIETAID,UFFICIOID,PERSONAID,UTENTEID,RUOLOID) VALUES([:SYSID(0ATTJOLLYRIC)], '', '', '', '', '', '', '')"
+                ]
+            }
+        ]
+    },
+    "QW_ATTORI":{
+        "type":"view",
+        "script":"@maestro/base/qw_attori.sql"
+    },
+    "QW_ATTORIJOIN":{
+        "type":"view",
+        "script":"@maestro/base/qw_attorijoin.sql"
+    },
+    "QW_ATTORIEGO":{
+        "type":"view",
+        "script":"@maestro/base/qw_attoriego.sql"
+    }
+}

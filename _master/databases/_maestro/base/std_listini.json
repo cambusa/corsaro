@@ -1,0 +1,22 @@
+{
+    "QUIVERS_LISTINI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVQUIVERTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,OBJECTTYPEID,MOTIVETYPEID,ARROWTYPEID,QUIVERTYPEID,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0LISTINI0000)],'_LISTINI', 'Listini', '', '', '', '', '', 'QW_LISTINI', 'QUIVERS_LISTINI', '1', '1', '')",
+                    "INSERT INTO QVQUIVERS(SYSID,NAME,DESCRIPTION,REGISTRY,AUXTIME,AUXAMOUNT,TYPOLOGYID,REFGENREID,REFOBJECTID,REFMOTIVEID,REFARROWID,REFQUIVERID,REFERENCE,TAG,CONSISTENCY,AVAILABILITY,SCOPE,UPDATING,DELETING,STATUS,STATUSTIME,PHASE,PHASENOTE,DELETED,ROLEID,USERINSERTID,USERUPDATEID,USERDELETEID,TIMEINSERT,TIMEUPDATE,TIMEDELETE) VALUES([:SYSID(0LISTVENDITE)], '_LISTVENDITE', 'Listino vendite', '', [:DATE(19000101)], 0, [:SYSID(0LISTINI0000)], '', '', '', '', '', '', '', 0, 0, 0, 0, 2, 0, [:DATE(19000101)], 0, '', 0, '', '', '', '', [:DATE(19000101)], [:DATE(19000101)], [:DATE(19000101)])",
+                    "INSERT INTO QUIVERS_LISTINI(SYSID) VALUES([:SYSID(0LISTVENDITE)])"
+                ]
+            }
+        ]
+    },
+    "QW_LISTINIJOIN":{
+        "type":"view",
+        "script":"@maestro/base/qw_listinijoin.sql"
+    }
+}

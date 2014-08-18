@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>Untitled</title>
+</head>
+
+<script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+
+<script>
+var a0=200;
+var b0=75;
+var x0=250;
+var y0=125;
+var a1=120;
+var b1=100;
+var x1=130;
+var y1=140;
+var a2=170;
+var b2=148;
+var x2=190;
+var y2=100;
+
+function sposta(){
+    a0+=5*(Math.random()-0.5);
+    b0+=5*(Math.random()-0.5);
+    x0+=5*(Math.random()-0.5);
+    y0+=5*(Math.random()-0.5);
+    a1+=5*(Math.random()-0.5);
+    b1+=5*(Math.random()-0.5);
+    x1+=5*(Math.random()-0.5);
+    y1+=5*(Math.random()-0.5);
+    a2+=5*(Math.random()-0.5);
+    b2+=5*(Math.random()-0.5);
+    x2+=5*(Math.random()-0.5);
+    y2+=5*(Math.random()-0.5);
+    $("#freccia").attr({"d":"M 100 75 S "+a0+" "+b0+" "+x0+" "+y0+" S "+a1+" "+b1+" "+x1+" "+y1+" S "+a2+" "+b2+" "+x2+" "+y2});
+}
+
+setInterval("sposta()",100);
+
+</script>
+
+<body>
+
+<div style="position:absolute;left:100;top:100;width:300;height:300;border:1px solid silver;background-color:gray;">
+
+<svg version="1.1" viewBox="0 0 300 300">
+    <defs>
+        <marker id="EndMarker2" viewBox="0 0 10 10" refX="7" refY="5" markerUnits="strokeWidth" markerWidth="3" markerHeight="3" stroke="tomato" stroke-width="3" fill="none" orient="auto">
+            <path d = "M 0 0 L 10 5 M 0 10 L 10 5"/>
+        </marker>
+    </defs>
+    <path d="M 0 0 Q 150 300 300 0"  />
+    <path d="M 0 300 Q 150 -100 300 300" fill = "blue" stroke = "yellow" stroke-width="5" />
+    <path id="freccia" d="M 100 75 S 200 75 250 125 S 120 100 130 140 S 170 148 190 100" fill = "none" stroke = "tomato" stroke-width="3" marker-end = "url(#EndMarker2)"/>
+</svg>
+
+</div>
+
+</body>
+</html>

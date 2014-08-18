@@ -1,0 +1,34 @@
+{
+    "OBJECTS_COLLOCAZIONI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "MAGAZZINOID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "ZONA":{"type":"VARCHAR", "size":30},
+            "SCAFFALE":{"type":"VARCHAR", "size":30},
+            "RIPIANO":{"type":"VARCHAR", "size":30},
+            "COORDINATA":{"type":"VARCHAR", "size":30}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVOBJECTTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,QUIVERTYPEID,TIMEUNIT,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0COLLOCAZ000)],'_COLLOCAZIONI', 'Collocazioni', [:SYSID(0ARTICOLI000)], '', 'S', 'QW_COLLOCAZIONI', 'OBJECTS_COLLOCAZIONI', '1', '1', '')",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0COLLOCAZ000)], 'MAGAZZINOID', 'SYSID(QW_UFFICI)', '', 'Magazzino', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0COLLOCAZ000)], 'ZONA', 'CHAR(30)', '', 'Zona', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0COLLOCAZ000)], 'SCAFFALE', 'CHAR(30)', '', 'Scaffale', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0COLLOCAZ000)], 'RIPIANO', 'CHAR(30)', '', 'Ripiano', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0COLLOCAZ000)], 'COORDINATA', 'CHAR(30)', '', 'Coordinata', 1)"
+                ]
+            }
+        ]
+    },
+    "QW_COLLOCAZIONI":{
+        "type":"view",
+        "script":"@maestro/base/qw_collocazioni.sql"
+    },
+    "QW_COLLOCAZIONIJOIN":{
+        "type":"view",
+        "script":"@maestro/base/qw_collocazionijoin.sql"
+    }
+}

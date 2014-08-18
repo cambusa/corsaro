@@ -1,0 +1,150 @@
+/****************************************************************************
+* Name:            rybox.css                                                *
+* Project:         Cambusa/ryBox                                            *
+* Version:         1.00                                                     *
+* Description:     Masked input and other form controls                     *
+* Copyright (C):   2014  Rodolfo Calzetti                                   *
+* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+.rybutton-caption {
+position:absolute;
+cursor:pointer;
+background-color:#F4F4F4;
+border:1px solid silver;
+padding-left:3px;
+padding-right:3px;
+left:0px;
+top:0px;
+height:20px;
+font-family:verdana,sans-serif;
+font-size:13px;
+line-height:18px;
+white-space:nowrap;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-khtml-border-radius: 5px;
+border-radius: 5px;
+}
+
+.rybutton-click {
+-webkit-animation: ryclick 0.3s;
+-moz-animation: ryclick 0.3s;
+-o-animation: ryclick 0.3s;
+animation: ryclick 0.3s;
+}
+@-webkit-keyframes ryclick {
+    from {background: #FFA333;}
+    to {background: #FFE8CC;}
+}
+@-moz-keyframes ryclick {
+    from {background: #FFA333;}
+    to {background: #FFE8CC;}
+}
+@-o-keyframes ryclick {
+    from {background: #FFA333;}
+    to {background: #FFE8CC;}
+}
+@keyframes ryclick {
+    from {background: #FFA333;}
+    to {background: #FFE8CC;}
+}
+
+.rybutton-caption-flat{
+position:absolute;
+cursor:pointer;
+background-color:#FFFFFF;
+left:0px;
+top:0px;
+height:20px;
+font-family:verdana,sans-serif;
+font-size:13px;
+white-space:nowrap;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-khtml-border-radius: 5px;
+border-radius: 5px;
+}
+
+.rylabel-caption {
+position:absolute;
+cursor:default;
+border:none;
+left:0px;
+top:2px;
+height:20px;
+font-family:verdana,sans-serif;
+font-size:13px;
+white-space:nowrap;
+}
+
+.ryobject a{
+outline-style:none;
+}
+
+.ryobject input{
+outline-style:none;
+}
+
+.ryobject select{
+outline-style:none;
+}
+
+.ryobject textarea{
+outline-style:none;
+}
+
+.ryobject::selection{
+background:#FFFFFF;
+}
+
+.ryobject::-moz-selection{
+background:#FFFFFF;
+}
+
+.ryobject::-webkit-selection{
+background:#FFFFFF;
+}
+
+.ryobject{
+padding:0px;
+margin:0px;
+border:0px;
+}
+
+.ryobject > div,span,a,img{
+padding:0px;
+margin:0px;
+border:0px;
+font-family:verdana,sans-serif;
+}
+
+.rybox-title{
+position:absolute;
+font-size:14px;
+font-weight:bold;
+font-family:sans-serif;
+}
+
+.rydate input{
+position:absolute;
+font-size:2px;
+right:14px;
+top:6px;
+width:1px;
+height:1px;
+border:none;
+text-indent:-10px;
+}
+
+.rynumber input{
+position:absolute;
+font-size:2px;
+right:4px;
+top:6px;
+width:1px;
+height:1px;
+border:none;
+text-indent:-10px;
+}
