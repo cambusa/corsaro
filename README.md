@@ -50,4 +50,33 @@ Getting started with Corsaro
    * click <code>Manutenzione (folder) \ Opzioni (function) \ Manutenzione (tab)</code><br>
    * click <code>Aggiornamento di tutte le viste</code><br>
 
+---
+
+Features
+========
+
+1. __Lightweight Access to Databases__ ( [example](http://www.rudyz.net/apps/corsaro/filibuster.php?env=flb_scibile&site=matematica&id=A00000000K00CH) )<br>
+The LAD protocol allows you to have the results of a query without actually running the query, getting the instant population of lists with tens of thousands of records.
+
+2. __Front-end SPA+MDI__<br>
+![MDI](https://raw.githubusercontent.com/cambusa/corsaro/master/screenshot01.png)
+
+3. __Arrow-Oriented Modeling__<br>
+   * _"Object"_ is any entity that has a master data "individuality": people, companies, offices, accounts, locations, ...<br>
+   * _"Genre"_, instead, is an entity without individuality that is treated in amount.<br>
+   * _"Motive"_ is the reason why a genre is transferred.<br>
+   * _"Arrow"_ is a transfer between two objects of a genre for a motive.<br>
+   * _"Quiver"_ is a collection of arrows which describe a fully context. 
+
+4. __Supported databases__
+   * Oracle
+   * SQL Server
+   * MySQL
+   * DB2
+   * SQLite
+
+
+
+
+
 
