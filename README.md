@@ -1,5 +1,5 @@
-Corsaro 1.59 © 2014 Rodolfo Calzetti
-====================================
+Corsaro © 2014 Rodolfo Calzetti
+===============================
 
 Web-based Enterprise Resource Planning
 
@@ -64,8 +64,8 @@ The LAD protocol allows you to have the results of a query without actually runn
 3. __Arrow-Oriented Modeling__<br>
    * _"Object"_ is any entity that has a master data "individuality": people, companies, offices, accounts, locations, ...<br>
    * _"Genre"_, instead, is an entity without individuality that is treated in amount.<br>
-   * _"Motive"_ is the reason why a genre is transferred.<br>
-   * _"Arrow"_ is a transfer between two objects of a genre for a motive.<br>
+   * _"Motive"_ is the reason for which a genre is transferred.<br>
+   * _"Arrow"_ is a transfer between two objects of a genre because a motive.<br>
    * _"Quiver"_ is a collection of arrows which describe a fully context. 
 
 4. __Supported databases__
@@ -75,8 +75,20 @@ The LAD protocol allows you to have the results of a query without actually runn
    * DB2
    * SQLite
 
+---
 
+ToDo
+====
 
+1. Attribution of the _"babelcodes"_ for the localization.<br>
+   <code>...</code><br>
+   <code>\<div relid="LB\_NOME" __babelcode="NAME"__\>\</div\>\<div relid="NOME"\>\</div\> </code><br>
+   <code>\<div relid="LB\_COGNOME" __babelcode="SURNAME"__\>\</div\>\<div relid="COGNOME"\>\</div\> </code><br>
+   <code>... </code>
+
+2. New JS queue management requests.
+
+3. Quiver: provide a parameter _"module"_ as a namespace.
 
 
 
