@@ -118,7 +118,9 @@ var _ryquebusy=false;
             if(settings.selection!=missing){propselection=settings.selection}
             if(settings.from!=missing){propfrom=settings.from}
             if(settings.where!=missing){propwhere=settings.where}
-            if(settings.orderby!=missing){proporderby=settings.orderby}
+            if(settings.orderby!=missing){
+                proporderby=settings.orderby.replace(/(^|,| )DESCRIPTION($|,| )/ig, "$1[:UPPER(DESCRIPTION)]$2");
+            }
             if(settings.args!=missing){propargs=settings.args}
             if(settings.clause!=missing){propclause=settings.clause}
             if(settings.limit!=missing){proplimit=settings.limit}
