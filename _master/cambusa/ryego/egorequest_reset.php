@@ -28,11 +28,16 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Richiesta inoltrata: controllare la casella di posta";
+    $babelcode="EGO_MSG_REQSUCCESSFUL";
     
-    if($user!=""){
-        // APRO IL DATABASE
-        $maestro=maestro_opendb("ryego");
-        if($maestro->conn!==false){
+    if(isset($_COOKIE['_egolanguage'])){
+        $global_lastlanguage=$_COOKIE['_egolanguage'];
+    }
+
+    // APRO IL DATABASE
+    $maestro=maestro_opendb("ryego");
+    if($maestro->conn!==false){
+        if($user!=""){
             $userupper=strtoupper(ryqEscapize($user));
             $sql="SELECT EGOALIASES.SYSID AS ALIASID, EGOALIASES.USERID AS USERID, EGOUSERS.ACTIVE AS ACTIVE, EGOUSERS.REQUESTTIME AS REQUESTTIME FROM EGOALIASES INNER JOIN EGOUSERS ON EGOUSERS.SYSID=EGOALIASES.USERID WHERE [:UPPER(EGOALIASES.NAME)]='$userupper' AND EGOALIASES.EMAIL<>''";
             maestro_query($maestro, $sql, $v);
@@ -73,46 +78,56 @@ try{
                             if(!maestro_execute($maestro, $sql, false)){
                                 $success=0;
                                 $description=$maestro->errdescr;
+                                $babelcode="EGO_MSG_UNDEFINED";
                             }
                         }
                         else{
                             $success=0;
-                            $description="Invio email fallito:".$m["description"];
+                            $description="Sending email failed:".$m["description"];
+                            $babelcode="EGO_MSG_UNDEFINED";
                         }
                     }
                     else{
                         $success=0;
                         $description="Una richiesta è già stata inoltrata";
+                        $babelcode="EGO_MSG_ALREADYSENT";
                     }
                 }
                 else{
                     $success=0;
                     $description="Utente disattivato";
+                    $babelcode="EGO_MSG_DISABLEDUSER";
                 }
             }
             else{
                 $success=0;
                 $description="Utente/email inesistente";
+                $babelcode="EGO_MSG_NOUSEROREMAIL";
             }
         }
         else{
-            // CONNESSIONE FALLITA
             $success=0;
-            $description=$maestro->errdescr;
+            $description="Specificare un nome utente o alias";
+            $babelcode="EGO_MSG_MANDATORYUSERALIAS";
         }
-        
-        // CHIUDO IL DATABASE
-        maestro_closedb($maestro);
     }
     else{
+        // CONNESSIONE FALLITA
         $success=0;
-        $description="Specificare un nome utente o alias";
+        $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
     }
+    
+    // CHIUDO IL DATABASE
+    maestro_closedb($maestro);
 }
 catch(Exception $e){
     $success=0;
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
 }
+
+$description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();

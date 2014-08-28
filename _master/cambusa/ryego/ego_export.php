@@ -51,16 +51,19 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Operazione effettuata";
+    $babelcode="EGO_MSG_SUCCESSFUL";
     
     $infos=array( "USERS" => array(), "ROLES" => array());
 
     // APRO IL DATABASE
     $maestro=maestro_opendb("ryego");
     if($maestro->conn!==false){
+
         // CONTROLLO VALIDITA' SESSIONE
-        if(ego_validatesession($maestro, $sessionid, false, "export")==false){
+        if(ego_validatesession($maestro, $sessionid, true, "export")==false){
             $success=0;
             $description="Sessione non valida";
+            $babelcode="EGO_MSG_INVALIDSESSION";
         }
 
         if($success){
@@ -85,6 +88,7 @@ try{
         // CONNESSIONE FALLITA
         $success=0;
         $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
     }
     // CHIUDO IL DATABASE
     maestro_closedb($maestro);
@@ -93,11 +97,14 @@ catch(Exception $e){
     $success=0;
     $sessionid="";
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
 }
 
 if($success==0){
     $infos=array( "USERS" => array(), "ROLES" => array());
 }
+
+$description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();

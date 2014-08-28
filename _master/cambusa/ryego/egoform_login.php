@@ -12,6 +12,7 @@
 ?>
 <script>
 _sessionid="<?php print $sessionid ?>";
+var egolanguage="<?php print $egolanguage ?>";
 var user;
 var pwd;
 var chksetup;
@@ -79,10 +80,12 @@ $(document).ready(function(){
                             $("body").html("<form id='nextaction' method='POST' action=''></form>");
                             $("#nextaction").append("<input type='hidden' id='app' name='app'>");
                             $("#nextaction").append("<input type='hidden' id='sessionid' name='sessionid'>");
+                            $("#nextaction").append("<input type='hidden' id='aliasid' name='aliasid'>");
                             $("#nextaction").append("<input type='hidden' id='msk' name='msk'>");
                             $("#nextaction").attr({action:"ryego.php"});
                             $("#app").val("");
                             $("#sessionid").val(v.sessionid);
+                            $("#aliasid").val(v.aliasid);
                             $("#msk").val("setup");
                             $("#nextaction").submit();
 <?php 
@@ -136,7 +139,7 @@ $(document).ready(function(){
         click:function(o){
             var u=user.value();
             if(u!=""){
-                if(confirm("Reimpostare la password dell'utente "+u+"?")){
+                if(confirm(RYBOX.getbabel("lbsendpwd", [u]))){
                     $.post("egorequest_reset.php", {"user":_ajaxescapize(u)},
                         function(d){
                             try{
@@ -151,13 +154,30 @@ $(document).ready(function(){
                 }
             }
             else{
-                sysmessage("Inserire un nome utente o alias",0);
+                sysmessage(RYBOX.getbabel("lbmandatoryuser"), 0);
             }
         }
     });
-    
-    $("#txalias_anchor").focus();
+    egoinitialize();
 });
+function egoinitialize(missing){
+    $("#lbauthenticationservice").rylabel({caption:"Servizio di autenticazione"});
+    $("#lbsendpwd").rylabel({caption:"Reimpostare la password dell'utente {1}?"});
+    $("#lbmandatoryuser").rylabel({caption:"Inserire un nome utente o alias"});
+    if(egolanguage!="default"){
+        RYBOX.localize(egolanguage, missing,
+            function(){
+                var t=RYBOX.getbabel("lbauthenticationservice");
+                $("title").html(t);
+                $("#egotitle").html(t);
+                $("#txalias_anchor").focus();
+            }
+        );
+    }
+    else{
+        $("#txalias_anchor").focus();
+    }
+}
 function egoterminate(lout){
     //
 }

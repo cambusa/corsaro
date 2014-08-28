@@ -12,6 +12,8 @@
 ?>
 <script>
 _sessionid="<?php print $sessionid ?>";
+var _aliasid="<?php print $aliasid ?>";
+var flaginit=true;
 var objgridusers;
 var objgridapplications;
 var objgridenvirons;
@@ -74,6 +76,7 @@ var objroleusr_filter;
 
 // LANGUAGES
 var currlang="";
+var currlangid="";
 var objlng_refresh;
 var objlng_lang;
 var objlng_descr;
@@ -135,7 +138,30 @@ $(document).ready(function(){
         location.replace("ryego.php");
     }
 });
-function config(){
+function config(missing){
+    // BABEL MESSAGES
+    $("#lbselectsession").rylabel({caption:"Selezionare una sessione"});
+    $("#lbconfirmdelsessions").rylabel({caption:"Eliminare tutte le sessioni scadute?"});
+    $("#lbconfirmresetpwd").rylabel({caption:"Ripristinare la password predefinita per l'utente selezionato?"});
+    $("#lbconfirmdelalias").rylabel({caption:"Eliminare l'alias selezionato?"});
+    $("#lbconfirmdelusers").rylabel({caption:"Eliminare tutti gli utenti disattivati?"});
+    $("#lbconfirmdelapp").rylabel({caption:"Eliminare l'applicazione selezionata?"});
+    $("#lbconfirmdelenviron").rylabel({caption:"Eliminare l'ambiente selezionato?"});
+    $("#lbconfirmdelrole").rylabel({caption:"Eliminare il ruolo selezionato?"});
+    $("#lbconfirmdellang").rylabel({caption:"Eliminare la lingua selezionata?"});
+    $("#lbside_settings").rylabel({caption:"Opzioni"});
+    $("#lbside_users").rylabel({caption:"Utenti"});
+    $("#lbside_applications").rylabel({caption:"Applicazioni"});
+    $("#lbside_languages").rylabel({caption:"Lingue"});
+    $("#lbside_sessions").rylabel({caption:"Sessioni"});
+    $("#lbside_changepassword").rylabel({caption:"Cambio password"});
+    $("#lbauthenticationservice").rylabel({caption:"Servizio di autenticazione"});
+    $("#lbtabapplications").rylabel({caption:"Applicazioni"});
+    $("#lbtabenvirons").rylabel({caption:"Ambienti"});
+    $("#lbtabenvusers").rylabel({caption:"Ambiente/Utenti"});
+    $("#lbtabroles").rylabel({caption:"Ruoli"});
+    $("#lbtabroleusers").rylabel({caption:"Ruolo/Utenti"});
+    
     activation('<?php print $active ?>');
 
     // INIZIO FORM OPZIONI
@@ -154,7 +180,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -179,7 +205,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -205,7 +231,7 @@ function config(){
                 }, 
                 function(d){
                     var v=$.parseJSON(d);
-                    sysmessage(v.description,v.success);
+                    sysmessage(v.description, v.success);
                 }
             );
         }
@@ -224,7 +250,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -248,7 +274,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -272,7 +298,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -296,7 +322,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -320,7 +346,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -332,133 +358,6 @@ function config(){
     });
     // FINE FORM OPZIONI
 
-    // INIZIO FORM SESSIONI
-    objgridsessions=$("#gridsessions").ryque({
-        left:0,
-        top:40,
-        width:400,
-        height:350,
-        numbered:false,
-        checkable:false,
-        environ:"ryego",
-        from:"EGOVIEWSESSIONS",
-        columns:[
-            {id:"USERNAME", caption:"Utente", width:180},
-            {id:"BEGINTIME", caption:"Inizio", width:180, type:":"},
-            {id:"ACTIVE", caption:"", width:20, type:"?"}
-        ]
-    });
-    $("#lbses_only").rylabel({left:420,top:40,caption:"Solo attive"});
-    objses_only=$("#chkses_only").rycheck({
-        left:500,
-        top:40,
-        assigned:function(o){
-            objses_refresh.engage();
-        }
-    });
-    objses_only.value(true);
-    objses_filter=$("#lbses_filter").rylabel({left:540, top:40, caption:""}); 
-    objses_refresh=$("#lbses_refresh").rylabel({
-        left:420,
-        top:60,
-        caption:"Aggiorna",
-        button:true,
-        flat:true,
-        click:function(o, done, missing){
-            var q="";
-            var t=objusr_filter.value();
-            if(t.length<=6)
-                objses_filter.caption(t+"*");
-            else
-                objses_filter.caption(t.substr(0,6)+"...");
-            t=t.toUpperCase().replace(" ", "%");
-            if(t!=""){
-                if(q!=""){q+=" AND "}
-                q+="( [:UPPER(USERNAME)] LIKE '[=USERNAME]%' )";
-            }
-            if(objses_only.value()){
-                if(q!=""){q+=" AND "}
-                q+="ENDTIME IS NULL AND [:DATE(RENEWALTIME, 1DAYS)]>[:TODAY()]";
-            }
-            objgridsessions.where(q);
-            objgridsessions.query({
-                args:{
-                    "USERNAME":_ajaxescapize( t )
-                },
-                orderby:"SYSID",
-                ready:function(){
-                    if(done!=missing){done()}
-                }
-            });
-        }
-    });
-    $("#lbses_action_close").rylabel({
-        left:420,
-        top:120,
-        caption:"Chiudi sessione selezionata",
-        button:true,
-        flat:true,
-        click:function(o){
-            var ind=objgridsessions.index();
-            if(ind>0){
-                syswaiting();
-                objgridsessions.solveid(ind, function(o,sid){
-                    $.post(_cambusaURL+"ryego/ego_logout.php", 
-                        {
-                            sessionid:sid
-                        }, 
-                        function(d){
-                            try{
-                                var v=$.parseJSON(d);
-                                sysmessage(v.description,v.success);
-                                if(v.success)
-                                    objses_refresh.engage();
-                            }
-                            catch(e){
-                                sysmessagehide();
-                                alert(d);
-                            }
-                        }
-                    );
-                });
-            }
-            else{
-                sysmessage("Selezionare una sessione",0);
-            }
-        }
-    });
-    $("#lbses_action_deleteall").rylabel({
-        left:420,
-        top:150,
-        caption:"Elimina sessioni scadute",
-        button:true,
-        flat:true,
-        click:function(o){
-            if(confirm("Eliminare tutte le sessioni scadute?")){
-                syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_sessions.php", 
-                    {
-                        action:"deleteall",
-                        sessionid:_sessionid
-                    }, 
-                    function(d){
-                        try{
-                            var v=$.parseJSON(d);
-                            sysmessage(v.description,v.success);
-                            if(v.success)
-                                objses_refresh.engage();
-                        }
-                        catch(e){
-                            sysmessagehide();
-                            alert(d);
-                        }
-                    }
-                );
-            }
-        }
-    });
-    // FINE FORM SESSIONI
-    
     // INIZIO FORM USERS
     objgridusers=$("#gridusers").ryque({
         left:0,
@@ -471,8 +370,8 @@ function config(){
         from:"EGOVIEWUSERS",
         orderby:"USERNAME,ALIASNAME",
         columns:[
-            {id:"ALIASNAME", caption:"Alias", width:180},
-            {id:"USERNAME", caption:"Utente", width:180},
+            {id:"ALIASNAME", caption:"Alias", width:180, code:"EGO_GRID_ALIAS"},
+            {id:"USERNAME", caption:"Utente", width:180, code:"EGO_GRID_USER"},
             {id:"ACTIVE", caption:"", width:20, type:"?"}
         ],
         changerow:function(o,i){
@@ -584,7 +483,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objusr_refresh.engage();
                     }
@@ -617,7 +516,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objusr_refresh.engage();
                     }
@@ -650,7 +549,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objusr_refresh.engage();
                     }
@@ -670,7 +569,7 @@ function config(){
         button:true,
         flat:true,
         click:function(o){
-            if(confirm("Ripristinare la password predefinita per l'utente selezionato?")){
+            if(confirm(RYBOX.getbabel("lbconfirmresetpwd"))){
                 syswaiting();
                 $.post(_cambusaURL+"ryego/egoaction_users.php", 
                     {
@@ -681,7 +580,7 @@ function config(){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            sysmessage(v.description,v.success);
+                            sysmessage(v.description, v.success);
                             if(v.success)
                                 objusr_refresh.engage();
                         }
@@ -711,7 +610,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objusr_refresh.engage();
                     }
@@ -730,7 +629,7 @@ function config(){
         button:true,
         flat:true,
         click:function(o){
-            if(confirm("Eliminare l'alias selezionato?")){
+            if(confirm(RYBOX.getbabel("lbconfirmdelalias"))){
                 syswaiting();
                 $.post(_cambusaURL+"ryego/egoaction_users.php", 
                     {
@@ -741,7 +640,7 @@ function config(){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            sysmessage(v.description,v.success);
+                            sysmessage(v.description, v.success);
                             if(v.success)
                                 objusr_refresh.engage();
                         }
@@ -761,7 +660,7 @@ function config(){
         button:true,
         flat:true,
         click:function(o){
-            if(confirm("Eliminare tutti gli utenti disattivati?")){
+            if(confirm(RYBOX.getbabel("lbconfirmdelusers"))){
                 syswaiting();
                 $.post(_cambusaURL+"ryego/egoaction_users.php", 
                     {
@@ -771,7 +670,7 @@ function config(){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            sysmessage(v.description,v.success);
+                            sysmessage(v.description, v.success);
                             if(v.success)
                                 objusr_refresh.engage();
                         }
@@ -805,7 +704,7 @@ function config(){
         environ:"ryego",
         from:"EGOAPPLICATIONS",
         columns:[
-            {id:"NAME", caption:"Applicazione", width:200}
+            {id:"NAME", caption:"Applicazione", width:200, code:"EGO_GRID_APP"}
         ],
         changerow:function(o,i){
             objapp_name.clear();
@@ -899,7 +798,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objapp_refresh.engage();
                     }
@@ -930,7 +829,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objapp_refresh.engage();
                     }
@@ -950,7 +849,7 @@ function config(){
         button:true,
         flat:true,
         click:function(o){
-            if(confirm("Eliminare l'applicazione selezionata?")){
+            if(confirm(RYBOX.getbabel("lbconfirmdelapp"))){
                 syswaiting();
                 $.post(_cambusaURL+"ryego/egoaction_apps.php", 
                     {
@@ -961,7 +860,7 @@ function config(){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            sysmessage(v.description,v.success);
+                            sysmessage(v.description, v.success);
                             if(v.success)
                                 objapp_refresh.engage();
                         }
@@ -987,8 +886,8 @@ function config(){
         environ:"ryego",
         from:"EGOENVIRONS",
         columns:[
-            {id:"NAME", caption:"Nome", width:200},
-            {id:"DESCRIPTION", caption:"Descrizione", width:200}
+            {id:"NAME", caption:"Nome", width:200, code:"EGO_GRID_NAME"},
+            {id:"DESCRIPTION", caption:"Descrizione", width:200, code:"EGO_GRID_DESCR"}
         ],
         changerow:function(o,i){
             objenv_name.clear();
@@ -1069,7 +968,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objenv_refresh.engage();
                     }
@@ -1101,7 +1000,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objenv_refresh.engage();
                     }
@@ -1121,7 +1020,7 @@ function config(){
         button:true,
         flat:true,
         click:function(o){
-            if(confirm("Eliminare l'ambiente selezionato?")){
+            if(confirm(RYBOX.getbabel("lbconfirmdelenviron"))){
                 syswaiting();
                 $.post(_cambusaURL+"ryego/egoaction_environs.php", 
                     {
@@ -1133,7 +1032,7 @@ function config(){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            sysmessage(v.description,v.success);
+                            sysmessage(v.description, v.success);
                             if(v.success)
                                 objenv_refresh.engage();
                         }
@@ -1159,7 +1058,7 @@ function config(){
         environ:"ryego",
         from:"EGOVIEWUSERS",
         columns:[
-            {id:"USERNAME", caption:"Utenti fuori ambiente", width:200}
+            {id:"USERNAME", caption:"Utenti fuori ambiente", width:200, code:"EGO_GRID_OUTENV"}
         ],
         solveid:function(o,y){
             // Sto aggiungendo
@@ -1175,7 +1074,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objenvusr_refresh.engage();
                     }
@@ -1197,7 +1096,7 @@ function config(){
         environ:"ryego",
         from:"EGOVIEWENVIRONUSER",
         columns:[
-            {id:"USERNAME", caption:"Utenti in ambiente", width:200}
+            {id:"USERNAME", caption:"Utenti in ambiente", width:200, code:"EGO_GRID_INENV"}
         ],
         solveid:function(o,y){
             // Sto togliendo
@@ -1213,7 +1112,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objenvusr_refresh.engage();
                     }
@@ -1301,8 +1200,8 @@ function config(){
         environ:"ryego",
         from:"EGOROLES",
         columns:[
-            {id:"NAME", caption:"Nome", width:200},
-            {id:"DESCRIPTION", caption:"Descrizione", width:200}
+            {id:"NAME", caption:"Nome", width:200, code:"EGO_GRID_NAME"},
+            {id:"DESCRIPTION", caption:"Descrizione", width:200, code:"EGO_GRID_DESCR"}
         ],
         changerow:function(o,i){
             objrole_name.clear();
@@ -1383,7 +1282,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objrole_refresh.engage();
                     }
@@ -1415,7 +1314,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objrole_refresh.engage();
                     }
@@ -1435,7 +1334,7 @@ function config(){
         button:true,
         flat:true,
         click:function(o){
-            if(confirm("Eliminare il ruolo selezionato?")){
+            if(confirm(RYBOX.getbabel("lbconfirmdelrole"))){
                 syswaiting();
                 $.post(_cambusaURL+"ryego/egoaction_roles.php", 
                     {
@@ -1447,7 +1346,7 @@ function config(){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            sysmessage(v.description,v.success);
+                            sysmessage(v.description, v.success);
                             if(v.success)
                                 objrole_refresh.engage();
                         }
@@ -1473,7 +1372,7 @@ function config(){
         environ:"ryego",
         from:"EGOVIEWUSERS",
         columns:[
-            {id:"USERNAME", caption:"Utenti senza ruolo", width:200}
+            {id:"USERNAME", caption:"Utenti senza ruolo", width:200, code:"EGO_GRID_OUTROLE"}
         ],
         solveid:function(o,y){
             // Sto aggiungendo
@@ -1489,7 +1388,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objroleusr_refresh.engage();
                     }
@@ -1511,7 +1410,7 @@ function config(){
         environ:"ryego",
         from:"EGOVIEWROLEUSER",
         columns:[
-            {id:"USERNAME", caption:"Utenti con ruolo", width:200}
+            {id:"USERNAME", caption:"Utenti con ruolo", width:200, code:"EGO_GRID_INROLE"}
         ],
         solveid:function(o,y){
             // Sto togliendo
@@ -1527,7 +1426,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objroleusr_refresh.engage();
                     }
@@ -1617,12 +1516,13 @@ function config(){
         environ:"ryego",
         from:"EGOLANGUAGES",
         columns:[
-            {id:"DESCRIPTION", caption:"Lingua", width:200}
+            {id:"DESCRIPTION", caption:"Lingua", width:200, code:"EGO_GRID_LANG"}
         ],
         changerow:function(o,i){
             objlng_lang.clear();
             objlng_descr.clear();
             currlang="";
+            currlangid="";
             if(i>0)
                 objgridlanguages.solveid(i);
         },
@@ -1631,8 +1531,17 @@ function config(){
                 sql:"SELECT NAME,DESCRIPTION FROM EGOLANGUAGES WHERE SYSID='"+d+"'",
                 ready:function(v){
                     currlang=v[0].NAME;
+                    currlangid=d;
                     objlng_lang.value(v[0].NAME);
                     objlng_descr.value(v[0].DESCRIPTION);
+                    if(flaginit){
+                        flaginit=false;
+                        RYBOX.localize(currlang, missing,
+                            function(){
+                                postlocalize();
+                            }
+                        );
+                    }
                 }
             });
         }
@@ -1682,7 +1591,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objlng_refresh.engage();
                     }
@@ -1713,7 +1622,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success)
                             objlng_refresh.engage();
                     }
@@ -1721,6 +1630,27 @@ function config(){
                         sysmessagehide();
                         alert(d);
                     }
+                }
+            );
+        }
+    });
+    $("#lblng_action_apply").rylabel({
+        left:420,
+        top:260,
+        caption:"Applica",
+        button:true,
+        flat:true,
+        click:function(o){
+            syswaiting();
+            RYBOX.localize(currlang, missing,
+                function(){
+                    $.post(_cambusaURL+"ryego/egoaction_last.php", 
+                        {"sessionid":_sessionid,"appid":"","aliasid":_aliasid,"languageid":currlangid}, 
+                        function(){
+                            postlocalize();
+                            sysmessagehide();
+                        }
+                    );
                 }
             );
         }
@@ -1733,7 +1663,7 @@ function config(){
         button:true,
         flat:true,
         click:function(o){
-            if(confirm("Eliminare la lingua selezionata?")){
+            if(confirm(RYBOX.getbabel("lbconfirmdellang"))){
                 syswaiting();
                 $.post(_cambusaURL+"ryego/egoaction_langs.php", 
                     {
@@ -1744,7 +1674,7 @@ function config(){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            sysmessage(v.description,v.success);
+                            sysmessage(v.description, v.success);
                             if(v.success)
                                 objlng_refresh.engage();
                         }
@@ -1759,22 +1689,149 @@ function config(){
     });
     // FINE FORM LANGUAGES
     
+    // INIZIO FORM SESSIONI
+    objgridsessions=$("#gridsessions").ryque({
+        left:0,
+        top:40,
+        width:400,
+        height:350,
+        numbered:false,
+        checkable:false,
+        environ:"ryego",
+        from:"EGOVIEWSESSIONS",
+        columns:[
+            {id:"USERNAME", caption:"Utente", width:180, code:"EGO_GRID_USER"},
+            {id:"BEGINTIME", caption:"Inizio", width:180, type:":", code:"EGO_GRID_BEGIN"},
+            {id:"ACTIVE", caption:"", width:20, type:"?"}
+        ]
+    });
+    $("#lbses_only").rylabel({left:420,top:40,caption:"Solo attive"});
+    objses_only=$("#chkses_only").rycheck({
+        left:500,
+        top:40,
+        assigned:function(o){
+            objses_refresh.engage();
+        }
+    });
+    objses_only.value(true);
+    objses_filter=$("#lbses_filter").rylabel({left:540, top:40, caption:""}); 
+    objses_refresh=$("#lbses_refresh").rylabel({
+        left:420,
+        top:60,
+        caption:"Aggiorna",
+        button:true,
+        flat:true,
+        click:function(o, done){
+            var q="";
+            var t=objusr_filter.value();
+            if(t.length<=6)
+                objses_filter.caption(t+"*");
+            else
+                objses_filter.caption(t.substr(0,6)+"...");
+            t=t.toUpperCase().replace(" ", "%");
+            if(t!=""){
+                if(q!=""){q+=" AND "}
+                q+="( [:UPPER(USERNAME)] LIKE '[=USERNAME]%' )";
+            }
+            if(objses_only.value()){
+                if(q!=""){q+=" AND "}
+                q+="ENDTIME IS NULL AND [:DATE(RENEWALTIME, 1DAYS)]>[:TODAY()]";
+            }
+            objgridsessions.where(q);
+            objgridsessions.query({
+                args:{
+                    "USERNAME":_ajaxescapize( t )
+                },
+                orderby:"SYSID",
+                ready:function(){
+                    if(done!=missing){done()}
+                }
+            });
+        }
+    });
+    $("#lbses_action_close").rylabel({
+        left:420,
+        top:120,
+        caption:"Chiudi sessione selezionata",
+        button:true,
+        flat:true,
+        click:function(o){
+            var ind=objgridsessions.index();
+            if(ind>0){
+                syswaiting();
+                objgridsessions.solveid(ind, function(o,sid){
+                    $.post(_cambusaURL+"ryego/ego_logout.php", 
+                        {
+                            sessionid:sid
+                        }, 
+                        function(d){
+                            try{
+                                var v=$.parseJSON(d);
+                                sysmessage(v.description, v.success);
+                                if(v.success)
+                                    objses_refresh.engage();
+                            }
+                            catch(e){
+                                sysmessagehide();
+                                alert(d);
+                            }
+                        }
+                    );
+                });
+            }
+            else{
+                sysmessage(RYBOX.getbabel("lbselectsession"), 0);
+            }
+        }
+    });
+    $("#lbses_action_deleteall").rylabel({
+        left:420,
+        top:150,
+        caption:"Elimina sessioni scadute",
+        button:true,
+        flat:true,
+        click:function(o){
+            if(confirm(RYBOX.getbabel("lbconfirmdelsessions"))){
+                syswaiting();
+                $.post(_cambusaURL+"ryego/egoaction_sessions.php", 
+                    {
+                        action:"deleteall",
+                        sessionid:_sessionid
+                    }, 
+                    function(d){
+                        try{
+                            var v=$.parseJSON(d);
+                            sysmessage(v.description, v.success);
+                            if(v.success)
+                                objses_refresh.engage();
+                        }
+                        catch(e){
+                            sysmessagehide();
+                            alert(d);
+                        }
+                    }
+                );
+            }
+        }
+    });
+    // FINE FORM SESSIONI
+    
     // INIZIO FORM PASSWORD
-    $("#lbcurrpwd").rylabel({left:20,top:100,caption:"Password attuale"});
+    $("#lbcurrpwd").rylabel({left:20, top:100, caption:"Password attuale"});
     objcurrpwd=$("#txcurrpwd").rytext({ 
         left:180,
         top:100, 
         password:true,
         maxlen:16
     });
-    $("#lbnewpwd").rylabel({left:20,top:130,caption:"Nuova password"});
+    $("#lbnewpwd").rylabel({left:20, top:130, caption:"Nuova password"});
     objnewpwd=$("#txnewpwd").rytext({ 
         left:180,
         top:130, 
         password:true,
         maxlen:16
     });
-    $("#lbrepeatpwd").rylabel({left:20,top:160,caption:"Ripeti password"});
+    $("#lbrepeatpwd").rylabel({left:20, top:160, caption:"Ripeti password"});
     objrepeatpwd=$("#txrepeatpwd").rytext({ 
         left:180,
         top:160, 
@@ -1808,7 +1865,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success){
                             objcurrpwd.clear();
                             objnewpwd.clear();
@@ -1832,9 +1889,47 @@ function config(){
         }
     });
     // FINE FORM PASSWORD
+
     // CARICAMENTO DATI
     syswaiting();
     setTimeout("loading()",500);
+}
+function postlocalize(){
+    var t;
+    
+    t=RYBOX.getbabel("lbside_settings");
+    $("#side_settings").html(t);
+    $("#settings .form-title").html(t.toUpperCase());
+    
+    t=RYBOX.getbabel("lbside_users");
+    $("#side_users").html(t);
+    $("#users .form-title").html(t.toUpperCase());
+    
+    t=RYBOX.getbabel("lbside_applications");
+    $("#side_applications").html(t);
+    $("#applications .form-title").html(t.toUpperCase());
+    
+    t=RYBOX.getbabel("lbside_languages");
+    $("#side_languages").html(RYBOX.getbabel("lbside_languages"));
+    $("#languages .form-title").html(t.toUpperCase());
+    
+    t=RYBOX.getbabel("lbside_sessions");
+    $("#side_sessions").html(RYBOX.getbabel("lbside_sessions"));
+    $("#sessions .form-title").html(t.toUpperCase());
+    
+    t=RYBOX.getbabel("lbside_changepassword");
+    $("#side_changepassword").html(RYBOX.getbabel("lbside_changepassword"));
+    $("#changepassword .form-title").html(t.toUpperCase());
+
+    t=RYBOX.getbabel("lbauthenticationservice");
+    $("title").html(t);
+    $("#egotitle").html(t);
+    
+    $("#tabapplications").html(RYBOX.getbabel("lbtabapplications"));
+    $("#tabenvirons").html(RYBOX.getbabel("lbtabenvirons"));
+    $("#tabenvusers").html(RYBOX.getbabel("lbtabenvusers"));
+    $("#tabroles").html(RYBOX.getbabel("lbtabroles"));
+    $("#tabroleusers").html(RYBOX.getbabel("lbtabroleusers"));
 }
 // CARICAMENTO MASCHERA
 function loading(){
@@ -1883,7 +1978,21 @@ function loading(){
                                         ready:function(v){
                                             objses_refresh.engage(
                                                 function(){
-                                                    sysmessagehide();
+                                                    RYQUE.query({   // Caricamento Setup per la lingua
+                                                        sql:"SELECT LANGUAGEID FROM EGOSETUP WHERE APPID='' AND ALIASID='"+_aliasid+"'",
+                                                        ready:function(v){
+                                                            if(v.length>0){
+                                                                objgridlanguages.selbyid(v[0]["LANGUAGEID"], true,
+                                                                    function(){
+                                                                        sysmessagehide();
+                                                                    }
+                                                                );
+                                                            }
+                                                            else{
+                                                                sysmessagehide();
+                                                            }
+                                                        }
+                                                    });
                                                 }
                                             );
                                         }

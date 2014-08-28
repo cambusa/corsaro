@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Equivalenze",
-    "params":{
-        "name":"qvequivalences",
-        "path":"qvrelazioni/",
-        "title":"Equivalenze"
-    }
-}

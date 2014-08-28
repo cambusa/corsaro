@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Statistiche",
+    "babelcode":"MN_STATISTICS",
+    "params":{
+        "name":"qvstatistiche",
+        "path":"qvcontenuti/",
+        "title":"Statistiche"
+    }
+}

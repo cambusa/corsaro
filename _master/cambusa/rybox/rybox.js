@@ -2459,7 +2459,7 @@ function ryBox(){
                     case "label":
                     case "button":
                         if(solveparent(o,parentid)){
-                            if((c=o.babelcode())!=""){
+                            if((c=o.babelcode())>""){
                                 if(k!=""){k+="|"}
                                 k+=c;
                             }
@@ -2468,7 +2468,7 @@ function ryBox(){
                     case "list":
                         if(solveparent(o,parentid)){
                             for(j=1;j<=o.count();j++){
-                                if((c=o.babelcode(j))!=""){
+                                if((c=o.babelcode(j))>""){
                                     if(k!=""){k+="|"}
                                     k+=c;
                                 }
@@ -2478,7 +2478,7 @@ function ryBox(){
                     case "grid":
                         if(solveparent(o,parentid)){
                             for(j=1;j<=o.columns();j++){
-                                if((c=o.babelcode(j))!=""){
+                                if((c=o.babelcode(j))>""){
                                     if(k!=""){k+="|"}
                                     k+=c;
                                 }
@@ -2488,7 +2488,7 @@ function ryBox(){
                     case "tabs":
                         if(solveparent(o,parentid)){
                             for(j=1;j<=o.tabs();j++){
-                                if((c=o.babelcode(j))!=""){
+                                if((c=o.babelcode(j))>""){
                                     if(k!=""){k+="|"}
                                     k+=c;
                                 }
@@ -2509,7 +2509,7 @@ function ryBox(){
                                     case "label":
                                     case "button":
                                         if(solveparent(o,parentid)){
-                                            if((c=o.babelcode())!=""){
+                                            if((c=o.babelcode())>""){
                                                 t=v[c];
                                                 if(t.length>0 && t.length<=255)
                                                     o.caption(t);
@@ -2519,7 +2519,7 @@ function ryBox(){
                                     case "list":
                                         if(solveparent(o,parentid)){
                                             for(j=1;j<=o.count();j++){
-                                                if((c=o.babelcode(j))!=""){
+                                                if((c=o.babelcode(j))>""){
                                                     t=v[c];
                                                     if(t.length>0 && t.length<=255)
                                                         o.caption(j,t);
@@ -2530,7 +2530,7 @@ function ryBox(){
                                     case "grid":
                                         if(solveparent(o,parentid)){
                                             for(j=1;j<=o.columns();j++){
-                                                if((c=o.babelcode(j))!=""){
+                                                if((c=o.babelcode(j))>""){
                                                     t=v[c];
                                                     if(t.length>0 && t.length<=255)
                                                         o.caption(j,t);
@@ -2541,7 +2541,7 @@ function ryBox(){
                                     case "tabs":
                                         if(solveparent(o,parentid)){
                                             for(j=1;j<=o.tabs();j++){
-                                                if((c=o.babelcode(j))!=""){
+                                                if((c=o.babelcode(j))>""){
                                                     t=v[c];
                                                     if(t.length>0 && t.length<=255)
                                                         o.caption(j,t);
@@ -2566,6 +2566,20 @@ function ryBox(){
         else if(action!=missing){
             setTimeout(function(){action()}, 300);
         }
+    }
+    this.getbabel=function(n, args, missing){
+        var p=$("#"+n+" .rylabel-caption").html();
+        if(args!=missing){
+            if(typeof(args)=="array"){
+                for(var i in arg){
+                    p=p.replace("{"+(i+1)+"}", args[i]);
+                }
+            }
+            else{
+                p=p.replace("{1}", args);
+            }
+        }
+        return p;
     }
     this.createstandard();
     // FUNZIONI PRIVATE

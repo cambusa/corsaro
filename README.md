@@ -33,22 +33,22 @@ Getting started with Corsaro
 
 2. open <code>\projects.php</code>
 
-3. choose a name for the installation (_Progetto_), e.g __demo__
+3. choose a name for the installation (_Project_), e.g __demo__
 
 4. enter the password __badwolf__ (you can change the password in the file <code>\xpassword.php</code>)
 
 5. click <code>demo</code>
 
-6. in the new page <code>Portale Progetto DEMO</code>:<br>
-   * click <code>Monad, Ego, Pulse e dizionari</code><br>
+6. in the new page <code>Home Project DEMO</code>:<br>
+   * click <code>Monad, Ego, Pulse and dictionaries</code><br>
    * click <code>Maestro</code> (utente:__demiurge__, password:__sonoio__)<br>
-     change the password and click <code>Vai all'applicazione</code><br>
-     on second tab <code>Aggiornamento</code>, choose <code>Ambiente demo</code> and click <code>Esegui</code><br>
+     change the password and click <code>Go to application</code><br>
+     on second tab <code>Upgrade</code>, choose <code>[demo]</code> and click <code>Create/Update</code><br>
      logout and close the page
 
-7. on <code>Portale Progetto DEMO</code> click <code>Corsaro</code><br>
-   * click <code>Manutenzione (folder) \ Opzioni (function) \ Manutenzione (tab)</code><br>
-   * click <code>Aggiornamento di tutte le viste</code><br>
+7. on <code>Home Project DEMO</code> click <code>Corsaro</code><br>
+   * click <code>Maintenance (folder) -> Options (item) -> Maintenance (tab)</code><br>
+   * click <code>Refresh all views</code><br>
 
 ---
 

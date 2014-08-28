@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="chrome=1" />
-	<title>Portale Progetti</title>
+	<title>Home Projects</title>
 </head>
 
 <style>
@@ -32,7 +32,7 @@ function cloneproject(){
     var prjpwd=$("#prjpwd").val();
     if(prjname!=""){
         $("#progresspercent").width(1);
-        $("#progresspercent").html("Preparazione&nbsp;copia...");
+        $("#progresspercent").html("Preparing&nbsp;to&nbsp;copy...");
         $("#progressbar").show();
         $.post("xcounter.php", {"project":prjname, "password":prjpwd},
             function(d){
@@ -81,7 +81,7 @@ function cloneproject(){
                             projectlist();
                             $("#progressbar").hide();
                             if(counter==-1){
-                                alert("Password errata!");
+                                alert("Wrong password!");
                             }
                         }, 
                         1000
@@ -91,7 +91,7 @@ function cloneproject(){
         );
     }
     else{
-        alert("Specificare un nome di progetto valido!");
+        alert("Specify a valid project name!");
     }
 }
 function projectlist(){
@@ -110,17 +110,17 @@ function projectlist(){
 <body onload="projectlist()">
 
 <div id="title">
-Manutenzione Progetti
+Maintenance Projects
 </div>
 
 <div id="frame">
 
 <table>
-<tr><td><b>Progetto</b></td><td><input id="prjname" type="text"></td></tr>
+<tr><td><b>Project</b></td><td><input id="prjname" type="text"></td></tr>
 <tr><td><b>Password<b></td><td><input id="prjpwd" type="password"></td></tr>
 </table>
 
-<a id="bottone" href="javascript:" onclick="cloneproject()">Crea/Aggiorna</a>
+<a id="bottone" href="javascript:" onclick="cloneproject()">Create/Update</a>
 
 <div id="progressbar">
     <div id="progresspercent" style="position:absolute;left:0px;top:0px;width:0px;height:20px;background:red;font-size:14px;">
@@ -128,7 +128,7 @@ Manutenzione Progetti
 </div>
 
 <div id="titleattivi">
-Elenco Progetti Attivi
+Active Projects List
 </div>
 
 <div id="projects"></div>

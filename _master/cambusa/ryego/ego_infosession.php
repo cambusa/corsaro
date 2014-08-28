@@ -43,6 +43,7 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Operazione effettuata";
+    $babelcode="EGO_MSG_SUCCESSFUL";
     $appid="";
     $app="";
     $appdescr="";
@@ -62,6 +63,10 @@ try{
     $admin=0;
     $email="";
     $dateformat=0;
+
+    if(isset($_COOKIE['_egolanguage'])){
+        $global_lastlanguage=$_COOKIE['_egolanguage'];
+    }
 
     // APRO IL DATABASE
     $maestro=maestro_opendb("ryego");
@@ -85,55 +90,51 @@ try{
                 if($envid!=""){
                     $sql="SELECT APPID,NAME,DESCRIPTION FROM EGOENVIRONS WHERE SYSID='$envid'";
                     maestro_query($maestro, $sql, $r);
-                    $appid=$r[0]["APPID"];
-                    $environ=$r[0]["NAME"];
-                    $envdescr=$r[0]["DESCRIPTION"];
-                }
-                else{
-                    $appid="";
-                    $environ="";
+                    if(count($r)>0){
+                        $appid=$r[0]["APPID"];
+                        $environ=$r[0]["NAME"];
+                        $envdescr=$r[0]["DESCRIPTION"];
+                    }
                 }
 
                 // Ruolo
                 if($roleid!=""){
                     $sql="SELECT NAME,DESCRIPTION FROM EGOROLES WHERE SYSID='$roleid'";
                     maestro_query($maestro, $sql, $r);
-                    $role=$r[0]["NAME"];
-                    $roledescr=$r[0]["DESCRIPTION"];
-                }
-                else{
-                    $role="";
+                    if(count($r)>0){
+                        $role=$r[0]["NAME"];
+                        $roledescr=$r[0]["DESCRIPTION"];
+                    }
                 }
                 
                 // Lingua
                 if($langid!=""){
                     $sql="SELECT NAME FROM EGOLANGUAGES WHERE SYSID='$langid'";
                     maestro_query($maestro, $sql, $r);
-                    $language=$r[0]["NAME"];
-                }
-                else{
-                    $language="";
+                    if(count($r)>0){
+                        $language=$r[0]["NAME"];
+                    }
                 }
 
                 // Alias
                 $sql="SELECT ALIASNAME,USERID,USERNAME,ADMINISTRATOR,EMAIL FROM EGOVIEWUSERS WHERE SYSID='$aliasid'";
                 maestro_query($maestro, $sql, $r);
-                $alias=$r[0]["ALIASNAME"];
-                $userid=$r[0]["USERID"];
-                $user=$r[0]["USERNAME"];
-                $admin=intval($r[0]["ADMINISTRATOR"]);
-                $email=$r[0]["EMAIL"];
+                if(count($r)>0){
+                    $alias=$r[0]["ALIASNAME"];
+                    $userid=$r[0]["USERID"];
+                    $user=$r[0]["USERNAME"];
+                    $admin=intval($r[0]["ADMINISTRATOR"]);
+                    $email=$r[0]["EMAIL"];
+                }
                 
                 // Applicazione
-                if($langid!=""){
+                if($appid!=""){
                     $sql="SELECT NAME,DESCRIPTION FROM EGOAPPLICATIONS WHERE SYSID='$appid'";
                     maestro_query($maestro, $sql, $r);
-                    $app=$r[0]["NAME"];
-                    $appdescr=$r[0]["DESCRIPTION"];
-                }
-                else{
-                    $app="";
-                    $appdescr="";
+                    if(count($r)>0){
+                        $app=$r[0]["NAME"];
+                        $appdescr=$r[0]["DESCRIPTION"];
+                    }
                 }
                 
                 // Impostazioni internazionali
@@ -147,18 +148,21 @@ try{
                     $success=0;
                     $sessionid="";
                     $description="Autorizzazioni insufficienti";
+                    $babelcode="EGO_MSG_NOAUTHORIZATION";
                 }
             }
             else{
                 $success=0;
                 $sessionid="";
                 $description="L'IP del richiedente è diverso da quello di sessione";
+                $babelcode="EGO_MSG_MISMATCHIP";
             }
         }
         else{
             $success=0;
             $sessionid="";
             $description="Sessione non valida";
+            $babelcode="EGO_MSG_INVALIDSESSION";
         }
     }
     else{
@@ -166,6 +170,7 @@ try{
         $success=0;
         $sessionid="";
         $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
     }
     
     // CHIUDO IL DATABASE
@@ -175,6 +180,7 @@ catch(Exception $e){
     $success=0;
     $sessionid="";
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
 }
 
 if($success==0){
@@ -198,6 +204,8 @@ if($success==0){
     $email="";
     $dateformat=0;
 }
+
+$description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();

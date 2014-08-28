@@ -67,15 +67,17 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Le nuove impostazioni sono state registrate";
+    $babelcode="EGO_MSG_SETSUCCESSFUL";
     
     // APRO IL DATABASE
     $maestro=maestro_opendb("ryego");
     if($maestro->conn!==false){
 
         // CONTROLLO VALIDITA' SESSIONE
-        if(ego_validatesession($maestro, $sessionid)==false){
+        if(ego_validatesession($maestro, $sessionid, true)==false){
             $success=0;
             $description="Sessione non valida";
+            $babelcode="EGO_MSG_INVALIDSESSION";
         }
         
         if($success){
@@ -98,13 +100,22 @@ try{
                 maestro_execute($maestro, $sql);
             }
             if($languageid!=""){
-                // AGGIORNO EGOSETUP CON LA LINGUA
-                $sql="UPDATE EGOSETUP SET LANGUAGEID='".$languageid."' WHERE APPID='".$appid."' AND ALIASID='".$aliasid."'";
-                maestro_execute($maestro, $sql);
-                
-                // AGGIORNO LA SESSIONE
-                $sql="UPDATE EGOSESSIONS SET LANGUAGEID='".$languageid."' WHERE SESSIONID='".$sessionid."'";
-                maestro_execute($maestro, $sql);
+                $sql="SELECT NAME FROM EGOLANGUAGES WHERE SYSID='$languageid'";
+                maestro_query($maestro, $sql, $r);
+                if(count($r)>0){
+                    $global_lastlanguage=$r[0]["NAME"];
+            
+                    // AGGIORNO EGOSETUP CON LA LINGUA
+                    $sql="UPDATE EGOSETUP SET LANGUAGEID='".$languageid."' WHERE APPID='".$appid."' AND ALIASID='".$aliasid."'";
+                    maestro_execute($maestro, $sql);
+                    
+                    // AGGIORNO LA SESSIONE (SE NON E' UNA SESSIONE EGO)
+                    $sql="UPDATE EGOSESSIONS SET LANGUAGEID='".$languageid."' WHERE SESSIONID='".$sessionid."'";
+                    maestro_execute($maestro, $sql);
+                    
+                    // MEMORIZZO LA SCELTA ANCHE IN UN COOKIE
+                    setcookie("_egolanguage", $global_lastlanguage, time()+4000000);
+                }
             }
             if($countrycode!=""){
                 // AGGIORNO EGOSETUP CON IL PAESE
@@ -130,6 +141,7 @@ try{
         // CONNESSIONE FALLITA
         $success=0;
         $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
     }
 
     // CHIUDO IL DATABASE
@@ -138,7 +150,10 @@ try{
 catch(Exception $e){
     $success=0;
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
 }
+
+$description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();

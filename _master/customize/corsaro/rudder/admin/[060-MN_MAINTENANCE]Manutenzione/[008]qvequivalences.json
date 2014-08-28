@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Equivalenze",
+    "babelcode":"MN_EQUIVALENCES",
+    "params":{
+        "name":"qvequivalences",
+        "path":"qvrelazioni/",
+        "title":"Equivalenze"
+    }
+}

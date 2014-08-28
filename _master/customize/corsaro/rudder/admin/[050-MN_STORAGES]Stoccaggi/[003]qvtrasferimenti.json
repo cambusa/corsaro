@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Trasferimenti",
+    "params":{
+        "name":"qvtrasferimenti",
+        "path":"qvstoccaggi/",
+        "title":"Trasferimenti"
+    }
+}

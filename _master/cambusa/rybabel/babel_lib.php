@@ -22,14 +22,18 @@ function babeldecode($lang, $codes){
             $maestro=maestro_opendb($lang);
             
             if($maestro->conn!==false){
-                $elenco=explode("|",$codes);
+                $elenco=explode("|",strtoupper($codes));
+                $elencoin="'".str_replace("|", "','", strtoupper($codes))."'";
+                // INIZIALIZZO LA RISPOSTA
                 foreach($elenco as $code){
-                    $sql="SELECT CAPTION FROM BABELITEMS WHERE SYSID='".$code."' OR [:UPPER(NAME)]='".strtoupper($code)."'";
-                    maestro_query($maestro, $sql, $s);
-                    if(count($s)>0)
-                        $r[$code]=$s[0]["CAPTION"];
-                    else
-                        $r[$code]="";
+                    $r[$code]="";
+                }
+                $sql="SELECT NAME,CAPTION FROM BABELITEMS WHERE [:UPPER(NAME)] IN ($elencoin)";
+                maestro_query($maestro, $sql, $s);
+                foreach($s as $row){
+                    if(($i=array_search($row["NAME"], $elenco))!==false){
+                        $r[ $elenco[$i] ]=$row["CAPTION"];
+                    }
                 }
             }
             

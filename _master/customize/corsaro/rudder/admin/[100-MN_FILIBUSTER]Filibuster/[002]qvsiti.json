@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Siti",
+    "babelcode":"MN_SITES",
+    "params":{
+        "name":"qvsiti",
+        "path":"qvcontenuti/",
+        "title":"Siti"
+    }
+}

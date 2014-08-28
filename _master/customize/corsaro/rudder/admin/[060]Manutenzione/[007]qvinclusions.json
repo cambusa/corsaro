@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Inclusioni",
-    "params":{
-        "name":"qvinclusions",
-        "path":"qvrelazioni/",
-        "title":"Inclusioni"
-    }
-}

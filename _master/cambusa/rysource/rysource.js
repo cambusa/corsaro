@@ -15,9 +15,11 @@
             var proptop=20;
             var propwidth=200;
             var propheight=400;
-            var propenviron="default";
+            var propenviron="admin";
             var propscroll=1;
             var propstartup="";
+            var propsessionid="";
+            var propdbenv="";
             var proproot="";
             var propobj=this;
             var propname=$(this).attr("id");
@@ -31,6 +33,8 @@
             if(settings.environ!=missing){propenviron=settings.environ}
             if(settings.scroll!=missing){propscroll=settings.scroll}
             if(settings.startup!=missing){propstartup=settings.startup}
+            if(settings.sessionid!=missing){propsessionid=settings.sessionid}
+            if(settings.dbenv!=missing){propdbenv=settings.dbenv}
             if(settings.root!=missing){proproot=settings.root}
             
             if(proproot=="")
@@ -52,7 +56,7 @@
                                     path=$("#"+propname+"_"+parid+"_text").attr("info")+"/"+path;
                                 parid=$("#"+propname+"_"+parid+"_text").attr("super");
                             }
-                            $.post(_cambusaURL+"rysource/rysource.php", {"env":propenviron,"sub":path},
+                            $.post(_cambusaURL+"rysource/rysource.php", {"env":propenviron,"sub":path,"sessionid":propsessionid,"dbenv":propdbenv},
                                 function(d){
                                     try{
                                         var v=$.parseJSON(d);
@@ -81,7 +85,7 @@
             );
             if(propenviron!=""){
                 objfamily.addfolder({id:"k0",title:proproot,open:true});
-                $.post(_cambusaURL+"rysource/rysource.php", {"env":propenviron,"sub":""},
+                $.post(_cambusaURL+"rysource/rysource.php", {"env":propenviron,"sub":"","sessionid":propsessionid,"dbenv":propdbenv},
                     function(d){
                         try{
                             var v=$.parseJSON(d);

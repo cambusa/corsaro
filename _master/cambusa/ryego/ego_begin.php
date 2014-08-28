@@ -40,11 +40,16 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Autenticazione riuscita";
+    $babelcode="EGO_MSG_AUTHSUCCESSFUL";
     $sessionid="";
     $appid="";
     $userid="";
     $aliasid="";
     $expiry=0;
+
+    if(isset($_COOKIE['_egolanguage'])){
+        $global_lastlanguage=$_COOKIE['_egolanguage'];
+    }
 
     // PERMUTAZIONE PER PROTEZIONE PASSWORD
     session_start();
@@ -55,6 +60,7 @@ try{
         // SESSIONE NON INIZIALIZZATA
         $success=0;
         $description="Sessione non inizializzata: ricaricare il form di login";
+        $babelcode="EGO_MSG_UNINITSESSION";
     }
     
     if($success){
@@ -92,11 +98,32 @@ try{
                         $debugmode=0;
                         
                         if($app==""){ // Autorizzazioni applicazione EGO
-                            if($demiurge!=1)
+                            if($demiurge!=0){
+                                // Lingua (do la precedenza a "english")
+                                $sql="SELECT SYSID,NAME FROM EGOLANGUAGES ORDER BY (CASE WHEN NAME='english' THEN 0 ELSE 1 END)";
+                                maestro_query($maestro, $sql, $l);
+                                if(count($l)>0){
+                                    $languageid=$l[0]["SYSID"];
+                                    $global_lastlanguage=$l[0]["NAME"];
+                                }
+                                // LETTURA SETUP
+                                $sql="SELECT * FROM EGOSETUP WHERE APPID='' AND ALIASID='$aliasid'";
+                                maestro_query($maestro, $sql, $v);
+                                if(count($v)==0){
+                                    // CREAZIONE DI UN SETUP DENZA APPID PER MEMORIZZARE LA LINGUA
+                                    // IN AMMINISTRAZIONE EGO
+                                    $setupid=qv_createsysid($maestro);
+                                    $sql="INSERT INTO EGOSETUP(SYSID,APPID,ALIASID,ENVIRONID,ROLEID,LANGUAGEID,COUNTRYCODE,DEBUGMODE) VALUES('$setupid','$appid','$aliasid','$environid','$roleid','$languageid','$countrycode','$debugmode')";
+                                    maestro_execute($maestro, $sql);
+                                }
+                            }
+                            else{
                                 $auth=false;
+                            }
                         }
                         else{ // Autorizzazioni applicazione esterna e setup
-                            $sql="SELECT SYSID FROM EGOAPPLICATIONS WHERE NAME='$app'";
+                            $uapp=strtoupper($app);
+                            $sql="SELECT SYSID FROM EGOAPPLICATIONS WHERE [:UPPER(NAME)]='$uapp'";
                             maestro_query($maestro, $sql, $v);
                             if(count($v)==1){
                                 $appid=$v[0]["SYSID"];
@@ -116,11 +143,12 @@ try{
                                     if(count($v)>0){
                                         $roleid=$v[0]["ROLEID"];
                                     }
-                                    // Lingua
-                                    $sql="SELECT SYSID FROM EGOLANGUAGES";
+                                    // Lingua (do la precedenza a "english")
+                                    $sql="SELECT SYSID,NAME FROM EGOLANGUAGES ORDER BY (CASE WHEN NAME='english' THEN 0 ELSE 1 END)";
                                     maestro_query($maestro, $sql, $v);
                                     if(count($v)>0){
                                         $languageid=$v[0]["SYSID"];
+                                        $global_lastlanguage=$v[0]["NAME"];
                                     }
                                     // Paese
                                     $countrycode="ITA";
@@ -151,10 +179,11 @@ try{
                                             $roleid=$test_roleid;
                                         }
                                         // Controllo che la lingua del setup sia ancora valida
-                                        $sql="SELECT SYSID FROM EGOLANGUAGES WHERE SYSID='$test_languageid'";
+                                        $sql="SELECT SYSID,NAME FROM EGOLANGUAGES WHERE SYSID='$test_languageid'";
                                         maestro_query($maestro, $sql, $v);
                                         if(count($v)==1){
                                             $languageid=$test_languageid;
+                                            $global_lastlanguage=$v[0]["NAME"];
                                         }
                                         $sql="UPDATE EGOSETUP SET ENVIRONID='$environid', ROLEID='$roleid', LANGUAGEID='$languageid', COUNTRYCODE='$countrycode', DEBUGMODE='$debugmode' WHERE APPID='$appid' AND ALIASID='$aliasid'";
                                         maestro_execute($maestro, $sql);
@@ -238,30 +267,35 @@ try{
                             // AUTORIZZAZIONI INSUFFICIENTI
                             $success=0;
                             $description="Autorizzazioni insufficienti";
+                            $babelcode="EGO_MSG_NOAUTHORIZATION";
                         }
                     }
                     else{
                         // UTENTE NON ATTIVO
                         $success=0;
                         $description="Utente inesistente o password errata";
+                        $babelcode="EGO_MSG_WRONGUSERORPWD";
                     }
                 }
                 else{
                     // PASSWORD ERRATA
                     $success=0;
                     $description="Utente inesistente o password errata";
+                    $babelcode="EGO_MSG_WRONGUSERORPWD";
                 }
             }
             else{
                 // UTENTE INESISTENTE
                 $success=0;
                 $description="Utente inesistente o password errata";
+                $babelcode="EGO_MSG_WRONGUSERORPWD";
             }
         }
         else{
             // CONNESSIONE FALLITA
             $success=0;
             $description=$maestro->errdescr;
+            $babelcode="EGO_MSG_UNDEFINED";
         }
         
         // CHIUDO IL DATABASE
@@ -271,8 +305,11 @@ try{
 catch(Exception $e){
     $success=0;
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
     writelog("ego_begin.php:".$description);
 }
+
+$description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();

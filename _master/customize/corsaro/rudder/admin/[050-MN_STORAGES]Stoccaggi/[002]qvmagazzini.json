@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Magazzini",
+    "params":{
+        "name":"qvmagazzini",
+        "path":"qvstoccaggi/",
+        "title":"Magazzini"
+    }
+}

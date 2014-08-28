@@ -16,11 +16,17 @@ include_once $tocambusa."ryque/ryq_util.php";
 include_once $tocambusa."phpmailer/class.phpmailer.php";
 
 function egomail($user, $object, $text){
-    global $postmaster_mail,$path_databases;
+    global $postmaster_mail,$path_databases,$babelcode,$global_lastlanguage;
     
     $success=1;
     $description="Invio riuscito";
+    $babelcode="EGO_MSG_SENDSUCCESSFUL";
+    
     try{
+        if(isset($_COOKIE['_egolanguage'])){
+            $global_lastlanguage=$_COOKIE['_egolanguage'];
+        }
+
         // APRO IL DATABASE
         $maestro=maestro_opendb("ryego");
         if($maestro->conn!==false){
@@ -53,22 +59,26 @@ function egomail($user, $object, $text){
                     if(!@$mail->Send()){
                         $success=0;
                         $description=$mail->ErrorInfo;
+                        $babelcode="EGO_MSG_UNDEFINED";
                     }
                 }
                 else{
                     $success=0;
                     $description="Indirizzo email non impostato";
+                    $babelcode="EGO_MSG_NOEMAIL";
                 }
             }
             else{
                 $success=0;
                 $description="Utente inestistente";
+                $babelcode="EGO_MSG_NOUSER";
             }
         }
         else{
             // CONNESSIONE FALLITA
             $success=0;
             $description=$maestro->errdescr;
+            $babelcode="EGO_MSG_UNDEFINED";
         }
         
         // CHIUDO IL DATABASE
@@ -77,7 +87,11 @@ function egomail($user, $object, $text){
     catch(Exception $e){
         $success=0;
         $description=$e->getMessage();
+        $babelcode="EGO_MSG_UNDEFINED";
     }
+    
+    $description=qv_babeltranslate($description);
+    
     // USCITA ARRAY
     $j=array();
     $j["success"]=$success;

@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Articoli",
+    "params":{
+        "name":"qvarticoli",
+        "path":"qvstoccaggi/",
+        "title":"Articoli"
+    }
+}

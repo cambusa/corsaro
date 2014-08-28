@@ -9,9 +9,11 @@
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-include("../sysconfig.php");
-include("../rygeneral/unicode.php");
-//include("../rygeneral/writelog.php");
+if(!isset($tocambusa))
+    $tocambusa="../";
+include_once $tocambusa."sysconfig.php";
+include_once $tocambusa."rygeneral/unicode.php";
+//include_once $tocambusa."rygeneral/writelog.php";
 
 if(isset($_POST["env"]))
     $env_name=strtolower($_POST["env"]);
@@ -45,6 +47,51 @@ elseif(isset($_GET["sort"]))
     $sort=intval($_GET["sort"]);
 else
     $sort=1;
+    
+// INIZIO GESTIONE LOCALIZZAZIONE
+$localize=false;
+
+if(isset($_POST["sessionid"]))
+    $sessionid=$_POST["sessionid"];
+elseif(isset($_GET["sessionid"]))
+    $sessionid=$_GET["sessionid"];
+else
+    $sessionid="";
+
+if(isset($_POST["dbenv"]))
+    $dbenv=strtolower($_POST["dbenv"]);
+elseif(isset($_GET["dbenv"]))
+    $dbenv=strtolower($_GET["dbenv"]);
+else
+    $dbenv="";
+
+if($sessionid!="" && $dbenv){
+    include_once $tocambusa."ryquiver/quiversex.php";
+    
+    // APRO IL DATABASE
+    $maestro=maestro_opendb($dbenv, false);
+
+    // VERIFICO IL BUON ESITO DELL'APERTURA
+    if($maestro->conn!==false){
+    
+        // VALIDAZIONE CODICE DI SESSIONE
+        if(qv_validatesession($maestro, $sessionid)){
+            if($global_lastlanguage!="default"){
+                try{
+                    // APERTURA DATABASE BABEL
+                    $maestro_babel=maestro_opendb($global_lastlanguage);
+                    if($maestro_babel->conn!==false){
+                        $localize=true;
+                    }
+                }catch(Exception $e){}
+            }
+        }
+    }
+
+    // CHIUDO IL DATABASE
+    maestro_closedb($maestro);
+}
+// FINE GESTIONE LOCALIZZAZIONE
 
 // INIZIALIZZO LE VARIABILI IN USCITA
 $success=1;
@@ -73,10 +120,16 @@ if($env_name!=""){
                     $name=escapize($file);
                     $title=$name;
                     $key="";
-                    if($opn=strpos($name,"]")){
-                        if(substr($name,0,1)=="["){
-                            $key="_".strtolower(substr($name,1,$opn-1));
-                            $title=substr($name,$opn+1);
+                    $babelcode="";
+                    if($opn=strpos($name, "]")){
+                        if(substr($name, 0, 1)=="["){
+                            $key="_".strtolower(substr($name, 1, $opn-1));
+                            $title=substr($name, $opn+1);
+                            // ESTRAGGO L'EVENTUALE BABELCODE
+                            if($p=strpos($key, "-")){
+                                $babelcode=strtoupper(trim(substr($key, $p+1)));
+                                $key=substr($key, 0, $p);
+                            }
                         }
                     }
                     
@@ -99,6 +152,8 @@ if($env_name!=""){
                             $name=$json["name"];
                         if(isset($json["title"]))
                             $title=$json["title"];
+                        if(isset($json["babelcode"]))
+                            $babelcode=strtoupper($json["babelcode"]);
                         if($key==""){
                             if(isset($json["key"]))
                                 $key=$json["key"];
@@ -113,6 +168,17 @@ if($env_name!=""){
                         $info["type"]="file";
                         if($key=="")
                             $key=strtolower($name);
+                    }
+                    
+                    // GESTIONE LOCALIZZAZIONE
+                    if($localize){
+                        if($babelcode!=""){
+                            maestro_query($maestro_babel, "SELECT CAPTION FROM BABELITEMS WHERE [:UPPER(NAME)]='$babelcode'", $r);
+                            if(count($r)>0){
+                                $title=$r[0]["CAPTION"];
+                                $info["params"]["title"]=$title;
+                            }
+                        }
                     }
                     
                     $info["name"]=$name;
@@ -137,6 +203,11 @@ if($env_name!=""){
 else{
     $success=0;
     $description="No folder specified";
+}
+
+if($localize){
+    // CHIUSURA DATABASE BABEL
+    maestro_closedb($maestro_babel);
 }
 
 // USCITA JSON

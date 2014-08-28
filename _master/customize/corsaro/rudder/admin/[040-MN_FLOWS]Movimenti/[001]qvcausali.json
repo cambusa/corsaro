@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Causali",
+    "params":{
+        "name":"qvcausali",
+        "path":"qvmovimenti/",
+        "title":"Causali"
+    }
+}

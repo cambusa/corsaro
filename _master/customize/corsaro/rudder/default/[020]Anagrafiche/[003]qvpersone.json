@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Persone",
-    "params":{
-        "name":"qvpersone",
-        "path":"qvanagrafiche/",
-        "title":"Persone"
-    }
-}

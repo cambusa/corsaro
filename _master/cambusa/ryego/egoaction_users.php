@@ -67,15 +67,17 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Operazione effettuata";
+    $babelcode="EGO_MSG_SUCCESSFUL";
 
     // APRO IL DATABASE
     $maestro=maestro_opendb("ryego");
     if($maestro->conn!==false){
 
         // CONTROLLO VALIDITA' SESSIONE
-        if(ego_validatesession($maestro, $sessionid)==false){
+        if(ego_validatesession($maestro, $sessionid, true)==false){
             $success=0;
             $description="Sessione non valida";
+            $babelcode="EGO_MSG_INVALIDSESSION";
         }
         
         if($success){
@@ -96,6 +98,7 @@ try{
                     else{
                         $success=0;
                         $description="Alias obbligatorio";
+                        $babelcode="EGO_MSG_MANDATORYALIAS";
                     }
                     break;  
                 case "newalias":
@@ -111,7 +114,8 @@ try{
                     }
                     else{
                         $success=0;
-                        $description="Nessun utente selezionato";
+                        $description="Seleziona un utente";
+                        $babelcode="EGO_MSG_SELECTUSER";
                     }
                     // Controllo che alias sia passato
                     if($alias!=""){
@@ -126,6 +130,7 @@ try{
                     else{
                         $success=0;
                         $description="Alias obbligatorio";
+                        $babelcode="EGO_MSG_MANDATORYALIAS";
                     }
                     break;
                 case "update":
@@ -142,6 +147,7 @@ try{
                     else{
                         $success=0;
                         $description="Alias obbligatorio";
+                        $babelcode="EGO_MSG_MANDATORYALIAS";
                     }
                     if($aliasnew!=""){
                         if(strtolower($alias)!=strtolower($aliasnew)){
@@ -160,6 +166,7 @@ try{
                     else{
                         $success=0;
                         $description="Alias obbligatorio";
+                        $babelcode="EGO_MSG_MANDATORYALIAS";
                     }
                     break;
                 case "activate":
@@ -179,6 +186,7 @@ try{
                                 if($r[0]["DEMIURGECOUNT"]==0){
                                     $success=0;
                                     $description="Impossibile eliminare l'ultimo demiurgo";
+                                    $babelcode="EGO_MSG_LASTDEMIURGE";
                                 }
                             }
                         }
@@ -189,6 +197,7 @@ try{
                     else{
                         $success=0;
                         $description="Alias obbligatorio";
+                        $babelcode="EGO_MSG_MANDATORYALIAS";
                     }
                     break;  
                 case "delete":
@@ -202,6 +211,7 @@ try{
                             if($r[0]["MAIN"]==1){
                                 $success=0;
                                 $description="Non si può eliminare l'alias principale";
+                                $babelcode="EGO_MSG_MAINALIAS";
                             }
                         }
                         else{
@@ -211,6 +221,7 @@ try{
                     else{
                         $success=0;
                         $description="Alias obbligatorio";
+                        $babelcode="EGO_MSG_MANDATORYALIAS";
                     }
                     break;
                 case "deleteall":
@@ -218,6 +229,7 @@ try{
                 default:
                     $success=0;
                     $description="Nessuna azione riconosciuta";
+                    $babelcode="EGO_MSG_NOACTION";
             }
         }
         if($success){
@@ -225,6 +237,7 @@ try{
             if($demiurge!="0" && $demiurge!="1"){
                 $success=0;
                 $description="Valore di 'demiurge' non previsto";
+                $babelcode="EGO_MSG_INVALIDDEMIURGE";
             }
         }
         if($success){
@@ -232,6 +245,7 @@ try{
             if($admin!="0" && $admin!="1"){
                 $success=0;
                 $description="Valore di 'admin' non previsto";
+                $babelcode="EGO_MSG_INVALIDADMIN";
             }
         }
         if($success){
@@ -257,6 +271,7 @@ try{
                     else{
                         $success=0;
                         $description="Alias già in uso";
+                        $babelcode="EGO_MSG_ALIASALREADYUSED";
                     }
                     break;
                 case "newalias":
@@ -269,11 +284,13 @@ try{
                         else{
                             $success=0;
                             $description="Utente non valido";
+                            $babelcode="EGO_MSG_INVALIDUSER";
                         }
                     }
                     else{
                         $success=0;
                         $description="Alias già in uso";
+                        $babelcode="EGO_MSG_ALIASALREADYUSED";
                     }
                     break;
                 case "update":
@@ -285,11 +302,13 @@ try{
                         else{
                             $success=0;
                             $description="Alias non valido";
+                            $babelcode="EGO_MSG_INVALIDALIAS";
                         }
                     }
                     else{
                         $success=0;
                         $description="Alias già in uso";
+                        $babelcode="EGO_MSG_ALIASALREADYUSED";
                     }
                     break;
                 case "reset":
@@ -307,6 +326,8 @@ try{
                 case "delete":
                     $sql="DELETE FROM EGOALIASES WHERE SYSID='$aliasid'";
                     maestro_execute($maestro, $sql);
+                    $sql="DELETE FROM EGOSETUP WHERE ALIASID='$aliasid'";
+                    maestro_execute($maestro, $sql);
                     break;
                 case "deleteall":
                     $sql="SELECT SYSID FROM EGOUSERS WHERE ACTIVE=0";
@@ -319,6 +340,7 @@ try{
                             $aliasid=$a[$j]["SYSID"];
                             maestro_execute($maestro, "DELETE FROM EGOSESSIONS WHERE ALIASID='$aliasid'");
                             maestro_execute($maestro, "DELETE FROM EGOALIASES WHERE SYSID='$aliasid'");
+                            maestro_execute($maestro, "DELETE FROM EGOSETUP WHERE ALIASID='$aliasid'");
                         }
                         maestro_execute($maestro, "DELETE FROM EGOENVIRONUSER WHERE USERID='$userid'");
                         maestro_execute($maestro, "DELETE FROM EGOUSERS WHERE SYSID='$userid'");
@@ -339,6 +361,7 @@ try{
         // CONNESSIONE FALLITA
         $success=0;
         $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
     }
 
     // CHIUDO IL DATABASE
@@ -347,7 +370,10 @@ try{
 catch(Exception $e){
     $success=0;
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
 }
+
+$description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();

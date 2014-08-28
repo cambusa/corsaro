@@ -27,6 +27,26 @@
         "type":"include",
         "path":"base/std_conti.json"
     },
+    "include_movimenti":{
+        "type":"include",
+        "path":"base/std_movimenti.json"
+    },
+    "include_flussi":{
+        "type":"include",
+        "path":"base/std_flussi.json"
+    },
+    "include_articoli":{
+        "type":"include",
+        "path":"base/std_articoli.json"
+    },
+    "include_collocazioni":{
+        "type":"include",
+        "path":"base/std_collocazioni.json"
+    },
+    "include_trasferimenti":{
+        "type":"include",
+        "path":"base/std_trasferimenti.json"
+    },
     "include_pratiche":{
         "type":"include",
         "path":"base/std_pratiche.json"
@@ -34,5 +54,17 @@
     "include_cms":{
         "type":"include",
         "path":"base/std_cms.json"
+    },
+    "include_legend":{
+        "type":"include",
+        "path":"base/std_legend.json"
+    },
+    "include_strufin":{
+        "type":"include",
+        "path":"base/std_strufin.json"
+    },
+    "include_listini":{
+        "type":"include",
+        "path":"base/std_listini.json"
     }
 }

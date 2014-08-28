@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Pagine",
+    "babelcode":"MN_PAGES",
+    "params":{
+        "name":"qvpagine",
+        "path":"qvcontenuti/",
+        "title":"Pagine"
+    }
+}

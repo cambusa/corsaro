@@ -117,7 +117,7 @@ function qv_createsysid($maestro){
     return $SYSID;
 }
 
-function qv_babeltranslate($pattern, $params){
+function qv_babeltranslate($pattern, $params=array()){
     global $babelcode, $babelparams, $global_lastlanguage;
     $i=1;
     if($global_lastlanguage!="default"){

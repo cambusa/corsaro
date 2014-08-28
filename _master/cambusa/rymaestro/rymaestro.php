@@ -338,7 +338,7 @@ function resizebody(){
 
 <div style="border:1px solid silver;background-color:#F0F0F0;">
 &nbsp;<a class="maestro-button" id="button-report" href="javascript:activation('report')">Report</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a class="maestro-button" id="button-upgrade" href="javascript:activation('upgrade')">Aggiornamento</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a class="maestro-button" id="button-upgrade" href="javascript:activation('upgrade')">Upgrade</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a class="maestro-button" id="button-sql" href="javascript:activation('sql')">SQL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a class="maestro-button" id="button-logout" href="javascript:RYEGO.logout()">Logout</a>
 </div>
@@ -414,7 +414,7 @@ for($i=0;$i<count($m);$i++){
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span class="maestro-label">Solo log&nbsp;&nbsp;</span><input type="checkbox" name="chklogonly" value="0">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a class="maestro-button" id="engage-upgrade" href="javascript:envupgrade()">Esegui</a>
+<a class="maestro-button" id="engage-upgrade" href="javascript:envupgrade()">Create/Update</a>
 <br/>
 <br/>
 <br/>

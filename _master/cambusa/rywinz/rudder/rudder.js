@@ -26,7 +26,9 @@ function class_rudder(settings,missing){
         width:"98%",
         height:"90%",
         scroll:0,
-        startup:"rudder_startup"
+        startup:"rudder_startup",
+        sessionid:_sessioninfo.sessionid,
+        dbenv:_sessioninfo.environ
     });
 }
 

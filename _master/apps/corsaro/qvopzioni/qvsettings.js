@@ -29,7 +29,7 @@ function class_qvsettings(settings,missing){
         from:"QVSETTINGS",
         orderby:"TAG",
         columns:[
-            {id:"DESCRIPTION",caption:"Descrizione",width:200}
+            {id:"DESCRIPTION",caption:"Descrizione",width:200,code:"DESCRIPTION"}
         ],
         changerow:function(o,i){
             if(i>0){
@@ -336,11 +336,11 @@ function class_qvsettings(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:10,position:"relative",
         tabs:[
-            {title:"Settaggi"},
-            {title:"Manutenzione"},
-            {title:"Importazioni"},
-            {title:"Backup"},
-            {title:"Restore"}
+            {title:"Settaggi", code:"SET_TAB_SETTINGS"},
+            {title:"Manutenzione", code:"SET_TAB_MAINTENANCE"},
+            {title:"Importazioni", code:"SET_TAB_IMPORTS"},
+            {title:"Backup", code:"SET_TAB_BACKUP"},
+            {title:"Restore", code:"SET_TAB_RESTORE"}
         ],
         select:function(i, p){
             switch(i){

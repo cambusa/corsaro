@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Generi",
-    "params":{
-        "name":"qvgenres",
-        "path":"qvtabelle/",
-        "title":"Generi"
-    }
-}

@@ -58,15 +58,17 @@ try{
     $success=1;
     $field=0;
     $description="Le nuove impostazioni sono state registrate";
+    $babelcode="EGO_MSG_SETSUCCESSFUL";
 
     // APRO IL DATABASE
     $maestro=maestro_opendb("ryego");
     if($maestro->conn!==false){
 
         // CONTROLLO VALIDITA' SESSIONE
-        if(ego_validatesession($maestro, $sessionid)==false){
+        if(ego_validatesession($maestro, $sessionid, true)==false){
             $success=0;
             $description="Sessione non valida";
+            $babelcode="EGO_MSG_INVALIDSESSION";
         }
 
         if($success){
@@ -112,6 +114,7 @@ try{
         // CONNESSIONE FALLITA
         $success=0;
         $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
     }
 
     // CHIUDO IL DATABASE
@@ -121,7 +124,10 @@ catch(Exception $e){
     $success=0;
     $field=0;
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
 }
+
+$description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();

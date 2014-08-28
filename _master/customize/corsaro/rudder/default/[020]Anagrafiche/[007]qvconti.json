@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Conti",
-    "params":{
-        "name":"qvconti",
-        "path":"qvanagrafiche/",
-        "title":"Conti"
-    }
-}

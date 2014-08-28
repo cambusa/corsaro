@@ -106,6 +106,10 @@ $egouser="";
 if($appname!="" && isset($_COOKIE['_egouser']))
     $egouser=$_COOKIE['_egouser'];
 
+$egolanguage="english";
+if(isset($_COOKIE['_egolanguage']))
+    $egolanguage=$_COOKIE['_egolanguage'];
+
 // PERMUTAZIONE PER PROTEZIONE PASSWORD
 session_start();
 if(isset($_SESSION["ego_publickey"])){
@@ -192,10 +196,13 @@ function sysmessage(t,s){
         htimer="";
     }
 	var c="red";
-	if(s==1)
+    var m=6000;
+	if(s==1){
 		c="green";
+        m=4000;
+    }
 	$("#messbar").html(t).css({color:c}).show();
-	htimer=setTimeout("sysmessagehide()",4000);
+	htimer=setTimeout(sysmessagehide, m);
 }
 function sysmessagehide(){
     htimer="";
@@ -264,7 +271,7 @@ elseif($msk=="setup"){
 <td colspan='8' valign='top'>
 
 <div class='classicSkip10'>&nbsp;</div>
-<div style='position:relative;font-size:48px;height:70px;'><div style='position:absolute;white-space:nowrap;top:0px;left:20px;color:black;'>Ego - Servizio di autenticazione</div></div>
+<div style='position:relative;font-size:48px;height:70px;'><div style='position:absolute;white-space:nowrap;top:0px;left:20px;color:black;'>Ego - <span id="egotitle">Servizio di autenticazione</span></div></div>
 <div class='classicSkip10'>&nbsp;</div>
 <div class='classicHR'>&nbsp;</div>
 <div class='classicSkip20'>&nbsp;</div>
@@ -359,18 +366,18 @@ elseif($msk=="setup"){
 if($msk=="setup"){ 
     if($appname!=""){
 ?>
-&nbsp;<a href="#" onclick="activation('settings')">Opzioni</a><div class='classicSkip4'>&nbsp;</div>
-&nbsp;<a href="#" onclick="activation('changepassword')">Cambio password</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_settings" href="#" onclick="activation('settings')">Opzioni</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_changepassword" href="#" onclick="activation('changepassword')">Cambio password</a><div class='classicSkip4'>&nbsp;</div>
 <?php 
     }
     else{
 ?>
-&nbsp;<a href="#" onclick="activation('settings')">Opzioni</a><div class='classicSkip4'>&nbsp;</div>
-&nbsp;<a href="#" onclick="activation('users')">Utenti</a><div class='classicSkip4'>&nbsp;</div>
-&nbsp;<a href="#" onclick="activation('applications')">Applicazioni</a><div class='classicSkip4'>&nbsp;</div>
-&nbsp;<a href="#" onclick="activation('languages')">Lingue</a><div class='classicSkip4'>&nbsp;</div>
-&nbsp;<a href="#" onclick="activation('sessions')">Sessioni</a><div class='classicSkip4'>&nbsp;</div>
-&nbsp;<a href="#" onclick="activation('changepassword')">Cambio password</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_settings" href="#" onclick="activation('settings')">Opzioni</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_users" href="#" onclick="activation('users')">Utenti</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_applications" href="#" onclick="activation('applications')">Applicazioni</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_languages" href="#" onclick="activation('languages')">Lingue</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_sessions" href="#" onclick="activation('sessions')">Sessioni</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_changepassword" href="#" onclick="activation('changepassword')">Cambio password</a><div class='classicSkip4'>&nbsp;</div>
 <?php 
     }
 } 

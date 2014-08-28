@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Frecce",
+    "babelcode":"MN_ARROWS",
+    "params":{
+        "name":"qvarrows",
+        "path":"qvtabelle/",
+        "title":"Frecce"
+    }
+}

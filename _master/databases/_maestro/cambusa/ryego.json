@@ -84,6 +84,7 @@
                 "version":0,
                 "sql":[
                     "INSERT INTO EGOLANGUAGES(SYSID,NAME,DESCRIPTION) VALUES([:SYSID(0LANGDEFAULT)], 'default', 'Default')",
+                    "INSERT INTO EGOLANGUAGES(SYSID,NAME,DESCRIPTION) VALUES([:SYSID(0LANGITALIAN)], 'italiano', 'Italiano')",
                     "INSERT INTO EGOLANGUAGES(SYSID,NAME,DESCRIPTION) VALUES([:SYSID(0LANGENGLISH)], 'english', 'English')"
                 ]
             }

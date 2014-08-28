@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Motivi",
-    "params":{
-        "name":"qvmotives",
-        "path":"qvtabelle/",
-        "title":"Motivi"
-    }
-}

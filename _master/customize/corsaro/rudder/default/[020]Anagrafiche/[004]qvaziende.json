@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Aziende",
-    "params":{
-        "name":"qvaziende",
-        "path":"qvanagrafiche/",
-        "title":"Aziende"
-    }
-}

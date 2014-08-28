@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Inventario",
+    "params":{
+        "name":"qvinventario",
+        "path":"qvstoccaggi/",
+        "title":"Inventario"
+    }
+}

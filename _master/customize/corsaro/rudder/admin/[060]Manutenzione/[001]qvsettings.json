@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Opzioni",
-    "params":{
-        "name":"qvsettings",
-        "path":"qvopzioni/",
-        "title":"Opzioni"
-    }
-}

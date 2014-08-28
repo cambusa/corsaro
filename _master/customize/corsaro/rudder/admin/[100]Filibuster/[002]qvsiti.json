@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Siti",
-    "params":{
-        "name":"qvsiti",
-        "path":"qvcontenuti/",
-        "title":"Siti"
-    }
-}

@@ -91,23 +91,18 @@ $(document).ready(function(){
     }
 });
 
-function config(){
-    switch(_expiry){
-        case 0:
-            activation('settings');
-            break;
-        case 1:
-            activation('changepassword');
-            sysmessage('Password in scadenza',0)
-            break;
-        case 2:
-            activation('changepassword');
-            sysmessage("Password scaduta: provvedere al cambio password per accedere all'applicazione",0)
-            break;
-    }
+function config(missing){
+    // BABEL MESSAGES
+    $("#lbexpiredpwd").rylabel({caption:"Password scaduta: provvedere al cambio password per accedere all'applicazione"});
+    $("#lbexpiringpwd").rylabel({caption:"Password in scadenza"});
+    $("#lbside_settings").rylabel({caption:"Opzioni"});
+    $("#lbside_changepassword").rylabel({caption:"Cambio password"});
+    $("#lbauthenticationservice").rylabel({caption:"Servizio di autenticazione"});
+    
+    activation('settings');
     
     // INIZIO FORM OPZIONI
-    $("#lbenviron").rylabel({left:20,top:70,caption:"Ambiente"});
+    $("#lbenviron").rylabel({left:20, top:70, caption:"Ambiente"});
     lstenviron=$("#lstenviron").rylist({
         left:180,
         top:70,
@@ -118,7 +113,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -128,7 +123,7 @@ function config(){
             );
 		}
     });
-    $("#lbrole").rylabel({left:20,top:100,caption:"Ruolo"});
+    $("#lbrole").rylabel({left:20, top:100, caption:"Ruolo"});
     lstrole=$("#lstrole").rylist({
         left:180,
         top:100,
@@ -139,7 +134,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -149,7 +144,7 @@ function config(){
             );
 		}
     });
-    $("#lblanguage").rylabel({left:20,top:130,caption:"Lingua"});
+    $("#lblanguage").rylabel({left:20, top:130, caption:"Lingua"});
     lstlanguage=$("#lstlanguage").rylist({
         left:180,
         top:130,
@@ -160,7 +155,13 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
+                        // localizzazione form
+                        RYBOX.localize(obj.gettag(obj.value()), missing,
+                            function(){
+                                postlocalize();
+                            }
+                        );
                     }
                     catch(e){
                         sysmessagehide();
@@ -170,7 +171,7 @@ function config(){
             );
 		}
     });
-    $("#lbcountry").rylabel({left:20,top:160,caption:"Paese"});
+    $("#lbcountry").rylabel({left:20, top:160, caption:"Paese"});
     lstcountry=$("#lstcountry").rylist({
         left:180,
         top:160,
@@ -181,7 +182,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -191,7 +192,7 @@ function config(){
             );
 		}
     });
-    $("#lbdebugmode").rylabel({left:20,top:190,caption:"Modalit&agrave;"});
+    $("#lbdebugmode").rylabel({left:20, top:190, caption:"Modalit&agrave;"});
     lstdebugmode=$("#lstdebugmode").rylist({
         left:180,
         top:190,
@@ -202,7 +203,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                     }
                     catch(e){
                         sysmessagehide();
@@ -214,21 +215,21 @@ function config(){
     });
     // FINE FORM OPZIONI
 
-    $("#lbcurrpwd").rylabel({left:20,top:70,caption:"Password attuale"});
+    $("#lbcurrpwd").rylabel({left:20, top:70, caption:"Password attuale"});
     objcurrpwd=$("#txcurrpwd").rytext({ 
         left:180,
         top:70, 
         password:true,
         maxlen:16
     });
-    $("#lbnewpwd").rylabel({left:20,top:100,caption:"Nuova password"});
+    $("#lbnewpwd").rylabel({left:20, top:100, caption:"Nuova password"});
     objnewpwd=$("#txnewpwd").rytext({ 
         left:180,
         top:100, 
         password:true,
         maxlen:16
     });
-    $("#lbrepeatpwd").rylabel({left:20,top:130,caption:"Ripeti password"});
+    $("#lbrepeatpwd").rylabel({left:20, top:130, caption:"Ripeti password"});
     objrepeatpwd=$("#txrepeatpwd").rytext({ 
         left:180,
         top:130, 
@@ -287,7 +288,7 @@ function config(){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        sysmessage(v.description,v.success);
+                        sysmessage(v.description, v.success);
                         if(v.success){
                             objcurrpwd.clear();
                             objnewpwd.clear();
@@ -318,8 +319,23 @@ function config(){
         syswaiting();
     loading();
 }
+function postlocalize(){
+    var t;
+    
+    t=RYBOX.getbabel("lbside_settings");
+    $("#side_settings").html(t);
+    $("#settings .form-title").html(t.toUpperCase());
+    
+    t=RYBOX.getbabel("lbside_changepassword");
+    $("#side_changepassword").html(RYBOX.getbabel("lbside_changepassword"));
+    $("#changepassword .form-title").html(t.toUpperCase());
+
+    t=RYBOX.getbabel("lbauthenticationservice");
+    $("title").html(t);
+    $("#egotitle").html(t);
+}
 // CARICAMENTO MASCHERA
-function loading(){
+function loading(missing){
     RYQUE.request({
         environ:"ryego",
         ready:function(id){
@@ -350,11 +366,11 @@ function loading(){
                                     }
                                     lstrole.setkey(lastroleid);
                                     RYQUE.query({   // lingue
-                                        sql:"SELECT DESCRIPTION,SYSID FROM EGOLANGUAGES",
+                                        sql:"SELECT * FROM EGOLANGUAGES",
                                         ready:function(v){
-                                            lstlanguage.additem({caption:"", key:""});
+                                            lstlanguage.additem({caption:"", key:"", tag:"default"});
                                             for(var i in v){
-                                                lstlanguage.additem({caption:v[i].DESCRIPTION, key:v[i].SYSID});
+                                                lstlanguage.additem({caption:v[i].DESCRIPTION, key:v[i].SYSID, tag:v[i].NAME});
                                             }
                                             lstlanguage.setkey(lastlanguageid);
                                             // country code
@@ -368,6 +384,22 @@ function loading(){
                                             lstdebugmode.additem({caption:"Normale", key:"0"});
                                             lstdebugmode.additem({caption:"Debugging", key:"1"});
                                             lstdebugmode.setkey(lastdebugmode);
+                                            // localizzazione form
+                                            RYBOX.localize(lstlanguage.gettag(lstlanguage.value()), missing,
+                                                function(){
+                                                    postlocalize();
+                                                    switch(_expiry){
+                                                        case 1:
+                                                            activation('changepassword');
+                                                            sysmessage(RYBOX.getbabel("lbexpiringpwd"), 0);
+                                                            break;
+                                                        case 2:
+                                                            activation('changepassword');
+                                                            sysmessage(RYBOX.getbabel("lbexpiredpwd"), 0)
+                                                            break;
+                                                    }
+                                                }
+                                            );
                                         }
                                     });
                                     if(_expiry==0)

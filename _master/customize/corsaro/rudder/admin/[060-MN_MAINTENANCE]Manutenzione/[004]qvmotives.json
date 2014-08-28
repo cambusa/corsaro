@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Motivi",
+    "babelcode":"MN_MOTIVES",
+    "params":{
+        "name":"qvmotives",
+        "path":"qvtabelle/",
+        "title":"Motivi"
+    }
+}

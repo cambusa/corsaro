@@ -12,15 +12,15 @@
 ?>
 <div style="height:300px;">
 
-<div id="lbalias"></div>
+<div id="lbalias" babelcode="EGO_LOGIN_USER"></div>
 <div id="txalias"></div>
-<div id="lbpwd"></div>
+<div id="lbpwd" babelcode="EGO_LOGIN_PWD"></div>
 <div id="txpwd"></div>
-<div id="lblogin"></div>
+<div id="lblogin" babelcode="EGO_LOGIN_LOGIN"></div>
 <?php 
     if($appname!=""){ 
 ?>
-<div id="lbsetup"></div>
+<div id="lbsetup" babelcode="EGO_LOGIN_SETUP"></div>
 <div id="chksetup"></div>
 <?php 
     }
@@ -38,8 +38,15 @@
     
     if($emailreset){
 ?>
-<div id="lbreset"></div>
+<div id="lbreset" babelcode="EGO_LOGIN_RESET"></div>
 <?php 
     }
 ?>
+<!-- MESSAGES FOR BABEL -->
+<div style="position:absolute;display:none;">
+<div id="lbauthenticationservice" babelcode="EGO_AUTHENTICATION_SERVICE"></div>
+<div id="lbsendpwd" babelcode="EGO_CONFIRMSENDPWD"></div>
+<div id="lbmandatoryuser" babelcode="EGO_MSG_MANDATORYUSERALIAS"></div>
+</div>
+
 </div>

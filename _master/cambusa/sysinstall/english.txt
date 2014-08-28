@@ -1,12 +1,666 @@
 @
-C00000000001
-Goofy makes pizzas
-Nome del cane
-
+NAME
+Name
 @
-C00000000002
-Mickey Mousolo
+DESCRIPTION
+Description
 @
-C00000000003
-Megaloman
-
+VALUE
+Value
+@
+TYPE
+Type
+@
+SEARCH
+Search
+@
+REFRESH
+Refresh
+@
+TAGS
+Tags
+@
+EGO_LOGIN_USER
+User
+@
+EGO_LOGIN_PWD
+Password
+@
+EGO_LOGIN_LOGIN
+Login
+@
+EGO_LOGIN_SETUP
+Setup
+@
+EGO_LOGIN_RESET
+Forgot your password?
+@
+EGO_GOTOAPP
+Go to application
+@
+EGO_SET_ENVIRON
+Environ
+@
+EGO_SET_ROLE
+Role
+@
+EGO_SET_LANGUAGE
+Language
+@
+EGO_SET_COUNTRY
+Country
+@
+EGO_SET_MODE
+Mode
+@
+EGO_MSG_EXPIREDPWD
+Expired password: provide change password to access the application
+@
+EGO_MSG_EXPIRINGPWD
+Password is expiring
+@
+EGO_MSG_SELECTSESSION
+Select a session
+@
+EGO_MSG_SUCCESSFUL
+Operation successful
+@
+EGO_MSG_INVALIDSESSION
+Invalid session
+@
+EGO_MSG_MANDATORYAPP
+Specify an application
+@
+EGO_MSG_SELECTAPP
+Select an application
+@
+EGO_MSG_MANDATORYDESCR
+Specify a description
+@
+EGO_MSG_NAMEALREADYUSED
+Name already used
+@
+EGO_MSG_INVALIDNAME
+Invalid name
+@
+EGO_MSG_MANDATORYENV
+Specify an environ
+@
+EGO_MSG_SELECTENV
+Select an environ
+@
+EGO_MSG_SENDSUCCESSFUL
+Successfully sent
+@
+EGO_MSG_AUTHSUCCESSFUL
+Successful authentication
+@
+EGO_MSG_REQSUCCESSFUL
+Request submitted: check your inbox
+@
+EGO_MSG_RESETSUCCESSFUL
+Password reset: check your inbox
+@
+EGO_MSG_SETSUCCESSFUL
+The new settings have been saved
+@
+EGO_MSG_NEWSUCCESSFUL
+New password saved
+@
+EGO_MSG_MANDATORYUSERALIAS
+Specify username or alias
+@
+EGO_MSG_INVALIDENV
+Invalid environ [{1}]
+@
+EGO_MSG_SELECTLANG
+Select a language
+@
+EGO_MSG_LANGALREADYUSED
+Language already used
+@
+EGO_MSG_INVALIDLANG
+Invalid language
+@
+EGO_MSG_UNINITSESSION
+Session not initialized: refresh login form
+@
+EGO_MSG_MANDATORYPWD
+Specify a password
+@
+EGO_MSG_PWDTOOSHORT
+Password too short
+@
+EGO_MSG_USELETTERDIGIT
+Use both letters and digit
+@
+EGO_MSG_USELOWERUPPER
+Use both lower and upper case
+@
+EGO_MSG_WRONGPWD
+Wrong password
+@
+EGO_MSG_UNCHANGEDPWD
+The new password is identical to the old
+@
+EGO_MSG_MISMATCHPWD
+The password is typed in two different ways
+@
+EGO_MSG_MANDATORYROLE
+Specify a role
+@
+EGO_MSG_SELECTROLE
+Select a role
+@
+EGO_MSG_INVALIDROLE
+Invalid role [{1}]
+@
+EGO_MSG_MANDATORYALIAS
+Specify an alias
+@
+EGO_MSG_SELECTUSER
+Select a user
+@
+EGO_MSG_LASTDEMIURGE
+You can't delete the last demiurge
+@
+EGO_MSG_MAINALIAS
+You can't delete the main alias
+@
+EGO_MSG_NOACTION
+No action is recognized
+@
+EGO_MSG_INVALIDDEMIURGE
+Invalid flag value for 'demiurge'
+@
+EGO_MSG_INVALIDADMIN
+Invalid flag value for 'admin'
+@
+EGO_MSG_ALIASALREADYUSED
+Alias already used
+@
+EGO_MSG_INVALIDUSER
+Invalid user
+@
+EGO_MSG_INVALIDALIAS
+Invalid alias
+@
+EGO_MSG_MISMATCHIP
+IP address of the requester is different from session's one
+@
+EGO_MSG_NOAUTHORIZATION
+Insufficient permissions
+@
+EGO_MSG_NOUSER
+User doesn't exist
+@
+EGO_MSG_NOEMAIL
+Email address not set
+@
+EGO_MSG_WRONGUSERORPWD
+User doesn't exist or password is wrong
+@
+EGO_MSG_DISABLEDUSER
+Disabled user
+@
+EGO_MSG_REQUESTCANNOT
+The request cannot be completed
+@
+EGO_MSG_REQUESTEXPIRED
+The request has expired
+@
+EGO_MSG_ALREADYSENT
+A request has already been submitted
+@
+EGO_MSG_NOUSEROREMAIL
+User/email doesn't exist
+@
+EGO_CONFIRMDELSESSIONS
+Delete all expired sessions?
+@
+EGO_CONFIRMRESETPWD
+Reset password of selected user?
+@
+EGO_CONFIRMDELALIAS
+Delete selected alias?
+@
+EGO_CONFIRMDELUSERS
+Delete all deactivated users?
+@
+EGO_CONFIRMDELAPP
+Delete selected application?
+@
+EGO_CONFIRMDELENVIRON
+Delete selected environ?
+@
+EGO_CONFIRMDELROLE
+Delete selected role?
+@
+EGO_CONFIRMDELLANG
+Delete selected language?
+@
+EGO_CONFIRMSENDPWD
+Reset password of user {1}?"
+@
+EGO_OPT_DURATION
+Duration days
+@
+EGO_OPT_WARNING
+Warning days
+@
+EGO_OPT_MINLEN
+Minimum length
+@
+EGO_OPT_DEFAULT
+Default
+@
+EGO_OPT_UPPERLOWER
+Upper/Lower case
+@
+EGO_OPT_LETTERDIGIT
+Digits/Letters
+@
+EGO_OPT_SAVEUSER
+Save user
+@
+EGO_OPT_EMAILRESET
+Reset via email
+@
+EGO_USR_FILTER
+Filter
+@
+EGO_USR_ONLY
+Enabled
+@
+EGO_USR_REFRESH
+Refresh/Clear
+@
+EGO_USR_USE
+Use:
+@
+EGO_USR_ALIAS
+Alias
+@
+EGO_USR_EMAIL
+Email
+@
+EGO_USR_DEMIURGE
+Demiurge
+@
+EGO_USR_ADMIN
+Administr.
+@
+EGO_USR_AS
+As:
+@
+EGO_USR_NEWUSER
+New user
+@
+EGO_USR_NEWALIAS
+New alias
+@
+EGO_USR_UPDATEUSER
+Update selected
+@
+EGO_USR_OR
+Or:
+@
+EGO_USR_RESET
+Reset password
+@
+EGO_USR_ACTIVATE
+Enable/Disable user
+@
+EGO_USR_DELETEALIAS
+Delete alias
+@
+EGO_USR_DELETEALL
+Delete all disabled
+@
+EGO_APP_REFRESH
+Refresh/Clear
+@
+EGO_APP_USE
+Use:
+@
+EGO_APP_NAME
+Applicat.
+@
+EGO_APP_DESCR
+Descr.
+@
+EGO_APP_AS
+As:
+@
+EGO_APP_INSERT
+New application
+@
+EGO_APP_UPDATE
+Update selected
+@
+EGO_APP_OR
+Or:
+@
+EGO_APP_DELETE
+Delete application
+@
+EGO_ENV_REFRESH
+Refresh/Clear
+@
+EGO_ENV_USE
+Use:
+@
+EGO_ENV__NAME
+Environ
+@
+EGO_ENV_DESCR
+Descr.
+@
+EGO_ENV_AS
+As:
+@
+EGO_ENV_INSERT
+New environ
+@
+EGO_ENV_UPDATE
+Update selected
+@
+EGO_ENV_OR
+Or:
+@
+EGO_ENV_DELETE
+Delete environ
+@
+EGO_ENVUSR_REFRESH
+Refresh
+@
+EGO_ROLE_REFRESH
+Refresh/Clear
+@
+EGO_ROLE_USE
+Use:
+@
+EGO_ROLE_NAME
+Role
+@
+EGO_ROLE_DESCR
+Descr.
+@
+EGO_ROLE_AS
+As:
+@
+EGO_ROLE_INSERT
+New role
+@
+EGO_ROLE_UPDATE
+Update selected
+@
+EGO_ROLE_OR
+Or:
+@
+EGO_ROLE_DELETE
+Delete role
+@
+EGO_ROLEUSR_REFRESH
+Refresh
+@
+EGO_LNG_REFRESH
+Refresh/Clear
+@
+EGO_LNG_USE
+Use:
+@
+EGO_LNG_NAME
+Language
+@
+EGO_LNG_DESCR
+Descr.
+@
+EGO_LNG_AS
+As:
+@
+EGO_LNG_INSERT
+New language
+@
+EGO_LNG_UPDATE
+Update selected
+@
+EGO_LNG_APPLY
+Apply
+@
+EGO_LNG_OR
+Or:
+@
+EGO_LNG_DELETE
+Delete language
+@
+EGO_SES_ONLY
+Enabled
+@
+EGO_SES_REFRESH
+Refresh
+@
+EGO_SES_CLOSE
+Close selected session
+@
+EGO_SES_DELETEALL
+Delete all expired sessions
+@
+EGO_PWD_CURRENT
+Current password
+@
+EGO_PWD_NEW
+New password
+@
+EGO_PWD_REPEAT
+Repeat password
+@
+EGO_PWD_CONFIRM
+Confirm
+@
+EGO_TITLE_SETTINGS
+Options
+@
+EGO_TITLE_USERS
+Users
+@
+EGO_TITLE_APPLICATIONS
+Applications
+@
+EGO_TITLE_LANGUAGES
+Languages
+@
+EGO_TITLE_SESSIONS
+Sessions
+@
+EGO_TITLE_CHANGEPASSWORD
+Change password
+@
+EGO_AUTHENTICATION_SERVICE
+Authentication service
+@
+EGO_TAB_APPLICATIONS
+Applications
+@
+EGO_TAB_ENVIRONS
+Environs
+@
+EGO_TAB_ENVUSERS
+Environ/Users
+@
+EGO_TAB_ROLES
+Roles
+@
+EGO_TAB_ROLEUSERS
+Role/Users
+@
+EGO_GRID_USER
+User
+@
+EGO_GRID_BEGIN
+Begin
+@
+EGO_GRID_ALIAS
+Alias
+@
+EGO_GRID_APP
+Application
+@
+EGO_GRID_NAME
+Name
+@
+EGO_GRID_DESCR
+Description
+@
+EGO_GRID_OUTENV
+Users out of environ
+@
+EGO_GRID_INENV
+Users into environ
+@
+EGO_GRID_OUTROLE
+Users without role
+@
+EGO_GRID_INROLE
+Users with role
+@
+EGO_GRID_LANG
+Language
+@
+MN_TYPOLOGIES
+Typologies
+@
+MN_MASTERDATA
+Master data
+@
+MN_MANAGEMENTS
+Managements
+@
+MN_FLOWS
+Flows
+@
+MN_STORAGES
+Storages
+@
+MN_MAINTENANCE
+Maintenance
+@
+MN_REPORTING
+Reporting
+@
+MN_TOOLS
+Tools
+@
+MN_DOCUMENTS
+Documents
+@
+MN_FILIBUSTER
+Filibuster
+@
+MN_LEGEND
+Legend
+@
+MN_PLUTO
+Financial tools
+@
+MN_OPTIONS
+Options
+@
+MN_EQUIVALENCES
+Equivalences
+@
+MN_INCLUSIONS
+Inclusions
+@
+MN_QUIVERS
+Quivers
+@
+MN_ARROWS
+Arrows
+@
+MN_MOTIVES
+Motives
+@
+MN_OBJECTS
+Objects
+@
+MN_GENRES
+Genres
+@
+MN_STATISTICS
+Statistics
+@
+MN_SITES
+Sites
+@
+MN_PAGES
+Pages
+@
+SET_TAB_SETTINGS
+Settings
+@
+SET_TAB_MAINTENANCE
+Maintenance
+@
+SET_TAB_IMPORTS
+Imports
+@
+SET_TAB_BACKUP
+Backup
+@
+SET_TAB_RESTORE
+Restore
+@
+SET_NEW
+New
+@
+SET_ENGAGE
+Save
+@
+SET_DELETE
+Delete selected
+@
+SET_REFRESHVIEWS
+Refresh all views
+@
+SET_IMPORTEGO
+Import Ego's users and roles
+@
+SET_ELIMINAZIONE
+<b>Permanently remove deleted records:</b>
+@
+SET_EMPTYGENRES
+Genres
+@
+SET_EMPTYOBJECTS
+Objects
+@
+SET_EMPTYMOTIVES
+Motives
+@
+SET_EMPTYARROWS
+Arrows
+@
+SET_EMPTYQUIVERS
+Quivers
+@
+SET_EMPTYFILES
+Documents
+@
+SET_EMPTYMESSAGES
+Messages
+@
+SET_EMPTYHISTORY
+Delete old historicizing
+@
+SET_EMPTYTEMPORARY
+Clear temporary directory
+@
+SET_EMPTYSELECTIONS
+Clear selected orphans
+@
+SET_EMPTYLOG
+Delete journal
+@
+SET_BACKUP
+Backup

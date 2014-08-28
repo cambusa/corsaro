@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Oggetti",
+    "babelcode":"MN_OBJECTS",
+    "params":{
+        "name":"qvobjects",
+        "path":"qvtabelle/",
+        "title":"Oggetti"
+    }
+}

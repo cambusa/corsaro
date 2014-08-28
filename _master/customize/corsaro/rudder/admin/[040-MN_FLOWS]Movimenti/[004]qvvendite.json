@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Vendite",
+    "params":{
+        "name":"qvvendite",
+        "path":"qvmovimenti/",
+        "title":"Vendite",
+        "processo":"_PROCVENDITE"
+    }
+}

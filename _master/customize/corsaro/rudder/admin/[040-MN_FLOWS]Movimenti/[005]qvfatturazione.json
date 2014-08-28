@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Fatturazione",
+    "params":{
+        "name":"qvfatturazione",
+        "path":"qvmovimenti/",
+        "title":"Fatturazione",
+        "processo":"_PROCVENDITE"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Movimenti",
+    "params":{
+        "name":"qvmovimenti",
+        "path":"qvmovimenti/",
+        "title":"Movimenti"
+    }
+}

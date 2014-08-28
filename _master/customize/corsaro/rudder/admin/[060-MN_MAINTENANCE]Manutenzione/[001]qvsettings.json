@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Opzioni",
+    "babelcode":"MN_OPTIONS",
+    "params":{
+        "name":"qvsettings",
+        "path":"qvopzioni/",
+        "title":"Opzioni"
+    }
+}

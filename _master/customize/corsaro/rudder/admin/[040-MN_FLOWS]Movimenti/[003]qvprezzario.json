@@ -1,0 +1,9 @@
+{
+    "type":"form",
+    "title":"Prezzario",
+    "params":{
+        "name":"qvprezzario",
+        "path":"qvmovimenti/",
+        "title":"Prezzario"
+    }
+}

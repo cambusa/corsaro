@@ -49,25 +49,28 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Operazione effettuata";
+    $babelcode="EGO_MSG_SUCCESSFUL";
+    $args=array();
 
-    $v=explode("|",$users);
-    if(count($v)>0){
-        $listin="";
-        for($i=0;$i<count($v);$i++){
-            if($i>0)
-                $listin.=",";
-            $listin.="'".$v[$i]."'";
+    // APRO IL DATABASE
+    $maestro=maestro_opendb("ryego");
+    if($maestro->conn!==false){
+
+        // CONTROLLO VALIDITA' SESSIONE
+        if(ego_validatesession($maestro, $sessionid, true)==false){
+            $success=0;
+            $description="Sessione non valida";
+            $babelcode="EGO_MSG_INVALIDSESSION";
         }
-        // APRO IL DATABASE
-        $maestro=maestro_opendb("ryego");
-        if($maestro->conn!==false){
 
-            // CONTROLLO VALIDITA' SESSIONE
-            if(ego_validatesession($maestro, $sessionid)==false){
-                $success=0;
-                $description="Sessione non valida";
+        $v=explode("|",$users);
+        if(count($v)>0){
+            $listin="";
+            for($i=0;$i<count($v);$i++){
+                if($i>0)
+                    $listin.=",";
+                $listin.="'".$v[$i]."'";
             }
-            
             // CONTROLLI DI CORRETTEZZA REPERIMENTO SYSID
             if($success){
                 if($app!=""){
@@ -82,6 +85,7 @@ try{
                 else{
                     $success=0;
                     $description="Seleziona una applicazione";
+                    $babelcode="EGO_MSG_SELECTAPP";
                 }
             }
             if($success){
@@ -99,7 +103,9 @@ try{
                 }
                 if($envid==""){
                     $success=0;
-                    $description=$env." Ambiente non valido";
+                    $description="Ambiente non valido [$env]";
+                    $babelcode="EGO_MSG_INVALIDENV";
+                    $args["ENVIRON"]=$env;
                 }
             }
             if($success){
@@ -140,23 +146,28 @@ try{
             }
         }
         else{
-            // CONNESSIONE FALLITA
             $success=0;
-            $description=$maestro->errdescr;
+            $description="Nessun utente selezionato";
+            $babelcode="EGO_MSG_SELECTUSER";
         }
-
-        // CHIUDO IL DATABASE
-        maestro_closedb($maestro);
     }
     else{
+        // CONNESSIONE FALLITA
         $success=0;
-        $description="Nessun utente selezionato";
+        $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
     }
+
+    // CHIUDO IL DATABASE
+    maestro_closedb($maestro);
 }
 catch(Exception $e){
     $success=0;
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
 }
+
+$description=qv_babeltranslate($description, $args);
 
 // USCITA JSON
 $j=array();

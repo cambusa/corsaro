@@ -22,6 +22,7 @@ try{
     $success=1;
     $field=0;
     $description="Nuova password registrata";
+    $babelcode="EGO_MSG_NEWSUCCESSFUL";
 
     // PERMUTAZIONE PER PROTEZIONE PASSWORD
     session_start();
@@ -33,79 +34,82 @@ try{
         $success=0;
         $field=0;
         $description="Sessione non inizializzata: ricaricare il form di login";
+        $babelcode="EGO_MSG_UNINITSESSION";
     }
-    if($success){
-        // DETERMINO LA SESSIONID
-        if(isset($_POST["sessionid"]))
-            $sessionid=ryqEscapize($_POST["sessionid"]);
-        else
-            $sessionid="";
+    
+    // DETERMINO LA SESSIONID
+    if(isset($_POST["sessionid"]))
+        $sessionid=ryqEscapize($_POST["sessionid"]);
+    else
+        $sessionid="";
 
-        // DETERMINO LA PASSWORD CORRENTE
-        if(isset($_POST["currpwd"])){
-            $currpwd=ryqEscapize($_POST["currpwd"]);
-            $currpwd=decryptString($currpwd, $privatekey);
-        }
-        else{
-            $currpwd=sha1("");
-        }
+    // DETERMINO LA PASSWORD CORRENTE
+    if(isset($_POST["currpwd"])){
+        $currpwd=ryqEscapize($_POST["currpwd"]);
+        $currpwd=decryptString($currpwd, $privatekey);
+    }
+    else{
+        $currpwd=sha1("");
+    }
 
-        // DETERMINO LA PASSWORD NUOVA
-        if(isset($_POST["newpwd"])){
-            $newpwd=ryqEscapize($_POST["newpwd"]);
-            $newpwd=decryptString($newpwd, $privatekey);
-        }
-        else{
-            $newpwd=sha1("");
-        }
+    // DETERMINO LA PASSWORD NUOVA
+    if(isset($_POST["newpwd"])){
+        $newpwd=ryqEscapize($_POST["newpwd"]);
+        $newpwd=decryptString($newpwd, $privatekey);
+    }
+    else{
+        $newpwd=sha1("");
+    }
 
-        // DETERMINO LA PASSWORD RIPETUTA
-        if(isset($_POST["repeatpwd"])){
-            $repeatpwd=ryqEscapize($_POST["repeatpwd"]);
-            $repeatpwd=decryptString($repeatpwd, $privatekey);
-        }
-        else{
-            $repeatpwd=sha1("");
-        }
+    // DETERMINO LA PASSWORD RIPETUTA
+    if(isset($_POST["repeatpwd"])){
+        $repeatpwd=ryqEscapize($_POST["repeatpwd"]);
+        $repeatpwd=decryptString($repeatpwd, $privatekey);
+    }
+    else{
+        $repeatpwd=sha1("");
+    }
 
-        // DETERMINO LA LUNGHEZZA
-        if(isset($_POST["lenpwd"]))
-            $lenpwd=intval($_POST["lenpwd"]);
-        else
-            $lenpwd=0;
+    // DETERMINO LA LUNGHEZZA
+    if(isset($_POST["lenpwd"]))
+        $lenpwd=intval($_POST["lenpwd"]);
+    else
+        $lenpwd=0;
 
-        // DETERMINO LETTER-DIGIT
-        if(isset($_POST["ldpwd"]))
-            $ldpwd=intval($_POST["ldpwd"]);
-        else
-            $ldpwd=0;
+    // DETERMINO LETTER-DIGIT
+    if(isset($_POST["ldpwd"]))
+        $ldpwd=intval($_POST["ldpwd"]);
+    else
+        $ldpwd=0;
 
-        // DETERMINO UPPER-LOWER
-        if(isset($_POST["ulpwd"]))
-            $ulpwd=intval($_POST["ulpwd"]);
-        else
-            $ulpwd=0;
-            
-        if($newpwd==sha1("")){
+    // DETERMINO UPPER-LOWER
+    if(isset($_POST["ulpwd"]))
+        $ulpwd=intval($_POST["ulpwd"]);
+    else
+        $ulpwd=0;
+        
+    // APRO IL DATABASE
+    $maestro=maestro_opendb("ryego");
+    if($maestro->conn!==false){
+    
+        // CONTROLLO VALIDITA' SESSIONE
+        if(ego_validatesession($maestro, $sessionid, true, "")==false){
             $success=0;
-            $field=2;
-            $description="La password è obbligatoria";
+            $field=0;
+            $description="Sessione non valida";
+            $babelcode="EGO_MSG_INVALIDSESSION";
         }
-        elseif($newpwd==$repeatpwd){
+        if($success){
+            if($newpwd==sha1("")){
+                $success=0;
+                $field=2;
+                $description="La password è obbligatoria";
+                $babelcode="EGO_MSG_MANDATORYPWD";
+            }
+            elseif($newpwd==$repeatpwd){
 
-            if($newpwd!=$currpwd){
+                if($newpwd!=$currpwd){
 
-                // APRO IL DATABASE
-                $maestro=maestro_opendb("ryego");
-                if($maestro->conn!==false){
-                
-                    // CONTROLLO VALIDITA' SESSIONE
-                    if(ego_validatesession($maestro, $sessionid, false, "")==false){
-                        $success=0;
-                        $field=0;
-                        $description="Sessione non valida";
-                    }
-                    
                     if($success){
                         // LEGGO LE OPZIONI
                         $minlen=6;
@@ -122,6 +126,7 @@ try{
                             $success=0;
                             $field=2;
                             $description="Password troppo corta";
+                            $babelcode="EGO_MSG_PWDTOOSHORT";
                             $valid=false;
                         }
                         if($letterdigit){
@@ -129,6 +134,7 @@ try{
                                 $success=0;
                                 $field=2;
                                 $description="Utilizzare sia lettere che numeri";
+                                $babelcode="EGO_MSG_USELETTERDIGIT";
                                 $valid=false;
                             }
                         }
@@ -137,6 +143,7 @@ try{
                                 $success=0;
                                 $field=2;
                                 $description="Utilizzare lettere sia maiuscole che minuscole";
+                                $babelcode="EGO_MSG_USELOWERUPPER";
                                 $valid=false;
                             }
                         }
@@ -167,44 +174,52 @@ try{
                                     $success=0;
                                     $field=1;
                                     $description="Password errata";
+                                    $babelcode="EGO_MSG_WRONGPWD";
                                 }
                             }
                             else{
                                 $success=0;
                                 $field=0;
                                 $description="Sessione non valida";
+                                $babelcode="EGO_MSG_INVALIDSESSION";
                             }
                         }
                     }
                 }
                 else{
-                    // CONNESSIONE FALLITA
                     $success=0;
-                    $field=0;
-                    $description=$maestro->errdescr;
+                    $field=2;
+                    $description="La nuova password è identica alla vecchia";
+                    $babelcode="EGO_MSG_UNCHANGEDPWD";
                 }
-
-                // CHIUDO IL DATABASE
-                maestro_closedb($maestro);
             }
             else{
                 $success=0;
-                $field=2;
-                $description="La nuova password è indentica alla vecchia";
+                $field=3;
+                $description="La password è stata digitata in due modi diversi";
+                $babelcode="EGO_MSG_MISMATCHPWD";
             }
         }
-        else{
-            $success=0;
-            $field=3;
-            $description="La password è stata digitata in due modi diversi";
-        }
     }
+    else{
+        // CONNESSIONE FALLITA
+        $success=0;
+        $field=0;
+        $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
+    }
+
+    // CHIUDO IL DATABASE
+    maestro_closedb($maestro);
 }
 catch(Exception $e){
     $success=0;
     $field=0;
     $description=$e->getMessage();
+    $babelcode="EGO_MSG_UNDEFINED";
 }
+
+$description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();

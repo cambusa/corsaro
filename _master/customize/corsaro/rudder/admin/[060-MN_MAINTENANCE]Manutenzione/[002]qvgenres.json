@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Generi",
+    "babelcode":"MN_GENRES",
+    "params":{
+        "name":"qvgenres",
+        "path":"qvtabelle/",
+        "title":"Generi"
+    }
+}

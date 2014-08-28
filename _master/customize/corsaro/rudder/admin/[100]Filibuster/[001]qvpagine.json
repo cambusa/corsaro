@@ -1,9 +1,0 @@
-{
-    "type":"form",
-    "title":"Pagine",
-    "params":{
-        "name":"qvpagine",
-        "path":"qvcontenuti/",
-        "title":"Pagine"
-    }
-}

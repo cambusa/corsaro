@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Quiver",
+    "babelcode":"MN_QUIVERS",
+    "params":{
+        "name":"qvquivers",
+        "path":"qvtabelle/",
+        "title":"Quiver"
+    }
+}

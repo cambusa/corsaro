@@ -1,0 +1,61 @@
+<?php
+/****************************************************************************
+* Name:            qvtrasferimenti.php                                      *
+* Project:         Corsaro                                                  *
+* Version:         1.00                                                     *
+* Description:     Arrows Oriented Modeling                                 *
+* Copyright (C):   2013  Rodolfo Calzetti                                   *
+* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+?>
+<div relid="lbf_proprietario"></div>
+<div relid="txf_proprietario"></div>
+<div relid="lbf_magazzino"></div>
+<div relid="txf_magazzino"></div>
+<div relid="tabs" >
+    <div>
+        <div relid="lbf_search"></div><div relid="txf_search"></div>
+        <div relid="lbf_genre"></div><div relid="txf_genre"></div><div relid="oper_genre"></div>
+        <div relid="lbf_motives"></div><div relid="txf_motives"></div>
+        <div relid="lbf_collocazione"></div><div relid="txf_collocazione"></div>
+        <div relid="lbf_amount"></div><div relid="txf_amount"></div>
+        <div relid="lbf_datemin"></div><div relid="txf_datemin"></div>
+        <div relid="lbf_datemax"></div><div relid="txf_datemax"></div>
+        <div relid="oper_refresh"></div>
+        <div relid="oper_reset"></div>
+        <div relid="gridsel"></div>
+        <div relid="oper_new"></div>
+        <div relid="oper_print"></div>
+        <div relid="oper_delete"></div>
+        <div relid="lb_warning"></div>
+    </div>
+    <div>
+        <div relid="LB_DESCRIPTION"></div><div relid="DESCRIPTION"></div>
+        
+        <div relid="LB_BOW"></div><div relid="LB_TARGET"></div>
+        <div relid="LB_OBJECTID"></div><div relid="BOWID"></div><div relid="TARGETID"></div>
+        <div relid="LB_TIME"></div><div relid="BOWDATE"></div><div relid="BOWTIME"></div><div relid="TARGETDATE"></div><div relid="TARGETTIME"></div>
+        <div relid="LB_GIACENZA"></div><div relid="BOWGIACENZA"></div><div relid="TARGETGIACENZA"></div>
+        <div relid="LB_DISPO"></div><div relid="BOWDISPO"></div><div relid="TARGETDISPO"></div>
+        
+        <div relid="LB_AUXTIME"></div><div relid="AUXDATE"></div><div relid="AUXTIME"></div>
+        <div relid="LB_MOTIVEID"></div><div relid="MOTIVEID"></div>
+        <div relid="LB_GENREID"></div><div relid="GENREID"></div>
+        <div relid="LB_AMOUNT"></div><div relid="AMOUNT"></div>
+        <div relid="LB_REFERENCE"></div><div relid="REFERENCE"></div>
+        <div relid="LB_CONSISTENCY"></div><div relid="CONSISTENCY"></div>
+        <div relid="LB_STATUS"></div><div relid="STATUS"></div>
+        <div relid="LB_STATUSTIME"></div><div relid="STATUSTIME"></div>
+        <div relid="LB_PHASE"></div><div relid="PHASE"></div>
+        <div relid="LB_PHASENOTE"></div><div relid="PHASENOTE"></div>
+        <div relid="LB_PROVIDER"></div><div relid="PROVIDER"></div>
+        <div relid="LB_PARCEL"></div><div relid="PARCEL"></div>
+        <div relid="LB_TAG"></div><div relid="TAG"></div>
+        <div relid="LB_REGISTRY"></div><div relid="REGISTRY"></div> <!-- NOTE -->
+        <div relid="oper_contextengage"></div>
+    </div>
+    <div relid="filemanager"></div>
+</div>
+<div relid="browser_genre"></div>

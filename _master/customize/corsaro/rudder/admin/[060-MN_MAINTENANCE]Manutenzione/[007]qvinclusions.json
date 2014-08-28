@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Inclusioni",
+    "babelcode":"MN_INCLUSIONS",
+    "params":{
+        "name":"qvinclusions",
+        "path":"qvrelazioni/",
+        "title":"Inclusioni"
+    }
+}
