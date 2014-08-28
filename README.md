@@ -33,7 +33,7 @@ Getting started with Corsaro
 
 2. open <code>\projects.php</code>
 
-3. choose a name for the installation (_Project_), e.g __demo__
+3. choose a name for the installation (_Project_), e.g. __demo__
 
 4. enter the password __badwolf__ (you can change the password in the file <code>\xpassword.php</code>)
 
@@ -41,7 +41,7 @@ Getting started with Corsaro
 
 6. in the new page <code>Home Project DEMO</code>:<br>
    * click <code>Monad, Ego, Pulse and dictionaries</code><br>
-   * click <code>Maestro</code> (utente:__demiurge__, password:__sonoio__)<br>
+   * click <code>Maestro</code> (user:__demiurge__, password:__sonoio__)<br>
      change the password and click <code>Go to application</code><br>
      on second tab <code>Upgrade</code>, choose <code>[demo]</code> and click <code>Create/Update</code><br>
      logout and close the page
@@ -86,7 +86,7 @@ ToDo
    <code>\<div relid="LB\_COGNOME" __babelcode="SURNAME"__\>\</div\>\<div relid="COGNOME"\>\</div\> </code><br>
    <code>... </code>
 
-2. New JS queue management requests.
+2. New management of requests queue.
 
 3. Quiver: provide a parameter _"module"_ as a namespace.
 
