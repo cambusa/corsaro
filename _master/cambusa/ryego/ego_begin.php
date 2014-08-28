@@ -109,7 +109,19 @@ try{
                                 // LETTURA SETUP
                                 $sql="SELECT * FROM EGOSETUP WHERE APPID='' AND ALIASID='$aliasid'";
                                 maestro_query($maestro, $sql, $v);
-                                if(count($v)==0){
+                                if(count($v)>0){
+                                    $test_languageid=$v[0]["LANGUAGEID"];
+                                    // Controllo che la lingua del setup sia ancora valida
+                                    $sql="SELECT SYSID,NAME FROM EGOLANGUAGES WHERE SYSID='$test_languageid'";
+                                    maestro_query($maestro, $sql, $v);
+                                    if(count($v)==1){
+                                        $languageid=$test_languageid;
+                                        $global_lastlanguage=$v[0]["NAME"];
+                                    }
+                                    $sql="UPDATE EGOSETUP SET LANGUAGEID='$languageid' WHERE APPID='' AND ALIASID='$aliasid'";
+                                    maestro_execute($maestro, $sql);
+                                }
+                                else{
                                     // CREAZIONE DI UN SETUP DENZA APPID PER MEMORIZZARE LA LINGUA
                                     // IN AMMINISTRAZIONE EGO
                                     $setupid=qv_createsysid($maestro);
