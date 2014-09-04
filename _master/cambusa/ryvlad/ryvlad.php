@@ -1,4 +1,14 @@
 <?php
+/****************************************************************************
+* Name:            ryvlad.php                                               *
+* Project:         Cambusa/ryVlad                                           *
+* Version:         1.00                                                     *
+* Description:     Vampire Locates and Acquires Data                        *
+* Copyright (C):   2014  Rodolfo Calzetti                                   *
+* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
 if(!isset($tocambusa))
     $tocambusa="../";
 include_once $tocambusa."rygeneral/json_loader.php";
