@@ -43,15 +43,16 @@ function class_qvpagine(settings,missing){
         left:20,
         top:80,
         width:400,
-        height:600,
+        height:400,
         numbered:false,
         checkable:true,
         environ:_sessioninfo.environ,
         from:"QW_WEBCONTENTSBROWSER",
         orderby:"DESCRIPTION",
         columns:[
-            {id:"DESCRIPTION",caption:"Descrizione",width:250},
-            {id:"SITE",caption:"Sito",width:200}
+            {id:"DESCRIPTION", caption:"Descrizione", width:250},
+            {id:"SITE", caption:"Sito", width:200},
+            {id:"SYSID", caption:"Codice", width:200}
         ],
         changerow:function(o,i){
             currsysid="";
@@ -242,7 +243,7 @@ function class_qvpagine(settings,missing){
     
     var oper_delete=$(prefix+"oper_delete").rylabel({
         left:430,
-        top:640,
+        top:450,
         caption:"Elimina selezione",
         button:true,
         click:function(o){

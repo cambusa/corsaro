@@ -1,0 +1,24 @@
+{
+    "root":{
+        "match":"^(.{8})(.{20})(\\d{4}/\\d{2}/\\d{2})(.{14}).*$",
+        "matchtype":"A",
+        "reset":"0",
+        "attributes":{
+            "codice":{"index":"1","target":"cod"},
+            "descrizione":{"index":"2","target":"descr"},
+            "data":{"index":"3", "type":"D", "format":"Y#M#D"},
+            "importo":{"index":"4", "type":"N", "sepdec":"," , "minus":"D" , "conflict":"OLD.'@'.NEW"}
+        },
+        "levels":{
+            "topolino":{
+                "match":"^(\\d{3})",
+                "matchtype":"A",
+                "reset":"0",
+                "method":"PUSH",
+                "attributes":{
+                    "subcod":{"index":"1"}
+                }
+            }
+        }
+    }
+}
