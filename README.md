@@ -1,7 +1,7 @@
 Corsaro © 2014 Rodolfo Calzetti
 ===============================
 
-Web-based Enterprise Resource Planning
+Web application framework and web-based Enterprise Resource Planning
 
 ---
 
@@ -59,7 +59,8 @@ Features
 The LAD protocol allows you to have the results of a query without actually running the query, getting the instant population of lists with tens of thousands of records.
 
 2. __Front-end SPA+MDI__<br>
-![MDI](https://raw.githubusercontent.com/cambusa/corsaro/master/screenshot01.png)
+![MDI](https://raw.githubusercontent.com/cambusa/corsaro/master/screenshot01.png)  
+A single page, but many independent windows dynamically loaded. Your application can grow indefinitely.
 
 3. __Arrow-Oriented Modeling__<br>
    * _"Object"_ is any entity that has a master data "individuality": people, companies, offices, accounts, locations, ...<br>
