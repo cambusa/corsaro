@@ -453,6 +453,7 @@ var _ryquebusy=false;
                             r=parseInt(tid.replace(/^.*_(\d+)_\d+$/,"$1"));
                             c=parseInt(tid.replace(/^.*_\d+_(\d+)$/,"$1"));
                         }
+                        setfocusable(r);
                         if(r>0){
                             reff=proptoprow+r-1;
                             if(reff<=propcount){
@@ -1112,13 +1113,16 @@ var _ryquebusy=false;
                     proptoprow=propmaxtoprow;
                 if (proptoprow<1)
                     proptoprow=1;
+                setfocusable();
             }
             this.gotofirst=function(){
                 proptoprow=1;
+                setfocusable();
                 propobj.dataload();
             }
             this.gotolast=function(){
                 proptoprow=propmaxtoprow;
+                setfocusable();
                 propobj.dataload();
             }
             this.decrefresh=function(f){
@@ -1298,6 +1302,7 @@ var _ryquebusy=false;
                         proptoprow=propmaxtoprow;
                     if (proptoprow<1)
                         proptoprow=1;
+                    setfocusable();
                 }
                 var t=$("#"+propname+"_tooltip");
                 t.html(proptoprow+"-"+(proptoprow+proprows-1));
@@ -1370,6 +1375,7 @@ var _ryquebusy=false;
                 $("#"+propname+"_0_"+k).html(c);
 			}
             this.raisechangerow=function(){
+                setfocusable();
                 if(propwhere!="#"){ // Qualcosa deve essere stato fatto prima
                     if(settings.changerow!=missing){settings.changerow(propobj,propindex)}
                 }
@@ -1666,7 +1672,7 @@ var _ryquebusy=false;
                     .width(propzerowidth)
                     .height(proprowh*(proprows+1))
                     .css({"position":"absolute","left":0,"top":0});
-                $("#"+propname+"_anchor").css({"position":"absolute","left":-2,top:0,"width":2,"height":proprowh*(proprows+1)+propscrollsize+1,"cursor":"default","text-decoration":"none","background-color":"transparent"});
+                $("#"+propname+"_anchor").css({"position":"absolute","left":-2,top:0,"width":2,"height":proprowh,"cursor":"default","text-decoration":"none","background-color":"transparent"});
                 $("#"+propname+"_vscroll").css({"position":"absolute","background-color":"#E0E0E0","top":proprowh,"left":propwidth-propscrollsize,"width":propscrollsize,"height":proprowh*proprows+1});
                 $("#"+propname+"_tooltip").css({"position":"absolute","visibility":"hidden","top":0,"left":0,"border":"1px solid silver","background-color":"#F5DEB3","white-space":"nowrap"});
                 $("#"+propname+"_vtrack").css({"position":"absolute","visibility":"hidden","background":"transparent url("+propfolderryque+"images/vtrack.gif) no-repeat","height":proptracksize,"width":propscrollsize,"top":0,"left":0,"cursor":"pointer"});
@@ -1927,6 +1933,16 @@ var _ryquebusy=false;
                     }
                 }
                 return e;
+            }
+            function setfocusable(r){
+                if(r==missing){
+                    r=propindex-proptoprow+1;
+                    if(r<0)
+                        r=0;
+                    else if(r>proprows)
+                        r=proprows;
+                }
+                $("#"+propname+"_anchor").css({top:proprowh*r});
             }
 			return this;
 		}
