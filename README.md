@@ -3,6 +3,8 @@ Corsaro © 2014 Rodolfo Calzetti
 
 Web application framework and web-based Enterprise Resource Planning
 
+Have you any questions? You can email me at postmaster@rudyz.net
+
 ---
 
 The set includes:
