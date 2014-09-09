@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Lingue",
+    "babelcode":"MN_LANGUAGES",
+    "params":{
+        "name":"qvlanguages",
+        "path":"qvopzioni/",
+        "title":"Lingue"
+    }
+}

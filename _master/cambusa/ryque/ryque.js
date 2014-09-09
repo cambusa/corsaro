@@ -580,6 +580,11 @@ var _ryquebusy=false;
                 });
                 $("#"+propname).contextMenu("ryque_menu", {
                     bindings: {
+                        'ryque_use': function(t) {
+                            if(settings.enter!=missing && propindex>0){
+                                settings.enter(propobj, propindex);
+                            }
+                        },
                         'ryque_sheet': function(t) {
                             propobj.sheet({});
                         }
@@ -593,6 +598,9 @@ var _ryquebusy=false;
                         },
                     onShowMenu: 
                         function(e, menu) {
+                            if(settings.enter==missing || propindex==0){
+                                $('#ryque_use', menu).remove();
+                            }
                             return menu;
                         }
                 });
@@ -1940,7 +1948,7 @@ var _ryquebusy=false;
                     if(r<0)
                         r=0;
                     else if(r>proprows)
-                        r=proprows;
+                        r=0;
                 }
                 $("#"+propname+"_anchor").css({top:proprowh*r});
             }

@@ -78,6 +78,14 @@ A single page, but many independent windows dynamically loaded. Your application
    * DB2
    * SQLite
 
+5. __Central Authentication Service__
+The EGO component manages:
+   * double protected password by RSA+SHA1 encryption  
+   * users  
+   * applications  
+   * roles (which are associated with customized menu in Corsaro)  
+   * sessions  
+
 ---
 
 ToDo
