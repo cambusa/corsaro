@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Propriet&agrave;",
+    "babelcode":"MN_OWNERSHIP",
     "params":{
         "name":"qvproprieta",
         "path":"qvanagrafiche/",

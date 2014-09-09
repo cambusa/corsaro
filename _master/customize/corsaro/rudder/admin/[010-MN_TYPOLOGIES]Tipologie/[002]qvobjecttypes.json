@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Oggetti",
+    "babelcode":"MN_OBJECTTYPES",
     "params":{
         "name":"qvobjecttypes",
         "path":"qvtipologie/",

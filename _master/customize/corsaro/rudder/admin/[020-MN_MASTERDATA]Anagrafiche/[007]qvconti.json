@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Conti",
+    "babelcode":"MN_ACCOUNTS",
     "params":{
         "name":"qvconti",
         "path":"qvanagrafiche/",

@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Mappe",
+    "babelcode":"MN_GMAPS",
     "params":{
         "name":"gmaps",
         "path":"@cambusa/rywinz/gmaps/",

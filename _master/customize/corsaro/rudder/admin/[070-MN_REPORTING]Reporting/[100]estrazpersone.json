@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Estrazione Persone",
+    "babelcode":"MN_REP_EXTRACTION_PLEOPLE",
     "params":{
         "name":"qvestrazioni",
         "path":"qvtabelle/",

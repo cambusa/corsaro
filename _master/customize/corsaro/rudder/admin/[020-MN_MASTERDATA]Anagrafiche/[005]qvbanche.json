@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Banche",
+    "babelcode":"MN_BANKS",
     "params":{
         "name":"qvbanche",
         "path":"qvanagrafiche/",

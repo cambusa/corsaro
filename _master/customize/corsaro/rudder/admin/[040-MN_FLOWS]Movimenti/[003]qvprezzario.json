@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Prezzario",
+    "babelcode":"MN_PRICE_LIST",
     "params":{
         "name":"qvprezzario",
         "path":"qvmovimenti/",

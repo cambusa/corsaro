@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Magazzini",
+    "babelcode":"MN_WAREHOUSES",
     "params":{
         "name":"qvmagazzini",
         "path":"qvstoccaggi/",

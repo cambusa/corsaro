@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Frecce",
+    "babelcode":"MN_ARROWTYPES",
     "params":{
         "name":"qvarrowtypes",
         "path":"qvtipologie/",

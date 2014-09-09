@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Quiver",
+    "babelcode":"MN_QUIVERTYPES",
     "params":{
         "name":"qvquivertypes",
         "path":"qvtipologie/",

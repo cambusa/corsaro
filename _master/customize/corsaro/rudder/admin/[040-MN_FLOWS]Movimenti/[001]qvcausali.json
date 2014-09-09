@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Causali",
+    "babelcode":"MN_REASONS",
     "params":{
         "name":"qvcausali",
         "path":"qvmovimenti/",

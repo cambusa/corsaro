@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Trasferimenti",
+    "babelcode":"MN_MOVEMENTS",
     "params":{
         "name":"qvtrasferimenti",
         "path":"qvstoccaggi/",

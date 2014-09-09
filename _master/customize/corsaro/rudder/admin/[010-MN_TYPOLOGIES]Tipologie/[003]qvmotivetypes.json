@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Motivi",
+    "babelcode":"MN_MOTIVETYPES",
     "params":{
         "name":"qvmotivetypes",
         "path":"qvtipologie/",

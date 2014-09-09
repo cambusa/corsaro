@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Vendite",
+    "babelcode":"MN_SALES",
     "params":{
         "name":"qvvendite",
         "path":"qvmovimenti/",

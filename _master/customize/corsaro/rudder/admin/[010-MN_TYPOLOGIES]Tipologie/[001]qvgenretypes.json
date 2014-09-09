@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Generi",
+    "babelcode":"MN_GENRETYPES",
     "params":{
         "name":"qvgenretypes",
         "path":"qvtipologie/",

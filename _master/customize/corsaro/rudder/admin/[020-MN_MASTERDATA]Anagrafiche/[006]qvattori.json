@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Attori",
+    "babelcode":"MN_STAKEHOLDERS",
     "params":{
         "name":"qvattori",
         "path":"qvanagrafiche/",

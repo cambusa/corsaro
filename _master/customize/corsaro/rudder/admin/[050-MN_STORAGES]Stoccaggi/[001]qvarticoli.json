@@ -1,6 +1,7 @@
 {
     "type":"form",
     "title":"Articoli",
+    "babelcode":"MN_GOODS",
     "params":{
         "name":"qvarticoli",
         "path":"qvstoccaggi/",
