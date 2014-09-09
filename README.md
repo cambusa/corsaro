@@ -78,8 +78,7 @@ A single page, but many independent windows dynamically loaded. Your application
    * DB2
    * SQLite
 
-5. __Central Authentication Service__
-The EGO component manages:
+5. __Central Authentication Service__  
    * double protected password by RSA+SHA1 encryption  
    * users  
    * applications  
