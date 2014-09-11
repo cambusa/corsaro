@@ -19,10 +19,10 @@ The set includes:
 
 
 The missing Corsaro modules
-* Mercante<br>
-* Pi Cubo<br>
-* Legend<br>
-* Pluto<br>
+* __Pi Cube__ - Processes, dossiers, projects (_Processi, Pratiche, Progetti_)<br>
+* __Mercante__ - Orders and invoices<br>
+* __Legend__ - Invoice collection management<br>
+* __Pluto__ - Financial instruments<br>
 
 will be included.
 
