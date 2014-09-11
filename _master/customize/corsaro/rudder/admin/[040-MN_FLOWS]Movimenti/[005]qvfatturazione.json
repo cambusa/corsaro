@@ -1,7 +1,7 @@
 {
     "type":"form",
     "title":"Fatturazione",
-    "babelcode":"MN_BILLING",
+    "babelcode":"MN_INVOICES",
     "params":{
         "name":"qvfatturazione",
         "path":"qvmovimenti/",

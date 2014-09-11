@@ -33,12 +33,12 @@ function class_qvlanguages(settings,missing){
             var t=_likeescapize(txf_search.value());
 
             if(t!="")
-                q+="( [:UPPER(DESCRIPTION)] LIKE '%[=DESCRIPTION]%' OR [:UPPER(NAME)] LIKE '%[=NAME]%' )";
+                q+="( [:UPPER(CAPTION)] LIKE '%[=CAPTION]%' OR [:UPPER(NAME)] LIKE '%[=NAME]%' )";
 
             objgridsel.where(q);
             objgridsel.query({
                 args:{
-                    "DESCRIPTION":t,
+                    "CAPTION":t,
                     "NAME":t
                 }
             });
