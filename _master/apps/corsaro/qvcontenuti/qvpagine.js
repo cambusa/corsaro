@@ -21,6 +21,7 @@ function class_qvpagine(settings,missing){
     var currsetrelated="";
     var currselectedid="";
     var context="";
+    var bbl_context="";
     var prefix="#"+formid;
     var flagopen=false;
     var flagsuspend=false;
@@ -50,9 +51,9 @@ function class_qvpagine(settings,missing){
         from:"QW_WEBCONTENTSBROWSER",
         orderby:"DESCRIPTION",
         columns:[
-            {id:"DESCRIPTION", caption:"Descrizione", width:250},
-            {id:"SITE", caption:"Sito", width:200},
-            {id:"SYSID", caption:"Codice", width:200}
+            {id:"DESCRIPTION", caption:"Descrizione", width:250, code:"DESCRIPTION"},
+            {id:"SITE", caption:"Sito", width:200, code:"SITE"},
+            {id:"SYSID", caption:"Codice", width:200, code:"CODE"}
         ],
         changerow:function(o,i){
             currsysid="";
@@ -154,6 +155,7 @@ function class_qvpagine(settings,missing){
     var oper_refresh=$(prefix+"oper_refresh").rylabel({
         left:430,
         top:offsety,
+        width:70,
         caption:"Aggiorna",
         button:true,
         click:function(o, done){
@@ -190,9 +192,10 @@ function class_qvpagine(settings,missing){
         }
     });
     var oper_reset=$(prefix+"oper_reset").rylabel({
-        left:680,
+        left:650,
         top:offsety,
         caption:"Pulisci",
+        width:70,
         button:true,
         click:function(o){
             sospendirefresh=true;
@@ -209,6 +212,7 @@ function class_qvpagine(settings,missing){
     var oper_new=$(prefix+"oper_new").rylabel({
         left:430,
         top:offsety,
+        width:70,
         caption:"Nuovo",
         button:true,
         click:function(o){
@@ -244,6 +248,7 @@ function class_qvpagine(settings,missing){
     var oper_delete=$(prefix+"oper_delete").rylabel({
         left:430,
         top:450,
+        width:120,
         caption:"Elimina selezione",
         button:true,
         click:function(o){
@@ -282,6 +287,7 @@ function class_qvpagine(settings,missing){
     
     var objclassi=$(prefix+"CLASSI").ryselections({"left":470, "top":111, "height":140, 
         "title":"Classi di appartenenza",
+        "titlecode":"BELONGING_CLASS",
         "formid":formid, 
         "subid":"C",
         "table":"QW_CLASSICONTENUTO", 
@@ -393,6 +399,7 @@ function class_qvpagine(settings,missing){
     // FRAMES
     var objframes=$(prefix+"FRAMES").ryselections({"left":20, "top":20, "width":500, "height":300, datum:"C", 
         "title":"Contenitori",
+        "titlecode":"PAGE_CONTAINERS",
         "formid":formid, 
         "subid":"F",
         "table":"QW_WEBCONTAINERSJOIN",
@@ -414,6 +421,7 @@ function class_qvpagine(settings,missing){
     var operf_first=$(prefix+"operf_first").rylabel({
         left:530,
         top:60,
+        width:100,
         caption:"Porta all'inizio",
         button:true,
         click:function(o){
@@ -452,6 +460,7 @@ function class_qvpagine(settings,missing){
     var operf_up=$(prefix+"operf_up").rylabel({
         left:530,
         top:90,
+        width:100,
         caption:"Sposta sopra",
         button:true,
         click:function(o){
@@ -490,6 +499,7 @@ function class_qvpagine(settings,missing){
     var operf_down=$(prefix+"operf_down").rylabel({
         left:530,
         top:120,
+        width:100,
         caption:"Sposta sotto",
         button:true,
         click:function(o){
@@ -528,6 +538,7 @@ function class_qvpagine(settings,missing){
     var operf_last=$(prefix+"operf_last").rylabel({
         left:530,
         top:150,
+        width:100,
         caption:"Porta in fondo",
         button:true,
         click:function(o){
@@ -658,7 +669,7 @@ function class_qvpagine(settings,missing){
     
     // MAILUS
     offsety=10;
-    $(prefix+"LB_EMAIL").rylabel({left:20, top:0, caption:"Mail"});
+    $(prefix+"LB_EMAIL").rylabel({left:20, top:0, caption:"Email"});
     var tx_email=$(prefix+"EMAIL").rytext({left:90, top:0, width:630, maxlen:50, datum:"C"});
 
     offsety+=30;
@@ -680,6 +691,7 @@ function class_qvpagine(settings,missing){
     var oper_contextengage=$(prefix+"oper_contextengage").rylabel({
         left:680,
         top:60,
+        width:80,
         caption:"Salva",
         button:true,
         click:function(o, done){
@@ -796,6 +808,7 @@ function class_qvpagine(settings,missing){
     var oper_browser=$(prefix+"oper_browser").rylabel({
         left:780,
         top:60,
+        width:80,
         caption:"Visualizza",
         button:true,
         click:function(o){
@@ -810,7 +823,7 @@ function class_qvpagine(settings,missing){
                 currbrowser=window.open("filibuster.php?env="+_sessioninfo.environ+"&site="+s+"&id="+currsysid, "filibuster_browser");
             }
             else{
-                winzMessageBox(formid, "Selezionare un sito!");
+                winzMessageBox(formid, RYBOX.babels("PAGE_SELSITE"));
             }
         }
     });
@@ -849,18 +862,19 @@ function class_qvpagine(settings,missing){
         }
     );
     
-    $(prefix+"filemanager").append("<div id='"+formid+"oper_icon'></div>");
-    $(prefix+"filemanager").append("<div id='"+formid+"oper_removeicon'></div>");
+    $(prefix+"filemanager").append("<div id='"+formid+"oper_icon' babelcode='PAGE_USEASICON'></div>");
+    $(prefix+"filemanager").append("<div id='"+formid+"oper_removeicon' babelcode='PAGE_REMOVEICON'></div>");
     $(prefix+"filemanager").append("<div id='"+formid+"COPY'></div>");
     $(prefix+"filemanager").append("<div id='"+formid+"DOWNLOAD'></div>");
     $(prefix+"filemanager").append("<div id='"+formid+"PREVIEW'></div>");
 
-    offsety=380;
+    offsety=370;
     
     // USA COME ICONA
     var oper_icon=$(prefix+"oper_icon").rylabel({
         left:20,
         top:offsety,
+        width:100,
         caption:"Usa come icona",
         formid:formid,
         button:true,
@@ -893,8 +907,9 @@ function class_qvpagine(settings,missing){
     
     // RIMUOVI ICONA
     var oper_removeicon=$(prefix+"oper_removeicon").rylabel({
-        left:320,
+        left:310,
         top:offsety,
+        width:100,
         caption:"Rimuovi icona",
         formid:formid,
         button:true,
@@ -942,6 +957,7 @@ function class_qvpagine(settings,missing){
     var operp_add=$(prefix+"operp_add").rylabel({
         left:40,
         top:offsety,
+        width:60,
         caption:"Aggiungi",
         button:true,
         click:function(o){
@@ -989,6 +1005,7 @@ function class_qvpagine(settings,missing){
     var operp_remove=$(prefix+"operp_remove").rylabel({
         left:120,
         top:offsety,
+        width:60,
         caption:"Rimuovi",
         button:true,
         click:function(o){
@@ -1028,6 +1045,7 @@ function class_qvpagine(settings,missing){
     var operp_refresh=$(prefix+"operp_refresh").rylabel({
         left:530,
         top:offsety+30,
+        width:70,
         caption:"Aggiorna",
         button:true,
         click:function(o){
@@ -1049,7 +1067,7 @@ function class_qvpagine(settings,missing){
         from:"QW_WEBCONTENTS",
         orderby:"DESCRIPTION",
         columns:[
-            {id:"DESCRIPTION", caption:"Correlati a monte", width:2000}
+            {id:"DESCRIPTION", caption:"Correlati a monte", width:2000, code:"UPSTREAM_RELATED"}
         ],
         changerow:function(o,i){
             currparentid="";
@@ -1072,6 +1090,7 @@ function class_qvpagine(settings,missing){
     var operr_refresh=$(prefix+"operr_refresh").rylabel({
         left:530,
         top:offsety+30,
+        width:70,
         caption:"Aggiorna",
         button:true,
         click:function(o){
@@ -1082,6 +1101,7 @@ function class_qvpagine(settings,missing){
     
     var objrelated=$(prefix+"RELATED").ryselections({"left":20, "top":offsety, "width":500, "height":300, 
         "title":"Correlati a valle",
+        "titlecode":"DOWNSTREAM_RELATED",
         "formid":formid, 
         "subid":"R",
         "table":"QW_WEBCONTENTSJOIN",
@@ -1106,6 +1126,7 @@ function class_qvpagine(settings,missing){
     var operr_first=$(prefix+"operr_first").rylabel({
         left:20,
         top:offsety,
+        width:100,
         caption:"Porta all'inizio",
         button:true,
         click:function(o){
@@ -1144,6 +1165,7 @@ function class_qvpagine(settings,missing){
     var operr_up=$(prefix+"operr_up").rylabel({
         left:150,
         top:offsety,
+        width:100,
         caption:"Sposta sopra",
         button:true,
         click:function(o){
@@ -1182,6 +1204,7 @@ function class_qvpagine(settings,missing){
     var operr_down=$(prefix+"operr_down").rylabel({
         left:280,
         top:offsety,
+        width:100,
         caption:"Sposta sotto",
         button:true,
         click:function(o){
@@ -1220,6 +1243,7 @@ function class_qvpagine(settings,missing){
     var operr_last=$(prefix+"operr_last").rylabel({
         left:410,
         top:offsety,
+        width:100,
         caption:"Porta in fondo",
         button:true,
         click:function(o){
@@ -1259,10 +1283,10 @@ function class_qvpagine(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:10,position:"relative",
         tabs:[
-            {title:"Selezione"},
-            {title:"Contesto"},
-            {title:"Documenti"},
-            {title:"Correlazioni"}
+            {title:"Selezione", code:"SELECTION"},
+            {title:"Contesto", code:"CONTEXT"},
+            {title:"Documenti", code:"DOCUMENTS"},
+            {title:"Correlazioni", code:"PAGE_RELATIONS"}
         ],
         select:function(i,p){
             if(p==2){
@@ -1294,7 +1318,7 @@ function class_qvpagine(settings,missing){
                     break;
                 case 2:
                     // CARICAMENTO DEL CONTESTO
-                    if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
+                    if(window.console&&_sessioninfo.debugmode){console.log("Loading context: "+currsysid)}
                     // RESET MASCHERA
                     qv_maskclear(formid, "C");
                     pageid.clear();
@@ -1439,24 +1463,24 @@ function class_qvpagine(settings,missing){
                     break;
                 case 3:
                     // CARICAMENTO DOCUMENTI
-                    filemanager.initialize(currsysid, "Contesto: "+context, currtypologyid);
+                    filemanager.initialize(currsysid, bbl_context.replace("{1}", context), currtypologyid);
                     qv_contextmanagement(context, {sysid:currsysid, table:"QVARROWS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
                         done:function(d){
                             context=_strip_tags(d);
-                            filemanager.caption("Contesto: "+context);
+                            filemanager.caption(bbl_context.replace("{1}", context));
                         }
                     });
                     break;
                 case 4:
                     // CARICAMENTO CORRELAZIONI
-                    lb_correlati_context.caption("Contesto: "+context);
+                    lb_correlati_context.caption(bbl_context.replace("{1}", context));
                     gridparent.clear()
                     objrelated.clear();
                     RYQUE.query({
                         sql:"SELECT DESCRIPTION,SETRELATED FROM QW_WEBCONTENTS WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
                             context=_strip_tags(v[0]["DESCRIPTION"]);
-                            lb_correlati_context.caption("Contesto: "+context);
+                            lb_correlati_context.caption(bbl_context.replace("{1}", context));
                             loadedsysidR=currsysid;
                             currsetrelated=v[0]["SETRELATED"];
                             objrelated.where("(SITEID='' OR SITEID='"+currsiteid+"' OR SITEID='"+tx_siteid.value()+"')");
@@ -1480,8 +1504,12 @@ function class_qvpagine(settings,missing){
     objtabs.enabled(4,false);
     
     // INIZIALIZZAZIONE FORM
+    RYBOX.babels({
+        "PAGE_SELSITE":"Selezionare un sito!",
+    });
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
+            bbl_context=RYBOX.babels("BABEL_CONTEXT");
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,

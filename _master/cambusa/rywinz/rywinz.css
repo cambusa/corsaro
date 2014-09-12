@@ -141,6 +141,11 @@ display:none;
 background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat 0px -128px;
 }
 
+.winz-babel{
+position:absolute;
+display:none;
+}
+
 #winz-about a{
 color:navy;
 }

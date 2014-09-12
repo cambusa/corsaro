@@ -372,17 +372,17 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     h+='<div id="'+formid+'docs_context"></div>';
     h+='<div id="'+formid+'griddocs"></div>';
     h+='<div id="'+formid+'oper_fileinsert"></div>';
-    h+='<div id="'+formid+'oper_filerefresh"></div>';
-    h+='<div id="'+formid+'oper_fileunsaved"></div>';
-    h+='<div id="'+formid+'lb_filedescription"></div>';
+    h+='<div id="'+formid+'oper_filerefresh" babelcode="FILE_REFRESH"></div>';
+    h+='<div id="'+formid+'oper_fileunsaved" babelcode="FILE_UNSAVED"></div>';
+    h+='<div id="'+formid+'lb_filedescription" babelcode="FILE_DESCRIPTION"></div>';
     h+='<div id="'+formid+'tx_filedescription"></div>';
-    h+='<div id="'+formid+'lb_filedate"></div>';
-    h+='<div id="'+formid+'lb_filesorter"></div>';
+    h+='<div id="'+formid+'lb_filedate" babelcode="FILE_DATE"></div>';
+    h+='<div id="'+formid+'lb_filesorter" babelcode="FILE_SORTER"></div>';
     h+='<div id="'+formid+'tx_filedate"></div>';
     h+='<div id="'+formid+'tx_filesorter"></div>';
-    h+='<div id="'+formid+'oper_fileupdate"></div>';
-    h+='<div id="'+formid+'oper_filedownload"></div>';
-    h+='<div id="'+formid+'oper_filedelete"></div>';
+    h+='<div id="'+formid+'oper_fileupdate" babelcode="FILE_UPDATE"></div>';
+    h+='<div id="'+formid+'oper_filedownload" babelcode="FILE_DOWNLOAD"></div>';
+    h+='<div id="'+formid+'oper_filedelete" babelcode="MULTIDELETE"></div>';
     if($("#"+formid+"filemanager").html(h).length>0){
         var offsety=180;
         var lb_docs_context=$(prefix+"docs_context").rylabel({left:20, top:50, caption:"", formid:formid});
@@ -398,8 +398,8 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             environ:_sessioninfo.environ,
             from:"QWFILES",
             columns:[
-                {id:"DESCRIPTION", caption:"Descrizione", width:230},
-                {id:"AUXTIME", caption:"Data", width:90, type:"/"},
+                {id:"DESCRIPTION", caption:"Descrizione", width:230, code:"FILE_DESCRIPTION"},
+                {id:"AUXTIME", caption:"Data", width:90, type:"/", code:"FILE_DATE"},
                 {id:"SORTER", caption:"", width:38, type:0}
             ],
             orderby: "SORTER,AUXTIME DESC,FILEID DESC",
@@ -1488,6 +1488,7 @@ function qv_idrequest(formid, settings, missing){
             var propheight=200;
 			var propobj=this;
             var proptitle="";
+            var proptitlecode="";
 			var propformid="";
             var propsubid="";
             var proptable="";
@@ -1512,6 +1513,7 @@ function qv_idrequest(formid, settings, missing){
 			if(settings.width!=missing){propwidth=settings.width};
 			if(settings.height!=missing){propheight=settings.height};
             if(settings.title!=missing){proptitle=settings.title};
+            if(settings.titlecode!=missing){proptitlecode=settings.titlecode};
             if(settings.formid!=missing){propformid=settings.formid};
             if(settings.subid!=missing){propsubid=settings.subid};
             if(settings.table!=missing){proptable=settings.table;prophelptable=proptable};
@@ -1533,9 +1535,9 @@ function qv_idrequest(formid, settings, missing){
             var actualid=propformid+"_"+propsubid;
             var prefix="#"+actualid;
             var h="";
-            h+="<div id='"+actualid+"_oper_add'></div>";
-            h+="<div id='"+actualid+"_oper_remove'></div>";
-            h+="<div id='"+actualid+"_oper_empty'></div>";
+            h+="<div id='"+actualid+"_oper_add' babelcode='REL_ADD'></div>";
+            h+="<div id='"+actualid+"_oper_remove' babelcode='REL_REMOVE'></div>";
+            h+="<div id='"+actualid+"_oper_empty' babelcode='REL_EMPTY'></div>";
             h+="<div id='"+actualid+"_gridsel'></div>";
 
             $("#"+propname)
@@ -1546,6 +1548,7 @@ function qv_idrequest(formid, settings, missing){
             var oper_add=$(prefix+"_oper_add").rylabel({
                 left:20,
                 top:0,
+                width:60,
                 caption:"Aggiungi",
                 formid:propformid,
                 button:true,
@@ -1595,6 +1598,7 @@ function qv_idrequest(formid, settings, missing){
             var oper_remove=$(prefix+"_oper_remove").rylabel({
                 left:100,
                 top:0,
+                width:60,
                 caption:"Rimuovi",
                 formid:propformid,
                 button:true,
@@ -1633,6 +1637,7 @@ function qv_idrequest(formid, settings, missing){
             var oper_empty=$(prefix+"_oper_empty").rylabel({
                 left:180,
                 top:0,
+                width:60,
                 caption:"Svuota",
                 formid:propformid,
                 button:true,
@@ -1674,7 +1679,7 @@ function qv_idrequest(formid, settings, missing){
                 from:proptable,
                 orderby:proporderby,
                 columns:[
-                    {id:"DESCRIPTION", caption:proptitle, width:200}
+                    {id:"DESCRIPTION", caption:proptitle, width:200, code:proptitlecode}
                 ],
                 changerow:function(o,i){
                     oper_remove.enabled(o.isselected());
@@ -1934,7 +1939,7 @@ function qv_changemanagement(formid, objtabs, lblengage, options, missing){
         });
         // DEFINIZIONE DEL CONTENUTO
         h+="<div class='winz_msgbox'>";
-        h+="I dati sono stati modificati. Salvare?";
+        h+=RYBOX.babels("MSG_DATANOTSAVE");
         h+="</div>";
         h+=winzAppendCtrl(vK, formid+"__save");
         h+=winzAppendCtrl(vK, formid+"__abandon");
@@ -1944,7 +1949,7 @@ function qv_changemanagement(formid, objtabs, lblengage, options, missing){
             left:20,
             top:dlg.height-40,
             width:80,
-            caption:"Salva",
+            caption:RYBOX.babels("BUTTON_SAVE"),
             button:true,
             formid:formid,
             click:function(o){
@@ -1961,7 +1966,7 @@ function qv_changemanagement(formid, objtabs, lblengage, options, missing){
             left:120,
             top:dlg.height-40,
             width:80,
-            caption:"Abbandona",
+            caption:RYBOX.babels("BUTTON_ABANDON"),
             button:true,
             formid:formid,
             click:function(o){
@@ -1979,7 +1984,7 @@ function qv_changemanagement(formid, objtabs, lblengage, options, missing){
             left:220,
             top:dlg.height-40,
             width:80,
-            caption:"Annulla",
+            caption:RYBOX.babels("BUTTON_CANCEL"),
             button:true,
             formid:formid,
             click:function(o){
@@ -2079,3 +2084,11 @@ function qv_printText(htext, option, missing){
     $("#winz-printing").html(htext);
     $("#winz-printing").printThis({importCSS:false});
 }
+$(document).ready(function(){
+    RYBOX.babels({
+        "MSG_DATANOTSAVE":"I dati sono stati modificati. Salvare?",
+        "BUTTON_SAVE":"Salva",
+        "BUTTON_ABANDON":"Abbandona",
+        "BUTTON_CANCEL":"Annulla"
+    });
+});

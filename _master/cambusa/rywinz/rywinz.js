@@ -598,7 +598,7 @@ function winzMessageBox(formid, params, missing){
     var args={};
     if(_isobject(params)){
         if(params.message!=missing){message=params.message}
-        if(params.babelcode!=missing){babelcode=params.babelcode}
+        if(params.code!=missing){babelcode=params.code}
         if(params.confirm!=missing){confirm=params.confirm}
         if(params.close!=missing){onclose=params.close}
         if(params.args!=missing){args=params.args}

@@ -2425,6 +2425,7 @@ var RYBOX;
 })(jQuery);
 		
 function ryBox(){
+    var propbabelcodes={};
     this.container=function(c){
         if(c==missing)
             return globalcontainer;
@@ -2497,6 +2498,13 @@ function ryBox(){
                         break;
                 }
             }
+            for(c in propbabelcodes){
+                var o=propbabelcodes[c];
+                if(o.virgin){
+                    if(k!=""){k+="|"}
+                        k+=c;
+                }
+            }
             if(k!=""){
                 $.post(_cambusaURL+"rybabel/rybabel.php", {"lang":lang,"codes":k},
                     function(d){
@@ -2511,7 +2519,7 @@ function ryBox(){
                                         if(solveparent(o,parentid)){
                                             if((c=o.babelcode())>""){
                                                 t=v[c];
-                                                if(t.length>0 && t.length<=255)
+                                                if(t.length>0)
                                                     o.caption(t);
                                             }
                                         }
@@ -2521,7 +2529,7 @@ function ryBox(){
                                             for(j=1;j<=o.count();j++){
                                                 if((c=o.babelcode(j))>""){
                                                     t=v[c];
-                                                    if(t.length>0 && t.length<=255)
+                                                    if(t.length>0)
                                                         o.caption(j,t);
                                                 }
                                             }
@@ -2532,7 +2540,7 @@ function ryBox(){
                                             for(j=1;j<=o.columns();j++){
                                                 if((c=o.babelcode(j))>""){
                                                     t=v[c];
-                                                    if(t.length>0 && t.length<=255)
+                                                    if(t.length>0)
                                                         o.caption(j,t);
                                                 }
                                             }
@@ -2543,12 +2551,21 @@ function ryBox(){
                                             for(j=1;j<=o.tabs();j++){
                                                 if((c=o.babelcode(j))>""){
                                                     t=v[c];
-                                                    if(t.length>0 && t.length<=255)
+                                                    if(t.length>0)
                                                         o.caption(j,t);
                                                 }
                                             }
                                         }
                                         break;
+                                }
+                            }
+                            for(c in propbabelcodes){
+                                var o=propbabelcodes[c];
+                                if(o.virgin){
+                                    t=v[c];
+                                    if(t.length>0)
+                                        o.caption=t;
+                                    o.virgin=false;
                                 }
                             }
                         }
@@ -2565,6 +2582,19 @@ function ryBox(){
         }
         else if(action!=missing){
             setTimeout(function(){action()}, 300);
+        }
+    }
+    this.babels=function(codes, value, missing){
+        if(typeof(codes)=="object"){
+            for(var b in codes){
+                propbabelcodes[b]={caption:codes[b], virgin:true};
+            }
+        }
+        else{
+            if(value!=missing)
+                propbabelcodes[codes]={caption:value, virgin:true};
+            else
+                return propbabelcodes[codes].caption;
         }
     }
     this.getbabel=function(n, args, missing){
