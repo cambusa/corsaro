@@ -203,7 +203,8 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
 function qv_bulkdelete(formid, objgrid, prefix){
     winzMessageBox(formid, {
         message:"Eliminare le righe selezionate?",
-        ok:"Elimina",
+        code:"MSG_DELETESELROW",
+        ok:RYBOX.babels("BUTTON_DELETE"),
         confirm:function(){
             objgrid.selengage(   // Elenco dei SYSID selezionati
                 function(o,s){
@@ -244,7 +245,7 @@ function qv_bulkdelete(formid, objgrid, prefix){
 function qv_filedelete(formid, objgrid){
     winzMessageBox(formid, {
         message:"Eliminare le righe selezionate?",
-        ok:"Elimina",
+        ok:RYBOX.babels("BUTTON_DELETE"),
         confirm:function(){
             objgrid.selengage(   // Elenco dei SYSID selezionati
                 function(o,s){
@@ -853,8 +854,12 @@ function qv_idrequest(formid, settings, missing){
     var objgrid;
     var prophelperid="";
     
-    var proptitle="Richiesta";
+    var proptitle="Selezione";
     if(settings.title!=missing){proptitle=settings.title}
+    if(settings.titlecode!=missing){
+        if(settings.titlecode!="")
+            proptitle=RYBOX.babels(settings.titlecode)
+    }
     
     var proptable=""; if(settings.table!=missing){proptable=settings.table}
     var propwhere=""; if(settings.where!=missing){propwhere=settings.where}
@@ -963,7 +968,7 @@ function qv_idrequest(formid, settings, missing){
         args:propargs,
         orderby:proporderby,
         columns:[
-            {id:"DESCRIPTION",caption:"Descrizione",width:200}
+            {id:"DESCRIPTION", caption:RYBOX.babels("DESCRIPTION"), width:200}
         ],
         changerow:function(o,i){
             prophelperid="";
@@ -996,7 +1001,7 @@ function qv_idrequest(formid, settings, missing){
             //    setTimeout(function(){objrefresh.engage()}, 100);
         }
     });
-    $("#"+actualid+"helperlbsearch").rylabel({left:330, top:offsety, caption:"Ricerca", formid:formid});
+    $("#"+actualid+"helperlbsearch").rylabel({left:330, top:offsety, caption:RYBOX.babels("SEARCH"), formid:formid});
     offsety+=20;
     var objsearch=$("#"+actualid+"helpersearch").rytext({
         left:330, top:offsety, width:250, formid:formid,
@@ -1006,10 +1011,10 @@ function qv_idrequest(formid, settings, missing){
     });
     if(propclasstable!=""){
         offsety+=30;
-        $("#"+actualid+"helperlbclass").rylabel({left:330, top:offsety, caption:"Classe", formid:formid});
+        $("#"+actualid+"helperlbclass").rylabel({left:330, top:offsety, caption:RYBOX.babels("CLASS"), formid:formid});
         offsety+=20;
         var objclass=$("#"+actualid+"helperclass").ryhelper({
-            left:330, top:offsety, width:250, formid:formid, subid:"aux", table:propclasstable, title:"Scelta classe", 
+            left:330, top:offsety, width:250, formid:formid, subid:"aux", table:propclasstable, title:RYBOX.babels("HLP_SELCLASS"), 
             open:function(o){
                 o.where("");
             },
@@ -1026,7 +1031,7 @@ function qv_idrequest(formid, settings, missing){
     var objrefresh=$("#"+actualid+"helperrefresh").rylabel({
         left:330,
         top:offsety,
-        caption:"Aggiorna",
+        caption:RYBOX.babels("BUTTON_REFRESH"),
         formid:formid,
         button:true,
         click:function(o){
@@ -1066,7 +1071,7 @@ function qv_idrequest(formid, settings, missing){
         left:500,
         top:offsety,
         width:70,
-        caption:"Pulisci",
+        caption:RYBOX.babels("BUTTON_RESET"),
         formid:formid,
         button:true,
         click:function(o){
@@ -1082,7 +1087,7 @@ function qv_idrequest(formid, settings, missing){
         left:20,
         top:dlg.height-40,
         width:80,
-        caption:"OK",
+        caption:RYBOX.babels("BUTTON_OK"),
         button:true,
         formid:formid,
         click:function(o){
@@ -1121,7 +1126,7 @@ function qv_idrequest(formid, settings, missing){
         left:120,
         top:dlg.height-40,
         width:80,
-        caption:"Annulla",
+        caption:RYBOX.babels("BUTTON_CANCEL"),
         button:true,
         formid:formid,
         click:function(o){
@@ -1202,6 +1207,7 @@ function qv_idrequest(formid, settings, missing){
             var propsubid="";
             var propsysid=""; 
             var proptitle=_sessioninfo.appdescr;
+            var proptitlecode="";
             var prophelpwidth=600;
             var prophelpheight=400;
             
@@ -1221,6 +1227,7 @@ function qv_idrequest(formid, settings, missing){
             if(settings.classtable!=missing){propclasstable=settings.classtable}
             if(settings.subid!=missing){propsubid=settings.subid}
             if(settings.title!=missing){proptitle=settings.title}
+            if(settings.titlecode!=missing){proptitlecode=settings.titlecode}
             if(settings.multiple!=missing){propmultiple=settings.multiple}
             if(settings.select!=missing){propselect=settings.select}
             if(settings.onselect!=missing){this.onselect=settings.onselect}
@@ -1338,6 +1345,7 @@ function qv_idrequest(formid, settings, missing){
                     clause:propclause,
                     classtable:propclasstable,
                     title:proptitle,
+                    titlecode:proptitlecode,
                     multiple:propmultiple,
                     onselect:function(d){
                         propobj.value(d["SYSID"], true);
@@ -2018,7 +2026,7 @@ function qv_changerowmanagement(formid, objgrid, newindex){
         });
         // DEFINIZIONE DEL CONTENUTO
         h+="<div class='winz_msgbox'>";
-        h+="I dati sono stati modificati. Abbandonare la riga?";
+        h+=RYBOX.babels("MSG_ROWNOTSAVE");
         h+="</div>";
         h+=winzAppendCtrl(vK, formid+"__abandon");
         h+=winzAppendCtrl(vK, formid+"__cancel");
@@ -2087,8 +2095,17 @@ function qv_printText(htext, option, missing){
 $(document).ready(function(){
     RYBOX.babels({
         "MSG_DATANOTSAVE":"I dati sono stati modificati. Salvare?",
+        "MSG_ROWNOTSAVE":"I dati sono stati modificati. Abbandonare la riga?",
         "BUTTON_SAVE":"Salva",
         "BUTTON_ABANDON":"Abbandona",
-        "BUTTON_CANCEL":"Annulla"
+        "BUTTON_CANCEL":"Annulla",
+        "BUTTON_REFRESH":"Aggiorna",
+        "BUTTON_RESET":"Pulisci",
+        "BUTTON_OK":"OK",
+        "BUTTON_DELETE":"Elimina",
+        "DESCRIPTION":"Descrizione",
+        "SEARCH":"Ricerca",
+        "CLASS":"Classe",
+        "HLP_SELCLASS":"Selezione classe"
     });
 });

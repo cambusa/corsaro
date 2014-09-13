@@ -99,7 +99,7 @@ function class_qvpagine(settings,missing){
     $(prefix+"lbf_site").rylabel({left:430, top:offsety, caption:"Sito"});
     offsety+=20;
     var txf_site=$(prefix+"txf_site").ryhelper({left:430, top:offsety, width:300, 
-        formid:formid, table:"QW_WEBSITES", title:"Scelta sito", multiple:false,
+        formid:formid, table:"QW_WEBSITES", titlecode:"HLP_SELSITE", multiple:false,
         open:function(o){
             o.where("");
         },
@@ -120,7 +120,7 @@ function class_qvpagine(settings,missing){
     $(prefix+"lbf_parent").rylabel({left:430, top:offsety, caption:"Genitore"});
     offsety+=20;
     var txf_parent=$(prefix+"txf_parent").ryhelper({left:430, top:offsety, width:300, 
-        formid:formid, table:"QW_WEBCONTENTS", title:"Scelta genitore", multiple:false,
+        formid:formid, table:"QW_WEBCONTENTS", titlecode:"HLP_SELPARENT", multiple:false,
         open:function(o){
             o.where("SYSID<>'"+currsysid+"' AND SETRELATED IN (SELECT PARENTID FROM QVSELECTIONS)");
         },
@@ -139,7 +139,7 @@ function class_qvpagine(settings,missing){
     $(prefix+"lbf_classe").rylabel({left:430, top:offsety, caption:"Classe"});
     offsety+=20;
     var txf_classe=$(prefix+"txf_classe").ryhelper({left:430, top:offsety, width:300, 
-        formid:formid, table:"QW_CLASSICONTENUTO", title:"Classi", multiple:false,
+        formid:formid, table:"QW_CLASSICONTENUTO", titlecode:"HLP_SELCLASS", multiple:false,
         open:function(o){
             o.where("");
         },
@@ -263,7 +263,7 @@ function class_qvpagine(settings,missing){
     
     $(prefix+"LB_SITEID").rylabel({left:470, top:offsety, caption:"Sito"});
     var tx_siteid=$(prefix+"SITEID").ryhelper({
-        left:500, top:offsety, width:140, datum:"C", tag:"SITEID", formid:formid, table:"QW_WEBSITES", title:"Scelta sito",
+        left:500, top:offsety, width:140, datum:"C", tag:"SITEID", formid:formid, table:"QW_WEBSITES", titlecode:"HLP_SELSITE",
         open:function(o){
             o.where("");
         },
@@ -346,8 +346,8 @@ function class_qvpagine(settings,missing){
     tx_language
     .additem({caption:"(nessuna)", key:"##"})
     .additem({caption:"Italiano", key:"it"})
-    .additem({caption:"Inglese", key:"en"})
-    .additem({caption:"Spagnolo", key:"es"});
+    .additem({caption:"English", key:"en"})
+    .additem({caption:"Espanol", key:"es"});
     
     var tx_gender=$(prefix+"GENDER").rylist({left:390, top:offsety, width:50, datum:"C",
         assigned:function(o){
@@ -597,8 +597,8 @@ function class_qvpagine(settings,missing){
             tx_recents.enabled(o.value()==1);
         }
     });
-    tx_marqueetype.additem({caption:"Recenti", key:0});
-    tx_marqueetype.additem({caption:"Correlati", key:1});
+    tx_marqueetype.additem({caption:"Recenti", key:0, code:"PAGE_RECENTS"});
+    tx_marqueetype.additem({caption:"Correlati", key:1, code:"PAGE_RELATED"});
     
     offsety+=30;
     $(prefix+"LB_RECENTS").rylabel({left:20, top:offsety, caption:"Num. item"});
@@ -621,7 +621,7 @@ function class_qvpagine(settings,missing){
     offsety=0;
     $(prefix+"LB_PARENTID").rylabel({left:20, top:offsety, caption:"Genitore"});
     var tx_parentid=$(prefix+"PARENTID").ryhelper({
-        left:90, top:offsety, width:200, datum:"C", formid:formid, table:"QW_WEBCONTENTS", title:"scelta genitore",
+        left:90, top:offsety, width:200, datum:"C", formid:formid, table:"QW_WEBCONTENTS", titlecode:"HLP_SELPARENT", 
         open:function(o){
             o.where("");
         }
@@ -642,10 +642,10 @@ function class_qvpagine(settings,missing){
     
     $(prefix+"LB_NAVSORTING").rylabel({left:190, top:offsety, caption:"Ordinamento"});
     var tx_navsorting=$(prefix+"NAVSORTING").rylist({left:280, top:offsety, width:160, datum:"C"});
-    tx_navsorting.additem({caption:"Data", key:0});
-    tx_navsorting.additem({caption:"Descrizione", key:1});
-    tx_navsorting.additem({caption:"Marca", key:2});
-    tx_navsorting.additem({caption:"Relazionale", key:3});
+    tx_navsorting.additem({caption:"Data", key:0, code:"PAGE_DATE"});
+    tx_navsorting.additem({caption:"Descrizione", key:1, code:"DESCRIPTION"});
+    tx_navsorting.additem({caption:"Marca", key:2, code:"TAG"});
+    tx_navsorting.additem({caption:"Relazionale", key:3, code:"PAGE_RELATIONAL"});
     
     offsety+=30;
     $(prefix+"LB_NAVHOME").rylabel({left:20, top:offsety, caption:"Home"});
@@ -1506,6 +1506,9 @@ function class_qvpagine(settings,missing){
     // INIZIALIZZAZIONE FORM
     RYBOX.babels({
         "PAGE_SELSITE":"Selezionare un sito!",
+        "HLP_SELSITE":"Selezione sito",
+        "HLP_SELPARENT":"Selezione genitore",
+        "HLP_SELCLASS":"Selezione classe"
     });
     RYBOX.localize(_sessioninfo.language, formid,
         function(){

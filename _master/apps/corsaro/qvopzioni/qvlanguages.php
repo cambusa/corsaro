@@ -19,7 +19,7 @@
         <div relid="oper_engage" babelcode="SAVE"></div>
         <div relid="oper_delete" babelcode="DELETE"></div>
         <div relid="LB_NAME" babelcode="NAME"></div><div relid="NAME"></div>
-        <div relid="LB_ITALIANO"></div><div relid="ITALIANO"></div>
-        <div relid="LB_ENGLISH"></div><div relid="ENGLISH"></div>
+        <div relid="LB_LANGFROM"></div><div relid="LANGFROM"></div>
+        <div relid="LB_LANGTO"></div><div relid="LANGTO"></div>
     </div>
 </div>

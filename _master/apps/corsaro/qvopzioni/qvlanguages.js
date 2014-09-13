@@ -12,6 +12,19 @@ function class_qvlanguages(settings,missing){
     var formid=RYWINZ.addform(this);
     var prefix="#"+formid;
     var currsysid="";
+    var languagefrom="italiano";
+    var languageto="english";
+    var Languagefrom="Italiano";
+    var Languageto="English";
+    
+    if(_isset(settings["languagefrom"])){
+        languagefrom=settings["languagefrom"];
+        Languagefrom=languagefrom.substr(0,1).toUpperCase()+languagefrom.substr(1);
+    }
+    if(_isset(settings["languageto"])){
+        languageto=settings["languageto"];
+        Languageto=languageto.substr(0,1).toUpperCase()+languageto.substr(1);
+    }
 
     // DEFINIZIONE TAB SELEZIONE
     
@@ -54,7 +67,7 @@ function class_qvlanguages(settings,missing){
         height:300,
         numbered:false,
         checkable:false,
-        environ:"italiano",
+        environ:languagefrom,
         from:"BABELITEMS",
         orderby:"NAME",
         columns:[
@@ -76,9 +89,9 @@ function class_qvlanguages(settings,missing){
                 {
                     "sessionid":_sessionid,
                     "action":"select",
-                    "default":"italiano",
+                    "default":languagefrom,
                     "SYSID":currsysid,
-                    "languages":["italiano", "english"]
+                    "languages":[languagefrom, languageto]
                 }, 
                 function(d){
                     try{
@@ -88,8 +101,8 @@ function class_qvlanguages(settings,missing){
                             oper_engage.enabled(1);
                             oper_delete.enabled(1);
                             txname.value(v["NAME"]);
-                            txita.value(v["italiano"]);
-                            txeng.value(v["english"]);
+                            txita.value(v[languagefrom]);
+                            txeng.value(v[languageto]);
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -117,8 +130,8 @@ function class_qvlanguages(settings,missing){
                 {
                     "sessionid":_sessionid,
                     "action":"new",
-                    "default":"italiano",
-                    "languages":["italiano", "english"]
+                    "default":languagefrom,
+                    "languages":[languagefrom, languageto]
                 }, 
                 function(d){
                     try{
@@ -150,12 +163,11 @@ function class_qvlanguages(settings,missing){
                 {
                     "sessionid":_sessionid,
                     "action":"update",
-                    "default":"italiano",
+                    "default":languagefrom,
                     "SYSID":currsysid,
                     "NAME":txname.value(),
-                    "italiano":txita.value(),
-                    "english":txeng.value(),
-                    "languages":["italiano", "english"]
+                    "languages":[languagefrom, languageto],
+                    "captions":[txita.value(), txeng.value()]
                 }, 
                 function(d){
                     try{
@@ -188,9 +200,9 @@ function class_qvlanguages(settings,missing){
                         {
                             "sessionid":_sessionid,
                             "action":"delete",
-                            "default":"italiano",
+                            "default":languagefrom,
                             "SYSID":currsysid,
-                            "languages":["italiano", "english"]
+                            "languages":[languagefrom, languageto]
                         }, 
                         function(d){
                             try{
@@ -216,12 +228,12 @@ function class_qvlanguages(settings,missing){
     var txname=$(prefix+"NAME").rytext({left:100, top:offsety, width:300});
     
     offsety+=30;
-    $(prefix+"LB_ITALIANO").rylabel({left:20, top:offsety, caption:"Italiano"});
-    var txita=$(prefix+"ITALIANO").rytext({left:100, top:offsety, width:700});
+    $(prefix+"LB_LANGFROM").rylabel({left:20, top:offsety, caption:Languagefrom});
+    var txita=$(prefix+"LANGFROM").rytext({left:100, top:offsety, width:700});
     
     offsety+=30;
-    $(prefix+"LB_ENGLISH").rylabel({left:20, top:offsety, caption:"English"});
-    var txeng=$(prefix+"ENGLISH").rytext({left:100, top:offsety, width:700});
+    $(prefix+"LB_LANGTO").rylabel({left:20, top:offsety, caption:Languageto});
+    var txeng=$(prefix+"LANGTO").rytext({left:100, top:offsety, width:700});
 
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({

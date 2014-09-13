@@ -589,7 +589,7 @@ function winzMessageBox(formid, params, missing){
     var hangerid=dlg.hanger;
     var width=500;
     var height=180;
-    var message="Caricamento in corso...";
+    var message="Loading...";
     var babelcode="";
     var confirm=false;
     var onclose=false;
@@ -661,7 +661,7 @@ function winzMessageBox(formid, params, missing){
             left:120,
             top:height-40,
             width:80,
-            caption:"Annulla",
+            caption:RYBOX.babels("BUTTON_CANCEL"),
             button:true,
             formid:formid,
             click:function(o){
@@ -915,4 +915,7 @@ $(document).ready(function(){
         }
     );
     RYWINZ=new ryWinz();
+    RYBOX.babels({
+        "BUTTON_CANCEL":"Annulla"
+    });
 });

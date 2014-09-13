@@ -5,6 +5,8 @@
     "params":{
         "name":"qvlanguages",
         "path":"qvopzioni/",
-        "title":"Lingue"
+        "title":"Lingue",
+        "languagefrom":"italiano",
+        "languageto":"english"
     }
 }

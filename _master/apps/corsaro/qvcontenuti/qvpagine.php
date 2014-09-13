@@ -29,7 +29,7 @@
         <div relid="LB_ABSTRACT" babelcode="ABSTRACT"></div><div relid="ABSTRACT"></div>
         <div relid="CLASSI"></div>
         <div relid="LB_TAG" babelcode="TAGS"></div><div relid="TAG"></div>
-        <div relid="LB_AUXTIME" babelcode="PAGES_DATE"></div><div relid="AUXTIME"></div>
+        <div relid="LB_AUXTIME" babelcode="PAGE_DATE"></div><div relid="AUXTIME"></div>
         <div relid="LB_SCOPE" babelcode="VISIBLE"></div><div relid="SCOPE"></div>
         <div relid="LB_CONTENTTYPE" babelcode="PAGE_TYPE"></div><div relid="CONTENTTYPE"></div>
         <div relid="LB_LANGUAGE" babelcode="PAGE_VOICE"></div><div relid="LANGUAGE"></div><div relid="GENDER"></div>

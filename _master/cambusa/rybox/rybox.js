@@ -2591,10 +2591,18 @@ function ryBox(){
             }
         }
         else{
-            if(value!=missing)
+            if(value!=missing){
                 propbabelcodes[codes]={caption:value, virgin:true};
-            else
-                return propbabelcodes[codes].caption;
+            }
+            else{
+                try{
+                    return propbabelcodes[codes].caption;
+                }
+                catch(er){
+                    if(window.console)console.log("["+codes+"] not defined");
+                    return codes;
+                }
+            }
         }
     }
     this.getbabel=function(n, args, missing){

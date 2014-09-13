@@ -47,12 +47,16 @@ try{
     else
         $languages=array();
     
+    if(isset($_POST["captions"]))
+        $captions=$_POST["captions"];
+    else
+        $captions=array();
+    
     $jret=array();
     $jret["success"]=1;
     $jret["message"]="OK";
 
     $maestro=array();
-    $captions=array();
     
     if($action=="select")
         $valid=true;
@@ -64,10 +68,6 @@ try{
         foreach($languages as $lang){
             $maestro[$lang]=maestro_opendb($lang);
             $jret[$lang]="";
-            if(isset($_POST[$lang]))
-                $captions[$lang]=$_POST[$lang];
-            else
-                $captions[$lang]="";
         }
         
         switch($action){
@@ -106,13 +106,29 @@ try{
             break;
         
         case "update":
-            maestro_query($maestro[$default],"SELECT NAME FROM BABELITEMS WHERE SYSID='$SYSID'", $r);
+            $sql="SELECT NAME FROM BABELITEMS WHERE SYSID='$SYSID'";
+            maestro_query($maestro[$default], $sql, $r);
             if(count($r)==1){
                 $REGNAME=strtoupper($r[0]["NAME"]);
-                foreach($languages as $lang){
-                    $cap=ryqEscapize($captions[$lang]);
-                    $sql="UPDATE BABELITEMS SET NAME='$NAME', CAPTION='$cap' WHERE [:UPPER(NAME)]='$REGNAME'";
-                    maestro_execute($maestro[$lang], $sql);
+                foreach($languages as $i => $lang){
+                    $cap=ryqEscapize($captions[$i]);
+                    if($lang==$default){
+                        $sql="UPDATE BABELITEMS SET NAME='$NAME', CAPTION='$cap' WHERE [:UPPER(NAME)]='$REGNAME'";
+                        maestro_execute($maestro[$lang], $sql);
+                    }
+                    else{
+                        $sql="SELECT SYSID FROM BABELITEMS WHERE [:UPPER(NAME)]='$REGNAME'";
+                        maestro_query($maestro[$lang], $sql, $r);
+                        if(count($r)==1){
+                            $sql="UPDATE BABELITEMS SET NAME='$NAME', CAPTION='$cap' WHERE [:UPPER(NAME)]='$REGNAME'";
+                            maestro_execute($maestro[$lang], $sql);
+                        }
+                        else{
+                            $ID=qv_createsysid($maestro[$lang]);
+                            $sql="INSERT INTO BABELITEMS(SYSID,NAME,CAPTION,DESCRIPTION) VALUES('$ID','$REGNAME','$cap','')";
+                            maestro_execute($maestro[$lang], $sql);
+                        }
+                    }
                 }
             }
             break;
