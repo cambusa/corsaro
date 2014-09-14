@@ -2596,7 +2596,8 @@ function ryBox(){
             }
             else{
                 try{
-                    return propbabelcodes[codes].caption;
+                    var b=propbabelcodes[codes].caption;
+                    return b.replace(/\\n/g, String.fromCharCode(10));
                 }
                 catch(er){
                     if(window.console)console.log("["+codes+"] not defined");
