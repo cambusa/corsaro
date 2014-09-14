@@ -20,7 +20,7 @@ function class_qvstatistiche(settings,missing){
     offsety=80;
     $(prefix+"LB_SITEID").rylabel({left:20, top:offsety, caption:"Sito"});
     var tx_siteid=$(prefix+"SITEID").ryhelper({
-        left:60, top:offsety, width:160, formid:formid, table:"QW_WEBSITES", title:"Scelta sito",
+        left:60, top:offsety, width:160, formid:formid, table:"QW_WEBSITES", titlecode:"HLP_SELSITE", 
         open:function(o){
             o.where("");
         },
@@ -39,7 +39,7 @@ function class_qvstatistiche(settings,missing){
             $(prefix+"view_files").html("").css({"display":"none"});
         }
     });
-    $(prefix+"LB_ANNO").rylabel({left:250, top:offsety, caption:"Anno 20"});
+    $(prefix+"LB_ANNO").rylabel({left:250, top:offsety, caption:"Anno&nbsp;&nbsp;20"});
     var y=(new Date()).getFullYear()-2000;
     var tx_anno=$(prefix+"ANNO").rynumber({left:310, top:offsety, width:45, numdec:0, minvalue:14, maxvalue:y,
         assigned:function(){
@@ -48,29 +48,30 @@ function class_qvstatistiche(settings,missing){
     });
     tx_anno.value(y);
 
-    $(prefix+"LB_MESE").rylabel({left:390, top:offsety, caption:"Mese"});
+    $(prefix+"LB_MESE").rylabel({left:385, top:offsety, caption:"Mese"});
     var tx_mese=$(prefix+"MESE").rylist({left:430, top:offsety, width:100,
         assigned:function(){
             setTimeout(function(){oper_refresh.engage()}, 100);
         }
     })
-    .additem({caption:"Gennaio", key:0})
-    .additem({caption:"Febbraio", key:1})
-    .additem({caption:"Marzo", key:2})
-    .additem({caption:"Aprile", key:3})
-    .additem({caption:"Maggio", key:4})
-    .additem({caption:"Giugno", key:5})
-    .additem({caption:"Luglio", key:6})
-    .additem({caption:"Agosto", key:7})
-    .additem({caption:"Settembre", key:8})
-    .additem({caption:"Ottobre", key:9})
-    .additem({caption:"Novembre", key:10})
-    .additem({caption:"Dicembre", key:11});
+    .additem({caption:"Gennaio", key:0, code:"JANUARY"})
+    .additem({caption:"Febbraio", key:1, code:"FEBRUARY"})
+    .additem({caption:"Marzo", key:2, code:"MARCH"})
+    .additem({caption:"Aprile", key:3, code:"APRIL"})
+    .additem({caption:"Maggio", key:4, code:"MAY"})
+    .additem({caption:"Giugno", key:5, code:"JUNE"})
+    .additem({caption:"Luglio", key:6, code:"JULY"})
+    .additem({caption:"Agosto", key:7, code:"AUGUST"})
+    .additem({caption:"Settembre", key:8, code:"SEPTEMBER"})
+    .additem({caption:"Ottobre", key:9, code:"OCTOBER"})
+    .additem({caption:"Novembre", key:10, code:"NOVEMBER"})
+    .additem({caption:"Dicembre", key:11, code:"DECEMBER"});
     tx_mese.setkey((new Date).getMonth());
     
     var oper_refresh=$(prefix+"oper_refresh").rylabel({
         left:580,
         top:offsety,
+        width:80,
         caption:"Aggiorna",
         button:true,
         click:function(o){
@@ -103,13 +104,14 @@ function class_qvstatistiche(settings,missing){
     oper_refresh.enabled(0);
     
     var oper_reset=$(prefix+"oper_reset").rylabel({
-        left:680,
+        left:700,
         top:offsety,
+        width:80,
         caption:"Reset",
         button:true,
         click:function(o){
             winzMessageBox(formid, {
-                message:"Eliminare le statistiche del sito selezionato?<br>Confermando non saranno pi&ugrave; disponibili i dati per il reporting!",
+                message:RYBOX.babels("MSG_STATRESET"),
                 confirm:function(){
                     winzProgress(formid);
                     $.post(_cambusaURL+"ryquiver/quiver.php", 
@@ -149,7 +151,7 @@ function class_qvstatistiche(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:10,position:"relative",
         tabs:[
-            {title:"Statistiche"}
+            {title:"Statistiche", code:"STATISTICS"}
         ]
     });
     objtabs.currtab(1);
@@ -174,9 +176,9 @@ function class_qvstatistiche(settings,missing){
             barwidth:20,
             values:users,
             captions:days,
-            title:"Lettori",
-            captionx:"Tempo",
-            captiony:"Valutazione"
+            title:RYBOX.babels("STAT_VISITORS"),
+            captionx:RYBOX.babels("STAT_TIME"),
+            captiony:RYBOX.babels("STAT_EVALUATION")
         });
     }
     function tracciapagine(v, rep){
@@ -184,13 +186,13 @@ function class_qvstatistiche(settings,missing){
         var h="";
         if(rep==0){
             sez="view_pages";
-            tit="Pagine";
-            descr="visite";
+            tit=RYBOX.babels("STAT_PAGES");
+            descr=RYBOX.babels("STAT_VISITS");
         }
         else{
             sez="view_files";
-            tit="Download";
-            descr="download";
+            tit=RYBOX.babels("DOWNLOAD");
+            descr=RYBOX.babels("STAT_DOWNLOAD");
         }
         if(pages>0){
             var tot=0;
@@ -215,9 +217,9 @@ function class_qvstatistiche(settings,missing){
         }
         else{
             if(rep==0)
-                h="(nessuna visita)";
+                h=RYBOX.babels("STAT_NOVISIT");
             else
-                h="(nessun download)";
+                h=RYBOX.babels("STAT_NODOWNLOAD");
                 
         }
         h+="<br/><br/><br/>";
@@ -225,6 +227,19 @@ function class_qvstatistiche(settings,missing){
     }
     
     // INIZIALIZZAZIONE FORM
+    RYBOX.babels({
+        "STAT_VISITORS":"Lettori",
+        "STAT_TIME":"Tempo",
+        "STAT_EVALUATION":"Valutazione",
+        "STAT_PAGES":"Pagine",
+        "STAT_VISITS":"visite",
+        "STAT_DOWNLOAD":"download",
+        "STAT_NOVISIT":"(nessuna visita)",
+        "STAT_NODOWNLOAD":"(nessun download)",
+        "DOWNLOAD":"Download",
+        "HLP_SELSITE":"Selezione sito",
+        "MSG_STATRESET":"Eliminare le statistiche del sito selezionato?<br>Confermando non saranno pi&ugrave; disponibili i dati per il reporting!"
+    });
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             winzClearMess(formid);
