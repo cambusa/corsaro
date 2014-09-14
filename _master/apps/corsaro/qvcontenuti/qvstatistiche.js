@@ -192,7 +192,7 @@ function class_qvstatistiche(settings,missing){
         else{
             sez="view_files";
             tit=RYBOX.babels("DOWNLOAD");
-            descr=RYBOX.babels("STAT_DOWNLOAD");
+            descr=RYBOX.babels("STAT_DOWNLOADS");
         }
         if(pages>0){
             var tot=0;
@@ -233,7 +233,7 @@ function class_qvstatistiche(settings,missing){
         "STAT_EVALUATION":"Valutazione",
         "STAT_PAGES":"Pagine",
         "STAT_VISITS":"visite",
-        "STAT_DOWNLOAD":"download",
+        "STAT_DOWNLOADS":"downloads",
         "STAT_NOVISIT":"(nessuna visita)",
         "STAT_NODOWNLOAD":"(nessun download)",
         "DOWNLOAD":"Download",

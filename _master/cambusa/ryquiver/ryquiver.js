@@ -202,7 +202,7 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
 }
 function qv_bulkdelete(formid, objgrid, prefix){
     winzMessageBox(formid, {
-        message:RYBOX.babels("MSG_DELETESELROW"),
+        message:RYBOX.babels("MSG_DELETESELROWS"),
         ok:RYBOX.babels("BUTTON_DELETE"),
         confirm:function(){
             objgrid.selengage(   // Elenco dei SYSID selezionati
@@ -243,7 +243,7 @@ function qv_bulkdelete(formid, objgrid, prefix){
 }
 function qv_filedelete(formid, objgrid){
     winzMessageBox(formid, {
-        message:RYBOX.babels("MSG_DELETESELROW"),
+        message:RYBOX.babels("MSG_DELETESELROWS"),
         ok:RYBOX.babels("BUTTON_DELETE"),
         confirm:function(){
             objgrid.selengage(   // Elenco dei SYSID selezionati
@@ -373,7 +373,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     h+='<div id="'+formid+'griddocs"></div>';
     h+='<div id="'+formid+'oper_fileinsert"></div>';
     h+='<div id="'+formid+'oper_filerefresh" babelcode="FILE_REFRESH"></div>';
-    h+='<div id="'+formid+'oper_fileunsaved" babelcode="FILE_UNSAVED"></div>';
+    h+='<div id="'+formid+'oper_fileunsaved" babelcode="BABEL_UNSAVED"></div>';
     h+='<div id="'+formid+'lb_filedescription" babelcode="FILE_DESCRIPTION"></div>';
     h+='<div id="'+formid+'tx_filedescription"></div>';
     h+='<div id="'+formid+'lb_filedate" babelcode="FILE_DATE"></div>';
@@ -2096,7 +2096,7 @@ $(document).ready(function(){
         "MSG_DATANOTSAVE":"I dati sono stati modificati. Salvare?",
         "MSG_ROWNOTSAVE":"I dati sono stati modificati. Abbandonare la riga?",
         "MSG_PRINTFORMAT":"Quale formato utilizzare per la stampa?",
-        "MSG_DELETESELROW":"Eliminare le righe selezionate?",
+        "MSG_DELETESELROWS":"Eliminare le righe selezionate?",
         "MSG_NOSELECTION":"Nessun elemento selezionato",
         "BUTTON_SAVE":"Salva",
         "BUTTON_ABANDON":"Abbandona",

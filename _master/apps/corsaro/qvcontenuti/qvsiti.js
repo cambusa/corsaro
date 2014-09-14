@@ -18,6 +18,7 @@ function class_qvsiti(settings,missing){
     var typecontainerid=RYQUE.formatid("0WEBCONTAIN0");
     var currexported="";
     var context="";
+    var bbl_context="";
     var prefix="#"+formid;
     var flagopen=false;
     var flagsuspend=false;
@@ -42,8 +43,8 @@ function class_qvsiti(settings,missing){
         from:"QW_WEBSITES",
         orderby:"DESCRIPTION,SYSID",
         columns:[
-            {id:"SYSID",caption:"Codice",width:130},
-            {id:"DESCRIPTION",caption:"Descrizione",width:200}
+            {id:"SYSID", caption:"Codice", width:130, code:"CODE"},
+            {id:"DESCRIPTION", caption:"Descrizione", width:200, code:"DESCRIPTION"}
         ],
         changerow:function(o,i){
             currsysid="";
@@ -93,6 +94,7 @@ function class_qvsiti(settings,missing){
     var oper_refresh=$(prefix+"oper_refresh").rylabel({
         left:430,
         top:offsety,
+        width:70,
         caption:"Aggiorna",
         button:true,
         click:function(o, done){
@@ -119,6 +121,7 @@ function class_qvsiti(settings,missing){
     var oper_new=$(prefix+"oper_new").rylabel({
         left:430,
         top:210,
+        width:70,
         caption:"Nuovo",
         button:true,
         click:function(o){
@@ -157,6 +160,7 @@ function class_qvsiti(settings,missing){
     var oper_clone=$(prefix+"oper_clone").rylabel({
         left:430,
         top:260,
+        width:70,
         caption:"Clona&nbsp;",
         button:true,
         click:function(o){
@@ -190,8 +194,9 @@ function class_qvsiti(settings,missing){
     });
     
     var oper_export=$(prefix+"oper_export").rylabel({
-        left:495,
+        left:515,
         top:260,
+        width:70,
         caption:"Esporta",
         button:true,
         click:function(o){
@@ -226,7 +231,8 @@ function class_qvsiti(settings,missing){
     var oper_download=$(prefix+"oper_download").rylabel({
         left:660,
         top:260,
-        caption:"Scarica",
+        width:70,
+        caption:"Download",
         button:true,
         click:function(o){
             var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+_customizeURL+currexported;
@@ -236,6 +242,7 @@ function class_qvsiti(settings,missing){
     var oper_delete=$(prefix+"oper_delete").rylabel({
         left:430,
         top:340,
+        width:140,
         caption:"Elimina sito selezionato",
         button:true,
         click:function(o){
@@ -282,9 +289,9 @@ function class_qvsiti(settings,missing){
     var txdescr=$(prefix+"DESCRIPTION").rytext({left:90, top:offsety, width:350, maxlen:100, datum:"C", tag:"DESCRIPTION"});
     offsety+=30;
     
-    $(prefix+"LB_HOMEPAGEID").rylabel({left:20, top:offsety, caption:"Home"});
+    $(prefix+"LB_HOMEPAGEID").rylabel({left:20, top:offsety, caption:"Radice"});
     $(prefix+"HOMEPAGEID").ryhelper({
-        left:90, top:offsety, width:250, datum:"C", tag:"HOMEPAGEID", formid:formid, table:"QW_WEBCONTAINERS", title:"Contenitore principale",
+        left:90, top:offsety, width:250, datum:"C", tag:"HOMEPAGEID", formid:formid, table:"QW_WEBCONTAINERS", titlecode:"HLP_SELPRIMARYCONTAINER", 
         open:function(o){
             o.where("SITEID='"+currsysid+"' AND REFOBJECTID=''");
         }
@@ -292,7 +299,7 @@ function class_qvsiti(settings,missing){
     
     $(prefix+"LB_DEFAULTID").rylabel({left:380, top:offsety, caption:"Predefinita"});
     $(prefix+"DEFAULTID").ryhelper({
-        left:470, top:offsety, width:250, datum:"C", tag:"DEFAULTID", formid:formid, table:"QW_WEBCONTENTS", title:"Pagina predefinita",
+        left:470, top:offsety, width:250, datum:"C", tag:"DEFAULTID", formid:formid, table:"QW_WEBCONTENTS", titlecode:"HLP_SELDEFAULTPAGE", 
         open:function(o){
             o.where("(SITEID='"+currsysid+"' OR SITEID='')");
         }
@@ -330,6 +337,7 @@ function class_qvsiti(settings,missing){
     var oper_indicize=$(prefix+"oper_indicize").rylabel({
         left:470,
         top:60,
+        width:120,
         caption:"Indicizza pagine",
         button:true,
         click:function(o){
@@ -358,8 +366,9 @@ function class_qvsiti(settings,missing){
     });
 
     var oper_contextengage=$(prefix+"oper_contextengage").rylabel({
-        left:680,
+        left:640,
         top:60,
+        width:70,
         caption:"Salva",
         button:true,
         click:function(o, done){
@@ -409,8 +418,9 @@ function class_qvsiti(settings,missing){
     var lb_frames_context=$(prefix+"frames_context").rylabel({left:20, top:50, caption:""});
 
     var operf_refresh=$(prefix+"operf_refresh").rylabel({
-        left:650,
+        left:640,
         top:80,
+        width:70,
         caption:"Aggiorna",
         button:true,
         click:function(o){
@@ -432,8 +442,8 @@ function class_qvsiti(settings,missing){
         orderby:"ORDINATORE,DESCRIPTION",
         columns:[
             {id:"ORDINATORE", caption:"", width:30, type:"0"},
-            {id:"DESCRIPTION", caption:"Descrizione",width:300},
-            {id:"CONTENT", caption:"Contenuto",width:300}
+            {id:"DESCRIPTION", caption:"Descrizione",width:300, code:"DESCRIPTION"},
+            {id:"CONTENT", caption:"Contenuto",width:300, code:"CONTENT"}
         ],
         beforechange:function(o, i, n){
             if(qv_changerowmanagement(formid, o, n)){return false;}
@@ -480,6 +490,7 @@ function class_qvsiti(settings,missing){
         left:20,
         top:offsety,
         caption:"Aggiungi contenitore",
+        width:140,
         button:true,
         click:function(o){
             winzProgress(formid);
@@ -533,13 +544,14 @@ function class_qvsiti(settings,missing){
     operf_unsaved.visible(0);
     
     var operf_remove=$(prefix+"operf_remove").rylabel({
-        left:580,
+        left:570,
         top:offsety,
+        width:140,
         caption:"Rimuovi contenitore",
         button:true,
         click:function(o){
             winzMessageBox(formid, {
-                message:"Eliminare il contenitore selezionato?",
+                message:RYBOX.babels("MSG_DELETECONTAINER"),
                 confirm:function(){
                     winzProgress(formid);
                     RYWINZ.modified(formid, 0);
@@ -575,6 +587,7 @@ function class_qvsiti(settings,missing){
     var operf_update=$(prefix+"operf_update").rylabel({
         left:20,
         top:offsety,
+        width:140,
         caption:"Salva contenitore",
         button:true,
         click:function(o, done){
@@ -715,8 +728,8 @@ function class_qvsiti(settings,missing){
         }
     );
     
-    $(prefix+"filemanager").append("<div id='"+formid+"oper_favicon'></div>");
-    $(prefix+"filemanager").append("<div id='"+formid+"oper_removefavicon'></div>");
+    $(prefix+"filemanager").append("<div id='"+formid+"oper_favicon' babelcode='SITE_USEASFAVICON'></div>");
+    $(prefix+"filemanager").append("<div id='"+formid+"oper_removefavicon' babelcode='SITE_REMOVEFAVICON'></div>");
     $(prefix+"filemanager").append("<div id='"+formid+"PREVIEW'></div>");
     
     // USA COME FAVICON
@@ -791,10 +804,10 @@ function class_qvsiti(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:10,position:"relative",
         tabs:[
-            {title:"Selezione"},
-            {title:"Contesto"},
-            {title:"Contenitori"},
-            {title:"Documenti"}
+            {title:"Selezione", code:"SELECTION"},
+            {title:"Contesto", code:"CONTEXT"},
+            {title:"Contenitori", code:"CONTAINERS"},
+            {title:"Documenti", code:"DOCUMENTS"}
         ],
         select:function(i,p){
             if(p==2){
@@ -848,11 +861,11 @@ function class_qvsiti(settings,missing){
                     break;
                 case 3:
                     // CARICAMENTO CONTENITORI
-                    lb_frames_context.caption("Contesto: "+context);
+                    lb_frames_context.caption(bbl_context.replace("{1}", context));
                     qv_contextmanagement(context, {sysid:currsysid, table:"QVOBJECTS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
                         done:function(d){
                             context=d;
-                            lb_frames_context.caption("Contesto: "+context);
+                            lb_frames_context.caption(bbl_context.replace("{1}", context));
                             loadedsysidC=currsysid;
                             operf_refresh.engage();
                         }
@@ -860,11 +873,11 @@ function class_qvsiti(settings,missing){
                     break;
                 case 4:
                     // CARICAMENTO DOCUMENTI
-                    filemanager.initialize(currsysid, "Contesto: "+context, typesiteid);
+                    filemanager.initialize(currsysid, bbl_context.replace("{1}", context), typesiteid);
                     qv_contextmanagement(context, {sysid:currsysid, table:"QVOBJECTS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
                         done:function(d){
                             context=d;
-                            filemanager.caption("Contesto: "+context);
+                            filemanager.caption(bbl_context.replace("{1}", context));
                         }
                     });
                     break;
@@ -879,8 +892,14 @@ function class_qvsiti(settings,missing){
     objtabs.enabled(4,false);
     
     // INIZIALIZZAZIONE FORM
+    RYBOX.babels({
+        "HLP_SELPRIMARYCONTAINER":"Selezione contenitore principale",
+        "HLP_SELDEFAULTPAGE":"Selezione pagina predefinita",
+        "MSG_DELETECONTAINER":"Eliminare il contenitore selezionato?"
+    });
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
+            bbl_context=RYBOX.babels("BABEL_CONTEXT");
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
