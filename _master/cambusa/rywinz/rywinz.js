@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 * Name:            rywinz.js                                                *
 * Project:         Cambusa/ryWinz                                           *
 * Version:         1.00                                                     *
@@ -82,7 +82,7 @@ function ryWinz(missing){
             // RIMOZIONE DEI GRID CON DISPOSE
             winzDisposeGrid(grids,
                 function(){
-                    if(window.console&&_sessioninfo.debugmode)console.log("Closing objects: "+_objectlength(globalobjs));
+                    if(window.console&&_sessioninfo.debugmode)console.log("Oggetti in chiusura: "+_objectlength(globalobjs));
                     delete _globalforms[id];
                     if(done!=missing){
                         setTimeout(function(){done()});
@@ -279,7 +279,7 @@ function raiseUnload(n){
     if(RYWINZ.modified(n) || RYWINZ.busy(n))
         ok=false;
     if(ok==false)
-        ok=confirm(RYBOX.babels("MSG_CONFIRMEXIT"));
+        ok=confirm("Un'attivit"+_utf8("a")+" "+_utf8("e")+" in corso o il documento non "+_utf8("e")+" stato salvato.\n\nUscire comunque?");
     if(ok){
         try{
             var f=RYWINZ.forms(n);
@@ -916,10 +916,6 @@ $(document).ready(function(){
     );
     RYWINZ=new ryWinz();
     RYBOX.babels({
-        "BUTTON_CANCEL":"Annulla",
-        "MSG_CONFIRMEXIT":"Un'attività è in corso o il documento non è stato salvato.\n\nUscire comunque?",
-        "MSG_QUITPAGE":"Richiesta di abbandono della pagina!",
-        "MSG_QUITMODIFIEDPAGE":"Alcune attività sono in corso o qualche documento non è stato salvato.",
-        "MSG_CONFIRMQUIT":"Alcune attività sono in corso o qualche documento non è stato salvato.\n\nUscire comunque?"
+        "BUTTON_CANCEL":"Annulla"
     });
 });

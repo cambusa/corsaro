@@ -126,7 +126,7 @@ function winz_showabout(){
 }
 function winz_logout(promptmess){
     var ok=true;
-    var msg=RYBOX.babels("MSG_QUITPAGE");
+    var msg="Richiesta di abbandono della pagina!";
     for(var n in _globalforms){
         if(RYWINZ.modified(n) || RYWINZ.busy(n)){
             ok=false;
@@ -134,12 +134,10 @@ function winz_logout(promptmess){
         }
     }
     if(ok==false){
+        msg="Alcune attivit"+_utf8("a")+" sono in corso o qualche documento non "+_utf8("e")+" stato salvato.";
         if(promptmess){
-            msg=RYBOX.babels("MSG_CONFIRMQUIT");
+            msg+="\n\nUscire comunque?";
             ok=confirm(msg);
-        }
-        else{
-            msg=RYBOX.babels("MSG_QUITMODIFIEDPAGE");
         }
     }
     if(ok==true && promptmess==true){
@@ -221,7 +219,7 @@ function winz_logout(promptmess){
 <?php
     $copy="$winz_apptitle &copy; $copyright_year $copyright_name";
     if($copyright_dealer!=""){
-        $copy.=" - Dealer ".$copyright_dealer;
+        $copy.=" - Distributore ".$copyright_dealer;
     }
 ?>
 		<a class="float_right" style="font-size:11px;" href="license.html" target="_blank"><?php  print $copy ?></a>

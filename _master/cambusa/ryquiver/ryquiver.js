@@ -125,7 +125,7 @@ function qv_printselected(formid, objgrid, template, options){
     });
     // DEFINIZIONE DEL CONTENUTO
     h+="<div class='winz_msgbox'>";
-    h+=RYBOX.babels("MSG_PRINTFORMAT");
+    h+="Quale formato utilizzare per la stampa?";
     h+="</div>";
     h+=winzAppendCtrl(vK, formid+"__html");
     h+=winzAppendCtrl(vK, formid+"__pdf");
@@ -196,13 +196,14 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
             );
         },
         function(){
-            alert(RYBOX.babels("MSG_NOSELECTION"));
+            alert("Nessun elemento selezionato");
         }
     );
 }
 function qv_bulkdelete(formid, objgrid, prefix){
     winzMessageBox(formid, {
-        message:RYBOX.babels("MSG_DELETESELROW"),
+        message:"Eliminare le righe selezionate?",
+        code:"MSG_DELETESELROW",
         ok:RYBOX.babels("BUTTON_DELETE"),
         confirm:function(){
             objgrid.selengage(   // Elenco dei SYSID selezionati
@@ -243,7 +244,7 @@ function qv_bulkdelete(formid, objgrid, prefix){
 }
 function qv_filedelete(formid, objgrid){
     winzMessageBox(formid, {
-        message:RYBOX.babels("MSG_DELETESELROW"),
+        message:"Eliminare le righe selezionate?",
         ok:RYBOX.babels("BUTTON_DELETE"),
         confirm:function(){
             objgrid.selengage(   // Elenco dei SYSID selezionati
@@ -1096,7 +1097,7 @@ function qv_idrequest(formid, settings, missing){
                         selectmanage(d);
                     },
                     function(){
-                        winzMessageBox(formid, RYBOX.babels("MSG_NOSELECTION"));
+                        winzMessageBox(formid, "Nessun elemento selezionato!");
                     }
                 )
             }
@@ -1116,7 +1117,7 @@ function qv_idrequest(formid, settings, missing){
                     }
                 }
                 else{
-                    winzMessageBox(formid, RYBOX.babels("MSG_NOSELECTION"));
+                    winzMessageBox(formid, "Nessun elemento selezionato!");
                 }
             }
         }
@@ -2095,9 +2096,6 @@ $(document).ready(function(){
     RYBOX.babels({
         "MSG_DATANOTSAVE":"I dati sono stati modificati. Salvare?",
         "MSG_ROWNOTSAVE":"I dati sono stati modificati. Abbandonare la riga?",
-        "MSG_PRINTFORMAT":"Quale formato utilizzare per la stampa?",
-        "MSG_DELETESELROW":"Eliminare le righe selezionate?",
-        "MSG_NOSELECTION":"Nessun elemento selezionato",
         "BUTTON_SAVE":"Salva",
         "BUTTON_ABANDON":"Abbandona",
         "BUTTON_CANCEL":"Annulla",
