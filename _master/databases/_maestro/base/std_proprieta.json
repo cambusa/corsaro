@@ -5,7 +5,7 @@
             "SYSID":{"type":"SYSID", "key":1},
             "INDIRIZZO":{"type":"VARCHAR", "size":100},
             "CIVICO":{"type":"VARCHAR", "size":20},
-            "CAP":{"type":"VARCHAR", "size":5},
+            "CAP":{"type":"VARCHAR", "size":20},
             "CITTA":{"type":"VARCHAR", "size":50},
             "PROVINCIA":{"type":"VARCHAR", "size":20},
             "NAZIONE":{"type":"VARCHAR", "size":50},

@@ -19,8 +19,8 @@
         <div relid="lbf_classe" babelcode="CLASS"></div><div relid="txf_classe"></div>
         <div relid="oper_refresh" babelcode="REFRESH"></div>
         <div relid="oper_reset" babelcode="RESET"></div>
-        <div relid="oper_new" babelcode="NEW"></div>
-        <div relid="oper_delete" babelcode="MULTIDELETE"></div>
+        <div relid="oper_new" babelcode="BUTTON_NEW"></div>
+        <div relid="oper_delete" babelcode="BUTTON_SELDELETE"></div>
     </div>
     <div>
         <div relid="LB_NAME" babelcode="NAME"></div><div relid="NAME"></div>

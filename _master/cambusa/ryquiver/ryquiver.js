@@ -382,7 +382,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     h+='<div id="'+formid+'tx_filesorter"></div>';
     h+='<div id="'+formid+'oper_fileupdate" babelcode="FILE_UPDATE"></div>';
     h+='<div id="'+formid+'oper_filedownload" babelcode="FILE_DOWNLOAD"></div>';
-    h+='<div id="'+formid+'oper_filedelete" babelcode="MULTIDELETE"></div>';
+    h+='<div id="'+formid+'oper_filedelete" babelcode="BUTTON_SELDELETE"></div>';
     if($("#"+formid+"filemanager").html(h).length>0){
         var offsety=180;
         var lb_docs_context=$(prefix+"docs_context").rylabel({left:20, top:50, caption:"", formid:formid});

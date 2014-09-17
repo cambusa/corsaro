@@ -58,7 +58,7 @@
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
             "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "REGISTRY":{"type":"TEXT"},
-            "CAP":{"type":"VARCHAR", "size":10},
+            "CAP":{"type":"VARCHAR", "size":20},
             "NAZIONEID":{"type":"SYSID", "ref":"GEONAZIONI"},
             "PROVINCIAID":{"type":"SYSID", "ref":"GEOPROVINCE"}
         }

@@ -191,7 +191,7 @@ function class_qvuffici(settings,missing){
     offsety+=30;
     
     $(prefix+"LB_CAP").rylabel({left:20, top:offsety, caption:"C.A.P."});
-    $(prefix+"CAP").rytext({left:120, top:offsety, width:60, maxlen:5, datum:"C", tag:"CAP"});
+    $(prefix+"CAP").rytext({left:120, top:offsety, width:60, maxlen:20, datum:"C", tag:"CAP"});
     
     $(prefix+"LB_CITTA").rylabel({left:200, top:offsety, caption:"Citt&agrave;"});
     $(prefix+"CITTA").rytext({left:240, top:offsety, width:250, maxlen:50, datum:"C", tag:"CITTA"});

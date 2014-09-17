@@ -626,7 +626,7 @@ Refresh all views
 SET_IMPORTEGO
 Import Ego's users and roles
 @
-SET_ELIMINAZIONE
+SET_TRASHDELETION
 <b>Permanently remove deleted records:</b>
 @
 SET_EMPTYGENRES

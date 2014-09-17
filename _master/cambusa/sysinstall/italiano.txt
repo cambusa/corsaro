@@ -626,7 +626,7 @@ Aggiornamento di tutte le viste
 SET_IMPORTEGO
 Importazione utenti e ruoli da Ego
 @
-SET_ELIMINAZIONE
+SET_TRASHDELETION
 <b>Eliminazione definitiva record cancellati:</b>
 @
 SET_EMPTYGENRES

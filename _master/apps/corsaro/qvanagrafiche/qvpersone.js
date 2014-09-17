@@ -15,6 +15,7 @@ function class_qvpersone(settings,missing){
     var currsysid="";
     var currtypologyid=RYQUE.formatid("0PERSONE0000");
     var context="";
+    var bbl_context="";
     var prefix="#"+formid;
     var flagopen=false;
     var flagsuspend=false;
@@ -106,14 +107,14 @@ function class_qvpersone(settings,missing){
         from:"QW_PERSONE",
         orderby:"COGNOME",
         columns:[
-            {id:"DESCRIPTION",caption:"Descrizione",width:250},
-            {id:"INDIRIZZO",caption:"Indirizzo",width:250},
-            {id:"CAP",caption:"CAP",width:60},
-            {id:"CITTA",caption:"Citt&agrave;",width:200},
-            {id:"PROVINCIA",caption:"Pr",width:40},
-            {id:"TELEFONO",caption:"Telefono",width:120},
-            {id:"CELLULARE",caption:"Cellulare",width:120},
-            {id:"EMAIL",caption:"Posta",width:250}
+            {id:"DESCRIPTION", caption:"Descrizione", width:250, code:"DESCRIPTION"},
+            {id:"INDIRIZZO", caption:"Indirizzo", width:250, code:"ADDRESS"},
+            {id:"CAP", caption:"CAP", width:90, code:"ZIPCODE"},
+            {id:"CITTA", caption:"Citt&agrave;", width:200, code:"CITY"},
+            {id:"PROVINCIA", caption:"Pr", width:40, code:"ABBR_PROVINCE"},
+            {id:"TELEFONO", caption:"Telefono", width:120, code:"PHONE"},
+            {id:"CELLULARE", caption:"Cellulare", width:120, code:"MOBILEPHONE"},
+            {id:"EMAIL", caption:"Email", width:250, code:"EMAIL"}
         ],
         changerow:function(o,i){
             if(i>0){
@@ -232,8 +233,8 @@ function class_qvpersone(settings,missing){
     $(prefix+"LB_SESSO").rylabel({left:20, top:offsety, caption:"Sesso"});
     $(prefix+"SESSO").rylist({left:120, top:offsety, width:200, datum:"C", tag:"SESSO"})
         .additem({caption:"", key:""})
-        .additem({caption:"Maschio", key:"M"})
-        .additem({caption:"Femmina", key:"F"});
+        .additem({caption:"Maschio", key:"M", code:"MALE"})
+        .additem({caption:"Femmina", key:"F", code:"FEMALE"});
     offsety+=30;
     
     $(prefix+"LB_CODFISC").rylabel({left:20, top:offsety, caption:"Cod. Fisc."});
@@ -250,7 +251,7 @@ function class_qvpersone(settings,missing){
     offsety+=30;
     
     $(prefix+"LB_CAP").rylabel({left:20, top:offsety, caption:"C.A.P."});
-    $(prefix+"CAP").rytext({left:120, top:offsety, width:60, maxlen:5, datum:"C", tag:"CAP"});
+    $(prefix+"CAP").rytext({left:120, top:offsety, width:60, maxlen:20, datum:"C", tag:"CAP"});
     
     $(prefix+"LB_CITTA").rylabel({left:200, top:offsety, caption:"Citt&agrave;"});
     $(prefix+"CITTA").rytext({left:240, top:offsety, width:250, maxlen:50, datum:"C", tag:"CITTA"});
@@ -333,6 +334,7 @@ function class_qvpersone(settings,missing){
     
     var objclassi=$(prefix+"CLASSI").ryselections({"left":470, "top":110, "height":140, 
         "title":"Classi di appartenenza",
+        "titlecode":"BELONGING_CLASS",
         "formid":formid, 
         "table":"QW_CLASSIPERSONA", 
         "where":"",
@@ -343,8 +345,9 @@ function class_qvpersone(settings,missing){
     });
     
     var oper_contextengage=$(prefix+"oper_contextengage").rylabel({
-        left:680,
+        left:650,
         top:60,
+        width:60,
         caption:"Salva",
         button:true,
         click:function(o, done){
@@ -434,11 +437,11 @@ function class_qvpersone(settings,missing){
                     break;
                 case 3:
                     // CARICAMENTO DOCUMENTI
-                    filemanager.initialize(currsysid, "Contesto: "+context, currtypologyid);
+                    filemanager.initialize(currsysid, bbl_context.replace("{1}", context), currtypologyid);
                     qv_contextmanagement(context, {sysid:currsysid, table:"QVOBJECTS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
                         done:function(d){
                             context=d;
-                            filemanager.caption("Contesto: "+context);
+                            filemanager.caption(bbl_context.replace("{1}", context));
                         }
                     });
                 }
@@ -453,6 +456,7 @@ function class_qvpersone(settings,missing){
     // INIZIALIZZAZIONE FORM
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
+            bbl_context=RYBOX.babels("BABEL_CONTEXT");
             setTimeout( 
                 function(){ 
                     oper_refresh.engage(

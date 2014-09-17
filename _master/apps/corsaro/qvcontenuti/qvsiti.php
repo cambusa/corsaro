@@ -15,7 +15,7 @@
         <div relid="gridsel"></div>
         <div relid="lbf_search" babelcode="SEARCH"></div><div relid="txf_search"></div>
         <div relid="oper_refresh" babelcode="REFRESH"></div>
-        <div relid="oper_new" babelcode="NEW"></div>
+        <div relid="oper_new" babelcode="BUTTON_NEW"></div>
         <div relid="oper_clone" babelcode="BUTTON_CLONE"></div>
         <div relid="oper_export" babelcode="BUTTON_EXPORT"></div><div relid="oper_download" babelcode="BUTTON_DOWNLOAD"></div>
         <div relid="oper_delete" babelcode="SITE_DELETE"></div>

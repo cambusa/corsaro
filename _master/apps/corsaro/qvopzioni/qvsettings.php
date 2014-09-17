@@ -27,7 +27,7 @@
     <div>
         <div relid="LB_REFRESHVIEWS" babelcode="SET_REFRESHVIEWS"></div>
         <div relid="LB_IMPORTEGO" babelcode="SET_IMPORTEGO"></div>
-        <div relid="LB_ELIMINAZIONE" babelcode="SET_ELIMINAZIONE"></div>
+        <div relid="LB_ELIMINAZIONE" babelcode="SET_TRASHDELETION"></div>
         <div relid="LB_EMPTYGENRES" babelcode="SET_EMPTYGENRES"></div>
         <div relid="LB_EMPTYOBJECTS" babelcode="SET_EMPTYOBJECTS"></div>
         <div relid="LB_EMPTYMOTIVES" babelcode="SET_EMPTYMOTIVES"></div>
