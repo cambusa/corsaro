@@ -80,6 +80,7 @@ function solvegallery($maestro, $CONTENTID){
                                 "URLFILE" => $urltfile,
                                 "WIDTH" => $width,
                                 "HEIGHT" => $height,
+                                "ORIGINALH" => $height,
                                 "TITLE" => $title,
                                 "COLUMN" => $col
                             );
@@ -163,6 +164,7 @@ function solvegallery($maestro, $CONTENTID){
             $urltfile=$IMG["URLFILE"];
             $width=$IMG["WIDTH"];
             $height=$IMG["HEIGHT"];
+            $originalh=$IMG["ORIGINALH"];
             $title=$IMG["TITLE"];
             
             $classtop="";
@@ -188,19 +190,22 @@ function solvegallery($maestro, $CONTENTID){
                 $classcol="filibuster-image-right";
                 break;
             }
+            if($originalh<=$height)
+                $bsize="auto 110%";
+            else
+                $bsize="110% auto";
             $food.="<div class='filibuster-image $classcol $classtop $classmiddle $classbottom' style='left:".$left."px;top:".$top."px;width:".$width."px;height:".$height."px;'>";
-            $food.="<div class='filibuster-image-inner'>";
-            $food.="<a href='$url?env=".$maestro->environ."&site=$site&id=$SELECTEDID#anchor_$FILEID'>";
-            $food.="<img src='$urltfile' border='0' title='$title'>";
-            $food.="</a>";
+            $food.="<a href='$url?env=".$maestro->environ."&site=$site&id=$SELECTEDID#anchor_$FILEID' title='$title'>";
+            $food.="<div class='filibuster-image-inner' style='background-image:url($urltfile);background-size:$bsize;'>";
             $food.="</div>";
+            $food.="</a>";
             $food.="</div>";
         }
     }
     $food.="</div>";
     $food.="</div>";
 
-    $food=str_replace("######", $maxheight+50, $food);
+    $food=str_replace("######", $maxheight, $food);
     return $food;
 }
 function flb_galleryheight($BULK, &$heightcols){

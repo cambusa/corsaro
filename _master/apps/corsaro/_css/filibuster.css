@@ -40,11 +40,10 @@ a:hover{color:#708090;}
 .filibuster-video{margin-top:0px;margin-bottom:30px;}
 
 /* GALLERY */
-.filibuster-gallery{position:relative;}
+.filibuster-gallery{position:relative;margin-bottom:2em;}
 .filibuster-transform{position:absolute;width:100%;height:100%}
 .filibuster-image{position:absolute;}
-.filibuster-image-inner{position:absolute;width:100%;height:100%;}
-.filibuster-image-inner img{width:100%;height:100%}
+.filibuster-image-inner{position:absolute;width:100%;height:100%;box-sizing:border-box;background-repeat:no-repeat;background-position:center;}
 
 /* ELENCHI */
 .filibuster-item{padding-bottom:0px;}
