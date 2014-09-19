@@ -15,7 +15,8 @@ The set includes:
    * maintenance<br>
    * master data<br>
 
-3. CMS __Filibuster__ based on Corsaro
+3. CMS __Filibuster__ based on Corsaro  
+   An example of a website built by means of _Filibuster_: [No Boundaries](http://www.rudyz.net/apps/corsaro/filibuster.php?env=flb_giovyz&site=senzaconfini&id=A000000009019S)
 
 
 The missing Corsaro modules
