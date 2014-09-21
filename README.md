@@ -94,6 +94,15 @@ A single page, but many independent windows dynamically loaded. Your application
 
 ---
 
+License
+=======
+
+__GNU General Public License v3__
+
+I'd like to use a weaker copyleft than the GPL, but unfortunately some third-party components included in the library _Cambusa_ wouldn't have compatible licenses.
+
+---
+
 ToDo
 ====
 
