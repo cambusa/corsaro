@@ -9,19 +9,8 @@
 .navigation {
     display:block;
     position:absolute;
-    width:600px;
+    width:100%;
     z-index:1000;
-}
-
-.navigation > ul{
-    display: -webkit-box;
-    -webkit-box-orient: horizontal;
-
-    display: -moz-box;
-    -moz-box-orient: horizontal;
-
-    display: box;
-    -moz-box-orient: horizontal;
 }
 
 .navigation ul{
@@ -32,18 +21,13 @@
     font-weight: normal;
     position:relative;
     z-index:1000;
-    width:600px;
+    width:100%;
 }
 
 .navigation > ul > li { 
     position : relative;
     float : left;
-
-    font-size: 15px; /* this is here and not above, so that the subs can be made smaller using a % if desired */
-
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    box-flex: 1;
+    font-size: 100%; /* this is here and not above, so that the subs can be made smaller using a % if desired */
 }
 
 .navigation > ul > li + li{
@@ -101,8 +85,7 @@
 
 .navigation > ul > li:hover ul, .navigation > ul > li > a:hover ul,
 .navigation ul ul li:hover > ul, .navigation ul ul li a:hover > ul{
-    height:220px;
-
+    height:2000px;
 }
 
 /* drop-down item styles */
@@ -165,5 +148,3 @@
 }
 
 .arrow{background:url(../_images/arrow.png) right center no-repeat;}
-.header{width: 600px; height:50px; background-color: white;}
-.content{position:relative; width: 600px; height:500px; color:white; background-color: white; overflow:hidden;}

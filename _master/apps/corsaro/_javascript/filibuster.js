@@ -1293,3 +1293,46 @@ function flb_gallery(options, missing){
         $(".filibuster-transform").css({"left":l+2});
     }
 }
+function flb_dropdown(options, missing){
+    if(options.root!=missing && options.tree!=missing ){
+        var root=$("#"+options.root);
+        var tree=options.tree;
+        var width=170;
+        var padding=5;
+        var skip=0;
+        if(options.width!=missing){width=options.width}
+        if(options.padding!=missing){padding=options.padding}
+        if(options.skip!=missing){skip=options.skip}
+        root.addClass("navigation");
+        root.html("<ul></ul>")
+        _xdevelop(root, tree, 0);
+        $(".navigation > ul > li > a").css({"padding": (padding+3)+"px "+(padding+12)+"px"});
+        $(".navigation ul ul li a").css({"padding": padding+"px 0"});
+        $(".navigation > ul > li + li").css({"margin-left":skip});
+    }
+    function _xdevelop(r, t, l){
+        for(var i in t){
+            if(typeof(t[i][1])=="object"){
+                var s=r.children("ul"), u;
+                //var c=objectcount(t[i][1]);
+                //var uh=c*50;
+                if(l==0)
+                    u=$(s[0]).append("<li style='width:"+width+"px;'><a href='#'>"+t[i][0]+"</a><ul></ul></li>");
+                else
+                    u=$(s[0]).append("<li style='width:"+width+"px;'><ul style='left:"+width+"px;'></ul><a href='#' class='arrow'>"+t[i][0]+"</a></li>");
+                var b=$(u.children("li")[i]);
+                _xdevelop(b, t[i][1], 1);
+            }
+            else{
+                var s=r.children("ul");
+                var h=t[i][1];
+                var d="target='_blank'";
+                if(h.indexOf(":")<0){
+                    h="filibuster.php?env="+_environ+"&site="+_site+"&id="+h;
+                    d="";
+                }
+                var u=$(s[0]).append("<li style='width:"+width+"px;'><a href='"+h+"' "+d+">"+t[i][0]+"</a></li>");
+            }
+        }
+    }
+}

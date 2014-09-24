@@ -195,6 +195,7 @@ else
 <title><?php print $TITLESITE ?></title>
 <link rel='icon' href='<?php print $favicon ?>' type='image/x-icon'/>
 <link type='text/css' href='_css/filibuster.css' rel='stylesheet' />
+<link href="_css/dropdown.css" rel="stylesheet" />
 
 <style>
 /* CUSTOM STYLE */
@@ -284,6 +285,9 @@ FLB.refresh=function(){
 }
 FLB.gallery=function(options){
     flb_gallery(options);
+}
+FLB.dropdown=function(options){
+    flb_dropdown(options);
 }
 <?php
     if($GLOBALSCRIPT!=""){
