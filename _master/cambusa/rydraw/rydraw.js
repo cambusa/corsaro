@@ -75,8 +75,10 @@
             else if(propmaxvalue<=0 && propminvalue<=0){
                 propmaxvalue=-propminvalue/20;
             }
+            var mincap=true;
             if(propminvalue>-0.5){
                 propminvalue=-0.5;
+                mincap=false;
             }
             if(propmaxvalue<0.5){
                 propmaxvalue=0.5;
@@ -128,7 +130,7 @@
 
             // Gestione larghezza
             if(propwidth==0){
-                propwidth=propcaptions.length*deltax+capxw+propcapwidth+propstrokewidth+2*propmargin+50;
+                propwidth=(propcaptions.length+1)*deltax+capxw+propcapwidth+propstrokewidth+2*propmargin+50;
             }
             
             // Istanzio paper
@@ -162,7 +164,7 @@
                 .attr({"fill": "#ddd", "stroke":"#ddd","stroke-width":1});
             }
             // Riferimento minimo
-            if(n*p>=1){
+            if(n*p>=1 && mincap){
                 var tx=paper.text((deltax*propvalues.length)+2*propbarskip+propcapwidth+propstrokewidth+propmargin+15, y-5, _nformat( (-n*p).toString(),0).replace(/&#x02D9;/g,"."));
                 tx.attr({"font-size":"10px","fill":"gray"});
                 $("tspan", tx.node).attr("dy", 3);

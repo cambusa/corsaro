@@ -201,16 +201,16 @@ function class_qvstatistiche(settings,missing){
             }
             h+="<table>";
             h+="  <tr style='border-bottom:1px dashed silver;'>";
-            h+="  <th><div style='font-size:16px;padding-right:20px;'>"+tit+"</div></th><th><div style='font-size:16px;width:100px;text-align:right;white-space:nowrap;'>"+tot+" "+descr+"</div></th>";
+            h+="  <th><div style='font-size:16px;padding-right:20px;'>"+tit+"</div></th><th><div style='font-size:16px;text-align:right;white-space:nowrap;'>"+tot+" "+descr+"</div></th>";
             h+="  </tr>";
             for(var i=0;i<pages;i++){
                 var n=parseInt(v[i]["CNT"]);
-                var d=v[i]["DESCRIPTION"];
-                if(d.length>40){
-                   d=d.substr(0, 40)+"...";
+                var d=_strip_tags(v[i]["DESCRIPTION"]);
+                if(d.length>50){
+                   d=d.substr(0, 50)+"...";
                 }
                 h+="  <tr style='border-bottom:1px dashed silver;'>";
-                h+="  <td><div style='padding-right:20px;'>"+d+"</div></td><td><div style='text-align:right;'>"+n+"</div></td>";
+                h+="  <td><div style='padding-right:20px;white-space:nowrap;'>"+d+"</div></td><td><div style='text-align:right;'>"+n+"</div></td>";
                 h+="  </tr>";
             }
             h+="</table>";
