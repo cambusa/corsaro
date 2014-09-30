@@ -69,16 +69,16 @@
                 }
             }
             
+            var mincap=(propminvalue<0);
+
             if(propmaxvalue>0 && propminvalue>0){
                 propminvalue=-propmaxvalue/20;
             }
             else if(propmaxvalue<=0 && propminvalue<=0){
                 propmaxvalue=-propminvalue/20;
             }
-            var mincap=true;
             if(propminvalue>-0.5){
                 propminvalue=-0.5;
-                mincap=false;
             }
             if(propmaxvalue<0.5){
                 propmaxvalue=0.5;
