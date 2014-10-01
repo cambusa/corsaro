@@ -1,7 +1,9 @@
 Corsaro © 2014 Rodolfo Calzetti
 ===============================
 
-Web application framework, web-based Enterprise Resource Planning and Content Management System
+Web application framework (_Cambusa_)  
+Web-based Enterprise Resource Planning (_Corsaro_)  
+Content Management System (_Filibuster_)  
 
 Have you any questions? You can email me at postmaster@rudyz.net
 
