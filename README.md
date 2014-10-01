@@ -1,9 +1,11 @@
 Corsaro © 2014 Rodolfo Calzetti
 ===============================
 
-Web application framework and web-based Enterprise Resource Planning
+Web application framework, web-based Enterprise Resource Planning and Content Management System
 
 Have you any questions? You can email me at postmaster@rudyz.net
+
+Visit my site [Le Cose di Rudy](http://www.rudyz.net)
 
 ---
 
