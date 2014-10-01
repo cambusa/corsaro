@@ -991,7 +991,6 @@ function objVoice(obj){
             if($("#filibuster-player").length>0){
                 var objplayer=$("#filibuster-player").get(0);
                 if(flb_isset(objplayer.play)){
-                    objplayer.oncanplay=null;
                     if(objplayer.paused)
                         objplayer.play();
                     else
@@ -1022,15 +1021,10 @@ function objVoice(obj){
                                 h+="</audio>";
                                 $("body").append(h);
                                 var objplayer=$("#filibuster-player").get(0);
-                                if(flb_isset(objplayer.play)){
-                                    if(typeof objplayer.oncanplay==="undefined")
-                                        setTimeout(function(){objplayer.play()}, 1000);
-                                    else
-                                        objplayer.oncanplay=function(){objplayer.play()};
-                                }
-                                else{
+                                if(flb_isset(objplayer.play))
+                                    propobj.tryplay(objplayer);
+                                else
                                     alert("Audio non supportato dal browser");
-                                }
                             }
                             else{
                                 alert("Servizio non disponibile");
@@ -1043,6 +1037,17 @@ function objVoice(obj){
                 });
             }
         }
+    }
+    this.tryplay=function(p){
+        setTimeout(
+            function(){
+                try{
+                    p.play();
+                }catch(e){
+                    propobj.tryplay(p);
+                }
+            }, 1000
+        );
     }
 }
 function objPrint(obj){

@@ -264,13 +264,13 @@ if($env!="" && $site!="" && $CONTENTID!=""){
                 $AUTHOR=$r[0]["AUTHOR"];
                 $DEALER=$r[0]["DEALER"];
                 $food.="<div class='filibuster-copyright'>";
-                $food.="Filibuster 1.00 - Tecnologia <a href='http://www.rudyz.net/' target='_blank'>Le Cose di Rudy</a>";
-                $food.=" - Sintesi vocale <a href='http://vozme.com/' target='_blank'>vozMe</a>";
+                $food.="Filibuster 1.00 - Technology <a href='http://www.rudyz.net/' target='_blank'>Le Cose di Rudy</a>";
+                $food.=" - Speech synthesis <a href='http://www.fromtexttospeech.com/' target='_blank'>TextToSpeech</a> and <a href='http://vozme.com/' target='_blank'>vozMe</a>";
                 if($DEALER!=""){
-                    $food.=" - Distribuzione $DEALER";
+                    $food.=" - Dealer $DEALER";
                 }
                 if($AUTHOR!=""){
-                    $food.=" - Contenuti $AUTHOR";
+                    $food.=" - Contents $AUTHOR";
                 }
                 $food.="</div>";
                 break;
@@ -559,21 +559,21 @@ function solvetools($maestro, $CONTENTID){
     $food.="<div id='$searchid' class='filibuster-search'>";
     $food.="<input class='filibuster-search-text' type='text' placeholder='Search'>";
     $food.="<div class='filibuster-search-button'>";
-    $food.="<a href='javascript:void(0)' title='Cerca'>&#x1f50d;</a>";
+    $food.="<a href='javascript:void(0)' title='Search'>&#x1f50d;</a>";
     $food.="</div>";
     $food.="</div>";
     
     $voiceid="VOICE_$CONTENTID";
     $food.="<div id='$voiceid' class='filibuster-voice'>";
     $food.="<div class='filibuster-voice-button'>";
-    $food.="<a href='javascript:void(0)' title='Leggi (CTRL-<)'>&#x1f50a;</a>";
+    $food.="<a href='javascript:void(0)' title='Speech (CTRL-<)'>&#x1f50a;</a>";
     $food.="</div>";
     $food.="</div>";
 
     $printid="PRINT_$CONTENTID";
     $food.="<div id='$printid' class='filibuster-print'>";
     $food.="<div class='filibuster-print-button'>";
-    $food.="<a href='javascript:void(0)' title='Stampa'>&#x2399;</a>";
+    $food.="<a href='javascript:void(0)' title='Print'>&#x2399;</a>";
     $food.="</div>";
     $food.="</div>";
 

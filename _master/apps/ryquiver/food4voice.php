@@ -14,6 +14,8 @@ include_once $tocambusa."rymaestro/maestro_execlib.php";
 include_once $tocambusa."rygeneral/post_request.php";
 include_once "food4_library.php";
 
+set_time_limit(0);
+
 if(isset($_POST["env"]))
     $env=$_POST["env"];
 elseif(isset($_GET["env"]))
@@ -69,26 +71,77 @@ if($env!="" && $site!=""){
             $download=true;
         }
         if($download){
-            $postdata = array(
-                'text' => $text,
-                'lang' => $lang,
-                'gn' => $gender,
-                'interface' => "full"
-            );
-            $c=do_post_request("http://vozme.com/text2voice.php", $postdata);
-            if(preg_match("/<source src=\"(.+\.mp3)\"/", $c, $m)){
-                // SCRIVO MP3
-                $buff=@file_get_contents("http://vozme.com/".$m[1]);
-                $fp=fopen($pathname, "wb");
-                fwrite($fp, $buff);
-                fclose($fp);
-                // SCRIVO CRC
-                $fp=fopen($pathcrc, "wb");
-                fwrite($fp, $crctext);
-                fclose($fp);
-                // ESITO POSITIVO
-                $jret["success"]=1;
-                $jret["url"]=$urlvoice;
+            if(strlen($text)>2000){
+                $postdata = array(
+                    'text' => $text,
+                    'lang' => $lang,
+                    'gn' => $gender,
+                    'interface' => "full"
+                );
+                $c=do_post_request("http://vozme.com/text2voice.php", $postdata);
+                if(preg_match("/<source src=\"(.+\.mp3)\"/", $c, $m)){
+                    // SCRIVO MP3
+                    $buff=@file_get_contents("http://vozme.com/".$m[1]);
+                    $fp=fopen($pathname, "wb");
+                    fwrite($fp, $buff);
+                    fclose($fp);
+                    // SCRIVO CRC
+                    $fp=fopen($pathcrc, "wb");
+                    fwrite($fp, $crctext);
+                    fclose($fp);
+                    // ESITO POSITIVO
+                    $jret["success"]=1;
+                    $jret["url"]=$urlvoice;
+                }
+            }
+            else{
+                $speed="0";
+                switch($lang){
+                case "it":
+                    $lang="Italian";
+                    $speed="1";
+                    if($gender=="ml")
+                        $gender="16";
+                    else
+                        $gender="6";
+                    break;
+                case "en":
+                    $lang="British English";
+                    if($gender=="ml")
+                        $gender="11";
+                    else
+                        $gender="12";
+                    break;
+                case "es":
+                    $lang="Spanish";
+                    if($gender=="ml")
+                        $gender="10";
+                    else
+                        $gender="13";
+                    break;
+                }
+                $postdata = array(
+                    'input_text' => $text,
+                    'action' => "process_text",
+                    'language' => $lang,
+                    'voice' => $gender,
+                    'speed' => $speed
+                );
+                $c=do_post_request("http://www.fromtexttospeech.com/", $postdata);
+                if(preg_match("/<a href='(.+\.mp3)'/", $c, $m)){
+                    // SCRIVO MP3
+                    $buff=@file_get_contents("http://www.fromtexttospeech.com/".$m[1]);
+                    $fp=fopen($pathname, "wb");
+                    fwrite($fp, $buff);
+                    fclose($fp);
+                    // SCRIVO CRC
+                    $fp=fopen($pathcrc, "wb");
+                    fwrite($fp, $crctext);
+                    fclose($fp);
+                    // ESITO POSITIVO
+                    $jret["success"]=1;
+                    $jret["url"]=$urlvoice;
+                }
             }
         }
     }
@@ -129,21 +182,22 @@ function solvecontents($env, $site, &$id, &$text, &$lang, &$gender){
                 foreach($json as $key => $value){
                     $SYSID=$value->contentid;
                     $buff=file_get_contents("$URLCORSARO/food4container.php?env=$env&site=$site&id=$SYSID");
-                    $text.=substr($buff, 3)."\n";
+                    $text.=substr($buff, 3)."\r\n";
                 }
             }
             else{
                 $text=substr($buff, 3);
             }
-            $text=preg_replace("/<[bh]r\/?>/i", "\n", $text);
-            $text=preg_replace("/<\/li>/i", "\n", $text);
-            $text=preg_replace("/<p>/i", "\n", $text);
-            $text=preg_replace("/<div[^<>]+filibuster-date[^<>]+>.+?<\/div>/i", "\n", $text);
-            $text=preg_replace("/<div[^<>]*>/i", "\n", $text);
-            $text=preg_replace("/[\r\n]+/i", "\n", $text);
-            $text=preg_replace("/&nbsp;/i", " ", $text);
-            $text=preg_replace("/<[^<>]*>/i", " ", $text);
+            $text=preg_replace("/<[bh]r\/?>/i", "\r\n", $text);
+            $text=preg_replace("/<\/li>/i", "\r\n", $text);
+            $text=preg_replace("/<p>/i", "\r\n", $text);
+            $text=preg_replace("/<div[^<>]+filibuster-date[^<>]+>.+?<\/div>/i", "\r\n", $text);
+            $text=preg_replace("/<div[^<>]*>/i", "\r\n", $text);
+            $text=preg_replace("/[\r\n]+/i", "\r\n", $text);
+            $text=strip_tags($text);
+            $text=html_entity_decode($text, ENT_QUOTES, "UTF-8");
             $text=preg_replace("/ +/i", " ", $text);
+            $text=preg_replace("/['´~]/u", "", $text);
             $ret=true;
         }
     }
