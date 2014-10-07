@@ -149,6 +149,7 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
     global $babelcode, $babelparams;
     global $public_sessionid,
            $ryque_sessionid,
+           $check_sessionip,
            $global_lastuserid,
            $global_lastusername,
            $global_lastadmin,
@@ -194,7 +195,7 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
                         $serverip=$_SERVER['SERVER_ADDR'];
                     else
                         $serverip=$currip;
-                    if($ip==$currip || $serverip==$currip){
+                    if($ip==$currip || $serverip==$currip || $check_sessionip==false){
                         $global_lastuserid=$r[0]["USERID"];
                         $global_lastusername=$r[0]["USERNAME"];
                         $global_lastadmin=intval($r[0]["ADMINISTRATOR"]);

@@ -25,6 +25,7 @@ $global_lastrolename="";
 
 function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
     global $public_sessionid,
+           $check_sessionip,
            $global_lastuserid,
            $global_lastusername,
            $global_lastadmin,
@@ -54,7 +55,7 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
               ){
                 // CONTROLLO IP
                 $currip=get_ip_address();
-                if($ip==$currip || $context=="export"){
+                if($ip==$currip || $context=="export" || $check_sessionip==false){
                     if($info){
                         $global_lastuserid=$r[0]["USERID"];
                         $global_lastusername=$r[0]["USERNAME"];

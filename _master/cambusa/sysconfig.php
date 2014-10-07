@@ -96,5 +96,11 @@ $postmaster_mail="postmaster@rudyz.net";
 
 $safe_extensions="pdf|zip|jpg|jpeg|gif|png|svg|htm|html|pht|txt|mp3|mp4|wav|avi|odf|ods|odt|odp|doc|docx|xls|xlsx|p7m|qvr";
 
+/********************************************
+| CONTROLLO DELL'IP IN VALIDAZIONE SESSIONI |
+********************************************/
+
+$check_sessionip=false;
+
 // Non aggiungere accapi o spazi dopo ">"
 ?>

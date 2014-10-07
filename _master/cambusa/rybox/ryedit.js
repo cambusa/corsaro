@@ -1,5 +1,5 @@
 /****************************************************************************
-* Name:            ryedit.s                                                 *
+* Name:            ryedit.js                                                *
 * Project:         Cambusa/ryBox                                            *
 * Version:         1.00                                                     *
 * Description:     Masked input and other form controls                     *
