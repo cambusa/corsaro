@@ -16,16 +16,16 @@ The set includes:
 1. framework __Cambusa__<br>
 
 2. application __Corsaro__ based on Cambusa<br>
-   * maintenance<br>
-   * master data<br>
+   * Maintenance<br>
+   * Master Data<br>
+   * Pi Cube (processes, dossiers, projects, CRM, ...)<br>
+   * Mercante (Orders and invoices)<br>
 
 3. CMS __Filibuster__ based on Corsaro  
    An example of a website built by means of _Filibuster_: [No Boundaries](http://www.rudyz.net/apps/corsaro/filibuster.php?env=flb_giovyz&site=senzaconfini&id=A000000009019S)
 
 
 The missing Corsaro modules
-* __Pi Cube__ - Processes, dossiers, projects (_Processi, Pratiche, Progetti_)<br>
-* __Mercante__ - Orders and invoices<br>
 * __Legend__ - Invoice collection management<br>
 * __Pluto__ - Financial instruments<br>
 
