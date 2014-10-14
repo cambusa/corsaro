@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Interazioni",
+    "babelcode":"MN_INTERACTIONS",
+    "params":{
+        "name":"qvinterazioni",
+        "path":"qvpratiche/",
+        "title":"Interazioni"
+    }
+}

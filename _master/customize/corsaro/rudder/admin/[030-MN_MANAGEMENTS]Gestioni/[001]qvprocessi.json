@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Processi",
+    "babelcode":"MN_PROCESSES",
+    "params":{
+        "name":"qvprocessi",
+        "path":"qvpratiche/",
+        "title":"Processi"
+    }
+}
