@@ -1796,6 +1796,21 @@ var RYBOX;
 					$("#"+propname+"_caption").html(v);
 				}
 			}
+			this.title=function(v){
+				if(v!=missing){
+                    v=v.replace(/<[bh]r *\/?>/gi,"\n");
+                    v=v.replace(/<\/p>/gi,"\n");
+                    v=v.replace(/<[^<>]*>/gi,"");
+                    v=v.replace(/[\r\n]+/gi,"\n");
+                    v=v.replace(/'"/gi,"’");
+					proptitle=_decodehtml(v);
+                    if(proptitle.length>1000){
+                        proptitle=proptitle.substr(0,1000)+"...";
+                    }
+                    $("#"+propname).attr({"title":proptitle});
+				}
+                return proptitle;
+			}
 			this.enabled=function(v){
 				if(v==missing)
 					return propenabled;

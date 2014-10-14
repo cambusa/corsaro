@@ -35,7 +35,7 @@ function solvegallery($maestro, $CONTENTID){
             if(count($g)==1){
                 $title=flb_titleformat($g[0]["DESCRIPTION"], $g[0]["ABSTRACT"]);
                 // DETERMINO GLI ALLEGATI
-                maestro_query($maestro, "SELECT * FROM QWFILES WHERE RECORDID='$SELECTEDID' ORDER BY SORTER,AUXTIME DESC,FILEID DESC", $f);
+                maestro_query($maestro, "SELECT * FROM QWFILES WHERE RECORDID='$SELECTEDID' AND IMPORTNAME<>'' ORDER BY SORTER,AUXTIME DESC,FILEID DESC", $f);
                 for($j=0; $j<count($f); $j++){
                     $SYSID=$f[$j]["FILEID"];
                     $SUBPATH=$f[$j]["SUBPATH"];

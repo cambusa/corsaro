@@ -194,7 +194,7 @@ function class_qvsiti(settings,missing){
     });
     
     var oper_export=$(prefix+"oper_export").rylabel({
-        left:515,
+        left:520,
         top:260,
         width:70,
         caption:"Esporta",
@@ -242,7 +242,7 @@ function class_qvsiti(settings,missing){
     var oper_delete=$(prefix+"oper_delete").rylabel({
         left:430,
         top:340,
-        width:140,
+        width:160,
         caption:"Elimina sito selezionato",
         button:true,
         click:function(o){

@@ -209,10 +209,20 @@ function _dformat(d, e, missing){
 }
 function _strip_tags(s){
     try{
-        s=s.replace(/<[bh]r\/?>/gi," ");
+        s=s.replace(/<[bh]r *\/?>/gi," ");
         s=s.replace(/<[^<>]*>/gi,"");
     }catch(er){}
     return s;
+}
+function _decodehtml(s){
+    try{
+        var txt=document.createElement("textarea");
+        $(txt).html(s);
+        return $(txt).val();
+    }
+    catch(e){
+        return s;
+    }
 }
 function _objectlength(o){
     try{

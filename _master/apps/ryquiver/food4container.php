@@ -308,7 +308,7 @@ function solveattachment($maestro, $CONTENTID){
     global $site, $OPT_ITEMDETAILS, $container_width;
     $food="";
     // DETERMINO GLI ALLEGATI
-    maestro_query($maestro, "SELECT * FROM QWFILES WHERE RECORDID='$CONTENTID' ORDER BY SORTER,AUXTIME DESC,FILEID DESC", $f);
+    maestro_query($maestro, "SELECT * FROM QWFILES WHERE RECORDID='$CONTENTID' AND IMPORTNAME<>'' ORDER BY SORTER,AUXTIME DESC,FILEID DESC", $f);
     for($i=0; $i<count($f); $i++){
         $SYSID=$f[$i]["FILEID"];
         $NAME=$f[$i]["NAME"];

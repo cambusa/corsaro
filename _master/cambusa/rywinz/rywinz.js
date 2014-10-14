@@ -304,7 +304,7 @@ function raiseResize(n){
         var m=$("#window_"+n);
         var w=m.width();
         var h=m.height();
-        $("#hanger_"+n).height( h-55 );
+        //$("#hanger_"+n).height( h-55 );
         if(RYWINZ.forms(n)._kresize){
             RYWINZ.forms(n)._kresize(w,h);
         }

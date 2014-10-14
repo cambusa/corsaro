@@ -227,7 +227,7 @@ function winz_logout(promptmess){
 		<a class="float_right" style="font-size:11px;" href="license.html" target="_blank"><?php  print $copy ?></a>
     </div>
 
-    <div id="winz-about-dither" class="winz_dither" style="top:0px;background:#1E90FF;"></div>
+    <div id="winz-about-dither" class="winz_dither" style="top:0px;background:#1E90FF;height:120%;"></div>
     <div id="winz-about" class="winz_dialog" style="display:none;width:<?php  print $aboutwidth ?>px;height: <?php  print $aboutheight ?>px;" title="About <?php print $winz_apptitle ?>">
     <div class='winz_close'>X</div><div class="winz_msgbox" style="top:30px;width:<?php  print $aboutwidth-50 ?>px;height:<?php  print $aboutheight-60 ?>px;font-size:12px;line-height:14px;">
         <!-- INIZIO ABOUT -->

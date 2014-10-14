@@ -114,7 +114,7 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                     // Sottocartella di "databases" dei documenti allegati
                     include_once "food4_library.php";
                     flb_dirattachment($maestro, $dirattachment, $urlattachment);
-                    maestro_query($maestro, "SELECT * FROM QWFILES WHERE RECORDID='$PAGEID' ORDER BY SORTER,AUXTIME DESC,FILEID DESC", $f);
+                    maestro_query($maestro, "SELECT * FROM QWFILES WHERE RECORDID='$PAGEID' AND IMPORTNAME<>'' ORDER BY SORTER,AUXTIME DESC,FILEID DESC", $f);
                     for($i=0; $i<count($f); $i++){
                         $SYSID=$f[$i]["FILEID"];
                         $NAME=$f[$i]["NAME"];

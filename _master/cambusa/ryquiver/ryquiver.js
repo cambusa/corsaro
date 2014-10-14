@@ -358,6 +358,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     var paramchangerow=missing;
     var paramsolveid=missing;
     var propenabled=true;
+    var bufferdetails="";
     if(params!=missing){
         if(typeof(params)==="string"){
             merge=params;
@@ -372,6 +373,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     h+='<div id="'+formid+'docs_context"></div>';
     h+='<div id="'+formid+'griddocs"></div>';
     h+='<div id="'+formid+'oper_fileinsert"></div>';
+    h+='<div id="'+formid+'oper_fileaddnote" babelcode="FILE_ADDNOTE"></div>';
     h+='<div id="'+formid+'oper_filerefresh" babelcode="FILE_REFRESH"></div>';
     h+='<div id="'+formid+'oper_fileunsaved" babelcode="BABEL_UNSAVED"></div>';
     h+='<div id="'+formid+'lb_filedescription" babelcode="FILE_DESCRIPTION"></div>';
@@ -381,6 +383,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     h+='<div id="'+formid+'tx_filedate"></div>';
     h+='<div id="'+formid+'tx_filesorter"></div>';
     h+='<div id="'+formid+'oper_fileupdate" babelcode="FILE_UPDATE"></div>';
+    h+='<div id="'+formid+'oper_filedetails" babelcode="FILE_DETAILS"></div>';
     h+='<div id="'+formid+'oper_filedownload" babelcode="FILE_DOWNLOAD"></div>';
     h+='<div id="'+formid+'oper_filedelete" babelcode="BUTTON_SELDELETE"></div>';
     if($("#"+formid+"filemanager").html(h).length>0){
@@ -412,7 +415,9 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                 tx_filedescription.enabled(0);
                 tx_filedate.enabled(0);
                 tx_filesorter.enabled(0);
+                bufferdetails="";
                 oper_fileupdate.enabled(0);
+                oper_filedetails.enabled(0);
                 oper_filedownload.enabled(0);
                 oper_filedelete.enabled(0);
                 oper_fileunsaved.visible(0);
@@ -443,7 +448,10 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                             tx_filedescription.value(v[0]["DESCRIPTION"]);
                             tx_filedate.value(v[0]["AUXTIME"]);
                             tx_filesorter.value(v[0]["SORTER"]);
+                            bufferdetails=v[0]["REGISTRY"];
+                            oper_filedetails.title(bufferdetails);
                             oper_fileupdate.enabled(1);
+                            oper_filedetails.enabled(1);
                             oper_filedownload.enabled(1);
                             oper_fileunsaved.visible(0);
                             if(propenabled){
@@ -498,29 +506,58 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                             var v=$.parseJSON(d);
                             if(v.success){
                                 // POSIZIONAMENTO SUL NUOVO DOCUMENTO
-                                var newid=v.SYSID;
-                                objgriddocs.query({
-                                    ready:function(v){
-                                        objgriddocs.search({
-                                                "where": _ajaxescapize("SYSID='"+newid+"'")
-                                            },
-                                            function(d){
-                                                var ind=0;
-                                                try{
-                                                    var v=$.parseJSON(d);
-                                                    ind=v[0];
-                                                    
-                                                }
-                                                catch(e){
-                                                    alert(d);
-                                                }
-                                                objgriddocs.index(ind);
-                                            }
-                                        );
-                                    }
-                                });
+                                objgriddocs.splice(0, 0, v.SYSID);
                             }
-                            winzTimeoutMess(formid, parseInt(v.success), v.message);
+                            winzTimeoutMess(formid, v.success, v.message);
+                        }
+                        catch(e){
+                            winzClearMess(formid);
+                            alert(d);
+                        }
+                    }
+                );
+            }
+        });
+
+        var oper_fileaddnote=$(prefix+"oper_fileaddnote").rylabel({
+            left:540,
+            top:90,
+            width:100,
+            caption:"Inserisci nota",
+            formid:formid,
+            button:true,
+            click:function(o){
+                $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    {
+                        "sessionid":_sessionid,
+                        "env":_sessioninfo.environ,
+                        "program":[
+                            {
+                                "function":"files_insert",
+                                "data":{
+                                    "DESCRIPTION":"(nuova nota)"
+                                },
+                                "pipe":{
+                                    "FILEID":"SYSID"
+                                }
+                            },
+                            {
+                                "function":"files_attach",
+                                "data":{
+                                    "TABLENAME": tablename,
+                                    "RECORDID":currsysid
+                                }
+                            }
+                        ]
+                    }, 
+                    function(d){
+                        try{
+                            var v=$.parseJSON(d);
+                            if(v.success){
+                                // POSIZIONAMENTO SUL NUOVO DOCUMENTO
+                                objgriddocs.splice(0, 0, v.SYSID);
+                            }
+                            winzTimeoutMess(formid, v.success, v.message);
                         }
                         catch(e){
                             winzClearMess(formid);
@@ -586,8 +623,8 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                         "function":"files_update",
                         "data":{
                             "SYSID":filesysid,
-                            "DESCRIPTION": _ajaxescapize(tx_filedescription.value()),
-                            "AUXTIME": _ajaxescapize(tx_filedate.text()),
+                            "DESCRIPTION": tx_filedescription.value(),
+                            "AUXTIME": tx_filedate.text(),
                             "CROSSID":filecrossid,
                             "SORTER":tx_filesorter.value()
                         }
@@ -605,6 +642,95 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                         }
                     }
                 );
+            }
+        });
+        
+        var oper_filedetails=$(prefix+"oper_filedetails").rylabel({
+            left:670,
+            top:300,
+            width:70,
+            caption:"Dettagli",
+            formid:formid,
+            button:true,
+            click:function(o){
+                // DEFINIZIONE DELLA DIALOGBOX
+                var dlg=winzDialogGet(formid);
+                var hangerid=dlg.hanger;
+                var h="";
+                var vK=[];
+                winzDialogParams(dlg, {
+                    width:750,
+                    height:530,
+                    open:function(){
+                        castFocus(formid+"file_dlgdetails");
+                    },
+                    close:function(){
+                        winzDisposeCtrl(formid, vK);
+                        winzDialogFree(dlg);
+                    }
+                });
+                // CONTENUTO
+                h+=winzAppendCtrl(vK, formid+"file_dlgdetails");
+                h+=winzAppendCtrl(vK, formid+"file_dlgok");
+                h+=winzAppendCtrl(vK, formid+"file_dlgcancel");
+                $("#"+hangerid).html(h);
+                // DEFINIZIONE CAMPI
+                var tx_dlgdetails=$("#"+formid+"file_dlgdetails").ryedit({left:20, top:80, width:700, height:400});
+                tx_dlgdetails.value(bufferdetails);
+                $("#"+formid+"file_dlgok").rylabel({
+                    left:20,
+                    top:dlg.height-40,
+                    width:80,
+                    caption:RYBOX.babels("BUTTON_OK"),
+                    button:true,
+                    formid:formid,
+                    click:function(o){
+                        bufferdetails=tx_dlgdetails.value();
+                        oper_filedetails.title(bufferdetails);
+                        $.post(_cambusaURL+"ryquiver/quiver.php", 
+                            {
+                                "sessionid":_sessionid,
+                                "env":_sessioninfo.environ,
+                                "function":"files_update",
+                                "data":{
+                                    "SYSID":filesysid,
+                                    "DESCRIPTION": tx_filedescription.value(),
+                                    "AUXTIME": tx_filedate.text(),
+                                    "CROSSID":filecrossid,
+                                    "SORTER":tx_filesorter.value(),
+                                    "REGISTRY":bufferdetails
+                                }
+                            }, 
+                            function(d){
+                                try{
+                                    var v=$.parseJSON(d);
+                                    objgriddocs.dataload();
+                                    oper_fileunsaved.visible(0);
+                                    winzTimeoutMess(formid, v.success, v.message);
+                                }
+                                catch(e){
+                                    winzClearMess(formid);
+                                    alert(d);
+                                }
+                                winzDialogClose(dlg);
+                            }
+                        );
+                    }
+                });
+                $("#"+formid+"file_dlgcancel").rylabel({
+                    left:120,
+                    top:dlg.height-40,
+                    width:80,
+                    caption:RYBOX.babels("BUTTON_CANCEL"),
+                    button:true,
+                    formid:formid,
+                    click:function(o){
+                        winzDialogClose(dlg);
+                    }
+                });
+                
+                // MOSTRO LA DIALOGBOX
+                winzDialogOpen(dlg);
             }
         });
 
@@ -660,15 +786,18 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             propenabled=v;
             if(v){
                 $(prefix+"oper_fileinsert").css({"display":"block"});
+                oper_fileaddnote.visible(objgriddocs.isselected());
                 oper_filedelete.enabled(objgriddocs.isselected());
             }
             else{
                 $(prefix+"oper_fileinsert").css({"display":"none"});
+                oper_fileaddnote.visible(0);
                 oper_filedelete.enabled(0);
             }
             tx_filedescription.enabled(v);
             tx_filedate.enabled(v);
             tx_filesorter.enabled(v);
+            oper_filedetails.enabled(v);
         }
         return propenabled;
     }
