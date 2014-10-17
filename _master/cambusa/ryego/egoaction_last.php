@@ -74,7 +74,7 @@ try{
     if($maestro->conn!==false){
 
         // CONTROLLO VALIDITA' SESSIONE
-        if(ego_validatesession($maestro, $sessionid, true)==false){
+        if(ego_validatesession($maestro, $sessionid, true, "")==false){
             $success=0;
             $description="Sessione non valida";
             $babelcode="EGO_MSG_INVALIDSESSION";

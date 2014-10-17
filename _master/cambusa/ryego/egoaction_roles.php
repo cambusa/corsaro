@@ -104,7 +104,7 @@ try{
                 if($action=="insert"){
                     $description="Ruolo obbligatorio";
                     $babelcode="EGO_MSG_MANDATORYROLE";
-                {
+                }
                 else{
                     $description="Seleziona un ruolo";
                     $babelcode="EGO_MSG_SELECTROLE";
