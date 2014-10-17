@@ -239,27 +239,6 @@ function config(missing){
 
     // INIZIO AZIONI
     
-	// Vai all'applicazione
-	objgo=$("#lbgo2app").rylabel({
-        left:20,
-        top:250,
-        caption:"Vai all'applicazione",
-        button:true,
-        flat:true,
-        enabled:(_expiry<2),
-        click:function(o){
-            RYQUE.dispose(
-                function(){
-                    $("body").html("<form id='nextaction' method='<?php  print $egomethod ?>' action=''></form>");
-                    $("#nextaction").append("<input type='hidden' id='sessionid' name='sessionid'>");
-                    $("#nextaction").attr({action:"<?php print $returnurl ?>"});
-                    $("#sessionid").val(_sessionid);
-                    $("#nextaction").submit();
-                }
-            );
-        }
-    });
-	
     // Registra nuova password
     $("#actionPassword").rylabel({
         left:400,
@@ -312,6 +291,28 @@ function config(missing){
             );
         }
     });
+
+	// Vai all'applicazione
+	objgo=$("#lbgo2app").rylabel({
+        left:20,
+        top:250,
+        caption:"Vai all'applicazione",
+        button:true,
+        flat:true,
+        enabled:(_expiry<2),
+        click:function(o){
+            RYQUE.dispose(
+                function(){
+                    $("body").html("<form id='nextaction' method='<?php  print $egomethod ?>' action=''></form>");
+                    $("#nextaction").append("<input type='hidden' id='sessionid' name='sessionid'>");
+                    $("#nextaction").attr({action:"<?php print $returnurl ?>"});
+                    $("#sessionid").val(_sessionid);
+                    $("#nextaction").submit();
+                }
+            );
+        }
+    });
+	
 	// FINE AZIONI
     // FINE FORM PASSWORD
     // CARICAMENTO DATI
