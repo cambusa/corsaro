@@ -114,10 +114,38 @@ function class_qvpratiche(settings,missing){
             oper_processo.visible(0);
 
             // GESTIONE NUOVA PRATICA
+            /*
             if(d["EGOUTENTEID"]==_sessioninfo.userid)
                 oper_new.enabled(1);
             else
                 oper_new.enabled(0);
+            */
+            oper_new.enabled(0);
+            $.post(_cambusaURL+"ryquiver/quiver.php", 
+                {
+                    "sessionid":_sessionid,
+                    "env":_sessioninfo.environ,
+                    "function":"pratiche_inserters",
+                    "data":{
+                        "PROCESSOID":currprocessoid
+                    }
+                }, 
+                function(d){
+                    try{
+                        var v=$.parseJSON(d);
+                        if(v.success>0){ 
+                            if(v.params["INSERTERS"].indexOf(_sessioninfo.userid)>=0)
+                                oper_new.enabled(1);
+                        }
+                    }
+                    catch(e){
+                        winzClearMess(formid);
+                        alert(d);
+                    }
+                }
+            );
+            
+            
             $.cookie(_sessioninfo.environ+"_pratiche_processo", currprocessoid, {expires:10000});
 
             // GESTIONE DATI AGGIUNTIVI
@@ -2190,7 +2218,8 @@ function class_qvpratiche(settings,missing){
                 }
             };
             qv_queuequery[formid+"_2"]={
-                "sql":buildstati(),
+                //"sql":buildstati(),
+                "fsql":buildstati,
                 "back":function(v){
                     elencostati="";
                     for(var i in v){
@@ -2739,10 +2768,8 @@ function class_qvpratiche(settings,missing){
         var sql="";
         sql+="SELECT QW_PROCSTATI.SYSID AS STATOID ";
         sql+="FROM QW_PROCSTATI ";
-        sql+="INNER JOIN QW_ATTORI ON QW_ATTORI.SYSID=QW_PROCSTATI.ATTOREID ";
-        sql+="LEFT JOIN QVUSERS ON QVUSERS.SYSID=QW_ATTORI.UTENTEID ";
-        sql+="LEFT JOIN QVROLES ON QVROLES.SYSID=QW_ATTORI.RUOLOID ";
-        sql+="WHERE QVUSERS.EGOID='"+_sessioninfo.userid+"'";
+        sql+="INNER JOIN QW_ATTORI ATTORISTATO ON ATTORISTATO.SYSID=QW_PROCSTATI.ATTOREID ";
+        sql+="WHERE ATTORISTATO.UTENTEID='"+curruserid+"' OR '"+curruserid+"' IN (SELECT UTENTEID FROM QW_ATTORI WHERE QW_ATTORI.UFFICIOID=ATTORISTATO.UFFICIOID)";
         return sql;
     }
     function calcolascadenza(begin, days, method, after){

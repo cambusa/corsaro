@@ -389,7 +389,7 @@ function solvecontainers($maestro, $CONTENTID, &$jfood){
         maestro_query($maestro, "SELECT * FROM QVSELECTIONS WHERE PARENTID='$SETFRAMES' ORDER BY SORTER", $r);
         for($i=0; $i<count($r); $i++){
             $SELECTEDID=$r[$i]["SELECTEDID"];
-            maestro_query($maestro, "SELECT * FROM QW_WEBCONTAINERS WHERE SYSID='$SELECTEDID'", $s);
+            maestro_query($maestro, "SELECT * FROM QW_WEBCONTAINERS WHERE SYSID='$SELECTEDID' AND (ENABLED=1 OR ENABLED IS NULL)", $s);
             if(count($s)==1){
                 $FUNCTIONNAME=$s[0]["FUNCTIONNAME"];
                 if($FUNCTIONNAME!="")

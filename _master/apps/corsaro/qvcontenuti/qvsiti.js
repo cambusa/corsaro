@@ -509,6 +509,7 @@ function class_qvsiti(settings,missing){
             data["DESCRIPTION"]="(nuovo contenitore)";
             data["TYPOLOGYID"]=typecontainerid;
             data["SITEID"]=currsysid;
+            data["ENABLED"]=1;
             stats[istr++]={
                 "function":"objects_insert",
                 "data":data
@@ -622,18 +623,24 @@ function class_qvsiti(settings,missing){
     
     offsety+=40;
     $(prefix+"LBF_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    $(prefix+"F_DESCRIPTION").rytext({left:100, top:offsety, width:335, datum:"F", tag:"DESCRIPTION",
+    $(prefix+"F_DESCRIPTION").rytext({left:100, top:offsety, width:250, datum:"F", tag:"DESCRIPTION",
         changed:function(){
             operf_unsaved.visible(1);
         }
     });
-    $(prefix+"LBF_ORDINATORE").rylabel({left:470, top:offsety, caption:"Ordinatore"});
-    $(prefix+"F_ORDINATORE").rynumber({left:545, top:offsety, width:60, numdec:0, datum:"F", tag:"ORDINATORE",
+    $(prefix+"LBF_ORDINATORE").rylabel({left:380, top:offsety, caption:"Ordinatore"});
+    $(prefix+"F_ORDINATORE").rynumber({left:460, top:offsety, width:55, numdec:0, datum:"F", tag:"ORDINATORE",
         changed:function(){
             operf_unsaved.visible(1);
         }
     });
-    $(prefix+"LBF_CURRENTPAGE").rylabel({left:634, top:offsety, caption:"Corrente"});
+    $(prefix+"LBF_ENABLED").rylabel({left:540, top:offsety, caption:"Attivo"});
+    $(prefix+"F_ENABLED").rycheck({left:595, top:offsety, datum:"F", tag:"ENABLED",
+        assigned:function(){
+            operf_unsaved.visible(1);
+        }
+    });
+    $(prefix+"LBF_CURRENTPAGE").rylabel({left:639, top:offsety, caption:"Corrente"});
     $(prefix+"F_CURRENTPAGE").rycheck({left:701, top:offsety, datum:"F", tag:"CURRENTPAGE",
         assigned:function(){
             operf_unsaved.visible(1);
@@ -642,13 +649,13 @@ function class_qvsiti(settings,missing){
     
     offsety+=30;
     $(prefix+"LBF_FUNCTIONNAME").rylabel({left:20, top:offsety, caption:"Funzione"});
-    $(prefix+"F_FUNCTIONNAME").rytext({left:100, top:offsety, width:180, datum:"F", tag:"FUNCTIONNAME",
+    $(prefix+"F_FUNCTIONNAME").rytext({left:100, top:offsety, width:250, datum:"F", tag:"FUNCTIONNAME",
         changed:function(){
             operf_unsaved.visible(1);
         }
     });
-    $(prefix+"LBF_CLASSES").rylabel({left:395, top:offsety, caption:"Classi"});
-    $(prefix+"F_CLASSES").rytext({left:469, top:offsety, width:250, datum:"F", tag:"CLASSES",
+    $(prefix+"LBF_CLASSES").rylabel({left:380, top:offsety, caption:"Classi"});
+    $(prefix+"F_CLASSES").rytext({left:460, top:offsety, width:259, datum:"F", tag:"CLASSES",
         changed:function(){
             operf_unsaved.visible(1);
         }
@@ -666,9 +673,9 @@ function class_qvsiti(settings,missing){
         }
     });
 
-    $(prefix+"LBF_CONTENTID").rylabel({left:395, top:offsety, caption:"Contenuto"});
+    $(prefix+"LBF_CONTENTID").rylabel({left:380, top:offsety, caption:"Contenuto"});
     $(prefix+"F_CONTENTID").ryhelper({
-        left:469, top:offsety, width:250, datum:"F", tag:"CONTENTID", formid:formid, table:"QW_WEBCONTENTS", title:"Scelta contenuto",
+        left:460, top:offsety, width:259, datum:"F", tag:"CONTENTID", formid:formid, table:"QW_WEBCONTENTS", title:"Scelta contenuto",
         open:function(o){
             o.where("SYSID<>'"+currcontainerid+"' AND (SITEID='"+currsysid+"' OR SITEID='')");
         },

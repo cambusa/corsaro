@@ -2016,6 +2016,9 @@ function qv_queuequerycall(){
             if(_isset(qv_queuequery[id]["sql"])){
                 sql=qv_queuequery[id]["sql"];
             }
+            else if(_isset(qv_queuequery[id]["fsql"])){
+                sql=qv_queuequery[id]["fsql"]();
+            }
             else{
                 var table=qv_queuequery[id]["table"];
                 var select=qv_queuequery[id]["select"];

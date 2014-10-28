@@ -136,7 +136,7 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
             $food["structure"]=array();
             $containers=0;
             $SPECIALS="|";
-            maestro_query($maestro, "SELECT * FROM QW_WEBCONTAINERS WHERE SYSID='$HOMEPAGEID'", $r);
+            maestro_query($maestro, "SELECT * FROM QW_WEBCONTAINERS WHERE SYSID='$HOMEPAGEID' AND (ENABLED=1 OR ENABLED IS NULL)", $r);
             if(count($r)==1){
                 $food["structure"][$containers]=$r[0];
                 $food["structure"][$containers]["PARENT"]="";
@@ -173,7 +173,7 @@ print serialize($food);
 
 function solvecontainers($maestro, &$food, &$containers, $PARENTID){
     global $SITEID;
-    maestro_query($maestro, "SELECT * FROM QW_WEBCONTAINERS WHERE SITEID='$SITEID' AND REFOBJECTID='$PARENTID' ORDER BY ORDINATORE", $r);
+    maestro_query($maestro, "SELECT * FROM QW_WEBCONTAINERS WHERE SITEID='$SITEID' AND REFOBJECTID='$PARENTID' AND (ENABLED=1 OR ENABLED IS NULL) ORDER BY ORDINATORE", $r);
     for($i=0; $i<count($r); $i++){
         $food["structure"][$containers]=$r[$i];
         $food["structure"][$containers]["PARENT"]=$PARENTID;

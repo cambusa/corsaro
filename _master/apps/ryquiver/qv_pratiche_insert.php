@@ -57,7 +57,7 @@ function qv_pratiche_insert($maestro, $data){
         }
         
         // DETERMINO IL PRIMO STATO VALIDO DEL PROCESSO
-        $sql=buildfirst($PROCESSOID, $RICHIEDENTEID=="");
+        $sql=buildfirst($PROCESSOID, true);
         maestro_query($maestro, $sql, $r);
         if(count($r)>0){
             $STATOID=$r[0]["STATOID"];

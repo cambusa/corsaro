@@ -117,6 +117,7 @@ function qv_sites_export($maestro, $data){
                 $datax["CONTENTID"]="";
 
             $datax["CURRENTPAGE"]=$container["CURRENTPAGE"];
+            $datax["ENABLED"]=$container["ENABLED"];
             $datax["ORDINATORE"]=$container["ORDINATORE"];
             unset($container);
             // Aggancio all'istruzione

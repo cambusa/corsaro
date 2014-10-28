@@ -48,6 +48,7 @@
         <div relid="operf_update" babelcode="SITE_UPDATECONTAINER"></div>
         <div relid="LBF_DESCRIPTION" babelcode="DESCRIPTION"></div><div relid="F_DESCRIPTION"></div>
         <div relid="LBF_ORDINATORE" babelcode="SORTER"></div><div relid="F_ORDINATORE"></div>
+        <div relid="LBF_ENABLED" babelcode="ENABLED"></div><div relid="F_ENABLED"></div>
         <div relid="LBF_CURRENTPAGE" babelcode="SITE_CURRENTPAGE"></div><div relid="F_CURRENTPAGE"></div>
         <div relid="LBF_FUNCTIONNAME" babelcode="SITE_FUNCTION"></div><div relid="F_FUNCTIONNAME"></div>
         <div relid="LBF_CLASSES" babelcode="CLASSES"></div><div relid="F_CLASSES"></div>

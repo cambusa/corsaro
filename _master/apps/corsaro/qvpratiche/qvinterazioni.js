@@ -961,7 +961,7 @@ function class_qvinterazioni(settings,missing){
                 };
             }
             qv_queuequery[formid+"_5"]={
-                "sql":"SELECT SYSID FROM QW_ATTORIJOIN WHERE EGOUTENTEID='"+_sessioninfo.userid+"'",
+                "sql":"SELECT SYSID FROM QW_ATTORIJOIN WHERE EGOUTENTEID='"+_sessioninfo.userid+"' ORDER BY (CASE WHEN UFFICIOID='' OR UFFICIOID IS NULL THEN 0 ELSE 1 END)",
                 "back":function(v){
                     if(v.length>0){
                         currattoreid=v[0]["SYSID"];
