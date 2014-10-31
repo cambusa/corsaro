@@ -78,7 +78,7 @@ si aggiorni il database [<i><?php print strtolower($progetto) ?></i>].
 <br>
 
 <b>Passo 4)</b> Utilizzo del software:
-<a href="../corsaro/corsaro.php" target="_blank">Corsaro</a><br>
+<a href="../../apps/corsaro/corsaro.php" target="_blank">Corsaro</a><br>
 <blockquote>
 <span style="font-size:14px;">
 Al primo utilizzo o dopo un aggiornamento del database, si apra<br>
