@@ -28,8 +28,9 @@ $path_root=installationPATH();
 | PERCORSO DATABASE |
 ********************/
 
+/*
 if(strpos($url_base, "localhost")!==false){
-    if(strpos($url_base, "_distribuzione")!==false)
+    if(strpos($url_base, "_distrib")!==false)
         $safe_database=false;
     else
         $safe_database=true;
@@ -37,6 +38,8 @@ if(strpos($url_base, "localhost")!==false){
 else{
     $safe_database=false;
 }
+*/
+$safe_database=false;
 
 if($safe_database)
     $path_databases="D:/WebData/databases/";
