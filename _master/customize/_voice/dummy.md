@@ -1,0 +1,1 @@
+For empty github directory.

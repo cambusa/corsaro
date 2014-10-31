@@ -4,7 +4,7 @@
 * Project:         Cambusa                                                  *
 * Version:         1.00                                                     *
 * Description:     Cambusa configuration file                               *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
+* Copyright (C):   2013  Rodolfo Calzetti                                   *
 * License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
@@ -28,9 +28,8 @@ $path_root=installationPATH();
 | PERCORSO DATABASE |
 ********************/
 
-/*
 if(strpos($url_base, "localhost")!==false){
-    if(strpos($url_base, "_distrib")!==false)
+    if(strpos($url_base, "_distribuzione")!==false)
         $safe_database=false;
     else
         $safe_database=true;
@@ -38,8 +37,6 @@ if(strpos($url_base, "localhost")!==false){
 else{
     $safe_database=false;
 }
-*/
-$safe_database=false;
 
 if($safe_database)
     $path_databases="D:/WebData/databases/";
@@ -101,6 +98,15 @@ $safe_extensions="pdf|zip|jpg|jpeg|gif|png|svg|htm|html|pht|txt|mp3|mp4|wav|avi|
 ********************************************/
 
 $check_sessionip=false;
+
+/******************
+| VERSIONE SQLITE |
+******************/
+
+$sqlite3_enabled=true;
+if(floatval(phpversion())<5.3){
+    $sqlite3_enabled=false;
+}
 
 // Non aggiungere accapi o spazi dopo ">"
 ?>

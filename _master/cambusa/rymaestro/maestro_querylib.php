@@ -16,11 +16,11 @@ function maestro_unbuffered($maestro, $sql, $raise=true){
         $sql=maestro_macro($maestro, $sql);
         switch($maestro->provider){
         case "sqlite":
-            $res=@sqlite_unbuffered_query($maestro->conn, $sql, SQLITE_ASSOC);
+            $res=@x_sqlite_unbuffered_query($maestro->conn, $sql);
             if($res===false){
-                $coderr=sqlite_last_error($maestro->conn);
+                $coderr=x_sqlite_last_error($maestro->conn);
                 if($coderr!=0){
-                    $maestro->errdescr=sqlite_error_string($coderr);
+                    $maestro->errdescr=x_sqlite_error_string($maestro->conn, $coderr);
                     log_write($sql.";\r\n--->" . $maestro->errdescr);
                 }
             }
@@ -73,7 +73,7 @@ function maestro_fetch($maestro, &$res){
         if($res){
             switch($maestro->provider){
             case "sqlite":
-                $row=sqlite_fetch_array($res, SQLITE_ASSOC);
+                $row=x_sqlite_fetch_array($res);
                 break;
             case "mysql":
                 if($row=mysqli_fetch_assoc($res)){
@@ -130,7 +130,7 @@ function maestro_free($maestro, &$res){
         if($res){
             switch($maestro->provider){
             case "sqlite":
-                unset($res);
+                x_sqlite_finalize($res);
                 break;
             case "mysql":
                 mysqli_free_result($res);

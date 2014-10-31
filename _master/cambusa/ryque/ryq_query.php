@@ -57,17 +57,19 @@ $r=array();
 
 switch($env_provider){
 case "sqlite":
-    $conn=sqlite_open($env_strconn);
-    $res=sqlite_query($conn, $sql, SQLITE_ASSOC);
-    while($row=sqlite_fetch_array($res, SQLITE_ASSOC)){
-        // RISOLVO I NULL
-        foreach($row as $k => $v){
-            if($v===null)
-                $row[$k]="";
+    $conn=x_sqlite_open($env_strconn);
+    if($res=x_sqlite_query($conn, $sql)){
+        while($row=x_sqlite_fetch_array($res)){
+            // RISOLVO I NULL
+            foreach($row as $k => $v){
+                if($v===null)
+                    $row[$k]="";
+            }
+            $r[]=$row;
         }
-        $r[]=$row;
+        x_sqlite_finalize($res);
     }
-    sqlite_close($conn);
+    x_sqlite_close($conn);
     break;
 case "mysql":
     $conn=mysqli_connect($env_host, $env_user, $env_password, $env_strconn);

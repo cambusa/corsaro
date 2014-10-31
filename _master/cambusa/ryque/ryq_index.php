@@ -94,13 +94,13 @@ if(is_file("requests/".$reqid.".sts")){
 
 switch($env_provider){
 case "sqlite":
-    $conn=sqlite_open($env_strconn);
+    $conn=x_sqlite_open($env_strconn);
     if(trim($where)!="")
         $q="SELECT SYSID FROM ".$from." WHERE ".$where. " ORDER BY ".$orderby." LIMIT $limit";
     else
         $q="SELECT SYSID FROM ".$from. " ORDER BY ".$orderby." LIMIT $limit";
-    $c=sqlite_array_query($conn, $q, SQLITE_NUM);
-    sqlite_close($conn);
+    $c=x_sqlite_array_query($conn, $q, SQLITE3_NUM);
+    x_sqlite_close($conn);
 	preg_match_all("/([0-9A-Z]{".$lenkey."})/",serialize($c),$m);
     break;
 case "mysql":

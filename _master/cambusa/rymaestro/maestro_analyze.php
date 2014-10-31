@@ -25,25 +25,32 @@ function MaestroAnalyze($maestro, &$success, &$description){
     // GESTIONE PER DATABASE
     switch($maestro->provider){
     case "sqlite":
-        $sql=sqlite_query($conn, "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
-        $res=sqlite_fetch_all($sql, SQLITE_ASSOC);
-        foreach($res as $entry){
+        $arr=x_sqlite_array_query($conn, "SELECT name,sql FROM sqlite_master WHERE type='table' ORDER BY name;", SQLITE3_ASSOC);
+        foreach($arr as $entry){
             $tab=$entry['name'];
+            $create=$entry['sql'];
             $allcolumns[$tab]=array();
             $allcolumns[$tab]["type"]="database";
             $allcolumns[$tab]["fields"]=array();
-
-            $cols=sqlite_fetch_column_types($tab, $conn, SQLITE_ASSOC);
-            foreach($cols as $f => $t) {
-                // DETERMINO IL TIPO ASTRATTO
-                $dbsize=-1;
-                $dbprec=-1;
-                $dbscale=-1;
-                maestro_abstract($f, $t, $dbsize, $dbprec, $dbscale, $abstract, $size);
-                // CARICO IL VETTORE
-                $allcolumns[$tab]["fields"][$f]["type"]=$abstract;
-                if($size>0)
-                    $allcolumns[$tab]["fields"][$f]["size"]=$size;
+            
+            if(preg_match_all("/[(,] ?(\\w+) (\\w+)(\\([^)]+\\))?/i", $create, $m)){
+                $v=$m[0];
+                for($i=0; $i<count($v); $i++){
+                    $buff=trim(substr($v[$i], 1));
+                    $p=strpos($buff, " ");
+                    $f=substr($buff, 0, $p);
+                    $t=substr($buff, $p+1);
+                    
+                    // DETERMINO IL TIPO ASTRATTO
+                    $dbsize=-1;
+                    $dbprec=-1;
+                    $dbscale=-1;
+                    maestro_abstract($f, $t, $dbsize, $dbprec, $dbscale, $abstract, $size);
+                    // CARICO IL VETTORE
+                    $allcolumns[$tab]["fields"][$f]["type"]=$abstract;
+                    if($size>0)
+                        $allcolumns[$tab]["fields"][$f]["size"]=$size;
+                }
             }
         }
         break;

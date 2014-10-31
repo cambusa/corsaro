@@ -76,16 +76,17 @@ if(is_file($filereq)){
 
     switch($env_provider){
     case "sqlite":
-        $conn=sqlite_open($env_strconn);
-        if($res=sqlite_query($conn, $winsql)){
-            while($row=sqlite_fetch_array($res, SQLITE_ASSOC)){
+        $conn=x_sqlite_open($env_strconn);
+        if($res=x_sqlite_query($conn, $winsql)){
+            while($row=x_sqlite_fetch_array($res)){
                 $i=array_search($row["RYQUEWINID"], $elenco);
                 if($i!==false){
                     $r[$i]=$row;
                 }
             }
+            x_sqlite_finalize($res);
         }
-        sqlite_close($conn);
+        x_sqlite_close($conn);
         break;
     case "mysql":
         $conn=mysqli_connect($env_host, $env_user, $env_password, $env_strconn);

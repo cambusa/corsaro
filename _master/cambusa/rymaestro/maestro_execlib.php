@@ -12,6 +12,7 @@
 if(!isset($tocambusa))
     $tocambusa="../";
 include_once $tocambusa."sysconfig.php";    
+include_once $tocambusa."rymaestro/maestro_sqlite.php";
 include_once $tocambusa."rymaestro/maestro_macro.php";
 include_once $tocambusa."rygeneral/writelog.php";
 include_once $tocambusa."rygeneral/unicode.php";
@@ -93,7 +94,7 @@ function maestro_opendb($env, $raise=true){
             switch($env_provider){
             case "sqlite":
                 if(is_file($env_strconn)){
-                    if(!$conn=@sqlite_open($env_strconn, 0666, $errdescr)){
+                    if(!$conn=@x_sqlite_open($env_strconn, $errdescr)){
                         $conn=false;
                         log_write("Connection\r\n--->".$errdescr);
                     }
@@ -168,7 +169,7 @@ function maestro_closedb(&$maestro){
         if($maestro->conn!==false){
             switch($maestro->provider){
             case "sqlite":
-                @sqlite_close($maestro->conn);
+                @x_sqlite_close($maestro->conn);
                 break;
             case "mysql":
                 @mysqli_close($maestro->conn);
@@ -204,8 +205,8 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
         $sql=maestro_macro($maestro,$sql);
         switch($maestro->provider){
         case "sqlite":
-            if($res=@sqlite_query($maestro->conn, $sql, SQLITE_ASSOC)){
-                while($row=sqlite_fetch_array($res, SQLITE_ASSOC)){
+            if($res=@x_sqlite_query($maestro->conn, $sql)){
+                while($row=x_sqlite_fetch_array($res)){
                     // RISOLVO I NULL
                     foreach($row as $k => $v){
                         if($v===null)
@@ -213,16 +214,16 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
                     }
                     $r[]=$row;
                 }
+                x_sqlite_finalize($res);
             }
             else{
-                $coderr=sqlite_last_error($maestro->conn);
-                if($coderr!=0){
+                $coderr=x_sqlite_last_error($maestro->conn);
+                if(x_sqlite_iserror($coderr)){
                     $ret=false;
-                    $maestro->errdescr=sqlite_error_string($coderr);
+                    $maestro->errdescr=x_sqlite_error_string($maestro->conn, $coderr);
                     log_write($sql.";\r\n--->" . $maestro->errdescr);
                 }
             }
-            usleep(100);
             break;
         case "mysql":
             if(@$resloc=mysqli_query($maestro->conn, $sql)){
@@ -331,15 +332,14 @@ function maestro_execute($maestro, $sql, $raise=true, $clobs=false){
         $sql=maestro_macro($maestro,$sql);
         switch($maestro->provider){
         case "sqlite":
-            if(@sqlite_exec($maestro->conn, $sql)){
-                $maestro->rows=sqlite_changes($maestro->conn);
+            if(@x_sqlite_exec($maestro->conn, $sql)){
+                $maestro->rows=x_sqlite_changes($maestro->conn);
             }
             else{
                 $ret=false;
-                $maestro->errdescr=sqlite_error_string(sqlite_last_error($maestro->conn));
+                $maestro->errdescr=x_sqlite_error_string($maestro->conn, x_sqlite_last_error($maestro->conn));
                 log_write($sql.";\r\n--->" . $maestro->errdescr);
             }
-            usleep(100);
             break;
         case "mysql":
             if(mysqli_query($maestro->conn, $sql)){
@@ -413,21 +413,20 @@ function maestro_begin($maestro, $raise=true){
         $sql="BEGIN";
         switch($maestro->provider){
         case "sqlite":
-            $ret=@sqlite_exec($maestro->conn, "BEGIN;");
+            $ret=@x_sqlite_exec($maestro->conn, "BEGIN;");
             if(!$ret){
                 $ret=false;
-                $d=sqlite_error_string(sqlite_last_error($maestro->conn));
-                $this->errdescr=$d;
+                $d=x_sqlite_error_string($maestro->conn, x_sqlite_last_error($maestro->conn));
+                $maestro->errdescr=$d;
                 log_write($sql.";\r\n--->".$d);
             }
-            usleep(100);
             break;
         case "mysql":
             $ret=@mysqli_autocommit($maestro->conn, false);
             if(!$ret){
                 $ret=false;
                 $d=mysqli_error($maestro->conn);
-                $this->errdescr=$d;
+                $maestro->errdescr=$d;
                 log_write($sql.";\r\n--->".$d);
             }
             break;
@@ -438,7 +437,7 @@ function maestro_begin($maestro, $raise=true){
             if(!$ret){
                 $ret=false;
                 $d=odbc_errormsg($maestro->conn);
-                $this->errdescr=$d;
+                $maestro->errdescr=$d;
                 log_write($sql.";\r\n--->".$d);
             }
         }
@@ -462,21 +461,20 @@ function maestro_commit($maestro, $raise=true){
         if($maestro->transon){
             switch($maestro->provider){
             case "sqlite":
-                $ret=@sqlite_exec($maestro->conn, "COMMIT;");
+                $ret=@x_sqlite_exec($maestro->conn, "COMMIT;");
                 if(!$ret){
                     $ret=false;
-                    $d=sqlite_error_string(sqlite_last_error($maestro->conn));
-                    $this->errdescr=$d;
+                    $d=x_sqlite_error_string($maestro->conn, x_sqlite_last_error($maestro->conn));
+                    $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }
-                usleep(100);
                 break;
             case "mysql":
                 $ret=@mysqli_commit($maestro->conn);
                 if(!$ret){
                     $ret=false;
                     $d=mysqli_error($maestro->conn);
-                    $this->errdescr=$d;
+                    $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }
                 break;
@@ -486,7 +484,7 @@ function maestro_commit($maestro, $raise=true){
                     $ret=false;
                     $me=oci_error($resloc);
                     $d=$me["message"];
-                    $this->errdescr=$d;
+                    $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }            
                 break;
@@ -495,7 +493,7 @@ function maestro_commit($maestro, $raise=true){
                 if(!$ret){
                     $ret=false;
                     $d=odbc_errormsg($maestro->conn);
-                    $this->errdescr=$d;
+                    $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }
             }
@@ -504,7 +502,7 @@ function maestro_commit($maestro, $raise=true){
     catch(Exception $e){
         $ret=false;
         $d=$e->getMessage();
-        $this->errdescr=$d;
+        $maestro->errdescr=$d;
         log_write($d);
     }
     $maestro->transon=false;
@@ -519,21 +517,20 @@ function maestro_rollback($maestro, $raise=true){
         if($maestro->transon){
             switch($maestro->provider){
             case "sqlite":
-                $ret=@sqlite_exec($maestro->conn, "ROLLBACK;");
+                $ret=@x_sqlite_exec($maestro->conn, "ROLLBACK;");
                 if(!$ret){
                     $ret=false;
-                    $d=sqlite_error_string(sqlite_last_error($maestro->conn));
-                    $this->errdescr=$d;
+                    $d=x_sqlite_error_string($maestro->conn, x_sqlite_last_error($maestro->conn));
+                    $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }
-                usleep(100);
                 break;
             case "mysql":
                 $ret=@mysqli_rollback($maestro->conn);
                 if(!$ret){
                     $ret=false;
                     $d=mysqli_error($maestro->conn);
-                    $this->errdescr=$d;
+                    $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }
                 break;
@@ -543,7 +540,7 @@ function maestro_rollback($maestro, $raise=true){
                     $ret=false;
                     $me=oci_error($resloc);
                     $d=$me["message"];
-                    $this->errdescr=$d;
+                    $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }            
                 break;
@@ -552,7 +549,7 @@ function maestro_rollback($maestro, $raise=true){
                 if(!$ret){
                     $ret=false;
                     $d=odbc_errormsg($maestro->conn);
-                    $this->errdescr=$d;
+                    $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }
             }
@@ -561,7 +558,7 @@ function maestro_rollback($maestro, $raise=true){
     catch(Exception $e){
         $ret=false;
         $d=$e->getMessage();
-        $this->errdescr=$d;
+        $maestro->errdescr=$d;
         log_write($d);
     }
     $maestro->transon=false;
@@ -818,10 +815,21 @@ function maestro_istable($maestro, $tabname){
     global $freezelog;
     $ret=false;
     $freezelog=true;
-    $sql="SELECT * FROM ".$tabname." WHERE 0=1";
-    if(maestro_query($maestro, $sql, $r, false)){
-        $ret=true;
+    
+    if($maestro->provider=="sqlite"){
+        $sql="SELECT * FROM sqlite_master WHERE name='$tabname'";
+        $r=x_sqlite_array_query($maestro->conn, $sql, SQLITE3_ASSOC);
+        if(count($r)>0){
+            $ret=true;
+        }
     }
+    else{
+        $sql="SELECT * FROM ".$tabname." WHERE 0=1";
+        if(maestro_query($maestro, $sql, $r, false)){
+            $ret=true;
+        }
+    }
+    
     $freezelog=false;
     unset($r);
     return $ret;

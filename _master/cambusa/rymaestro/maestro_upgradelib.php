@@ -19,7 +19,7 @@ include_once $tocambusa."rygeneral/json_loader.php";
 include_once $tocambusa."rygeneral/writelog.php";
 
 function maestro_upgrade($maestro, $logonly=false){
-    global $path_databases;
+    global $path_databases, $sqlite3_enabled;
     try{
         // IMPOSTO I VALORI DI RITORNO
         $success=1;
@@ -129,8 +129,10 @@ function maestro_upgrade($maestro, $logonly=false){
                                         
                                         switch($maestro->provider){
                                         case "sqlite":
-                                            $sql.="COLUMN ";    // Utile per quando SQLite ammetterà la ALTER TABLE
-                                            $hard=true;
+                                            $sql.="COLUMN ";    // Utile per SQLite3
+                                            if(!$sqlite3_enabled){
+                                                $hard=true;
+                                            }
                                             break;
                                         }
                                         
@@ -376,8 +378,8 @@ function maestro_checklite($env){
         include($path_databases."_environs/".$env.".php");
         if($env_provider=="sqlite"){
             if(!is_file($env_strconn)){
-                $conn=@sqlite_open($env_strconn, 0666, $errdescr);
-                @sqlite_close($conn);
+                $conn=@x_sqlite_open($env_strconn, $errdescr);
+                @x_sqlite_close($conn);
             }
         }
     }
