@@ -20,6 +20,7 @@
         <div relid="oper_new" babelcode="BUTTON_NEW"></div>
         <div relid="oper_print" babelcode="BUTTON_SELPRINT"></div>
         <div relid="oper_delete" babelcode="BUTTON_SELDELETE"></div>
+        <div relid="oper_import" babelcode="BUTTON_IMPORT_ODS"></div>
     </div>
     <div>
         <div relid="LB_NOME" babelcode="NAME"></div><div relid="NOME"></div>

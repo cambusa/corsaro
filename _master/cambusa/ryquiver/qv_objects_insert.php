@@ -44,7 +44,16 @@ function qv_objects_insert($maestro, $data){
         qv_solvetimeunit($maestro, $TYPOLOGYID, $unit);
         
         // VALIDAZIONE PERSONALIZZATA
-        qv_validateobject($maestro, $data, $SYSID, $TYPOLOGYID, 0);
+        if(qv_validateobject($maestro, $data, $SYSID, $TYPOLOGYID, 0)===2){
+            // USCITA SENZA OPERAZIONE
+            $j=array();
+            $j["success"]=$success;
+            $j["code"]=$babelcode;
+            $j["params"]=$babelparams;
+            $j["message"]="Operazione skippata";
+            $j["SYSID"]="";
+            return $j; //ritorno standard
+        }
 
         // DETERMINO NAME
         if(isset($data["NAME"])){

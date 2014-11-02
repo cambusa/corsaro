@@ -642,6 +642,200 @@ function qv_geography(formid, settings, missing){
         });
     }
 }
+
+function qv_importODS(formid, settings, missing){
+    var matrice=[];
+    var proptitle="Importazione ODS";
+    if(settings.title!=missing){
+        proptitle=settings.title;
+    };
+    var dlg=winzDialogGet(formid);
+    var hangerid=dlg.hanger;
+    var h="";
+    var vK=[];
+    winzDialogParams(dlg, {
+        width:800,
+        height:440,
+        open:function(){
+            castFocus(formid+"ods_upload");
+        },
+        close:function(){
+            winzDisposeCtrl(formid, vK);
+            winzDialogFree(dlg);
+        }
+    });
+    // DEFINIZIONE DEL CONTENUTO
+    h+="<div class='winz_dialog_title'>";
+    h+=proptitle;
+    h+="</div>";
+    h+=winzAppendCtrl(vK, formid+"ods_upload");
+    h+="<div id='"+formid+"ods_grid' style='position:absolute;left:20px;top:130px;width:750px;height:250px;border:1px solid gray;overflow:scroll;'></div>";
+    h+=winzAppendCtrl(vK, formid+"__ok");
+    h+=winzAppendCtrl(vK, formid+"__cancel");
+    $("#"+hangerid).html(h);
+
+    $("#"+formid+"ods_upload").ryupload({
+        left:20,
+        top:70,
+        width:300,
+        formid:formid,
+        environ:_tempenviron,
+        complete:function(id, name, ret){
+            var u=ret["url"];
+            var p=u.indexOf("customize/");
+            if(p>=0){
+                var path=_customizeURL+u.substr(p+10);
+                $("#"+formid+"ods_grid").html("");
+                matrice=[];
+                $.post(_cambusaURL+"rygeneral/ods2array.php", 
+                    {
+                        "ods":path
+                    }, 
+                    function(d){
+                        try{
+                            var s="", h="", v=$.parseJSON(d);
+                            matrice=v;
+                            
+                            s+="<select style='width:100%;min-width:80px;'><option>---</option>";
+                            if(settings.columns!=missing){
+                                for(var c in settings.columns){
+                                    s+="<option value='"+settings.columns[c]["id"]+"'>"+settings.columns[c]["caption"]+"</option>";
+                                }
+                            }
+                            s+="</select>";
+                            
+                            if(v.length>0){
+                                h+="<table>";
+                                
+                                var m=0;
+                                for(var r=0; r<v.length; r++){
+                                    if(m<v[r].length)
+                                        m=v[r].length;
+                                }
+                                
+                                h+="<tr>";
+                                h+="<td style='padding:1px 5px;border:1px solid silver;'><input id='"+formid+"ods_checkall' type='checkbox' checked></td>";
+                                for(var c=0; c<m; c++){
+                                    h+="<td style='padding:1px 5px;border:1px solid silver;white-space:nowrap;'>";
+                                    h+=s;
+                                    h+="</td>";
+                                }
+                                h+="</tr>";
+
+                                for(var r=0; r<v.length; r++){
+                                    h+="<tr>";
+                                    h+="<td style='padding:1px 5px;border-right:1px dashed silver;'><input type='checkbox' checked></td>";
+                                    for(var c=0; c<v[r].length; c++){
+                                        h+="<td style='padding:1px 5px;border-right:1px dashed silver;white-space:nowrap;'>";
+                                        if(v[r][c].length<=20)
+                                            h+=v[r][c];
+                                        else
+                                            h+=v[r][c].substr(0,20)+"...";
+                                        h+="</td>";
+                                    }
+                                    h+="</tr>";
+                                }
+                                
+                                h+="</table>";
+                                
+                                $("#"+formid+"ods_grid").html(h);
+                                
+                                // COMPORTAMENTO DEL CHECK ALL
+                                $("#"+formid+"ods_checkall").click(
+                                    function(){
+                                        $("#"+formid+"ods_checkall").attr("disabled","1");
+                                        var f=$(this).is(':checked');
+                                        $("#"+formid+"ods_grid tr td>input").each(
+                                            function(i){
+                                                if(i>0){
+                                                    if(f)
+                                                        $(this).attr("checked","1");
+                                                    else
+                                                        $(this).removeAttr("checked");
+                                                }
+                                            }
+                                        );
+                                        $("#"+formid+"ods_checkall").removeAttr("disabled");
+                                    }
+                                );
+                            }
+                        }
+                        catch(e){
+                            alert(d);
+                        }
+                    }
+                );
+            }
+        }
+    });
+    
+    $("#"+formid+"__ok").rylabel({
+        left:20,
+        top:dlg.height-40,
+        width:80,
+        caption:"OK",
+        button:true,
+        formid:formid,
+        click:function(o){
+            setTimeout(
+                function(){
+                    if(settings.ready!=missing && settings.columns!=missing){
+                        var d=[];
+                        var mapc=[];
+                        var full=false;
+                        var copia=matrice.slice(0);
+                        $("#"+formid+"ods_grid tr:first-child td>select").each(
+                            function(i){
+                                mapc[i]=$(this).val();
+                            }
+                        );
+                        // CONSERVO SOLO I SELEZIONATI
+                        var t=0, s=[];
+                        $("#"+formid+"ods_grid tr td>input").each(
+                            function(i){
+                                if(i>0){
+                                    if(!$(this).is(':checked')){
+                                        s[t++]=i-1;
+                                    }
+                                }
+                            }
+                        );
+                        for(var i=s.length-1; i>=0; i--){
+                            copia.splice(s[i], 1);
+                        }
+                        for(var r=0; r<copia.length; r++){
+                            d[r]={};
+                            for(var c in mapc){
+                                if(mapc[c]!="---"){
+                                    d[r][mapc[c]]=_fittingvalue(copia[r][c]);
+                                    full=true;
+                                }
+                            }
+                        }
+                        if(full){
+                            winzDialogClose(dlg);
+                            settings.ready(d);
+                        }
+                    }
+                }, 100
+            );
+        }
+    });
+    $("#"+formid+"__cancel").rylabel({
+        left:120,
+        top:dlg.height-40,
+        width:80,
+        caption:"Annulla",
+        button:true,
+        formid:formid,
+        click:function(o){
+            winzDialogClose(dlg);
+        }
+    });
+    // MOSTRO LA DIALOGBOX
+    winzDialogOpen(dlg);
+}
+
 $(document).ready(function(){
     RYBOX.babels({
         "BABEL_CONTEXT":"Contesto: {1}",

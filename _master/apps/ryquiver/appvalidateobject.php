@@ -81,9 +81,18 @@ function appvalidateobject(
             if(count($fields)>0){
                 $where=implode(" OR ", $fields);
                 if(!qv_uniquity($maestro, "QW_PERSONE", $SYSID, $where)){
-                    $babelcode="QVUSER_NOTUNIQUE";
-                    $failure="Descrizione o codice fiscale già presente in anagrafica";
-                    $ret=false;
+                    $action="RAISE";
+                    if(isset($data["CONFLICT"])){
+                        $action=$data["CONFLICT"];
+                    }
+                    if($action=="RAISE"){
+                        $babelcode="QVUSER_NOTUNIQUE";
+                        $failure="Descrizione o codice fiscale già presente in anagrafica";
+                        $ret=false;
+                    }
+                    elseif($action=="SKIP"){
+                        $ret=2;
+                    }
                 }
             }
         }

@@ -13,8 +13,11 @@ function qv_validateobject($maestro, &$data, $SYSID, $TYPOLOGYID, $oper){
     global $global_lastusername,$global_lastrolename,$path_customize,$path_applications;
     global $babelcode, $babelparams;
     $prevdata=false;
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "object", $prevdata);
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "object", $prevdata);
+    $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "object", $prevdata);
+    if($ret!=2){
+        $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "object", $prevdata);
+    }
+    return $ret;
 }
 function qv_validatearrow($maestro, &$data, $SYSID, $TYPOLOGYID, $oper){
     global $global_lastusername,$global_lastrolename,$path_customize;
@@ -70,6 +73,8 @@ function qv_extravalidate($maestro, &$data, $SYSID, $TYPOLOGYID, $oper, $positio
     global $global_lastusername,$global_lastrolename,$path_customize,$path_applications;
     global $babelcode, $babelparams;
     
+    $ret=true;
+    
     switch($position){
     case "app":$dir=$path_applications;break;
     case "cust":$dir=$path_customize;break;
@@ -90,7 +95,8 @@ function qv_extravalidate($maestro, &$data, $SYSID, $TYPOLOGYID, $oper, $positio
             qv_storeddata($maestro, $SYSID, $TYPOLOGYID, $oper, $funct, $prefix, $prevdata);
             $babelcode="";
             $failure="";
-            if( !$funct($maestro, $data, $prevdata, $SYSID, $TYPOLOGYID, $oper, $global_lastusername, $global_lastrolename, $babelcode, $failure) ){
+            $ret=$funct($maestro, $data, $prevdata, $SYSID, $TYPOLOGYID, $oper, $global_lastusername, $global_lastrolename, $babelcode, $failure);
+            if( $ret==false || $ret==0 ){
                 if($babelcode=="")
                     $babelcode="QVERR_USERDEFINED";
                 if($failure=="")
@@ -101,6 +107,7 @@ function qv_extravalidate($maestro, &$data, $SYSID, $TYPOLOGYID, $oper, $positio
             }
         }
     }
+    return $ret;
 }
 function qv_cyclicity($maestro, $table, $field, $SYSID, $REFID){
     global $babelcode, $babelparams;

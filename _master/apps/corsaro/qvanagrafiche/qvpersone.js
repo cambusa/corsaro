@@ -109,6 +109,7 @@ function class_qvpersone(settings,missing){
         columns:[
             {id:"DESCRIPTION", caption:"Descrizione", width:250, code:"DESCRIPTION"},
             {id:"INDIRIZZO", caption:"Indirizzo", width:250, code:"ADDRESS"},
+            {id:"CIVICO", caption:"", width:50},
             {id:"CAP", caption:"CAP", width:90, code:"ZIPCODE"},
             {id:"CITTA", caption:"Citt&agrave;", width:200, code:"CITY"},
             {id:"PROVINCIA", caption:"Pr", width:40, code:"ABBR_PROVINCE"},
@@ -215,6 +216,108 @@ function class_qvpersone(settings,missing){
             qv_bulkdelete(formid, objgridsel, "objects");
         }
     });
+
+    offsety+=50;
+    var oper_import=$(prefix+"oper_import").rylabel({
+        left:20,
+        top:offsety,
+        width:120,
+        caption:"Importa ODS",
+        button:true,
+        click:function(o){
+            qv_importODS(formid,
+                {
+                    "columns":[
+                        {"id":"NOME", "caption":"Nome"},
+                        {"id":"COGNOME", "caption":"Cognome"},
+                        {"id":"INDIRIZZO", "caption":"Indirizzo"},
+                        {"id":"CIVICO", "caption":"Civico"},
+                        {"id":"CITTA", "caption":"Città"},
+                        {"id":"CAP", "caption":"CAP"},
+                        {"id":"PROVINCIA", "caption":"Provincia"},
+                        {"id":"NAZIONE", "caption":"Nazione"},
+                        {"id":"CODFISC", "caption":"C.FISC"},
+                        {"id":"PIVA", "caption":"P.IVA"},
+                        {"id":"EMAIL", "caption":"Email"},
+                        {"id":"TELEFONO", "caption":"Telefono"},
+                        {"id":"CELLULARE", "caption":"Cellulare"},
+                        {"id":"REGISTRY", "caption":"Note"}
+                    ],
+                    "ready":function(d){
+                        winzProgress(formid);
+                        var stats=[];
+                        for(var i in d){
+                            var data={};
+                            var descr="";
+                            var indirizzo="";
+                            var civico="";
+                            data["TYPOLOGYID"]=currtypologyid;
+                            data["CONFLICT"]="SKIP";
+                            for(var c in d[i]){
+                                data[c]=d[i][c];
+                                if(c=="NOME"){
+                                    if(descr=="")
+                                        descr=data[c];
+                                    else
+                                        descr=data[c]+" "+descr;
+                                }
+                                if(c=="COGNOME"){
+                                    descr+=" "+data[c];
+                                }
+                                if(c=="INDIRIZZO"){
+                                    indirizzo=data[c];
+                                }
+                                if(c=="CIVICO"){
+                                    civico=data[c];
+                                }
+                            }
+
+                            // GESTIONE DESCRIZIONE
+                            if(descr==""){
+                                descr="(nuovo contatto)";
+                            }
+                            data["DESCRIPTION"]=descr;
+
+                            // GESTIONE CIVICO
+                            if(civico==""){
+                                if(civico=indirizzo.match(/\d+\w+/)){
+                                    civico=civico[0];
+                                    indirizzo=indirizzo.replace(civico, "");
+                                    data["INDIRIZZO"]=indirizzo;
+                                    data["CIVICO"]=civico;
+                                }
+                            }
+
+                            // INSERIMENTO ISTRUZIONE
+                            stats[i]={
+                                "function":"objects_insert",
+                                "data":data
+                            };
+                        }
+                        $.post(_cambusaURL+"ryquiver/quiver.php", 
+                            {
+                                "sessionid":_sessionid,
+                                "env":_sessioninfo.environ,
+                                "program":stats
+                            }, 
+                            function(d){
+                                try{
+                                    var v=$.parseJSON(d);
+                                    objgridsel.refresh();
+                                    winzTimeoutMess(formid, v.success, v.message);
+                                }
+                                catch(e){
+                                    winzClearMess(formid);
+                                    alert(d);
+                                }
+                            }
+                        );
+                    }
+                }
+            );
+        }
+    });
+    oper_import.visible(_sessioninfo.admin);
 
     // DEFINIZIONE TAB CONTESTO
     var offsety=60;
