@@ -241,58 +241,69 @@ function class_qvpersone(settings,missing){
                         {"id":"EMAIL", "caption":"Email"},
                         {"id":"TELEFONO", "caption":"Telefono"},
                         {"id":"CELLULARE", "caption":"Cellulare"},
+                        {"id":"TAG", "caption":"Marche"},
                         {"id":"REGISTRY", "caption":"Note"}
                     ],
                     "ready":function(d){
                         winzProgress(formid);
                         var stats=[];
                         for(var i in d){
-                            var data={};
-                            var descr="";
-                            var indirizzo="";
-                            var civico="";
-                            data["TYPOLOGYID"]=currtypologyid;
-                            data["CONFLICT"]="SKIP";
+                            // ANALIZZO I DATI PER VEDERE SE CE NE SONO DI IMPOSTATI
+                            var ins=false;
                             for(var c in d[i]){
-                                data[c]=d[i][c];
-                                if(c=="NOME"){
-                                    if(descr=="")
-                                        descr=data[c];
-                                    else
-                                        descr=data[c]+" "+descr;
-                                }
-                                if(c=="COGNOME"){
-                                    descr+=" "+data[c];
-                                }
-                                if(c=="INDIRIZZO"){
-                                    indirizzo=data[c];
-                                }
-                                if(c=="CIVICO"){
-                                    civico=data[c];
+                                if(d[i][c]!=""){
+                                    ins=true;
+                                    break;
                                 }
                             }
-
-                            // GESTIONE DESCRIZIONE
-                            if(descr==""){
-                                descr="(nuovo contatto)";
-                            }
-                            data["DESCRIPTION"]=descr;
-
-                            // GESTIONE CIVICO
-                            if(civico==""){
-                                if(civico=indirizzo.match(/\d+\w+/)){
-                                    civico=civico[0];
-                                    indirizzo=indirizzo.replace(civico, "");
-                                    data["INDIRIZZO"]=indirizzo;
-                                    data["CIVICO"]=civico;
+                            if(ins){
+                                var data={};
+                                var descr="";
+                                var indirizzo="";
+                                var civico="";
+                                data["TYPOLOGYID"]=currtypologyid;
+                                data["CONFLICT"]="SKIP";
+                                for(var c in d[i]){
+                                    data[c]=d[i][c];
+                                    if(c=="NOME"){
+                                        if(descr=="")
+                                            descr=data[c];
+                                        else
+                                            descr=data[c]+" "+descr;
+                                    }
+                                    if(c=="COGNOME"){
+                                        descr+=" "+data[c];
+                                    }
+                                    if(c=="INDIRIZZO"){
+                                        indirizzo=data[c];
+                                    }
+                                    if(c=="CIVICO"){
+                                        civico=data[c];
+                                    }
                                 }
-                            }
 
-                            // INSERIMENTO ISTRUZIONE
-                            stats[i]={
-                                "function":"objects_insert",
-                                "data":data
-                            };
+                                // GESTIONE DESCRIZIONE
+                                if(descr==""){
+                                    descr="(nuovo contatto)";
+                                }
+                                data["DESCRIPTION"]=descr;
+
+                                // GESTIONE CIVICO
+                                if(civico==""){
+                                    if(civico=indirizzo.match(/\d+\w+/)){
+                                        civico=civico[0];
+                                        indirizzo=indirizzo.replace(civico, "");
+                                        data["INDIRIZZO"]=indirizzo;
+                                        data["CIVICO"]=civico;
+                                    }
+                                }
+
+                                // INSERIMENTO ISTRUZIONE
+                                stats[i]={
+                                    "function":"objects_insert",
+                                    "data":data
+                                };
+                            }
                         }
                         $.post(_cambusaURL+"ryquiver/quiver.php", 
                             {

@@ -14,7 +14,7 @@ function qv_validateobject($maestro, &$data, $SYSID, $TYPOLOGYID, $oper){
     global $babelcode, $babelparams;
     $prevdata=false;
     $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "object", $prevdata);
-    if($ret!=2){
+    if($ret===1){
         $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "object", $prevdata);
     }
     return $ret;
@@ -23,30 +23,42 @@ function qv_validatearrow($maestro, &$data, $SYSID, $TYPOLOGYID, $oper){
     global $global_lastusername,$global_lastrolename,$path_customize;
     global $babelcode, $babelparams;
     $prevdata=false;
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "arrow", $prevdata);
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "arrow", $prevdata);
+    $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "arrow", $prevdata);
+    if($ret===1){
+        $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "arrow", $prevdata);
+    }
+    return $ret;
 }
 function qv_validatequiver($maestro, &$data, $SYSID, $TYPOLOGYID, $oper){
     global $global_lastusername,$global_lastrolename,$path_customize;
     global $babelcode, $babelparams;
     $prevdata=false;
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "quiver", $prevdata);
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "quiver", $prevdata);
+    $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "quiver", $prevdata);
+    if($ret===1){
+        $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "quiver", $prevdata);
+    }
+    return $ret;
 }
 function qv_validategenre($maestro, &$data, $SYSID, $TYPOLOGYID, $oper){
     global $global_lastusername,$global_lastrolename,$path_customize;
     global $babelcode, $babelparams;
     $prevdata=false;
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "genre", $prevdata);
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "genre", $prevdata);
+    $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "genre", $prevdata);
+    if($ret===1){
+        $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "genre", $prevdata);
+    }
+    return $ret;
 }
 
 function qv_validatemotive($maestro, &$data, $SYSID, $TYPOLOGYID, $oper){
     global $global_lastusername,$global_lastrolename,$path_customize;
     global $babelcode, $babelparams;
     $prevdata=false;
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "motive", $prevdata);
-    qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "motive", $prevdata);
+    $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "app", "motive", $prevdata);
+    if($ret===1){
+        $ret=qv_extravalidate($maestro, $data, $SYSID, $TYPOLOGYID, $oper, "cust", "motive", $prevdata);
+    }
+    return $ret;
 }
 function qv_storeddata($maestro, $SYSID, $TYPOLOGYID, $oper, $funct, $prefix, &$prevdata){
     // REPERISCO I DATI COME SONO REGISTRATI
@@ -96,7 +108,7 @@ function qv_extravalidate($maestro, &$data, $SYSID, $TYPOLOGYID, $oper, $positio
             $babelcode="";
             $failure="";
             $ret=$funct($maestro, $data, $prevdata, $SYSID, $TYPOLOGYID, $oper, $global_lastusername, $global_lastrolename, $babelcode, $failure);
-            if( $ret==false || $ret==0 ){
+            if($ret==0){
                 if($babelcode=="")
                     $babelcode="QVERR_USERDEFINED";
                 if($failure=="")

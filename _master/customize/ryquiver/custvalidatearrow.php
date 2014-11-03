@@ -10,7 +10,10 @@ function custvalidatearrow(
             $role, 
             &$babelcode, 
             &$failure){
+    $ret=1;
+    
     //$data["DESCRIPTION"]=$user;
-    return true;
+    
+    return $ret;
 }
 ?>

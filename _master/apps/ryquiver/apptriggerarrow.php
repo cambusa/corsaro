@@ -20,7 +20,7 @@ function apptriggerarrow(
             &$babelcode, 
             &$failure){
     global $path_applications;
-    $ret=true;
+    $ret=1;
     // CONTROLLO GESTIONE MOVIMENTI RELATIVI A PRATICHE
     switch( substr($TYPOLOGYID, 0, 12) ){
     case "0MOVIMENTI00":

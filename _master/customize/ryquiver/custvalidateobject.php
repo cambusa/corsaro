@@ -10,7 +10,9 @@ function custvalidateobject(
             $role, 
             &$babelcode, 
             &$failure){
-    $ret=true;
+    $ret=1;
+    
+    
     return $ret;
 }
 ?>

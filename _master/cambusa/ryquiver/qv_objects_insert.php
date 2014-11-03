@@ -45,12 +45,14 @@ function qv_objects_insert($maestro, $data){
         
         // VALIDAZIONE PERSONALIZZATA
         if(qv_validateobject($maestro, $data, $SYSID, $TYPOLOGYID, 0)===2){
+            $success=2;
+            $message="Alcune operazioni non sono state eseguite";
             // USCITA SENZA OPERAZIONE
             $j=array();
             $j["success"]=$success;
             $j["code"]=$babelcode;
             $j["params"]=$babelparams;
-            $j["message"]="Operazione skippata";
+            $j["message"]=$message;
             $j["SYSID"]="";
             return $j; //ritorno standard
         }

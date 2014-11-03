@@ -790,7 +790,7 @@ function qv_importODS(formid, settings, missing){
                             }
                         );
                         // CONSERVO SOLO I SELEZIONATI
-                        var t=0, s=[];
+                        var t=0, s=[], value;
                         $("#"+formid+"ods_grid tr td>input").each(
                             function(i){
                                 if(i>0){
@@ -807,7 +807,23 @@ function qv_importODS(formid, settings, missing){
                             d[r]={};
                             for(var c in mapc){
                                 if(mapc[c]!="---"){
-                                    d[r][mapc[c]]=_fittingvalue(copia[r][c]);
+                                    if(typeof d[r][mapc[c]]!=="undefined")
+                                        value=d[r][mapc[c]];
+                                    else
+                                        value="";
+                                    switch(mapc[c]){
+                                    case "REGISTRY":
+                                        if(value!=""){value+="<br/>"}
+                                        value+=_fittingvalue(copia[r][c]);
+                                        break;    
+                                    case "TAG":
+                                        if(value!=""){value+=", "}
+                                        value+=_fittingvalue(copia[r][c]);
+                                        break;
+                                    default:
+                                        value=_fittingvalue(copia[r][c]);
+                                    }
+                                    d[r][mapc[c]]=value;
                                     full=true;
                                 }
                             }

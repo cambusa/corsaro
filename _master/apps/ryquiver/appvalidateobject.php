@@ -20,7 +20,7 @@ function appvalidateobject(
             $role, 
             &$babelcode, 
             &$failure){
-    $ret=true;
+    $ret=1;
     // CONTROLLO SU CANCELLAZIONE DI UNO STATO DI PROCESSO
     switch( substr($TYPOLOGYID, 0, 12) ){
     case "0PROCSTATI00":
@@ -29,7 +29,7 @@ function appvalidateobject(
             if(qv_recordexists($maestro, "QW_PRATICHE", $where)){
                 $babelcode="QVUSER_STATOINUSO";
                 $failure="Stato in uso da pratiche aperte";
-                $ret=false;
+                $ret=0;
             }
         }
         break;
@@ -40,7 +40,7 @@ function appvalidateobject(
             if($GENREID==""){
                 $babelcode="QVUSER_NODIVISA";
                 $failure="Divisa del conto non specificata";
-                $ret=false;
+                $ret=0;
             }
         }
         if($oper<=1){
@@ -60,7 +60,7 @@ function appvalidateobject(
                 if(!qv_uniquity($maestro, "QW_CONTI", $SYSID, $where)){
                     $babelcode="QVUSER_NOTUNIQUE";
                     $failure="Descrizione, numero o CO.GE. già presente in anagrafica";
-                    $ret=false;
+                    $ret=0;
                 }
             }
         }
@@ -88,7 +88,7 @@ function appvalidateobject(
                     if($action=="RAISE"){
                         $babelcode="QVUSER_NOTUNIQUE";
                         $failure="Descrizione o codice fiscale già presente in anagrafica";
-                        $ret=false;
+                        $ret=0;
                     }
                     elseif($action=="SKIP"){
                         $ret=2;
@@ -115,7 +115,7 @@ function appvalidateobject(
                 if(!qv_uniquity($maestro, "QW_PROPRIETA", $SYSID, $where)){
                     $babelcode="QVUSER_NOTUNIQUE";
                     $failure="Descrizione o P.IVA già presente in anagrafica";
-                    $ret=false;
+                    $ret=0;
                 }
             }
         }
@@ -138,7 +138,7 @@ function appvalidateobject(
                 if(!qv_uniquity($maestro, "QW_AZIENDE", $SYSID, $where)){
                     $babelcode="QVUSER_NOTUNIQUE";
                     $failure="Descrizione o P.IVA già presente in anagrafica";
-                    $ret=false;
+                    $ret=0;
                 }
             }
         }
@@ -157,7 +157,7 @@ function appvalidateobject(
                 if(!qv_uniquity($maestro, "QW_ATTORI", $SYSID, $where)){
                     $babelcode="QVUSER_NOTUNIQUE";
                     $failure="Attore già presente in anagrafica";
-                    $ret=false;
+                    $ret=0;
                 }
             }
         }

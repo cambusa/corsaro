@@ -20,7 +20,7 @@ function appvalidatequiver(
             $role, 
             &$babelcode, 
             &$failure){
-    $ret=true;
+    $ret=1;
     switch( substr($TYPOLOGYID, 0, 12) ){
     case "0PRATICHE000":
         if($oper==1){
@@ -38,7 +38,7 @@ function appvalidatequiver(
             if($DATAINIZIO>$DATAFINE && $DATAFINE>LOWEST_TIME){
                 $babelcode="QVERR_CONGRUENZADATE";
                 $failure="Date incongruenti";
-                $ret=false;
+                $ret=0;
             }
         }
         elseif($oper>=2){
@@ -46,7 +46,7 @@ function appvalidatequiver(
             if($prevdata["REFERENCE"]!=""){
                 $babelcode="QVERR_PRATPROTOCOLLATA";
                 $failure="Non si può cancellare una pratica protocollata";
-                $ret=false;
+                $ret=0;
             }
             // IMPEDISCO LA CANCELLAZIONE DI PRATICHE CON ATTIVITA' PROTOCOLLATE
             $TYPEID=qv_actualid($maestro, "0ATTIVITA000");
@@ -55,7 +55,7 @@ function appvalidatequiver(
             if(count($r)>0){
                 $babelcode="QVERR_ATTPROTOCOLLATE";
                 $failure="Non si può cancellare una pratica con attività protocollate";
-                $ret=false;
+                $ret=0;
             }
         }
         break;
