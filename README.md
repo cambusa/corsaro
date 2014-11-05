@@ -34,7 +34,7 @@ will be included.
 ---
 
 Prerequisites
-* __PHP 5.3__<br>
+* __PHP >= 5.2__<br>
 * __SQLite__ enabled (for default configuration only)<br>
 
 ---
