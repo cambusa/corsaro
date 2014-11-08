@@ -23,7 +23,8 @@ _preloadProgress.src=_cambusaURL+"rybox/images/progress.gif";
 
 function ryWinz(missing){
     var propicontop=40;
-    var objscripts=new Object();
+    var objscripts={};
+    var objmodules={};
     // La addform viene lanciata dopo la newform
     // e serve a popolare le collezioni degli oggetti caricati
     this.addform=function(o){
@@ -260,6 +261,26 @@ function ryWinz(missing){
         }
         else{
             if(window.console)console.log("Unresolved form");
+        }
+    }
+    this.loadmodule=function(id, path, ready){
+        if(_ismissing(objmodules[id])){
+            objmodules[id]=0;
+            $.getScript(path)
+                .done(function(){
+                    if(window.console&&_sessioninfo.debugmode)console.log("'"+id+"' loaded");
+                    objmodules[id]=1;
+                    if(ready){
+                        ready();
+                    }
+                })
+                .fail(function(jqxhr, settings, exception){
+                    alert(exception);
+                });
+
+        }
+        else if(ready){
+            ready();
         }
     }
     function createid(){

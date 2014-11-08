@@ -27,14 +27,15 @@ function ods2array(&$rows, $ods, $sheet=1){
         // PRENDO SOLO IL PRIMO FOGLIO
         preg_match("@<table:table.+?</table:table>@", $buffer, $m);
         $buffer=$m[0];
-
+        
         // INDIVIDUO RIGHE E COLONNE
         $buffer=preg_replace("@</text:p></table:table-cell></table:table-row></table:table>@", "", $buffer);
         $buffer=preg_replace("@</text:p></table:table-cell></table:table-row>@", "######", $buffer);
         $buffer=preg_replace("@</table:table-row>@", "######", $buffer);
         $buffer=preg_replace("@</text:p>@", "@@@@@@", $buffer);
+        $buffer=preg_replace("@<table:table-cell [^>]*/>@", " @@@@@@", $buffer);    // CELLE VUOTE
         $buffer=strip_tags($buffer);
-
+        
         // COSTRUISCO LA MATRICE
         $rows=explode("######", $buffer);
         foreach($rows as &$row){

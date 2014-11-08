@@ -1466,6 +1466,7 @@ var _ryquebusy=false;
                     $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessionid},
                         function(d) {
                             try{
+                                if(window.console&&_sessioninfo.debugmode){console.log(d)}
                                 var v=$.parseJSON(d);
                                 if(v["success"]){
                                     propreqid=v["reqid"];
@@ -1970,6 +1971,7 @@ function ryQue(missing){
        $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessionid},
             function(d){
                 try{
+                    if(window.console&&_sessioninfo.debugmode){console.log(d)}
                     var v=$.parseJSON(d);
                     propreqid=v["reqid"];
                     propprovider=v["provider"];

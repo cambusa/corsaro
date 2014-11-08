@@ -77,7 +77,8 @@ if(is_file($filereq)){
     switch($env_provider){
     case "sqlite":
         $conn=x_sqlite_open($env_strconn);
-        if($res=x_sqlite_query($conn, $winsql)){
+        $res=x_sqlite_query($conn, $winsql);
+        if(!is_bool($res)){
             while($row=x_sqlite_fetch_array($res)){
                 $i=array_search($row["RYQUEWINID"], $elenco);
                 if($i!==false){

@@ -50,7 +50,7 @@ function qv_pratiche_cambioproc($maestro, $data){
         $PROTSERIE=$processo["PROTSERIE"];
 
         // DETERMINO IL PRIMO STATO VALIDO DEL PROCESSO
-        $sql=buildfirst($PROCESSOID, false);
+        $sql=buildfirst($maestro, $PROCESSOID, false);
         maestro_query($maestro, $sql, $r);
         if(count($r)>0){
             $NUOVOSTATOID=$r[0]["STATOID"];

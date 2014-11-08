@@ -42,6 +42,7 @@
         
         <div relid="LB_CONTODEFAULTID"></div><div relid="CONTODEFAULTID"></div>
         <div relid="LB_TITOLAREID"></div><div relid="TITOLAREID"></div>
+        <div relid="LB_REFERENCE"></div><div relid="REFERENCE"></div>
         <div relid="LB_TAG"></div><div relid="TAG"></div>
 
         <div relid="LB_BANCA"></div><div relid="BANCA"></div>

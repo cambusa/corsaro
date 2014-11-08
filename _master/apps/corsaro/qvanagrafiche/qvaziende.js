@@ -251,24 +251,30 @@ function class_qvaziende(settings,missing){
     $(prefix+"EMAIL").rytext({left:120, top:offsety, width:200, maxlen:50, datum:"C", tag:"EMAIL"});
     offsety+=30;
  
-    var savey=offsety;
- 
     $(prefix+"LB_CONTODEFAULTID").rylabel({left:20, top:offsety, caption:"Conto predef."});
     $(prefix+"CONTODEFAULTID").ryhelper({
         left:120, top:offsety, width:300, datum:"C", tag:"CONTODEFAULTID", formid:formid, table:"QW_CONTI", title:"Scelta conto predefinito",
         open:function(o){
             o.where("SYSID IN (SELECT SYSID FROM QW_CONTI WHERE TITOLAREID='"+currsysid+"')");
         }
-    });offsety+=30;
+    });
+    offsety+=30;
     
+    var savey=offsety;
+ 
     $(prefix+"LB_TITOLAREID").rylabel({left:20, top:offsety, caption:"Titolare"});
     $(prefix+"TITOLAREID").ryhelper({
         left:120, top:offsety, width:300, datum:"C", tag:"TITOLAREID", formid:formid, table:"QW_PERSONE", title:"Titolare",
         open:function(o){
             o.where("");
         }
-    });offsety+=30;
-    
+    });
+
+    offsety+=30;
+    $(prefix+"LB_REFERENCE").rylabel({left:20, top:offsety, caption:"Riferimento"});
+    $(prefix+"REFERENCE").rytext({left:120, top:offsety, width:300, datum:"C", tag:"REFERENCE"});
+
+    offsety+=30;
     $(prefix+"LB_TAG").rylabel({left:20, top:offsety, caption:"Marche"});
     $(prefix+"TAG").rytext({left:120, top:offsety, width:300, datum:"C", tag:"TAG"});
 

@@ -2769,7 +2769,10 @@ function class_qvpratiche(settings,missing){
         sql+="SELECT QW_PROCSTATI.SYSID AS STATOID ";
         sql+="FROM QW_PROCSTATI ";
         sql+="INNER JOIN QW_ATTORI ATTORISTATO ON ATTORISTATO.SYSID=QW_PROCSTATI.ATTOREID ";
-        sql+="WHERE ATTORISTATO.UTENTEID='"+curruserid+"' OR '"+curruserid+"' IN (SELECT UTENTEID FROM QW_ATTORI WHERE QW_ATTORI.UFFICIOID=ATTORISTATO.UFFICIOID)";
+        if(objgridsel.provider()!="sqlite" || _sessioninfo.sqlite=="3")
+            sql+="WHERE ATTORISTATO.UTENTEID='"+curruserid+"' OR '"+curruserid+"' IN (SELECT UTENTEID FROM QW_ATTORI WHERE QW_ATTORI.UFFICIOID=ATTORISTATO.UFFICIOID)";
+        else
+            sql+="WHERE ATTORISTATO.UTENTEID='"+curruserid+"'";
         return sql;
     }
     function calcolascadenza(begin, days, method, after){

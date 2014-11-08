@@ -25,7 +25,8 @@ function qv_insertdatalife($maestro, $data, &$BEGINTIME, &$ENDTIME){
         $ENDTIME=HIGHEST_TIME;
 
     // CONSISTENZA DATE
-    if($BEGINTIME>=$ENDTIME){
+    //if($BEGINTIME>=$ENDTIME){
+    if($BEGINTIME>$ENDTIME){
         $babelcode="QVERR_NOLIFE";
         $b_params=array("BEGINTIME" => $BEGINTIME, "ENDTIME" => $ENDTIME);
         $b_pattern="Date non consistenti";
@@ -48,7 +49,8 @@ function qv_updatedatalife($maestro, $data, &$sets, &$BEGINTIME, &$ENDTIME, &$ch
         $changed=($ENDTIME!=$prevend);
     }
     // CONSISTENZA DATE
-    if($BEGINTIME>=$ENDTIME){
+    //if($BEGINTIME>=$ENDTIME){
+    if($BEGINTIME>$ENDTIME){
         $babelcode="QVERR_NOLIFE";
         $b_params=array("BEGINTIME" => $BEGINTIME, "ENDTIME" => $ENDTIME);
         $b_pattern="Date non consistenti";

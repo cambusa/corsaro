@@ -822,6 +822,12 @@ function qv_importODS(formid, settings, missing){
                                         break;
                                     default:
                                         value=_fittingvalue(copia[r][c]);
+                                        if(mapc[c].substr(mapc[c].length-4)=="TIME"){
+                                            var m=value.match(/\d+/g);
+                                            if(m.length==3){
+                                                value=strRight("00"+m[2],4)+strRight("00"+m[1],2)+strRight("0000"+m[0],2);
+                                            }
+                                        }
                                     }
                                     d[r][mapc[c]]=value;
                                     full=true;

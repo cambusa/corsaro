@@ -41,30 +41,18 @@ function x_sqlite_close($conn){
 function x_sqlite_query($conn, $sql){
     global $sqlite3_enabled;
 
-    if($sqlite3_enabled){
-        $res=$conn->query($sql);
-        if(is_object($res))
-            return $res;
-        else
-            return false;
-    }
-    else{
+    if($sqlite3_enabled)
+        return $conn->query($sql);
+    else
         return sqlite_query($conn, $sql, SQLITE_ASSOC);
-    }
 }
 function x_sqlite_unbuffered_query($conn, $sql){
     global $sqlite3_enabled;
 
-    if($sqlite3_enabled){
-        $res=$conn->query($sql);
-        if(is_object($res))
-            return $res;
-        else
-            return false;
-    }
-    else{
+    if($sqlite3_enabled)
+        return $conn->query($sql);
+    else
         return sqlite_unbuffered_query($conn, $sql, SQLITE_ASSOC);
-    }
 }
 function x_sqlite_fetch_array($res){
     global $sqlite3_enabled;
@@ -120,14 +108,6 @@ function x_sqlite_error_string($conn, $coderr){
         return $conn->lastErrorMsg();
     else
         return sqlite_error_string($coderr);
-}
-function x_sqlite_iserror($coderr){
-    global $sqlite3_enabled;
-
-    if($sqlite3_enabled)
-        return ($coderr!=0 && $coderr!=1);
-    else
-        return ($coderr!=0);
 }
 function x_sqlite_exec($conn, $sql){
     global $sqlite3_enabled;

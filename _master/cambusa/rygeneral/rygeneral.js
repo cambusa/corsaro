@@ -10,6 +10,7 @@
 ****************************************************************************/
 var _baseURL="/";
 var _cambusaURL="../../cambusa/";
+var _appsURL="../../apps/";
 var _customizeURL="../../customize/";
 var _tempenviron="temporary";
 var _temporaryURL=_customizeURL+"temporary/";

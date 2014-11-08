@@ -38,7 +38,7 @@ function qv_pratiche_inserters($maestro, $data){
         // DETERMINO IL PRIMO STATO VALIDO DEL PROCESSO
         $ATTORI="";
         $UFFICI="";
-        $sql=buildfirst($PROCESSOID, true);
+        $sql=buildfirst($maestro, $PROCESSOID, true);
         maestro_query($maestro, $sql, $r);
         for($i=0; $i<count($r); $i++){
             if($ATTORI!=""){

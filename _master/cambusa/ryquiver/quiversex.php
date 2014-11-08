@@ -247,7 +247,7 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
 function qv_validateenviron($maestro, $context){
     global $global_lastenvid;
     $ret=true;
-    if($context=="quiver"){
+    if($maestro->quiver){
         $envid=qv_setting($maestro, "_ENVIRONID", "######");
         if($envid=="######"){
             $sysid=qv_createsysid($maestro);
@@ -259,6 +259,7 @@ function qv_validateenviron($maestro, $context){
             maestro_execute($maestro, $sql, false);
         }
         elseif($envid!=$global_lastenvid){
+            writelog("Tentativo di accedere ad ambiente non consentito!");
             $ret=false;
         }
     }

@@ -58,7 +58,8 @@ $r=array();
 switch($env_provider){
 case "sqlite":
     $conn=x_sqlite_open($env_strconn);
-    if($res=x_sqlite_query($conn, $sql)){
+    $res=x_sqlite_query($conn, $sql);
+    if(!is_bool($res)){
         while($row=x_sqlite_fetch_array($res)){
             // RISOLVO I NULL
             foreach($row as $k => $v){

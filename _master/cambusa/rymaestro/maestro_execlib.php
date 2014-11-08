@@ -205,7 +205,9 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
         $sql=maestro_macro($maestro,$sql);
         switch($maestro->provider){
         case "sqlite":
-            if($res=@x_sqlite_query($maestro->conn, $sql)){
+            $res=false;
+            $res=@x_sqlite_query($maestro->conn, $sql);
+            if(!is_bool($res)){
                 while($row=x_sqlite_fetch_array($res)){
                     // RISOLVO I NULL
                     foreach($row as $k => $v){
@@ -216,13 +218,10 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
                 }
                 x_sqlite_finalize($res);
             }
-            else{
-                $coderr=x_sqlite_last_error($maestro->conn);
-                if(x_sqlite_iserror($coderr)){
-                    $ret=false;
-                    $maestro->errdescr=x_sqlite_error_string($maestro->conn, $coderr);
-                    log_write($sql.";\r\n--->" . $maestro->errdescr);
-                }
+            elseif($res==false){
+                $ret=false;
+                $maestro->errdescr=x_sqlite_error_string($maestro->conn, x_sqlite_last_error($maestro->conn));
+                log_write($sql.";\r\n--->" . $maestro->errdescr);
             }
             break;
         case "mysql":

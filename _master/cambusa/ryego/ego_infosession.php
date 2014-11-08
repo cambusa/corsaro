@@ -63,6 +63,11 @@ try{
     $admin=0;
     $email="";
     $dateformat=0;
+    
+    if($sqlite3_enabled)
+        $sqlite="3";
+    else
+        $sqlite="2";
 
     if(isset($_COOKIE['_egolanguage'])){
         $global_lastlanguage=$_COOKIE['_egolanguage'];
@@ -71,7 +76,7 @@ try{
     // APRO IL DATABASE
     $maestro=maestro_opendb("ryego");
     if($maestro->conn!==false){
-
+    
         $sql="SELECT SYSID,ALIASID,ENVIRONID,ROLEID,LANGUAGEID,COUNTRYCODE,DEBUGMODE,CLIENTIP FROM EGOSESSIONS WHERE SESSIONID='$sessionid' AND ENDTIME IS NULL AND [:DATE(RENEWALTIME, 1DAYS)]>[:TODAY()]";
         maestro_query($maestro, $sql, $r);
         if(count($r)==1){
@@ -203,6 +208,7 @@ if($success==0){
     $admin=0;
     $email="";
     $dateformat=0;
+    $sqlite="";
 }
 
 $description=qv_babeltranslate($description);
@@ -231,6 +237,7 @@ $j["user"]=htmlentities($user);
 $j["admin"]=$admin;
 $j["email"]=htmlentities($email);
 $j["dateformat"]=$dateformat;
+$j["sqlite"]=$sqlite;
 if($padding=="")
     print json_encode($j);
 else        // Gestione JSONP (JSON con padding) per le richieste "cross domain"

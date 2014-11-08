@@ -16,8 +16,12 @@ function maestro_unbuffered($maestro, $sql, $raise=true){
         $sql=maestro_macro($maestro, $sql);
         switch($maestro->provider){
         case "sqlite":
+            $res=false;
             $res=@x_sqlite_unbuffered_query($maestro->conn, $sql);
-            if($res===false){
+            if($res===true){
+                $res=false;
+            }
+            elseif($res==false){
                 $coderr=x_sqlite_last_error($maestro->conn);
                 if($coderr!=0){
                     $maestro->errdescr=x_sqlite_error_string($maestro->conn, $coderr);
