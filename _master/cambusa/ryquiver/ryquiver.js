@@ -1511,7 +1511,7 @@ function qv_idrequest(formid, settings, missing){
                     // Visualizzazione
                     if(single){
                         $("#"+propname+"_text").html("<span style='color:silver;font-style:italic;'>Caricamento...</span>");
-                        qv_queuehelper[propname]={"table":proptable, "sysid":propsysid, "select":propselect};
+                        qv_queuehelper[propname]={"table":proptable, "sysid":propsysid, "select":propselect, "assigned":a};
                         qv_queuehelpercall();
                     }
                     else{
@@ -1959,6 +1959,7 @@ function qv_queuehelpercall(){
         var table=qv_queuehelper[id]["table"];
         var sysid=qv_queuehelper[id]["sysid"];
         var select=qv_queuehelper[id]["select"];
+        var assigned=qv_queuehelper[id]["assigned"];
         var more="";
         delete qv_queuehelper[id];
         try{
@@ -1978,7 +1979,7 @@ function qv_queuehelpercall(){
                             }
                             $("#"+id+"_text").html(d[0]["DESCRIPTION"]);
                             if(globalobjs[id].onselect){
-                                globalobjs[id].onselect(globalobjs[id], d[0]);
+                                globalobjs[id].onselect(globalobjs[id], d[0], assigned);
                             }
                         }
                         else{

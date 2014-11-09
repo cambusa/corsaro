@@ -12,6 +12,7 @@ var RYEGO;
 function ryEgo(missing){
     var propappname="";
     var propcrossdomain="";
+    var propformlogin="ryego.php";
     var propconfig=function(){};
     this.appname=function(){
         return propappname;
@@ -19,12 +20,16 @@ function ryEgo(missing){
     this.crossdomain=function(){
         return propcrossdomain;
     }
+    this.formlogin=function(){
+        return propformlogin;
+    }
     this.config=function(v){
         propconfig(v);
     }
     this.go=function(settings){
         if(settings.appname!=missing){propappname=settings.appname}
         if(settings.crossdomain!=missing){propcrossdomain=settings.crossdomain}
+        if(settings.formlogin!=missing){propformlogin=settings.formlogin}
         if(settings.config!=missing){propconfig=settings.config}
         if(_sessionid!=""){
             if(propcrossdomain==""){
@@ -87,11 +92,11 @@ function egoconfig(v){
         var xdom=RYEGO.crossdomain();
         if(xdom==""){
             $("body").html("<form id='egologon' method='POST' action=''><input type='hidden' id='app' name='app'><input type='hidden' id='url' name='url'></form>");
-            $("#egologon").attr({action:_cambusaURL+"ryego/ryego.php"});
+            $("#egologon").attr({action:_cambusaURL+"ryego/"+RYEGO.formlogin()});
         }
         else{
             $("body").html("<form id='egologon' method='GET' action=''><input type='hidden' id='app' name='app'><input type='hidden' id='url' name='url'></form>");
-            $("#egologon").attr({action:xdom+"cambusa/ryego/ryego.php"});
+            $("#egologon").attr({action:xdom+"cambusa/ryego/"+RYEGO.formlogin()});
         }
         $("#app").val(RYEGO.appname());
         $("#url").val(location.href);

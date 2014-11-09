@@ -49,6 +49,7 @@
         <div relid="LB_TESSERA" babelcode="CARDNUMBER"></div><div relid="TESSERA"></div>
         <div relid="LB_EMAIL" babelcode="EMAIL"></div><div relid="EMAIL"></div>
         <div relid="LB_CONTODEFAULTID" babelcode="PEOPLE_DEFAULTACCOUNT"></div><div relid="CONTODEFAULTID"></div>
+        <div relid="LB_UTENTEID" babelcode="PEOPLE_UTENTE"></div><div relid="UTENTEID"></div>
 
         <div relid="LB_TAG" babelcode="TAGS"></div><div relid="TAG"></div>
         <div relid="LB_REGISTRY" babelcode="NOTES"></div><div relid="REGISTRY"></div>

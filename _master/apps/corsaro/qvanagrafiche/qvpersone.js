@@ -428,7 +428,7 @@ function class_qvpersone(settings,missing){
     offsety+=30;
 
     $(prefix+"LB_EMAIL").rylabel({left:20, top:offsety, caption:"Email"});
-    $(prefix+"EMAIL").rytext({left:120, top:offsety, width:300, maxlen:50, datum:"C", tag:"EMAIL"});
+    var tx_email=$(prefix+"EMAIL").rytext({left:120, top:offsety, width:300, maxlen:50, datum:"C", tag:"EMAIL"});
     offsety+=30;
     
     $(prefix+"LB_CONTODEFAULTID").rylabel({left:20, top:offsety, caption:"Conto predef."});
@@ -436,6 +436,20 @@ function class_qvpersone(settings,missing){
         left:120, top:offsety, width:300, datum:"C", tag:"CONTODEFAULTID", formid:formid, table:"QW_CONTI", title:"Scelta conto predefinito",
         open:function(o){
             o.where("SYSID IN (SELECT SYSID FROM QW_CONTI WHERE TITOLAREID='"+currsysid+"')");
+        }
+    });offsety+=30;
+    
+    $(prefix+"LB_UTENTEID").rylabel({left:20, top:offsety, caption:"Utente"});
+    $(prefix+"UTENTEID").ryhelper({
+        left:120, top:offsety, width:300, datum:"C", tag:"UTENTEID", formid:formid, table:"QWUSERS", title:"Scelta utente",
+        open:function(o){
+            o.where("");
+        },
+        select:"EMAIL",
+        onselect:function(o, d, a){
+            if(tx_email.value()=="" && a){
+                tx_email.value(d["EMAIL"]);
+            }
         }
     });offsety+=30;
     

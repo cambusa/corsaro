@@ -391,7 +391,10 @@ function maestro_versioning($maestro, $version){
             $jump=0;
             foreach($sql as $q){
                 // TRASFORMO LE ENTITÀ HTML E POI LE CODIFICO UTF8
-                $q=utf8_encode(html_entity_decode($q));
+                $h=html_entity_decode($q);
+                if($h!=$q){
+                    $q=utf8_encode($h);
+                }
                 if(maestro_querytype($maestro, $q)){
                     maestro_query($maestro, $q, $r, false);
                     if(isset($r[0]["JUMPVALUE"]))

@@ -19,6 +19,7 @@
 <div id="lblanguage" babelcode="EGO_SET_LANGUAGE"></div><div id="lstlanguage"></div>
 <div id="lbcountry" babelcode="EGO_SET_COUNTRY"></div><div id="lstcountry"></div>
 <div id="lbdebugmode" babelcode="EGO_SET_MODE"></div><div id="lstdebugmode"></div>
+<div id="lbemail" babelcode="EGO_SET_EMAIL"></div><div id="txemail"></div>
 </div>
 
 <div class="toolfunction" id="changepassword">

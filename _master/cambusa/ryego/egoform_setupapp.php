@@ -27,23 +27,6 @@ var lastlanguageid="";
 var lastcountrycode="";
 var lastdebugmode=false;
 
-var cc=[];
-<?php
-    $tr=array("'" => "&acute;");
-    // APERTURA DATABASE GEOGRAPHY
-    $maestro=maestro_opendb("rygeography");
-
-    if($maestro->conn!==false){
-        maestro_query($maestro,"SELECT DESCRIPTION,ALFATRE FROM GEONAZIONI ORDER BY DESCRIPTION", $r);
-        for($i=0;$i<count($r);$i++){
-            print "cc['".$r[$i]["ALFATRE"]."']='". strtr( $r[$i]["DESCRIPTION"], $tr) . "';";
-        }
-    }
-
-    // CHIUSURA DATABASE
-    maestro_closedb($maestro);
-?>
-
 var objcurrpwd;
 var objnewpwd;
 var objrepeatpwd;
@@ -102,10 +85,11 @@ function config(missing){
     activation('settings');
     
     // INIZIO FORM OPZIONI
-    $("#lbenviron").rylabel({left:20, top:70, caption:"Ambiente"});
+    var offsety=70;
+    $("#lbenviron").rylabel({left:20, top:offsety, caption:"Ambiente"});
     lstenviron=$("#lstenviron").rylist({
         left:180,
-        top:70,
+        top:offsety,
 		assigned:function(obj){
             syswaiting();
             $.post(_cambusaURL+"ryego/egoaction_last.php", 
@@ -123,10 +107,12 @@ function config(missing){
             );
 		}
     });
-    $("#lbrole").rylabel({left:20, top:100, caption:"Ruolo"});
+
+    offsety+=25;
+    $("#lbrole").rylabel({left:20, top:offsety, caption:"Ruolo"});
     lstrole=$("#lstrole").rylist({
         left:180,
-        top:100,
+        top:offsety,
 		assigned:function(obj){
             syswaiting();
             $.post(_cambusaURL+"ryego/egoaction_last.php", 
@@ -144,10 +130,12 @@ function config(missing){
             );
 		}
     });
-    $("#lblanguage").rylabel({left:20, top:130, caption:"Lingua"});
+    
+    offsety+=25;
+    $("#lblanguage").rylabel({left:20, top:offsety, caption:"Lingua"});
     lstlanguage=$("#lstlanguage").rylist({
         left:180,
-        top:130,
+        top:offsety,
 		assigned:function(obj){
             syswaiting();
             $.post(_cambusaURL+"ryego/egoaction_last.php", 
@@ -171,10 +159,12 @@ function config(missing){
             );
 		}
     });
-    $("#lbcountry").rylabel({left:20, top:160, caption:"Paese"});
+    
+    offsety+=25;
+    $("#lbcountry").rylabel({left:20, top:offsety, caption:"Paese"});
     lstcountry=$("#lstcountry").rylist({
         left:180,
-        top:160,
+        top:offsety,
 		assigned:function(obj){
             syswaiting();
             $.post(_cambusaURL+"ryego/egoaction_last.php", 
@@ -192,14 +182,39 @@ function config(missing){
             );
 		}
     });
-    $("#lbdebugmode").rylabel({left:20, top:190, caption:"Modalit&agrave;"});
+    
+    offsety+=25;
+    $("#lbdebugmode").rylabel({left:20, top:offsety, caption:"Modalit&agrave;"});
     lstdebugmode=$("#lstdebugmode").rylist({
         left:180,
-        top:190,
+        top:offsety,
 		assigned:function(obj){
             syswaiting();
             $.post(_cambusaURL+"ryego/egoaction_last.php", 
                 {"sessionid":_sessionid,"appid":_appid,"aliasid":_aliasid,"debugmode":obj.key(obj.value())}, 
+                function(d){
+                    try{
+                        var v=$.parseJSON(d);
+                        sysmessage(v.description, v.success);
+                    }
+                    catch(e){
+                        sysmessagehide();
+                        alert(d);
+                    }
+                }
+            );
+		}
+    });
+    
+    offsety+=25;
+    $("#lbemail").rylabel({left:20, top:offsety, caption:"Email"});
+    txemail=$("#txemail").rytext({
+        left:180,
+        top:offsety,
+		assigned:function(obj){
+            syswaiting();
+            $.post(_cambusaURL+"ryego/egoaction_last.php", 
+                {"sessionid":_sessionid,"appid":_appid,"aliasid":_aliasid,"email":obj.value()}, 
                 function(d){
                     try{
                         var v=$.parseJSON(d);
@@ -301,17 +316,20 @@ function config(missing){
         flat:true,
         enabled:(_expiry<2),
         click:function(o){
-            RYQUE.dispose(
-                function(){
+            //RYQUE.dispose(
+            //    function(){
                     $("body").html("<form id='nextaction' method='<?php  print $egomethod ?>' action=''></form>");
                     $("#nextaction").append("<input type='hidden' id='sessionid' name='sessionid'>");
                     $("#nextaction").attr({action:"<?php print $returnurl ?>"});
                     $("#sessionid").val(_sessionid);
                     $("#nextaction").submit();
-                }
-            );
+            //    }
+            //);
         }
     });
+    if(_returnURL==""){
+        objgo.visible(0);
+    }
 	
 	// FINE AZIONI
     // FINE FORM PASSWORD
@@ -337,90 +355,96 @@ function postlocalize(){
 }
 // CARICAMENTO MASCHERA
 function loading(missing){
-    RYQUE.request({
-        environ:"ryego",
-        ready:function(id){
-            // Reperisco ambiente, ruolo e lingua di setup
-            RYQUE.query({
-                sql:"SELECT ENVIRONID,ROLEID,LANGUAGEID,COUNTRYCODE,DEBUGMODE FROM EGOSETUP WHERE APPID='"+_appid+"' AND ALIASID='"+_aliasid+"'",
-                ready:function(v){
-                    lastenvironid=v[0].ENVIRONID;
-                    lastroleid=v[0].ROLEID;
-                    lastlanguageid=v[0].LANGUAGEID;
-                    lastcountrycode=v[0].COUNTRYCODE;
-                    lastdebugmode=v[0].DEBUGMODE;
-                    // Precarico le liste ambienti, ruoli e lingue
-                    RYQUE.query({   // ambienti
-                        sql:"SELECT DESCRIPTION,ENVIRONID FROM EGOVIEWENVIRONUSER WHERE APPID='"+_appid+"' AND USERID='"+_userid+"'",
-                        ready:function(v){
-                            lstenviron.additem({caption:"", key:""});
-                            for(var i in v){
-                                lstenviron.additem({caption:v[i].DESCRIPTION, key:v[i].ENVIRONID});
-                            }
-                            lstenviron.setkey(lastenvironid);
-                            RYQUE.query({   // ruoli
-                                sql:"SELECT DESCRIPTION,ROLEID FROM EGOVIEWROLEUSER WHERE APPID='"+_appid+"' AND USERID='"+_userid+"'",
-                                ready:function(v){
-                                    lstrole.additem({caption:"", key:""});
-                                    for(var i in v){
-                                        lstrole.additem({caption:v[i].DESCRIPTION, key:v[i].ROLEID});
-                                    }
-                                    lstrole.setkey(lastroleid);
-                                    RYQUE.query({   // lingue
-                                        sql:"SELECT * FROM EGOLANGUAGES",
-                                        ready:function(v){
-                                            lstlanguage.additem({caption:"", key:"", tag:"default"});
-                                            for(var i in v){
-                                                lstlanguage.additem({caption:v[i].DESCRIPTION, key:v[i].SYSID, tag:v[i].NAME});
-                                            }
-                                            lstlanguage.setkey(lastlanguageid);
-                                            // country code
-                                            lstcountry.additem({caption:"", key:""});
-                                            for(var i in cc){
-                                                lstcountry.additem({caption:cc[i], key:i});
-                                            }
-                                            lstcountry.setkey(lastcountrycode);
-                                            // debug mode
-                                            lstdebugmode.additem({caption:"", key:""});
-                                            lstdebugmode.additem({caption:"Normale", key:"0"});
-                                            lstdebugmode.additem({caption:"Debugging", key:"1"});
-                                            lstdebugmode.setkey(lastdebugmode);
-                                            // localizzazione form
-                                            RYBOX.localize(lstlanguage.gettag(lstlanguage.value()), missing,
-                                                function(){
-                                                    postlocalize();
-                                                    switch(_expiry){
-                                                        case 1:
-                                                            activation('changepassword');
-                                                            sysmessage(RYBOX.getbabel("lbexpiringpwd"), 0);
-                                                            break;
-                                                        case 2:
-                                                            activation('changepassword');
-                                                            sysmessage(RYBOX.getbabel("lbexpiredpwd"), 0)
-                                                            break;
-                                                    }
-                                                }
-                                            );
-                                        }
-                                    });
-                                    if(_expiry==0)
-                                        sysmessagehide();
-                                }
-                            });
-                        }
-                    });
+    $.post(_cambusaURL+"ryego/ego_infosetup.php", 
+        {
+            sessionid:_sessionid,
+            appid:_appid,
+            aliasid:_aliasid
+        }, 
+        function(d){
+            try{
+                var x, v=$.parseJSON(d);
+                
+                // SETUP
+                lastenvironid=v["lastenvironid"];
+                lastroleid=v["lastroleid"];
+                lastlanguageid=v["lastlanguageid"];
+                lastcountrycode=v["lastcountrycode"];
+                lastdebugmode=v["lastdebugmode"].toString();
+
+                // LISTA AMBIENTI
+                x=v["lstenviron"];
+                lstenviron.additem({caption:"", key:""});
+                for(var i in x){
+                    lstenviron.additem({caption:x[i]["caption"], key:x[i]["key"]});
                 }
-            });
+                lstenviron.setkey(lastenvironid);
+                
+                // LISTA RUOLI
+                x=v["lstrole"];
+                lstrole.additem({caption:"", key:""});
+                for(var i in x){
+                    lstrole.additem({caption:x[i]["caption"], key:x[i]["key"]});
+                }
+                lstrole.setkey(lastroleid);
+                
+                // LISTA LINGUE
+                x=v["lstlanguage"];
+                lstlanguage.additem({caption:"", key:"", tag:"default"});
+                for(var i in x){
+                    lstlanguage.additem({caption:x[i]["caption"], key:x[i]["key"], tag:x[i]["tag"]});
+                }
+                lstlanguage.setkey(lastlanguageid);
+                
+                // LISTA COUNTRY CODE
+                x=v["lstcc"];
+                lstcountry.additem({caption:"", key:""});
+                for(var i in x){
+                    lstcountry.additem({caption:x[i]["caption"], key:x[i]["key"]});
+                }
+                lstcountry.setkey(lastcountrycode);
+                
+                // LISTA DEBUG MODE
+                lstdebugmode.additem({caption:"", key:""});
+                lstdebugmode.additem({caption:"Normale", key:"0"});
+                lstdebugmode.additem({caption:"Debugging", key:"1"});
+                lstdebugmode.setkey(lastdebugmode);
+                
+                // EMAIL
+                txemail.value(v["email"]);
+                
+                // ELEMINO L'ATTESA
+                if(_expiry==0)
+                    sysmessagehide();
+                
+                // LOCALIZZAZIONE FORM
+                RYBOX.localize(lstlanguage.gettag(lstlanguage.value()), missing,
+                    function(){
+                        postlocalize();
+                        switch(_expiry){
+                            case 1:
+                                activation('changepassword');
+                                sysmessage(RYBOX.getbabel("lbexpiringpwd"), 0);
+                                break;
+                            case 2:
+                                activation('changepassword');
+                                sysmessage(RYBOX.getbabel("lbexpiredpwd"), 0)
+                                break;
+                        }
+                    }
+                );
+            }
+            catch(e){
+                alert(d);
+            }
         }
-    });
+    );
 }
 function egoterminate(lout){
     try{
-        RYQUE.dispose(
-            function(){
-                if(lout){logout()}
-            }
-        );
+        if(lout){
+            logout()
+        }
     }
     catch(e){}
 }

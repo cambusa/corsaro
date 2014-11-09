@@ -64,6 +64,12 @@ try{
     else
         $debugmode=-1;
 
+    // DETERMINO L'EMAIL
+    if(isset($_POST["email"]))
+        $email=$_POST["email"];
+    else
+        $email="";
+
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Le nuove impostazioni sono state registrate";
@@ -133,6 +139,10 @@ try{
                 
                 // AGGIORNO LA SESSIONE
                 $sql="UPDATE EGOSESSIONS SET DEBUGMODE='".$debugmode."' WHERE SESSIONID='".$sessionid."'";
+                maestro_execute($maestro, $sql);
+            }
+            if($email!=""){
+                $sql="UPDATE EGOALIASES SET EMAIL='$email' WHERE SYSID='$aliasid'";
                 maestro_execute($maestro, $sql);
             }
         }
