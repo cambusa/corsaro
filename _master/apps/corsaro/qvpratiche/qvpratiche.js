@@ -548,7 +548,7 @@ function class_qvpratiche(settings,missing){
     offsety+=30;
     
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    var txdescr=$(prefix+"DESCRIPTION").rytext({left:110, top:offsety, width:510, maxlen:100, datum:"C", tag:"DESCRIPTION"});
+    var txdescr=$(prefix+"DESCRIPTION").rytext({left:110, top:offsety, width:510, maxlen:200, datum:"C", tag:"DESCRIPTION"});
     var savey=offsety;
     offsety+=30;
 

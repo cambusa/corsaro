@@ -398,7 +398,7 @@ function class_qvtrasferimenti(settings,missing){
     offsetx=340;
     offsety=60;
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:300, maxlen:100, datum:"C", tag:"DESCRIPTION"});
+    var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:300, maxlen:200, datum:"C", tag:"DESCRIPTION"});
     offsety+=50;
 
     $(prefix+"LB_BOW").rylabel({left:120, top:offsety, caption:"<b>Partenza</b>"});

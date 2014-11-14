@@ -226,7 +226,21 @@
             "ENDTIME":{"type":"TIMESTAMP"}
         }
     },
-    "EGOVIEWSESSIONS":{
+    "EGOREGISTRATIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "EMAIL":{"type":"VARCHAR", "size":50},
+            "APPID":{"type":"SYSID"},
+            "ENVID":{"type":"SYSID"},
+            "ROLEID":{"type":"SYSID"},
+            "REGISTRY":{"type":"JSON"},
+            "REQUESTID":{"type":"VARCHAR", "size":24},
+            "REQUESTIP":{"type":"VARCHAR", "size":30},
+            "REQUESTTIME":{"type":"TIMESTAMP"}
+       }
+    },
+   "EGOVIEWSESSIONS":{
         "type":"view",
         "script":"@maestro/cambusa/ego_sessions.sql"
     },

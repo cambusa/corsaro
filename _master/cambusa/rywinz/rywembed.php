@@ -9,6 +9,20 @@
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+if(isset($_POST["sessionid"])){
+    $sessionid=$_POST["sessionid"];
+    setcookie("egosessionid", $sessionid, time()+24*60*60);
+}
+elseif(isset($_GET["sessionid"])){
+    $sessionid=$_GET["sessionid"];
+    setcookie("egosessionid", $sessionid, time()+24*60*60);
+}
+else{
+    if(isset($_COOKIE["egosessionid"]))
+        $sessionid=$_COOKIE["egosessionid"];
+    else
+        $sessionid="";
+}
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -26,13 +40,6 @@ CambusaLibrary("ryDraw");
 if(is_file($winz_loadmodules)){
     include_once $winz_loadmodules;
 }
-
-if(isset($_POST["sessionid"]))
-    $sessionid=$_POST["sessionid"];
-elseif(isset($_GET["sessionid"]))
-    $sessionid=$_GET["sessionid"];
-else
-    $sessionid="";
 
 ?>
 <!--[if lt IE 9]>
@@ -105,9 +112,15 @@ function winz_logout(){
 }
 </script>
 </head>
-<body spellcheck="false" onunload="winz_logout()">
+<body spellcheck="false">
 
+<div style="position:absolute;top:0px;left:0px;right:0px;height:12px;padding-right:5px;font-size:10px;text-align:right;background:black;">
+<a href="javascript:winz_logout()" style="color:#F9F9F9;cursor:pointer;">Logout</a>
+</div>
+
+<div style="position:absolute;top:12px;left:0px;right:0px;bottom:0px;">
 <div id="desktop"></div>
+</div>
 
 <div id="winz-dialog"></div>
 <div id="winz-printing"></div>

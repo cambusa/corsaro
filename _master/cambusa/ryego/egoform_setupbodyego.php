@@ -43,6 +43,7 @@
 <div id="lbusr_action_reset" babelcode="EGO_USR_RESET"></div>
 <div id="lbusr_action_activate" babelcode="EGO_USR_ACTIVATE"></div>
 <div id="lbusr_action_deletealias" babelcode="EGO_USR_DELETEALIAS"></div>
+<div id="lbusr_action_deleteuser" babelcode="EGO_USR_DELETEUSER"></div>
 <div id="lbusr_action_deleteall" babelcode="EGO_USR_DELETEALL"></div>
 </div>
 
@@ -154,6 +155,7 @@
 <div id="lbconfirmdelsessions" babelcode="EGO_CONFIRMDELSESSIONS"></div>
 <div id="lbconfirmresetpwd" babelcode="EGO_CONFIRMRESETPWD"></div>
 <div id="lbconfirmdelalias" babelcode="EGO_CONFIRMDELALIAS"></div>
+<div id="lbconfirmdeluser" babelcode="EGO_CONFIRMDELUSER"></div>
 <div id="lbconfirmdelusers" babelcode="EGO_CONFIRMDELUSERS"></div>
 <div id="lbconfirmdelapp" babelcode="EGO_CONFIRMDELAPP"></div>
 <div id="lbconfirmdelenviron" babelcode="EGO_CONFIRMDELENVIRON"></div>

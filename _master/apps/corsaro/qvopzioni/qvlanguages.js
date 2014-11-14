@@ -229,11 +229,11 @@ function class_qvlanguages(settings,missing){
     
     offsety+=30;
     $(prefix+"LB_LANGFROM").rylabel({left:20, top:offsety, caption:Languagefrom});
-    var txita=$(prefix+"LANGFROM").rytext({left:100, top:offsety, width:700});
+    var txita=$(prefix+"LANGFROM").rytext({left:100, top:offsety, width:700, maxlen:1000});
     
     offsety+=30;
     $(prefix+"LB_LANGTO").rylabel({left:20, top:offsety, caption:Languageto});
-    var txeng=$(prefix+"LANGTO").rytext({left:100, top:offsety, width:700});
+    var txeng=$(prefix+"LANGTO").rytext({left:100, top:offsety, width:700, maxlen:1000});
 
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({

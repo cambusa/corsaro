@@ -26,6 +26,22 @@ function appvalidatearrow(
     case "0MOVIMENTI00":
         $data["TRIGGERSTATOID"]=qv_actualvalue($data, $prevdata, "STATOID");
         break;
+    case "0ACCREDITI00":
+        if($oper<=1){
+            // DESCRIZIONE, DATA INIZIO
+            $TARGETID=qv_actualvalue($data, $prevdata, "TARGETID");
+            $CORSOID=qv_actualvalue($data, $prevdata, "CORSOID");
+            $DESCRIPTION=qv_actualvalue($data, $prevdata, "DESCRIPTION");
+            $BOWTIME="[:DATE(".qv_strtime(qv_actualvalue($data, $prevdata, "BOWTIME")).")]";
+            
+            $where="TARGETID='$TARGETID' AND ((DESCRIPTION='$DESCRIPTION' AND BOWTIME=$BOWTIME) OR (CORSOID<>'' AND CORSOID='$CORSOID'))";
+            if(!qv_uniquity($maestro, "QW_ACCREDITI", $SYSID, $where)){
+                $babelcode="QVUSER_NOTUNIQUE";
+                $failure="Corso già presente in anagrafica";
+                $ret=0;
+            }
+        }
+        break;
     }
     return $ret;
 }

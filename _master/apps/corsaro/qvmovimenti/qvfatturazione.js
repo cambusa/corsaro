@@ -320,7 +320,7 @@ function class_qvfatturazione(settings,missing){
 
     offsety+=30;
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    var tx_descr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:400, maxlen:100, datum:"C", tag:"DESCRIPTION"});
+    var tx_descr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:400, maxlen:200, datum:"C", tag:"DESCRIPTION"});
 
     offsety+=30;
     $(prefix+"LB_DATAINIZIO").rylabel({left:20, top:offsety, caption:"Registrazione"});

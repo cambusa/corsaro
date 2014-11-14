@@ -37,12 +37,16 @@ function ryEgo(missing){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            if(v.success)
+                            if(v.success){
                                 egoconfig(v);
-                            else
+                            }
+                            else{
+                                $.cookie("egosessionid", "");
                                 location.replace(location.pathname);
+                            }
                         }
                         catch(e){
+                            $.cookie("egosessionid", "");
                             location.replace(location.pathname);
                         }
                     }
@@ -58,6 +62,7 @@ function ryEgo(missing){
     
     }
     this.logout=function(){
+        $.cookie("egosessionid", "");
         if(_sessionid!=""){
             if(propcrossdomain==""){
                 $.post(_cambusaURL+"ryego/ego_logout.php", {sessionid:_sessionid}, function(){
@@ -78,12 +83,16 @@ function ryEgo(missing){
 }
 function validatesession(v){
     try{
-        if(v.success)
+        if(v.success){
             egoconfig(v);
-        else
+        }
+        else{
+            $.cookie("egosessionid", "");
             location.replace(location.pathname);
+        }
     }
     catch(e){
+        $.cookie("egosessionid", "");
         location.replace(location.pathname);
     }
 }

@@ -131,7 +131,7 @@ function class_qvsettings(settings,missing){
     $(prefix+"LB_NAME").rylabel({left:430, top:offsety, caption:"Nome"});
     $(prefix+"NAME").rytext({left:510, top:offsety, width:220, datum:"C", tag:"NAME"});offsety+=30;
     $(prefix+"LB_DESCRIPTION").rylabel({left:430, top:offsety, caption:"Descrizione"});
-    $(prefix+"DESCRIPTION").rytext({left:510, top:offsety, width:220, maxlen:100, datum:"C", tag:"DESCRIPTION"});offsety+=30;
+    $(prefix+"DESCRIPTION").rytext({left:510, top:offsety, width:220, maxlen:200, datum:"C", tag:"DESCRIPTION"});offsety+=30;
     $(prefix+"LB_DATAVALUE").rylabel({left:430, top:offsety, caption:"Valore"});
     $(prefix+"DATAVALUE").rytext({left:510, top:offsety, width:220, datum:"C", tag:"DATAVALUE"});offsety+=30;
     $(prefix+"LB_DATATYPE").rylabel({left:430, top:offsety, caption:"Tipo"});

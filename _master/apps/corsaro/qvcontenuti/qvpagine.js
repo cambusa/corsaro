@@ -278,7 +278,7 @@ function class_qvpagine(settings,missing){
     
     offsety+=30;
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Titolo"});
-    var txdescr=$(prefix+"DESCRIPTION").rytext({left:90, top:offsety, width:350, maxlen:100, datum:"C", tag:"DESCRIPTION"});
+    var txdescr=$(prefix+"DESCRIPTION").rytext({left:90, top:offsety, width:350, maxlen:200, datum:"C", tag:"DESCRIPTION"});
 
     offsety+=30;
     $(prefix+"LB_ABSTRACT").rylabel({left:20, top:offsety, caption:"Abstract"});offsety+=24;

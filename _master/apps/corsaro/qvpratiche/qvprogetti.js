@@ -191,7 +191,7 @@ function class_qvprogetti(settings,missing){
     offsety=60;
     
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    var txdescr=$(prefix+"DESCRIPTION").rytext({left:110, top:offsety, width:310, maxlen:100, datum:"C", tag:"DESCRIPTION"});
+    var txdescr=$(prefix+"DESCRIPTION").rytext({left:110, top:offsety, width:310, maxlen:200, datum:"C", tag:"DESCRIPTION"});
     offsety+=30;
 
     /*

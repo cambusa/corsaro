@@ -11,7 +11,6 @@
 ****************************************************************************/
 ?>
 <script>
-_sessionid="<?php print $sessionid ?>";
 var _aliasid="<?php print $aliasid ?>";
 var flaginit=true;
 var objgridusers;
@@ -144,6 +143,7 @@ function config(missing){
     $("#lbconfirmdelsessions").rylabel({caption:"Eliminare tutte le sessioni scadute?"});
     $("#lbconfirmresetpwd").rylabel({caption:"Ripristinare la password predefinita per l'utente selezionato?"});
     $("#lbconfirmdelalias").rylabel({caption:"Eliminare l'alias selezionato?"});
+    $("#lbconfirmdeluser").rylabel({caption:"Eliminare l'utente selezionato?"});
     $("#lbconfirmdelusers").rylabel({caption:"Eliminare tutti gli utenti disattivati?"});
     $("#lbconfirmdelapp").rylabel({caption:"Eliminare l'applicazione selezionata?"});
     $("#lbconfirmdelenviron").rylabel({caption:"Eliminare l'ambiente selezionato?"});
@@ -653,9 +653,40 @@ function config(missing){
             }
         }
     });
-    $("#lbusr_action_deleteall").rylabel({
+    $("#lbusr_action_deleteuser").rylabel({
         left:420,
         top:366,
+        caption:"Elimina utente",
+        button:true,
+        flat:true,
+        click:function(o){
+            if(confirm(RYBOX.getbabel("lbconfirmdeluser"))){
+                syswaiting();
+                $.post(_cambusaURL+"ryego/egoaction_users.php", 
+                    {
+                        action:"deleteuser",
+                        sessionid:_sessionid,
+                        alias:_ajaxescapize(curralias)
+                    }, 
+                    function(d){
+                        try{
+                            var v=$.parseJSON(d);
+                            sysmessage(v.description, v.success);
+                            if(v.success)
+                                objusr_refresh.engage();
+                        }
+                        catch(e){
+                            sysmessagehide();
+                            alert(d);
+                        }
+                    }
+                );
+            }
+        }
+    });
+    $("#lbusr_action_deleteall").rylabel({
+        left:420,
+        top:386,
         caption:"Elimina tutti i disattivati",
         button:true,
         flat:true,

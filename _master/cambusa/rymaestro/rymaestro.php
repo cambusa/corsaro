@@ -60,6 +60,7 @@ a.disabled{text-decoration:none;color:gray;cursor:default;}
 </style>
 
 <script type='text/javascript' src="../jquery/jquery.js"></script>
+<script type='text/javascript' src='../jquery/jquery.cookie.js' ></script>
 <script type='text/javascript' src='../rygeneral/rygeneral.js' ></script>
 <script type='text/javascript' src='../ryego/ryego.js' ></script>
 

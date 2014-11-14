@@ -25,7 +25,10 @@ function ods2array(&$rows, $ods, $sheet=1){
         $buffer=$TBS->Source;
 
         // PRENDO SOLO IL PRIMO FOGLIO
-        preg_match("@<table:table.+?</table:table>@", $buffer, $m);
+        if(floatval(phpversion())>=5.3)
+            preg_match("@<table:table[^\\x01]+?</table:table>@", $buffer, $m);
+        else
+            preg_match("@<table:table[^\\x01]+</table:table>@", $buffer, $m);
         $buffer=$m[0];
         
         // INDIVIDUO RIGHE E COLONNE

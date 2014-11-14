@@ -204,7 +204,7 @@ function class_qvgenres(settings,missing){
 
     offsety+=30;
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:300, maxlen:100, datum:"C", tag:"DESCRIPTION"});
+    var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:300, maxlen:200, datum:"C", tag:"DESCRIPTION"});
     
     offsety+=30;
     $(prefix+"LB_BREVITY").rylabel({left:20, top:offsety, caption:"Sigla"});

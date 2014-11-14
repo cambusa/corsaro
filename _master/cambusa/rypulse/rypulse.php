@@ -68,6 +68,7 @@ a{text-decoration:none;color:maroon;}
 <script type='text/javascript' src='../jquery/jquery.ui.mouse.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
+<script type='text/javascript' src='../jquery/jquery.cookie.js' ></script>
 <script type='text/javascript' src='../rygeneral/rygeneral.js' ></script>
 <script type='text/javascript' src='../ryego/ryego.js' ></script>
 <script type='text/javascript' src='../rybox/rybox.js' ></script>

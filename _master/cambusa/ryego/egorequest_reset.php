@@ -28,7 +28,7 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Richiesta inoltrata: controllare la casella di posta";
-    $babelcode="EGO_MSG_REQSUCCESSFUL";
+    $babel="EGO_MSG_REQSUCCESSFUL"; // NON USO SUBITO $babelcode PERCHE' VERREBBE SOVRASCRITTO NELL'INVIO DELL'EMAIL
     
     if(isset($_COOKIE['_egolanguage'])){
         $global_lastlanguage=$_COOKIE['_egolanguage'];
@@ -78,44 +78,44 @@ try{
                             if(!maestro_execute($maestro, $sql, false)){
                                 $success=0;
                                 $description=$maestro->errdescr;
-                                $babelcode="EGO_MSG_UNDEFINED";
+                                $babel="EGO_MSG_UNDEFINED";
                             }
                         }
                         else{
                             $success=0;
                             $description="Sending email failed:".$m["description"];
-                            $babelcode="EGO_MSG_UNDEFINED";
+                            $babel=$babelcode;
                         }
                     }
                     else{
                         $success=0;
                         $description="Una richiesta è già stata inoltrata";
-                        $babelcode="EGO_MSG_ALREADYSENT";
+                        $babel="EGO_MSG_ALREADYSENT";
                     }
                 }
                 else{
                     $success=0;
                     $description="Utente disattivato";
-                    $babelcode="EGO_MSG_DISABLEDUSER";
+                    $babel="EGO_MSG_DISABLEDUSER";
                 }
             }
             else{
                 $success=0;
                 $description="Utente/email inesistente";
-                $babelcode="EGO_MSG_NOUSEROREMAIL";
+                $babel="EGO_MSG_NOUSEROREMAIL";
             }
         }
         else{
             $success=0;
             $description="Specificare un nome utente o alias";
-            $babelcode="EGO_MSG_MANDATORYUSERALIAS";
+            $babel="EGO_MSG_MANDATORYUSERALIAS";
         }
     }
     else{
         // CONNESSIONE FALLITA
         $success=0;
         $description=$maestro->errdescr;
-        $babelcode="EGO_MSG_UNDEFINED";
+        $babel="EGO_MSG_UNDEFINED";
     }
     
     // CHIUDO IL DATABASE
@@ -124,9 +124,10 @@ try{
 catch(Exception $e){
     $success=0;
     $description=$e->getMessage();
-    $babelcode="EGO_MSG_UNDEFINED";
+    $babel="EGO_MSG_UNDEFINED";
 }
 
+$babelcode=$babel;
 $description=qv_babeltranslate($description);
 
 // USCITA JSON

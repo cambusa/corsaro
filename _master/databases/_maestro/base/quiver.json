@@ -22,7 +22,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "DATATYPE":{"type":"VARCHAR", "size":10},
             "DATAVALUE":{"type":"VARCHAR", "size":250},
             "TAG":{"type":"VARCHAR", "size":200}
@@ -44,7 +44,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100,"notnull":1},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200,"notnull":1},
             "VIEWNAME":{"type":"VARCHAR", "size":50},
             "TABLENAME":{"type":"VARCHAR", "size":50},
             "DELETABLE":{"type":"BOOLEAN"},
@@ -71,7 +71,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "BREVITY":{"type":"VARCHAR", "size":10},
             "REGISTRY":{"type":"TEXT"},
             "ROUNDING":{"type":"INTEGER"},
@@ -100,7 +100,8 @@
                     "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEDAYS000)], '_TIMEDAYS', 'Giorni', 'DAYS', 0, [:SYSID(0TIME0000000)], '', 0)",
                     "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEWEEKS00)], '_TIMEWEEKS', 'Settimane', 'WEEKS', 0, [:SYSID(0TIME0000000)], '', 0)",
                     "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEMONTHS0)], '_TIMEMONTHS', 'Mesi', 'MONTHS', 0, [:SYSID(0TIME0000000)], '', 0)",
-                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEYEARS00)], '_TIMEYEARS', 'Anni', 'YEARS', 0, [:SYSID(0TIME0000000)], '', 0)"
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0TIMEYEARS00)], '_TIMEYEARS', 'Anni', 'YEARS', 0, [:SYSID(0TIME0000000)], '', 0)",
+                    "INSERT INTO QVGENRES(SYSID,NAME,DESCRIPTION,BREVITY,ROUNDING,TYPOLOGYID,TAG,DELETED) VALUES([:SYSID(0CREDITS0000)], '_CREDITS', 'Crediti', 'CF', 0, [:SYSID(0PURENUMBER0)], '', 0)"
                 ]
             }
         ]
@@ -122,7 +123,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "GENRETYPEID":{"type":"SYSID", "ref":"QVGENRETYPES"},
             "QUIVERTYPEID":{"type":"SYSID", "ref":"QVQUIVERTYPES"},
             "TIMEUNIT":{"type":"VARCHAR", "size":1},
@@ -140,7 +141,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "REGISTRY":{"type":"TEXT"},
             "TYPOLOGYID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
             "REFGENREID":{"type":"SYSID", "ref":"QVGENRES"},
@@ -207,7 +208,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "OBJECTTYPEID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
             "VIEWNAME":{"type":"VARCHAR", "size":50},
             "TABLENAME":{"type":"VARCHAR", "size":50},
@@ -223,7 +224,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "REGISTRY":{"type":"TEXT"},
             "TYPOLOGYID":{"type":"SYSID", "ref":"QVMOTIVETYPES"},
             "DIRECTION":{"type":"INTEGER"},
@@ -273,7 +274,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "GENRETYPEID":{"type":"SYSID", "ref":"QVGENRETYPES"},
             "MOTIVETYPEID":{"type":"SYSID", "ref":"QVMOTIVETYPES"},
             "BOWTYPEID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
@@ -292,7 +293,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "REGISTRY":{"type":"TEXT"},
             "BOWID":{"type":"SYSID", "ref":"QVOBJECTS"},
             "BOWTIME":{"type":"TIMESTAMP"},
@@ -383,7 +384,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":20, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "GENRETYPEID":{"type":"SYSID", "ref":"QVGENRETYPES"},
             "OBJECTTYPEID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},
             "MOTIVETYPEID":{"type":"SYSID", "ref":"QVMOTIVETYPES"},
@@ -403,7 +404,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "REGISTRY":{"type":"TEXT"},
             "AUXTIME":{"type":"TIMESTAMP"},
             "AUXAMOUNT":{"type":"RATIONAL"},
@@ -480,7 +481,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "RECORDID":{"type":"SYSID"},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "RECORDTIME":{"type":"TIMESTAMP"},
             "TABLEBASE":{"type":"VARCHAR", "size":20},
             "TYPOLOGYID":{"type":"SYSID"},
@@ -496,7 +497,7 @@
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
             "NAME":{"type":"VARCHAR", "size":50, "unique":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "REGISTRY":{"type":"TEXT"},
             "AUXTIME":{"type":"TIMESTAMP"},
             "SUBPATH":{"type":"VARCHAR", "size":100},
@@ -598,7 +599,7 @@
         "type":"database",
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
-            "DESCRIPTION":{"type":"VARCHAR", "size":100},
+            "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "REGISTRY":{"type":"TEXT"},
             "SENDERID":{"type":"SYSID", "ref":"QVUSERS"},
             "RECEIVERID":{"type":"SYSID", "ref":"QVUSERS"},

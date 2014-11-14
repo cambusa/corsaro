@@ -15,7 +15,7 @@ include_once $tocambusa."rymaestro/maestro_execlib.php";
 include_once $tocambusa."ryque/ryq_util.php";
 include_once $tocambusa."phpmailer/class.phpmailer.php";
 
-function egomail($user, $object, $text){
+function egomail($user, $object, $text, $solve=true){
     global $postmaster_mail,$path_databases,$babelcode,$global_lastlanguage;
     
     $success=1;
@@ -30,48 +30,54 @@ function egomail($user, $object, $text){
         // APRO IL DATABASE
         $maestro=maestro_opendb("ryego");
         if($maestro->conn!==false){
-            $userupper=strtoupper(ryqEscapize($user));
-            $sql="SELECT EMAIL AS EMAIL FROM EGOALIASES WHERE [:UPPER(NAME)]='$userupper'";
-            maestro_query($maestro, $sql, $v);
-            if(count($v)==1){   // Esistenza utente
-                $mailaddress=trim($v[0]["EMAIL"]);
-                if($mailaddress!=""){     // Email impostata
-                    $mail = new PHPMailer;
-                    $mail->SMTPDebug=0;
-                    $mail->Mailer="smtp";
-                    $mail->From=$postmaster_mail;
-                    $mail->FromName="Autenticazione Ego";
-
-                    // CONFIGURAZIONE CUSTOM
-                    $fileconfig=$path_databases."_configs/email.php";
-                    if(file_exists($fileconfig)){
-                        $recipient=$mailaddress;
-                        include($fileconfig);
-                    }
-                    $mail->AddAddress($mailaddress);
-                    $mail->WordWrap=80;
-                    $mail->IsHTML(true);    // Set email format to HTML
-                    $mail->Subject=$object;
-                    $mail->Body=$text;
-                    $mail->AltBody=strip_tags($text);
-
-                    // INVIO EFFETTIVO
-                    if(!@$mail->Send()){
-                        $success=0;
-                        $description=$mail->ErrorInfo;
-                        $babelcode="EGO_MSG_UNDEFINED";
-                    }
+            $mailaddress="";
+            if($solve){
+                $userupper=strtoupper(ryqEscapize($user));
+                $sql="SELECT EMAIL AS EMAIL FROM EGOALIASES WHERE [:UPPER(NAME)]='$userupper'";
+                maestro_query($maestro, $sql, $v);
+                if(count($v)==1){   // Esistenza utente
+                    $mailaddress=trim($v[0]["EMAIL"]);
                 }
                 else{
                     $success=0;
-                    $description="Indirizzo email non impostato";
-                    $babelcode="EGO_MSG_NOEMAIL";
+                    $description="Utente inestistente";
+                    $babelcode="EGO_MSG_NOUSER";
                 }
             }
             else{
+                $mailaddress=$user;
+            }
+            if($mailaddress!=""){     // Email impostata
+                $mail = new PHPMailer;
+                $mail->SMTPDebug=0;
+                $mail->Mailer="smtp";
+                $mail->From=$postmaster_mail;
+                $mail->FromName="Autenticazione Ego";
+
+                // CONFIGURAZIONE CUSTOM
+                $fileconfig=$path_databases."_configs/email.php";
+                if(file_exists($fileconfig)){
+                    $recipient=$mailaddress;
+                    include($fileconfig);
+                }
+                $mail->AddAddress($mailaddress);
+                $mail->WordWrap=80;
+                $mail->IsHTML(true);    // Set email format to HTML
+                $mail->Subject=$object;
+                $mail->Body=$text;
+                $mail->AltBody=strip_tags($text);
+
+                // INVIO EFFETTIVO
+                if(!@$mail->Send()){
+                    $success=0;
+                    $description=$mail->ErrorInfo;
+                    $babelcode="EGO_MSG_UNDEFINED";
+                }
+            }
+            elseif($success==1){
                 $success=0;
-                $description="Utente inestistente";
-                $babelcode="EGO_MSG_NOUSER";
+                $description="Indirizzo email non impostato";
+                $babelcode="EGO_MSG_NOEMAIL";
             }
         }
         else{

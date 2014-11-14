@@ -96,11 +96,18 @@ else
     $expiry=0;
 
 if(isset($_GET["active"]))
-    $active=$_GET["active"];
+    $active=intval($_GET["active"]);
 elseif(isset($_POST["active"]))
     $active=intval($_POST["active"]);
 else
     $active="settings";
+
+if(isset($_GET["setuponly"]))
+    $setuponly=intval($_GET["setuponly"]);
+elseif(isset($_POST["setuponly"]))
+    $setuponly=intval($_POST["setuponly"]);
+else
+    $setuponly=0;
 
 $egouser="";
 if($appname!="" && isset($_COOKIE['_egouser']))
@@ -172,10 +179,14 @@ div.ui-datepicker{font-size:11px;}
 <script type='text/javascript' src='../ryque/ryque.js' ></script>
 
 <script>
+_sessionid="<?php print $sessionid ?>";
 var htimer="";
 var _publickey="<?php print strtr($publickey, array("\n" => "[n]", "\r" => "[r]")); ?>";
-var _returnURL="<?php print $returnurl ?>";
 _publickey=_publickey.replace(/\[n\]/g, "\n").replace(/\[r\]/g, "\r");
+var _returnURL="<?php print $returnurl ?>";
+var _egomethod="<?php  print $egomethod ?>";
+var _setuponly=<?php  print $setuponly ?>;
+var _appname="<?php  print $appname ?>";
 function encryptString(s){
     var e=new JSEncrypt();
     s=CryptoJS.SHA1(s);
@@ -217,6 +228,8 @@ function logout(){
                     _sessionid="";
                     if(_returnURL!="")
                         location.replace(_returnURL);
+                    else if(_setuponly)
+                        location.replace("ryego.php?app="+_appname+"&setuponly=1");
                     else
                         location.replace("ryego.php");
                 });
@@ -368,6 +381,7 @@ if($msk=="setup"){
 ?>
 &nbsp;<a id="side_settings" href="#" onclick="activation('settings')">Opzioni</a><div class='classicSkip4'>&nbsp;</div>
 &nbsp;<a id="side_changepassword" href="#" onclick="activation('changepassword')">Cambio password</a><div class='classicSkip4'>&nbsp;</div>
+&nbsp;<a id="side_deactivation" href="#" onclick="activation('deactivation')">Disattivazione</a><div class='classicSkip4'>&nbsp;</div>
 <?php 
     }
     else{

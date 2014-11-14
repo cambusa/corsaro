@@ -658,12 +658,16 @@ function winzMessageBox(formid, params, missing){
     });
     // DEFINIZIONE DEL CONTENUTO
     var t="";
-    t+="<div class='winz_msgbox'>"+message+"</div>";
+    t+="<div class='winz_msgbox' style='height:"+(height-105)+"px;width:"+(width-42)+"px;'>"+message+"</div>";
     t+="<div id='"+formid+"_msg_ok' notab='1'></div>";
     if(confirm!==false){
         t+="<div id='"+formid+"_msg_cancel' notab='1'></div>";
     }
     $("#"+hangerid).html(t);
+    $("#"+hangerid+" a").each(function(i){
+        $(this).attr("target","_blank");
+        $(this).css({"cursor":"pointer", "color":"navy"});
+    });
     $("#"+formid+"_msg_ok").rylabel({
         left:20,
         top:height-40,

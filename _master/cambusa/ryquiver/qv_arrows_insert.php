@@ -89,7 +89,7 @@ function qv_arrows_insert($maestro, $data){
         
         // DETERMINO DESCRIPTION
         if(isset($data["DESCRIPTION"])){
-            $DESCRIPTION=ryqEscapize(qv_inputUTF8($data["DESCRIPTION"]), 100);
+            $DESCRIPTION=ryqEscapize(qv_inputUTF8($data["DESCRIPTION"]), 200);
             if($DESCRIPTION=="")
                 $DESCRIPTION=$NAME;
         }

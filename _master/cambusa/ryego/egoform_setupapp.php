@@ -11,7 +11,6 @@
 ****************************************************************************/
 ?>
 <script>
-_sessionid="<?php print $sessionid ?>";
 var _appname="<?php print $appname ?>";
 var _userid="<?php print $userid ?>";
 var _aliasid="<?php print $aliasid ?>";
@@ -35,6 +34,7 @@ var objgo;
 function activation(n){
     $("#settings").hide();
     $("#changepassword").hide();
+    $("#deactivation").hide();
     $("#"+n).show();
     switch(n){
     case "changepassword":
@@ -80,7 +80,9 @@ function config(missing){
     $("#lbexpiringpwd").rylabel({caption:"Password in scadenza"});
     $("#lbside_settings").rylabel({caption:"Opzioni"});
     $("#lbside_changepassword").rylabel({caption:"Cambio password"});
+    $("#lbside_deactivation").rylabel({caption:"Disattivazione"});
     $("#lbauthenticationservice").rylabel({caption:"Servizio di autenticazione"});
+    $("#lbconfirmdeactivate").rylabel({caption:"Disattivare l'account?\n\nNon sarà più possibile accedere \nse non con l'intervento di un amministratore."});
     
     activation('settings');
     
@@ -184,7 +186,7 @@ function config(missing){
     });
     
     offsety+=25;
-    $("#lbdebugmode").rylabel({left:20, top:offsety, caption:"Modalit&agrave;"});
+    $("#lbdebugmode").rylabel({left:20, top:offsety, caption:"Modalità"});
     lstdebugmode=$("#lstdebugmode").rylist({
         left:180,
         top:offsety,
@@ -306,6 +308,42 @@ function config(missing){
             );
         }
     });
+    
+    $("#lbdeactivation").css({position:"absolute", left:20, top:70, width:580, "font-size":"16px"});
+
+    // Disattivazione
+    $("#actionDeactivation").rylabel({
+        left:20,
+        top:160,
+        caption:"Disattivazione utente",
+        button:true,
+        flat:true,
+        click:function(o){
+            if(confirm(RYBOX.getbabel("lbconfirmdeactivate"))){
+                $.post(_cambusaURL+"ryego/egoaction_users.php", 
+                    {
+                        action:"activate",
+                        sessionid:_sessionid,
+                        userid:_userid,
+                        active:0
+                    }, 
+                    function(d){
+                        try{
+                            var v=$.parseJSON(d);
+                            sysmessage(v.description, v.success);
+                            if(v.success){
+                                egoterminate(true)
+                            }
+                        }
+                        catch(e){
+                            sysmessagehide();
+                            alert(d);
+                        }
+                    }
+                );
+            }
+        }
+    });
 
 	// Vai all'applicazione
 	objgo=$("#lbgo2app").rylabel({
@@ -316,15 +354,11 @@ function config(missing){
         flat:true,
         enabled:(_expiry<2),
         click:function(o){
-            //RYQUE.dispose(
-            //    function(){
-                    $("body").html("<form id='nextaction' method='<?php  print $egomethod ?>' action=''></form>");
-                    $("#nextaction").append("<input type='hidden' id='sessionid' name='sessionid'>");
-                    $("#nextaction").attr({action:"<?php print $returnurl ?>"});
-                    $("#sessionid").val(_sessionid);
-                    $("#nextaction").submit();
-            //    }
-            //);
+            $("body").html("<form id='nextaction' method='<?php  print $egomethod ?>' action=''></form>");
+            $("#nextaction").append("<input type='hidden' id='sessionid' name='sessionid'>");
+            $("#nextaction").attr({action:"<?php print $returnurl ?>"});
+            $("#sessionid").val(_sessionid);
+            $("#nextaction").submit();
         }
     });
     if(_returnURL==""){
@@ -346,12 +380,19 @@ function postlocalize(){
     $("#settings .form-title").html(t.toUpperCase());
     
     t=RYBOX.getbabel("lbside_changepassword");
-    $("#side_changepassword").html(RYBOX.getbabel("lbside_changepassword"));
+    $("#side_changepassword").html(t);
     $("#changepassword .form-title").html(t.toUpperCase());
+
+    t=RYBOX.getbabel("lbside_deactivation");
+    $("#side_deactivation").html(t);
+    $("#deactivation .form-title").html(t.toUpperCase());
 
     t=RYBOX.getbabel("lbauthenticationservice");
     $("title").html(t);
     $("#egotitle").html(t);
+    
+    t=RYBOX.babels("EGO_WARNINGDEACTIVATE");
+    $("#lbdeactivation").html(t);
 }
 // CARICAMENTO MASCHERA
 function loading(missing){
@@ -417,6 +458,10 @@ function loading(missing){
                 if(_expiry==0)
                     sysmessagehide();
                 
+                RYBOX.babels({
+                    "EGO_WARNINGDEACTIVATE":$("#lbdeactivation").html()
+                });
+
                 // LOCALIZZAZIONE FORM
                 RYBOX.localize(lstlanguage.gettag(lstlanguage.value()), missing,
                     function(){

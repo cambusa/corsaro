@@ -11,23 +11,22 @@
 ****************************************************************************/
 ?>
 <script>
-_sessionid="<?php print $sessionid ?>";
-var egolanguage="<?php print $egolanguage ?>";
+var _egolanguage="<?php print $egolanguage ?>";
+var _egouser="<?php print $egouser ?>";
 var user;
 var pwd;
 var chksetup;
-var _egouser="<?php print $egouser ?>";
-var returnurl="<?php  print $returnurl ?>";
-var _appname="<?php  print $appname ?>";
 $(document).ready(function(){
-    $("#lbalias").rylabel({left:120,top:100,caption:"User"});
-    user=$("#txalias").rytext({left:200,top:100,maxlen:30});
+    var offsety=100;
+    $("#lbalias").rylabel({left:120,top:offsety,caption:"User"});
+    user=$("#txalias").rytext({left:200,top:offsety,maxlen:30});
     user.value(_egouser);
     
-    $("#lbpwd").rylabel({left:120,top:130,caption:"Password"});
+    offsety+=30;
+    $("#lbpwd").rylabel({left:120,top:offsety,caption:"Password"});
     pwd=$("#txpwd").rytext({ 
         left:200,
-        top:130, 
+        top:offsety, 
         password:true,
         maxlen:16,
         enter:function(o){
@@ -41,6 +40,12 @@ $(document).ready(function(){
 <?php 
     if($appname!=""){
 ?>
+                            if(v.expiry==2){
+                                if(chksetup.tag=="nosetup"){
+                                    sysmessage(RYBOX.babels("EGO_MSG_SETCHANGEPWD"), 0);
+                                    return;
+                                }
+                            }
                             if(v.expiry>0)
                                 chksetup.value(1);
                             if(chksetup.value()){   // Applicazione esterna con setup
@@ -54,22 +59,24 @@ $(document).ready(function(){
                                 $("#nextaction").append("<input type='hidden' id='aliasid' name='aliasid'>");
                                 $("#nextaction").append("<input type='hidden' id='msk' name='msk'>");
                                 $("#nextaction").append("<input type='hidden' id='expiry' name='expiry'>");
+                                $("#nextaction").append("<input type='hidden' id='setuponly' name='setuponly'>");
                                 $("#nextaction").attr({action:"ryego.php"});
                                 $("#app").val(_appname);
-                                $("#url").val(returnurl);
-                                $("#method").val("<?php  print $egomethod ?>");
+                                $("#url").val(_returnURL);
+                                $("#method").val(_egomethod);
                                 $("#sessionid").val(v.sessionid);
                                 $("#appid").val(v.appid);
                                 $("#userid").val(v.userid);
                                 $("#aliasid").val(v.aliasid);
                                 $("#msk").val("setup");
                                 $("#expiry").val(v.expiry);
+                                $("#setuponly").val(_setuponly);
                                 $("#nextaction").submit();
                             }
                             else{   // Applicazione esterna senza setup
-                                $("body").html("<form id='nextaction' method='<?php  print $egomethod ?>' action=''></form>");
+                                $("body").html("<form id='nextaction' method='"+_egomethod+"' action=''></form>");
                                 $("#nextaction").append("<input type='hidden' id='sessionid' name='sessionid'>");
-                                $("#nextaction").attr({action:returnurl});
+                                $("#nextaction").attr({action:_returnURL});
                                 $("#sessionid").val(v.sessionid);
                                 $("#nextaction").submit();
                             }
@@ -105,7 +112,7 @@ $(document).ready(function(){
     });
     $("#lblogin").rylabel({
         left:420,
-        top:130,
+        top:offsety+2,
         caption:"Login",
         button:true,
         flat:true,
@@ -116,23 +123,40 @@ $(document).ready(function(){
 <?php 
     if($appname!=""){
 ?>
-    
-    $("#lbsetup").rylabel({left:120,top:160,caption:"Setup"});
-    chksetup=$("#chksetup").rycheck({
-        left:200,
-        top:160,
-        assigned:function(o){
-            if(o.value()){
-                pwd.engage();
+    if($("#lbsetup").length>0){
+        // POTREBBE NON ESISTERE IL DIV IN CASO DI EGOEMBED
+        offsety+=30;
+        $("#lbsetup").rylabel({left:120,top:offsety,caption:"Setup"});
+        chksetup=$("#chksetup").rycheck({
+            left:200,
+            top:offsety,
+            assigned:function(o){
+                if(o.value()){
+                    pwd.engage();
+                }
             }
+        });
+        if(_setuponly){
+            chksetup.value(1);
+            chksetup.enabled(0);
         }
-    });
+    }
+    else{
+        // CREO UN OGGETTO FAKE CON FUNZIONE VALUE
+        chksetup={
+            "value":function(v){
+                return 0;
+            },
+            "tag":"nosetup"
+        };
+    }
 <?php 
     }
 ?>
+    offsety+=30;
     $("#lbreset").rylabel({
         left:200,
-        top:190,
+        top:offsety,
         caption:"Password dimenticata?",
         button:true,
         flat:true,
@@ -164,8 +188,12 @@ function egoinitialize(missing){
     $("#lbauthenticationservice").rylabel({caption:"Servizio di autenticazione"});
     $("#lbsendpwd").rylabel({caption:"Reimpostare la password dell'utente {1}?"});
     $("#lbmandatoryuser").rylabel({caption:"Inserire un nome utente o alias"});
-    if(egolanguage!="default"){
-        RYBOX.localize(egolanguage, missing,
+    RYBOX.babels({
+        "EGO_NEWACCOUNT":"Registrare un nuovo account con i dati immessi?",
+        "EGO_MSG_SETCHANGEPWD":"Cambiare password con la funzione di Setup!"
+    });
+    if(_egolanguage!="default"){
+        RYBOX.localize(_egolanguage, missing,
             function(){
                 var t=RYBOX.getbabel("lbauthenticationservice");
                 $("title").html(t);

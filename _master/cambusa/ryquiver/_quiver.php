@@ -293,6 +293,6 @@ function _solveUTF8(&$value){
     }
 }
 function quiver_escapize(&$sql){
-    $sql=htmlentities($sql);
+    $sql=htmlentities(utf8_decode($sql));
 }
 ?>

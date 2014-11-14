@@ -35,7 +35,7 @@ try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Password reimpostata: controllare la casella di posta";
-    $babelcode="EGO_MSG_RESETSUCCESSFUL";
+    $babel="EGO_MSG_RESETSUCCESSFUL";   // NON USO SUBITO $babelcode PERCHE' VERREBBE SOVRASCRITTO NELL'INVIO DELL'EMAIL
 
     if(isset($_COOKIE['_egolanguage'])){
         $global_lastlanguage=$_COOKIE['_egolanguage'];
@@ -80,38 +80,38 @@ try{
                         if(!maestro_execute($maestro, $sql, false)){
                             $success=0;
                             $description=$maestro->errdescr;
-                            $babelcode="EGO_MSG_UNDEFINED";
+                            $babel="EGO_MSG_UNDEFINED";
                         }
                     }
                     else{
                         $success=0;
                         $description="Sending email failed:".$m["description"];
-                        $babelcode="EGO_MSG_UNDEFINED";
+                        $babel=$babelcode;
                     }
                 }
                 else{
                     $success=0;
                     $description="La richiesta è scaduta";
-                    $babelcode="EGO_MSG_REQUESTEXPIRED";
+                    $babel="EGO_MSG_REQUESTEXPIRED";
                 }
             }
             else{
                 $success=0;
                 $description="Utente disattivato";
-                $babelcode="EGO_MSG_DISABLEDUSER";
+                $babel="EGO_MSG_DISABLEDUSER";
             }
         }
         else{
             $success=0;
             $description="La richiesta non può essere completata";
-            $babelcode="EGO_MSG_REQUESTCANNOT";
+            $babel="EGO_MSG_REQUESTCANNOT";
         }
     }
     else{
         // CONNESSIONE FALLITA
         $success=0;
         $description=$maestro->errdescr;
-        $babelcode="EGO_MSG_UNDEFINED";
+        $babel="EGO_MSG_UNDEFINED";
     }
     
     // CHIUDO IL DATABASE
@@ -120,9 +120,10 @@ try{
 catch(Exception $e){
     $success=0;
     $description=$e->getMessage();
-    $babelcode="EGO_MSG_UNDEFINED";
+    $babel="EGO_MSG_UNDEFINED";
 }
 
+$babelcode=$babel;
 $description=qv_babeltranslate($description);
 
 print "<html><head><meta charset='utf-8' /></head><body style='font-family:verdana,sans-serif;font-size:13px;'>";

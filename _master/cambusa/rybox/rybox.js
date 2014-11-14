@@ -2623,7 +2623,11 @@ function ryBox(){
     }
     this.getbabel=function(n, args, missing){
         var p=$("#"+n+" .rylabel-caption").html();
-        if(args!=missing){
+        if(p===null){
+            if(window.console)console.log("Label ["+n+"] doesn't exist!");
+            p="";
+        }
+        else if(args!=missing){
             if(typeof(args)=="array"){
                 for(var i in arg){
                     p=p.replace("{"+(i+1)+"}", args[i]);
@@ -2633,6 +2637,7 @@ function ryBox(){
                 p=p.replace("{1}", args);
             }
         }
+        p=p.replace(/\\n/g, String.fromCharCode(10));
         return p;
     }
     this.createstandard();

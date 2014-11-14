@@ -12,7 +12,6 @@
 if(!isset($tocambusa))
     $tocambusa="../";
 include_once "$tocambusa/rygeneral/ods2array_lib.php";
-include_once "$tocambusa/rymaestro/maestro_execlib.php";
 
 if(isset($_GET["ods"]))
     $ods=$_GET["ods"];
@@ -23,6 +22,10 @@ else
 
 ods2array($arr, $ods);
 
-array_walk_recursive($arr, "maestro_escapize");
+array_walk_recursive($arr, "ods_escapize");
 print json_encode($arr);
+
+function ods_escapize(&$sql){
+    $sql=utf8_encode(utf8_decode($sql));
+}
 ?>

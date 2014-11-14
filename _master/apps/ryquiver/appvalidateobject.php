@@ -59,7 +59,7 @@ function appvalidateobject(
                 $where=implode(" OR ", $fields);
                 if(!qv_uniquity($maestro, "QW_CONTI", $SYSID, $where)){
                     $babelcode="QVUSER_NOTUNIQUE";
-                    $failure="Descrizione, numero o CO.GE. gi‡ presente in anagrafica";
+                    $failure="Descrizione, numero o CO.GE. gi√† presente in anagrafica";
                     $ret=0;
                 }
             }
@@ -67,6 +67,12 @@ function appvalidateobject(
         break;
     case "0PERSONE0000":
         if($oper<=1){
+            // ATTRIBUZIONE DEL GENERE PREDEFINITO IN INSERIMENTO
+            if($oper==0){
+                if(!isset($data["REFGENREID"])){
+                    $data["REFGENREID"]=qv_actualid($maestro, "0CREDITS0000");
+                }
+            }
             // DESCRIZIONE, CODICE FISCALE
             $DESCRIPTION=qv_actualvalue($data, $prevdata, "DESCRIPTION");
             $CODFISC=qv_actualvalue($data, $prevdata, "CODFISC");
@@ -87,7 +93,7 @@ function appvalidateobject(
                     }
                     if($action=="RAISE"){
                         $babelcode="QVUSER_NOTUNIQUE";
-                        $failure="Descrizione o codice fiscale gi‡ presente in anagrafica";
+                        $failure="Descrizione o codice fiscale gi√† presente in anagrafica";
                         $ret=0;
                     }
                     elseif($action=="SKIP"){
@@ -114,7 +120,7 @@ function appvalidateobject(
                 $where=implode(" OR ", $fields);
                 if(!qv_uniquity($maestro, "QW_PROPRIETA", $SYSID, $where)){
                     $babelcode="QVUSER_NOTUNIQUE";
-                    $failure="Descrizione o P.IVA gi‡ presente in anagrafica";
+                    $failure="Descrizione o P.IVA gi√† presente in anagrafica";
                     $ret=0;
                 }
             }
@@ -137,7 +143,7 @@ function appvalidateobject(
                 $where=implode(" OR ", $fields);
                 if(!qv_uniquity($maestro, "QW_AZIENDE", $SYSID, $where)){
                     $babelcode="QVUSER_NOTUNIQUE";
-                    $failure="Descrizione o P.IVA gi‡ presente in anagrafica";
+                    $failure="Descrizione o P.IVA gi√† presente in anagrafica";
                     $ret=0;
                 }
             }
@@ -156,8 +162,32 @@ function appvalidateobject(
                 $where=implode(" OR ", $fields);
                 if(!qv_uniquity($maestro, "QW_ATTORI", $SYSID, $where)){
                     $babelcode="QVUSER_NOTUNIQUE";
-                    $failure="Attore gi‡ presente in anagrafica";
+                    $failure="Attore gi√† presente in anagrafica";
                     $ret=0;
+                }
+            }
+        }
+        break;
+    case "0CORSIFORMAT":
+        if($oper<=1){
+            // DESCRIZIONE, INIZIO E LUOGO
+            $DESCRIPTION=qv_actualvalue($data, $prevdata, "DESCRIPTION");
+            $BEGINTIME="[:DATE(".qv_strtime(qv_actualvalue($data, $prevdata, "BEGINTIME")).")]";
+            $LUOGO=qv_actualvalue($data, $prevdata, "LUOGO");
+            
+            $where="DESCRIPTION='$DESCRIPTION' AND BEGINTIME=$BEGINTIME AND LUOGO='$LUOGO'";
+            if(!qv_uniquity($maestro, "QW_CORSI", $SYSID, $where)){
+                $action="RAISE";
+                if(isset($data["CONFLICT"])){
+                    $action=$data["CONFLICT"];
+                }
+                if($action=="RAISE"){
+                    $babelcode="QVUSER_NOTUNIQUE";
+                    $failure="Corso gi√† presente in anagrafica";
+                    $ret=0;
+                }
+                elseif($action=="SKIP"){
+                    $ret=2;
                 }
             }
         }

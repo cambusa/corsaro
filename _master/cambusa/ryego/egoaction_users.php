@@ -64,6 +64,23 @@ try{
     else
         $admin="0";
 
+    // DETERMINO USERID
+    if(isset($_POST["userid"]))
+        $userid=ryqEscapize($_POST["userid"]);
+    else
+        $userid="";
+
+    // DETERMINO ACTIVE
+    if(isset($_POST["active"])){
+        $active=intval($_POST["active"]);
+        if($active<-1 && $active>1){
+            $active=1;
+        }
+    }
+    else{
+        $active=-1;
+    }
+
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Operazione effettuata";
@@ -170,34 +187,53 @@ try{
                     }
                     break;
                 case "activate":
-                    // Controllo che user sia passato
-                    if($user!=""){
-                        // Determino userid
-                        $sql="SELECT EGOALIASES.USERID AS USERID,EGOUSERS.ACTIVE AS ACTIVE FROM EGOALIASES INNER JOIN EGOUSERS ON EGOUSERS.SYSID=EGOALIASES.USERID WHERE [:UPPER(EGOALIASES.NAME)]='".strtoupper($user)."'";
+                    if($userid!=""){
+                        // Controllo che userid sia valido
+                        $sql="SELECT SYSID FROM EGOUSERS WHERE SYSID='$userid'";
                         maestro_query($maestro, $sql, $r);
-                        if(count($r)==1){
-                            $userid=$r[0]["USERID"];
-                            $active=$r[0]["ACTIVE"];
-                            $active=1-$active;
-                            if($active==0){
-                                // Controllo che la disattivazione non coinvolga tutti i demiurghi
-                                $sql="SELECT COUNT(1) AS DEMIURGECOUNT FROM EGOALIASES INNER JOIN EGOUSERS ON EGOUSERS.SYSID=EGOALIASES.USERID WHERE EGOALIASES.USERID<>'$userid' AND EGOALIASES.DEMIURGE=1 AND EGOUSERS.ACTIVE=1";
-                                maestro_query($maestro, $sql, $r);
-                                if($r[0]["DEMIURGECOUNT"]==0){
-                                    $success=0;
-                                    $description="Impossibile eliminare l'ultimo demiurgo";
-                                    $babelcode="EGO_MSG_LASTDEMIURGE";
-                                }
+                        if(count($r)>0){
+                            if($active==-1){
+                                $active=0;
                             }
                         }
                         else{
-                            $userid="";
+                            $success=0;
+                            $description="Utente non valido";
+                            $babelcode="EGO_MSG_INVALIDUSER";
+                        }
+                    }
+                    elseif($user!=""){
+                        // Determino userid
+                        $sql="SELECT EGOALIASES.USERID AS USERID,EGOUSERS.ACTIVE AS ACTIVE FROM EGOALIASES INNER JOIN EGOUSERS ON EGOUSERS.SYSID=EGOALIASES.USERID WHERE [:UPPER(EGOALIASES.NAME)]='".strtoupper($user)."'";
+                        maestro_query($maestro, $sql, $r);
+                        if(count($r)>0){
+                            $userid=$r[0]["USERID"];
+                            if($active==-1){
+                                $active=1-intval($r[0]["ACTIVE"]);
+                            }
+                        }
+                        else{
+                            $success=0;
+                            $description="Utente non valido";
+                            $babelcode="EGO_MSG_INVALIDUSER";
                         }
                     }
                     else{
                         $success=0;
                         $description="Alias obbligatorio";
                         $babelcode="EGO_MSG_MANDATORYALIAS";
+                    }
+                    if($success){
+                        if($active==0){
+                            // Controllo che la disattivazione non coinvolga tutti i demiurghi
+                            $sql="SELECT COUNT(1) AS DEMIURGECOUNT FROM EGOALIASES INNER JOIN EGOUSERS ON EGOUSERS.SYSID=EGOALIASES.USERID WHERE EGOALIASES.USERID<>'$userid' AND EGOALIASES.DEMIURGE=1 AND EGOUSERS.ACTIVE=1";
+                            maestro_query($maestro, $sql, $r);
+                            if($r[0]["DEMIURGECOUNT"]==0){
+                                $success=0;
+                                $description="Impossibile disattivare/eliminare l'ultimo demiurgo";
+                                $babelcode="EGO_MSG_LASTDEMIURGE";
+                            }
+                        }
                     }
                     break;  
                 case "delete":
@@ -222,6 +258,39 @@ try{
                         $success=0;
                         $description="Alias obbligatorio";
                         $babelcode="EGO_MSG_MANDATORYALIAS";
+                    }
+                    break;
+                case "deleteuser":
+                    // Controllo che alias sia passato
+                    if($alias!=""){
+                        // Determino aliasid e userid
+                        $sql="SELECT SYSID,USERID FROM EGOALIASES WHERE [:UPPER(NAME)]='".strtoupper($alias)."'";
+                        maestro_query($maestro, $sql, $r);
+                        if(count($r)==1){
+                            $aliasid=$r[0]["SYSID"];
+                            $userid=$r[0]["USERID"];
+                        }
+                        else{
+                            $aliasid="";
+                            $userid="";
+                        }
+                    }
+                    else{
+                        $success=0;
+                        $description="Alias obbligatorio";
+                        $babelcode="EGO_MSG_MANDATORYALIAS";
+                    }
+                    if($success){
+                        if($active==0){
+                            // Controllo che la cancellazione non coinvolga tutti i demiurghi
+                            $sql="SELECT COUNT(1) AS DEMIURGECOUNT FROM EGOALIASES INNER JOIN EGOUSERS ON EGOUSERS.SYSID=EGOALIASES.USERID WHERE EGOALIASES.USERID<>'$userid' AND EGOALIASES.DEMIURGE=1 AND EGOUSERS.ACTIVE=1";
+                            maestro_query($maestro, $sql, $r);
+                            if($r[0]["DEMIURGECOUNT"]==0){
+                                $success=0;
+                                $description="Impossibile disattivare/eliminare l'ultimo demiurgo";
+                                $babelcode="EGO_MSG_LASTDEMIURGE";
+                            }
+                        }
                     }
                     break;
                 case "deleteall":
@@ -328,6 +397,18 @@ try{
                     maestro_execute($maestro, $sql);
                     $sql="DELETE FROM EGOSETUP WHERE ALIASID='$aliasid'";
                     maestro_execute($maestro, $sql);
+                    break;
+                case "deleteuser":
+                    $sql="SELECT SYSID FROM EGOALIASES WHERE USERID='$userid'";
+                    maestro_query($maestro, $sql, $a);
+                    for($j=0;$j<count($a);$j++){
+                        $aliasid=$a[$j]["SYSID"];
+                        maestro_execute($maestro, "DELETE FROM EGOSESSIONS WHERE ALIASID='$aliasid'");
+                        maestro_execute($maestro, "DELETE FROM EGOALIASES WHERE SYSID='$aliasid'");
+                        maestro_execute($maestro, "DELETE FROM EGOSETUP WHERE ALIASID='$aliasid'");
+                    }
+                    maestro_execute($maestro, "DELETE FROM EGOENVIRONUSER WHERE USERID='$userid'");
+                    maestro_execute($maestro, "DELETE FROM EGOUSERS WHERE SYSID='$userid'");
                     break;
                 case "deleteall":
                     $sql="SELECT SYSID FROM EGOUSERS WHERE ACTIVE=0";

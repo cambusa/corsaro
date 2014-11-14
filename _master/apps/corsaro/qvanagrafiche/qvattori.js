@@ -174,7 +174,7 @@ function class_qvattori(settings,missing){
     offsety+=30;
     
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:300, maxlen:100});
+    var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:300, maxlen:200});
     //txdescr.enabled(0);
     offsety+=30;
     

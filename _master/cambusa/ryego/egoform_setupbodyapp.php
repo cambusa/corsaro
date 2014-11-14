@@ -30,6 +30,17 @@
 <div id="actionPassword" babelcode="EGO_PWD_CONFIRM"></div>
 </div>
 
+<div class="toolfunction" id="deactivation">
+<span class="form-title">DISATTIVAZIONE</span>
+<div id="lbdeactivation">
+La disattivazione dell'account comporta l'immediata uscita dal sistema 
+e l'impossibilità a rientrarvi senza l'intervento di un amministratore.<br/>
+I dati relativi all'utente saranno conservati, ma non sarà più possibile accedervi
+e usarli per una nuova registrazione.
+</div>
+<div id="actionDeactivation" babelcode="EGO_DEACTIVATION"></div>
+</div>
+
 <div id="lbgo2app" babelcode="EGO_GOTOAPP"></div>
 
 <!-- MESSAGES FOR BABEL -->
@@ -38,7 +49,9 @@
 <div id="lbexpiringpwd" babelcode="EGO_MSG_EXPIRINGPWD"></div>
 <div id="lbside_settings" babelcode="EGO_TITLE_SETTINGS"></div>
 <div id="lbside_changepassword" babelcode="EGO_TITLE_CHANGEPASSWORD"></div>
+<div id="lbside_deactivation" babelcode="EGO_TITLE_DEACTIVATION"></div>
 <div id="lbauthenticationservice" babelcode="EGO_AUTHENTICATION_SERVICE"></div>
+<div id="lbconfirmdeactivate" babelcode="EGO_CONFIRMDEACTIVATE"></div>
 </div>
 
 </div>

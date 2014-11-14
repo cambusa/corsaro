@@ -148,6 +148,7 @@ $j=array();
 $j["success"]=$success;
 $j["description"]=htmlentities($description);
 
+$j["userid"]=$userid;
 $j["lastenvironid"]=$lastenvironid;
 $j["lastroleid"]=$lastroleid;
 $j["lastlanguageid"]=$lastlanguageid;

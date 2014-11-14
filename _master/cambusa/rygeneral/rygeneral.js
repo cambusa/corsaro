@@ -215,6 +215,16 @@ function _strip_tags(s){
     }catch(er){}
     return s;
 }
+function _food4info(descr, memo){
+    var r=descr;
+    if(memo!=""){
+        r+="<br/><br/>"+memo;
+    }
+    r=r.replace(/<p>/gi, "");
+    r=r.replace(/<\/p>/gi, "<br/>");
+    r=r.replace(/[\r\n]/gi, "");
+    return r;
+}
 function _decodehtml(s){
     try{
         var txt=document.createElement("textarea");

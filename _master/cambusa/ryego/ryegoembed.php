@@ -96,11 +96,13 @@ else
     $expiry=0;
 
 if(isset($_GET["active"]))
-    $active=$_GET["active"];
+    $active=intval($_GET["active"]);
 elseif(isset($_POST["active"]))
     $active=intval($_POST["active"]);
 else
     $active="settings";
+    
+$setuponly=0;
 
 $egouser="";
 if($appname!="" && isset($_COOKIE['_egouser']))
@@ -172,10 +174,14 @@ div.ui-datepicker{font-size:11px;}
 <script type='text/javascript' src='../ryque/ryque.js' ></script>
 
 <script>
+_sessionid="<?php print $sessionid ?>";
 var htimer="";
 var _publickey="<?php print strtr($publickey, array("\n" => "[n]", "\r" => "[r]")); ?>";
-var _returnURL="<?php print $returnurl ?>";
 _publickey=_publickey.replace(/\[n\]/g, "\n").replace(/\[r\]/g, "\r");
+var _returnURL="<?php print $returnurl ?>";
+var _egomethod="<?php  print $egomethod ?>";
+var _setuponly=<?php  print $setuponly ?>;
+var _appname="<?php  print $appname ?>";
 function encryptString(s){
     var e=new JSEncrypt();
     s=CryptoJS.SHA1(s);
@@ -219,11 +225,23 @@ include_once "egoform_login.php";
 <body style='overflow:hidden;' spellcheck='false'>
 
 <?php 
+$copyappname=$appname;
 $appname="";
 include_once "egoform_loginbody.php";
 ?>
 
-<div id="messbar" style="display:none;position:absolute;left:10px;top:250px;"></div>
+<div id="messbar" style="display:none;position:absolute;left:120px;top:210px;"></div>
+
+<div style="position:absolute;left:120px;top:260px;">
+<a href="ryego.php?app=<?php print $copyappname ?>&setuponly=1" target="_blank">Setup, password e disattivazione</a><br/>
+<br/>
+<?php
+$trigger_login=$path_customize."ryego/custtriggerlogin.php";
+if(is_file($trigger_login)){
+    include $trigger_login;
+}
+?>
+<div>
 
 </body>
 </html>
