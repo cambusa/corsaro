@@ -12,7 +12,7 @@
 <script>
 var _regappname="corsaro";
 var _regenvname="crediti";
-var _regrolename="admin";
+var _regrolename="crediti";
 
 $("#lbregemail").rylabel({left:0, top:20, caption:"Email"});
 var txregemail=$("#txregemail").rytext({ 

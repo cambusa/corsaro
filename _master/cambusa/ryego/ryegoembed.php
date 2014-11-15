@@ -108,7 +108,7 @@ $egouser="";
 if($appname!="" && isset($_COOKIE['_egouser']))
     $egouser=$_COOKIE['_egouser'];
 
-$egolanguage="english";
+$egolanguage=$config_defaultlang;
 if(isset($_COOKIE['_egolanguage']))
     $egolanguage=$_COOKIE['_egolanguage'];
 

@@ -111,5 +111,11 @@ if(floatval(phpversion())<5.3){
     $sqlite3_enabled=false;
 }
 
+/*********************
+| LINGUA PREDEFINITA |
+*********************/
+
+$config_defaultlang="english";
+
 // Non aggiungere accapi o spazi dopo ">"
 ?>

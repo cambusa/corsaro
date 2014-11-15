@@ -66,5 +66,9 @@
     "include_listini":{
         "type":"include",
         "path":"base/std_listini.json"
+    },
+    "include_crediti":{
+        "type":"include",
+        "path":"base/std_crediti.json"
     }
 }

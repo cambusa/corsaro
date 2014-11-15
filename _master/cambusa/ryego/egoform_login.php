@@ -18,7 +18,7 @@ var pwd;
 var chksetup;
 $(document).ready(function(){
     var offsety=100;
-    $("#lbalias").rylabel({left:120,top:offsety,caption:"User"});
+    $("#lbalias").rylabel({left:120,top:offsety,caption:"Utente"});
     user=$("#txalias").rytext({left:200,top:offsety,maxlen:30});
     user.value(_egouser);
     

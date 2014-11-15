@@ -99,8 +99,8 @@ try{
                         
                         if($app==""){ // Autorizzazioni applicazione EGO
                             if($demiurge!=0){
-                                // Lingua (do la precedenza a "english")
-                                $sql="SELECT SYSID,NAME FROM EGOLANGUAGES ORDER BY (CASE WHEN NAME='english' THEN 0 ELSE 1 END)";
+                                // Lingua (do la precedenza a $config_defaultlang)
+                                $sql="SELECT SYSID,NAME FROM EGOLANGUAGES ORDER BY (CASE WHEN NAME='$config_defaultlang' THEN 0 ELSE 1 END)";
                                 maestro_query($maestro, $sql, $l);
                                 if(count($l)>0){
                                     $languageid=$l[0]["SYSID"];
@@ -155,8 +155,8 @@ try{
                                     if(count($v)>0){
                                         $roleid=$v[0]["ROLEID"];
                                     }
-                                    // Lingua (do la precedenza a "english")
-                                    $sql="SELECT SYSID,NAME FROM EGOLANGUAGES ORDER BY (CASE WHEN NAME='english' THEN 0 ELSE 1 END)";
+                                    // Lingua (do la precedenza a $config_defaultlang)
+                                    $sql="SELECT SYSID,NAME FROM EGOLANGUAGES ORDER BY (CASE WHEN NAME='$config_defaultlang' THEN 0 ELSE 1 END)";
                                     maestro_query($maestro, $sql, $v);
                                     if(count($v)>0){
                                         $languageid=$v[0]["SYSID"];

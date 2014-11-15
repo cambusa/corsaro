@@ -1,0 +1,69 @@
+{
+    "OBJECTS_CORSI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "AZIENDAID":{"type":"SYSID", "ref":"QVOBJECTS"},
+            "LUOGO":{"type":"VARCHAR", "size":500},
+            "TIPOCORSO":{"type":"VARCHAR", "size":50},
+            "REFERENTE":{"type":"VARCHAR", "size":100},
+            "MOREDATA":{"type":"JSON", "size":1000}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVOBJECTTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,QUIVERTYPEID,TIMEUNIT,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0CORSIFORMAT)],'_CORSIFORMATIVI', 'Corsi', [:SYSID(0PURENUMBER0)], '', 'D', 'QW_CORSI', 'OBJECTS_CORSI', '1', '1', '')",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0CORSIFORMAT)], 'AZIENDAID', 'SYSID(QW_AZIENDE)', '', 'Azienda', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0CORSIFORMAT)], 'LUOGO', 'CHAR(500)', '', 'Luogo', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0CORSIFORMAT)], 'TIPOCORSO', 'CHAR(50)', '', 'Tipo', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0CORSIFORMAT)], 'REFERENTE', 'CHAR(100)', '', 'Referente', 1)",
+                    "INSERT INTO QVOBJECTVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0CORSIFORMAT)], 'MOREDATA', 'JSON', '', 'Dati', 1)"
+                ]
+            }
+        ]
+    },
+    "ARROWS_ACCREDITI":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "CORSOID":{"type":"SYSID"},
+            "LUOGO":{"type":"VARCHAR", "size":500},
+            "TIPOCORSO":{"type":"VARCHAR", "size":50},
+            "REFERENTE":{"type":"VARCHAR", "size":100},
+            "MOREDATA":{"type":"JSON", "size":1000}
+        },
+        "versions":[
+            {
+                "version":1,
+                "sql":[
+                    "INSERT INTO QVMOTIVETYPES(SYSID,NAME,DESCRIPTION,OBJECTTYPEID,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0MOTIVICREDT)], '_MOTIVICREDITO', 'Motivi', [:SYSID(0PERSONE0000)], '', '', '1', '1', '')",
+                    "INSERT INTO QVMOTIVES(SYSID,NAME,DESCRIPTION,TYPOLOGYID,DIRECTION,REFERENCEID,COUNTERPARTID,CONSISTENCY,SCOPE,UPDATING,DELETING,STATUS,DISCHARGE,TAG,DELETED) VALUES([:SYSID(0MOTCREDFREQ)], '_MOTCREDFREQ', 'Frequentazione', [:SYSID(0MOTIVICREDT)], 0, '', '', 0, 0, 0, 0, 0, 0, '', 0)",
+                    
+                    "INSERT INTO QVARROWTYPES(SYSID,NAME,DESCRIPTION,GENRETYPEID,MOTIVETYPEID,BOWTYPEID,TARGETTYPEID,VIEWNAME,TABLENAME,DELETABLE,SIMPLE,TAG) VALUES([:SYSID(0ACCREDITI00)],'_ACCREDITI', 'Accrediti', [:SYSID(0PURENUMBER0)], [:SYSID(0MOTIVICREDT)], [:SYSID(0PERSONE0000)], [:SYSID(0PERSONE0000)], 'QW_ACCREDITI', 'ARROWS_ACCREDITI', '1', '1', '')",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ACCREDITI00)], 'CORSOID', 'SYSID(QW_CORSI)', '', 'Corso', 1)",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ACCREDITI00)], 'LUOGO', 'CHAR(500)', '', 'Luogo', 1)",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ACCREDITI00)], 'TIPOCORSO', 'CHAR(50)', '', 'Tipo', 1)",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ACCREDITI00)], 'REFERENTE', 'CHAR(100)', '', 'Referente', 1)",
+                    "INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ACCREDITI00)], 'MOREDATA', 'JSON', '', 'Dati', 1)"
+                ]
+            }
+        ]
+    },
+    "QW_CORSI":{
+        "type":"view",
+        "script":"@maestro/base/qw_corsi.sql"
+    },
+    "QW_CORSIJOIN":{
+        "type":"view",
+        "script":"@maestro/base/qw_corsijoin.sql"
+    },
+    "QW_ACCREDITI":{
+        "type":"view",
+        "script":"@maestro/base/qw_accrediti.sql"
+    },
+    "QW_ACCREDITIJOIN":{
+        "type":"view",
+        "script":"@maestro/base/qw_accreditijoin.sql"
+    }
+}
