@@ -933,6 +933,10 @@ function flb_search(toolid, t){
         $("#"+_currentpage+" .filibuster-divsvg").remove();
         $("#"+_currentpage+" .filibuster-frame").remove();
         $("#"+_currentpage+"_inner").html("<img src='_images/loading.gif' border='0'/>");
+        // GESTIONE CONTENUTO INVISIBILE
+        if($("#"+_currentpage).css("display")=="none"){
+            $("#"+_currentpage).css("display", "block");
+        }
         for(var id in _containers){
             if($("#"+id).length==0){
                 delete _containers[id];
@@ -961,6 +965,10 @@ function flb_search(toolid, t){
                     setTimeout(
                         function(){
                             containers_locate();
+                            // GESTIONE CONTENUTO INVISIBILE
+                            if($("#"+_currentpage).css("display")=="none"){
+                                $("#"+_currentpage).css("display", "block");
+                            }
                             setTimeout(
                                 function(){
                                     $(window).scrollTop(0);

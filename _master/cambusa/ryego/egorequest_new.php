@@ -58,6 +58,7 @@ try{
     $success=1;
     $description="Richiesta inoltrata: controllare la casella di posta";
     $babel="EGO_MSG_REQSUCCESSFUL"; // NON USO SUBITO $babelcode PERCHE' VERREBBE SOVRASCRITTO NELL'INVIO DELL'EMAIL
+    $bpar=array();
     
     if(isset($_COOKIE['_egolanguage'])){
         $global_lastlanguage=$_COOKIE['_egolanguage'];
@@ -117,7 +118,8 @@ try{
             }
             else{
                 $success=0;
-                $description="Ambiente inesistente";
+                $bpar["ENVNAME"]=$envname;
+                $description="Ambiente '{1}' inesistente";
                 $babel="EGO_MSG_NOENVNAME";
                 throw new Exception( $description );
             }
@@ -142,7 +144,7 @@ try{
             $text="";
             $text.="<html><head><meta charset='utf-8' /></head><body style='font-family:verdana,sans-serif;font-size:13px;'>";
             $text.="<b>Ego - Richiesta di registrazione nuovo account</b><br><br>";
-            $text.="Una richiesta di registrazione &egrave; stata inoltrata per l'applicazione $appdescr.<br>";
+            $text.="Una richiesta di registrazione &egrave; stata inoltrata per $envnameupper.<br>";
             $text.="Confermando l'autenticit&agrave; della richiesta verranno generati un nuovo account e una password provvisoria la quale sar&agrave; inviata per email.<br>";
             $text.="Al primo accesso tale password dovr&agrave; essere cambiata.<br>";
             $text.="Confermi la <a href='".$url_cambusa."ryego/egorequest_reg.php?reqid=". $requestid."' target='_blank'>registrazione</a> del nuovo account?<br>";
@@ -189,7 +191,7 @@ catch(Exception $e){
 maestro_closedb($maestro);
 
 $babelcode=$babel;
-$description=qv_babeltranslate($description);
+$description=qv_babeltranslate($description, $bpar);
 
 // USCITA JSON
 $j=array();

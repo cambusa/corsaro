@@ -13,12 +13,13 @@
 <div relid="tabs" >
     <div>
         <div relid="gridsel"></div>
-        <div relid="lbf_search"></div>
-        <div relid="txf_search"></div>
-        <div relid="oper_refresh"></div>
-        <div relid="oper_new"></div>
-        <div relid="oper_print"></div>
-        <div relid="oper_delete"></div>
+        <div relid="lbf_search" babelcode="SEARCH"></div><div relid="txf_search"></div>
+        <div relid="lbf_classe" babelcode="CLASS"></div><div relid="txf_classe"></div>
+        <div relid="oper_refresh" babelcode="BUTTON_REFRESH"></div>
+        <div relid="oper_reset" babelcode="BUTTON_RESET"></div>
+        <div relid="oper_new" babelcode="BUTTON_NEW"></div>
+        <div relid="oper_print" babelcode="BUTTON_SELPRINT"></div>
+        <div relid="oper_delete" babelcode="BUTTON_SELDELETE"></div>
     </div>
     <div>
         <div relid="LB_DESCRIPTION"></div><div relid="DESCRIPTION"></div> <!-- RAGIONE SOCIALE -->
@@ -50,6 +51,7 @@
         <div relid="LB_FORNITORE"></div><div relid="FORNITORE"></div>
         
         <div relid="LB_REGISTRY"></div><div relid="REGISTRY"></div> <!-- NOTE -->
+        <div relid="CLASSI"></div>
         <div relid="oper_contextengage"></div>
     </div>
     <div relid="filemanager"></div>

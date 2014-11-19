@@ -10,9 +10,25 @@
 </div>
 
 <script>
-var _regappname="corsaro";
-var _regenvname="crediti";
-var _regrolename="crediti";
+var h=parent.location.href;
+var x=h.match(/site=([^&]+)/);
+
+var _regappname="";
+var _regenvname="";
+var _regrolename="";
+
+switch(x[1]){
+case "costruendo":
+    _regappname="corsaro";
+    _regenvname="flb_costruendo";
+    _regrolename="forum";
+    break;
+case "crediti":
+    _regappname="corsaro";
+    _regenvname="crediti";
+    _regrolename="crediti";
+    break;
+}
 
 $("#lbregemail").rylabel({left:0, top:20, caption:"Email"});
 var txregemail=$("#txregemail").rytext({ 

@@ -1,7 +1,8 @@
 <?php
 include_once $path_cambusa."ryquiver/_quiver.php";
+include_once $path_cambusa."ryego/ego_sendmail.php";
 function ego_triggerreg($egoid, $email, $appname, $envname, $rolename, $custom, &$babel, &$failure){
-    global $public_sessionid;
+    global $public_sessionid, $postmaster_mail;
 
     $ret=true;
     
@@ -20,12 +21,24 @@ function ego_triggerreg($egoid, $email, $appname, $envname, $rolename, $custom, 
         $data["NOME"]=$custom["nome"];
         $data["COGNOME"]=$custom["cognome"];
         $data["DESCRIPTION"]=$email;
+        $data["EMAIL"]=$email;
         $data["UTENTEID"]=$quiverid;
         
         $json=json_decode(quiver_execute($public_sessionid, $envname, false, "objects_insert", $data), true);
 
-        if($json["success"]==0){
-        
+        if($json["success"]==1){
+            $object="Ego - Registrazione nuovo account";
+            
+            $text="";
+            $text.="<html><head><meta charset='utf-8' /></head><body style='font-family:verdana,sans-serif;font-size:13px;'>";
+            $text.="<b>Ego - Registrazione nuovo account</b><br><br>";
+            $text.="Una nuova registrazione &egrave; stata eseguita su $envname:<br>";
+            $text.=$custom["nome"]." ".$custom["cognome"]." - $email<br>";
+            $text.="</body><html>";
+            
+            $m=egomail($postmaster_mail, $object, $text, false);
+        }
+        else{
             $ret=false;
             $babel=$json["code"];
             $failure=$json["message"];

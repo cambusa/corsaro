@@ -146,6 +146,20 @@ position:absolute;
 display:none;
 }
 
+.winz-zoom50{
+-ms-transform: scale(0.5); /* IE 9 */
+-ms-transform-origin: 0 0;
+-moz-transform: scale(0.5); /* Firefox */
+-moz-transform-origin: 0 0;
+-o-transform: scale(0.5); /* Opera */
+-o-transform-origin: 0 0;
+-webkit-transform: scale(0.5); /* Safari And Chrome */
+-webkit-transform-origin: 0 0;
+transform: scale(0.5); /* Standard Property */
+transform-origin: 0 0;
+zoom:1.5; /* IE 8 */
+}
+
 #winz-about a{
 color:navy;
 }

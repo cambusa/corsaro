@@ -21,6 +21,7 @@
         <div relid="oper_reset" babelcode="RESET"></div>
         <div relid="oper_new" babelcode="BUTTON_NEW"></div>
         <div relid="oper_delete" babelcode="BUTTON_SELDELETE"></div>
+        <div relid="preview"></div>
     </div>
     <div>
         <div relid="LB_NAME" babelcode="NAME"></div><div relid="NAME"></div>
@@ -100,6 +101,7 @@
             <div relid="typeinclude" style="position:absolute;display:none;">
                 <div relid="LB_INCLUDEFILE" babelcode="PAGE_SOURCE"></div><div relid="INCLUDEFILE"></div>
             </div>
+            <div relid="typeforum" style="position:absolute;display:none;"></div>
             <div relid="typecopyright" style="position:absolute;display:none;">
                 <div relid="LB_DEALER" babelcode="PAGE_DEALER"></div><div relid="DEALER"></div>
                 <div relid="LB_AUTHOR" babelcode="PAGE_AUTHOR"></div><div relid="AUTHOR"></div>

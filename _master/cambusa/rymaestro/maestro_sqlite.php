@@ -18,7 +18,7 @@ function x_sqlite_open($strconn, $errdescr=""){
     if($sqlite3_enabled){
         try{
             $conn=new SQLite3($strconn); 
-            $conn->busyTimeout(10000);
+            $conn->busyTimeout(20000);
         }
         catch(Exception $e){
             $errdescr=$e->getMessage();
@@ -116,7 +116,7 @@ function x_sqlite_exec($conn, $sql){
         $ret=$conn->exec($sql);
     else
         $ret=sqlite_exec($conn, $sql);
-    usleep(100);
+    usleep(1000);
     return $ret;
 }
 function x_sqlite_changes($conn){
@@ -139,6 +139,6 @@ function x_sqlite_finalize(&$res){
             unset($res);
         }
     }
-    usleep(100);
+    usleep(1000);
 }
 ?>

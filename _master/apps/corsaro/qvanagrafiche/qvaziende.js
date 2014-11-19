@@ -19,6 +19,7 @@ function class_qvaziende(settings,missing){
     var flagopen=false;
     var flagsuspend=false;
     var loadedsysid="";
+    var sospendirefresh=false;
     
     // DEFINIZIONE TAB SELEZIONE
     
@@ -31,7 +32,7 @@ function class_qvaziende(settings,missing){
         numbered:true,
         checkable:true,
         environ:_sessioninfo.environ,
-        from:"QWOBJECTS",
+        from:"QW_AZIENDE",
         orderby:"DESCRIPTION",
         columns:[
             {id:"DESCRIPTION",caption:"Descrizione",width:200}
@@ -76,42 +77,85 @@ function class_qvaziende(settings,missing){
         }
     });
     var offsety=80;
-    var lbf_search=$(prefix+"lbf_search").rylabel({left:430, top:offsety, caption:"Ricerca"});offsety+=20;
+    var lbf_search=$(prefix+"lbf_search").rylabel({left:430, top:offsety, caption:"Ricerca"});
+    offsety+=20;
     var txf_search=$(prefix+"txf_search").rytext({left:430, top:offsety, width:300, 
         assigned:function(){
             oper_refresh.engage()
         }
-    });offsety+=30;
+    });
     
+    offsety+=25;
+    $(prefix+"lbf_classe").rylabel({left:430, top:offsety, caption:"Classe"});
+    offsety+=20;
+    var txf_classe=$(prefix+"txf_classe").ryhelper({left:430, top:offsety, width:300, 
+        formid:formid, table:"QW_CLASSIAZIENDA", title:"Classi", multiple:false,
+        open:function(o){
+            o.where("");
+        },
+        onselect:function(){
+            setTimeout(function(){oper_refresh.engage()}, 100);
+        },
+        clear:function(){
+            setTimeout(function(){oper_refresh.engage()}, 100);
+        }
+    });
+    
+    offsety+=30;
     var oper_refresh=$(prefix+"oper_refresh").rylabel({
         left:430,
         top:offsety,
+        width:80,
         caption:"Aggiorna",
         button:true,
         click:function(o, done){
-            var q="";
-            var t=_likeescapize(txf_search.value());
+            if(!sospendirefresh){
+                var q="";
+                var t=_likeescapize(txf_search.value());
+                var classeid=txf_classe.value();
 
-            q="TYPOLOGYID='"+currtypologyid+"'";
-            if(t!="")
-                q+=" AND ( [:UPPER(DESCRIPTION)] LIKE '%[=DESCRIPTION]%' OR [:UPPER(TAG)] LIKE '%[=TAG]%' )";
-
-            objgridsel.where(q);
-            objgridsel.query({
-                args:{
-                    "DESCRIPTION":t,
-                    "TAG":t
-                },
-                ready:function(){
-                    if(done!=missing){done()}
+                if(t!=""){
+                    if(q!=""){q+=" AND "}
+                    q+="( [:UPPER(DESCRIPTION)] LIKE '%[=DESCRIPTION]%' OR [:UPPER(TAG)] LIKE '%[=TAG]%' )";
                 }
-            });
+                if(classeid!=""){
+                    if(q!=""){q+=" AND "}
+                    q+="SYSID IN (SELECT PARENTID FROM QVSELECTIONS WHERE SELECTEDID='"+classeid+"')";
+                }
+
+                objgridsel.where(q);
+                objgridsel.query({
+                    args:{
+                        "DESCRIPTION":t,
+                        "TAG":t
+                    },
+                    ready:function(){
+                        if(done!=missing){done()}
+                    }
+                });
+            }
+        }
+    });
+
+    var oper_reset=$(prefix+"oper_reset").rylabel({
+        left:640,
+        top:offsety,
+        width:80,
+        caption:"Pulisci",
+        button:true,
+        click:function(o){
+            sospendirefresh=true;
+            txf_search.clear();
+            txf_classe.clear();
+            sospendirefresh=false;
+            setTimeout(function(){oper_refresh.engage()}, 100);
         }
     });
     
     var oper_new=$(prefix+"oper_new").rylabel({
         left:430,
         top:240,
+        width:120,
         caption:"Nuovo",
         button:true,
         click:function(o){
@@ -157,6 +201,7 @@ function class_qvaziende(settings,missing){
     var oper_print=$(prefix+"oper_print").rylabel({
         left:430,
         top:290,
+        width:120,
         caption:"Stampa selezione",
         button:true,
         click:function(o){
@@ -167,6 +212,7 @@ function class_qvaziende(settings,missing){
     var oper_delete=$(prefix+"oper_delete").rylabel({
         left:430,
         top:340,
+        width:120,
         caption:"Elimina selezione",
         button:true,
         click:function(o){
@@ -220,40 +266,42 @@ function class_qvaziende(settings,missing){
     offsety+=30;
 
     $(prefix+"LB_CODFISC").rylabel({left:20, top:offsety, caption:"Cod. Fisc."});
-    $(prefix+"CODFISC").rytext({left:120, top:offsety, width:300, datum:"C", tag:"CODFISC"});
+    $(prefix+"CODFISC").rytext({left:120, top:offsety, width:200, datum:"C", tag:"CODFISC"});
     offsety+=30;
     
     $(prefix+"LB_PIVA").rylabel({left:20, top:offsety, caption:"Partita IVA"});
-    $(prefix+"PIVA").rytext({left:120, top:offsety, width:300, maxlen:30, datum:"C", tag:"PIVA"});
+    $(prefix+"PIVA").rytext({left:120, top:offsety, width:200, maxlen:30, datum:"C", tag:"PIVA"});
     offsety+=30;
     
     $(prefix+"LB_ATECO").rylabel({left:20, top:offsety, caption:"AT.ECO."});
-    $(prefix+"ATECO").rytext({left:120, top:offsety, width:300, maxlen:30, datum:"C", tag:"ATECO"});
+    $(prefix+"ATECO").rytext({left:120, top:offsety, width:200, maxlen:30, datum:"C", tag:"ATECO"});
     offsety+=30;
     
     $(prefix+"LB_CCIAA").rylabel({left:20, top:offsety, caption:"C.C.I.A.A."});
-    $(prefix+"CCIAA").rytext({left:120, top:offsety, width:300, datum:"C", tag:"CCIAA"});
+    $(prefix+"CCIAA").rytext({left:120, top:offsety, width:200, datum:"C", tag:"CCIAA"});
     offsety+=30;
 
     $(prefix+"LB_BEGINTIME").rylabel({left:20, top:offsety, caption:"Iscrizione"});
-    $(prefix+"BEGINTIME").rydate({left:120, top:offsety, datum:"C", tag:"BEGINTIME"});
-    $(prefix+"LB_ENDTIME").rylabel({left:270, top:offsety, caption:"Cessazione"});
-    $(prefix+"ENDTIME").rydate({left:350, top:offsety, defaultvalue:"99991231", datum:"C", tag:"ENDTIME"});
+    $(prefix+"BEGINTIME").rydate({left:120, top:offsety, width:110, datum:"C", tag:"BEGINTIME"});
+    $(prefix+"LB_ENDTIME").rylabel({left:250, top:offsety, caption:"Cessazione"});
+    $(prefix+"ENDTIME").rydate({left:330, top:offsety, width:110, defaultvalue:"99991231", datum:"C", tag:"ENDTIME"});
     offsety+=30;
     
     $(prefix+"LB_TELEFONO").rylabel({left:20, top:offsety, caption:"Telefono"});
     $(prefix+"TELEFONO").rytext({left:120, top:offsety, width:200, maxlen:30, datum:"C", tag:"TELEFONO"});
-    $(prefix+"LB_FAX").rylabel({left:385, top:offsety, caption:"Fax"});
-    $(prefix+"FAX").rytext({left:430, top:offsety, width:200, maxlen:30, datum:"C", tag:"FAX"});
-    offsety+=30;
     
+    offsety+=30;
+    $(prefix+"LB_FAX").rylabel({left:20, top:offsety, caption:"Fax"});
+    $(prefix+"FAX").rytext({left:120, top:offsety, width:200, maxlen:30, datum:"C", tag:"FAX"});
+
+    offsety+=30;
     $(prefix+"LB_EMAIL").rylabel({left:20, top:offsety, caption:"Email"});
     $(prefix+"EMAIL").rytext({left:120, top:offsety, width:200, maxlen:50, datum:"C", tag:"EMAIL"});
+
     offsety+=30;
- 
     $(prefix+"LB_CONTODEFAULTID").rylabel({left:20, top:offsety, caption:"Conto predef."});
     $(prefix+"CONTODEFAULTID").ryhelper({
-        left:120, top:offsety, width:300, datum:"C", tag:"CONTODEFAULTID", formid:formid, table:"QW_CONTI", title:"Scelta conto predefinito",
+        left:120, top:offsety, width:200, datum:"C", tag:"CONTODEFAULTID", formid:formid, table:"QW_CONTI", title:"Scelta conto predefinito",
         open:function(o){
             o.where("SYSID IN (SELECT SYSID FROM QW_CONTI WHERE TITOLAREID='"+currsysid+"')");
         }
@@ -264,7 +312,7 @@ function class_qvaziende(settings,missing){
  
     $(prefix+"LB_TITOLAREID").rylabel({left:20, top:offsety, caption:"Titolare"});
     $(prefix+"TITOLAREID").ryhelper({
-        left:120, top:offsety, width:300, datum:"C", tag:"TITOLAREID", formid:formid, table:"QW_PERSONE", title:"Titolare",
+        left:120, top:offsety, width:200, datum:"C", tag:"TITOLAREID", formid:formid, table:"QW_PERSONE", title:"Titolare",
         open:function(o){
             o.where("");
         }
@@ -294,6 +342,18 @@ function class_qvaziende(settings,missing){
     
     $(prefix+"LB_REGISTRY").rylabel({left:20, top:offsety, caption:"Note"});offsety+=30;
     $(prefix+"REGISTRY").ryedit({left:20, top:offsety, width:700, height:400, datum:"C", tag:"REGISTRY"});
+    
+    var objclassi=$(prefix+"CLASSI").ryselections({"left":470, "top":195, "height":140, 
+        "title":"Classi di appartenenza",
+        "titlecode":"BELONGING_CLASS",
+        "formid":formid, 
+        "table":"QW_CLASSIAZIENDA", 
+        "where":"",
+        "upward":1,
+        "parenttable":"QVOBJECTS", 
+        "parentfield":"SYSID",
+        "selectedtable":"QVOBJECTS"
+    });
     
     var oper_contextengage=$(prefix+"oper_contextengage").rylabel({
         left:680,
@@ -365,13 +425,18 @@ function class_qvaziende(settings,missing){
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
                     qv_maskclear(formid, "C");
+                    objclassi.clear();
                     RYQUE.query({
                         sql:"SELECT * FROM QW_AZIENDE WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
                             qv_object2mask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
                             loadedsysid=currsysid;
-                            castFocus(prefix+"DESCRIPTION");
+                            objclassi.parentid(currsysid,
+                                function(){
+                                    castFocus(prefix+"DESCRIPTION");
+                                }
+                            );
                         }
                     });
                     break;

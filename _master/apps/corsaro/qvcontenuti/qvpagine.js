@@ -64,6 +64,7 @@ function class_qvpagine(settings,missing){
             objtabs.enabled(4,false);
             oper_delete.enabled(o.isselected());
             context="";
+            $(prefix+"preview").hide();
             if(i>0){
                 o.solveid(i);
             }
@@ -80,6 +81,9 @@ function class_qvpagine(settings,missing){
             if(flagopen){
                 flagopen=false;
                 objtabs.currtab(2);
+            }
+            else{
+                refreshpreview();
             }
         },
         enter:function(){
@@ -165,7 +169,7 @@ function class_qvpagine(settings,missing){
 
             if(t!=""){
                 if(q!=""){q+=" AND "}
-                q+="( [:UPPER(DESCRIPTION)] LIKE '%[=DESCRIPTION]%' OR [:UPPER(TAG)] LIKE '%[=TAG]%' )";
+                q+="( [:UPPER(DESCRIPTION)] LIKE '%[=DESCRIPTION]%' OR [:UPPER(TAG)] LIKE '%[=TAG]%' OR SYSID='[=SYSID]')";
             }
             if(currsiteid!=""){
                 if(q!=""){q+=" AND "}
@@ -183,7 +187,8 @@ function class_qvpagine(settings,missing){
             objgridsel.query({
                 args:{
                     "DESCRIPTION":t,
-                    "TAG":t
+                    "TAG":t,
+                    "SYSID":t
                 },
                 ready:function(){
                     if(done!=missing){done()}
@@ -255,6 +260,9 @@ function class_qvpagine(settings,missing){
             qv_bulkdelete(formid, objgridsel, "arrows");
         }
     });
+    
+    $(prefix+"preview").addClass("winz-zoom50");
+    $(prefix+"preview").css({"position":"absolute", "left":740, "top":70, "width":600, "border-left":"2px solid red", "padding-left":8, "display":"none"});
 
     // DEFINIZIONE TAB CONTESTO
     var offsety=60;
@@ -332,6 +340,7 @@ function class_qvpagine(settings,missing){
     .additem({caption:"Navigator", key:"navigator"})
     .additem({caption:"Mailus", key:"mailus"})
     .additem({caption:"Include", key:"include"})
+    .additem({caption:"Forum", key:"forum"})
     .additem({caption:"Copyright", key:"copyright"});
 
     $(prefix+"LB_LANGUAGE").rylabel({left:240, top:offsety, caption:"Voce"});
@@ -1314,7 +1323,11 @@ function class_qvpagine(settings,missing){
             if(!flagsuspend){
                 switch(i){
                 case 1:
-                    objgridsel.dataload();
+                    objgridsel.dataload(
+                        function(){
+                            refreshpreview();
+                        }
+                    );
                     break;
                 case 2:
                     // CARICAMENTO DEL CONTESTO
@@ -1557,6 +1570,27 @@ function class_qvpagine(settings,missing){
                 }
             , 100);
         }
+    }
+    function refreshpreview(){
+        RYQUE.query({
+            sql:"SELECT DESCRIPTION,ABSTRACT,REGISTRY FROM QW_WEBCONTENTS WHERE SYSID='"+currsysid+"'",
+            ready:function(v){
+                var h="";
+                h+="<div style='margin-bottom:4px'>";
+                h+="<h2>"+v[0]["DESCRIPTION"]+"</h2>";
+                h+="</div>";
+                h+="<div style='margin-bottom:10px'>";
+                h+="<i>"+v[0]["ABSTRACT"]+"</i>";
+                h+="</div>";
+                h+="<div>";
+                h+=v[0]["REGISTRY"];
+                h+="</div>";
+                h=h.replace(/<script[^\x00]+<\/script>/ig, "");
+                h=h.replace(/<iframe[^\x00]+<\/iframe>/ig, "");
+                $(prefix+"preview").html(h);
+                $(prefix+"preview").show();
+            }
+        });
     }
     winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"NOME", xengage:oper_contextengage, files:3} );
 }

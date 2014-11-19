@@ -198,12 +198,14 @@ function egoinitialize(missing){
                 var t=RYBOX.getbabel("lbauthenticationservice");
                 $("title").html(t);
                 $("#egotitle").html(t);
-                $("#txalias_anchor").focus();
+                if(_egocontext=="default")
+                    $("#txalias_anchor").focus();
             }
         );
     }
     else{
-        $("#txalias_anchor").focus();
+        if(_egocontext=="default")
+            $("#txalias_anchor").focus();
     }
 }
 function egoterminate(lout){

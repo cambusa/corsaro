@@ -677,7 +677,7 @@ function class_qvsiti(settings,missing){
     $(prefix+"F_CONTENTID").ryhelper({
         left:460, top:offsety, width:259, datum:"F", tag:"CONTENTID", formid:formid, table:"QW_WEBCONTENTS", title:"Scelta contenuto",
         open:function(o){
-            o.where("SYSID<>'"+currcontainerid+"' AND (SITEID='"+currsysid+"' OR SITEID='')");
+            o.where("SITEID='"+currsysid+"'");
         },
         assigned:function(){
             operf_unsaved.visible(1);

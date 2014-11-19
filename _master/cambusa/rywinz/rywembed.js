@@ -166,7 +166,7 @@ function ryWinz(missing){
             t+="                <div id='hanger_"+propid+"' class='window_hanger'></div>";
             t+="            </div>";
             t+="        </div>";
-            t+="        <div id='dither_"+propid+"' class='winz_dither'></div>";
+            t+="        <div id='dither_"+propid+"' class='winz_dither' style='top:0px;'></div>";
             t+="        <div id='message_"+propid+"' class='abs window_bottom'></div>";
             t+="        <a id='stop_"+propid+"' class='winz_stop' title='Stop'></a>";
             t+="    </div>";

@@ -162,15 +162,20 @@ for($i=0; $i<count($STRUCT); $i++){
     $ORIGID="K".$STRUCT[$i]["SYSID"];
     $CONTAINERID=$ALIASES[$ORIGID];
     $PARENT=$PARENTS[$ORIGID];
+    $CONTENTID="";
     if(intval($STRUCT[$i]["CURRENTPAGE"])==1){
         $CURRENTPAGE=$CONTAINERID;
-        if($filibuster_id!="")
-            $CONTENTID=$filibuster_id;
-        else
-            $CONTENTID=$DEFAULTID;
+    }
+    if($STRUCT[$i]["CONTENTID"]!=""){
+        $CONTENTID=$STRUCT[$i]["CONTENTID"];
     }
     else{
-        $CONTENTID=$STRUCT[$i]["CONTENTID"];
+        if(intval($STRUCT[$i]["CURRENTPAGE"])==1){
+            if($filibuster_id!="")
+                $CONTENTID=$filibuster_id;
+            else
+                $CONTENTID=$DEFAULTID;
+        }
     }
     $CLASSES=$STRUCT[$i]["CLASSES"];
     $STATEMENTS.="create_container('$CONTAINERID', '$PARENT', '$CONTENTID', '$CLASSES', $JSON, '$SCRIPT');\n";

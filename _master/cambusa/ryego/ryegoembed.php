@@ -182,6 +182,7 @@ var _returnURL="<?php print $returnurl ?>";
 var _egomethod="<?php  print $egomethod ?>";
 var _setuponly=<?php  print $setuponly ?>;
 var _appname="<?php  print $appname ?>";
+var _egocontext="embed";
 function encryptString(s){
     var e=new JSEncrypt();
     s=CryptoJS.SHA1(s);

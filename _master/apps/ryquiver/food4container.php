@@ -260,6 +260,14 @@ if($env!="" && $site!="" && $CONTENTID!=""){
                     }
                 }
                 break;
+            case "forum":
+                if($PAGEID!="")
+                    $REFID=$PAGEID;
+                else
+                    $REFID=$DEFAULTID;
+                include_once "food4_forum.php";
+                $food.=forumtree($maestro, $REFID);
+                break;
             case "copyright":
                 $AUTHOR=$r[0]["AUTHOR"];
                 $DEALER=$r[0]["DEALER"];

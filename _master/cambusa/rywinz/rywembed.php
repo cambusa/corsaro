@@ -37,10 +37,14 @@ CambusaLibrary("rySource");
 CambusaLibrary("ryWembed");
 CambusaLibrary("ryDraw");
 
-if(is_file($winz_loadmodules)){
-    include_once $winz_loadmodules;
+if(isset($winz_loadmodules)){
+    if(is_file($winz_loadmodules)){
+        include_once $winz_loadmodules;
+    }
 }
-
+if(isset($winz_moremodules)){
+    print $winz_moremodules;
+}
 ?>
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="<?php print $url_cambusa ?>jqdesktop/assets/css/ie.css" />
