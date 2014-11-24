@@ -260,7 +260,10 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array()){
     catch(Exception $e){
         if(isset($maestro)){
             // ROLLBACK TRANSACTION
-            maestro_rollback($maestro);
+            @maestro_rollback($maestro);
+
+            // CHIUDO IL DATABASE
+            @maestro_closedb($maestro);
         }
         $jret=array();
         $jret["success"]=0;

@@ -14,74 +14,91 @@ if(!isset($tocambusa))
 include_once $tocambusa."sysconfig.php";
 include_once $tocambusa."ryquiver/quiversex.php";
 
-// INIZIALIZZO LE VARIABILI IN USCITA
-$success=1;
-$description="Operazione effettuata";
-$reqid="";
-$env_provider="";
-$env_lenid="";
+try{
+    // INIZIALIZZO LE VARIABILI IN USCITA
+    $success=1;
+    $description="Operazione effettuata";
+    $reqid="";
+    $env_provider="";
+    $env_lenid="";
 
-$r=array();
+    $r=array();
 
-if(isset($_POST["env"]) && isset($_POST["sessionid"])){
+    if(isset($_POST["env"]) && isset($_POST["sessionid"])){
 
-    // RISOLVO I VALORI IN INGRESSO
-    $env_name=strtolower($_POST["env"]);
-    $sessionid=$_POST["sessionid"];
+        // RISOLVO I VALORI IN INGRESSO
+        $env_name=strtolower($_POST["env"]);
+        $sessionid=$_POST["sessionid"];
 
-    // APRO IL DATABASE
-    $maestro=maestro_opendb($env_name, false);
+        // APRO IL DATABASE
+        $maestro=maestro_opendb($env_name, false);
 
-    // VERIFICO IL BUON ESITO DELL'APERTURA
-    if($maestro->conn!==false){
+        // VERIFICO IL BUON ESITO DELL'APERTURA
+        if($maestro->conn!==false){
 
-        // DETERMINO PROVIDER E LUNGHEZZA SYSID
-        $env_provider=$maestro->provider;
-        $env_lenid=$maestro->lenid;
-        
-        // COMUNICO DI FARE UNA VALIDAZIONE DI SICUREZZA
-        if($maestro->quiver)
-            $context="quiver";
-        else
-            $context="";
+            // BEGIN TRANSACTION
+            maestro_begin($maestro);
+                    
+            // DETERMINO PROVIDER E LUNGHEZZA SYSID
+            $env_provider=$maestro->provider;
+            $env_lenid=$maestro->lenid;
             
-        // GESTIONE SESSIONE SPECIALE IN SOLA LETTURA
-        if($sessionid==$ryque_sessionid){
-            $context="ryque";
-        }
+            // COMUNICO DI FARE UNA VALIDAZIONE DI SICUREZZA
+            if($maestro->quiver)
+                $context="quiver";
+            else
+                $context="";
+                
+            // GESTIONE SESSIONE SPECIALE IN SOLA LETTURA
+            if($sessionid==$ryque_sessionid){
+                $context="ryque";
+            }
 
-        // VALIDAZIONE CODICE DI SESSIONE
-        if(qv_validatesession($maestro, $sessionid, $context)){
-            if($maestro->monad){
-                // MI FACCIO RESTITUIRE UN SYSID UNIVOCO
-                maestro_begin($maestro);
-                $reqid=qv_createsysid($maestro);
-                maestro_commit($maestro);
-                for($i=1; $i<=2; $i++){
-                    $reqid.=strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
+            // VALIDAZIONE CODICE DI SESSIONE
+            if(qv_validatesession($maestro, $sessionid, $context)){
+                if($maestro->monad){
+                    // MI FACCIO RESTITUIRE UN SYSID UNIVOCO
+                    $reqid=qv_createsysid($maestro);
+                    for($i=1; $i<=2; $i++){
+                        $reqid.=strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
+                    }
                 }
+                else{
+                    // MI FACCIO RESTITUIRE UN SYSID UNIVOCO
+                    $reqid=monadcall(16, 2);
+                }
+                $buff=$env_name;
+                $fn="requests/".$reqid.".req";
+                $fp=fopen($fn, "w");
+                fwrite($fp, $buff);
+                fclose($fp);
             }
             else{
-                // MI FACCIO RESTITUIRE UN SYSID UNIVOCO
-                $reqid=monadcall(16, 2);
+                $success=0;
+                $description="Sessione non valida";
             }
-            $buff=$env_name;
-            $fn="requests/".$reqid.".req";
-            $fp=fopen($fn, "w");
-            fwrite($fp, $buff);
-            fclose($fp);
+
+            // COMMIT TRANSACTION
+            maestro_commit($maestro);
         }
         else{
             $success=0;
-            $description="Sessione non valida";
+            $description="Connessione non valida";
         }
+        // CHIUDO IL DATABASE
+        maestro_closedb($maestro);
     }
-    else{
-        $success=0;
-        $description="Connessione non valida";
+}
+catch(Exception $e){
+    if(isset($maestro)){
+        // ROLLBACK TRANSACTION
+        @maestro_rollback($maestro);
+
+        // CHIUDO IL DATABASE
+        @maestro_closedb($maestro);
     }
-    // CHIUDO IL DATABASE
-    maestro_closedb($maestro);
+    $success=0;
+    $description=$e->getMessage();
 }
 // Uscita JSON
 $r["success"]=$success;
