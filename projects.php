@@ -100,7 +100,7 @@ function projectlist(){
         function(d){
             var v=d.split("|");
             for(var i in v){
-                $("#projects").append("<a href='"+v[i]+"/apps/home.php/?project="+v[i]+"' target='_blank'>"+v[i]+"</a><br><br>");
+                $("#projects").append("<a href='"+v[i]+"/apps/home.php?project="+v[i]+"' target='_blank'>"+v[i]+"</a><br><br>");
             }
         }
     );

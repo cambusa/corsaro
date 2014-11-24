@@ -47,7 +47,7 @@ Portale Progetto <?php print $progetto ?>
 <div id="frame">
 
 <b>Passo 1)</b> Inizializzazione sistema:
-<a href="../../cambusa/sysinstall/sysinstall.php/?project=<?php print strtolower($progetto) ?>" target="_blank">Monad, Ego, Pulse e dizionari</a><br>
+<a href="../cambusa/sysinstall/sysinstall.php?project=<?php print strtolower($progetto) ?>" target="_blank">Monad, Ego, Pulse e dizionari</a><br>
 <blockquote>
 <span style="font-size:14px;">
 Il database di <i>Ego</i> viene inizializzato con un utente amministratore:<br>
@@ -59,7 +59,7 @@ La password deve essere cambiata al primo utilizzo.
 <br>
 
 <b>Passo 2)</b> Utenti e autorizzazioni:
-<a href="../../cambusa/ryego/ryego.php" target="_blank">Ego</a><br>
+<a href="../cambusa/ryego/ryego.php" target="_blank">Ego</a><br>
 <blockquote>
 <span style="font-size:14px;">
 Si cambi la password e si inseriscano utenti e autorizzazioni.
@@ -68,7 +68,7 @@ Si cambi la password e si inseriscano utenti e autorizzazioni.
 <br>
 
 <b>Passo 3)</b> Strutturazione database:
-<a href="../../cambusa/rymaestro/rymaestro.php" target="_blank">Maestro</a><br>
+<a href="../cambusa/rymaestro/rymaestro.php" target="_blank">Maestro</a><br>
 <blockquote>
 <span style="font-size:14px;">
 Sotto la sezione <i>Upgrade</i>
@@ -78,7 +78,7 @@ si aggiorni il database [<i><?php print strtolower($progetto) ?></i>].
 <br>
 
 <b>Passo 4)</b> Utilizzo del software:
-<a href="../../apps/corsaro/corsaro.php" target="_blank">Corsaro</a><br>
+<a href="../apps/corsaro/corsaro.php" target="_blank">Corsaro</a><br>
 <blockquote>
 <span style="font-size:14px;">
 Al primo utilizzo o dopo un aggiornamento del database, si apra<br>

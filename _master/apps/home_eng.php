@@ -47,7 +47,7 @@ Home Project <?php print $progetto ?>
 <div id="frame">
 
 <b>Step 1)</b> System initialization:
-<a href="../../cambusa/sysinstall/sysinstall.php/?project=<?php print strtolower($progetto) ?>" target="_blank">Monad, Ego, Pulse and dictionaries</a><br>
+<a href="../cambusa/sysinstall/sysinstall.php?project=<?php print strtolower($progetto) ?>" target="_blank">Monad, Ego, Pulse and dictionaries</a><br>
 <blockquote>
 <span style="font-size:14px;">
 <i>Ego</i> database is initialized with an administrator user:<br>
@@ -59,7 +59,7 @@ The password must be changed on first use.
 <br>
 
 <b>Step 2)</b> Users and permissions:
-<a href="../../cambusa/ryego/ryego.php" target="_blank">Ego</a><br>
+<a href="../cambusa/ryego/ryego.php" target="_blank">Ego</a><br>
 <blockquote>
 <span style="font-size:14px;">
 You change the password and fit users and permissions.
@@ -68,7 +68,7 @@ You change the password and fit users and permissions.
 <br>
 
 <b>Step 3)</b> Structuring database:
-<a href="../../cambusa/rymaestro/rymaestro.php" target="_blank">Maestro</a><br>
+<a href="../cambusa/rymaestro/rymaestro.php" target="_blank">Maestro</a><br>
 <blockquote>
 <span style="font-size:14px;">
 Under section <i>Upgrade</i>
@@ -78,7 +78,7 @@ update the database [<i><?php print strtolower($progetto) ?></i>].
 <br>
 
 <b>Step 4)</b> Using software:
-<a href="../../apps/corsaro/corsaro.php" target="_blank">Corsaro</a><br>
+<a href="../apps/corsaro/corsaro.php" target="_blank">Corsaro</a><br>
 <blockquote>
 <span style="font-size:14px;">
 On first use, or after a database update, open<br>
