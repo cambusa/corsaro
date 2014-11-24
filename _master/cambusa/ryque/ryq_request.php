@@ -36,9 +36,6 @@ try{
         // VERIFICO IL BUON ESITO DELL'APERTURA
         if($maestro->conn!==false){
 
-            // BEGIN TRANSACTION
-            maestro_begin($maestro);
-                    
             // DETERMINO PROVIDER E LUNGHEZZA SYSID
             $env_provider=$maestro->provider;
             $env_lenid=$maestro->lenid;
@@ -56,17 +53,15 @@ try{
 
             // VALIDAZIONE CODICE DI SESSIONE
             if(qv_validatesession($maestro, $sessionid, $context)){
-                if($maestro->monad){
-                    // MI FACCIO RESTITUIRE UN SYSID UNIVOCO
-                    $reqid=qv_createsysid($maestro);
-                    for($i=1; $i<=2; $i++){
-                        $reqid.=strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
-                    }
+                // CREO UN CODICE UNIVOCO
+                $reqid=date("YmdHis");
+                for($i=1; $i<=2; $i++){
+                    $reqid.=strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
                 }
-                else{
-                    // MI FACCIO RESTITUIRE UN SYSID UNIVOCO
-                    $reqid=monadcall(16, 2);
+                while(file_exists("requests/$reqid.req")){
+                    $reqid=substr($reqid, 0, 18).strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
                 }
+                // MEMORIZZO IL PROTOCOLID
                 $buff=$env_name;
                 $fn="requests/".$reqid.".req";
                 $fp=fopen($fn, "w");
@@ -77,9 +72,6 @@ try{
                 $success=0;
                 $description="Sessione non valida";
             }
-
-            // COMMIT TRANSACTION
-            maestro_commit($maestro);
         }
         else{
             $success=0;
@@ -91,9 +83,6 @@ try{
 }
 catch(Exception $e){
     if(isset($maestro)){
-        // ROLLBACK TRANSACTION
-        @maestro_rollback($maestro);
-
         // CHIUDO IL DATABASE
         @maestro_closedb($maestro);
     }
