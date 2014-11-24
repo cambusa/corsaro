@@ -25,7 +25,7 @@ function qv_forum_insert($maestro, $data){
         $SYSID="";
         
         $url=food4containerURL();
-        $p=strpos($url, "/ryquiver");
+        $p=strrpos($url, "/ryquiver");
         if($p!==false){
             $url=substr($url, 0, $p-8);
         }

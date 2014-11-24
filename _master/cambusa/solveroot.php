@@ -19,12 +19,12 @@ function installationPATH(){
 
 function installationURL(){
     $s=currPageURL();
-    $p=strpos($s, "/cambusa");
+    $p=strrpos($s, "/cambusa");
     if($p!==false){
         $s=substr($s, 0, $p);
     }
     else{
-        $p=strpos($s, "/apps");
+        $p=strrpos($s, "/apps");
         if($p!==false){
             $s=substr($s, 0, $p);
         }

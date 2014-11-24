@@ -147,7 +147,7 @@ function rywinzHost(){
     else{
         $pageURL.=$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
     }
-    $p=strpos($pageURL, "/apps");
+    $p=strrpos($pageURL, "/apps");
     if($p!==false){
         $pageURL=substr($pageURL, 0, $p+1);
     }

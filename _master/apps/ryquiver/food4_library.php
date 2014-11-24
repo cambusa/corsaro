@@ -45,7 +45,7 @@ function flb_dirattachment($maestro, &$dirattach, &$urlattach){
 }
 function flb_urlquiver(){
     $s=food4containerURL();
-    $p=strpos($s, "/ryquiver");
+    $p=strrpos($s, "/ryquiver");
     if($p!==false){
         $s=substr($s, 0, $p);
     }

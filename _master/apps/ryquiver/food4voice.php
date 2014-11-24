@@ -207,7 +207,7 @@ function solvecontents($env, $site, &$id, &$text, &$lang, &$gender){
 }
 function food4voice(){
     $s=food4containerURL();
-    $p=strpos($s, "/ryquiver");
+    $p=strrpos($s, "/ryquiver");
     if($p!==false){
         $s=substr($s, 0, $p-5);
     }
@@ -216,7 +216,7 @@ function food4voice(){
 }
 function food4corsaro(){
     $s=food4containerURL();
-    $p=strpos($s, "/ryquiver");
+    $p=strrpos($s, "/ryquiver");
     if($p!==false){
         $s=substr($s, 0, $p+9);
     }

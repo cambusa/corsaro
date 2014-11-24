@@ -84,7 +84,7 @@ else{
     exit;
 }
 // PERCORSO CAMBUSA
-$p=strpos($filibuster_host, "/apps/");
+$p=strrpos($filibuster_host, "/apps/");
 if($p!==false)
     $instllroot=substr($filibuster_host, 0, $p+1);
 else
@@ -443,7 +443,7 @@ flb_initialize();
 <?php 
 function installationURL(){
     $s=currPageURL();
-    $p=strpos($s, "/corsaro");
+    $p=strrpos($s, "/corsaro");
     if($p!==false){
         $s=substr($s, 0, $p);
     }
