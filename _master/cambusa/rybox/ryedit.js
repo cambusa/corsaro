@@ -37,6 +37,8 @@
             
             if(_mobiledetected){
                 propflat=true;
+                propwidth-=6;
+                propheight-=42;
             }
             
             if(propflat)

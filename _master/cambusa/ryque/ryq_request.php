@@ -54,7 +54,9 @@ if(isset($_POST["env"]) && isset($_POST["sessionid"])){
         if(qv_validatesession($maestro, $sessionid, $context)){
             if($maestro->monad){
                 // MI FACCIO RESTITUIRE UN SYSID UNIVOCO
+                maestro_begin($maestro);
                 $reqid=qv_createsysid($maestro);
+                maestro_commit($maestro);
                 for($i=1; $i<=2; $i++){
                     $reqid.=strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
                 }

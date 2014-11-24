@@ -613,6 +613,22 @@ function solvecontent(){
                                 new objMailus(this);
                             }
                         );
+                        // LOGOUT FORUM
+                        $("#"+id+"_inner .filibuster-forum").each(
+                            function(index){
+                                FLB.forum.header=$(this).find(".filibuster-forum-header")[0];
+                                $("#"+id+"_inner .filibuster-forum-iframe").draggable({
+                                    "start":function(){
+                                        $("#"+id+"_inner .filibuster-forum-iframe").css({"background":"silver"});
+                                        $("#"+id+"_inner .filibuster-forum-iframe iframe").css({"visibility":"hidden"});
+                                    },
+                                    "stop":function(){
+                                        $("#"+id+"_inner .filibuster-forum-iframe").css({"background":"#315B7E"});
+                                        $("#"+id+"_inner .filibuster-forum-iframe iframe").css({"visibility":"visible"});
+                                    }
+                                });
+                            }
+                        );
                         // ATTIVAZIONE NAVIGAZIONE
                         $("#"+id+"_inner .filibuster-navigator-tool").each(
                             function(index){
@@ -1347,5 +1363,94 @@ function flb_dropdown(options, missing){
                 var u=$(s[0]).append("<li style='width:"+width+"px;'><a href='"+h+"' "+d+">"+t[i][0]+"</a></li>");
             }
         }
+    }
+}
+function flb_forumComment(obj){
+    try{
+        var info=FLB.forum.getInfo(obj);
+        setTimeout(
+            function(){
+                if(flb_isset(info.iframe.contentWindow._globalforms)){
+                    info.iframe.contentWindow._globalforms[FLB.forum.formid]._forumInsert(info.postid);
+                }
+                else{
+                    FLB.forum.postid=info.postid;
+                    FLB.forum.action="insert";
+                }
+                $(info.corsaro).css({"left":info.fitLeft, "top":info.fitTop, "visibility":"visible"});
+                $(info.iframe).css({"visibility":"visible"});
+            },100
+        );
+    }
+    catch(e){}
+}
+function flb_forumEdit(obj){
+    if(!$(obj).hasClass("filibuster-forum-disabled")){
+        try{
+            var info=FLB.forum.getInfo(obj);
+            setTimeout(
+                function(){
+                    if(flb_isset(info.iframe.contentWindow._globalforms)){
+                        info.iframe.contentWindow._globalforms[FLB.forum.formid]._forumEdit(info.postid);
+                    }
+                    else{
+                        FLB.forum.postid=info.postid;
+                        FLB.forum.action="update";
+                    }
+                    $(info.corsaro).css({"left":info.fitLeft, "top":info.fitTop, "visibility":"visible"});
+                    $(info.iframe).css({"visibility":"visible"});
+                },100
+            );
+        }
+        catch(e){}
+    }
+}
+function flb_forumDelete(obj){
+    if(!$(obj).hasClass("filibuster-forum-disabled")){
+        try{
+            var info=FLB.forum.getInfo(obj);
+            setTimeout(
+                function(){
+                    if(confirm("Eliminare il post selezionato?")){
+                        info.iframe.contentWindow._globalforms[FLB.forum.formid]._forumDelete(info.postid, info.parentid);
+                    }
+                },100
+            );
+        }
+        catch(e){
+            if(window.console){console.log(e.message)}
+        }
+    }
+}
+function flb_forumCancel(){
+    $(".filibuster-forum-iframe").css({"visibility":"hidden"});
+    $(".filibuster-forum-iframe iframe").css({"visibility":"hidden"});
+}
+function flb_forumLogin(obj){
+    try{
+        var info=FLB.forum.getInfo(obj);
+        FLB.forum.action="login";
+        setTimeout(
+            function(){
+                $(info.corsaro).css({"left":10, "top":50, "visibility":"visible"});
+                $(info.iframe).css({"visibility":"visible"});
+            },100
+        );
+    }
+    catch(e){
+        if(window.console){console.log(e.message)}
+    }
+}
+function flb_forumLogout(obj){
+    try{
+        var info=FLB.forum.getInfo(obj);
+        setTimeout(
+            function(){
+                info.iframe.contentWindow._forumLogout();
+            },100
+        );
+    }
+    catch(e){
+        if(window.console){console.log(e.message)}
     }
 }

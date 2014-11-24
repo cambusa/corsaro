@@ -92,14 +92,16 @@ if($env!="" && $site!=""){
         $sql.="FROM ";
         $sql.="QW_WEBCONTENTS ";
         $sql.="WHERE (";
+        if($maestro->provider!="sqlserver"){
+            $sql.="[:UPPER(ABSTRACT)] LIKE '%$SEARCHING%' OR ";
+            $sql.="[:UPPER(REGISTRY)] LIKE '%$SEARCHING%' OR ";
+            $sql.="[:UPPER(ABSTRACT)] LIKE '%$SEARCHINGE%' OR ";
+            $sql.="[:UPPER(REGISTRY)] LIKE '%$SEARCHINGE%' OR ";
+        }
         $sql.="[:UPPER(DESCRIPTION)] LIKE '%$SEARCHING%' OR ";
         $sql.="[:UPPER(TAG)] LIKE '%$SEARCHING%' OR ";
-        $sql.="[:UPPER(ABSTRACT)] LIKE '%$SEARCHING%' OR ";
-        $sql.="[:UPPER(REGISTRY)] LIKE '%$SEARCHING%' OR ";
         $sql.="[:UPPER(DESCRIPTION)] LIKE '%$SEARCHINGE%' OR ";
-        $sql.="[:UPPER(TAG)] LIKE '%$SEARCHINGE%' OR ";
-        $sql.="[:UPPER(ABSTRACT)] LIKE '%$SEARCHINGE%' OR ";
-        $sql.="[:UPPER(REGISTRY)] LIKE '%$SEARCHINGE%'";
+        $sql.="[:UPPER(TAG)] LIKE '%$SEARCHINGE%'";
         $sql.=") AND ";
         $sql.="(SITEID='' OR SITEID='$SITEID') AND ";
         $sql.="SCOPE=0 ";

@@ -97,8 +97,10 @@ function qv_forum_insert($maestro, $data){
         $datax["DESCRIPTION"]=$DESCRIPTION;
         $datax["REGISTRY"]=$REGISTRY;
         $datax["SCOPE"]="0";
+        $datax["UPDATING"]="2";
         $datax["ABSTRACT"]=$DESCRDATE." - ".$CURRUTENTE;
         $datax["REFERENCE"]="mlit";
+        $datax["_AUTOTAGS"]="1";
         $jret=qv_arrows_update($maestro, $datax);
         unset($datax);
         if(!$jret["success"]){
@@ -136,33 +138,25 @@ function qv_forum_insert($maestro, $data){
         maestro_query($maestro, $sql, $r);
         if(count($r)>0){
             $USERINSERTID=$r[0]["USERINSERTID"];
-            // LETTURA QW_PERSONE
-            $sql="SELECT EMAIL FROM QW_PERSONE WHERE UTENTEID='$USERINSERTID'";
-            maestro_query($maestro, $sql, $r);
-            if(count($r)>0){
-                $email=$r[0]["EMAIL"];
-                
-                $object="Forum $SITEDESCR";
-                $url.="?env=".$maestro->environ."&site=$SITENAME&id=$PAGEID";
-                
-                $text="";
-                $text.="<html><head><meta charset='utf-8' /></head><body style='font-family:verdana,sans-serif;font-size:13px;'>";
-                $text.="<b>$CURRUTENTE</b> ha risposto a un tuo post:<br><br>";
-                $text.="<a href='$url'>$url</a><br>";
-                $text.="</body><html>";
-                
-                $m=egomail($email, $object, $text, false);
-                
-                /*
-                // ISTRUZIONE DI INVIO EMAIL
-                $datax=array();
-                $datax["SYSID"]=$PAGEID;
-                $datax["TABLE"]="QVARROWS";
-                $datax["MAILTABLE"]="QW_PERSONE";
-                $datax["RECIPIENTS"]=$RECIPIENTS;
-                $jret=qv_sendmail($maestro, $datax);
-                unset($datax);
-                */
+            // LA MANDO SOLO SE L'UTENTE NON RISPONDE A SE STESSO
+            if($USERINSERTID!=$global_quiveruserid){
+                // LETTURA QW_PERSONE
+                $sql="SELECT EMAIL FROM QW_PERSONE WHERE UTENTEID='$USERINSERTID'";
+                maestro_query($maestro, $sql, $r);
+                if(count($r)>0){
+                    $email=$r[0]["EMAIL"];
+                    
+                    $object="Forum $SITEDESCR";
+                    $url.="?env=".$maestro->environ."&site=$SITENAME&id=$PAGEID";
+                    
+                    $text="";
+                    $text.="<html><head><meta charset='utf-8' /></head><body style='font-family:verdana,sans-serif;font-size:13px;'>";
+                    $text.="<b>$CURRUTENTE</b> ha risposto a un tuo post:<br><br>";
+                    $text.="<a href='$url'>$url</a><br>";
+                    $text.="</body><html>";
+                    
+                    $m=egomail($email, $object, $text, false);
+                }
             }
         }
         

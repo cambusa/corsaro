@@ -173,8 +173,9 @@ a.filibuster-navigator-enabled:hover{color:#708090;text-decoration:none;}
 .filibuster-forum-parent,
 .filibuster-forum-children{
 border:1px solid silver;
-padding:5px;
-margin-bottom:20px;
+padding:0.3em;
+margin-top:2.3em;
+margin-bottom:2.3em;
 font-size:80%;
 -webkit-border-radius: 3px;
  -moz-border-radius: 3px;
@@ -182,14 +183,15 @@ font-size:80%;
 }
 
 .filibuster-forum-children{
-margin-left:20px;
+margin-left:1.5em;
 }
 
-.filibuster-forum-post{
+.filibuster-forum-current{
 border:1px solid silver;
-padding:5px;
-margin-left:10px;
-margin-bottom:20px;
+padding:0.3em;
+margin-left:0.5em;
+margin-top:2.3em;
+margin-bottom:2.3em;
 font-size:120%;
 background:#EFF9FA;
 -webkit-border-radius: 3px;
@@ -200,16 +202,50 @@ box-shadow:1px 1px 3px 0px rgba(0, 0, 0, 0.2);
 
 .filibuster-forum-sysid{
 position:absolute;
-right:5px;
-top:-15px;
-font-size:10px;
+right:0.4em;
+top:-1.4em;
+font-size:80%;
 }
 
-.filibuster-forum{position:relative;}
-.filibuster-forum a{color:navy;text-decoration:none;}
+.filibuster-forum-tools{
+position:absolute;
+left:0.5em;
+bottom:-1.4em;
+font-size:90%;
+}
+
+.filibuster-forum{width:100%;}
+.filibuster-forum-post{position:relative;}
+.filibuster-forum-post a{color:navy;text-decoration:none;}
 .filibuster-forum-description{font-size:150%;}
 .filibuster-forum-abstract{font-size:80%;}
 .filibuster-forum-content{font-size:100%;}
+.filibuster-forum-iframe{position:absolute;background:#315B7E;cursor:move;visibility:hidden;padding-bottom:28px;z-index:10000;}
+.filibuster-forum-iframe iframe{position:relative;top:32px;}
+.filibuster-forum-name{display:none;}
+.filibuster-forum-login{display:inline;}
+.filibuster-forum-logout{display:none;}
+a.filibuster-forum-login,a.filibuster-forum-logout{color:navy;text-decoration:none;}
+.filibuster-forum-disabled{color:gray;}
+a.filibuster-forum-disabled{color:gray;cursor:default;}
+.filibuster-forum-header{width:100%;font-size:90%;text-align:right;}
+
+.filibuster-forum-cancel{
+position:absolute;
+right:1px;
+top:1px;
+font-size:28px;
+width:30px;
+height:30px;
+-webkit-border-radius: 15px;
+ -moz-border-radius: 15px;
+      border-radius: 15px;
+overflow:hidden;
+background:#A2C0DA;
+text-align:center;
+line-height:28px;
+}
+.filibuster-forum-cancel a{text-decoration:none;color:black;}
 
 /* FOOD4BOT */
 #filibuster-food4bot{position:absolute;display:none;}
@@ -236,6 +272,7 @@ border-right:0em solid transparent;
 border-bottom:0.3em solid transparent;
 }
 .frameRounded{
+z-index:10000;
 -webkit-border-radius: 3px;
  -moz-border-radius: 3px;
       border-radius: 3px;

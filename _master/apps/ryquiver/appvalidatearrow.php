@@ -20,6 +20,10 @@ function appvalidatearrow(
             $role, 
             &$babelcode, 
             &$failure){
+
+    global $global_lastadmin;
+    global $global_quiveruserid;
+
     $ret=1;
     // CONTROLLO GESTIONE MOVIMENTI RELATIVI A PRATICHE
     switch( substr($TYPOLOGYID, 0, 12) ){
@@ -39,6 +43,39 @@ function appvalidatearrow(
                 $babelcode="QVUSER_NOTUNIQUE";
                 $failure="Corso già presente in anagrafica";
                 $ret=0;
+            }
+        }
+        break;
+    case "0WEBCONTENTS":
+        if($oper==1){
+            // GESTIONE DI UPDATING
+            if($global_lastadmin==0){
+                if(intval($prevdata["UPDATING"])==2){   // Modifica privata
+                    if($global_quiveruserid!=$prevdata["USERINSERTID"]){
+                        $babelcode="QVERR_FORBIDDEN";
+                        $b_params=array();
+                        $b_pattern="Autorizzazioni insufficienti";
+                        throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+                    }
+                    break;
+                }
+            }
+        }
+        if($oper<=1){
+            if(isset($data["_AUTOTAGS"])){
+                if(intval($data["_AUTOTAGS"])){
+                    $REGISTRY=qv_actualvalue($data, $prevdata, "REGISTRY");
+                    $REGISTRY=preg_replace("/<[bh]r *\/?>/i", " ", $REGISTRY);
+                    $REGISTRY=preg_replace("/<p *\/?>/i", " ", $REGISTRY);
+                    $REGISTRY=html_entity_decode(strip_tags($REGISTRY));
+                    @preg_match_all("/([A-Z]{4,})/i", $REGISTRY, $m);
+                    if(isset($m[1]))
+                        $v=$m[1];
+                    else
+                        $v=Array();
+                    $TAGS=implode(" ", $v);
+                    $data["TAG"]=substr($TAGS, 0, 1000);
+                }
             }
         }
         break;

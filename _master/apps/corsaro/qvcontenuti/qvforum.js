@@ -1,117 +1,78 @@
 /****************************************************************************
 * Name:            qvforum.js                                               *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.62                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
+* Copyright (C):   2014  Rodolfo Calzetti                                   *
 * License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvforum(settings,missing){
     var formid=RYWINZ.addform(this);
-
+    var objform=this;
+    window.parent.FLB.forum.putInfo({"formid":formid});
+    
+    // SE SONO IN FASE DI LOGIN COMUNICO DI NASCONDERE I PROCESSI SUCCESSIVI
+    if(window.parent.FLB.forum.action=="login"){
+        window.parent.flb_forumCancel();
+    }
+    
     var prefix="#"+formid;
     var currsiteid="";
     var currpersonaid="";
-    var currpagename="";
     var currutente="";
+    var currpageid="";
+    var curraction="";
     
     winzDither(formid, true);
     
     // DEFINIZIONE TAB CONTESTO
     var offsety=60;
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Titolo"});
-    var tx_descr=$(prefix+"DESCRIPTION").rytext({left:70, top:offsety, width:580, maxlen:200, datum:"C"});
+    var tx_descr=$(prefix+"DESCRIPTION").rytext({left:70, top:offsety, width:650, maxlen:200, datum:"C"});
 
     offsety+=40;
-    var tx_wysiwyg=$(prefix+"WYSIWYG").ryedit({left:20, top:offsety, width:880, height:550, datum:"C"});
+    var tx_wysiwyg=$(prefix+"WYSIWYG").ryedit({left:20, top:offsety, width:700, height:450, datum:"C"});
 
+    offsety+=430;
     var oper_contextengage=$(prefix+"oper_contextengage").rylabel({
-        left:810,
-        top:60,
+        left:20,
+        top:offsety,
         width:80,
-        caption:"Rispondi",
+        caption:"Invia",
         button:true,
         click:function(o){
             var title=tx_descr.value();
             var contenuto=tx_wysiwyg.value();
             if(title.replace(/ /g, "")!="" && contenuto.replace(/ /g, "")!=""){
-                winzProgress(formid);
-                $.post(_cambusaURL+"ryquiver/quiver.php", 
-                    {
-                        "sessionid":_sessionid,
-                        "env":_sessioninfo.environ,
-                        "function":"forum_insert",
-                        "data":{
-                            "SITEID":currsiteid,
-                            "PARENTID":_filibusterpageid,
-                            "DESCRIPTION":title,
-                            "REGISTRY":contenuto
-                        }
-                    }, 
-                    function(d){
-                        try{
-                            var v=$.parseJSON(d);
-                            if(v.success>0){
-                                tx_descr.clear();
-                                tx_wysiwyg.clear();
-                                RYWINZ.modified(formid, 0);
-                                setTimeout(
-                                    function(){
-                                        var h=parent.location.href;
-                                        h=h.replace(/site=[^&]+/, "site="+_filibustersitename);
-                                        h=h.replace(/id=[^&]+/, "id="+v.params["PAGEID"]);
-                                        parent.location.href=h;
-                                    }
-                                );
-                            }
-                            winzTimeoutMess(formid, v.success, v.message);
-                        }
-                        catch(e){
-                            if(window.console){console.log(d)}
-                            winzClearMess(formid);
-                        }
-                    }
-                );
-            }
-            else{
-                winzMessageBox(formid, "Inserire titolo e contenuto.");
-            }
-        }
-    });
-    
-    offsety+=530;
-    var oper_hide=$(prefix+"oper_hide").rylabel({
-        left:770,
-        top:offsety,
-        width:120,
-        caption:"Nascondi post",
-        button:true,
-        click:function(o){
-            winzMessageBox(formid, {
-                message:"Nascondere il post corrente?",
-                ok:"OK",
-                confirm:function(){
+                switch(curraction){
+                case "insert":
                     winzProgress(formid);
                     $.post(_cambusaURL+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessionid,
                             "env":_sessioninfo.environ,
-                            "function":"arrows_update",
+                            "function":"forum_insert",
                             "data":{
-                                "SYSID":_filibusterpageid,
-                                "SCOPE":"2"
+                                "SITEID":currsiteid,
+                                "PARENTID":currpageid,
+                                "DESCRIPTION":title,
+                                "REGISTRY":contenuto
                             }
                         }, 
                         function(d){
                             try{
                                 var v=$.parseJSON(d);
                                 if(v.success>0){
-                                    var h=parent.location.href;
-                                    h=h.replace(/site=[^&]+/, "site="+_filibustersitename);
-                                    h=h.replace(/id=[^&]+/, "id=");
-                                    parent.location.href=h;
+                                    tx_descr.clear();
+                                    tx_wysiwyg.clear();
+                                    RYWINZ.modified(formid, 0);
+                                    setTimeout(
+                                        function(){
+                                            window.parent.FLB.gotoPage(currpageid);
+                                        }
+                                    );
                                 }
                                 winzTimeoutMess(formid, v.success, v.message);
                             }
@@ -121,13 +82,52 @@ function class_qvforum(settings,missing){
                             }
                         }
                     );
+                    break;
+                case "update":
+                    winzProgress(formid);
+                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                        {
+                            "sessionid":_sessionid,
+                            "env":_sessioninfo.environ,
+                            "function":"arrows_update",
+                            "data":{
+                                "SYSID":currpageid,
+                                "DESCRIPTION":title,
+                                "REGISTRY":contenuto,
+                                "_AUTOTAGS":"1"
+                            }
+                        }, 
+                        function(d){
+                            try{
+                                var v=$.parseJSON(d);
+                                if(v.success>0){
+                                    tx_descr.clear();
+                                    tx_wysiwyg.clear();
+                                    RYWINZ.modified(formid, 0);
+                                    setTimeout(
+                                        function(){
+                                            window.parent.FLB.gotoPage(currpageid);
+                                        }
+                                    );
+                                }
+                                winzTimeoutMess(formid, v.success, v.message);
+                            }
+                            catch(e){
+                                if(window.console){console.log(d)}
+                                winzClearMess(formid);
+                            }
+                        }
+                    );
+                    break;
                 }
-            });
+            }
+            else{
+                winzMessageBox(formid, "Inserire titolo e contenuto.");
+            }
         }
     });
-    oper_hide.visible(0);
     
-    var lb_utente=$(prefix+"label_utente").rylabel({left:30, top:offsety, caption:"(utente non individuato)"});
+    $(prefix+"label_utente").css({"position":"absolute", "left":300, "top":offsety, "width":420, "text-align":"right"});
 
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
@@ -163,14 +163,6 @@ function class_qvforum(settings,missing){
             stats[istr++]={
                 "function":"singleton",
                 "data":{
-                    "select":"NAME,DESCRIPTION,USERINSERTID FROM QW_WEBCONTENTS",
-                    "where":"SYSID='"+_filibusterpageid+"'"
-                },
-                "return":{"PAGENAME":"#NAME", "PAGEDESCR":"#DESCRIPTION", "PAGEOWNERID":"#USERINSERTID"}
-            };
-            stats[istr++]={
-                "function":"singleton",
-                "data":{
                     "select":"SYSID,NOME,COGNOME,UTENTEID FROM QW_PERSONE",
                     "where":"UTENTEID IN (SELECT SYSID FROM QVUSERS WHERE EGOID='"+_sessioninfo.userid+"')"
                 },
@@ -189,31 +181,39 @@ function class_qvforum(settings,missing){
                             // SITEID
                             currsiteid=v.infos["SITEID"];
                             
-                            // PAGENAME
-                            currpagename=v.infos["PAGENAME"];
-                            
-                            // TITOLO PREDEFINITO
-                            var t=_decodehtml(v.infos["PAGEDESCR"]);
-                            if(t.substr(0,3)!="Re:")
-                                t="Re: "+t;
-                            tx_descr.value(t);
-
                             // PERSONAID
                             currpersonaid=v.infos["PERSONAID"];
                             
                             // NOME+COGNOME UTENTE
                             currutente=v.infos["PERSONANOME"]+" "+v.infos["PERSONACOGNOME"];
-                            lb_utente.caption("<b>"+currutente+"</b>");
+                            $(prefix+"label_utente").html(currutente);
                             
-                            // UTENTE INSERITORE
-                            if(v.infos["PAGEOWNERID"]==v.infos["UTENTEID"] || _sessioninfo.admin){
-                                oper_hide.visible(1);
+                            // IMPOSTO INFORAZIONI UTILI ALLA PAGINA WEB
+                            try{
+                                window.parent.FLB.forum.putInfo(
+                                    {
+                                        "userid":v.infos["UTENTEID"],
+                                        "username":v.infos["PERSONANOME"]
+                                    }
+                                );
+                                // CONTROLLO SE CI SONO AZIONI DA INTRAPRENDERE
+                                switch(window.parent.FLB.forum.action){
+                                case "insert":
+                                    window.parent.FLB.forum.action="";
+                                    objform._forumInsert(window.parent.FLB.forum.postid);
+                                    break;
+                                case "update":
+                                    window.parent.FLB.forum.action="";
+                                    objform._forumEdit(window.parent.FLB.forum.postid);
+                                    break;
+                                }
+                                if(window.parent.FLB.forum.action!="login"){
+                                    winzDither(formid, false);
+                                }
                             }
-                            
-                            if(currpagename.substr(0,2)=="__")
-                                winzDither(formid, false);
-                            else
-                                lb_utente.caption("<b>"+currutente+"</b> - Posizionarsi su un argomento per rispondere.");
+                            catch(e){
+                                if(window.console){console.log(e.message)}
+                            }
                         }
                         else{
                             if(window.console){console.log(v)}
@@ -222,9 +222,6 @@ function class_qvforum(settings,missing){
                                 if(window.console){console.log("Non trovato sito: "+_filibustersitename)}
                                 break;
                             case 2:
-                                if(window.console){console.log("Non trovata pagina: "+_filibusterpageid)}
-                                break;
-                            case 3:
                                 if(window.console){console.log("Non trovato utente: "+_sessioninfo.userid)}
                                 break;
                             }
@@ -233,9 +230,112 @@ function class_qvforum(settings,missing){
                     catch(e){
                         if(window.console){console.log(d)}
                     }
+                    // TENTO DI RENDERE VISIBILE LA LABEL DI LOGOUT SULLA PAGINA WEB
+                    try{
+                        window.parent.FLB.forum.showLogout();
+                    }
+                    catch(e){
+                        if(window.console){console.log(e.message)}
+                    }
                 }
             );
         }
     );
-}
 
+    this._forumInsert=function(pageid){
+        try{
+            winzDither(formid, true);
+            currpageid=pageid;
+            curraction="insert";
+            tx_descr.clear();
+            tx_wysiwyg.clear();
+            RYQUE.query({
+                sql:"SELECT DESCRIPTION FROM QW_WEBCONTENTS WHERE SYSID='"+pageid+"'",
+                ready:function(v){
+                    try{
+                        // TITOLO PREDEFINITO
+                        var t=v[0]["DESCRIPTION"];
+                        if(t.substr(0,3)!="Re:")
+                            t="Re: "+t;
+                        tx_descr.value(t);
+
+                        winzDither(formid, false);
+                    }
+                    catch(e){
+                        if(window.console){console.log(d)}
+                    }
+                }
+            });
+        }
+        catch(e){
+            if(window.console){console.log(e.message)}
+        }
+    }
+
+    this._forumEdit=function(pageid){
+        try{
+            winzDither(formid, true);
+            currpageid=pageid;
+            curraction="update";
+            tx_descr.clear();
+            tx_wysiwyg.clear();
+            RYQUE.query({
+                sql:"SELECT DESCRIPTION,REGISTRY FROM QW_WEBCONTENTS WHERE SYSID='"+pageid+"'",
+                ready:function(v){
+                    try{
+                        tx_descr.value(v[0]["DESCRIPTION"]);
+                        tx_wysiwyg.value(v[0]["REGISTRY"]);
+
+                        winzDither(formid, false);
+                    }
+                    catch(e){
+                        if(window.console){console.log(d)}
+                    }
+                }
+            });
+        }
+        catch(e){
+            if(window.console){console.log(e.message)}
+        }
+    }
+
+    this._forumDelete=function(pageid, parentid){
+        try{
+            $.post(_cambusaURL+"ryquiver/quiver.php", 
+                {
+                    "sessionid":_sessionid,
+                    "env":_sessioninfo.environ,
+                    "function":"arrows_update",
+                    "data":{
+                        "SYSID":pageid,
+                        "SCOPE":"2"
+                    }
+                }, 
+                function(d){
+                    try{
+                        var v=$.parseJSON(d);
+                        if(v.success>0){
+                            window.parent.FLB.gotoPage(parentid);
+                        }
+                        else{
+                            if(window.console){console.log(v.message)}
+                        }
+                    }
+                    catch(e){
+                        if(window.console){console.log(d)}
+                    }
+                }
+            );
+        }
+        catch(e){
+            if(window.console){console.log(e.message)}
+        }
+    }
+}
+function _forumLogout(){
+    try{
+        winz_logout();
+        window.parent.FLB.forum.showLogin();
+    }
+    catch(e){}
+}
