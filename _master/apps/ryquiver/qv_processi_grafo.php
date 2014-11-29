@@ -36,7 +36,7 @@ function qv_processi_grafo($maestro, $data){
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
         }
         
-        $offsety=20;
+        $offsety=40;
         $width=140;
         $height=50;
         $deltah=60;

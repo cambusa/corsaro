@@ -264,6 +264,7 @@ function class_qvprogetti(settings,missing){
                             "env":_sessioninfo.environ,
                             "function":"selections_add",
                             "data":{
+                                "UPWARD":1,
                                 "PARENTTABLE":"QVOBJECTS",
                                 "PARENTID":currsysid,
                                 "SELECTEDTABLE":"QVQUIVERS",

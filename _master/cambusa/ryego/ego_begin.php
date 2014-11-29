@@ -67,6 +67,9 @@ try{
         // APRO IL DATABASE
         $maestro=maestro_opendb("ryego");
         if($maestro->conn!==false){
+            // ELIMINAZIONE DELLE SESSIONI PIU' VECCHIE DI 30 GIORNI
+            $sql="DELETE FROM EGOSESSIONS WHERE [:DATE(RENEWALTIME, 30DAYS)]<[:TODAY()]";
+            maestro_execute($maestro, $sql);
             // RICERCA UTENTE
             $sql="";
             $sql.="SELECT EGOUSERS.PASSWORD AS PWD,";
@@ -122,7 +125,7 @@ try{
                                     maestro_execute($maestro, $sql);
                                 }
                                 else{
-                                    // CREAZIONE DI UN SETUP DENZA APPID PER MEMORIZZARE LA LINGUA
+                                    // CREAZIONE DI UN SETUP SENZA APPID PER MEMORIZZARE LA LINGUA
                                     // IN AMMINISTRAZIONE EGO
                                     $setupid=qv_createsysid($maestro);
                                     $sql="INSERT INTO EGOSETUP(SYSID,APPID,ALIASID,ENVIRONID,ROLEID,LANGUAGEID,COUNTRYCODE,DEBUGMODE) VALUES('$setupid','$appid','$aliasid','$environid','$roleid','$languageid','$countrycode','$debugmode')";
@@ -215,8 +218,18 @@ try{
                             }
                         }
                         if($auth){
-                            // MI FACCIO RESTITUIRE UN SYSTEM ID UNIVOCO
-                            $sessionid=monadcall(16,2);
+                            // CREO UN SESSIONID UNIVOCO
+                            $sessionid="SI".date("YmdHis");
+                            for($i=1; $i<=2; $i++){
+                                $sessionid.=monadrand();
+                            }
+                            do{
+                                maestro_query($maestro, "SELECT SYSID FROM EGOSESSIONS WHERE SESSIONID='$sessionid'", $v);
+                                if(count($v)>0)
+                                    $sessionid=substr($sessionid, 0, 20).monadrand();
+                                else
+                                    break;
+                            }while(true);
                             
                             // INSERISCO LA SESSIONE
                             $ip=get_ip_address();

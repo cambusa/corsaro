@@ -147,4 +147,7 @@ function monadset($max){
     }
     return $ret;
 }
+function monadrand(){
+    return strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
+}
 ?>

@@ -224,7 +224,15 @@
             "BEGINTIME":{"type":"TIMESTAMP"},
             "RENEWALTIME":{"type":"TIMESTAMP"},
             "ENDTIME":{"type":"TIMESTAMP"}
-        }
+        },
+        "versions":[
+            {
+                "version":0,
+                "sql":[
+                    "CREATE UNIQUE INDEX UNIQUE_EGOSESSIONID ON EGOSESSIONS(SESSIONID)"
+                ]
+            }
+        ]
     },
     "EGOREGISTRATIONS":{
         "type":"database",

@@ -56,10 +56,10 @@ try{
                 // CREO UN CODICE UNIVOCO
                 $reqid=date("YmdHis");
                 for($i=1; $i<=2; $i++){
-                    $reqid.=strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
+                    $reqid.=monadrand();
                 }
                 while(file_exists("requests/$reqid.req")){
-                    $reqid=substr($reqid, 0, 18).strtoupper(substr("0000".base_convert(intval(rand(0,1679615)), 10, 36),-4));
+                    $reqid=substr($reqid, 0, 18).monadrand();
                 }
                 // MEMORIZZO IL PROTOCOLID
                 $buff=$env_name;
