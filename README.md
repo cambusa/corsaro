@@ -103,7 +103,6 @@ License
 
 __GNU Lesser General Public License v3__
 
-Build your web application with _Cambusa_!
-... and deliver it with the license that you want.
+Build your web application with _Cambusa_ and deliver it with the license that you want!
 
 ---
