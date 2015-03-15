@@ -28,20 +28,7 @@ $path_root=installationPATH();
 | PERCORSO DATABASE |
 ********************/
 
-if(strpos($url_base, "localhost")!==false){
-    if(strpos($url_base, "_distrib")!==false)
-        $safe_database=false;
-    else
-        $safe_database=true;
-}
-else{
-    $safe_database=false;
-}
-
-if($safe_database)
-    $path_databases="D:/WebData/databases/";
-else
-    $path_databases=$path_root."databases/";
+$path_databases=$path_root."databases/";
 
 /*********************
 | PERCORSO CUSTOMIZE |
