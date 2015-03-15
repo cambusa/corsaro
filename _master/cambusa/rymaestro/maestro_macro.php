@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            maestro_macro.php                                        *
 * Project:         Cambusa/ryMaestro                                        *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Databases modeling and maintenance                       *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -25,6 +25,7 @@ function maestro_macro($maestro, $sql){
         case "mysql":
             $sql=preg_replace("/\{[DALOS]+:([^{}]+)\}/", "", $sql);
             $sql=preg_replace("/\{[DALOS]*M[DALOS]*:([^{}]+)\}/", "$1", $sql);
+            $sql=str_replace("\\", "\\\\", $sql);
             break;
         case "oracle":
             $sql=preg_replace("/\{[DALMS]+:([^{}]+)\}/", "", $sql);

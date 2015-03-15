@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            ryq_window.php                                           *
 * Project:         Cambusa/ryQue                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Lightweight access to databases                          *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -20,10 +20,12 @@ $clause=$_POST['clause'];
 $lenkey=12;
 $more="";
 
+clearstatcache();
+
 $filereq="requests/".$reqid.".req";
 if(is_file($filereq)){
     // TOUCH PER PROLUNGARE LA SCADENZA DELLA RICHIESTA
-    if(time()-@fileatime($filereq)>60*60){
+    if(time()-@filemtime($filereq)>60*60){
         @touch($filereq);
     }
     $env_name=file_get_contents("requests/".$reqid.".req");

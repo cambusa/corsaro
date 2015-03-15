@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            food4voice.php                                           *
 * Project:         Corsaro/ryQuiver Extension                               *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -13,6 +13,7 @@ $tocambusa="../../cambusa/";
 include_once $tocambusa."rymaestro/maestro_execlib.php";
 include_once $tocambusa."rygeneral/post_request.php";
 include_once "food4_library.php";
+include_once "../corsaro/config.php";
 
 set_time_limit(0);
 
@@ -36,6 +37,10 @@ elseif(isset($_GET["id"]))
     $id=ryqEscapize($_GET["id"]);
 else
     $id="";
+    
+if(!isset($filibuster_sizeHQ)){
+    $filibuster_sizeHQ=2500;
+}
 
 $jret=array();
 $jret["success"]=0;
@@ -71,7 +76,7 @@ if($env!="" && $site!=""){
             $download=true;
         }
         if($download){
-            if(strlen($text)>2000){
+            if(strlen($text)>$filibuster_sizeHQ){
                 $postdata = array(
                     'text' => $text,
                     'lang' => $lang,
@@ -198,6 +203,9 @@ function solvecontents($env, $site, &$id, &$text, &$lang, &$gender){
             $text=html_entity_decode($text, ENT_QUOTES, "UTF-8");
             $text=preg_replace("/ +/i", " ", $text);
             $text=preg_replace("/['´~]/u", "", $text);
+            // FORMULE MATHJAX
+            $text=preg_replace("/\\\\\\[.+\\\\\\]/Us", "", $text);
+            $text=preg_replace("/\\\\\\(.+\\\\\\)/Us", "", $text);
             $ret=true;
         }
     }

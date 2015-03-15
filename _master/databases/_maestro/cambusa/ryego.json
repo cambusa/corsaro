@@ -248,7 +248,18 @@
             "REQUESTTIME":{"type":"TIMESTAMP"}
        }
     },
-   "EGOVIEWSESSIONS":{
+    "EGOENCRYPTIONS":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "USERCOOKIE":{"type":"VARCHAR", "size":24, "unique":1},
+            "CLIENTIP":{"type":"VARCHAR", "size":30},
+            "RSAPRIVATEKEY":{"type":"VARCHAR", "size":4000},
+            "RSAPUBLICKEY":{"type":"VARCHAR", "size":4000},
+            "RENEWALTIME":{"type":"TIMESTAMP"}
+       }
+    },
+    "EGOVIEWSESSIONS":{
         "type":"view",
         "script":"@maestro/cambusa/ego_sessions.sql"
     },

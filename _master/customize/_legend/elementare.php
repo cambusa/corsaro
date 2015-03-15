@@ -21,6 +21,12 @@ function legendMain(){
     $SEEKER->index($estamount, "AMOUNT", $index);
     */
     
+    /*
+    $SEEKER->markov_initialize();
+    $SEEKER->markov(array( array("SYSID"=>"0001", "AMOUNT"=>2000 ) ), 0);
+    $SEEKER->markov_terminate();
+    */
+    
     $SEEKER->progressinit(count($estamount));
     foreach($int as $mov){
         $SEEKER->progress();

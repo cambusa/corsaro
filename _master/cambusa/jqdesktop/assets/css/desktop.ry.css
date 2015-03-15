@@ -146,7 +146,9 @@ div.ui-resizable-handle {
 
 .window.ui-draggable-dragging .window_content,
 .window.ui-draggable-dragging .window_bottom {
-  display: none;
+  /* RudyZ: cambiato per evitare il reload degli iframe sun Firefox */
+  /* display: none; */
+  visibility:hidden;
 }
 
 .window_full.ui-draggable-dragging {
@@ -155,7 +157,8 @@ div.ui-resizable-handle {
 
 .window_full.ui-draggable-dragging .window_content,
 .window_full.ui-draggable-dragging .window_bottom {
-  display: block;
+  /* display: block; */
+  visibility:visible;
 }
 
 .window_full {
@@ -299,6 +302,7 @@ div.ui-resizable-handle {
   background: #f9f9f9;
   rudyz-margin: 0px 0px 0px 173px;
   rudyz-min-height: 100%;
+  height: 100%;
 }
 
 .window_full .window_top,
@@ -316,6 +320,7 @@ div.ui-resizable-handle {
 /* rudyz */
 .window_hanger{
   background: #f9f9f9;
+  height: 100%;
 }
 .window_content{
   background: #f9f9f9;

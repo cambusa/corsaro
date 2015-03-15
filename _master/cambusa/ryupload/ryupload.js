@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            ryupolad.js                                              *
 * Project:         Cambusa/ryUpload                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     File uploader                                            *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -19,6 +19,7 @@
             var propname=$(this).attr("id");
             var propcambusa=_cambusaURL;
             var propenv="default";
+            var propsessionid="";
             var propuploader=null;
             var propvisible=true;
             
@@ -26,6 +27,7 @@
             if(settings.top!=missing){proptop=settings.top}
             if(settings.width!=missing){propwidth=settings.width}
             if(settings.environ!=missing){propenv=settings.environ}
+            if(settings.sessionid!=missing){propsessionid=settings.sessionid}
             
             this.left=function(l){
                 if(l==missing)
@@ -58,7 +60,7 @@
         
                 propuploader=new qq.FileUploader({
                     element: document.getElementById(propname+'_upload'),
-                    params:{env:propenv},
+                    params:{env:propenv,sessionid:propsessionid},
                     action: propcambusa+'ryupload/ryupload.php',
                     multiple:false,
                     onComplete: function(id, name, ret){

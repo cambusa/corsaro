@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qvinventario.php                                         *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -28,6 +28,7 @@
         <div relid="operm_reset"></div>
         <div relid="gridcollocazioni"></div>
         <div relid="LB_VALTIME"></div><div relid="VALDATE"></div><div relid="VALTIME"></div>
+        <div relid="operi_refresh"></div>
         <div relid="LB_GIACENZA"></div><div relid="GIACENZA"></div>
         <div relid="LB_DISPO"></div><div relid="DISPO"></div><div relid="DISPO"></div>
         <div relid="LB_AMOUNT"></div><div relid="AMOUNT"></div>

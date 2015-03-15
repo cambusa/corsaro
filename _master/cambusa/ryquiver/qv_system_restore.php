@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_system_restore.php                                    *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -100,9 +100,6 @@ function qv_system_restore($maestro, $data){
                                 $dirattach=$env_strconn;
                             }
                         }
-                    }
-                    elseif($row["NAME"]=="_ENVIRONID"){
-                        $row["DATAVALUE"]="";
                     }
                 }
             }

@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            _quiver.php                                              *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -13,12 +13,19 @@ if(!isset($tocambusa))
     $tocambusa="../";
 include_once $tocambusa."ryquiver/quiverlib.php";
 
-function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array()){
+function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array(), $rtype=1){
     global $tocambusa, $path_cambusa, $path_customize, $path_databases, $path_applications;
     global $maestro;
     global $babelcode, $babelparams;
+    global $global_lastenvname, $public_sessionid;
     try{
+        // IMPOSTO UN TEMPO DI RISPOSTA ILLIMITATO
         set_time_limit(0);
+        
+        if($rtype==2){
+            // CARICO LA LIBRERIA XML
+            include_once "quiverxml.php";
+        }
 
         // APERTURA FILE DI LOG
         log_open(log_unique("maestro"));
@@ -32,198 +39,249 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array()){
             // VALIDAZIONE CODICE DI SESSIONE
             if(qv_validatesession($maestro, $sessionid, "quiver")){
             
-                // BEGIN TRANSACTION
-                maestro_begin($maestro);
+                // VALIDO L'AMBIENTE
+                if( $env==$global_lastenvname || ($sessionid==$public_sessionid && $public_sessionid!="") ){
+            
+                    // BEGIN TRANSACTION
+                    maestro_begin($maestro);
+                    
+                    if(is_string($statements)){
+                        $program=array();
+                        $program[]=array( "function" => $statements, "space" => "", "fallible" => 0, "data" => $bag, "pipe" => array(), "return" => array() );
+                    }
+                    else{
+                        $program=&$statements;
+                        // RISOLUZIONE DI EVENTUALI MACRO
+                        for($index=count($program)-1; $index>=0; $index--){
+                            $stat=$program[$index];
+                            if(isset($stat["macro"])){
+                                $macro=$stat["macro"];
+                                $macro=str_replace("@customize/", $path_customize, $macro);
+                                $macro=str_replace("@cambusa/", $tocambusa, $macro);
+                                $macro=str_replace("@databases/", $path_databases, $macro);
+                                $macro=str_replace("@apps/", $path_applications, $macro);
+                                if(file_exists($macro)){
+                                    if(isset($stat["data"]))
+                                        $data=$stat["data"];
+                                    else
+                                        $data=array();
+                                    $buffer=file_get_contents($macro);
+                                    foreach($data as $n => $v){
+                                        $buffer=str_replace("[!$n]", $v, $buffer);
+                                    }
+                                    if(preg_match("/\[![0-9A-Z]+\]/i" , $buffer, $m)==1){
+                                        $d=$m[0];
+                                        $babelcode="QVERR_MACRONODATA";
+                                        throw new Exception( "Macro [$macro]: dato $d mancante" );
+                                    }
+                                    $arraymacro=jsonObjectToArray(json_decode($buffer));
+                                    array_walk_recursive($arraymacro, "_solveUTF8");
+                                }
+                                else{
+                                    $babelcode="QVERR_NOMACRO";
+                                    throw new Exception( "Macro [$macro] non trovata]" );
+                                }
+                                array_splice ($program, $index, 1, $arraymacro);
+                            }
+                        }
+                        // COMPLETAMENTO DELLE ISTRUZIONI
+                        foreach($program as $index => $stat){
+                            if(!isset($stat["function"]))
+                                $program[$index]["function"]="";
+                            if(!isset($stat["space"]))
+                                $program[$index]["space"]="";
+                            if(!isset($stat["fallible"]))
+                                $program[$index]["fallible"]=0;
+                            if(!isset($stat["data"]))
+                                $program[$index]["data"]=array();
+                            if(!isset($stat["pipe"]))
+                                $program[$index]["pipe"]=array();
+                            if(!isset($stat["return"]))
+                                $program[$index]["return"]=array();
+                        }
+                    }
+
+                    // GESTISCO IL PARAMETRO _JOURNALLOG
+                    if(qv_setting($maestro, "_JOURNALLOG", 0)==1){
+                        $buff=$sessionid . "|" . serialize($program);
+                        qv_journal($env, $buff);
+                    }
                 
-                if(is_string($statements)){
-                    $program=array();
-                    $program[]=array( "function" => $statements, "data" => $bag, "pipe" => array(), "return" => array() );
-                }
-                else{
-                    $program=&$statements;
-                    // RISOLUZIONE DI EVENTUALI MACRO
-                    for($index=count($program)-1; $index>=0; $index--){
-                        $stat=$program[$index];
-                        if(isset($stat["macro"])){
-                            $macro=$stat["macro"];
-                            $macro=str_replace("@customize/", $path_customize, $macro);
-                            $macro=str_replace("@cambusa/", $tocambusa, $macro);
-                            $macro=str_replace("@databases/", $path_databases, $macro);
-                            $macro=str_replace("@apps/", $path_applications, $macro);
-                            if(file_exists($macro)){
-                                if(isset($stat["data"]))
-                                    $data=$stat["data"];
+                    // SE IL PROGRAMMA SCRIVE MOLTISSIME RIGHE
+                    // CONVIENE ALZARE IL FLAG BULK PER GENERARE I SYSID
+                    // SU UNA BASE UNIVOCA PRIVATA
+                    if($bulk){
+                        qv_bulkinitialize($maestro);
+                    }
+                        
+                    // PREDISPONGO UNA PIPE VUOTA PER IL PRIMO GIRO
+                    $pipe=array();
+                    // PREDISPONGO UN CONTENITORE VUOTO PER I DATI DI RITORNO RICHIESTI
+                    $retbag=array();
+                    // VARIABILE CHE MI MEMORIZZA UN WARNING
+                    $warning="";
+                    foreach($program as $index => $stat){
+                        $function=$stat["function"];
+                        $space=$stat["space"];
+                        if($space!=""){
+                            $space.="/";
+                        }
+                        $fallible=intval($stat["fallible"]);
+                        $data=$stat["data"];
+
+                        // TRAVASO I DATI DEFINITI IN "PIPE" 
+                        // DAL RITORNO DELL'ISTRUZIONE PRECEDENTE
+                        // ALL'ENTRATA DELL'ISTRUZIONE CORRENTE
+                        foreach($pipe as $n => $v){
+                            try{
+                                if(substr($v,0,1)=="#")
+                                    $data[$n]=$jret["params"][substr($v,1)];
+                                elseif(substr($v,0,1)=="@")
+                                    $data[$n]=$retbag[substr($v,1)];
                                 else
-                                    $data=array();
-                                $buffer=file_get_contents($macro);
-                                foreach($data as $n => $v){
-                                    $buffer=str_replace("[!$n]", $v, $buffer);
-                                }
-                                if(preg_match("/\[![0-9A-Z]+\]/i" , $buffer, $m)==1){
-                                    $d=$m[0];
-                                    $babelcode="QVERR_MACRONODATA";
-                                    throw new Exception( "Macro [$macro]: dato $d mancante" );
-                                }
-                                $arraymacro=jsonObjectToArray(json_decode($buffer));
-                                array_walk_recursive($arraymacro, "_solveUTF8");
+                                    $data[$n]=$jret[$v];
+                            }
+                            catch(Exception $e){}
+                        }
+
+                        // INIZIALIZZO LE VARIABILI DI RITORNO
+                        unset($jret);
+                        unset($pipe);
+                        $pipe=$stat["pipe"];
+                        $return=$stat["return"];
+                        
+                        // AGGIUNGO IL PREFISSO
+                        $function="qv_" . $function;
+                        // LANCIO LA FUNZIONE RICHIESTA (LE FUNZIONI DI SISTEMA NON SONO SOVRASCRIVIBILI)
+                        $include=$tocambusa . "ryquiver/" . $space . $function . ".php";
+                        // DO LA PRECEDENZA ALLA FUNZIONE CUSTOM RISPETTO A QUELLA APPLICATIVA
+                        $custinclude=$path_customize . "ryquiver/" . $space . $function . ".php";
+                        $appinclude=$path_applications . "ryquiver/" . $space . $function . ".php";
+
+                        if(is_file($include)){
+                            include_once $include;
+                            if(function_exists($function)){
+                                $jret=$function($maestro, $data);
+                            }
+                        }
+                        elseif(is_file($custinclude)){
+                            include_once $custinclude;
+                            if(function_exists($function)){
+                                $jret=$function($maestro, $data);
+                            }
+                        }
+                        elseif(is_file($appinclude)){
+                            include_once $appinclude;
+                            if(function_exists($function)){
+                                $jret=$function($maestro, $data);
+                            }
+                        }
+                        if(!isset($jret)){
+                            // LA FUNZIONE NON E' STATA TROVATA
+                            $jret=array();
+                            $jret["success"]=0;
+                            $jret["code"]="QVERR_NOP";
+                            $jret["params"]=$babelparams;
+                            $jret["message"]="No operation";
+                            $jret["SYSID"]="";
+                        }
+                        // GESTIONE ESITO NEGATIVO
+                        if($jret["success"]==0){
+                            if($fallible){
+                                $jret["success"]=2;
                             }
                             else{
-                                $babelcode="QVERR_NOMACRO";
-                                throw new Exception( "Macro [$macro] non trovata]" );
+                                $jret["statement"]=$function;
+                                $jret["step"]=$index+1;
+                                break;
                             }
-                            array_splice ($program, $index, 1, $arraymacro);
                         }
-                    }
-                    // COMPLETAMENTO DELLE ISTRUZIONI
-                    foreach($program as $index => $stat){
-                        if(!isset($stat["function"]))
-                            $program[$index]["function"]="";
-                        if(!isset($stat["data"]))
-                            $program[$index]["data"]=array();
-                        if(!isset($stat["pipe"]))
-                            $program[$index]["pipe"]=array();
-                        if(!isset($stat["return"]))
-                            $program[$index]["return"]=array();
-                    }
-                }
-
-                // GESTISCO IL PARAMETRO _JOURNALLOG
-                if(qv_setting($maestro, "_JOURNALLOG", 0)==1){
-                    $buff=$sessionid . "|" . serialize($program);
-                    qv_journal($env, $buff);
-                }
-            
-                // SE IL PROGRAMMA SCRIVE MOLTISSIME RIGHE
-                // CONVIENE ALZARE IL FLAG BULK PER GENERARE I SYSID
-                // SU UNA BASE UNIVOCA PRIVATA
-                if($bulk){
-                    qv_bulkinitialize($maestro);
-                }
-                    
-                // PREDISPONGO UNA PIPE VUOTA PER IL PRIMO GIRO
-                $pipe=array();
-                // PREDISPONGO UN CONTENITORE VUOTO PER I DATI DI RITORNO RICHIESTI
-                $retbag=array();
-                // VARIABILE CHE MI MEMORIZZA UN WARNING
-                $warning="";
-                foreach($program as $index => $stat){
-                    $function=$stat["function"];
-                    $data=$stat["data"];
-
-                    // TRAVASO I DATI DEFINITI IN "PIPE" 
-                    // DAL RITORNO DELL'ISTRUZIONE PRECEDENTE
-                    // ALL'ENTRATA DELL'ISTRUZIONE CORRENTE
-                    foreach($pipe as $n => $v){
-                        try{
-                            if(substr($v,0,1)=="#")
-                                $data[$n]=$jret["params"][substr($v,1)];
-                            elseif(substr($v,0,1)=="@")
-                                $data[$n]=$retbag[substr($v,1)];
-                            else
-                                $data[$n]=$jret[$v];
+                        // GESTIONE WARNING
+                        if($jret["success"]==2){
+                            $warning=$jret["message"];
                         }
-                        catch(Exception $e){}
-                    }
-
-                    // INIZIALIZZO LE VARIABILI DI RITORNO
-                    unset($jret);
-                    unset($pipe);
-                    $pipe=$stat["pipe"];
-                    $return=$stat["return"];
-                    
-                    // LANCIO LA FUNZIONE RICHIESTA (LE FUNZIONI DI SISTEMA NON SONO SOVRASCRIVIBILI)
-                    $include=$tocambusa . "ryquiver/" . "qv_" . $function . ".php";
-                    // DO LA PRECEDENZA ALLA FUNZIONE CUSTOM RISPETTO A QUELLA APPLICATIVA
-                    $custinclude=$path_customize . "ryquiver/qv_" . $function . ".php";
-                    $appinclude=$path_applications . "ryquiver/qv_" . $function . ".php";
-                    $function="qv_" . $function;
-
-                    if(is_file($include)){
-                        include_once $include;
-                        if(function_exists($function)){
-                            $jret=$function($maestro, $data);
+                        // TRAVASO I DATI DEFINITI IN "RETURN" 
+                        // DAL RITORNO DELL'ISTRUZIONE PRECEDENTE
+                        // AI DATI GLOBALI IN USCITA DAL PROGRAMMA
+                        foreach($return as $n => $v){
+                            try{
+                                if(substr($v,0,1)=="#")
+                                    $retbag[$n]=$jret["params"][substr($v,1)];
+                                elseif(substr($v,0,1)=="@")
+                                    $retbag[$n]=$retbag[substr($v,1)];
+                                else
+                                    $retbag[$n]=$jret[$v];
+                            }
+                            catch(Exception $e){}
                         }
-                    }
-                    elseif(is_file($appinclude)){
-                        include_once $appinclude;
-                        if(function_exists($function)){
-                            $jret=$function($maestro, $data);
-                        }
-                    }
-                    elseif(is_file($custinclude)){
-                        include_once $custinclude;
-                        if(function_exists($function)){
-                            $jret=$function($maestro, $data);
+                        unset($return);
+                        if($index>10){
+                            // INVIO DI SPAZI PER MANTENERE VIVA LA CONNESSIONE
+                            print str_repeat(" ",1000);
+                            flush();
                         }
                     }
                     if(!isset($jret)){
-                        // LA FUNZIONE NON E' STATA TROVATA
+                        // NESSUNA FUNZIONE NON E' STATA TROVATA
                         $jret=array();
                         $jret["success"]=0;
                         $jret["code"]="QVERR_NOP";
                         $jret["params"]=$babelparams;
                         $jret["message"]="No operation";
                         $jret["SYSID"]="";
+                        $jret["statement"]="";
+                        $jret["step"]=0;
                     }
-                    if($jret["success"]==0){
-                        $jret["statement"]=$function;
-                        $jret["step"]=$index+1;
-                        break;
+                    if($jret["success"]){
+                        // COMMIT TRANSACTION
+                        maestro_commit($maestro);
                     }
-                    elseif($jret["success"]==2){
-                        $warning=$jret["message"];
+                    else{
+                        // ROLLBACK TRANSACTION
+                        maestro_rollback($maestro);
                     }
-                    // TRAVASO I DATI DEFINITI IN "RETURN" 
-                    // DAL RITORNO DELL'ISTRUZIONE PRECEDENTE
-                    // AI DATI GLOBALI IN USCITA DAL PROGRAMMA
-                    foreach($return as $n => $v){
-                        try{
-                            if(substr($v,0,1)=="#")
-                                $retbag[$n]=$jret["params"][substr($v,1)];
-                            elseif(substr($v,0,1)=="@")
-                                $retbag[$n]=$retbag[substr($v,1)];
-                            else
-                                $retbag[$n]=$jret[$v];
-                        }
-                        catch(Exception $e){}
+                    // TRAVASO NEL DOCUMENTO DI RITORNO I DATI RICHIESTI IN RETURN
+                    $jret["infos"]=$retbag;
+                    // GESTISCO IL WARNING
+                    if($warning!="" && $jret["success"]==1){
+                        $jret["success"]=2;
+                        $jret["message"]=$warning;
                     }
-                    unset($return);
-                    if($index>10){
-                        // INVIO DI SPAZI PER MANTENERE VIVA LA CONNESSIONE
-                        print str_repeat(" ",1000);
-                        flush();
+                    // ESCAPIZZO I CARATTERI NON STANDARD
+                    // COMPILO L'USCITA
+                    switch($rtype){
+                        case 1:
+                            array_walk_recursive($jret, "quiver_escapize");
+                            $json=json_encode($jret);
+                            break;
+                        case 2:
+                            $json=_qv_savexml($jret);
+                            break;
+                        default:
+                            $json=$jret;
                     }
-                }
-                if(!isset($jret)){
-                    // NESSUNA FUNZIONE NON E' STATA TROVATA
-                    $jret=array();
-                    $jret["success"]=0;
-                    $jret["code"]="QVERR_NOP";
-                    $jret["params"]=$babelparams;
-                    $jret["message"]="No operation";
-                    $jret["SYSID"]="";
-                    $jret["statement"]="";
-                    $jret["step"]=0;
-                }
-                if($jret["success"]){
-                    // COMMIT TRANSACTION
-                    maestro_commit($maestro);
                 }
                 else{
-                    // ROLLBACK TRANSACTION
-                    maestro_rollback($maestro);
+                    $jret=array();
+                    $jret["success"]=0;
+                    $jret["code"]=$babelcode;
+                    $jret["params"]=$babelparams;
+                    $jret["message"]="Permission denied";
+                    $jret["SYSID"]="";
+                    $jret["infos"]=array();
+                    // COMPILO L'USCITA
+                    switch($rtype){
+                        case 1:
+                            array_walk_recursive($jret, "quiver_escapize");
+                            $json=json_encode($jret);
+                            break;
+                        case 2:
+                            $json=_qv_savexml($jret);
+                            break;
+                        default:
+                            $json=$jret;
+                    }
                 }
-                // TRAVASO NEL DOCUMENTO DI RITORNO I DATI RICHIESTI IN RETURN
-                $jret["infos"]=$retbag;
-                // GESTISCO IL WARNING
-                if($warning!="" && $jret["success"]==1){
-                    $jret["success"]=2;
-                    $jret["message"]=$warning;
-                }
-                // ESCAPIZZO I CARATTERI NON STANDARD
-                array_walk_recursive($jret, "quiver_escapize");
-                // COMPILO L'USCITA JSON
-                $json=json_encode($jret);
             }
             else{
                 $jret=array();
@@ -233,8 +291,18 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array()){
                 $jret["message"]="Invalid sessionid";
                 $jret["SYSID"]="";
                 $jret["infos"]=array();
-                array_walk_recursive($jret, "quiver_escapize");
-                $json=json_encode($jret);
+                // COMPILO L'USCITA
+                switch($rtype){
+                    case 1:
+                        array_walk_recursive($jret, "quiver_escapize");
+                        $json=json_encode($jret);
+                        break;
+                    case 2:
+                        $json=_qv_savexml($jret);
+                        break;
+                    default:
+                        $json=$jret;
+                }
             }
         }
         else{
@@ -245,8 +313,18 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array()){
             $jret["message"]=$maestro->errdescr;
             $jret["SYSID"]="";
             $jret["infos"]=array();
-            array_walk_recursive($jret, "quiver_escapize");
-            $json=json_encode($jret);
+            // COMPILO L'USCITA
+            switch($rtype){
+                case 1:
+                    array_walk_recursive($jret, "quiver_escapize");
+                    $json=json_encode($jret);
+                    break;
+                case 2:
+                    $json=_qv_savexml($jret);
+                    break;
+                default:
+                    $json=$jret;
+            }
         }
         // CHIUDO IL DATABASE
         maestro_closedb($maestro);
@@ -272,8 +350,16 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array()){
         $jret["message"]=$e->getMessage();
         $jret["SYSID"]="";
         $jret["infos"]=array();
-        array_walk_recursive($jret, "quiver_escapize");
-        return json_encode($jret) ;
+        // COMPILO L'USCITA
+        switch($rtype){
+            case 1:
+                array_walk_recursive($jret, "quiver_escapize");
+                return json_encode($jret);
+            case 2:
+                return _qv_savexml($jret);
+            default:
+                return $jret;
+        }
     }
 }
 function _solveUTF8(&$value){
@@ -295,7 +381,13 @@ function _solveUTF8(&$value){
         $value=utf8_encode(html_entity_decode($value));
     }
 }
-function quiver_escapize(&$sql){
-    $sql=htmlentities(utf8_decode($sql));
+function quiver_escapize(&$value){
+    //$value=htmlentities(utf8_decode($value));
+    if($value!=""){
+        if(!mb_check_encoding($value, "UTF-8")){
+            // CI SONO CARATTERI NON UNICODE
+            $value=utf8_encode($value);
+        }
+    }
 }
 ?>

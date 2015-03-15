@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            pulseaction_cast.php                                     *
 * Project:         Cambusa/ryPulse                                          *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Scheduler                                                *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -21,8 +21,7 @@ try{
     include_once $tocambusa."ryego/ego_sendmail.php";
     include_once $tocambusa."ryvlad/ryvlad.php";
     include_once $tocambusa."ryquiver/_quiver.php";
-    include_once $tocambusa."mpdf/mpdf.php";
-    include_once $tocambusa."rypaper/report.php";
+    include_once $tocambusa."rypaper/rypaper.php";
     include_once $tocambusa."rypulse/pulse_util.php";
 
     // INIZIALIZZO LE VARIABILI IN USCITA

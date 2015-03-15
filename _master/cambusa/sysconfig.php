@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            sysconfig.php                                            *
 * Project:         Cambusa                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Cambusa configuration file                               *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -28,7 +28,6 @@ $path_root=installationPATH();
 | PERCORSO DATABASE |
 ********************/
 
-/*
 if(strpos($url_base, "localhost")!==false){
     if(strpos($url_base, "_distrib")!==false)
         $safe_database=false;
@@ -38,8 +37,6 @@ if(strpos($url_base, "localhost")!==false){
 else{
     $safe_database=false;
 }
-*/
-$safe_database=false;
 
 if($safe_database)
     $path_databases="D:/WebData/databases/";
@@ -115,7 +112,7 @@ if(floatval(phpversion())<5.3){
 | LINGUA PREDEFINITA |
 *********************/
 
-$config_defaultlang="english";
+$config_defaultlang="default";
 
 // Non aggiungere accapi o spazi dopo ">"
 ?>

@@ -2,15 +2,15 @@
 /****************************************************************************
 * Name:            version.php                                              *
 * Project:         Corsaro                                                  *
-* Version:         1.62                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented application                              *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-$winz_appversion="1.62";
-$copyright_year="2014";
+$winz_appversion="1.69";
+$copyright_year="2015";
 
 ?>

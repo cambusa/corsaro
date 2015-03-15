@@ -1,13 +1,17 @@
 /****************************************************************************
 * Name:            qvforum.js                                               *
 * Project:         Corsaro                                                  *
-* Version:         1.62                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+_logoutcallext=function(done){
+    try{window.parent.FLB.forum.showLogin()}catch(e){}
+    if(done){done()}
+}
 function class_qvforum(settings,missing){
     var formid=RYWINZ.addform(this);
     var objform=this;
@@ -156,7 +160,7 @@ function class_qvforum(settings,missing){
                 "function":"singleton",
                 "data":{
                     "select":"SYSID FROM QW_WEBSITES",
-                    "where":"NAME='"+_filibustersitename+"'"
+                    "where":"[:UPPER(NAME)]='"+_filibustersitename.toUpperCase()+"'"
                 },
                 "return":{"SITEID":"#SYSID"}
             };
@@ -217,14 +221,21 @@ function class_qvforum(settings,missing){
                         }
                         else{
                             if(window.console){console.log(v)}
+                            var m="Errore interno; impossibile procedere!";
                             switch(_getinteger(v.step)){
                             case 1:
-                                if(window.console){console.log("Non trovato sito: "+_filibustersitename)}
+                                m="Non trovato sito ["+_filibustersitename+ "] nell'ambiente ["+_sessioninfo.environ+"]";
                                 break;
                             case 2:
-                                if(window.console){console.log("Non trovato utente: "+_sessioninfo.userid)}
+                                m="Non trovato utente ["+_sessioninfo.userid+"]";
                                 break;
                             }
+                            if(window.console){console.log(m)}
+                            alert(m);
+                            RYWINZ.modified(formid, 0);
+                            oper_contextengage.enabled(0);
+                            winzDither(formid, false);
+                            setTimeout(winz_logout);
                         }
                     }
                     catch(e){
@@ -258,7 +269,7 @@ function class_qvforum(settings,missing){
                         if(t.substr(0,3)!="Re:")
                             t="Re: "+t;
                         tx_descr.value(t);
-
+                        RYWINZ.modified(formid, 0);
                         winzDither(formid, false);
                     }
                     catch(e){
@@ -285,7 +296,7 @@ function class_qvforum(settings,missing){
                     try{
                         tx_descr.value(v[0]["DESCRIPTION"]);
                         tx_wysiwyg.value(v[0]["REGISTRY"]);
-
+                        RYWINZ.modified(formid, 0);
                         winzDither(formid, false);
                     }
                     catch(e){
@@ -315,6 +326,7 @@ function class_qvforum(settings,missing){
                     try{
                         var v=$.parseJSON(d);
                         if(v.success>0){
+                            RYWINZ.modified(formid, 0);
                             window.parent.FLB.gotoPage(parentid);
                         }
                         else{

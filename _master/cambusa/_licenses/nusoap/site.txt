@@ -1,4 +1,0 @@
-http://sourceforge.net/projects/nusoap/
-
-provided by NuSphere and Dietrich Ayala
-

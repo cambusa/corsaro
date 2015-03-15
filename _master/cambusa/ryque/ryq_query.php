@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            ryq_query.php                                            *
 * Project:         Cambusa/ryQue                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Lightweight access to databases                          *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -38,6 +38,12 @@ $maestro->provider=$env_provider;
 $maestro->lenid=$lenkey;
 $sql=maestro_macro($maestro, $sql);
 unset($maestro);
+
+// CONTROLLO CHE NON SIA UNA QUERY DI AGGIORNAMENTO
+$sql=preg_replace("/^[ \n\r\t]*SELECT[ \n\r\t]/i", "SELECT ", $sql, 1);
+if(substr($sql, 0, 7)!="SELECT "){
+    $sql="SELECT SYSID FROM QVSYSTEM WHERE 0=1";
+}
 
 // VALIDAZIONE DELLE QUERY PER DATABASE QUIVER
 if($env_quiver){
@@ -143,7 +149,13 @@ default:
 array_walk_recursive($r, "escapize");
 print json_encode($r);
 
-function escapize(&$sql){
-    $sql=utf8_decode(utf8_encode($sql));
+function escapize(&$value){
+    //$value=utf8_decode(utf8_encode($value));
+    if($value!=""){
+        if(!mb_check_encoding($value, "UTF-8")){
+            // CI SONO CARATTERI NON UNICODE
+            $value=utf8_encode($value);
+        }
+    }
 }
 ?>

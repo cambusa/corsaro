@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            ryque.css                                                *
 * Project:         Cambusa/ryQue                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Lightweight access to databases                          *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -46,19 +46,45 @@ background-color:#3F75A2;
 background-color:#E0E0E0;
 }
 
+.ryque div{
+cursor:default;
+}
+
 .ryque a{
 outline-style:none;
 }
 
-.ryque::selection{
-background:#FFFFFF;
+.ryque div::selection{
+background:transparent;
 }
 
-.ryque::-moz-selection{
-background:#FFFFFF;
+.ryque div::-moz-selection{
+background:transparent;
 }
 
-.ryque::-webkit-selection{
-background:#FFFFFF;
+.ryque div::-webkit-selection{
+background:transparent;
 }
 
+.ryque a::selection{
+background:transparent;
+}
+
+.ryque a::-moz-selection{
+background:transparent;
+}
+
+.ryque a::-webkit-selection{
+background:transparent;
+}
+
+.ryque input{
+position:absolute;
+font-size:2px;
+right:4px;
+top:6px;
+width:1px;
+height:1px;
+border:none;
+text-indent:-10px;
+}

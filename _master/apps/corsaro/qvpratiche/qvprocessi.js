@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvprocessi.js                                            *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -808,17 +808,11 @@ function class_qvprocessi(settings,missing){
     offsety+=40;
 
     $(prefix+"LBM_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    var txm_description=$(prefix+"M_DESCRIPTION").rytext({left:100, top:offsety, width:400, datum:"M", tag:"DESCRIPTION",
+    var txm_description=$(prefix+"M_DESCRIPTION").rytext({left:120, top:offsety, width:400, datum:"M", tag:"DESCRIPTION",
         changed:function(){
             operm_unsaved.visible(1);
         }
     });offsety+=35;
-    
-    $(prefix+"M_REGISTRY").ryedit({left:20, top:offsety, width:700, height:400, datum:"M", tag:"REGISTRY", 
-        changed:function(){
-            operm_unsaved.visible(1);
-        }
-    });offsety+=390;
     
     $(prefix+"LBM_SCOPE").rylabel({left:20, top:offsety, caption:"Visibilit"+_utf8("a")});
     $(prefix+"M_SCOPE").rylist({left:120, top:offsety, width:200, datum:"M", tag:"SCOPE",
@@ -1013,7 +1007,7 @@ function class_qvprocessi(settings,missing){
         }
     });
     
-    offsety+=40;
+    offsety+=65;
     
     var motivoconoscenza=$(prefix+"M_CONOSCENZA").ryselections({"left":470, "top":offsety, "height":140, 
         "title":"Per conoscenza",
@@ -1026,7 +1020,13 @@ function class_qvprocessi(settings,missing){
         "parentfield":"SETCONOSCENZA",
         "selectedtable":"QVOBJECTS"
     });
-    offsety+=210;
+    offsety+=180;
+    
+    $(prefix+"M_REGISTRY").ryedit({left:20, top:offsety, width:700, height:400, datum:"M", tag:"REGISTRY", 
+        changed:function(){
+            operm_unsaved.visible(1);
+        }
+    });offsety+=400;
     
     var operm_top=$(prefix+"operm_top").rylabel({
         left:20,
@@ -1295,16 +1295,10 @@ function class_qvprocessi(settings,missing){
         }
     });offsety+=35;
     
-    $(prefix+"STATO_REGISTRY").ryedit({left:20, top:offsety, width:700, height:400, datum:"S", tag:"REGISTRY", 
-        changed:function(){
-            statounsaved.visible(1);
-        }
-    });offsety+=390;
-
     var sy=offsety;
     $(prefix+"LB_STATO_ATTOREID").rylabel({left:20, top:offsety, caption:"Attore"});
     $(prefix+"STATO_ATTOREID").ryhelper({
-        left:90, top:offsety, width:250, formid:formid, table:"QW_ATTORI", title:"Attori", datum:"S", tag:"ATTOREID", 
+        left:100, top:offsety, width:250, formid:formid, table:"QW_ATTORI", title:"Attori", datum:"S", tag:"ATTOREID", 
         open:function(o){
             o.where("(UTENTEID<>'' OR RUOLOID<>'') AND SYSID IN (SELECT SYSID FROM QW_PROCCOINVOLTI WHERE PROCESSOID='"+currprocessoid+"')");
         },
@@ -1317,7 +1311,7 @@ function class_qvprocessi(settings,missing){
     
     $(prefix+"LB_STATO_CONTOID").rylabel({left:20, top:offsety, caption:"Conto"});
     $(prefix+"STATO_CONTOID").ryhelper({
-        left:90, top:offsety, width:250, formid:formid, table:"QW_CONTI", title:"Conti", datum:"S", tag:"CONTOID", 
+        left:100, top:offsety, width:250, formid:formid, table:"QW_CONTI", title:"Conti", datum:"S", tag:"CONTOID", 
         open:function(o){
             o.where("");
         },
@@ -1349,8 +1343,15 @@ function class_qvprocessi(settings,missing){
             statounsaved.visible(1);
         }
     });
-    offsety+=40;
     
+    offsety+=40;
+    $(prefix+"STATO_REGISTRY").ryedit({left:20, top:offsety, width:700, height:400, datum:"S", tag:"REGISTRY", 
+        changed:function(){
+            statounsaved.visible(1);
+        }
+    });
+
+    offsety+=400;
     var statitop=$(prefix+"oper_statitop").rylabel({
         left:20,
         top:offsety,

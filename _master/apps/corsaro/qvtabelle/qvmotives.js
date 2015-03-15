@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvmotives.js                                             *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -283,7 +283,8 @@ function class_qvmotives(settings,missing){
         .additem({caption:"", key:""})
         .additem({caption:"Nessuno", key:0})
         .additem({caption:"LIFO", key:1})
-        .additem({caption:"FIFO", key:2});
+        .additem({caption:"FIFO", key:2})
+        .additem({caption:"Ponderato", key:3});
     offsety+=30;
 
     $(prefix+"LB_TAG").rylabel({left:20, top:offsety, caption:"Marche"});

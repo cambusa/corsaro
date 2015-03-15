@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            rywembed.php                                             *
 * Project:         Cambusa/ryWinz                                           *
-* Version:         1.61                                                     *
+* Version:         1.69                                                     *
 * Description:     Multiple Document Interface                              *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -23,6 +23,12 @@ else{
     else
         $sessionid="";
 }
+
+// ASSEGNO LA VARIABILE CHE FORZEREBBE L'AMBIENTE SE NON FOSSE SETTATA
+if(!isset($winz_appenviron)){
+    $winz_appenviron="";
+}
+
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -54,10 +60,13 @@ _baseURL="<?php  print rywinzHost() ?>";
 _sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $winz_appname ?>";
 var _apptitle="<?php  print $winz_apptitle ?>";
+var _appenviron="<?php  print $winz_appenviron ?>";
 $(document).ready(function(){
     RYEGO.go({
         crossdomain:"",
         appname:_appname,
+        apptitle:_apptitle,
+        appenv:_appenviron,
         formlogin:"ryegoembed.php",
         config:function(d){
             _sessioninfo=d;
@@ -87,32 +96,66 @@ function mdiconfig(){
     });
 }
 function winz_logout(){
-    winzRemoveAll(  // Rimozione di tuttu i form
-        function(){
-            RYQUE.dispose(  // Rimozione RYQUE principale
-                function(){
-                    RYQUEAUX.dispose(   // Rimozione RYQUE ausiliario
-                        function(){
-                            ego_logout();
-                        }
-                    );
-                }
-            );
-        }
-    );
-    function ego_logout(){
-        if(_logoutcall!==false){    // Logout personalizzato
-            _logoutcall(
-                function(){
-                    RYEGO.logout();
-                }
-            );
-        }
-        else{   // Logout standard
-            RYEGO.logout();
+    var ok=true;
+    var msg=RYBOX.babels("MSG_QUITPAGE");
+    for(var n in _globalforms){
+        if(RYWINZ.modified(n) || RYWINZ.busy(n)){
+            ok=false;
+            break;
         }
     }
-    _pause(1000);
+    if(ok==false){
+        msg=RYBOX.babels("MSG_CONFIRMQUIT");
+        ok=confirm(msg);
+    }
+    if(ok){
+        TAIL.enqueue(function(){
+            winzRemoveAll(  // Rimozione di tuttu i form
+                function(){
+                    TAIL.free();
+                }
+            );
+        
+        });
+        TAIL.enqueue(function(){
+            RYQUE.dispose(  // Rimozione RYQUE principale
+                function(){
+                    TAIL.free();
+                }
+            );
+        });
+        TAIL.enqueue(function(){
+            RYQUEAUX.dispose(   // Rimozione RYQUE ausiliario
+                function(){
+                    TAIL.free();
+                }
+            );
+        });
+        if(_logoutcallext!==false){    // Logout personalizzato esterno
+            TAIL.enqueue(function(){
+                _logoutcallext(
+                    function(){
+                        TAIL.free();
+                    }
+                );
+            });
+        }
+        if(_logoutcall!==false){    // Logout personalizzato
+            TAIL.enqueue(function(){
+                _logoutcall(
+                    function(){
+                        TAIL.free();
+                    }
+                );
+            });
+        }
+        TAIL.enqueue(function(){
+            RYEGO.logout();
+            TAIL.free();
+            _pause(1000);
+        });
+        TAIL.wriggle();
+    }
 }
 </script>
 </head>

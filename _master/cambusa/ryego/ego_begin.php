@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            ego_begin.php                                            *
 * Project:         Cambusa/ryEgo                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Central Authentication Service (CAS)                     *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -37,6 +37,11 @@ try{
     else
         $app="";
 
+    if(isset($_POST["env"]))
+        $castenv=ryqEscapize($_POST["env"]);
+    else
+        $castenv="";
+
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $description="Autenticazione riuscita";
@@ -51,22 +56,19 @@ try{
         $global_lastlanguage=$_COOKIE['_egolanguage'];
     }
 
-    // PERMUTAZIONE PER PROTEZIONE PASSWORD
-    session_start();
-    if (isset($_SESSION["ego_privatekey"])){
-        $privatekey=$_SESSION["ego_privatekey"];
-    }
-    else{
-        // SESSIONE NON INIZIALIZZATA
-        $success=0;
-        $description="Sessione non inizializzata: ricaricare il form di login";
-        $babelcode="EGO_MSG_UNINITSESSION";
-    }
-    
-    if($success){
-        // APRO IL DATABASE
-        $maestro=maestro_opendb("ryego");
-        if($maestro->conn!==false){
+    // APRO IL DATABASE
+    $maestro=maestro_opendb("ryego");
+    if($maestro->conn!==false){
+        // CRITTOGRAFIA PER PROTEZIONE PASSWORD
+        solvePrivateKey($maestro, $privatekey, $success, $description, $babelcode);
+        $pwd=decryptString($pwd, $privatekey);
+        if($pwd=="######"){
+            // SESSIONE NON INIZIALIZZATA
+            $success=0;
+            $description="Sessione non inizializzata: ricaricare il form di login";
+            $babelcode="EGO_MSG_UNINITSESSION";
+        }
+        if($success){
             // ELIMINAZIONE DELLE SESSIONI PIU' VECCHIE DI 30 GIORNI
             $sql="DELETE FROM EGOSESSIONS WHERE [:DATE(RENEWALTIME, 30DAYS)]<[:TODAY()]";
             maestro_execute($maestro, $sql);
@@ -84,7 +86,6 @@ try{
             $sql.="WHERE [:UPPER(EGOALIASES.NAME)]='".strtoupper($user)."'";
             maestro_query($maestro, $sql, $v);
             if(count($v)==1){   // Esistenza utente
-                $pwd=decryptString($pwd, $privatekey);
                 if($v[0]["PWD"]==$pwd){     // Correttezza password
                     if(intval($v[0]["ACTIVE"])==1){     // Stato di utente attivo
                         // AUTORIZZAZIONI
@@ -138,20 +139,28 @@ try{
                         }
                         else{ // Autorizzazioni applicazione esterna e setup
                             $uapp=strtoupper($app);
+                            $uenv=strtoupper($castenv);
+                            $castenvid="";
                             $sql="SELECT SYSID FROM EGOAPPLICATIONS WHERE [:UPPER(NAME)]='$uapp'";
                             maestro_query($maestro, $sql, $v);
                             if(count($v)==1){
                                 $appid=$v[0]["SYSID"];
                                 $sql="";
-                                $sql.="SELECT ENVIRONID ";
+                                $sql.="SELECT EGOENVIRONUSER.ENVIRONID AS ENVIRONID, EGOENVIRONS.NAME AS ENVNAME ";
                                 $sql.="FROM EGOENVIRONUSER ";
                                 $sql.="INNER JOIN EGOENVIRONS ON EGOENVIRONS.SYSID=EGOENVIRONUSER.ENVIRONID ";
-                                $sql.="WHERE EGOENVIRONS.APPID='$appid' AND EGOENVIRONUSER.USERID='$userid'";
+                                $sql.="WHERE EGOENVIRONS.APPID='$appid' AND EGOENVIRONUSER.USERID='$userid' ";
+                                if($uenv!=""){
+                                    $sql.="ORDER BY (CASE WHEN [:UPPER(EGOENVIRONS.NAME)]='$uenv' THEN 0 ELSE 1 END)";
+                                }
                                 maestro_query($maestro, $sql, $v);
                                 if(count($v)>0){
                                     // SETUP DI DEFAULT
                                     // Ambiente
                                     $environid=$v[0]["ENVIRONID"];
+                                    if($uenv!="" && strtoupper($v[0]["ENVNAME"])==$uenv){
+                                        $castenvid=$environid;
+                                    }
                                     // Ruolo
                                     $sql="SELECT EGOROLEUSER.ROLEID AS ROLEID FROM EGOROLEUSER INNER JOIN EGOROLES ON EGOROLES.SYSID=EGOROLEUSER.ROLEID WHERE EGOROLEUSER.USERID='$userid' AND EGOROLES.APPID='$appid'";
                                     maestro_query($maestro, $sql, $v);
@@ -207,6 +216,9 @@ try{
                                         $setupid=qv_createsysid($maestro);
                                         $sql="INSERT INTO EGOSETUP(SYSID,APPID,ALIASID,ENVIRONID,ROLEID,LANGUAGEID,COUNTRYCODE,DEBUGMODE) VALUES('$setupid','$appid','$aliasid','$environid','$roleid','$languageid','$countrycode','$debugmode')";
                                         maestro_execute($maestro, $sql);
+                                    }
+                                    if($castenvid!=""){
+                                        $environid=$castenvid;
                                     }
                                 }
                                 else{
@@ -316,16 +328,16 @@ try{
                 $babelcode="EGO_MSG_WRONGUSERORPWD";
             }
         }
-        else{
-            // CONNESSIONE FALLITA
-            $success=0;
-            $description=$maestro->errdescr;
-            $babelcode="EGO_MSG_UNDEFINED";
-        }
-        
-        // CHIUDO IL DATABASE
-        maestro_closedb($maestro);
     }
+    else{
+        // CONNESSIONE FALLITA
+        $success=0;
+        $description=$maestro->errdescr;
+        $babelcode="EGO_MSG_UNDEFINED";
+    }
+    
+    // CHIUDO IL DATABASE
+    maestro_closedb($maestro);
 }
 catch(Exception $e){
     $success=0;

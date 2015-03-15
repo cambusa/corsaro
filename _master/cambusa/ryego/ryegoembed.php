@@ -2,16 +2,17 @@
 /****************************************************************************
 * Name:            ryego.php                                                *
 * Project:         Cambusa/ryEgo                                            *
-* Version:         1.56                                                     *
+* Version:         1.69                                                     *
 * Description:     Central Authentication Service (CAS)                     *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 // CARICO LE LIBRERIE
 if(!isset($tocambusa))
     $tocambusa="../";
+include_once $tocambusa."ryego/ego_crypt.php";    
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."ryque/ryq_util.php";
 include_once $tocambusa."phpseclib/Math/BigInteger.php";
@@ -20,6 +21,7 @@ include_once $tocambusa."phpseclib/Crypt/RSA.php";
 // APRO IL DATABASE
 $maestro=maestro_opendb("ryego");
 
+// URL
 if(isset($_GET["url"])){
     $returnurl=$_GET["url"];
     $egomethod="GET";
@@ -33,6 +35,7 @@ else{
     $egomethod="POST";
 }
 
+// APPLICAZIONE
 if(isset($_GET["app"]))
     $appname=$_GET["app"];
 elseif(isset($_POST["app"]))
@@ -40,11 +43,21 @@ elseif(isset($_POST["app"]))
 else
     $appname="";
 
+// GESTIONE AMBIENTE: POSSO CAMBIARLO SENZA PASSARE ESPLICITAMENTE DAL SETUP EGO
+if(isset($_GET["env"]))
+    $castenv=$_GET["env"];
+elseif(isset($_POST["env"]))
+    $castenv=$_POST["env"];
+else
+    $castenv="";
+    
+// METODO
 if(isset($_GET["method"]))
     $egomethod=$_GET["method"];
 elseif(isset($_POST["method"]))
     $egomethod=$_POST["method"];
 
+// AVVIARE SETUP
 if(isset($_GET["set"]))
     $setup=intval($_GET["set"]);
 elseif(isset($_POST["set"]))
@@ -52,6 +65,7 @@ elseif(isset($_POST["set"]))
 else
     $setup=0;
 
+// POSIZIONAMENTO MASCHERA SETUP
 if(isset($_POST["msk"]))
     $msk=$_POST["msk"];
 else
@@ -112,21 +126,9 @@ $egolanguage=$config_defaultlang;
 if(isset($_COOKIE['_egolanguage']))
     $egolanguage=$_COOKIE['_egolanguage'];
 
-// PERMUTAZIONE PER PROTEZIONE PASSWORD
-session_start();
-if(isset($_SESSION["ego_publickey"])){
-    $publickey=$_SESSION["ego_publickey"];
-}
-else{
-    $rsa=new Crypt_RSA();
-    $keypair=$rsa->createKey();
-    $privatekey=$keypair["privatekey"];
-    $publickey=$keypair["publickey"];
-    unset($rsa);
-
-    $_SESSION["ego_publickey"]=$publickey;
-    $_SESSION["ego_privatekey"]=$privatekey;
-}
+// PREPARAZIONE CRITTOGRAFIA PER PROTEZIONE PASSWORD
+prepareEncrypt($maestro, $publickey);
+    
 ?><!DOCTYPE HTML>
 <html>
 <head>
@@ -182,6 +184,7 @@ var _returnURL="<?php print $returnurl ?>";
 var _egomethod="<?php  print $egomethod ?>";
 var _setuponly=<?php  print $setuponly ?>;
 var _appname="<?php  print $appname ?>";
+var _castenv="<?php  print $castenv ?>";
 var _egocontext="embed";
 function encryptString(s){
     var e=new JSEncrypt();

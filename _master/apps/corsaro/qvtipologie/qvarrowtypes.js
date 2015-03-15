@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvarrowtypes.js                                          *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -485,11 +485,11 @@ function class_qvarrowtypes(settings,missing){
             objgridsel.where("");
             objgridsel.query({
                 ready:function(){
-                    qv_queuelist[formid+"GENRETYPEID"]={"table":"#QVGENRETYPES"};
-                    qv_queuelist[formid+"MOTIVETYPEID"]={"table":"#QVMOTIVETYPES"};
-                    qv_queuelist[formid+"BOWTYPEID"]={"table":"#QVOBJECTTYPES"};
-                    qv_queuelist[formid+"TARGETTYPEID"]={"table":"#QVOBJECTTYPES"};
-                    qv_queuemanager();
+                    TAIL.enqueue(qv_queuelistcall, {"id": formid+"GENRETYPEID", "table":"#QVGENRETYPES"});
+                    TAIL.enqueue(qv_queuelistcall, {"id": formid+"MOTIVETYPEID", "table":"#QVMOTIVETYPES"});
+                    TAIL.enqueue(qv_queuelistcall, {"id": formid+"BOWTYPEID", "table":"#QVOBJECTTYPES"});
+                    TAIL.enqueue(qv_queuelistcall, {"id": formid+"TARGETTYPEID", "table":"#QVOBJECTTYPES"});
+                    TAIL.wriggle();
                 }
             });
         }

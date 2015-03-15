@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            ryq_gaugeminus.php                                       *
 * Project:         Cambusa/ryQue                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Exhaustive search                                        *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -480,11 +480,6 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
     }
     return $v;
 }
-function zerodispose($RequestID){
-    global $FolderZero, $NameFileSTAR;
-    $NameFileSTAR = $FolderZero . "/" . $RequestID . ".*";		// Tutti i file
-    EliminaTemporanei();
-}
 
 function TrovaPrimo($Rif){
 
@@ -945,5 +940,11 @@ function EliminaTemporanei(){
         }
 	}
     catch(Exception $e){}
+}
+
+function zerodispose($RequestID){
+    global $path_cambusa, $NameFileSTAR;
+    $NameFileSTAR = $path_cambusa."ryque/requests" . "/" . $RequestID . ".*";
+    EliminaTemporanei();
 }
 ?>

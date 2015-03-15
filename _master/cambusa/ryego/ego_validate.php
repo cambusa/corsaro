@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            ego_validate.php                                         *
 * Project:         Cambusa/ryEgo                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Central Authentication Service (CAS)                     *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -16,12 +16,13 @@ $global_lastusername="";
 $global_lastadmin=0;
 $global_lastemail="";
 $global_lastroleid="";
+$global_lastrolename="";
 $global_lastenvid="";
+$global_lastenvname="";
 $global_lastlanguage=$config_defaultlang;
 $global_lastcountrycode="";
 $global_lastdebugmode=false;
 $global_lastclientip="";
-$global_lastrolename="";
 
 function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
     global $public_sessionid,
@@ -31,12 +32,15 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
            $global_lastadmin,
            $global_lastemail,
            $global_lastroleid,
+           $global_lastrolename,
            $global_lastenvid,
+           $global_lastenvname,
            $global_lastlanguage,
            $global_lastcountrycode,
            $global_lastdebugmode,
            $global_lastclientip,
-           $global_lastrolename;
+           $path_databases,
+           $global_backslash;
     if($public_sessionid=="" || $ses!=$public_sessionid){
         if($info)
             $sql="SELECT EGOSESSIONS.SYSID AS SYSID, EGOSESSIONS.ENVIRONID AS ENVID, EGOALIASES.USERID AS USERID, EGOALIASES.NAME AS USERNAME, EGOALIASES.DEMIURGE AS DEMIURGE, EGOALIASES.ADMINISTRATOR AS ADMINISTRATOR, EGOALIASES.EMAIL AS EMAIL, EGOSESSIONS.ROLEID AS ROLEID, EGOSESSIONS.LANGUAGEID AS LANGUAGEID, EGOSESSIONS.COUNTRYCODE AS COUNTRYCODE, EGOSESSIONS.DEBUGMODE AS DEBUGMODE, EGOSESSIONS.CLIENTIP AS CLIENTIP FROM EGOSESSIONS INNER JOIN EGOALIASES ON EGOALIASES.SYSID=EGOSESSIONS.ALIASID WHERE EGOSESSIONS.SESSIONID='$ses' AND EGOSESSIONS.ENDTIME IS NULL AND [:DATE(EGOSESSIONS.RENEWALTIME, 1DAYS)]>[:TODAY()]";
@@ -48,7 +52,7 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
             $ip=$r[0]["CLIENTIP"];
             $demiurge=intval($r[0]["DEMIURGE"]);
             $administrator=intval($r[0]["ADMINISTRATOR"]);
-            if($context=="" || $context=="quiver" || $context=="export" || 
+            if($context=="" || $context=="quiver" || $context=="export" || $context=="mirror" || 
                ($context=="ego" && $demiurge==1) ||
                ($context=="maestro" && $administrator==1) ||
                ($context=="pulse" && $administrator==1)
@@ -69,18 +73,22 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
                         $global_lastdebugmode=intval($r[0]["DEBUGMODE"]);
                         $global_lastclientip=$r[0]["CLIENTIP"];
                         
-                        // REPERISCO IL NOME DEL RUOLO
-                        $sql="SELECT EGOROLES.NAME AS ROLENAME FROM EGOROLES INNER JOIN EGOENVIRONS ON EGOENVIRONS.SYSID='$global_lastenvid' AND EGOENVIRONS.APPID=EGOROLES.APPID WHERE EGOROLES.SYSID='$global_lastroleid'";
+                        // REPERISCO IL NOME DEL RUOLO E DELL'AMBIENTE
+                        $sql="SELECT EGOROLES.NAME AS ROLENAME, EGOENVIRONS.NAME AS ENVNAME FROM EGOROLES INNER JOIN EGOENVIRONS ON EGOENVIRONS.SYSID='$global_lastenvid' AND EGOENVIRONS.APPID=EGOROLES.APPID WHERE EGOROLES.SYSID='$global_lastroleid'";
                         maestro_query($maestro, $sql, $s);
-                        if(count($s)==1)
+                        if(count($s)==1){
                             $global_lastrolename=$s[0]["ROLENAME"];
+                            $global_lastenvname=$s[0]["ENVNAME"];
+                        }
 
                         // REPERISCO IL NOME DELLA LINGUA
                         $sql="SELECT NAME FROM EGOLANGUAGES WHERE SYSID='$languageid'";
                         maestro_query($maestro, $sql, $s);
                         if(count($s)==1)
                             $global_lastlanguage=$s[0]["NAME"];
+                            
                     }
+                    // AGGIORNAMENTO EGOSESSIONS
                     $sql="UPDATE EGOSESSIONS SET RENEWALTIME=[:NOW()] WHERE SYSID='$sysid'";
                     maestro_execute($maestro, $sql, false);
                     return true;
@@ -103,14 +111,17 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
         $global_lastadmin=0;
         $global_lastemail="";
         $global_lastroleid="_ROLEID";
+        $global_lastrolename="NONE";
         $global_lastenvid="";
+        $global_lastenvname="";
         $global_lastlanguage="";
         $global_lastcountrycode="";
         $global_lastdebugmode=false;
         $global_lastclientip=get_ip_address();
-        $global_lastrolename="NONE";
         return true;
     }
+    // GESTIONE BACKSLASH
+    $global_backslash=intval(@file_get_contents($path_databases."_configs/backslash.par"));
 }
 
 function ext_validatesession($ses, $info=false, $context=""){

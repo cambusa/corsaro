@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            maestro_execlib.php                                      *
 * Project:         Cambusa/ryMaestro                                        *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Databases modeling and maintenance                       *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -187,7 +187,7 @@ function maestro_closedb(&$maestro){
 }
 function maestro_querytype($maestro, $sql){
     try{
-        if(strtoupper(substr(trim($sql),0,6))=="SELECT")
+        if(strtoupper(substr(trim($sql), 0, 7))=="SELECT ")
             return true;
         else
             return false;
@@ -202,114 +202,123 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
         $ret=true;
         $maestro->errdescr="";
         // SOSTITUZIONE DELLE MACRO
-        $sql=maestro_macro($maestro,$sql);
-        switch($maestro->provider){
-        case "sqlite":
-            $res=false;
-            $res=@x_sqlite_query($maestro->conn, $sql);
-            if(!is_bool($res)){
-                while($row=x_sqlite_fetch_array($res)){
-                    // RISOLVO I NULL
-                    foreach($row as $k => $v){
-                        if($v===null)
-                            $row[$k]="";
+        $sql=maestro_macro($maestro, $sql);
+        // CONTROLLO CHE NON SIA UNA QUERY DI AGGIORNAMENTO
+        $sql=preg_replace("/^[ \n\r\t]*SELECT[ \n\r\t]/i", "SELECT ", $sql, 1);
+        if(substr($sql, 0, 7)!="SELECT "){
+            $ret=false;
+            $maestro->errdescr="SQL is not a SELECT query";
+            log_write($sql.";\r\n--->" . $maestro->errdescr);
+        }
+        if($ret){
+            switch($maestro->provider){
+            case "sqlite":
+                $res=false;
+                $res=@x_sqlite_query($maestro->conn, $sql);
+                if(!is_bool($res)){
+                    while($row=x_sqlite_fetch_array($res)){
+                        // RISOLVO I NULL
+                        foreach($row as $k => $v){
+                            if($v===null)
+                                $row[$k]="";
+                        }
+                        $r[]=$row;
                     }
-                    $r[]=$row;
+                    x_sqlite_finalize($res);
                 }
-                x_sqlite_finalize($res);
-            }
-            elseif($res==false){
-                $ret=false;
-                $maestro->errdescr=x_sqlite_error_string($maestro->conn, x_sqlite_last_error($maestro->conn));
-                log_write($sql.";\r\n--->" . $maestro->errdescr);
-            }
-            break;
-        case "mysql":
-            if(@$resloc=mysqli_query($maestro->conn, $sql)){
-                while($rows=mysqli_fetch_assoc($resloc)){
-                    // RISOLVO I NULL
-                    foreach($rows as $k => $v){
-                        if($v===null)
-                            $rows[$k]="";
+                elseif($res==false){
+                    $ret=false;
+                    $maestro->errdescr=x_sqlite_error_string($maestro->conn, x_sqlite_last_error($maestro->conn));
+                    log_write($sql.";\r\n--->" . $maestro->errdescr);
+                }
+                break;
+            case "mysql":
+                if(@$resloc=mysqli_query($maestro->conn, $sql)){
+                    while($rows=mysqli_fetch_assoc($resloc)){
+                        // RISOLVO I NULL
+                        foreach($rows as $k => $v){
+                            if($v===null)
+                                $rows[$k]="";
+                        }
+                        // TRAVASO
+                        $r[]=$rows;
                     }
-                    // TRAVASO
-                    $r[]=$rows;
+                    mysqli_free_result($resloc);
                 }
-                mysqli_free_result($resloc);
-            }
-            else{
-                $ret=false;
-                $maestro->errdescr=mysqli_error($maestro->conn);
-                log_write($sql.";\r\n--->" . $maestro->errdescr);
-            }
-            break;
-        case "oracle":
-            if($maestro->transon)
-                $mode=OCI_NO_AUTO_COMMIT;
-            else
-                $mode=OCI_COMMIT_ON_SUCCESS;
-            $resloc=oci_parse($maestro->conn,$sql);
-            if(@oci_execute($resloc, $mode)){
-                while($rows=oci_fetch_array($resloc, OCI_ASSOC+OCI_RETURN_NULLS)){
-                    // RISOLVO I CLOB E I NULL
-                    foreach($rows as $k => $v){
-                        if(is_object($v))
-                            $rows[$k]=$v->load();
-                        elseif($v===null)
-                            $rows[$k]="";
+                else{
+                    $ret=false;
+                    $maestro->errdescr=mysqli_error($maestro->conn);
+                    log_write($sql.";\r\n--->" . $maestro->errdescr);
+                }
+                break;
+            case "oracle":
+                if($maestro->transon)
+                    $mode=OCI_NO_AUTO_COMMIT;
+                else
+                    $mode=OCI_COMMIT_ON_SUCCESS;
+                $resloc=oci_parse($maestro->conn,$sql);
+                if(@oci_execute($resloc, $mode)){
+                    while($rows=oci_fetch_array($resloc, OCI_ASSOC+OCI_RETURN_NULLS)){
+                        // RISOLVO I CLOB E I NULL
+                        foreach($rows as $k => $v){
+                            if(is_object($v))
+                                $rows[$k]=$v->load();
+                            elseif($v===null)
+                                $rows[$k]="";
+                        }
+                        // TRAVASO
+                        $r[]=$rows;
                     }
-                    // TRAVASO
-                    $r[]=$rows;
                 }
-            }
-            else{
-                $ret=false;
-                $me=oci_error($resloc);
-                $maestro->errdescr=$me["message"];
-                log_write($sql.";\r\n--->" . $maestro->errdescr);
-            }
-            @oci_free_statement($resloc);
-            break;
-        case "db2odbc":
-            if($resloc=@odbc_exec($maestro->conn, $sql)){
-                odbc_longreadlen($resloc, 100000000);
-                while($rows=odbc_fetch_array($resloc)){
-                    // SOSTITUISCO LA VIRGOLA DEI NUMERI E RISOLVO I NULL
-                    foreach($rows as $k => $v){
-                        if($v===null)
-                            $rows[$k]="";
-                        elseif(preg_match("/^\d*,\d+$/", $v))
-                            $rows[$k]=str_replace(",", ".", $v);
+                else{
+                    $ret=false;
+                    $me=oci_error($resloc);
+                    $maestro->errdescr=$me["message"];
+                    log_write($sql.";\r\n--->" . $maestro->errdescr);
+                }
+                @oci_free_statement($resloc);
+                break;
+            case "db2odbc":
+                if($resloc=@odbc_exec($maestro->conn, $sql)){
+                    odbc_longreadlen($resloc, 100000000);
+                    while($rows=odbc_fetch_array($resloc)){
+                        // SOSTITUISCO LA VIRGOLA DEI NUMERI E RISOLVO I NULL
+                        foreach($rows as $k => $v){
+                            if($v===null)
+                                $rows[$k]="";
+                            elseif(preg_match("/^\d*,\d+$/", $v))
+                                $rows[$k]=str_replace(",", ".", $v);
+                        }
+                        // TRAVASO
+                        $r[]=$rows;
                     }
-                    // TRAVASO
-                    $r[]=$rows;
+                    odbc_free_result($resloc);
                 }
-                odbc_free_result($resloc);
-            }
-            else{
-                $ret=false;
-                $maestro->errdescr=odbc_errormsg($maestro->conn);
-                log_write($sql.";\r\n--->" . $maestro->errdescr);
-            }
-            break;
-        default:
-            if($resloc=@odbc_exec($maestro->conn, $sql)){
-                odbc_longreadlen($resloc, 100000000);
-                while($rows=odbc_fetch_array($resloc)){
-                    // RISOLVO I NULL
-                    foreach($rows as $k => $v){
-                        if($v===null)
-                            $rows[$k]="";
+                else{
+                    $ret=false;
+                    $maestro->errdescr=odbc_errormsg($maestro->conn);
+                    log_write($sql.";\r\n--->" . $maestro->errdescr);
+                }
+                break;
+            default:
+                if($resloc=@odbc_exec($maestro->conn, $sql)){
+                    odbc_longreadlen($resloc, 100000000);
+                    while($rows=odbc_fetch_array($resloc)){
+                        // RISOLVO I NULL
+                        foreach($rows as $k => $v){
+                            if($v===null)
+                                $rows[$k]="";
+                        }
+                        // TRAVASO
+                        $r[]=$rows;
                     }
-                    // TRAVASO
-                    $r[]=$rows;
+                    odbc_free_result($resloc);
                 }
-                odbc_free_result($resloc);
-            }
-            else{
-                $ret=false;
-                $maestro->errdescr=odbc_errormsg($maestro->conn);
-                log_write($sql.";\r\n--->" . $maestro->errdescr);
+                else{
+                    $ret=false;
+                    $maestro->errdescr=odbc_errormsg($maestro->conn);
+                    log_write($sql.";\r\n--->" . $maestro->errdescr);
+                }
             }
         }
     }

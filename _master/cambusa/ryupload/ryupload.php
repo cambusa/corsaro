@@ -2,14 +2,17 @@
 /****************************************************************************
 * Name:            ryupolad.php                                             *
 * Project:         Cambusa/ryUpload                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     File uploader                                            *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-include("../sysconfig.php");
+if(!isset($tocambusa))
+    $tocambusa="../";
+include_once $tocambusa."rymaestro/maestro_execlib.php";
+include_once $tocambusa."ryego/ego_validate.php";
 
 if(isset($_POST["env"]))
     $env_name=strtolower($_POST["env"]);
@@ -17,11 +20,28 @@ elseif(isset($_GET["env"]))
     $env_name=strtolower($_GET["env"]);
 else
     $env_name="";
+    
+if(isset($_POST["sessionid"]))
+    $sessionid=$_POST["sessionid"];
+elseif(isset($_GET["sessionid"]))
+    $sessionid=$_GET["sessionid"];
+else
+    $sessionid="";
+
+$safeext=true;
+if($sessionid!=""){
+    if(ext_validatesession($sessionid, false, "mirror")){
+        $safeext=false;
+    }
+}
 
 if($env_name!=""){
     if(is_file($path_databases."_environs/".$env_name.".php")){
         include($path_databases."_environs/".$env_name.".php");
-        $allowedExtensions=explode("|",$env_extensions);
+        if($safeext)
+            $allowedExtensions=explode("|",$env_extensions);
+        else
+            $allowedExtensions=array();
         $uploader=new qqFileUploader($allowedExtensions, $env_maxsize);
         $result=$uploader->handleUpload($env_strconn);
     }

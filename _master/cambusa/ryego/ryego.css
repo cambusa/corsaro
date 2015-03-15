@@ -1,10 +1,20 @@
+/****************************************************************************
+* Name:            ryego.css                                                *
+* Project:         Cambusa/ryEgo                                            *
+* Version:         1.69                                                     *
+* Description:     Central Authentication Service (CAS)                     *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
 a{color:#AA2222;text-decoration:none;font-weight:normal;}
 hr{color:#E0E0E0;font-size:1px;border:1px solid #E0E0E0;}
 .classicHR{border-top:1px solid #E0E0E0;font-size:1px;height:4px;}
 .classicBody{margin:0px;text-align:center;background-color:#E2E1DE;color:#424242;font-family:verdana,sans-serif;font-size:13px;}
 .classicTable{border:20px solid #F9F9F9;background-color:transparent;margin-left:13px;margin-right:13px;font-family:verdana,sans-serif;font-size:13px;border-collapse:separate;}
 .classicTopMargin{height:10px;font-size:1px;}
-.classicTopMenu{position:absolute;top:13px;right:13px;width:974px;height:18px;text-align:right;background-color:transparent;}
+.classicTopMenu{position:absolute;top:10px;right:0px;width:974px;height:18px;text-align:right;background-color:transparent;}
 .classicBottomMenu{position:absolute;top:-17px;right:8px;width:974px;height:18px;text-align:right;background-color:transparent;}
 .classicSkip4{height:4px;font-size:1px;}
 .classicSkip10{height:10px;font-size:1px;}
@@ -27,7 +37,12 @@ hr{color:#E0E0E0;font-size:1px;border:1px solid #E0E0E0;}
 .classicVertSkipRow{width:15px;border-left:1px solid #E0E0E0;}
 .classicLabel{font-family:verdana,sans-serif;font-size:10px;font-weight:bold}
 .classicCurrent{background-color:#EAEAEA;}
-.classicMiniAnchor{text-decoration:none;font-family:verdana,sans-serif;font-size:9px;color:#DDDDFF;}
+.classicMiniAnchor{text-decoration:none;font-family:verdana,sans-serif;font-size:9px;color:#DDDDFF;background-color:black;padding:4px;border:2px solid white;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-khtml-border-radius: 5px;
+border-radius: 5px;
+}
 .classicCreditsBox{text-align:right;}
 .classicSearchBox{position:absolute;right:23px;top:60px;text-align:right;height:30px;overflow-y:hidden;}
 .classicBackImage{position:absolute;background-repeat:no-repeat;background-position:top;right:13px;width:974px;}

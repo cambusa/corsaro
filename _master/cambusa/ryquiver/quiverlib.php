@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            quiverlib.php                                            *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -151,7 +151,7 @@ function qv_solverecord($maestro, $data, $table, $postid, $postname, &$SYSID, $f
     default:
         $deleted="";
     }
-    // INIAZIALIZZO I CAMPI DA ESTRARRE; SE $postname=="" LA TABELLA NON HA IL CAMPO "NAME"
+    // INIZIALIZZO I CAMPI DA ESTRARRE; SE $postname=="" LA TABELLA NON HA IL CAMPO "NAME"
     if($postname!="")
         $select="SYSID,NAME";
     else
@@ -372,11 +372,12 @@ function qv_escapizeUTF8(&$v){
 }
 function qv_inputUTF8($v){
     if($v!=""){
-        if(htmlentities($v, ENT_NOQUOTES, "UTF-8", false)==""){
-            // CI SONO CARATTERI UNICODE
+        //if(htmlentities($v, ENT_NOQUOTES, "UTF-8", false)==""){
+        if(!mb_check_encoding($v, "UTF-8")){
+            // CI SONO CARATTERI NON UNICODE
             return utf8_encode($v);
         }
-        return utf8_decode(utf8_encode($v));
+        //return utf8_decode(utf8_encode($v));
     }
     return $v;
 }
@@ -392,14 +393,14 @@ function qv_setclob($maestro, $id, $value, &$set, &$clobs){
             $clobs=array();
         }
         $set=":REGISTRY";
-        $clobs[$id]=$value;
+        $clobs[$id]=ryqNormalize($value);
         break;
     case "db2odbc":
         if($clobs===false){
             $clobs=array();
         }
         $set="?";
-        $clobs[$id]=$value;
+        $clobs[$id]=ryqNormalize($value);
         break;
     default:
         $set="'".ryqEscapize($value)."'";

@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvpratiche.js                                            *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -382,7 +382,10 @@ function class_qvpratiche(settings,missing){
                             objgridsel.splice(0, 0, newid);
                             // VIENE FATTO ALLA OPEN
                             //winzTimeoutMess(formid, v.success, v.message);
-                       }
+                        }
+                        else{
+                            winzTimeoutMess(formid, v.success, v.message);
+                        }
                     }
                     catch(e){
                         winzClearMess(formid);
@@ -1610,7 +1613,7 @@ function class_qvpratiche(settings,missing){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        if(v.success){
+                        if(v.success>0){
                             // POSIZIONAMENTO SUL NUOVO DOCUMENTO
                             var newid=v.SYSID;
                             griddocs.splice(0, 0, newid,
@@ -1679,7 +1682,7 @@ function class_qvpratiche(settings,missing){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        if(v.success){
+                        if(v.success>0){
                             griddocs.refresh();
                         }
                         winzTimeoutMess(formid, parseInt(v.success), v.message);
@@ -1698,7 +1701,11 @@ function class_qvpratiche(settings,missing){
         caption:"Elimina selezione",
         button:true,
         click:function(o){
-            qv_filedelete(formid, griddocs);
+            qv_filedelete(formid, griddocs,
+                function(){
+                    setTimeout(function(){gridattivita.dataload()}, 100);
+                }
+            );
         }
     });
 
@@ -2201,24 +2208,23 @@ function class_qvpratiche(settings,missing){
     // INIZIALIZZAZIONE FORM
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
-            qv_queuequery[formid+"_0"]={
+            TAIL.enqueue(qv_queuequerycall, {
                 "table":"QVUSERS",
                 "select":"SYSID",
                 "where":"EGOID='"+_sessioninfo.userid+"'",
                 "back":function(v){
                     curruserid=v[0]["SYSID"];
                 }
-            };
-            qv_queuequery[formid+"_1"]={
+            });
+            TAIL.enqueue(qv_queuequerycall, {
                 "table":"QVROLES",
                 "select":"SYSID",
                 "where":"EGOID='"+_sessioninfo.roleid+"'",
                 "back":function(v){
                     currroleid=v[0]["SYSID"];
                 }
-            };
-            qv_queuequery[formid+"_2"]={
-                //"sql":buildstati(),
+            });
+            TAIL.enqueue(qv_queuequerycall, {
                 "fsql":buildstati,
                 "back":function(v){
                     elencostati="";
@@ -2233,8 +2239,8 @@ function class_qvpratiche(settings,missing){
                     winzClearMess(formid);
                     txf_search.focus();
                 }
-            };
-            qv_queuemanager();
+            });
+            TAIL.wriggle();
         }
     );
     function transizionestato(transid){
@@ -2460,7 +2466,7 @@ function class_qvpratiche(settings,missing){
             function(d){
                 try{
                     var v=$.parseJSON(d);
-                    if(v.success){
+                    if(v.success>0){
                         // POSIZIONAMENTO SUL NUOVO DOCUMENTO
                         var newid=v.SYSID;
                         objgrid.query({
@@ -2506,8 +2512,6 @@ function class_qvpratiche(settings,missing){
                     if(v[0]["MOREDATA"]!=""){
                         moredata=$.parseJSON(v[0]["MOREDATA"]);
                     }
-                    mascheracustom(moredata);
-                    context=v[0]["DESCRIPTION"];
                     if(!_sessioninfo.admin){
                         if(elencostati.indexOf(currstatoid)==-1){
                             winzClearMess(formid);
@@ -2521,6 +2525,8 @@ function class_qvpratiche(settings,missing){
                             return;
                         }
                     }
+                    mascheracustom(moredata);
+                    context=v[0]["DESCRIPTION"];
                     // GESTIONE DELLO STATUS
                     currchiusa=_bool(v[0]["STATUS"]);
                     if(currchiusa)
@@ -2770,7 +2776,7 @@ function class_qvpratiche(settings,missing){
         sql+="FROM QW_PROCSTATI ";
         sql+="INNER JOIN QW_ATTORI ATTORISTATO ON ATTORISTATO.SYSID=QW_PROCSTATI.ATTOREID ";
         if(objgridsel.provider()!="sqlite" || _sessioninfo.sqlite=="3")
-            sql+="WHERE ATTORISTATO.UTENTEID='"+curruserid+"' OR '"+curruserid+"' IN (SELECT UTENTEID FROM QW_ATTORI WHERE QW_ATTORI.UFFICIOID=ATTORISTATO.UFFICIOID)";
+            sql+="WHERE ATTORISTATO.UTENTEID='"+curruserid+"' OR '"+curruserid+"' IN (SELECT UTENTEID FROM QW_ATTORI WHERE QW_ATTORI.UFFICIOID<>'' AND QW_ATTORI.UFFICIOID=ATTORISTATO.UFFICIOID)";
         else
             sql+="WHERE ATTORISTATO.UTENTEID='"+curruserid+"'";
         return sql;

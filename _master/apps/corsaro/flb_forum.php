@@ -3,10 +3,10 @@
 * Name:            flb_forum.php                                            *
 * Project:         Corsaro                                                  *
 * Module:          Filibuster                                               *
-* Version:         1.62                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented application                              *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -16,6 +16,14 @@ $winz_loadmodules="library.php";
 $winz_functionname="qvforum";
 $winz_functionpath="qvcontenuti/";
 $winz_functiontitle="Forum Filibuster";
+
+if(isset($_GET["environ"])){
+    $winz_appenviron=$_GET["environ"];
+    setcookie("flb_environ", $winz_appenviron, time()+365*24*60*60);
+}
+elseif(isset($_COOKIE["flb_environ"])){
+    $winz_appenviron=$_COOKIE["flb_environ"];
+}
 
 if(isset($_GET["sitename"])){
     $sitename=$_GET["sitename"];

@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvinventario.js                                          *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -235,6 +235,7 @@ function class_qvinventario(settings,missing){
             txdispo.value(0);
             txamount.value(0);
             oper_inventario.enabled(0);
+            operi_refresh.enabled(0);
             currcollid="";
             if(i>0){
                 o.solveid(i);
@@ -243,6 +244,7 @@ function class_qvinventario(settings,missing){
         solveid:function(o,d){
             currcollid=d;
             oper_inventario.enabled(1);
+            operi_refresh.enabled(1);
             calcologiacenza();
         }
     });
@@ -253,6 +255,16 @@ function class_qvinventario(settings,missing){
     txtime.link(
         $(prefix+"VALTIME").rytime({left:250, top:offsety})
     );
+    var operi_refresh=$(prefix+"operi_refresh").rylabel({
+        left:380,
+        top:offsety,
+        width:100,
+        caption:"Aggiorna",
+        button:true,
+        click:function(o){
+            calcologiacenza();
+        }
+    });
     offsety+=30;
     
     $(prefix+"LB_GIACENZA").rylabel({left:20, top:offsety, caption:"Giacenza"});
@@ -270,8 +282,9 @@ function class_qvinventario(settings,missing){
     var txamount=$(prefix+"AMOUNT").rynumber({left:120, top:offsety, width:120, numdec:2, minvalue:0});
     
     var oper_inventario=$(prefix+"oper_inventario").rylabel({
-        left:350,
+        left:380,
         top:offsety,
+        width:100,
         caption:"Registra",
         button:true,
         click:function(o){

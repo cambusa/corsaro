@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            quiverval.php                                            *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -60,7 +60,7 @@ function qv_validatemotive($maestro, &$data, $SYSID, $TYPOLOGYID, $oper){
     }
     return $ret;
 }
-function qv_storeddata($maestro, $SYSID, $TYPOLOGYID, $oper, $funct, $prefix, &$prevdata){
+function _qv_storeddata($maestro, $SYSID, $TYPOLOGYID, $oper, $funct, $prefix, &$prevdata){
     // REPERISCO I DATI COME SONO REGISTRATI
     if($oper>0){
         $tabletype=$prefix."TYPES";
@@ -104,7 +104,7 @@ function qv_extravalidate($maestro, &$data, $SYSID, $TYPOLOGYID, $oper, $positio
         $funct=$position."validate".$entity;
         if(function_exists($funct)){
             // REPERISCO I DATI COME SONO REGISTRATI
-            qv_storeddata($maestro, $SYSID, $TYPOLOGYID, $oper, $funct, $prefix, $prevdata);
+            _qv_storeddata($maestro, $SYSID, $TYPOLOGYID, $oper, $funct, $prefix, $prevdata);
             $babelcode="";
             $failure="";
             $ret=$funct($maestro, $data, $prevdata, $SYSID, $TYPOLOGYID, $oper, $global_lastusername, $global_lastrolename, $babelcode, $failure);

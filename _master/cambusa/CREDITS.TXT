@@ -1,0 +1,30 @@
+Product:        Cambusa 1.69
+Copyright:      2015 Rodolfo Calzetti
+License:        GNU LGPL v3
+Site:           http://www.rudyz.net/
+Contact:        faustroll@tiscali.it, postmaster@rudyz.net
+
+Credits:
+Andrew Valums                       FileUploader        (http://github.com/Valums-File-Uploader/file-uploader/)
+Chris Domigan                       ContextMenu         (http://www.trendskitchens.co.nz/jquery/contextmenu/)
+Design Science, Inc.                MathJax             (http://www.mathjax.org/)
+Dmitry Baranovskiy                  Snap SVG            (http://snapsvg.io/)
+Dmitry Baranovskiy - Sencha Labs    Raphael             (http://raphaeljs.com/)
+Frederico Knabben                   CKEditor            (http://ckeditor.com/)
+Laurent Minguet                     HTML2PDF            (http://sourceforge.net/projects/phphtml2pdf)
+James Heinrich                      phpThumb            (http://phpthumb.sourceforge.net/)
+Jason Day                           printThis           (https://github.com/jasonday/printThis/)
+Jeff Mott                           CryptoJS            (https://code.google.com/p/crypto-js/)
+Jörn Zaefferer                      jQuery-Treeview     (http://bassistance.de/jquery-plugins/jquery-plugin-treeview/)
+Marijn Haverbeke and others         Code Mirror         (https://github.com/codemirror/CodeMirror)
+MMIX Jim Wigginton                  phpSecLib           (http://phpseclib.sourceforge.net/rsa/intro.html)
+Narendra Sisodiya - Pavol Rusnak    SVG-Edit            (https://code.google.com/p/svg-edit/)
+Nathan Smith                        jQuery-Desktop      (https://github.com/nathansmith/jQuery-Desktop/)
+Nicola Asuni                        TCPDF               (http://www.tcpdf.org/)
+Rekam                               ODS-Generation      (http://www.phpkode.com/scripts/item/openoffice-spreadsheet-generation/)
+Rodolfo Calzetti                    ry(\w+)             (https://github.com/cambusa/corsaro)
+Skrol29                             TinyButStrong       (http://www.tinybutstrong.com/)
+The jQuery Foundation               jQuery              (http://jquery.com/)
+                                    jQuery UI           (http://jqueryui.com/)
+Travis Tidwell                      JSEncrypt           (http://www.travistidwell.com/jsencrypt/)
+Worx International Inc.             PHPMailer           (http://phpmailer.worxware.com/)

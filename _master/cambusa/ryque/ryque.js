@@ -1,15 +1,13 @@
 /****************************************************************************
 * Name:            ryque.js                                                 *
 * Project:         Cambusa/ryQue                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Lightweight access to databases                          *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-var _ryquerequests=[];
-var _ryquebusy=false;
 (function($,missing) {
     $.extend(true,$.fn, {
         ryque:function(settings){
@@ -36,13 +34,12 @@ var _ryquebusy=false;
         
             var propfolderryque=_cambusaURL+"ryque/";
             
-            var propcols=new Array();
-            var proptits=new Array();
-            var propdims=new Array();
-            var proptyps=new Array();
-            var propfrms=new Array();
-            var propmods=new Array();
-            var propcodes=new Array();
+            var propcols=[];
+            var proptits=[];
+            var propdims=[];
+            var proptyps=[];
+            var propfrms=[];
+            var propcodes=[];
             
             var propsels={};
             var propselinvert=false;
@@ -78,6 +75,9 @@ var _ryquebusy=false;
             var proploadon=false;
             var propvisible=true;
             var propwheel=!$.browser.opera;
+            var propmousebutton=false;
+            var propmouseprev=0;
+            var propscrolling=false;
             
             var solvetimeout=false;
             
@@ -94,6 +94,9 @@ var _ryquebusy=false;
             var propobj=this;
             
             this.type="grid";
+            
+            var _down0=0;
+            var _down1=0;
             
             if(settings.left!=missing){propleft=settings.left}
             if(settings.top!=missing){proptop=settings.top}
@@ -142,16 +145,19 @@ var _ryquebusy=false;
                 $("#"+propname).prop("parentid", settings.formid);
                 _globalforms[settings.formid].controls[propname]=propname.substr(settings.formid.length);
             }
+            
+            var _origcols=propdims.slice(0);
 
             // FUNZIONI PUBBLICHE
             this.create=function(){
-                var t="<a id='"+propname+"_anchor' href='javascript:'></a>";
+                //var t="<a id='"+propname+"_anchor' href='javascript:'></a>";
+                var t="<input type='text' id='"+propname+"_anchor'>";
                 
                 t+=createzero();
                 t+="<div id='"+propname+"_outgrid'>"; // Outer Griglia
                     t+=creategrid();
                 t+="</div>"; // Fine outer griglia
-                t+="<div id='"+propname+"_rect'></div>";  // prolungamento dell'header sopra vscroll
+                t+="<div id='"+propname+"_rect'><a style='cursor:default;line-height:20px;font-size:20px;'>&nbsp;&nbsp;</a></div>";  // prolungamento dell'header sopra vscroll
                 t+="<div id='"+propname+"_vscroll'>"; // Scroll verticale
                     t+="<div id='"+propname+"_tooltip'>0-0</div><div id='"+propname+"_vtrack'></div>";
                 t+="</div>";
@@ -166,10 +172,12 @@ var _ryquebusy=false;
                 }
                 t+="<div id='"+propname+"_quad'></div>"; // prolungamento di hscroll
                 t+="<div id='"+propname+"_lborder'></div>"; // bordo sinistro
+                t+="<span id='"+propname+"_textwidth'></span>"; // elemento invisibile per valutare la larghezza dei testi
                 
                 $("#"+propname).html(t);
                 setstyle();
                 propobj.hscrefresh();
+                statistics();
 
                 $("#"+propname+"_anchor").focus(
                     function(){
@@ -288,6 +296,8 @@ var _ryquebusy=false;
                                 proppageon=0;
                                 break;
                         }
+                        // MANTENGO PULITO INPUT
+                        $("#"+propname+"_anchor").val("");
                     }
                 );
                 if($.browser.opera){
@@ -331,13 +341,13 @@ var _ryquebusy=false;
                 $("#"+propname+"_vtrack").draggable({
                     axis:"y",
                     containment:"parent",
-                	start: function() {
+                	start:function(){
                         propobj.tipactivate();
                 	},
-                	drag: function() {
+                	drag:function(){
                         propobj.tipmove(0);
                 	},
-                	stop: function() {
+                	stop:function(){
                         propobj.tipdeactivate();
                         propobj.dataload();
                 	}
@@ -361,7 +371,10 @@ var _ryquebusy=false;
                 $("#"+propname+"_htrack").draggable({
                     axis:"x",
                     containment:"parent",
-                	drag: function() {
+                	start:function(){
+                        propscrolling=true;
+                	},
+                	drag:function(){
                         var w=$("#"+propname+"_hscroll").width()-proptracksize;
                         var p=$(this).position().left;
                         propleftcol=Math.round((propgridwidth-propwinwidth)*p/w);
@@ -371,18 +384,14 @@ var _ryquebusy=false;
                             propleftcol=0;
                         $("#"+propname+"_grid")
                             .css({"left":-propleftcol});
+                	},
+                	stop:function(){
+                        propscrolling=false;
                 	}
                 });
-                $("#"+propname+" .ryque-colsep").click(
-                    function(evt){
-                        if(!propenabled){return}
-                        var c=parseInt(evt.target.id.replace(/^.*_sep(\d+)$/,"$1"));
-                        if(propshift)
-                            propobj.fitcolumns(c,2);
-                        else
-                            propobj.fitcolumns(c,1);
-                    }
-                );
+
+                draggablecolumns();
+
                 $("#"+propname+"_hscroll").mousedown(
                     function(evt){
                         if(!propenabled){return}
@@ -426,15 +435,14 @@ var _ryquebusy=false;
                 $("#"+propname+"_rect").dblclick(
                     function(evt){
                         if(!propenabled){return}
-                        var m;
-                        for(m in propmods)
-                            propmods[m]=0;
-                        propobj.fitcolumns(0,0);
+                        propdims=_origcols.slice(0);
+                        fitcolumns();
                     }
                 );
                 $("#"+propname).mousedown(
                     function(evt){
                         if(!propenabled){return}
+                        propmousebutton=true;
                         var tid=evt.target.id;
                         var r,c,reff;
                         if(tid.indexOf("_tr")>0){
@@ -457,6 +465,7 @@ var _ryquebusy=false;
                         if(r>0){
                             reff=proptoprow+r-1;
                             if(reff<=propcount){
+                                propmouseprev=reff;
                                 if(c!=0){
                                     if(reff!=propindex)
                                         propobj.index(reff);
@@ -521,6 +530,53 @@ var _ryquebusy=false;
                         }
                         if(RYBOX)
                             castFocus(propname);
+                    }
+                );
+                $("#"+propname).mouseup(
+                    function(evt){
+                        propmousebutton=false;
+                        propmouseprev=0;
+                    }
+                );
+                $("#"+propname).hover(
+                    function(evt){
+                        propmousebutton=false;
+                        propmouseprev=0;
+                    }
+                );
+                $("#"+propname).mousemove(
+                    function(evt){
+                        if(!propenabled){return}
+                        if(propscrolling){return}
+                        if(propcheckable&&propmousebutton){
+                            var tid=evt.target.id;
+                            var r,reff;
+                            if(tid.indexOf("_tr")>0)
+                                r=parseInt(tid.replace(/^.*_tr(\d+)$/,"$1"));
+                            else if(tid.indexOf("_zr")>0)
+                                r=parseInt(tid.replace(/^.*_zr(\d+)$/,"$1"));
+                            else if(tid.indexOf("_selicon")>0)
+                                r=0;
+                            else
+                                r=parseInt(tid.replace(/^.*_(\d+)_\d+$/,"$1"));
+                            setfocusable(r);
+                            if(r>0){
+                                reff=proptoprow+r-1;
+                                if(reff<=propcount){
+                                    if(reff!=propmouseprev){
+                                        if(propmouseprev>0){
+                                            if(propobj.selected(propmouseprev)==evt.shiftKey)
+                                                selectrow(propmouseprev, true, !evt.shiftKey);
+                                            propmouseprev=0;
+                                        }
+                                        if(propobj.selected(reff)==evt.shiftKey)
+                                            selectrow(reff, true, !evt.shiftKey);
+                                        if(reff!=propindex)
+                                            propobj.index(reff);
+                                    }
+                                }
+                            }
+                        }
                     }
                 );
                 $("#"+propname).dblclick(
@@ -632,16 +688,7 @@ var _ryquebusy=false;
                 $("#"+propname+"_zero").html(createzero());
                 $("#"+propname+"_outgrid").html(creategrid());
 
-                $("#"+propname+" .ryque-colsep").click(
-                    function(evt){
-                        if(!propenabled){return}
-                        var c=parseInt(evt.target.id.replace(/^.*_sep(\d+)$/,"$1"));
-                        if(propshift)
-                            propobj.fitcolumns(c,2);
-                        else
-                            propobj.fitcolumns(c,1);
-                    }
-                );
+                draggablecolumns();
                 
                 propmaxtoprow=propcount-proprows+1;
                 if(propmaxtoprow<1)
@@ -683,8 +730,10 @@ var _ryquebusy=false;
                 }
                 proploadon=true;
                 propobj.vscrefresh();
+                _criticalactivities+=1;
                 $.post(propfolderryque+"ryq_window.php", {"reqid":propreqid,"offset":proptoprow,"length":proprows,"clause":propclause},
                     function(d){
+                        _criticalactivities-=1;
                         try{
                             var v=$.parseJSON(d);
                             var r,c,fd,vl,reff;
@@ -789,6 +838,7 @@ var _ryquebusy=false;
                 var r,c,fd,reff;
                 proploadon=true;
                 propcount=0;
+                statistics();
                 propindex=0;
                 previndex=-1;
                 propselinvert=false;
@@ -838,8 +888,10 @@ var _ryquebusy=false;
                                 ind+="|"+i;
                             }
                         }
+                        _criticalactivities+=1;
                         $.post(propfolderryque+"ryq_solve.php", {"reqid":propreqid,"index":ind,"invert":_bool(invert)},
                             function(d) {
+                                _criticalactivities-=1;
                                 if(back==missing){
                                     if(settings.solveid!=missing){settings.solveid(propobj,d)}
                                 }
@@ -861,8 +913,10 @@ var _ryquebusy=false;
             this.selbyid=function(ids, sing, done){
                 if(ids!=""){
                     if(raisebeforechange(0)){return}
+                    _criticalactivities+=1;
                     $.post(propfolderryque+"ryq_selbyid.php", {"reqid":propreqid,"listid":ids},
                         function(d){
+                            _criticalactivities-=1;
                             propindex=0;
                             propselinvert=false;
                             propsels={};
@@ -923,11 +977,17 @@ var _ryquebusy=false;
                 }
                 return r;
             }
-            this.ischecked=function(){
-                return _bool( _objectlength(propsels)>0 || propselinvert );
+            this.ischecked=function(i){
+                if(i==missing)
+                    return _bool( _objectlength(propsels)>0 || propselinvert );
+                else
+                    return _bool( _isset(propsels[i]) != propselinvert );
             }
-            this.isselected=function(){
-                return _bool( _objectlength(propsels)>0 || propselinvert || propindex>0);
+            this.isselected=function(i){
+                if(i==missing)
+                    return _bool( _objectlength(propsels)>0 || propselinvert || propindex>0);
+                else
+                    return _bool( (_isset(propsels[i]) != propselinvert) || i==propindex);
             }
             this.checkall=function(f){
                 if(f==missing){f=true}
@@ -941,8 +1001,10 @@ var _ryquebusy=false;
             }
             this.dispose=function(done){
                 if(propreqid!=""&&propreqprivate==true){
+                    _criticalactivities+=1;
                     $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid},
                         function(d){
+                            _criticalactivities-=1;
                             propreqid="";
                             if(done!=missing){
                                 setTimeout(function(){done()});
@@ -1016,6 +1078,7 @@ var _ryquebusy=false;
                         proptoprow=propindex-Math.floor(proprows/2)+2;
                         propobj.fittoprow();
                         propobj.dataload();
+                        statistics();
                     }
                     else{
                         propobj.decrefresh(true);
@@ -1031,6 +1094,7 @@ var _ryquebusy=false;
                         proptoprow=propindex-Math.floor(proprows/2)-2;
                         propobj.fittoprow();
                         propobj.dataload();
+                        statistics();
                     }
                     else{
                         propobj.decrefresh(true);
@@ -1122,16 +1186,19 @@ var _ryquebusy=false;
                 if (proptoprow<1)
                     proptoprow=1;
                 setfocusable();
+                statistics();
             }
             this.gotofirst=function(){
                 proptoprow=1;
                 setfocusable();
                 propobj.dataload();
+                statistics();
             }
             this.gotolast=function(){
                 proptoprow=propmaxtoprow;
                 setfocusable();
                 propobj.dataload();
+                statistics();
             }
             this.decrefresh=function(f){
                 var r;
@@ -1257,6 +1324,7 @@ var _ryquebusy=false;
                         propindex=i;
                         proptoprow=i-Math.floor(proprows/2);
                         propobj.fittoprow();
+                        statistics();
                         propobj.dataload(
                             function(){
                                 propobj.raisechangerow();
@@ -1299,6 +1367,7 @@ var _ryquebusy=false;
                 return propreqid;
             }
             this.tipactivate=function(){
+                propscrolling=true;
                 $("#"+propname+"_tooltip").css({"visibility":"visible","left":-2,"top":4});
             }
             this.tipmove=function(c){
@@ -1318,62 +1387,11 @@ var _ryquebusy=false;
                 t.css({"top":p+4,"left":-l});
             }
             this.tipdeactivate=function(){
+                propscrolling=false;
                 var t=$("#"+propname+"_tooltip");
                 t.html("");
                 t.css({"visibility":"hidden"});
-            }
-            this.fitcolumns=function(cc,m){
-                var x=0,w,dw,dl,uc=propcols.length;
-                for(c=1;c<=uc;c++){
-                    if(c==cc){
-                        if(propmods[c-1]==0)
-                            propmods[c-1]=m;
-                        else
-                            propmods[c-1]=0;
-                    }
-                    switch(propmods[c-1]){
-                        case 1:w=10;break;
-                        case 2:w=500;break;
-                        default:w=propdims[c-1];
-                    }
-                    if(c==uc){
-                        if(x+w+1<propwinwidth){  // x+w+1 sara' propgridwidth
-                            w=propwinwidth-x-1;
-                        }                
-                    }
-                    if($.isNumeric(proptyps[c-1])){k="right";dw=8;dl=2;}
-                    else if(proptyps[c-1]=='?'){k="center";dw=8;dl=4;}
-                    else{k="left";dw=8;dl=4;}
-                    
-                    if(w>0){
-                        $("#"+propname+" .column_"+c)
-                            .width(w-dw)
-                            .height(proprowh)
-                            .css({"position":"absolute","left":(x+dl),"overflow":"hidden","text-align":k,"white-space":"nowrap","padding":0,"margin":0});
-            
-                        $("#"+propname+"_sep"+c)
-                            .width(4)
-                            .height(proprowh)
-                            .css({"position":"absolute","left":(x+w-3),"overflow":"hidden","background":"transparent url("+propfolderryque+"images/colsep.gif) no-repeat right","cursor":"col-resize"});
-                    }    
-                    else{
-                        $("#"+propname+" .column_"+c).css({"position":"absolute","visibility":"hidden"});
-                        $("#"+propname+"_sep"+c).css({"position":"absolute","visibility":"hidden"});
-                    }
-                    x+=w+1;
-                }
-                propgridwidth=x;
-                
-                $("#"+propname+" .ryque-row")
-                    .height(proprowh)
-                    .width(propgridwidth)
-                    .css({"position":"absolute","left":0,"overflow":"hidden"});
-                $("#"+propname+" .ryque-head")
-                    .height(proprowh)
-                    .width(propgridwidth)
-                    .css({"position":"absolute","left":0,"color":"#000000","cursor":"pointer","background":"transparent url("+propfolderryque+"images/faded.gif) repeat-x"});
-                propobj.hscrefresh();
-                propobj.decrefresh(true);
+                statistics();
             }
 			this.babelcode=function(k){
 				return propcodes[k-1];
@@ -1398,8 +1416,10 @@ var _ryquebusy=false;
                 return propenabled;
 			}
 			this.search=function(criteria, action){
+                _criticalactivities+=1;
                 $.post(propfolderryque+"ryq_search.php", {"reqid":propreqid,"criteria":criteria},
                     function(d) {
+                        _criticalactivities-=1;
                         try{
                             action(d);
                         }
@@ -1418,8 +1438,10 @@ var _ryquebusy=false;
 			this.splice=function(start, length, adding, done){
                 if(start==0)
                     start=propcount+1;
+                _criticalactivities+=1;
                 $.post(propfolderryque+"ryq_splice.php", {"reqid":propreqid, "start":start, "length":length, "adding":adding},
                     function(d){
+                        _criticalactivities-=1;
                         propcount+=(adding.split("|").length-length);
                         propmaxtoprow=propcount-proprows+1;
                         if(propmaxtoprow<1)
@@ -1461,26 +1483,24 @@ var _ryquebusy=false;
             this.lastorderby=function(){
                 return proplastorderby;
             }
-            this.getprotocol=function(back){
+            this.getprotocol=function(){
                 if(propreqid==""){
+                    _criticalactivities+=1;
                     $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessionid},
                         function(d) {
+                            _criticalactivities-=1;
                             try{
                                 if(window.console&&_sessioninfo.debugmode){console.log(d)}
                                 var v=$.parseJSON(d);
                                 if(v["success"]){
                                     propreqid=v["reqid"];
                                     propprovider=v["provider"];
-                                    if(back!=missing){back()}
                                     // Gestione eventi e callback
                                     if(settings.initialized!=missing){settings.initialized(propobj)}
-                                    if(propwhere!="#"){
-                                        propobj.query();
-                                    }
-                                    else{
-                                        // Gestione eventi e callback
-                                        if(settings.ready!=missing){settings.ready(propobj,false)}
-                                    }
+                                    if(propwhere!="#")
+                                        TAIL.enqueue(propobj.query, {free:true});
+                                    else
+                                        if(settings.ready!=missing){settings.ready(propobj, false)}
                                 }
                                 else{
                                     alert(v["description"]);
@@ -1489,34 +1509,34 @@ var _ryquebusy=false;
                             catch(e){
                                 alert(d);
                             }
+                            TAIL.free();
                         }
                     )
                     .fail(
                         function(){
                             ryqueFail("getprotocol");
-                            setTimeout(function(){propobj.getprotocol(back)}, 100);   
+                            setTimeout(function(){propobj.getprotocol()}, 100);   
                         }
                     );
                 }
                 else{
-                    if(back!=missing){back()}
                     // Gestione eventi e callback
                     if(settings.initialized!=missing){settings.initialized(propobj)}
-                    if(propwhere!="#"){
-                        propobj.query();
-                    }
-                    else{
-                        // Gestione eventi e callback
-                        if(settings.ready!=missing){settings.ready(propobj,false)}
-                    }
+                    if(propwhere!="#")
+                        TAIL.enqueue(propobj.query, {free:true});
+                    else
+                        if(settings.ready!=missing){settings.ready(propobj, false)}
+                    TAIL.free();
                 }
             }
             this.extract=function(params){
                 var args="";
                 if(params.args!=missing){args=params.args}
                 if(params.sql!=missing){
+                    _criticalactivities+=1;
                     $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args},
                         function(d){
+                            _criticalactivities-=1;
                             try{
                                 var v=$.parseJSON(d);
                                 if(params.ready!=missing){
@@ -1544,6 +1564,7 @@ var _ryquebusy=false;
                         "dim":propdims,
                         "type":proptyps
                     };
+                    _criticalactivities+=1;
                     $.post(propfolderryque+"ryq_export.php", 
                         {
                             "reqid":propreqid,
@@ -1553,6 +1574,7 @@ var _ryquebusy=false;
                             "invert":_bool(propobj.selinvert())
                         }, 
                         function(d){
+                            _criticalactivities-=1;
                             try{
                                 var s=_getinteger(d.substr(0,1));
                                 var f=d.substr(1);
@@ -1584,9 +1606,9 @@ var _ryquebusy=false;
             // CHIAMATA ALLA GENERAZIONE EFFETTIVA
             try{this.create();}catch(e){}
             try{if(RYBOX){RYBOX.addobject(propobj);}}catch(e){}  // Lo aggiungo a RYBOX per il multilingua
-            _ryquerequests.push(this.getprotocol);
-            _ryquebusy=false;
-            ryque_requests();
+            // ACCODO LA RICHIESTA DEL PROTOCOLID
+            TAIL.enqueue(this.getprotocol);
+            TAIL.wriggle();
             // FUNZIONI PRIVATE
             function createzero(){
                 var t,r,cl;
@@ -1635,7 +1657,7 @@ var _ryquebusy=false;
                             tt=proptits[c-1];
                         else
                             tt="&nbsp;";
-                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='column_"+c+"' style='top:3px;'>"+tt+"</div><div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";  //Colonna
+                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"' style='top:3px;'>"+tt+"</div><div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";  //Colonna
                     }
                     t+="</div>";
                 }
@@ -1647,7 +1669,7 @@ var _ryquebusy=false;
                     .addClass("ryque")
                     .width(propwidth)
                     .height(proprowh*(proprows+1)+propscrollsize+2)
-                    .css({"position":"absolute","left":propleft,"top":proptop,"font-family":"verdana","font-size":"13px"});
+                    .css({"position":"absolute","left":propleft,"top":proptop,"font-family":"verdana","font-size":"13px","overflow":"hidden"});
                     
                 $("#"+propname+" .column_0")
                     .width(propzerowidth-8)
@@ -1665,7 +1687,7 @@ var _ryquebusy=false;
                     .height(proprowh)
                     .css({"position":"absolute","left":propzerowidth-4,"overflow":"hidden","background":"transparent url("+propfolderryque+"images/colsep.gif) no-repeat right","cursor":"default"});
                 
-                propobj.fitcolumns(0,0);
+                fitcolumns();
                 
                 $("#"+propname+" .ryque-zrow")
                     .height(proprowh)
@@ -1707,6 +1729,7 @@ var _ryquebusy=false;
                 $("#"+propname+"_quad").css({"position":"absolute","background-color":"#E0E0E0","left":propwidth-propscrollsize,"top":(proprowh*(proprows+1)+1)-iecorrection,"width":propscrollsize,"height":propscrollsize});
                 $("#"+propname+"_lborder").css({"position":"absolute","left":0,"top":proprowh,"width":2,"height":proprowh*proprows+propscrollsize+1});
                 $("#"+propname+"_lborder").addClass("ryque-focusout");
+                $("#"+propname+"_textwidth").css({"position":"absolute","visibility":"hidden"});
                 
                 if(propcheckable){
                     var l=4;
@@ -1716,6 +1739,140 @@ var _ryquebusy=false;
                     $("#"+propname+"_selicon").css({"position":"absolute","left":l,"top":2,"width":20,"height":20,"background":"transparent url("+propfolderryque+"images/check.gif) no-repeat"});
                 }
                 propobj.selrefresh();
+            }
+            function fitcolumns(){
+                var x=0,w,dw,dl,uc=propcols.length,k,c;
+                for(c=1;c<=uc;c++){
+                    w=propdims[c-1]
+                    if(c==uc){
+                        if(x+w+1<propwinwidth){  // x+w+1 sara' propgridwidth
+                            w=propwinwidth-x-1;
+                        }                
+                    }
+                    if($.isNumeric(proptyps[c-1])){k="right";dw=8;dl=2;}
+                    else if(proptyps[c-1]=='?'){k="center";dw=8;dl=4;}
+                    else{k="left";dw=8;dl=4;}
+                    
+                    if(w>0){
+                        $("#"+propname+" .column_"+c)
+                            .width(w-dw)
+                            .height(proprowh)
+                            .css({"position":"absolute","left":(x+dl),"overflow":"hidden","text-align":k,"white-space":"nowrap","padding":0,"margin":0});
+            
+                        $("#"+propname+"_sep"+c)
+                            .width(4)
+                            .height(proprowh)
+                            .css({"position":"absolute","left":(x+w-3),"overflow":"hidden","background":"transparent url("+propfolderryque+"images/colsep.gif) no-repeat right","cursor":"col-resize"});
+                    }    
+                    else{
+                        $("#"+propname+" .column_"+c).css({"position":"absolute","visibility":"hidden"});
+                        $("#"+propname+"_sep"+c).css({"position":"absolute","visibility":"hidden"});
+                    }
+                    x+=w+1;
+                }
+                propgridwidth=x;
+                
+                $("#"+propname+" .ryque-row")
+                    .height(proprowh)
+                    .width(propgridwidth)
+                    .css({"position":"absolute","left":0,"overflow":"hidden"});
+                $("#"+propname+" .ryque-head")
+                    .height(proprowh)
+                    .width(propgridwidth)
+                    .css({"position":"absolute","left":0,"color":"#000000","cursor":"pointer","background":"transparent url("+propfolderryque+"images/faded.gif) repeat-x"});
+                propobj.hscrefresh();
+                propobj.decrefresh(true);
+            }
+            function fitcolumns2(cc,s){
+                var x=0,w,uc=propcols.length,c;
+                for(c=1;c<=uc;c++){
+                    if(c==cc){
+                        w=s-x;
+                        if(w<8)
+                            w=8;
+                        // SE SONO SULLA PENULTIMA COLONNA REGALO SPAZIO ALL'ULTIMA
+                        if(c==uc-1 && w<propdims[c-1]){
+                            propdims[c]+=propdims[c-1]-w;
+                        }
+                        propdims[c-1]=w;
+                    }
+                    else{
+                        w=propdims[c-1];
+                    }
+                    if(w>0)
+                        $("#"+propname+"_sep"+c).css({"left":(x+w-3)});
+                    else
+                        $("#"+propname+"_sep"+c).css({"visibility":"hidden"});
+                    x+=w+1;
+                }
+            }
+            function draggablecolumns(){
+                $("#"+propname+" .ryque-colsep").dblclick(
+                    function(evt){
+                        if(!propenabled){return}
+                        var c=parseInt(evt.target.id.replace(/^.*_sep(\d+)$/,"$1"));
+                        var m=0,w=0,h;
+                        $("#"+propname+" .column_"+c).each(
+                            function(ind){
+                                h=$(this).html();
+                                if(h.substr(0,5)!="<img "){
+                                    $("#"+propname+"_textwidth").html(h);
+                                    w=$("#"+propname+"_textwidth").width();
+                                }
+                                else{
+                                    w=propdims[c-1];
+                                }
+                                if(m<w){
+                                    m=w;
+                                }
+                            }
+                        );
+                        if(m<8)
+                            m=8;
+                        else if(m>1000)
+                            m=1000;
+                        else if(m!=propdims[c-1])
+                            m+=8;
+                        propdims[c-1]=m;
+                        fitcolumns();
+                    }
+                )
+                .draggable({
+                    axis:"x",
+                    containment:"parent",
+                	drag:function(evt) {
+                        var c=parseInt(evt.target.id.replace(/^.*_sep(\d+)$/,"$1"));
+                        var p=$(this).position().left;
+                        if(p<_down1){
+                            if(p-_down0<8){
+                                $(this).css({left:_down0+8});
+                                fitcolumns2(c,8);
+                                return false;
+                            }
+                        }
+                        fitcolumns2(c,p);
+                	},
+                    start:function(evt){
+                        if(!propenabled){return false}
+                        propenabled=0;
+                        var c=parseInt(evt.target.id.replace(/^.*_sep(\d+)$/,"$1"));
+                        if(c>1)
+                            _down0=$("#"+propname+"_sep"+(c-1)).position().left;
+                        else
+                            _down0=0;
+                        _down1=$(this).position().left;
+                        $("#"+propname+" .ryque-cell,.column_0").hide();
+                    },
+                    stop:function(){
+                        setTimeout(
+                            function(){
+                                propenabled=1;
+                            }, 500
+                        );
+                        $("#"+propname+" .ryque-cell,.column_0").show();
+                        fitcolumns();
+                    }
+                });
             }
             function addcolumn(params){
                 var l=propcols.length;
@@ -1742,7 +1899,6 @@ var _ryquebusy=false;
                     propselection+="("+form+") AS "+colid;
                 else
                     propselection+=colid;
-                propmods[l]=0;
                 return dim;
             }
             function queryaux(params){
@@ -1812,14 +1968,16 @@ var _ryquebusy=false;
                 proplastorderby=ord;
                 propusedparams={"reqid":propreqid,"select":propselection,"from":propfrom,"where":whe,"orderby":ord,"index":prei,"sels":pres,"args":args,"limit":lim};
                 if(window.console&&_sessioninfo.debugmode){console.log(propusedparams)}
+                _criticalactivities+=1;
                 $.post(propfolderryque+"ryq_index.php", propusedparams,
                     function(d) {
+                        _criticalactivities-=1;
                         try{
                             var v=$.parseJSON(d);
                             var sels=v.sels;
                             var ind=parseInt(v.index);
                             
-                            propcount=v["count"];
+                            propcount=v.count;
                             propmaxtoprow=propcount-proprows+1;
                             if(propmaxtoprow<1)
                                 propmaxtoprow=1;
@@ -1843,6 +2001,7 @@ var _ryquebusy=false;
                             propready=true;
                             propobj.dataload();
                             stoploading();
+                            statistics();
                             // Gestione eventi e callback
                             if(settings.ready!=missing){settings.ready(propobj,true)}
                             if(params!=missing){
@@ -1860,7 +2019,10 @@ var _ryquebusy=false;
                         catch(e){
                             if(window.console){console.log(e.message)}
                             stoploading();
-                            alert(d);
+                            alert(_strip_tags(d));
+                        }
+                        if(params.free===true){
+                            TAIL.free();
                         }
                     }
                 )
@@ -1918,9 +2080,11 @@ var _ryquebusy=false;
                     $("#"+propname).css({opacity:1});
                 }
             }
-            function selectrow(reff, ev){
+            function selectrow(reff, ev, chk){
                 if(1<=reff && reff<=propcount){
-                    if(propselinvert)
+                    if(chk==missing)
+                        chk=true;
+                    if(propselinvert==chk)
                         delete propsels[reff];
                     else
                         propsels[reff]=true;
@@ -1953,6 +2117,17 @@ var _ryquebusy=false;
                 }
                 $("#"+propname+"_anchor").css({top:proprowh*r});
             }
+            function statistics(){
+                if(propcount>0){
+                    var m=proptoprow+proprows-1;
+                    if(m>propcount)
+                        m=propcount;
+                    $("#"+propname+"_rect>a").attr("title","Rows: "+propcount+" / Range: "+proptoprow+"-"+m);
+                }
+                else{
+                    $("#"+propname+"_rect>a").attr("title","Empty");
+                }
+            }
 			return this;
 		}
 	});
@@ -1966,10 +2141,12 @@ function ryQue(missing){
     var propreqid="";
     var propobj=this;
     this.request=function(params){
-       var env=propenviron;
-       if(params.environ!=missing){env=params.environ}
-       $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessionid},
+        var env=propenviron;
+        if(params.environ!=missing){env=params.environ}
+        _criticalactivities+=1;
+        $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessionid},
             function(d){
+                _criticalactivities-=1;
                 try{
                     if(window.console&&_sessioninfo.debugmode){console.log(d)}
                     var v=$.parseJSON(d);
@@ -1994,8 +2171,10 @@ function ryQue(missing){
         var args="";
         if(params.args!=missing){args=params.args}
         if(params.sql!=missing){
+            _criticalactivities+=1;
             $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args},
                 function(d){
+                    _criticalactivities-=1;
                     try{
                         var v=$.parseJSON(d);
                         if(params.ready!=missing){
@@ -2003,7 +2182,7 @@ function ryQue(missing){
                         }
                     }
                     catch(e){
-                        alert(d);
+                        alert(_strip_tags(d));
                     }
                 }
             ).fail(
@@ -2016,8 +2195,10 @@ function ryQue(missing){
     }
     this.dispose=function(done){
         if(propreqid!=""){
+            _criticalactivities+=1;
             $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid}, 
                 function(d){
+                    _criticalactivities-=1;
                     if(done!=missing){
                         setTimeout(function(){done()});
                     }
@@ -2052,8 +2233,10 @@ function ryQue(missing){
         return propreqid;
     }
     this.clean=function(done){
+        _criticalactivities+=1;
         $.post(propfolderryque+"ryq_clean.php", {},
             function(d){
+                _criticalactivities-=1;
                 if(done!=missing){done()}
             }
         )
@@ -2063,24 +2246,6 @@ function ryQue(missing){
                 setTimeout(function(){propobj.clean(done)}, 100);
             }
         );
-    }
-}
-function ryque_requests(){
-    if(!_ryquebusy){
-        for(var i in _ryquerequests){
-            _ryquebusy=true;
-            var f=_ryquerequests[i];
-            delete _ryquerequests[i];
-            f(
-                function(){
-                    if(_ryquerequests.length>0){
-                        _ryquebusy=false;
-                        setTimeout(function(){ryque_requests()});
-                    }
-                }
-            );
-            break;
-        }
     }
 }
 function ryqueFail(nomefunct){

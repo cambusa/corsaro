@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            rysource.php                                             *
 * Project:         Cambusa/rySource                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Remote file system browser                               *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -192,8 +192,8 @@ if($env_name!=""){
             if($sort)
                 ksort($content);
         }
-        $url=escapize($env_strconn.$subdir);
-        $path=escapize($env_baseurl.$subdir);
+        $url=escapize($env_baseurl.$subdir);
+        $path=escapize($env_strconn.$subdir);
     }
     else{
         $success=0;

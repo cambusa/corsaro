@@ -70,5 +70,9 @@
     "include_crediti":{
         "type":"include",
         "path":"base/std_crediti.json"
+    },
+    "include_bandi":{
+        "type":"include",
+        "path":"base/std_bandi.json"
     }
 }

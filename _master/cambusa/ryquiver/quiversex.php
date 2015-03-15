@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            quiversex.php                                            *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -27,6 +27,12 @@ $babelparams=array();
 // GENERAZIONE DI SYSID DI MASSA
 $global_baseid="";
 $global_progrid=0;
+
+// GENERAZIONE SYSID PREALLOCATI
+$global_preallocbase="";
+$global_preallocmax=0;
+$global_preallocprogr=0;
+$global_preallocauto=10;
 
 // DEFINIZIONE COSTANTI
 define("QVSYS_PROGRLEN", 4);
@@ -61,11 +67,19 @@ function qv_bulkinitialize($maestro){
     $global_progrid=0;
 }
 
-function qv_createsysid($maestro){
+function qv_preallocauto($alloc){
+    global $global_preallocauto;
+    $global_preallocauto=$alloc;
+}
+
+function qv_createsysid($maestro, $alloc=0){
     global $babelcode, $babelparams;
     global $url_rymonad, $global_baseid, $global_progrid;
+    global $global_preallocbase, $global_preallocmax, $global_preallocprogr, $global_preallocauto;
+    
     // INIZIALIZZO SYSID
     $SYSID="";
+
     if($global_baseid!=""){
         // GENERAZIONE SU UNA BASE PRIVATA DEL PROCESSO (UTILE PER ACQUISIZIONI MASSICCE)
         if($global_progrid>QVSYS_PROGRMAX){
@@ -76,33 +90,77 @@ function qv_createsysid($maestro){
         $global_progrid+=1;
     }
     else{
-        // DETERMINO L'ULTIMO PROGRESSIVO GENERATO
-        $sql="SELECT * FROM QVSYSTEM";
-        maestro_query($maestro, $sql, $r);
-        if(count($r)==0){
-            // INIZIALIZZO IL SISTEMA
-            $MONADID=str_repeat("0", $maestro->lenid);
-            $LASTBASE=qv_getbaseid($maestro);
-            $LASTPROGR=0;
-            $sql="INSERT INTO QVSYSTEM(SYSID,LASTBASE,LASTPROGR) VALUES('$MONADID', '$LASTBASE', '$LASTPROGR')";
-            maestro_execute($maestro, $sql);
-        }
-        else{
-            // REPERISCO BASE UNIVOCA E PROGRESSIVO
-            $LASTBASE=$r[0]["LASTBASE"];
-            $LASTPROGR=intval($r[0]["LASTPROGR"]);
-            // INCREMENTO IL PROGRESSIVO
-            $LASTPROGR+=1;
-            // CONTROLLO CHE NON SIANO ESAURITI
-            if($LASTPROGR>QVSYS_PROGRMAX){
+        if($global_preallocprogr==0){
+            if($alloc==0){
+                $alloc=$global_preallocauto;
+            }
+            // DETERMINO L'ULTIMO PROGRESSIVO GENERATO
+            $sql="SELECT * FROM QVSYSTEM";
+            maestro_query($maestro, $sql, $r);
+            if(count($r)==0){
+                // INIZIALIZZO IL SISTEMA
+                $MONADID=str_repeat("0", $maestro->lenid);
+                // DETERMINO L'ULTIMO ALLOCATO
+                if($alloc>0)
+                    $LASTALLOC=$alloc-1;
+                else
+                    $LASTALLOC=0;
                 $LASTBASE=qv_getbaseid($maestro);
                 $LASTPROGR=0;
-                $sql="UPDATE QVSYSTEM SET LASTBASE='$LASTBASE',LASTPROGR='$LASTPROGR'";
+                $sql="INSERT INTO QVSYSTEM(SYSID,LASTBASE,LASTPROGR) VALUES('$MONADID', '$LASTBASE', '$LASTALLOC')";
+                maestro_execute($maestro, $sql);
             }
             else{
-                $sql="UPDATE QVSYSTEM SET LASTPROGR='$LASTPROGR'";
+                // REPERISCO BASE UNIVOCA E PROGRESSIVO
+                $LASTBASE=$r[0]["LASTBASE"];
+                $LASTPROGR=intval($r[0]["LASTPROGR"]);
+
+                // DETERMINO L'ULTIMO ALLOCATO
+                if($alloc>0)
+                    $LASTALLOC=$LASTPROGR+$alloc;
+                else
+                    $LASTALLOC=$LASTPROGR+1;
+
+                // INCREMENTO IL PROGRESSIVO
+                $LASTPROGR+=1;
+
+                // CONTROLLO CHE NON SIANO ESAURITI I PROGRESSIVI
+                if($LASTALLOC>QVSYS_PROGRMAX){
+                    // RIDETERMINO L'ULTIMO ALLOCATO
+                    if($alloc>0)
+                        $LASTALLOC=$alloc-1;
+                    else
+                        $LASTALLOC=0;
+                    $LASTBASE=qv_getbaseid($maestro);
+                    $LASTPROGR=0;
+                    $sql="UPDATE QVSYSTEM SET LASTBASE='$LASTBASE',LASTPROGR='$LASTALLOC'";
+                }
+                else{
+                    $sql="UPDATE QVSYSTEM SET LASTPROGR='$LASTALLOC'";
+                }
+                maestro_execute($maestro, $sql);
             }
-            maestro_execute($maestro, $sql);
+            
+            // INIZIALIZZAZIONE GESTIONE PREALLOCATI
+            if($alloc>0){
+                $global_preallocbase=$LASTBASE;
+                $global_preallocmax=$LASTALLOC;
+                $global_preallocprogr=$LASTPROGR+1;
+            }
+        }
+        else{
+            // GESTIONE PREALLOCATI
+            $LASTBASE=$global_preallocbase;
+            $LASTPROGR=$global_preallocprogr;
+            $global_preallocprogr+=1;
+
+            // SE SONO ARRIVATO ALLA FINE DELLE ALLOCAZIONI
+            // ESCO DALLA GESTIONE DEI PREALLOCATI
+            if($global_preallocprogr>$global_preallocmax){
+                $global_preallocbase="";
+                $global_preallocmax=0;
+                $global_preallocprogr=0;
+            }
         }
     }
     // COSTRUISCO IL SYSID
@@ -155,12 +213,15 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
            $global_lastadmin,
            $global_lastemail,
            $global_lastroleid,
+           $global_lastrolename,
            $global_lastenvid,
+           $global_lastenvname,
            $global_lastlanguage,
            $global_lastcountrycode,
            $global_lastdebugmode,
            $global_lastclientip,
-           $global_lastrolename;
+           $path_databases,
+           $global_backslash;
 
     $ret=false;
            
@@ -171,12 +232,14 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
             $global_lastadmin=0;
             $global_lastemail="";
             $global_lastroleid=qv_actualid($maestro, "0NOROLEID000");
+            $global_lastrolename="NOROLEID";
             $global_lastenvid="";
+            $global_lastenvname="";
             $global_lastlanguage="";
             $global_lastcountrycode="";
             $global_lastdebugmode=false;
             $global_lastclientip=get_ip_address();
-            $global_lastrolename="NOROLEID";
+            $global_backslash=intval(@file_get_contents($path_databases."_configs/backslash.par"));
             $ret=true;
         }
         else{
@@ -201,66 +264,48 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
                         $global_lastadmin=intval($r[0]["ADMINISTRATOR"]);
                         $global_lastemail=$r[0]["EMAIL"];
                         $global_lastroleid=$r[0]["ROLEID"];
+                        $global_lastrolename=$r[0]["ROLENAME"];
+                        $global_lastenvid=$r[0]["ENVID"];
+                        $global_lastenvname=$r[0]["ENVNAME"];
                         $global_lastlanguage=$r[0]["LANGUAGENAME"];
                         $global_lastcountrycode=$r[0]["COUNTRYCODE"];
                         $global_lastdebugmode=intval($r[0]["DEBUGMODE"]);
                         $global_lastclientip=$r[0]["CLIENTIP"];
-                        $global_lastrolename=$r[0]["ROLENAME"];
                         $ret=true;
                     }
                 }
                 else{
                     // NON ESISTE: RICHIEDO LA VALIDAZIONE A EGO
                     if(ext_validatesession($SESSIONID, true, $context)){
-                        if(qv_validateenviron($maestro, $context)){
-                            // MEMORIZZO I DATI DI EGO
-                            $SYSID=qv_createsysid($maestro);
-                            $USERID=$global_lastuserid;
-                            $USERNAME=ryqEscapize($global_lastusername);
-                            if($global_lastadmin)
-                                $ADMINISTRATOR="1";
-                            else
-                                $ADMINISTRATOR="0";
-                            $EMAIL=ryqEscapize($global_lastemail);
-                            $ROLEID=$global_lastroleid;
-                            $LANGUAGENAME=$global_lastlanguage;
-                            $COUNTRYCODE=$global_lastcountrycode;
-                            $DEBUGMODE=$global_lastdebugmode;
-                            $CLIENTIP=$global_lastclientip;
-                            $ROLENAME=ryqEscapize($global_lastrolename);
-                            $RENEWALTIME="[:NOW()]";
+                        $SYSID=qv_createsysid($maestro);
+                        $USERID=$global_lastuserid;
+                        $USERNAME=ryqEscapize($global_lastusername);
+                        if($global_lastadmin)
+                            $ADMINISTRATOR="1";
+                        else
+                            $ADMINISTRATOR="0";
+                        $EMAIL=ryqEscapize($global_lastemail);
+                        $ROLEID=$global_lastroleid;
+                        $ROLENAME=ryqEscapize($global_lastrolename);
+                        $ENVID=$global_lastenvid;
+                        $ENVNAME=ryqEscapize($global_lastenvname);
+                        $LANGUAGENAME=$global_lastlanguage;
+                        $COUNTRYCODE=$global_lastcountrycode;
+                        $DEBUGMODE=$global_lastdebugmode;
+                        $CLIENTIP=$global_lastclientip;
+                        $RENEWALTIME="[:NOW()]";
 
-                            $sql="INSERT INTO QVSESSIONS(SYSID,SESSIONID,USERID,USERNAME,ADMINISTRATOR,EMAIL,ROLEID,LANGUAGENAME,COUNTRYCODE,DEBUGMODE,CLIENTIP,ROLENAME,RENEWALTIME) VALUES('$SYSID','$SESSIONID','$USERID','$USERNAME','$ADMINISTRATOR','$EMAIL','$ROLEID','$LANGUAGENAME','$COUNTRYCODE','$DEBUGMODE','$CLIENTIP','$ROLENAME',$RENEWALTIME)";
-                            maestro_execute($maestro, $sql, false);
-                            $ret=true;
-                        }
+                        $sql="INSERT INTO QVSESSIONS(SYSID,SESSIONID,USERID,USERNAME,ADMINISTRATOR,EMAIL,ROLEID,ROLENAME,ENVID,ENVNAME,LANGUAGENAME,COUNTRYCODE,DEBUGMODE,CLIENTIP,RENEWALTIME) VALUES('$SYSID','$SESSIONID','$USERID','$USERNAME','$ADMINISTRATOR','$EMAIL','$ROLEID','$ROLENAME','$ENVID','$ENVNAME','$LANGUAGENAME','$COUNTRYCODE','$DEBUGMODE','$CLIENTIP',$RENEWALTIME)";
+                        maestro_execute($maestro, $sql, false);
+                        $ret=true;
                     }
                 }
+                // GESTIONE BACKSLASH
+                $global_backslash=intval(@file_get_contents($path_databases."_configs/backslash.par"));
             }
             else{
                 $ret=ext_validatesession($SESSIONID, false, $context);
             }
-        }
-    }
-    return $ret;
-}
-function qv_validateenviron($maestro, $context){
-    global $global_lastenvid;
-    $ret=true;
-    if($maestro->quiver){
-        $envid=qv_setting($maestro, "_ENVIRONID", "######");
-        if($envid=="######"){
-            $sysid=qv_createsysid($maestro);
-            $sql="INSERT INTO QVSETTINGS(SYSID,NAME,DESCRIPTION,DATATYPE,DATAVALUE,TAG) VALUES('$sysid', '_ENVIRONID', 'Identificatore ambiente', 'STRING', '$global_lastenvid', 'SYSTEM')";
-            maestro_execute($maestro, $sql, false);
-        }
-        elseif($envid==""){
-            $sql="UPDATE QVSETTINGS SET DATAVALUE='$global_lastenvid' WHERE [:UPPER(NAME)]='_ENVIRONID'";
-            maestro_execute($maestro, $sql, false);
-        }
-        elseif($envid!=$global_lastenvid){
-            writelog("Tentativo di accedere ad ambiente non consentito!");
-            $ret=false;
         }
     }
     return $ret;

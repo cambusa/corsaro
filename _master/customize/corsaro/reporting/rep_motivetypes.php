@@ -2,18 +2,17 @@
 /****************************************************************************
 * Name:            rep_motivetypes.php                                      *
 * Project:         Corsaro - Reporting                                      *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2012  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once "../../custconfig.php";
 $tocambusa="../../".$path_cust2cambusa;
 include_once $tocambusa."sysconfig.php";
-include_once $tocambusa."mpdf/mpdf.php";
-include_once $tocambusa."rypaper/report.php";
+include_once $tocambusa."rypaper/rypaper.php";
 include_once $tocambusa."ryquiver/quiversex.php";
 
 if(isset($_POST["sessionid"]))

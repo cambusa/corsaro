@@ -1,23 +1,20 @@
 /****************************************************************************
 * Name:            ryquiver.php                                             *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var qv_handletemp=false;
-var qv_queuelist={};
-var qv_queuehelper={};
-var qv_queuequery={};
-var qv_queuebusy=false;
 var RYQUEAUX=new ryQue();
 function qv_mask2object(formid, datalot, sysid){
     var data = new Object();
     var o=_globalforms[formid];
-    data["SYSID"]=sysid;
+    if(_isset(sysid))
+        data["SYSID"]=sysid;
     for(var k in o.controls){   // Ciclo sui controlli di maschera
         var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
         if( !_ismissing(datum) ){   // Controllo che datum sia definito
@@ -241,7 +238,7 @@ function qv_bulkdelete(formid, objgrid, prefix){
         }
     });
 }
-function qv_filedelete(formid, objgrid){
+function qv_filedelete(formid, objgrid, after, missing){
     winzMessageBox(formid, {
         message:RYBOX.babels("MSG_DELETESELROWS"),
         ok:RYBOX.babels("BUTTON_DELETE"),
@@ -275,7 +272,12 @@ function qv_filedelete(formid, objgrid){
                         function(d){
                             try{
                                 var v=$.parseJSON(d);
-                                winzTimeoutMess(formid, parseInt(v.success), v.message);
+                                if(v.success>0){ 
+                                    if(after!=missing){
+                                        after();
+                                    }
+                                }
+                                winzTimeoutMess(formid, v.success, v.message);
                             }
                             catch(e){
                                 winzClearMess(formid);
@@ -327,7 +329,7 @@ function qv_filedownload(formid, objgrid, params, missing){
                                     var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+_temporaryURL+n;
                                     if(window.console&&_sessioninfo.debugmode){console.log("Download:"+h)}
                                     $("#winz-iframe").prop("src", h);
-                                    winzTimeoutMess(formid, parseInt(v.success), v.message);
+                                    winzTimeoutMess(formid, v.success, v.message);
                                     // GESTIONE FILE OBSOLETI
                                     if(qv_handletemp!==false)
                                         clearTimeout(qv_handletemp);
@@ -357,6 +359,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     var merge=missing;
     var paramchangerow=missing;
     var paramsolveid=missing;
+    var paramupdate=missing;
     var propenabled=true;
     var bufferdetails="";
     if(params!=missing){
@@ -367,6 +370,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             if(params.merge){merge=params.merge}
             if(params.changerow){paramchangerow=params.changerow}
             if(params.solveid){paramsolveid=params.solveid}
+            if(params.update){paramupdate=params.update}
         }
     }
     var h="";
@@ -452,7 +456,8 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                             oper_filedetails.title(bufferdetails);
                             oper_fileupdate.enabled(1);
                             oper_filedetails.enabled(1);
-                            oper_filedownload.enabled(1);
+                            if(v[0]["IMPORTNAME"]!="")
+                                oper_filedownload.enabled(1);
                             oper_fileunsaved.visible(0);
                             if(propenabled){
                                 oper_filedelete.enabled(1);
@@ -504,9 +509,15 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            if(v.success){
+                            if(v.success>0){
                                 // POSIZIONAMENTO SUL NUOVO DOCUMENTO
-                                objgriddocs.splice(0, 0, v.SYSID);
+                                objgriddocs.splice(0, 0, v.SYSID,
+                                    function(){
+                                        if(paramupdate!=missing){
+                                            setTimeout(function(){paramupdate(v.SYSID)}, 100);
+                                        }
+                                    }
+                                );
                             }
                             winzTimeoutMess(formid, v.success, v.message);
                         }
@@ -553,9 +564,15 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            if(v.success){
+                            if(v.success>0){
                                 // POSIZIONAMENTO SUL NUOVO DOCUMENTO
-                                objgriddocs.splice(0, 0, v.SYSID);
+                                objgriddocs.splice(0, 0, v.SYSID,
+                                    function(){
+                                        if(paramupdate!=missing){
+                                            setTimeout(function(){paramupdate(v.SYSID)}, 100);
+                                        }
+                                    }
+                                );
                             }
                             winzTimeoutMess(formid, v.success, v.message);
                         }
@@ -632,9 +649,17 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            objgriddocs.dataload();
-                            oper_fileunsaved.visible(0);
-                            winzTimeoutMess(formid, parseInt(v.success), v.message);
+                            if(v.success>0){ 
+                                objgriddocs.dataload(
+                                    function(){
+                                        if(paramupdate!=missing){
+                                            setTimeout(function(){paramupdate(filesysid)}, 100);
+                                        }
+                                    }
+                                );
+                                oper_fileunsaved.visible(0);
+                            }
+                            winzTimeoutMess(formid, v.success, v.message);
                         }
                         catch(e){
                             winzClearMess(formid);
@@ -704,8 +729,16 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                             function(d){
                                 try{
                                     var v=$.parseJSON(d);
-                                    objgriddocs.dataload();
-                                    oper_fileunsaved.visible(0);
+                                    if(v.success>0){ 
+                                        objgriddocs.dataload(
+                                            function(){
+                                                if(paramupdate!=missing){
+                                                    setTimeout(function(){paramupdate(filesysid)}, 100);
+                                                }
+                                            }
+                                        );
+                                        oper_fileunsaved.visible(0);
+                                    }
                                     winzTimeoutMess(formid, v.success, v.message);
                                 }
                                 catch(e){
@@ -752,7 +785,13 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             formid:formid,
             button:true,
             click:function(o){
-                qv_filedelete(formid, objgriddocs);
+                qv_filedelete(formid, objgriddocs,
+                    function(){
+                        if(paramupdate!=missing){
+                            setTimeout(function(){paramupdate("")}, 100);
+                        }
+                    }
+                );
             }
         });
     }
@@ -973,8 +1012,7 @@ function qv_autoconfigurecall(formid, prefix, config, offsety){
             $(prefix+tx_nm).rytext({left:120, top:offsety, width:300, datum:"C", tag:nm, formid:formid});
         }
     }
-    qv_queuebusy=false;
-    setTimeout(function(){qv_queuemanager()});
+    setTimeout(function(){TAIL.wriggle});
     return offsety;
 }
 
@@ -1511,8 +1549,8 @@ function qv_idrequest(formid, settings, missing){
                     // Visualizzazione
                     if(single){
                         $("#"+propname+"_text").html("<span style='color:silver;font-style:italic;'>Caricamento...</span>");
-                        qv_queuehelper[propname]={"table":proptable, "sysid":propsysid, "select":propselect, "assigned":a};
-                        qv_queuehelpercall();
+                        TAIL.enqueue(qv_queuehelpercall, {"id":propname, "table":proptable, "sysid":propsysid, "select":propselect, "assigned":a});
+                        TAIL.wriggle();
                     }
                     else{
                         $("#"+propname+"_text").html(caption);
@@ -1899,158 +1937,116 @@ function qv_idrequest(formid, settings, missing){
 	});
 })(jQuery);
 
-function qv_queuemanager(){
-    if(!qv_queuebusy){
-        if(_objectlength(qv_queuelist)>0){
-            qv_queuelistcall();
+function qv_queuelistcall(params){
+    try{
+        var id=params.id;
+        var table=params.table;
+        var o=globalobjs[id];
+        if(table.substr(0,1)=="#"){
+            o.additem({caption:"", key:""});
+            table=table.substr(1);
         }
-        else if(_objectlength(qv_queuehelper)>0){
-            qv_queuehelpercall();
-        }
-        else if(_objectlength(qv_queuequery)>0){
-            qv_queuequerycall();
-        }
-    }
-}
-
-function qv_queuelistcall(){
-    var id=false;
-    for(id in qv_queuelist){break;}
-    if(id!==false){
-        qv_queuebusy=true;
-        var table=qv_queuelist[id]["table"];
-        delete qv_queuelist[id];
-        try{
-            var o=globalobjs[id];
-            if(table.substr(0,1)=="#"){
-                o.additem({caption:"", key:""});
-                table=table.substr(1);
-            }
-            if(window.console&&_sessioninfo.debugmode){console.log("LIST: SELECT SYSID,DESCRIPTION FROM "+table+" ORDER BY DESCRIPTION");}
-            RYQUEAUX.query({
-                sql:"SELECT SYSID,DESCRIPTION FROM "+table+" ORDER BY DESCRIPTION",
-                ready:function(v){
-                    try{
-                        for(var i in v){
-                            o.additem({caption:v[i]["DESCRIPTION"], key:v[i]["SYSID"]});
-                        }
-                        qv_queuebusy=false;
-                        setTimeout(function(){qv_queuemanager()});
-                    }catch(e){
-                        if(window.console){console.log(e.message)}
-                        qv_queuebusy=false;
-                        setTimeout(function(){qv_queuemanager()});
+        if(window.console&&_sessioninfo.debugmode){console.log("LIST: SELECT SYSID,DESCRIPTION FROM "+table+" ORDER BY DESCRIPTION");}
+        RYQUEAUX.query({
+            sql:"SELECT SYSID,DESCRIPTION FROM "+table+" ORDER BY DESCRIPTION",
+            ready:function(v){
+                try{
+                    for(var i in v){
+                        o.additem({caption:v[i]["DESCRIPTION"], key:v[i]["SYSID"]});
                     }
+                }catch(e){
+                    if(window.console){console.log(e.message)}
                 }
-            });
-        }catch(e){
-            if(window.console){console.log(e.message)}
-            qv_queuebusy=false;
-            setTimeout(function(){qv_queuemanager()});
-        }
+                TAIL.free();
+            }
+        });
+    }catch(e){
+        if(window.console){console.log(e.message)}
+        TAIL.free();
     }
 }
 
-function qv_queuehelpercall(){
-    var id=false;
-    for(id in qv_queuehelper){break;}
-    if(id!==false){
-        qv_queuebusy=true;
-        var table=qv_queuehelper[id]["table"];
-        var sysid=qv_queuehelper[id]["sysid"];
-        var select=qv_queuehelper[id]["select"];
-        var assigned=qv_queuehelper[id]["assigned"];
+function qv_queuehelpercall(params){
+    try{
+        var id=params.id;
+        var table=params.table;
+        var sysid=params.sysid;
+        var select=params.select;
+        var assigned=params.assigned;
         var more="";
-        delete qv_queuehelper[id];
-        try{
-            if(globalobjs[id].onselect){
-                if(select!="")
-                    more+=","+select;
-            }
-            if(window.console&&_sessioninfo.debugmode){console.log("HELPER: SELECT DESCRIPTION "+more+" FROM "+table+" WHERE SYSID='"+sysid+"'");}
-            RYQUEAUX.query({
-                sql:"SELECT SYSID,DESCRIPTION "+more+" FROM "+table+" WHERE SYSID='"+sysid+"'",
-                ready:function(d){
-                    try{
-                        if(d.length>0){
-                            // ELIMINO I NULL
-                            for(var i in d[0]){
-                                d[0][i]=_fittingvalue(d[0][i]);
-                            }
-                            $("#"+id+"_text").html(d[0]["DESCRIPTION"]);
-                            if(globalobjs[id].onselect){
-                                globalobjs[id].onselect(globalobjs[id], d[0], assigned);
-                            }
-                        }
-                        else{
-                            $("#"+id+"_text").html("<span style='color:silver;font-style:italic;'>(not found)</span>");
-                            if(globalobjs[id].notfound){
-                                globalobjs[id].notfound(globalobjs[id]);
-                            }
-                        }
-                        qv_queuebusy=false;
-                        setTimeout(function(){qv_queuemanager()});
-                    }catch(e){
-                        if(window.console){console.log(e.message)}
-                        qv_queuebusy=false;
-                        setTimeout(function(){qv_queuemanager()});
-                    }
-                }
-            });
-        }catch(e){
-            if(window.console){console.log(e.message)}
-            qv_queuebusy=false;
-            setTimeout(function(){qv_queuemanager()});
+        if(globalobjs[id].onselect){
+            if(select!="")
+                more+=","+select;
         }
+        if(window.console&&_sessioninfo.debugmode){console.log("HELPER: SELECT DESCRIPTION "+more+" FROM "+table+" WHERE SYSID='"+sysid+"'");}
+        RYQUEAUX.query({
+            sql:"SELECT SYSID,DESCRIPTION "+more+" FROM "+table+" WHERE SYSID='"+sysid+"'",
+            ready:function(d){
+                try{
+                    if(d.length>0){
+                        // ELIMINO I NULL
+                        for(var i in d[0]){
+                            d[0][i]=_fittingvalue(d[0][i]);
+                        }
+                        $("#"+id+"_text").html(d[0]["DESCRIPTION"]);
+                        if(globalobjs[id].onselect){
+                            globalobjs[id].onselect(globalobjs[id], d[0], assigned);
+                        }
+                    }
+                    else{
+                        $("#"+id+"_text").html("<span style='color:silver;font-style:italic;'>(not found)</span>");
+                        if(globalobjs[id].notfound){
+                            globalobjs[id].notfound(globalobjs[id]);
+                        }
+                    }
+                }catch(e){
+                    if(window.console){console.log(e.message)}
+                }
+                TAIL.free();
+            }
+        });
+    }catch(e){
+        if(window.console){console.log(e.message)}
+        TAIL.free();
     }
 }
 
-function qv_queuequerycall(){
-    var id=false;
-    // PRENDO IL PRIMO ELEMENTO DELLA CODA
-    for(id in qv_queuequery){break;}
-    if(id!==false){
-        qv_queuebusy=true;
-        try{
-            var sql;
-            // DETERMINO LA QUERY
-            if(_isset(qv_queuequery[id]["sql"])){
-                sql=qv_queuequery[id]["sql"];
-            }
-            else if(_isset(qv_queuequery[id]["fsql"])){
-                sql=qv_queuequery[id]["fsql"]();
-            }
-            else{
-                var table=qv_queuequery[id]["table"];
-                var select=qv_queuequery[id]["select"];
-                var whe=qv_queuequery[id]["where"];
-                sql="SELECT "+select+" FROM "+table+" WHERE "+whe;
-            }
-            // DETERMINO L'AZIONE (SINCRONA O TERMINALE) DA INTRAPRENDERE SUCCESSIVAMENTE
-            var back=qv_queuequery[id]["back"];
-            // TOLGO L'ISTRUZIONE DALLA CODA
-            delete qv_queuequery[id];
-            if(window.console&&_sessioninfo.debugmode){console.log("QUERY: "+sql);}
-            RYQUEAUX.query({
-                sql: sql,
-                ready:function(d){
-                    try{
-                        back(d);
-                    }catch(e){
-                        if(window.console){
-                            console.log(e.message);
-                            console.log(d);
-                        }
-                    }
-                    qv_queuebusy=false;
-                    setTimeout(function(){qv_queuemanager()});
-                }
-            });
-        }catch(e){
-            if(window.console){console.log(e.message)}
-            qv_queuebusy=false;
-            setTimeout(function(){qv_queuemanager()});
+function qv_queuequerycall(params){
+    try{
+        var sql;
+        // DETERMINO LA QUERY
+        if(_isset(params["sql"])){
+            sql=params["sql"];
         }
+        else if(_isset(params["fsql"])){
+            sql=params["fsql"]();
+        }
+        else{
+            var table=params["table"];
+            var select=params["select"];
+            var whe=params["where"];
+            sql="SELECT "+select+" FROM "+table+" WHERE "+whe;
+        }
+        // DETERMINO L'AZIONE (SINCRONA O TERMINALE) DA INTRAPRENDERE SUCCESSIVAMENTE
+        var back=params["back"];
+        if(window.console&&_sessioninfo.debugmode){console.log("QUERY: "+sql);}
+        RYQUEAUX.query({
+            sql: sql,
+            ready:function(d){
+                try{
+                    back(d);
+                }catch(e){
+                    if(window.console){
+                        console.log(e.message);
+                        console.log(d);
+                    }
+                }
+                TAIL.free();
+            }
+        });
+    }catch(e){
+        if(window.console){console.log(e.message)}
+        TAIL.free();
     }
 }
 

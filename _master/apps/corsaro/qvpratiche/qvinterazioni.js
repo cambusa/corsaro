@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvinterazioni.js                                         *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -924,43 +924,43 @@ function class_qvinterazioni(settings,missing){
     // INIZIALIZZAZIONE FORM
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
-            qv_queuequery[formid+"_0"]={
+            TAIL.enqueue(qv_queuequerycall, {
                 "table":"QVUSERS",
                 "select":"SYSID",
                 "where":"EGOID='"+_sessioninfo.userid+"'",
                 "back":function(v){
                     curruserid=v[0]["SYSID"];
                 }
-            };
-            qv_queuequery[formid+"_1"]={
+            });
+            TAIL.enqueue(qv_queuequerycall, {
                 "table":"QVROLES",
                 "select":"SYSID",
                 "where":"EGOID='"+_sessioninfo.roleid+"'",
                 "back":function(v){
                     currroleid=v[0]["SYSID"];
                 }
-            };
+            });
             if(currprocessoname!=""){
-                qv_queuequery[formid+"_2"]={
+                TAIL.enqueue(qv_queuequerycall, {
                     "sql":"SELECT SYSID FROM QW_PROCESSI WHERE [:UPPER(NAME)]='"+currprocessoname+"'",
                     "back":function(v){
                         if(v.length>0){
                             currprocessoid=v[0]["SYSID"];
                         }
                     }
-                };
+                });
             }
             else if(openattivid!=""){
-                qv_queuequery[formid+"_3"]={
+                TAIL.enqueue(qv_queuequerycall, {
                     "sql":"SELECT PRATICAID FROM QW_ATTIVITAJOIN WHERE SYSID='"+openattivid+"'",
                     "back":function(v){
                         if(v.length>0){
                             openpraticaid=v[0]["PRATICAID"];
                         }
                     }
-                };
+                });
             }
-            qv_queuequery[formid+"_5"]={
+            TAIL.enqueue(qv_queuequerycall, {
                 "sql":"SELECT SYSID FROM QW_ATTORIJOIN WHERE EGOUTENTEID='"+_sessioninfo.userid+"' ORDER BY (CASE WHEN UFFICIOID='' OR UFFICIOID IS NULL THEN 0 ELSE 1 END)",
                 "back":function(v){
                     if(v.length>0){
@@ -979,7 +979,7 @@ function class_qvinterazioni(settings,missing){
                     }
                     else{
                         if(openpraticaid!=""){
-                            qv_queuequery[formid+"_4"]={
+                            TAIL.enqueue(qv_queuequerycall, {
                                 "sql":"SELECT PROCESSOID FROM QW_PRATICHE WHERE SYSID='"+openpraticaid+"'",
                                 "back":function(v){
                                     winzClearMess(formid);
@@ -988,8 +988,7 @@ function class_qvinterazioni(settings,missing){
                                         txf_processo.value(openprocessoid, true);
                                     }
                                 }
-                            };
-                            qv_queuemanager();
+                            });
                         }
                         else{
                             winzClearMess(formid);
@@ -1001,8 +1000,8 @@ function class_qvinterazioni(settings,missing){
                         }
                     }
                 }
-            };
-            qv_queuemanager();
+            });
+            TAIL.wriggle();
         }
     );
     function caricapratica(after){

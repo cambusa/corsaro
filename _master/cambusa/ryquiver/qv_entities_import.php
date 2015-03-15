@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_entities_import.php                                   *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -80,9 +80,9 @@ function qv_entities_import($maestro, $data){
                 }
                 $fields=$maestro->infobase->{$actualtable}->fields;
                 foreach($fields as $field => $attr){
-                    switch($attr->type){
-                    case "SYSID":
-                        if(isset($datax[$field])){
+                    if(isset($datax[$field])){
+                        switch($attr->type){
+                        case "SYSID":
                             $vl=$datax[$field];
                             if(preg_match("/\[:SYSID\(([0-9A-Z]+)\)\]/i", $vl, $m)){
                                 $key="K_".$m[1];
@@ -110,15 +110,21 @@ function qv_entities_import($maestro, $data){
                                 // LO METTO NEI DATI IN INGRESSO SOLTANTO SE NON E' CHIAVE
                                 $datay[$field]=qv_actualid($maestro, $vl);
                             }
-                        }
-                        break;
-                    default:
-                        if(isset($attr->unique))
-                            $unique=$attr->unique;
-                        else
-                            $unique=0;
-                        if($unique==0){
-                            if(isset($datax[$field])){
+                            break;
+                        default:
+                            $unique=true;
+                            if(isset($attr->unique)){
+                                if($attr->unique){
+                                    $uv=$datax[$field];
+                                    if($uv!=""){
+                                        maestro_query($maestro,"SELECT {AS:TOP 1} SYSID FROM $actualtable WHERE $field='$uv' {LM:LIMIT 1}{O: AND ROWNUM=1}{D:FETCH FIRST 1 ROWS ONLY}", $r);
+                                        if(count($r)>0){
+                                            $unique=false;
+                                        }
+                                    }
+                                }
+                            }
+                            if($unique){
                                 $datay[$field]=$datax[$field];
                             }
                         }

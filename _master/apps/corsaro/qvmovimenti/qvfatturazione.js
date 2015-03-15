@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvfatturazione.js                                        *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -22,6 +22,8 @@ function class_qvfatturazione(settings,missing){
     var currfatturaid="";
     var currflussoid="";
     var currgenretypeid=RYQUE.formatid("0MONEY000000");
+    var curreuroid=RYQUE.formatid("0MONEYEURO00");
+    var currdivisaconto="";
     var currchiusa=0;
     var elencostati="";
     var curraggiuntivi={};
@@ -336,11 +338,14 @@ function class_qvfatturazione(settings,missing){
         open:function(o){
             o.where("");
         },
+        select:"REFGENREID",
         onselect:function(o, d){
+            currdivisaconto=d["REFGENREID"];
             abilitafattura();
             $.cookie(_sessioninfo.environ+"_fatture_contoid", o.value(), {expires:10000});
         },
         clear:function(){
+            currdivisaconto="";
             abilitafattura();
         }
     });
@@ -890,10 +895,18 @@ function class_qvfatturazione(settings,missing){
                                         tx_controdefault.value(curraggiuntivi["_CONTROID"]);
                                     else
                                         tx_controdefault.value($.cookie(_sessioninfo.environ+"_fatture_controid"));
-                                    if(_isset(curraggiuntivi["_GENREID"]))
+                                    if(_isset(curraggiuntivi["_GENREID"])){
                                         tx_genreid.value(curraggiuntivi["_GENREID"]);
-                                    else
-                                        tx_genreid.value($.cookie(_sessioninfo.environ+"_fatture_genreid"));
+                                    }
+                                    else{
+                                        var g=_fittingvalue($.cookie(_sessioninfo.environ+"_fatture_genreid"));
+                                        if(g!="")
+                                            tx_genreid.value(g);
+                                        else if(currdivisaconto!="")
+                                            tx_genreid.value(currdivisaconto);
+                                        else
+                                            tx_genreid.value(curreuroid);
+                                    }
                                 }
                             );
                         }
@@ -923,7 +936,7 @@ function class_qvfatturazione(settings,missing){
     // INIZIALIZZAZIONE FORM
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
-            qv_queuequery[formid+"_0"]={
+            TAIL.enqueue(qv_queuequerycall, {
                 "sql":"SELECT SYSID,DESCRIPTION FROM QW_PROCESSI WHERE [:UPPER(NAME)]='"+currprocessoname+"'",
                 "back":function(v){
                     if(v.length>0){
@@ -932,8 +945,8 @@ function class_qvfatturazione(settings,missing){
                         $(prefix+"LB_PROCESSO").html("Processo: "+processodescr);
                     }
                 }
-            };
-            qv_queuequery[formid+"_1"]={
+            });
+            TAIL.enqueue(qv_queuequerycall, {
                 "sql":"SELECT SYSID FROM QW_MOTIVIATTIVITA WHERE [:UPPER(NAME)]='"+currfatturaname+"'",
                 "back":function(v){
                     if(v.length>0){
@@ -980,8 +993,8 @@ function class_qvfatturazione(settings,missing){
                         }
                     });
                 }
-            };
-            qv_queuemanager();
+            });
+            TAIL.wriggle();
         }
     );
     function caricapratica(after){

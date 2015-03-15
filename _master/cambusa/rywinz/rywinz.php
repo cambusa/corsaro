@@ -2,13 +2,19 @@
 /****************************************************************************
 * Name:            rywinz.php                                               *
 * Project:         Cambusa/ryWinz                                           *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Multiple Document Interface                              *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+
+// ASSEGNO LA VARIABILE CHE FORZEREBBE L'AMBIENTE SE NON FOSSE SETTATA
+if(!isset($winz_appenviron)){
+    $winz_appenviron="";
+}
+
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +46,8 @@ if(!isset($aboutwidth))
     $aboutwidth=550;
 if(!isset($aboutheight))
     $aboutheight=320;
+if(!isset($aboutinclude))
+    $aboutinclude="";
 if(!isset($winz_apptitle))
     $winz_apptitle="ryWinz";
 if(!isset($winz_appdescr))
@@ -61,10 +69,14 @@ _baseURL="<?php  print rywinzHost() ?>";
 _sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $winz_appname ?>";
 var _apptitle="<?php  print $winz_apptitle ?>";
+var _appenviron="<?php  print $winz_appenviron ?>";
+var _timerPostman;
 $(document).ready(function(){
     RYEGO.go({
         crossdomain:"",
         appname:_appname,
+        apptitle:_apptitle,
+        appenv:_appenviron,
         config:function(d){
             _sessioninfo=d;
             if(window.console)console.log(_sessioninfo);
@@ -103,6 +115,58 @@ function mdiconfig(){
             RYQUE.clean();
         }, 5000
     )
+    _timerPostman=setInterval(
+        function(){
+            if(window.console&&_sessioninfo.debugmode){console.log("["+(new Date()).toTimeString()+"] Critical activities: "+_criticalactivities)}
+            var f=(_criticalactivities==0);
+            if(f){
+                for(var id in _globalforms){
+                    if(RYWINZ.busy(id)){
+                        f=false;
+                        break;
+                    }
+                }
+            }
+            if(f){
+                // NOTIFICHE
+                TAIL.enqueue(function(){
+                    RYQUEAUX.query({
+                        sql:"SELECT COUNT(SYSID) AS NOTIFICATIONS FROM QVMESSAGES WHERE RECEIVERID IN (SELECT SYSID FROM QVUSERS WHERE EGOID='"+_sessioninfo.userid+"' AND ARCHIVED=0) AND STATUS=0 AND [:DATE(SENDINGTIME,1MONTH)]>[:TODAY()]",
+                        ready:function(d){
+                            try{
+                                var n=0;
+                                if(d.length>0){
+                                    n=_getinteger(d[0]["NOTIFICATIONS"]);
+                                }
+                                if(n>0){
+                                    $("#winz-notifications").html(n).show();
+                                    try{ $("head>title").html(_apptitle+" ( "+n+" )") }catch(e){}
+                                }
+                                else{
+                                    $("#winz-notifications").html("").hide();
+                                    try{ $("head>title").html(_apptitle) }catch(e){}
+                                }
+                            }
+                            catch(e){
+                                if(window.console){console.log(e.message)}
+                            }
+                            TAIL.free();
+                        }
+                    });
+                });
+                // REFRESH
+                for(var id in _globalforms){
+                    if(_globalforms[id]._timer instanceof Function){
+                        TAIL.enqueue(function(id){
+                            _globalforms[id]._timer();
+                            TAIL.free();
+                        }, id);
+                    }
+                }
+                TAIL.wriggle();
+            }
+        }, 15000
+    );
     $("#winz-about .winz_close").click(
         function(){
             $("#winz-about-dither").hide();
@@ -144,10 +208,11 @@ function winz_logout(promptmess){
     }
     if(ok==true && promptmess==true){
         window.onbeforeunload=null;
+        clearInterval(_timerPostman);
         var castclose=setTimeout(
             function(){
                 ego_logout();
-            }, 5000
+            }, 10000
         );
         winzRemoveAll(  // Rimozione di tuttu i form
             function(){
@@ -178,6 +243,34 @@ function winz_logout(promptmess){
     }
     return msg;
 }
+function winz_postman(){
+    if(_ismissing(_globalforms["postman"])){
+        _openingparams="({})";
+        RYWINZ.newform({
+            id:"postman",
+            name:"postman",
+            path:_cambusaURL+"rywinz/postman/",
+            title:"Postman",
+            desk:true,
+            icon:_cambusaURL+"rywinz/postman/postman"
+        });
+    }
+    else{
+        // Show the taskbar button.
+        if($("#icon_dock_postman").is(':hidden')){
+            $("#icon_dock_postman").remove().appendTo('#dock');
+            $("#icon_dock_postman").show('fast');
+        }
+        setTimeout(function(){
+            JQD.util.window_flat();
+            $("#window_postman").addClass('window_stack').show();
+            JQD.util.clear_active();
+        });
+        try{
+            setTimeout(_globalforms["postman"].refresh, 200);
+        }catch(e){}
+    }
+}
 </script>
 </head>
 <body spellcheck="false" style="display:none;">
@@ -192,6 +285,7 @@ function winz_logout(promptmess){
 				<a class="menu_trigger" href="#">File</a>
 				<ul class="menu">
 					<li><a class="rudyz" href="#icon_dock_rudder">Pilota</a></li>
+                    <li><a class="rudyz" href="javascript:" onclick="winz_postman()">Postman</a></li>
 					<li><a class="rudyz" href="javascript:" onclick="winz_logout(true)">Logout</a></li>
 				</ul>
 			</li>
@@ -200,6 +294,7 @@ function winz_logout(promptmess){
 				<ul class="menu">
 					<li><a class="rudyz" href="<?php print $url_cambusa ?>ryego/ryego.php" target="_blank">Ego</a></li>
 					<li><a class="rudyz" href="<?php print $url_cambusa ?>rymaestro/rymaestro.php" target="_blank">Maestro</a></li>
+                    <li><a class="rudyz" href="<?php print $url_cambusa ?>rymirror/rymirror.php" target="_blank">Mirror</a></li>
                     <li><a class="rudyz" href="<?php print $url_cambusa ?>rypulse/rypulse.php" target="_blank">Pulse</a></li>
 				</ul>
 			</li>
@@ -224,13 +319,20 @@ function winz_logout(promptmess){
         $copy.=" - Dealer ".$copyright_dealer;
     }
 ?>
-		<a class="float_right" style="font-size:11px;" href="license.html" target="_blank"><?php  print $copy ?></a>
+		<span class="float_right" style="font-size:11px;"><?php  print $copy ?></span>
+        <a id="winz-notifications" class="float_right" style="background:red;color:white;cursor:pointer;display:none;" href="javascript:" onclick="winz_postman()"></a>
     </div>
 
     <div id="winz-about-dither" class="winz_dither" style="top:0px;background:#1E90FF;height:120%;"></div>
     <div id="winz-about" class="winz_dialog" style="display:none;width:<?php  print $aboutwidth ?>px;height: <?php  print $aboutheight ?>px;" title="About <?php print $winz_apptitle ?>">
     <div class='winz_close'>X</div><div class="winz_msgbox" style="top:30px;width:<?php  print $aboutwidth-50 ?>px;height:<?php  print $aboutheight-60 ?>px;font-size:12px;line-height:14px;">
         <!-- INIZIO ABOUT -->
+<?php 
+    if($aboutinclude!=""){ 
+        include $aboutinclude;
+    }
+    else{
+?>
         <br/>
         <img src="_images/appicon.png" align="left" style="margin:5px;">
         <div>&nbsp;</div>
@@ -250,6 +352,9 @@ function winz_logout(promptmess){
         <br/>
         - Special thanks to <b>Nathan Smith</b> for his terrific 
         <a href="http://sonspring.com/journal/jquery-desktop" target="_blank" style="cursor:pointer;text-decoration:underline;">Multiple Document Interface</a>.<br/>
+<?php 
+    }
+?>
         <!-- FINE ABOUT -->
     </div>
     </div>

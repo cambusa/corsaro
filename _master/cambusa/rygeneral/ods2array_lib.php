@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            ods2array_lib.php                                        *
 * Project:         Cambusa/ryGeneral                                        *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Global functions and variables                           *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -13,36 +13,63 @@ if(!isset($tocambusa))
     $tocambusa="../";
 include_once "$tocambusa/tbs_us/tbs_class.php";
 include_once "$tocambusa/tbs_us/plugins/tbs_plugin_opentbs.php";
+include_once "$tocambusa/rygeneral/writelog.php";
 
 function ods2array(&$rows, $ods, $sheet=1){
 
     if(file_exists($ods)){
+    
+        $rows=array();
 
         $TBS = new clsTinyButStrong;
         $TBS->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
 
         $TBS->LoadTemplate($ods);
         $buffer=$TBS->Source;
+        
+        $x=simplexml_load_string($buffer);
+        
+        $nsOffice=$x->getNamespaces(true);
+        $office=$x->children($nsOffice['office']);
 
-        // PRENDO SOLO IL PRIMO FOGLIO
-        if(floatval(phpversion())>=5.3)
-            preg_match("@<table:table[^\\x01]+?</table:table>@", $buffer, $m);
-        else
-            preg_match("@<table:table[^\\x01]+</table:table>@", $buffer, $m);
-        $buffer=$m[0];
-        
-        // INDIVIDUO RIGHE E COLONNE
-        $buffer=preg_replace("@</text:p></table:table-cell></table:table-row></table:table>@", "", $buffer);
-        $buffer=preg_replace("@</text:p></table:table-cell></table:table-row>@", "######", $buffer);
-        $buffer=preg_replace("@</table:table-row>@", "######", $buffer);
-        $buffer=preg_replace("@</text:p>@", "@@@@@@", $buffer);
-        $buffer=preg_replace("@<table:table-cell [^>]*/>@", " @@@@@@", $buffer);    // CELLE VUOTE
-        $buffer=strip_tags($buffer);
-        
-        // COSTRUISCO LA MATRICE
-        $rows=explode("######", $buffer);
-        foreach($rows as &$row){
-            $row=explode("@@@@@@", $row);
+        foreach($office->body[0] as $table){
+            $nsTable=$table->getNamespaces(true);
+            $tables=$table->children($nsTable['table']);
+            $tbl=$tables->table;
+            foreach($tbl as $t){
+                foreach($t->{"table-row"} as $r){
+                    $a=array();
+                    foreach($r->{"table-cell"} as $c){
+                        // NUMERO DI RIPETIZIONI DELLA STESSA CELLA
+                        if(isset($c["number-columns-repeated"]))
+                            $n=intval($c["number-columns-repeated"]);
+                        else
+                            $n=1;
+                        $nsText=$c->getNamespaces(true);
+                        if(isset($nsText['text'])){
+                            $text=$c->children($nsText['text']);
+                            $y=$text->p[0];
+                            if(count($y->a)>0){
+                                $h=$y->a[0];
+                                for($i=1; $i<=$n; $i++)
+                                    $a[]=$h;
+                            }
+                            else{
+                                for($i=1; $i<=$n; $i++)
+                                    $a[]=$y;
+                            }
+                        }
+                        else{
+                            for($i=1; $i<=$n; $i++)
+                                $a[]="";
+                        }
+                    }
+                    $rows[]=$a;
+                    unset($a);
+                }
+                // MI FERMO AL PRIMO FOGLIO
+                break;
+            }
         }
         return true;
     }

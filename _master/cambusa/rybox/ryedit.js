@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            ryedit.js                                                *
 * Project:         Cambusa/ryBox                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Masked input and other form controls                     *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -21,6 +21,7 @@
 			var propenabled=true;
 			var propvisible=true;
             var propflat=false;
+            var tempvalue=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -106,7 +107,163 @@
             }
             else{
                 $("#"+propname).html("<div id='"+propname+"_frame'><div id='"+propname+"_anchor'></div></div><div id='"+propname+"_alt'></div>");
-                $("#"+propname+"_alt").css({"position":"absolute", "left":0, "top":0, "width":"100%", "height":"100%", "display":"none"});
+                $("#"+propname+"_alt").css({"position":"absolute", "left":0, "top":0, "width":"100%", "min-height":"100%", "overflow":"visible", "display":"none", "color":"gray", "background":"white"});
+                TAIL.enqueue(createeditor);
+                TAIL.wriggle();
+            }
+            // FUNZIONI PUBBLICHE
+            this.engage=function(){
+                propobj.raiseenter();
+            }
+            this.move=function(params){
+                if(params.left!=missing){propleft=params.left}
+                if(params.top!=missing){proptop=params.top}
+                if(params.width!=missing){propwidth=params.width}
+                if(params.height!=missing){propheight=params.height}
+                $("#"+propname).css({"left":propleft, "top":proptop, "width":propwidth, "height":propheight});
+                $("#"+propname+"_anchor").css({"width":propwidth, "height":propheight});
+            }
+			this.value=function(v,a){
+				if(v==missing){
+                    var vl="";
+                    if(propflat){
+                        vl=$("#"+propname+"_anchor").val();
+                    }
+                    else{
+                        try{
+                            //vl=CKEDITOR.instances[propname+"_anchor"].getData();
+                            if(tempvalue!==false)
+                                vl=tempvalue;
+                            else
+                                vl=CKEDITOR.instances[propname+"_anchor"].getData();
+                        }catch(e){}
+                    }
+                    return vl;
+				}
+				else{
+                    if(propflat){
+                        $("#"+propname+"_anchor").val(v);
+                    }
+                    else{
+                        try{
+                            tempvalue=v;
+                            if(!propenabled){
+                                // VISUALIZZAZIONE ALTERNATIVA DURANTE LA DISBILITAZIONE
+                                $("#"+propname+"_alt").html(v);
+                            }
+                            TAIL.enqueue(function(n, v){
+                                CKEDITOR.instances[n+"_anchor"].setData(v,
+                                    function(){
+                                        CKEDITOR.instances[n+"_anchor"].resetUndo();
+                                        tempvalue=false;
+                                        TAIL.free();
+                                    }
+                                );
+                            }, propname, v);
+                            TAIL.wriggle();
+                        }catch(e){
+                            if(window.console)console.log(e.message);
+                        }
+                    }
+                    propobj.raisechanged();
+                    propchanged=false;
+                    if(a==missing){a=false}
+                    if(a){propobj.raiseassigned()}
+				}
+			}
+			this.enabled=function(v){
+				if(v==missing){
+					return propenabled;
+				}
+				else{
+					propenabled=_bool(v);
+                    if(propflat){
+                        if(propenabled){$("#"+propname+"_anchor").removeAttr("disabled")}
+                        else{$("#"+propname+"_anchor").attr("disabled",true)}
+                    }
+                    else{
+                        //CKEDITOR.instances[propname+"_anchor"].setReadOnly( propenabled==0 );
+                        if(propenabled){
+                            $("#"+propname).css({"border":"none", "height":propheight, "overflow":"visible"});
+                            $("#"+propname+"_frame").css({"display":"block"});
+                            $("#"+propname+"_alt").css({"display":"none"}).html("");
+                        }
+                        else{
+                            $("#"+propname).css({"border":"1px solid silver", "height":propheight-35, "overflow":"auto"});
+                            $("#"+propname+"_frame").css({"display":"none"});
+                            if(tempvalue!==false)
+                                $("#"+propname+"_alt").css({"display":"block"}).html(tempvalue);
+                            else
+                                $("#"+propname+"_alt").css({"display":"block"}).html(propobj.value());
+                        }
+                    }
+				}
+			}
+			this.visible=function(v){
+				if(v==missing){
+					return propvisible;
+				}
+				else{
+					propvisible=v;
+					if(v)
+						$("#"+propname).css({"visibility":"visible"});
+					else
+						$("#"+propname).css({"visibility":"hidden"});
+				}
+			}
+			this.name=function(){
+				return propname;
+			}
+			this.modified=function(v){
+				if(v==missing)
+					return _bool( $("#"+propname).prop("modified") );
+				else
+					$("#"+propname).prop("modified", _bool(v) );
+			}
+			this.clear=function(){
+                if(propflat){
+                    $("#"+propname+"_anchor").val("");
+                }
+                else{
+                    try{
+                        TAIL.enqueue(function(n){
+                            CKEDITOR.instances[n+"_anchor"].setData("",
+                                function(){
+                                    CKEDITOR.instances[n+"_anchor"].resetUndo();
+                                    TAIL.free();
+                                }
+                            );
+                        }, propname);
+                        TAIL.wriggle();
+                    }catch(e){
+                        if(window.console)console.log(e.message);
+                    }
+                }
+				propobj.raisechanged();
+                if(propfocusout)
+                    propobj.raiseassigned();
+			}
+			this.focus=function(){
+				objectFocus(propname);
+			}
+            this.raisegotfocus=function(){
+                if(settings.gotfocus!=missing){settings.gotfocus(propobj)};
+            }
+            this.raiselostfocus=function(){
+                if(settings.lostfocus!=missing){settings.lostfocus(propobj)};
+            }
+            this.raisechanged=function(){
+                propchanged=true;
+                propobj.modified(1);
+                if(settings.changed!=missing){settings.changed(propobj)};
+                _modifiedState(propname,true);
+            }
+            this.raiseassigned=function(){
+                propobj.modified(1);
+                if(settings.assigned!=missing){settings.assigned(propobj)};
+                propchanged=false;
+            }
+            function createeditor(){
                 CKEDITOR.replace(propname+"_anchor", {width:propwidth, height:propheight-135})
                 .on("instanceReady", function(){
                     this.on("focus", 
@@ -147,130 +304,8 @@
                             }
                         }
                     );
+                    TAIL.free();
                 });
-            }
-            // FUNZIONI PUBBLICHE
-            this.engage=function(){
-                propobj.raiseenter();
-            }
-            this.move=function(params){
-                if(params.left!=missing){propleft=params.left}
-                if(params.top!=missing){proptop=params.top}
-                if(params.width!=missing){propwidth=params.width}
-                if(params.height!=missing){propheight=params.height}
-                $("#"+propname).css({"left":propleft, "top":proptop, "width":propwidth, "height":propheight});
-                $("#"+propname+"_anchor").css({"width":propwidth, "height":propheight});
-            }
-			this.value=function(v,a){
-				if(v==missing){
-                    var vl="";
-                    if(propflat){
-                        vl=$("#"+propname+"_anchor").val();
-                    }
-                    else{
-                        try{
-                            vl=CKEDITOR.instances[propname+"_anchor"].getData();
-                        }catch(e){}
-                    }
-                    return vl;
-				}
-				else{
-                    if(propflat){
-                        $("#"+propname+"_anchor").val(v);
-                    }
-                    else{
-                        try{
-                            CKEDITOR.instances[propname+"_anchor"].setData(v);
-                            FCKTempBin.Reset();
-                        }catch(e){}
-                    }
-                    propobj.raisechanged();
-                    propchanged=false;
-                    if(a==missing){a=false}
-                    if(a){propobj.raiseassigned()}
-				}
-			}
-			this.enabled=function(v){
-				if(v==missing){
-					return propenabled;
-				}
-				else{
-					propenabled=_bool(v);
-                    if(propflat){
-                        if(propenabled){$("#"+propname+"_anchor").removeAttr("disabled")}
-                        else{$("#"+propname+"_anchor").attr("disabled",true)}
-                    }
-                    else{
-                        // SU IE DA' ERRORE
-                        //CKEDITOR.instances[propname+"_anchor"].setReadOnly( propenabled==0 );
-                        if(propenabled){
-                            $("#"+propname).css({"border":"none", "height":propheight, "overflow":"visible"});
-                            $("#"+propname+"_frame").css({"display":"block"});
-                            $("#"+propname+"_alt").css({"display":"none"}).html("");
-                        }
-                        else{
-                            $("#"+propname).css({"border":"1px solid silver", "height":propheight-35, "overflow":"scroll"});
-                            $("#"+propname+"_frame").css({"display":"none"});
-                            $("#"+propname+"_alt").css({"display":"block"}).html(propobj.value());
-                        }
-                    }
-				}
-			}
-			this.visible=function(v){
-				if(v==missing){
-					return propvisible;
-				}
-				else{
-					propvisible=v;
-					if(v)
-						$("#"+propname).css({"visibility":"visible"});
-					else
-						$("#"+propname).css({"visibility":"hidden"});
-				}
-			}
-			this.name=function(){
-				return propname;
-			}
-			this.modified=function(v){
-				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
-				else
-					$("#"+propname).prop("modified", _bool(v) );
-			}
-			this.clear=function(){
-                if(propflat){
-                    $("#"+propname+"_anchor").val("");
-                }
-                else{
-                    try{
-                        CKEDITOR.instances[propname+"_anchor"].setData("");
-                        FCKTempBin.Reset();
-                    }catch(e){}
-                }
-				propobj.raisechanged();
-                if(propfocusout)
-                    propobj.raiseassigned();
-			}
-			this.focus=function(){
-				objectFocus(propname);
-			}
-            this.raisegotfocus=function(){
-                if(settings.gotfocus!=missing){settings.gotfocus(propobj)};
-            }
-            this.raiselostfocus=function(){
-                if(settings.lostfocus!=missing){settings.lostfocus(propobj)};
-            }
-            this.raisechanged=function(){
-                propchanged=true;
-                propobj.modified(1);
-                if(settings.changed!=missing){settings.changed(propobj)};
-                _modifiedState(propname,true);
-            }
-            this.raiseassigned=function(){
-                // mosca
-                propobj.modified(1);
-                if(settings.assigned!=missing){settings.assigned(propobj)};
-                propchanged=false;
             }
 		    return this;
 		}

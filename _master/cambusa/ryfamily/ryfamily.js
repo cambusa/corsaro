@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            ryfamily.js                                              *
 * Project:         Cambusa/ryFamily                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Treeview                                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -16,6 +16,7 @@
             var propwidth=200;
             var propheight=400;
             var propscroll=1;
+            var propborder=-1;
             var propobj=this;
             var propcreated=false;
             var propname=$(this).attr("id");
@@ -25,6 +26,7 @@
             if(settings.width!=missing){propwidth=settings.width}
             if(settings.height!=missing){propheight=settings.height}
             if(settings.scroll!=missing){propscroll=settings.scroll}
+            if(settings.border!=missing){propborder=settings.border}
             
             this.left=function(l){
                 if(l==missing)
@@ -71,6 +73,12 @@
                 var bd="none";
                 if(propscroll){
                     sc="scroll";
+                    if(propborder==-1)
+                        bd="1px solid silver";
+                }
+                if(propborder==1){
+                    if(sc=="visible")
+                        sc="auto";
                     bd="1px solid silver";
                 }
                 
@@ -89,7 +97,7 @@
                     parid=propname+"_root";
                 else
                     parid=propname+"_"+params.parent+"_root";
-                id=propname+"_"+params.id;
+                var id=propname+"_"+params.id;
                 if(params.open!=missing){
                     if(params.open)
                         {c="open"};
@@ -109,7 +117,7 @@
                     parid=propname+"_root";
                 else
                     parid=propname+"_"+params.parent+"_root";
-                id=propname+"_"+params.id;
+                var id=propname+"_"+params.id;
                 var branches = $("<li id='"+id+"'><span id='"+id+"_text' rif='"+params.id+"' super='"+params.parent+"' class='file'>"+params.title+"</span></li>")
                 .appendTo("#"+parid);
                 $("#"+parid).treeview({
@@ -118,9 +126,11 @@
                 });        
             }
             this.remove=function(id){
-                $()
                 id=propname+"_"+id;
                 $("#"+id+"_root").html("");
+            }
+            this.clear=function(){
+                $("#"+propname+"_root").html("");
             }
             this.name=function(){
                 return propname;

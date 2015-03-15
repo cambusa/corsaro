@@ -1,21 +1,306 @@
 ==================================
+Rilascio 1.69.00    del 14/03/2015
+==================================
+
+Tolti i componenti di terze parti non usati e con licenza restrittiva.
+
+Sostituito il componente mPDF con HTML2PDF.
+
+Trasformata la licenza GPL in LGPL.
+
+==================================
+Rilascio 1.68.03    del 12/03/2015
+==================================
+
+Piccole correzioni in ryUnbound.
+
+Aggiunta una libreria Javascript di gestione XML.
+
+Creato ryCode: una casella di testo per codici.
+
+Restyling di Ego.
+
+==================================
+Rilascio 1.68.02    del 01/03/2015
+==================================
+
+Realizzata una griglia "ryunbound" scollegata dalla base dati.
+
+==================================
+Rilascio 1.68.01    del 11/02/2015
+==================================
+
+Pratiche: le risposte sono sempre notifiche e non ereditano
+il motivo del messaggio principale.
+
+==================================
+Rilascio 1.68.00    del 01/02/2015
+==================================
+
+RYQUE: gestito pienamente il ridimensionamento colonne.
+
+RYBOX numeri: posizionamento sulla parte intera e incremento/decremento delle cifre con le frecce.
+
+==================================
+Rilascio 1.67.08    del 20/01/2015
+==================================
+
+Aggiunto TAG alle viste su QVUSERS e QVROLES.
+
+Filibuster Forum: forzato posizionamento della sessione sull'environ specificato in GET.
+
+==================================
+Rilascio 1.67.07    del 18/01/2015
+==================================
+
+ryEdit: corretti errori di assegnamento e lettura del valore dovuti alle asincronie.
+
+Filibuster Forum: logout corretto anche da riquadro di gestione dei post.
+
+==================================
+Rilascio 1.67.06    del 16/01/2015
+==================================
+
+Migliorata la gestione errori nell'esempio Silverlight.
+
+Aggiunto il comendo "smartfinder" a Quiver.
+
+==================================
+Rilascio 1.67.05    del 12/01/2015
+==================================
+
+Terminata l'interazione tra Silverlight e RYWINZ.
+
+==================================
+Rilascio 1.67.04    del 11/01/2015
+==================================
+
+RYWINZ: nel trascinamento viene usata la proprietà "visibility" e non più "display" per rendere invisibile il contenuto.
+Ciò è stato necessario perché in Firefox un iframe verrebbe ricaricato.
+
+Potenziata la possibilità di incorporazione di form Silverlight.
+
+==================================
+Rilascio 1.67.03    del 09/01/2015
+==================================
+
+Possibiilità di includere form Silverlight.
+
+==================================
+Rilascio 1.67.02    del 08/01/2015
+==================================
+
+Postman: Interrotto il polling prima del logout per evitare errori in disallocazione risorse.
+
+==================================
+Rilascio 1.67.01    del 05/01/2015
+==================================
+
+RYQUE: Corretto un errore nella selezione per trascinamento del mouse.
+
+==================================
+Rilascio 1.67.00    del 31/12/2014
+==================================
+
+Risolti i problemi di scrittura su database di stringhe con carattere "\".
+
+==================================
+Rilascio 1.66.00    del 30/12/2014
+==================================
+
+CKEditor: messa in coda anche la creazione per poter assegnare subito dopo il valore e non avere conflitti.
+
+==================================
+Rilascio 1.65.04    del 29/12/2014
+==================================
+
+CKEditor: utilizzate le code per rendere sequenziali le setData.
+
+Possibilità di attivare Quiver e Customize mediante documenti XML.
+
+Nuovi comandi Quiver "qv_query" e "qv_stream".
+
+==================================
+Rilascio 1.65.03    del 26/12/2014
+==================================
+
+Ridotta a un giorno la vita del certificato RSA di Ego per l'autenticazione utente.
+
+==================================
+Rilascio 1.65.02    del 25/12/2014
+==================================
+
+Sostituito l'utilizzo delle sessioni PHP per memorizzare le chiavi RSA durante l'autenticazione.
+Utilizzata la tabella EGOENCRYPTIONS.
+
+==================================
+Rilascio 1.65.01    del 21/12/2014
+==================================
+
+Utilizzate le notifiche nella gestione pratiche.
+
+Correzioni sui permessi di accesso e creazione pratiche.
+
+==================================
+Rilascio 1.65.00    del 20/12/2014
+==================================
+
+Consolidati gli ultimi sviluppi in una versione principale.
+
+==================================
+Rilascio 1.64.08    del 19/12/2014
+==================================
+
+Aggiunta la gestione dello scarico "Ponedrato" oltre che FIFO e LIFO.
+
+==================================
+Rilascio 1.64.07    del 18/12/2014
+==================================
+
+Migliorata la gestione di code e conflitti nelle condizioni critiche.
+
+==================================
+Rilascio 1.64.06    del 17/12/2014
+==================================
+
+Piccoli aggiustamenti in Articoli e Vendite.
+
+Aggiunto il parametro "space" alle istruzioni Quiver per definire degli "spacename".
+
+Gestito il sistema delle notifiche.
+
+==================================
+Rilascio 1.64.05    del 16/12/2014
+==================================
+
+Aggiunto il campo PROCESSOID agli ARTICOLI
+INSERT INTO QVGENREVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0ARTICOLI000)], 'PROCESSOID', 'SYSID(QW_PROCESSI)', '', 'Processo', 1)
+
+Aggiunto il campo SERVIZIOID ai TRASFERIMANTI
+INSERT INTO QVARROWVIEWS(SYSID,TYPOLOGYID,FIELDNAME,FIELDTYPE,FORMULA,CAPTION,WRITABLE) VALUES([:SYSID], [:SYSID(0TRASFERIMEN)], 'SERVIZIOID', 'SYSID(QW_PRATICHE)', '', 'Servizio', 1)
+
+Gestiti i due nuovi campi nelle maschere relative ai processi di vendita.
+
+==================================
+Rilascio 1.64.04    del 15/12/2014
+==================================
+
+ryQue: implemetata la selezione delle righe mediante il trascinamento.
+
+Importazione QVR: importazione dei campi a valore univoco (come NAME) qualora non ci siano conflitti.
+
+==================================
+Rilascio 1.64.03    del 13/12/2014
+==================================
+
+Legend: corretto un errore in SEEKER.
+
+Aggiunti i dati di "environ" a QVSESSIONS e migliorata la validazione dell'ambiente alla richiesta di azioni server.
+Aggiornati "quiver.json" e "rypulse.json".
+
+==================================
+Rilascio 1.64.02    del 12/12/2014
+==================================
+
+Utilizzate le nuove code per gestire Legend.
+
+==================================
+Rilascio 1.64.01    del 11/12/2014
+==================================
+
+Aggiornato il file di versione alla 1.64!
+
+Nuova gestione delle code.
+
+==================================
+Rilascio 1.64.00    del 10/12/2014
+==================================
+
+Consentite tutte le estensioni durante l'upload in ryMirror.
+
+==================================
+Rilascio 1.63.05    del 09/12/2014
+==================================
+
+Gestione del file system mediante ryMirror.
+
+==================================
+Rilascio 1.63.04    del 08/12/2014
+==================================
+
+Introduzione di CodeMirror per l'editing dei file di configurazione.
+
+Implementata la prima stesura di ryMirror.
+
+==================================
+Rilascio 1.63.03    del 06/12/2014
+==================================
+
+Ottimizzazione nella creazione dei SYSID.
+
+Gestito lo scarico "forte" delle frecce in uscita.
+
+==================================
+Rilascio 1.63.02    del 05/12/2014
+==================================
+
+Anagrafica Bandi
+- Usato SORTER per ordinare i testi nell'anteprima del bando.
+
+Generazione database
+- Possibilità di disabilitare la creazione di tabelle e viste da documento master.
+
+==================================
+Rilascio 1.63.01    del 04/12/2014
+==================================
+
+Aggiunto il genere 0INTEGER0000 a quiver.json
+
+Aggiunta la tabella 0AZIENDEDIM0.
+
+Estese alle Propietà gli arrichimenti apportate ad Aziende.
+
+Introduzione del genere Servizi.
+
+Anagrafica Bandi
+
+==================================
+Rilascio 1.63.00    del 02/12/2014
+==================================
+
+Arricchita l'anagrafica aziende.
+- std_aziende.json
+- geo_comuni.sql
+- qvaziende.js
+- qvaziende.php
+
+Aggiunto l'archivio ausiliario dei codici AT.ECO.
+- ryateco.json
+- ateco.js
+- ateco.xml
+- ryatecoload.php
+
+Migliorata l'importazione degli ODS: il file XML viene scandito con le librerie standard.
+- ods2array_lib.php
+
+==================================
 Rilascio 1.62.06    del 24/11/2014
 ==================================
 
-- ryego.json
 Aggiunto un indice di sessione
 CREATE UNIQUE INDEX UNIQUE_EGOSESSIONID ON EGOSESSIONS(SESSIONID)
+- ryego.json
 
+Ottimizzata la creazione di sessionid e protocolid.
 - ryq_request.php
 - ego_begin.php
 - monad_lib.php
-Ottimizzata la creazione di sessionid e protocolid.
 
-- qv_processi_grafo.php
 Abbassato il Gannt per non tagliare le frecce lunghe.
+- qv_processi_grafo.php
 
-- qvprogetti.js
 Aggiunto UPWARD all'elenco delle pratiche del progetto.
+- qvprogetti.js
 
 ==================================
 Rilascio 1.62.05    del 24/11/2014

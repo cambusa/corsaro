@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            maestro_sqlite.php                                       *
 * Project:         Cambusa/ryMaestro                                        *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Databases modeling and maintenance                       *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -37,6 +37,7 @@ function x_sqlite_close($conn){
         return $conn->close();
     else
         return sqlite_close($conn);
+    usleep(10000);
 }
 function x_sqlite_query($conn, $sql){
     global $sqlite3_enabled;
@@ -116,7 +117,7 @@ function x_sqlite_exec($conn, $sql){
         $ret=$conn->exec($sql);
     else
         $ret=sqlite_exec($conn, $sql);
-    usleep(1000);
+    usleep(10000);
     return $ret;
 }
 function x_sqlite_changes($conn){
@@ -139,6 +140,6 @@ function x_sqlite_finalize(&$res){
             unset($res);
         }
     }
-    usleep(1000);
+    usleep(10000);
 }
 ?>

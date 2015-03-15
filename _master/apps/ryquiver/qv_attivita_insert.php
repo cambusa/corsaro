@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_attivita_insert.php                                   *
 * Project:         Corsaro/ryQuiver Extension                               *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -14,8 +14,10 @@ include_once $path_cambusa."ryquiver/qv_arrows_clone.php";
 include_once $path_cambusa."ryquiver/qv_arrows_update.php";
 include_once $path_cambusa."ryquiver/qv_quivers_add.php";
 include_once $path_cambusa."ryquiver/qv_sendmail.php";
+include_once $path_cambusa."ryquiver/qv_messages_send.php";
 include_once $path_applications."ryquiver/pratiche_date.php";
 include_once $path_applications."ryquiver/protocollo_nuovo.php";
+include_once $path_applications."ryquiver/attivita_notifiche.php";
 function qv_attivita_insert($maestro, $data){
     global $global_quiveruserid,$global_quiverroleid;
     global $babelcode, $babelparams;
@@ -114,9 +116,16 @@ function qv_attivita_insert($maestro, $data){
                 $b_pattern="Dati insufficienti per individuare il riferimento";
                 throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
             }
-            $MOTIVEID=$parent["MOTIVEID"];
-            $DESCRIPTION=$parent["DESCRIPTION"];
-            $REGISTRY="";
+            if($OPERATION=="ANSWER"){
+                $MOTIVEID=qv_actualid($maestro, "0MOTATTNOT00");
+                $DESCRIPTION="Re: ".$parent["DESCRIPTION"];
+                $REGISTRY="";
+            }
+            else{
+                $MOTIVEID=$parent["MOTIVEID"];
+                $DESCRIPTION=$parent["DESCRIPTION"];
+                $REGISTRY=$parent["REGISTRY"];
+            }
             $GENREID=qv_actualid($maestro, "0TIMEDAYS000");
             $AMOUNT=1;
             $BOWTIME=date("Ymd");
@@ -141,12 +150,18 @@ function qv_attivita_insert($maestro, $data){
             $b_pattern="Operazione non riconosciuta";
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
         }
-        // DATI MOTIVO
-        $DESCRIPTION=$motive["DESCRIPTION"];
-        $DESCRIPTION=str_replace("[!RICHIEDENTE]", $RICHIEDENTEDESCR, $DESCRIPTION);
-        $DESCRIPTION=str_replace("[!PRATICAID]", "[$PRATICAID]", $DESCRIPTION);
         
-        $REGISTRY=$motive["REGISTRY"];
+        // DESCRIZIONE PREDEFINITA
+
+        // DATI MOTIVO
+        if(!isset($DESCRIPTION)){
+            $DESCRIPTION=$motive["DESCRIPTION"];
+            $DESCRIPTION=str_replace("[!RICHIEDENTE]", $RICHIEDENTEDESCR, $DESCRIPTION);
+            $DESCRIPTION=str_replace("[!PRATICAID]", "[$PRATICAID]", $DESCRIPTION);
+        }
+        if(!isset($REGISTRY)){
+            $REGISTRY=$motive["REGISTRY"];
+        }
         $SETCONOSCENZA=$motive["SETCONOSCENZA"];
 
         // INVIO EMAIL
@@ -321,6 +336,10 @@ function qv_attivita_insert($maestro, $data){
                 }
             }
         }
+        
+        // INVIO NOTIFICA
+        _qv_attivita_notifica($maestro, $ARROWID, $ATTOREID, $TARGETID, true);
+        
         // VARIABILI DI RITORNO
         $babelparams["ARROWID"]=$ARROWID;
     }

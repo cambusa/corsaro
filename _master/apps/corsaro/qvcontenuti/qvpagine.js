@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvpagine.js                                              *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -64,7 +64,8 @@ function class_qvpagine(settings,missing){
             objtabs.enabled(4,false);
             oper_delete.enabled(o.isselected());
             context="";
-            $(prefix+"preview").hide();
+            $(prefix+"previewinner").html("");
+            $(prefix+"pagepreview").hide();
             if(i>0){
                 o.solveid(i);
             }
@@ -261,8 +262,8 @@ function class_qvpagine(settings,missing){
         }
     });
     
-    $(prefix+"preview").addClass("winz-zoom50");
-    $(prefix+"preview").css({"position":"absolute", "left":740, "top":70, "width":600, "border-left":"2px solid red", "padding-left":8, "display":"none"});
+    $(prefix+"previewinner").addClass("winz-zoom75");
+    $(prefix+"pagepreview").css({"position":"absolute", "left":740, "top":70, "width":600, "border-left":"1px solid red", "padding-left":8, "display":"none"});
 
     // DEFINIZIONE TAB CONTESTO
     var offsety=60;
@@ -1309,11 +1310,18 @@ function class_qvpagine(settings,missing){
             if(i==1){
                 loadedsysidX="";
                 loadedsysidR="";
+                if(currsysid!=""){
+                    $(prefix+"pagepreview").show();
+                }
             }
             else if(i==2){
                 if(currsysid==loadedsysidX){
                     flagsuspend=true;
                 }
+                $(prefix+"pagepreview").hide();
+            }
+            else if(i==3){
+                $(prefix+"pagepreview").hide();
             }
             else if(i==4){
                 if(currsysid==loadedsysidR){
@@ -1587,8 +1595,8 @@ function class_qvpagine(settings,missing){
                 h+="</div>";
                 h=h.replace(/<script[^\x00]+<\/script>/ig, "");
                 h=h.replace(/<iframe[^\x00]+<\/iframe>/ig, "");
-                $(prefix+"preview").html(h);
-                $(prefix+"preview").show();
+                $(prefix+"previewinner").html(h);
+                $(prefix+"pagepreview").show();
             }
         });
     }

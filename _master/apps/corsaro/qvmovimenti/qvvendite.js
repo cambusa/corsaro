@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvvendite.js                                             *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -21,6 +21,8 @@ function class_qvvendite(settings,missing){
     var currmotiveordine="";                // Parametro dedotto
     var currordineid="";
     var currtrasfid="";
+    var currprocservizioid="";
+    var currservizioid="";
     var currgenretypeid=RYQUE.formatid("0ARTICOLI000");
     var articolojolly=RYQUE.formatid("0STUFFJOLLY0");
     var currchiusa=0;
@@ -486,6 +488,7 @@ function class_qvvendite(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
+            griddett.clear();
             q="SYSID IN (SELECT ARROWID FROM QVQUIVERARROW WHERE QUIVERID='"+currpraticaid+"')";
             griddett.where(q);
             griddett.query({
@@ -517,6 +520,8 @@ function class_qvvendite(settings,missing){
         },
         changerow:function(o,i){
             currtrasfid="";
+            currprocservizioid="";
+            currservizioid="";
             qv_maskclear(formid, "D");
             //qv_maskenabled(formid, "D", 0);
             operd_update.enabled(0);
@@ -533,8 +538,10 @@ function class_qvvendite(settings,missing){
             currtrasfid=d;
             operd_remove.enabled(1);
             RYQUE.query({
-                sql:"SELECT * FROM QW_TRASFERIMENTI WHERE SYSID='"+currtrasfid+"'",
+                sql:"SELECT * FROM QW_TRASFERIMENTIJOIN WHERE SYSID='"+currtrasfid+"'",
                 ready:function(v){
+                    currprocservizioid=v[0]["PROCESSOID"];
+                    currservizioid=v[0]["SERVIZIOID"];
                     // ABILITAZIONE TAB TRASFERIMENTI
                     //qv_maskenabled(formid, "D", 1);
                     operd_update.enabled(1);
@@ -565,6 +572,7 @@ function class_qvvendite(settings,missing){
                 datasave["PRATICAID"]=currpraticaid;
                 datasave["TRASFID"]=currtrasfid;
                 datasave["GENREID"]=tx_genreid.value();
+                datasave["SERVIZIOID"]=tx_servizioid.value();
                 datasave["DESCRIPTION"]=tx_articolo.value();
                 datasave["AMOUNT"]=tx_amount.value();
                 datasave["MAGAZZINOID"]=txf_magazzino.value();
@@ -667,6 +675,7 @@ function class_qvvendite(settings,missing){
             data["PRATICAID"]=currpraticaid;
             data["TRASFID"]=currtrasfid;
             data["GENREID"]=tx_genreid.value();
+            data["SERVIZIOID"]=tx_servizioid.value();
             data["DESCRIPTION"]=tx_articolo.value();
             data["AMOUNT"]=tx_amount.value();
             data["MAGAZZINOID"]=txf_magazzino.value();
@@ -702,19 +711,25 @@ function class_qvvendite(settings,missing){
     var flaggenre=false;
     $(prefix+"LB_GENREID").rylabel({left:20, top:offsety, caption:"Articolo"});
     var tx_genreid=$(prefix+"GENREID").ryhelper({
-        left:110, top:offsety, width:400, datum:"D", tag:"GENREID", formid:formid, table:"QVGENRES", title:"Articoli",
+        left:110, top:offsety, width:400, datum:"D", tag:"GENREID", formid:formid, table:"QW_ARTICOLI", title:"Articoli",
         open:function(o){
-            o.where("TYPOLOGYID='[=TYPOLOGYID]'");
-            o.args({"TYPOLOGYID":currgenretypeid});
+            o.where("");
             flaggenre=true;
         },
-        select:"ROUNDING",
+        select:"ROUNDING,PROCESSOID",
         onselect:function(o, d){
+            currprocservizioid=d["PROCESSOID"];
             if(flaggenre){
                 flaggenre=false;
                 tx_articolo.value(d["DESCRIPTION"], true);
             }
             tx_amount.numdec( _getinteger(d["ROUNDING"]) );
+            tx_servizioid.enabled(1);
+        },
+        clear:function(){
+            currprocservizioid="";
+            tx_servizioid.clear();
+            tx_servizioid.enabled(0);
         }
     });
     tx_genreid.enabled(0);
@@ -741,6 +756,24 @@ function class_qvvendite(settings,missing){
         }
     });
     var cercaarticolo=new corsaro_browserstuff(formid, "browser_genre");
+
+    offsety+=30;
+    var flagpratica=false;
+    $(prefix+"LB_SERVIZIOID").rylabel({left:20, top:offsety, caption:"Servizio"});
+    var tx_servizioid=$(prefix+"SERVIZIOID").ryhelper({
+        left:110, top:offsety, width:400, datum:"D", tag:"SERVIZIOID", formid:formid, table:"QW_PRATICHE", title:"Pratiche",
+        open:function(o){
+            o.where("PROCESSOID='"+currprocservizioid+"' AND ( SYSID='"+currservizioid+"' OR NOT SYSID IN (SELECT SERVIZIOID FROM QW_TRASFERIMENTI) )");
+            flagpratica=true;
+        },
+        onselect:function(o, d){
+            if(flagpratica){
+                flagpratica=false;
+                tx_articolo.value(d["DESCRIPTION"], true);
+            }
+        }
+    });
+    tx_servizioid.enabled(0);
     
     offsety+=30;
     $(prefix+"LB_ARTICOLO").rylabel({left:20, top:offsety, caption:"Descrizione"});
@@ -827,6 +860,7 @@ function class_qvvendite(settings,missing){
                     break;
                 case 3:
                     // CARICAMENTO DETTAGLIO
+                    winzProgress(formid);
                     lb_details_context.caption("Contesto: "+context+" ("+statodescr+")");
                     caricapratica(
                         function(){
@@ -837,6 +871,7 @@ function class_qvvendite(settings,missing){
                                     if(txf_magazzino.value()==""){
                                         txf_magazzino.value($.cookie(_sessioninfo.environ+"_ordini_magazzinoid"));
                                     }
+                                    winzClearMess(formid);
                                 }
                             );
                         }
@@ -866,7 +901,7 @@ function class_qvvendite(settings,missing){
     // INIZIALIZZAZIONE FORM
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
-            qv_queuequery[formid+"_0"]={
+            TAIL.enqueue(qv_queuequerycall, {
                 "sql":"SELECT SYSID,DESCRIPTION FROM QW_PROCESSI WHERE [:UPPER(NAME)]='"+currprocessoname+"'",
                 "back":function(v){
                     if(v.length>0){
@@ -875,8 +910,8 @@ function class_qvvendite(settings,missing){
                         $(prefix+"LB_PROCESSO").html("Processo: "+processodescr);
                     }
                 }
-            };
-            qv_queuequery[formid+"_1"]={
+            });
+            TAIL.enqueue(qv_queuequerycall, {
                 "sql":"SELECT SYSID FROM QW_MOTIVIATTIVITA WHERE [:UPPER(NAME)]='"+currordinename+"'",
                 "back":function(v){
                     if(v.length>0){
@@ -926,8 +961,8 @@ function class_qvvendite(settings,missing){
                         }
                     });
                 }
-            };
-            qv_queuemanager();
+            });
+            TAIL.wriggle();
         }
     );
     function caricapratica(after){
@@ -1049,6 +1084,7 @@ function class_qvvendite(settings,missing){
         globalobjs[formid+"operd_remove"].enabled(flagd);
         globalobjs[formid+"operd_update"].enabled(flagd);
         globalobjs[formid+"GENREID"].enabled(flagd);
+        globalobjs[formid+"SERVIZIOID"].enabled(flagd);
         globalobjs[formid+"oper_genre"].enabled(flagd);
         globalobjs[formid+"ARTICOLO"].enabled(flagd);
         globalobjs[formid+"AMOUNT"].enabled(flagd);

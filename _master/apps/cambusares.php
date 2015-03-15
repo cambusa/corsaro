@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            cambusares.php                                           *
 * Project:         Cambusa                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Cambusa resources for applications                       *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -57,6 +57,7 @@ function CambusaLibrary($id){
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js' ></script>");
             CambusaLibraryAdd("script-cambusa", "<script language='javascript'>_cambusaURL='".$url_cambusa."';_customizeURL='".$url_customize."';</script>");
             CambusaLibraryAdd("ryque.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryque.js' ></script>");
+            CambusaLibraryAdd("ryunbound.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryunbound.js' ></script>");
             break;
     
         case "rybox":
@@ -101,6 +102,7 @@ function CambusaLibrary($id){
 			CambusaLibraryAdd("jquery.desktop.ry.js", "<script type='text/javascript' src='".$url_cambusa."jqdesktop/assets/js/jquery.desktop.ry.js' ></script>");
             
             CambusaLibraryAdd("ryego.js", "<script type='text/javascript' src='".$url_cambusa."ryego/ryego.js' ></script>");
+            CambusaLibraryAdd("rywshared.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/rywshared.js' ></script>");
             CambusaLibraryAdd("rywinz.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/rywinz.js' ></script>");
             CambusaLibraryAdd("printthis.js", "<script type='text/javascript' src='".$url_cambusa."printthis/printThis.js' ></script>");
             break;
@@ -123,6 +125,7 @@ function CambusaLibrary($id){
 			CambusaLibraryAdd("jquery.desktop.ry.js", "<script type='text/javascript' src='".$url_cambusa."jqdesktop/assets/js/jquery.desktop.embed.js' ></script>");
             
             CambusaLibraryAdd("ryego.js", "<script type='text/javascript' src='".$url_cambusa."ryego/ryego.js' ></script>");
+            CambusaLibraryAdd("rywshared.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/rywshared.js' ></script>");
             CambusaLibraryAdd("rywinz.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/rywembed.js' ></script>");
             CambusaLibraryAdd("printthis.js", "<script type='text/javascript' src='".$url_cambusa."printthis/printThis.js' ></script>");
             break;
@@ -169,6 +172,7 @@ function CambusaLibrary($id){
                 CambusaLibraryAdd("googlemaps.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/googlemaps.js' ></script>");
             }
             break;
+
         case "rydraw":
             CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js' ></script>");
             CambusaLibraryAdd("raphael.js", "<script type='text/javascript' src='".$url_cambusa."raphael/raphael.js' ></script>");
@@ -176,12 +180,18 @@ function CambusaLibrary($id){
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js' ></script>");
             CambusaLibraryAdd("rydraw.js", "<script type='text/javascript' src='".$url_cambusa."rydraw/rydraw.js' ></script>");
             break;
+
         case "ryquiver":
             CambusaLibraryAdd("ryquiver.js", "<script type='text/javascript' src='".$url_cambusa."ryquiver/ryquiver.js' ></script>");
             break;
-        case "corsaro":
-            CambusaLibraryAdd("corsaro.js", "<script type='text/javascript' src='".$url_applications."corsaro/_javascript/corsaro.js' ></script>");
+
+        case "jsonx":
+            CambusaLibraryAdd("jsonx.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/jsonx.js' ></script>");
             break;
+        
+        case "rycode":
+            CambusaLibraryAdd("rycode.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rycode.css' />");
+            CambusaLibraryAdd("rycode.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rycode.js' ></script>");
     }
 }
 

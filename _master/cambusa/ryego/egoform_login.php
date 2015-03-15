@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            egoform_login.php                                        *
 * Project:         Cambusa/ryEgo                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Central Authentication Service (CAS)                     *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -32,7 +32,7 @@ $(document).ready(function(){
         enter:function(o){
             var u=user.value();
             var m=encryptString( pwd.value() );
-            $.post("ego_begin.php", {"user":_ajaxescapize(u),"pwd":m,"app":_ajaxescapize(_appname)},
+            $.post("ego_begin.php", {"user":_ajaxescapize(u), "pwd":m, "app":_ajaxescapize(_appname), "env":_ajaxescapize(_castenv)},
                 function(d){
                     try{
                         var v=$.parseJSON(d);

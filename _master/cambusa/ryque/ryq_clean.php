@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            ryq_clean.php                                            *
 * Project:         Cambusa/ryQue                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Lightweight access to databases                          *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -19,10 +19,11 @@ if(is_file("requests/.tbl"))
 if(is_file("requests/.ndx"))
     @unlink("requests/.ndx");
 $sec=24*60*60;
+clearstatcache();
 $d=glob("requests/*.req");
 foreach ($d as $filename){
     try{
-        if (time()-@fileatime($filename)>$sec){
+        if (time()-@filemtime($filename)>$sec){
             $id=substr(basename($filename),0,-4);
             @unlink("requests/".$id.".req");
             @unlink("requests/".$id.".slt");
@@ -35,7 +36,7 @@ foreach ($d as $filename){
 $d=glob("requests/*.sts");
 foreach ($d as $filename){
     try{
-        if (time()-@fileatime($filename)>$sec){
+        if (time()-@filemtime($filename)>$sec){
             $id=substr(basename($filename),0,-4);
             @unlink("requests/".$id.".sts");
             @unlink("requests/".$id.".sto");

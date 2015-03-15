@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_arrows_delete.php                                     *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -14,6 +14,8 @@ include_once "quiverdel.php";
 include_once "quiverval.php";
 include_once "quivertrg.php";
 include_once "quiverext.php";
+include_once "quiverarw.php";
+include_once "../rymaestro/maestro_querylib.php";
 function qv_arrows_delete($maestro, $data){
     global $global_quiveruserid,$global_quiverroleid;
     global $global_lastadmin;
@@ -28,7 +30,7 @@ function qv_arrows_delete($maestro, $data){
         qv_infosession($maestro);
         
         // INDIVIDUAZIONE RECORD
-        $record=qv_solverecord($maestro, $data, "QVARROWS", "SYSID", "NAME", $SYSID, "TYPOLOGYID,DELETING,ROLEID,USERINSERTID");
+        $record=qv_solverecord($maestro, $data, "QVARROWS", "SYSID", "NAME", $SYSID, "TYPOLOGYID,DELETING,ROLEID,USERINSERTID,MOTIVEID,AMOUNT,BOWID");
         if($SYSID==""){
             $babelcode="QVERR_SYSID";
             $b_params=array();
@@ -39,6 +41,9 @@ function qv_arrows_delete($maestro, $data){
         $DELETING=intval($record["DELETING"]);
         $ROLEID=$record["ROLEID"];
         $USERINSERTID=$record["USERINSERTID"];
+        $MOTIVEID=$record["MOTIVEID"];
+        $AMOUNT=floatval($record["AMOUNT"]);
+        $BOWID=$record["BOWID"];
         
         // GESTIONE DI DELETING
         if($global_lastadmin==0){
@@ -107,6 +112,9 @@ function qv_arrows_delete($maestro, $data){
 
         // GESTIONE DEI DATI ESTESI
         qv_extension($maestro, $data, "QVARROW", $SYSID, $TYPOLOGYID, $oper);
+        
+        // GESTIONE DELLO SCARICO "FORTE"
+        _qv_discharge($maestro, 2, $SYSID, $TYPOLOGYID, 0, $MOTIVEID, $AMOUNT, $BOWID, "", "", "", "", 0, "", "", "");
         
         // TRIGGER PERSONALIZZATO
         qv_triggerarrow($maestro, $data, $SYSID, $TYPOLOGYID, $oper);

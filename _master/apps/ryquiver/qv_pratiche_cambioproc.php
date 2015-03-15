@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_pratiche_cambioproc.php                               *
 * Project:         Corsaro/ryQuiver Extension                               *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -13,9 +13,10 @@ include_once $path_cambusa."ryquiver/qv_arrows_insert.php";
 include_once $path_cambusa."ryquiver/qv_quivers_add.php";
 include_once $path_cambusa."ryquiver/qv_quivers_update.php";
 include_once $path_cambusa."ryquiver/qv_sendmail.php";
+include_once $path_cambusa."ryquiver/qv_messages_send.php";
 include_once $path_applications."ryquiver/qv_pratiche_auto.php";
 include_once $path_applications."ryquiver/stati_ingresso.php";
-
+include_once $path_applications."ryquiver/attivita_notifiche.php";
 function qv_pratiche_cambioproc($maestro, $data){
     global $global_quiveruserid,$global_quiverroleid;
     global $babelcode, $babelparams;
@@ -141,6 +142,9 @@ function qv_pratiche_cambioproc($maestro, $data){
                 }
             }
         }
+        
+        // INVIO NOTIFICA
+        _qv_attivita_notifica($maestro, $ARROWID, $ATTOREID, $NUOVOATTOREID, false);
     }
     catch(Exception $e){
         $success=0;

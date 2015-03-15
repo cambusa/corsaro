@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvattivita.js                                            *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -14,8 +14,6 @@ function class_qvattivita(settings,missing){
 
     var prefix="#"+formid;
     var flagsuspend=false;
-    var timerid=false;
-    var intervallo=60000;
     
     // DEFINIZIONE TAB SELEZIONE
     var offsety=80;
@@ -28,15 +26,12 @@ function class_qvattivita(settings,missing){
     });
     
     var oper_refresh=$(prefix+"oper_refresh").rylabel({
-        left:650,
+        left:590,
         top:offsety,
+        width:120,
         caption:"Aggiorna",
         button:true,
         click:function(o, done){
-            if(timerid!==false){
-                clearTimeout(timerid);
-                timerid=false;
-            }
             var q="";
             var t=_likeescapize(txf_search.value());
 
@@ -56,11 +51,6 @@ function class_qvattivita(settings,missing){
                 },
                 ready:function(){
                     if(done!=missing){done()}
-                    timerid=setTimeout(
-                        function(){
-                            oper_refresh.engage();
-                        }, intervallo
-                    );
                 }
             });
         }
@@ -123,6 +113,7 @@ function class_qvattivita(settings,missing){
     var oper_open=$(prefix+"oper_open").rylabel({
         left:20,
         top:offsety,
+        width:120,
         caption:"Apri",
         button:true,
         click:function(o){
@@ -142,6 +133,7 @@ function class_qvattivita(settings,missing){
     var oper_print=$(prefix+"oper_print").rylabel({
         left:590,
         top:offsety,
+        width:120,
         caption:"Stampa selezione",
         button:true,
         click:function(o){
@@ -159,11 +151,7 @@ function class_qvattivita(settings,missing){
             if(!flagsuspend){
                 switch(i){
                 case 1:
-                    if(timerid!==false){
-                        clearTimeout(timerid);
-                        timerid=false;
-                    }
-                    timerid=setTimeout(
+                    setTimeout(
                         function(){
                             oper_refresh.engage();
                         }, 1000
@@ -191,10 +179,9 @@ function class_qvattivita(settings,missing){
             );
         }
     );
-    this._unload=function(){
-        if(timerid!==false){
-            clearTimeout(timerid);
-            timerid=false;
+    this._timer=function(){
+        if(objtabs.currtab()==1){  
+            oper_refresh.engage();
         }
     }
 }

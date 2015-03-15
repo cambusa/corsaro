@@ -1,3 +1,0 @@
-http://widget-env.sourceforge.net/index.php
-
-http://widget-env.sourceforge.net/demo/

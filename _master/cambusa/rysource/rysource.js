@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            rysource.js                                              *
 * Project:         Cambusa/rySource                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Remote file system browser                               *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -60,7 +60,7 @@
                                 function(d){
                                     try{
                                         var v=$.parseJSON(d);
-                                        var url=v.url;
+                                        var p=v.path;
                                         var i,nf,tl,tp,par;
                                         for(i in v.content){
                                             nf=v.content[i].name;
@@ -71,7 +71,7 @@
                                             if(tp=="folder")
                                                 objfamily.addfolder({parent:id, id:"k"+propprogr, info:nf, title:tl});
                                             else
-                                                createlink(id,url,nf,tl,tp,par);
+                                                createlink(id,p,nf,tl,tp,par);
                                         }
                                     }
                                     catch(e){
@@ -89,7 +89,7 @@
                     function(d){
                         try{
                             var v=$.parseJSON(d);
-                            var url=v.url;
+                            var p=v.path;
                             var i,nf,tl,tp,par;
                             for(i in v.content){
                                 nf=v.content[i].name;
@@ -100,7 +100,7 @@
                                 if(tp=="folder")
                                     objfamily.addfolder({parent:"k0", id:"k"+propprogr, info:nf, title:tl});
                                 else
-                                    createlink("k0",url,nf,tl,tp,par);
+                                    createlink("k0",p,nf,tl,tp,par);
                             }
                         }
                         catch(e){
@@ -119,7 +119,7 @@
             this.name=function(){
                 return propname;
             }
-            function createlink(id,url,nf,tl,tp,par){
+            function createlink(id,path,nf,tl,tp,par){
                 var h;
                 var t=nf.replace(/[']/gi, "&acute;");
                 tl=tl.replace(/[']/gi, "&acute;");
@@ -133,7 +133,7 @@
                     }
                 }
                 else{
-                    h=encodeURIComponent(url+nf);
+                    h=encodeURIComponent(path+nf);
                     h=h.replace(/[']/gi, "%27");
                     h=h.replace(/\%26(#|\%23)x([0-9A-F]{2})\%3B/gi, "%$2");
                     h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+h;

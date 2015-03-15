@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            json_loader.php                                          *
 * Project:         Cambusa/ryGeneral                                        *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Global functions and variables                           *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -21,22 +21,28 @@ function json_load($pathbase, $json){
     }
     else{
         for(reset($infobase); $table=current($infobase); next($infobase)){
-            if($table->type=="include"){       // LEGGO RICORSIVAMENTE E FACCIO IL MERGE
-                $inc=json_load($pathbase,$table->path);
-                for(reset($inc); $table=current($inc); next($inc)){
-                    $tabname=key($inc);
+            if(isset($table->enabled))
+                $enabled=intval($table->enabled);
+            else
+                $enabled=1;
+            if($enabled){
+                if($table->type=="include"){       // LEGGO RICORSIVAMENTE E FACCIO IL MERGE
+                    $inc=json_load($pathbase,$table->path);
+                    for(reset($inc); $table=current($inc); next($inc)){
+                        $tabname=key($inc);
+                        if(property_exists($ret, $tabname))
+                            $ret->{$tabname} = object_merge_recursive( $ret->{$tabname}, $table);
+                        else
+                            $ret->{$tabname}=$table;
+                    }
+                }
+                else{   // TRAVASO BRUTALMENTE
+                    $tabname=key($infobase);
                     if(property_exists($ret, $tabname))
                         $ret->{$tabname} = object_merge_recursive( $ret->{$tabname}, $table);
                     else
                         $ret->{$tabname}=$table;
                 }
-            }
-            else{   // TRAVASO BRUTALMENTE
-                $tabname=key($infobase);
-                if(property_exists($ret, $tabname))
-                    $ret->{$tabname} = object_merge_recursive( $ret->{$tabname}, $table);
-                else
-                    $ret->{$tabname}=$table;
             }
         }
     }

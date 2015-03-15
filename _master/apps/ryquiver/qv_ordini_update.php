@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_ordini_update.php                                     *
 * Project:         Corsaro/ryQuiver Extension                               *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -39,7 +39,7 @@ function qv_ordini_update($maestro, $data){
         }
         
         // DETERMINAZIONE TRASFID
-        $record=qv_solverecord($maestro, $data, "QVARROWS", "TRASFID", "", $TRASFID, "*");
+        $record=qv_solverecord($maestro, $data, "QW_TRASFERIMENTI", "TRASFID", "", $TRASFID, "*");
         if($TRASFID==""){
             $babelcode="QVERR_TRASFID";
             $b_params=array();
@@ -54,6 +54,7 @@ function qv_ordini_update($maestro, $data){
         $REG_AUXTIME=qv_strtime($record["AUXTIME"]);
         $REG_AMOUNT=$record["AMOUNT"];
         $REG_GENREID=$record["GENREID"];
+        $REG_SERVIZIOID=$record["SERVIZIOID"];
         $REG_MOTIVEID=$record["MOTIVEID"];
 
         if(isset($data["DESCRIPTION"]))
@@ -91,6 +92,11 @@ function qv_ordini_update($maestro, $data){
         else
             $GENREID=$REG_GENREID;
 
+        if(isset($data["SERVIZIOID"]))
+            $SERVIZIOID=$data["SERVIZIOID"];
+        else
+            $SERVIZIOID=$REG_SERVIZIOID;
+
         if(isset($data["AMOUNT"]))
             $AMOUNT=$data["AMOUNT"];
         else
@@ -124,6 +130,7 @@ function qv_ordini_update($maestro, $data){
         $datax["TARGETTIME"]=$TARGETTIME;
         $datax["AMOUNT"]=$AMOUNT;
         $datax["GENREID"]=$GENREID;
+        $datax["SERVIZIOID"]=$SERVIZIOID;
         $datax["MOTIVEID"]=$MOTIVEID;
         $jret=qv_arrows_update($maestro, $datax);
         unset($datax);

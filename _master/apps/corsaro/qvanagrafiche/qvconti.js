@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvconti.js                                               *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -15,6 +15,7 @@ function class_qvconti(settings,missing){
     var currsysid="";
     var currtypologyid=RYQUE.formatid("0CONTI000000");
     var currmoneyid=RYQUE.formatid("0MONEY000000");
+    var curreuroid=RYQUE.formatid("0MONEYEURO00");
     var context="";
     var prefix="#"+formid;
     var flagopen=false;
@@ -142,6 +143,7 @@ function class_qvconti(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuovo conto)";
             data["TYPOLOGYID"]=currtypologyid;
+            data["REFGENREID"]=curreuroid;
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,

@@ -2,16 +2,16 @@
 /****************************************************************************
 * Name:            food4_forum.php                                          *
 * Project:         Corsaro/ryQuiver Extension                               *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once $tocambusa."ryquiver/quiversex.php";
 function forumtree($maestro, $REFID){
-    global $SITEID, $site;
+    global $SITEID, $site, $env;
 
     $food="";
     
@@ -70,7 +70,7 @@ function forumtree($maestro, $REFID){
 
     $food.="<div class='filibuster-forum-iframe'>";
     $food.="<div class='filibuster-forum-cancel'><a href='javascript:' onclick='flb_forumCancel()'>×</a></div>";
-    $food.="<iframe src='../corsaro/flb_forum.php?sitename=$site&pageid=$REFID' style='width:750px;height:620px;border:1px solid gray;' frameborder='0'></iframe>";
+    $food.="<iframe src='../corsaro/flb_forum.php?environ=$env&sitename=$site&pageid=$REFID' style='width:750px;height:620px;border:1px solid gray;' frameborder='0'></iframe>";
     $food.="</div>";
     
     $food.="</div>";

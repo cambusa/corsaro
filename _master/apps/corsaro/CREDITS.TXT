@@ -1,0 +1,5 @@
+Propdotto:      Corsaro 1.69
+Copyright (c):  2015 Rodolfo Calzetti
+License:        GNU LGPL v3
+Site:           http://www.rudyz.net/
+Contact:        faustroll@tiscali.it, postmaster@rudyz.net

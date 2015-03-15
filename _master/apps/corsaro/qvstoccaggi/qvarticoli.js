@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvarticoli.js                                            *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -229,9 +229,44 @@ function class_qvarticoli(settings,missing){
 
     // DEFINIZIONE TAB CONTESTO
     offsety=60;
+    
+    $(prefix+"LB_PRODOTTO").rylabel({left:20, top:offsety, caption:"Prodotto"});
+    var tx_prodotto=$(prefix+"PRODOTTO").rytext({left:120, top:offsety, width:300, datum:"C", tag:"PRODOTTO",
+        assigned:function(o){
+            if(txdescr.value()=="(nuovo articolo)" || txdescr.value()==""){
+                txdescr.value(o.value());
+            }
+        }
+    });
+    offsety+=30;
+    
+    $(prefix+"LB_VARIANTE").rylabel({left:20, top:offsety, caption:"Variante"});
+    $(prefix+"VARIANTE").rytext({left:120, top:offsety, width:300, datum:"C", tag:"VARIANTE",
+        assigned:function(o){
+            if(txdescr.value()==tx_prodotto.value()){
+                txdescr.value(tx_prodotto.value()+" - "+o.value());
+            }
+        }
+    });
+    offsety+=30;
+    
+    $(prefix+"LB_PROCESSOID").rylabel({left:20, top:offsety, caption:"Processo"});
+    $(prefix+"PROCESSOID").ryhelper({
+        left:120, top:offsety, width:300, datum:"C", tag:"PROCESSOID", formid:formid, table:"QW_PROCESSI", title:"Scelta processo",
+        open:function(o){
+            o.where("");
+        },
+        onselect:function(o, d){
+            if(txdescr.value()=="(nuovo articolo)" || txdescr.value()==""){
+                txdescr.value(d["DESCRIPTION"]);
+            }
+        }
+    });
+    offsety+=30;
+    
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Descrizione"});
-    var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:300, maxlen:200, datum:"C", tag:"DESCRIPTION"});
-    offsety+=50;
+    var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:600, maxlen:200, datum:"C", tag:"DESCRIPTION"});
+    offsety+=30;
 
     $(prefix+"LB_CODICE").rylabel({left:20, top:offsety, caption:"Codice"});
     $(prefix+"CODICE").rytext({left:120, top:offsety, width:300, datum:"C", tag:"CODICE"});
@@ -254,26 +289,6 @@ function class_qvarticoli(settings,missing){
     });
     offsety+=30;
     
-    $(prefix+"LB_PRODOTTO").rylabel({left:20, top:offsety, caption:"Prodotto"});
-    var tx_prodotto=$(prefix+"PRODOTTO").rytext({left:120, top:offsety, width:300, datum:"C", tag:"PRODOTTO",
-        assigned:function(o){
-            if(txdescr.value()=="(nuovo articolo)" || txdescr.value()==""){
-                txdescr.value(o.value());
-            }
-        }
-    });
-    offsety+=30;
-    
-    $(prefix+"LB_VARIANTE").rylabel({left:20, top:offsety, caption:"Variante"});
-    $(prefix+"VARIANTE").rytext({left:120, top:offsety, width:300, datum:"C", tag:"VARIANTE",
-        assigned:function(o){
-            if(txdescr.value()==tx_prodotto.value()){
-                txdescr.value(tx_prodotto.value()+" - "+o.value());
-            }
-        }
-    });
-    offsety+=30;
-    
     $(prefix+"LB_TAG").rylabel({left:20, top:offsety, caption:"Marche"});
     $(prefix+"TAG").rytext({left:120, top:offsety, width:300, datum:"C", tag:"TAG"});
     offsety+=60;
@@ -281,7 +296,7 @@ function class_qvarticoli(settings,missing){
     $(prefix+"LB_REGISTRY").rylabel({left:20, top:offsety, caption:"Note"});offsety+=30;
     $(prefix+"REGISTRY").ryedit({left:20, top:offsety, width:700, height:400, datum:"C", tag:"REGISTRY"});
 
-    var objclassi=$(prefix+"CLASSI").ryselections({"left":470, "top":110, "height":140, 
+    var objclassi=$(prefix+"CLASSI").ryselections({"left":470, "top":210, "height":140, 
         "title":"Classi di appartenenza",
         "formid":formid, 
         "table":"QW_CLASSIARTICOLO", 
@@ -377,10 +392,7 @@ function class_qvarticoli(settings,missing){
                             loadedsysid=currsysid;
                             objclassi.parentid(currsysid,
                                 function(){
-                                    if(currproduttoreid=="")
-                                        castFocus(prefix+"PRODUTTOREID");
-                                    else
-                                        castFocus(prefix+"PRODOTTO");
+                                    castFocus(prefix+"PRODOTTO");
                                 }
                             );
                         }

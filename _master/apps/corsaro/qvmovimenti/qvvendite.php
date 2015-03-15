@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qvvendite.php                                            *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -47,6 +47,7 @@
         <div relid="operd_update"></div>
         <div relid="LB_GENREID"></div><div relid="GENREID"></div>
         <div relid="oper_genre"></div>
+        <div relid="LB_SERVIZIOID"></div><div relid="SERVIZIOID"></div>
         <div relid="LB_ARTICOLO"></div><div relid="ARTICOLO"></div>
         <div relid="LB_AMOUNT"></div><div relid="AMOUNT"></div>
     </div>

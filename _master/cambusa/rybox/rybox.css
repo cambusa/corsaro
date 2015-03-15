@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            rybox.css                                                *
 * Project:         Cambusa/ryBox                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Masked input and other form controls                     *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -147,4 +147,16 @@ width:1px;
 height:1px;
 border:none;
 text-indent:-10px;
+}
+
+.rycheck input{
+position:absolute;
+font-size:2px;
+right:4px;
+top:6px;
+width:1px;
+height:1px;
+border:none;
+text-indent:-10px;
+color:white;
 }

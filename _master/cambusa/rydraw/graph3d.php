@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            graph3d.php                                              *
 * Project:         Cambusa/ryDraw                                           *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Graphic functions                                        *
 * Copyright (C):   2012-2013  Rodolfo Calzetti                              *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/

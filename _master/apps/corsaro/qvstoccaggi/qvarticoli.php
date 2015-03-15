@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qvarticoli.php                                           *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -23,13 +23,14 @@
         <div relid="preview"></div>
     </div>
     <div>
+        <div relid="LB_PRODOTTO"></div><div relid="PRODOTTO"></div>
+        <div relid="LB_VARIANTE"></div><div relid="VARIANTE"></div>
+        <div relid="LB_PROCESSOID"></div><div relid="PROCESSOID"></div>
         <div relid="LB_DESCRIPTION"></div><div relid="DESCRIPTION"></div>
         <div relid="LB_CODICE"></div><div relid="CODICE"></div>
         <div relid="LB_BREVITY"></div><div relid="BREVITY"></div>
         <div relid="LB_ROUNDING"></div><div relid="ROUNDING"></div>
         <div relid="LB_PRODUTTOREID"></div><div relid="PRODUTTOREID"></div>
-        <div relid="LB_PRODOTTO"></div><div relid="PRODOTTO"></div>
-        <div relid="LB_VARIANTE"></div><div relid="VARIANTE"></div>
         <div relid="LB_TAG"></div><div relid="TAG"></div>
         <div relid="LB_REGISTRY"></div><div relid="REGISTRY"></div> <!-- NOTE -->
         <div relid="CLASSI"></div>

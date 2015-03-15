@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            rymaestro.php                                            *
 * Project:         Cambusa/ryMaestro                                        *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Databases modeling and maintenance                       *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -75,6 +75,7 @@ $(document).ready(function(){
     RYEGO.go({
         crossdomain:"",
         appname:"maestro",
+        apptitle:"Maestro",
         config:function(d){
             _sessioninfo=d;
             $(".maestro-conteiner").show();
@@ -334,7 +335,7 @@ function resizebody(){
 <div class="maestro-conteiner">
 
 <div class="maestro-title">MODELLAZIONE E MANUTENZIONE DATABASE</div>
-<div>ryMaestro &copy; 2014 Rodolfo Calzetti - <a href="http://www.rudyz.net/cambusa/license.html" target="_blank">Licenza GNU GPL</a> </div>
+<div>ryMaestro &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL</div>
 <br/>
 
 <div style="border:1px solid silver;background-color:#F0F0F0;">

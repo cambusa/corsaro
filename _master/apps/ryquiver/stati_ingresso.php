@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            stati_ingresso.php                                       *
 * Project:         Corsaro/ryQuiver Extension                               *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -18,7 +18,7 @@ function buildfirst($maestro, $PROCESSOID, $owner){
     $sql.="WHERE QW_PROCSTATI.PROCESSOID='$PROCESSOID' AND ";
     if($global_quiveruserid!="" && $owner){
         if($maestro->provider!="sqlite" || $sqlite3_enabled)
-            $sql.="( ATTORISTATO.UTENTEID='$global_quiveruserid' OR '$global_quiveruserid' IN (SELECT UTENTEID FROM QW_ATTORI WHERE QW_ATTORI.UFFICIOID=ATTORISTATO.UFFICIOID) ) AND ";
+            $sql.="( ATTORISTATO.UTENTEID='$global_quiveruserid' OR '$global_quiveruserid' IN (SELECT UTENTEID FROM QW_ATTORI WHERE QW_ATTORI.UFFICIOID<>'' AND QW_ATTORI.UFFICIOID=ATTORISTATO.UFFICIOID) ) AND ";
         else
             $sql.="( ATTORISTATO.UTENTEID='$global_quiveruserid' ) AND ";
     }

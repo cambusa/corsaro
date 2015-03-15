@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_arrows_update.php                                    *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -13,6 +13,8 @@ include_once "quiverinf.php";
 include_once "quiverval.php";
 include_once "quiverext.php";
 include_once "quivertrg.php";
+include_once "quiverarw.php";
+include_once "../rymaestro/maestro_querylib.php";
 function qv_arrows_update($maestro, $data){
     global $global_quiveruserid,$global_quiverroleid;
     global $babelcode, $babelparams;
@@ -27,7 +29,7 @@ function qv_arrows_update($maestro, $data){
         
         // INDIVIDUAZIONE RECORD
         $sets="";
-        $record=qv_solverecord($maestro, $data, "QVARROWS", "SYSID", "NAME", $SYSID, "NAME,TYPOLOGYID,BOWID,BOWTIME,TARGETID,TARGETTIME,AUXTIME,STATUSTIME,MOTIVEID,GENREID,CONSISTENCY,AVAILABILITY,SCOPE,UPDATING,DELETING,STATUS,PHASE");
+        $record=qv_solverecord($maestro, $data, "QVARROWS", "SYSID", "NAME", $SYSID, "NAME,TYPOLOGYID,BOWID,BOWTIME,TARGETID,TARGETTIME,AUXTIME,STATUSTIME,MOTIVEID,GENREID,CONSISTENCY,AVAILABILITY,SCOPE,UPDATING,DELETING,STATUS,PHASE,AMOUNT");
         if($SYSID==""){
             $babelcode="QVERR_SYSID";
             $b_params=array();
@@ -51,6 +53,7 @@ function qv_arrows_update($maestro, $data){
         $REG_DELETING=intval($record["DELETING"]);
         $REG_STATUS=intval($record["STATUS"]);
         $REG_PHASE=intval($record["PHASE"]);
+        $REG_AMOUNT=floatval($record["AMOUNT"]);
         
         // SE NAME E' IN MODIFICA LO VALIDO
         if(isset($data["SYSID"]) && isset($data["NAME"])){
@@ -127,7 +130,7 @@ function qv_arrows_update($maestro, $data){
             if($GENRETYPEID!=$TPGENRETYPEID){
                 $babelcode="QVERR_GENRECONFLICT";
                 $b_params=array();
-                $b_pattern="Il genere non è compatibile col tipo freccia";
+                $b_pattern="Il genere non Ã¨ compatibile col tipo freccia";
                 throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
             }
             qv_appendcomma($sets,"GENREID='$GENREID'");
@@ -140,7 +143,8 @@ function qv_arrows_update($maestro, $data){
                 throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
             }
             else{
-                qv_solverounding($maestro, $REG_GENREID, $ROUNDING);
+                $GENREID=$REG_GENREID;
+                qv_solverounding($maestro, $GENREID, $ROUNDING);
             }
         }
 
@@ -148,20 +152,21 @@ function qv_arrows_update($maestro, $data){
         if(!isset($data["MOTIVEID"]) && !isset($data["MOTIVENAME"])){
             $data["MOTIVEID"]=$REG_MOTIVEID;
         }
-        $fields=qv_solverecord($maestro, $data, "QVMOTIVES", "MOTIVEID", "MOTIVENAME", $MOTIVEID, "TYPOLOGYID,DIRECTION,STATUS,CONSISTENCY");
+        $fields=qv_solverecord($maestro, $data, "QVMOTIVES", "MOTIVEID", "MOTIVENAME", $MOTIVEID, "TYPOLOGYID,DIRECTION,STATUS,CONSISTENCY,DISCHARGE");
         if($MOTIVEID!=""){
             $MOTIVETYPEID=$fields["TYPOLOGYID"];
             // VERIFICO CHE IL MOTIVO SIA COMPATIBILE COL TIPO FRECCIA
             if($MOTIVETYPEID!=$TPMOTIVETYPEID){
                 $babelcode="QVERR_MOTIVECONFLICT";
                 $b_params=array();
-                $b_pattern="Il motivo non è compatibile col tipo freccia";
+                $b_pattern="Il motivo non Ã¨ compatibile col tipo freccia";
                 throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
             }
             qv_appendcomma($sets,"MOTIVEID='$MOTIVEID'");
             $MOTIVE_DIRECTION=intval($fields["DIRECTION"]);;
             $MOTIVE_STATUS=intval($fields["STATUS"]);    // Non deve essere -1
-            $MOTIVE_CONSISTENCY=intval($fields["CONSISTENCY"]);;
+            $MOTIVE_CONSISTENCY=intval($fields["CONSISTENCY"]);
+            $MOTIVE_DISCHARGE=intval($fields["DISCHARGE"]);
         }
         else{
             if($fields){
@@ -176,6 +181,7 @@ function qv_arrows_update($maestro, $data){
                 $MOTIVE_DIRECTION=0;
                 $MOTIVE_STATUS=0;
                 $MOTIVE_CONSISTENCY=-1;
+                $MOTIVE_DISCHARGE=0;
             }
         }
 
@@ -205,7 +211,7 @@ function qv_arrows_update($maestro, $data){
             if($BOWTYPEID!=$TPBOWTYPEID){
                 $babelcode="QVERR_BOWCONFLICT";
                 $b_params=array();
-                $b_pattern="L'oggetto di partenza non è compatibile col tipo freccia";
+                $b_pattern="L'oggetto di partenza non Ã¨ compatibile col tipo freccia";
                 throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
             }
             $BOWBEGIN=qv_strtime($fields["BEGINTIME"]);
@@ -238,7 +244,7 @@ function qv_arrows_update($maestro, $data){
             if($TARGETTYPEID!=$TPTARGETTYPEID){
                 $babelcode="QVERR_TARGETCONFLICT";
                 $b_params=array();
-                $b_pattern="L'oggetto di arrivo non è compatibile col tipo freccia";
+                $b_pattern="L'oggetto di arrivo non Ã¨ compatibile col tipo freccia";
                 throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
             }
             $TARGETBEGIN=qv_strtime($fields["BEGINTIME"]);
@@ -274,6 +280,8 @@ function qv_arrows_update($maestro, $data){
             $b_pattern="Inizio non compatibile";
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
         }
+        // MEMORIZZO BOWTIME PER LO SCARICO
+        $PURETIME=$BOWTIME;
         
         // DETERMINO TARGETTIME
         if(isset($data["TARGETTIME"]))
@@ -354,6 +362,9 @@ function qv_arrows_update($maestro, $data){
             $AMOUNT=round(floatval($data["AMOUNT"]), $ROUNDING );
             qv_appendcomma($sets,"AMOUNT=$AMOUNT");
         }
+        else{
+            $AMOUNT=$REG_AMOUNT;
+        }
         
         // DETERMINO STATUSRISK
         if(isset($data["STATUSRISK"])){
@@ -433,6 +444,12 @@ function qv_arrows_update($maestro, $data){
                 $locked=true;
             }
         }
+        // BLOCCO DOVUTO ALLO SCARICO
+        $sql="SELECT SYSID FROM QVDISCHARGES WHERE INCOMINGID='$SYSID'";
+        maestro_query($maestro, $sql, $r);
+        if(count($r)>0){
+            $locked=true;
+        }
         if($locked){
             // SOLO ALCUNI VALORI SONO MODIFICABILI
             // SE SONO PASSATI CAMPI NON PERMESSI DO ERRORE
@@ -448,7 +465,7 @@ function qv_arrows_update($maestro, $data){
                 default:
                     $babelcode="QVERR_ARROWLOCK";
                     $b_params=array("SYSID" => $SYSID, $key => $value);
-                    $b_pattern="La freccia [{1}] è bloccata e il campo [{2}] non è modificabile";
+                    $b_pattern="La freccia [{1}] Ã¨ bloccata e il valore '{2}' non Ã¨ modificabile";
                     throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
                 }
             }
@@ -492,6 +509,7 @@ function qv_arrows_update($maestro, $data){
             qv_appendcomma($sets,"PHASENOTE='$PHASENOTE'");
         }
         
+        // CAMPI AMMINISTRATIRVI
         $USERUPDATEID=$global_quiveruserid;
         qv_appendcomma($sets, "USERUPDATEID='$USERUPDATEID'");
         
@@ -516,6 +534,9 @@ function qv_arrows_update($maestro, $data){
         // GESTIONE DEI DATI ESTESI
         qv_extension($maestro, $data, "QVARROW", $SYSID, $TYPOLOGYID, 1);
         
+        // GESTIONE DELLO SCARICO "FORTE"
+        _qv_discharge($maestro, 1, $SYSID, $TYPOLOGYID, $ROUNDING, $REG_MOTIVEID, $REG_AMOUNT, $REG_BOWID, $REG_BOWTIME, $REG_GENREID, $MOTIVEID, $MOTIVE_DISCHARGE, $AMOUNT, $BOWID, $PURETIME, $GENREID);
+      
         // TRIGGER PERSONALIZZATO
         qv_triggerarrow($maestro, $data, $SYSID, $TYPOLOGYID, 1);
     }

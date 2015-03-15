@@ -1,4 +1,14 @@
 <?php
+/****************************************************************************
+* Name:            signature.php                                            *
+* Project:         Cambusa/ryGeneral                                        *
+* Version:         1.69                                                     *
+* Description:     Global functions and variables                           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
 include_once "../sysconfig.php";
 function signature_p7m($pathfile){
     global $path_databases;

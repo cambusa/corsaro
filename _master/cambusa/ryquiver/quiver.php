@@ -2,15 +2,22 @@
 /****************************************************************************
 * Name:            quiver.php                                               *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 try{
-    include("_quiver.php");
+    include_once "_quiver.php";
+
+    $rtype=1;
+    if(isset($_POST["xml"])){
+        $rtype=2;
+        include_once "quiverxml.php";
+        _qv_loadxml($_POST["xml"]);
+    }
 
     if(isset($_POST["sessionid"]))
         $sessionid=$_POST["sessionid"];
@@ -42,7 +49,7 @@ try{
     else
         $bag=array();
 
-    print quiver_execute($sessionid, $env, $bulk, $statements, $bag);
+    print quiver_execute($sessionid, $env, $bulk, $statements, $bag, $rtype);
 }
 catch(Exception $e){
     $jret=array();
@@ -52,7 +59,16 @@ catch(Exception $e){
     $jret["message"]=$e->getMessage();
     $jret["SYSID"]="";
     $jret["infos"]=array();
-    array_walk_recursive($jret, "maestro_escapize");
-    print json_encode($jret);
+    switch($rtype){
+        case 1:
+            array_walk_recursive($jret, "quiver_escapize");
+            print json_encode($jret);
+            break;
+        case 2:
+            print _qv_savexml($jret);
+            break;
+        default:
+            print serialize($jret);
+    }
 }
 ?>

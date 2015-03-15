@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            rybox.js                                                 *
 * Project:         Cambusa/ryBox                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Masked input and other form controls                     *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -128,6 +128,8 @@ var RYBOX;
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
                         return true;
             		if(propenabled){
+            			propctrl=k.ctrlKey; // da usare anche nella press
+            			propshift=k.shiftKey;
                         // GESTIONE CLIPBOARD
                         if(propctrl){
                             switch(k.keyCode){
@@ -149,8 +151,6 @@ var RYBOX;
                             }
                         }
                         // GESTIONE ALTRI TASTI
-            			propctrl=k.ctrlKey; // da usare nella press
-            			propshift=k.shiftKey;
             			if(k.which==39){ // right
             				if(propstart<8){
             					if(propctrl){
@@ -611,7 +611,7 @@ var RYBOX;
 						$("#"+propname+"_anchor").removeAttr("disabled");
 						$("#"+propname+"_text").css({"color":"#000000","cursor":"text"});
 						$("#"+propname+"_button").css({"cursor":"pointer"});
-						if(propfocusout=false){
+						if(propfocusout==false){
 							$("#"+propname+"_cursor").css({"visibility":"visible"});
 							propobj.refreshcursor();
 						}
@@ -816,6 +816,8 @@ var RYBOX;
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
                         return true;
             		if(propenabled){
+            			propctrl=k.ctrlKey; // da usare anche nella press
+            			propshift=k.shiftKey;
                         // GESTIONE CLIPBOARD
                         if(propctrl){
                             switch(k.keyCode){
@@ -837,10 +839,8 @@ var RYBOX;
                             }
                         }
                         // GESTIONE ALTRI TASTI
-            			propctrl=k.ctrlKey; // da usare nella press
-            			propshift=k.shiftKey;
             			if(k.which==39){ // right
-            				if(propnumdec>0 && propstart<=propnumdec){
+            				if( (propnumdec>0 && propstart<=propnumdec) || propstart<0 ){
             					propstart+=1;
             					propobj.refreshcursor();
             				}
@@ -853,15 +853,79 @@ var RYBOX;
             						propstart-=1;
             					propobj.refreshcursor();
             				}
+                            else{
+                                if(propinteger.length>-propstart){
+                                    propstart-=1;
+                                    propobj.refreshcursor();
+                                }
+                            }
             			}
+                        else if(k.which==38){ // up
+                            if(propstart==0 || propstart==-1){
+                                var u=parseInt(propinteger.substr(propinteger.length-1));
+                                if(u<9){
+                                    propinteger=propinteger.substr(0,propinteger.length-1)+(u+1);
+                                }
+                            }
+                            else if(propstart>0){
+                                var u=parseInt(propdecimal.substr(propstart-1, 1));
+                                if(u<9){
+                                    propdecimal=propdecimal.substr(0,propstart-1)+(u+1)+propdecimal.substr(propstart);
+                                }
+                            }
+                            else{
+                                var u=parseInt(propinteger.substr(propinteger.length+propstart,1));
+                                if(u<9){
+                                    propinteger=propinteger.substr(0,propinteger.length+propstart)+(u+1)+propinteger.substr(propinteger.length+propstart+1);
+                                }
+                            }
+                            propobj.refresh();
+                        }
+                        else if(k.which==40){ // down
+                            if(propstart==0 || propstart==-1){
+                                var u=parseInt(propinteger.substr(propinteger.length-1));
+                                if(u>0){
+                                    propinteger=propinteger.substr(0,propinteger.length-1)+(u-1);
+                                }
+                            }
+                            else if(propstart>0){
+                                var u=parseInt(propdecimal.substr(propstart-1, 1));
+                                if(u>0){
+                                    propdecimal=propdecimal.substr(0,propstart-1)+(u-1)+propdecimal.substr(propstart);
+                                }
+                            }
+                            else{
+                                var u=parseInt(propinteger.substr(propinteger.length+propstart,1));
+                                if( (u>0 && -propstart<propinteger.length) || (u>1) ){
+                                    propinteger=propinteger.substr(0,propinteger.length+propstart)+(u-1)+propinteger.substr(propinteger.length+propstart+1);
+                                }
+                            }
+                            propobj.refresh();
+                        }
             			else if(k.which==36){ // home
-            				if(propstart>0){
-            					propstart=0;
-            					propobj.refreshcursor();
-            				}
+                            if(propctrl){
+                                propstart=0;
+                                propobj.refreshcursor();
+                            }
+                            else{
+                                if(propstart<=0){
+                                    if(propinteger!="0"){
+                                        propstart=-propinteger.length;
+                                        propobj.refreshcursor();
+                                    }
+                                }
+                                else if(propnumdec>0){
+                                    propstart=1;
+                                    propobj.refreshcursor();
+                                }
+                            }
             			}
             			else if(k.which==35){ // end
-            				if(propnumdec>0 && propstart<=propnumdec){
+                            if(propstart<=0){
+                                propstart=0;
+                                propobj.refreshcursor();
+                            }
+            				else if(propnumdec>0 && propstart<=propnumdec){
             					propstart=propnumdec+1;
             					propobj.refreshcursor();
             				}
@@ -877,6 +941,8 @@ var RYBOX;
                                     propobj.clear();
                                     propobj.selected(false);
                                 }
+                                if(propstart<0)
+                                    propstart+=1;
             					propobj.delmanage();
             				}
             			}
@@ -931,10 +997,18 @@ var RYBOX;
             						propstart+=1;
             					}
             					else{
-            						if(propinteger=="0")
+            						if(propinteger=="0"){
             							propinteger=n;
-            						else if(propinteger.length<=12)
-            							propinteger+=n;
+                                    }
+            						else if(propinteger.length<=12){
+                                        if(propstart==0){
+                                            propinteger+=n;
+                                        }
+                                        else{
+                                            propinteger=propinteger.substr(0,propinteger.length+propstart)+n+propinteger.substr(propinteger.length+propstart);
+                                            propstart-=1;
+                                        }
+                                    }
             					}
             					propobj.refresh();
             					propobj.raisechanged();
@@ -1052,8 +1126,10 @@ var RYBOX;
                 else{
                     var p=$("#"+propname).offset();
                     var v=propobj.value();
+                    if(v==0)
+                        v="";
                     var code=0;
-                    $("#rybox_calculator").html("<input id='rybox_calculator_input' type='text' value='"+v+"'>");
+                    $("#rybox_calculator").html("<input id='rybox_calculator_input' type='text' value='"+v+"' placeholder='23*(42-7)'>");
                     $("#rybox_calculator").css({border:"1px solid silver", left:p.left, top:p.top+propheight, width:200, "zIndex":10000});
                     $("#rybox_calculator_input").css({width:196,"font-family":"verdana,sans-serif"});
                     $("#rybox_calculator_input").focusin(
@@ -1154,6 +1230,11 @@ var RYBOX;
 						}
 					}
 				}
+                else if(propstart<0){
+                    propinteger=propinteger.substr(0,propinteger.length+propstart-1)+propinteger.substr(propinteger.length+propstart);
+                    if(-propstart>propinteger.length)
+                        propstart+=1;
+                }
 				else{
 					propdecimal=propobj.zerofill();
 					propstart=1;
@@ -1163,12 +1244,20 @@ var RYBOX;
 			}
 			this.refreshcursor=function(){
 				var s;
+                var d="";
+                if(propstart<0){
+                    for(var i=0; i<-propstart; i++){
+                        d+=propinteger.substr(propinteger.length-i-1,1);
+                        if((i%3)==0 && i>0)
+                            d+="&#x02D9;";
+                    }
+                }
 				if(propstart>0)
 					s=propdecimal.substr(propstart-1);
 				else if(propnumdec>0)
-					s=","+propdecimal;
+					s=d+","+propdecimal;
 				else
-					s="";
+					s=d;
                 $("#"+propname+"_cursor").css({"left":(propwidth-propobj.textwidth(s)-23)})
 			}
 			this.refresh=function(){
@@ -1193,7 +1282,7 @@ var RYBOX;
 					p=f.length;
 				}
 					
-				for (var i=p-3;i>0;i-=3)
+				for(var i=p-3;i>0;i-=3)
 					f=f.substr(0,i)+"&#x02D9;"+f.substr(i);
 				
 				return propsignum+f;
@@ -1262,7 +1351,7 @@ var RYBOX;
 						$("#"+propname+"_anchor").removeAttr("disabled");
 						$("#"+propname+"_text").css({"color":"#000000","cursor":"text"});
                         $("#"+propname+"_button").css({"cursor":"pointer"});
-						if(propfocusout=false){
+						if(propfocusout==false){
 							$("#"+propname+"_cursor").css({"visibility":"visible"});
 							propobj.refreshcursor();
 						}
@@ -1899,16 +1988,13 @@ var RYBOX;
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
             .addClass("rycheck")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"transparent","font-family":"verdana,sans-serif","font-size":"13px"})
-            //.html("<style>#"+propname+"_internal::selection{background:#FFFFFF;}#"+propname+"_internal::-moz-selection{background:#FFFFFF;}</style><a href='javascript:' id='"+propname+"_anchor'></a>");
-            .html("<a href='javascript:' id='"+propname+"_anchor'></a>");
-            $("#"+propname+"_anchor").css({"position":"absolute","width":propwidth,"height":propheight,"text-decoration":"none","color":"transparent","background-color":"transparent","cursor":"default","cursor":"default","outline":"none"});
-            $("#"+propname+"_anchor").html("<div id='"+propname+"_border'></div>");
+            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"transparent","font-family":"verdana,sans-serif","font-size":"13px","overflow":"hidden"})
+            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_border'></div>");
             $("#"+propname+"_border").css({"position":"absolute","left":0,"top":2,"width":propwidth-4,"height":propheight-4,"background-color":"silver"});
             $("#"+propname+"_border").html("<div id='"+propname+"_internal'></div>");
             $("#"+propname+"_internal").css({"position":"absolute","left":1,"top":1,"width":propwidth-6,"height":propheight-6,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"});
             $("#"+propname+"_internal").html("<div id='"+propname+"_text'></div>");
-            $("#"+propname+"_text").css({"position":"absolute","left":3,"top":-1});
+            $("#"+propname+"_text").css({"position":"absolute","left":3,"top":-1,"line-height":"19px","cursor":"default"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -1944,6 +2030,12 @@ var RYBOX;
                                 propobj.value(1,true);
                         }
             		}
+            	}
+            );
+            $("#"+propname+"_anchor").keyup(
+            	function(k){
+                    // MANTENGO PULITO INPUT
+                    $("#"+propname+"_anchor").val("");
             	}
             );
             $("#"+propname).mousedown(
@@ -2467,137 +2559,147 @@ function ryBox(){
         globalobjs[o.name()]=o;
     }
     this.localize=function(lang, parentid, action, missing){
-        if(_cambusaURL!="" && lang!="default"){
-            var i,c,j,k="";
-            for(i in globalobjs){
-                var o=globalobjs[i];
-                switch(o.type){
-                    case "label":
-                    case "button":
-                        if(solveparent(o,parentid)){
-                            if((c=o.babelcode())>""){
-                                if(k!=""){k+="|"}
-                                k+=c;
-                            }
-                        }
-                        break;
-                    case "list":
-                        if(solveparent(o,parentid)){
-                            for(j=1;j<=o.count();j++){
-                                if((c=o.babelcode(j))>""){
+        TAIL.enqueue(function(lang, parentid){
+            if(_cambusaURL!="" && lang!="default"){
+                var i,c,j,k="";
+                for(i in globalobjs){
+                    var o=globalobjs[i];
+                    switch(o.type){
+                        case "label":
+                        case "button":
+                            if(solveparent(o,parentid)){
+                                if((c=o.babelcode())>""){
                                     if(k!=""){k+="|"}
                                     k+=c;
                                 }
                             }
-                        }
-                        break;
-                    case "grid":
-                        if(solveparent(o,parentid)){
-                            for(j=1;j<=o.columns();j++){
-                                if((c=o.babelcode(j))>""){
-                                    if(k!=""){k+="|"}
-                                    k+=c;
+                            break;
+                        case "list":
+                            if(solveparent(o,parentid)){
+                                for(j=1;j<=o.count();j++){
+                                    if((c=o.babelcode(j))>""){
+                                        if(k!=""){k+="|"}
+                                        k+=c;
+                                    }
                                 }
                             }
-                        }
-                        break;
-                    case "tabs":
-                        if(solveparent(o,parentid)){
-                            for(j=1;j<=o.tabs();j++){
-                                if((c=o.babelcode(j))>""){
-                                    if(k!=""){k+="|"}
-                                    k+=c;
+                            break;
+                        case "grid":
+                            if(solveparent(o,parentid)){
+                                for(j=1;j<=o.columns();j++){
+                                    if((c=o.babelcode(j))>""){
+                                        if(k!=""){k+="|"}
+                                        k+=c;
+                                    }
                                 }
                             }
-                        }
-                        break;
-                }
-            }
-            for(c in propbabelcodes){
-                var o=propbabelcodes[c];
-                if(o.virgin){
-                    if(k!=""){k+="|"}
-                        k+=c;
-                }
-            }
-            if(k!=""){
-                $.post(_cambusaURL+"rybabel/rybabel.php", {"lang":lang,"codes":k},
-                    function(d){
-                        try{
-                            var i,t,c,j;
-                            var v=$.parseJSON(d);
-                            for(i in globalobjs){
-                                var o=globalobjs[i];
-                                switch(o.type){
-                                    case "label":
-                                    case "button":
-                                        if(solveparent(o,parentid)){
-                                            if((c=o.babelcode())>""){
-                                                t=v[c];
-                                                if(t.length>0)
-                                                    o.caption(t);
-                                            }
-                                        }
-                                        break;
-                                    case "list":
-                                        if(solveparent(o,parentid)){
-                                            for(j=1;j<=o.count();j++){
-                                                if((c=o.babelcode(j))>""){
-                                                    t=v[c];
-                                                    if(t.length>0)
-                                                        o.caption(j,t);
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "grid":
-                                        if(solveparent(o,parentid)){
-                                            for(j=1;j<=o.columns();j++){
-                                                if((c=o.babelcode(j))>""){
-                                                    t=v[c];
-                                                    if(t.length>0)
-                                                        o.caption(j,t);
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "tabs":
-                                        if(solveparent(o,parentid)){
-                                            for(j=1;j<=o.tabs();j++){
-                                                if((c=o.babelcode(j))>""){
-                                                    t=v[c];
-                                                    if(t.length>0)
-                                                        o.caption(j,t);
-                                                }
-                                            }
-                                        }
-                                        break;
+                            break;
+                        case "tabs":
+                            if(solveparent(o,parentid)){
+                                for(j=1;j<=o.tabs();j++){
+                                    if((c=o.babelcode(j))>""){
+                                        if(k!=""){k+="|"}
+                                        k+=c;
+                                    }
                                 }
                             }
-                            for(c in propbabelcodes){
-                                var o=propbabelcodes[c];
-                                if(o.virgin){
-                                    t=v[c];
-                                    if(t.length>0)
-                                        o.caption=t;
-                                    o.virgin=false;
-                                }
-                            }
-                        }
-                        catch(e){}
-                        if(action!=missing){
-                            setTimeout(function(){action()}, 300);
-                        }
+                            break;
                     }
-                );
+                }
+                for(c in propbabelcodes){
+                    var o=propbabelcodes[c];
+                    if(o.virgin){
+                        if(k!=""){k+="|"}
+                            k+=c;
+                    }
+                }
+                if(k!=""){
+                    $.post(_cambusaURL+"rybabel/rybabel.php", {"lang":lang,"codes":k},
+                        function(d){
+                            try{
+                                var i,t,c,j;
+                                var v=$.parseJSON(d);
+                                for(i in globalobjs){
+                                    var o=globalobjs[i];
+                                    switch(o.type){
+                                        case "label":
+                                        case "button":
+                                            if(solveparent(o,parentid)){
+                                                if((c=o.babelcode())>""){
+                                                    t=v[c];
+                                                    if(t.length>0)
+                                                        o.caption(t);
+                                                }
+                                            }
+                                            break;
+                                        case "list":
+                                            if(solveparent(o,parentid)){
+                                                for(j=1;j<=o.count();j++){
+                                                    if((c=o.babelcode(j))>""){
+                                                        t=v[c];
+                                                        if(t.length>0)
+                                                            o.caption(j,t);
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        case "grid":
+                                            if(solveparent(o,parentid)){
+                                                for(j=1;j<=o.columns();j++){
+                                                    if((c=o.babelcode(j))>""){
+                                                        t=v[c];
+                                                        if(t.length>0)
+                                                            o.caption(j,t);
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        case "tabs":
+                                            if(solveparent(o,parentid)){
+                                                for(j=1;j<=o.tabs();j++){
+                                                    if((c=o.babelcode(j))>""){
+                                                        t=v[c];
+                                                        if(t.length>0)
+                                                            o.caption(j,t);
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                    }
+                                }
+                                for(c in propbabelcodes){
+                                    var o=propbabelcodes[c];
+                                    if(o.virgin){
+                                        t=v[c];
+                                        if(t.length>0)
+                                            o.caption=t;
+                                        o.virgin=false;
+                                    }
+                                }
+                            }
+                            catch(e){}
+                            TAIL.free();
+                            if(action!=missing){
+                                setTimeout(action);
+                            }
+                        }
+                    );
+                }
+                else{
+                    TAIL.free();
+                    if(action!=missing){
+                        setTimeout(action);
+                    }
+                }
             }
-            else if(action!=missing){
-                setTimeout(function(){action()}, 300);
+            else{
+                TAIL.free();
+                if(action!=missing){
+                    setTimeout(action);
+                }
             }
-        }
-        else if(action!=missing){
-            setTimeout(function(){action()}, 300);
-        }
+        }, lang, parentid);
+        TAIL.wriggle();
     }
     this.babels=function(codes, value, missing){
         if(typeof(codes)=="object"){
@@ -2703,7 +2805,7 @@ function nextFocus(nm,sh,k){
         var fs="";   // primo
         var pr="";   // precedente
         var ls="";   // ultimo
-        var ts="date|number|text|check|list|grid|button|helper|area|edit";
+        var ts="date|number|text|check|list|grid|button|helper|area|edit|code";
         var formid=$("#"+nm).prop("parentid");
         var coll=new Object();
         if(_ismissing(formid)){

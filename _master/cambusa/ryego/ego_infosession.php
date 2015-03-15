@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            ego_infosession.php                                      *
 * Project:         Cambusa/ryEgo                                            *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Central Authentication Service (CAS)                     *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -39,6 +39,15 @@ try{
         $padding=ryqEscapize($_GET["padding"]);
     else
         $padding="";
+        
+    // GESTIONE BACKSLASH
+    if(isset($_POST["backslash"]))
+        $backslash=strlen($_POST["backslash"]);
+    elseif(isset($_GET["backslash"]))
+        $backslash=strlen($_GET["backslash"]);
+    else
+        $backslash=0;
+    @file_put_contents($path_databases."_configs/backslash.par", $backslash);
         
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;

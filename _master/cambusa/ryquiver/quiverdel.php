@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            quiverdel.php                                            *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -53,6 +53,7 @@ function qv_deletablearrow($maestro, $SYSID){
     global $babelcode, $babelparams;
     qv_deletable($maestro, "QVARROWS", "REFARROWID", $SYSID);
     qv_deletable($maestro, "QVQUIVERS", "REFARROWID", $SYSID);
+    qv_deletable($maestro, "QVDISCHARGES", "INCOMINGID", $SYSID);
     _qv_deletablesel($maestro, $SYSID);
     
     // INDIVIDUO I CAMPI ESTESI PUNTATORI A RECORD DI QVARROWS
@@ -78,7 +79,7 @@ function qv_deletablecustom($maestro, $ref, $SYSID){
             if(isset($table->type) && isset($table->fields)){
                 if($table->type=="database"){
                     $tabname=key($infobase);
-                    if(strpos(",QVSETTINGS,QVGENRETYPES,QVGENRES,QVGENREVIEWS,QVOBJECTTYPES,QVOBJECTS,QVOBJECTVIEWS,QVINCLUSIONS,QVMOTIVETYPES,QVMOTIVES,QVMOTIVEVIEWS,QVARROWTYPES,QVARROWS,QVARROWVIEWS,QVHISTORY,QVEQUIVALENCES,QVQUIVERTYPES,QVQUIVERS,QVQUIVERVIEWS,QVQUIVERARROW,QVFILES,QVTABLEFILE,QVALLOCATIONS,QVSELECTIONS,QVALIASES,QVUSERS,QVROLES,QVMESSAGES,QVJSON,QVSYSTEM,", ",".$tabname.",")===false){
+                    if(strpos(",QVSETTINGS,QVGENRETYPES,QVGENRES,QVGENREVIEWS,QVOBJECTTYPES,QVOBJECTS,QVOBJECTVIEWS,QVINCLUSIONS,QVMOTIVETYPES,QVMOTIVES,QVMOTIVEVIEWS,QVARROWTYPES,QVARROWS,QVARROWVIEWS,QVHISTORY,QVEQUIVALENCES,QVQUIVERTYPES,QVQUIVERS,QVQUIVERVIEWS,QVQUIVERARROW,QVFILES,QVTABLEFILE,QVALLOCATIONS,QVSELECTIONS,QVALIASES,QVUSERS,QVROLES,QVMESSAGES,QVJSON,QVSYSTEM,QVDISCHARGES,", ",".$tabname.",")===false){
                         $fields=$table->fields;
                         for(reset($fields); $field=current($fields); next($fields)){
                             $fieldname=key($fields);

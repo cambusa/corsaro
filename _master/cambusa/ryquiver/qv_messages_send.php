@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_messages_send.php                                  *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -38,14 +38,8 @@ function qv_messages_send($maestro, $data){
         else
             $REGISTRY="''";
 
-        // DETERMINO SENDERID
+        // DETERMINO SENDERID (POTREBBE RIMANERE VUOTO)
         qv_solveuser($maestro, $data, "SENDERID", "SENDEREGO", "SENDERNAME", $SENDERID, $SENDERNAME);
-        if($SENDERID==""){
-            $babelcode="QVERR_SENDERID";
-            $b_params=array();
-            $b_pattern="Mittente non specificato";
-            throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
-        }
 
         // DETERMINO RECEIVERID
         qv_solveuser($maestro, $data, "RECEIVERID", "RECEIVEREGO", "RECEIVERNAME", $RECEIVERID, $RECEIVERNAME);

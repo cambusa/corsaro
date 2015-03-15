@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            xmlutil.php                                              *
 * Project:         Cambusa/ryGeneral                                        *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Global functions and variables                           *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -13,12 +13,10 @@ function xml_loadfile($pathfile){
     return simplexml_load_file($pathfile);
 }
 function xml_xml2array($xml){
-    $json=json_encode($xml);
-    $arr=json_decode($json, TRUE);
-    return $arr;
+    return json_decode(json_encode((array) simplexml_load_string($xml)), 1);
 }
 function xml_array2xml($arr, $root="xml"){
-    $xml=new SimpleXMLElement("<?xml version=\"1.0\"?><$root></$root>");
+    $xml=new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"UTF-8\"?><$root></$root>");
     _array_to_xml($arr, $xml);
     return $xml;
 }
@@ -36,11 +34,12 @@ function _array_to_xml($arr, &$xml) {
                 _array_to_xml($value, $subnode);
             }
             else{
-                $subnode=$xml->addChild(intval($key));
+                $subnode=$xml->addChild("array");
                 _array_to_xml($value, $subnode);
             }
         }
         else {
+            $value=utf8_encode(html_entity_decode($value));
             $xml->addChild("$key", "$value");
         }
     }

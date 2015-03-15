@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            quiverinf.php                                            *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -59,7 +59,7 @@ function qv_infosession($maestro){
     }
 }
 
-function qv_solveuser($maestro, $data, $id, $ego, $name, &$SYSID, &$USERNAME){
+function qv_solveuser($maestro, $data, $id, $ego, $name, &$SYSID, &$USERNAME, $raise=true){
     global $babelcode, $babelparams;
     $SYSID="";
     $USERNAME="";
@@ -70,11 +70,14 @@ function qv_solveuser($maestro, $data, $id, $ego, $name, &$SYSID, &$USERNAME){
         if(count($r)==1){
             $USERNAME=$r[0]["USERNAME"];
         }
-        else{
+        elseif($raise){
             $babelcode="QVERR_NOREF";
             $b_params=array("SYSID" => $SYSID, "table" => "QVUSERS");
             $b_pattern="Riferimento non trovato in [{2}]";
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+        }
+        else{
+            writelog("Utente ID [$SYSID] non trovato.\n---> ".serialize($data));
         }
     }
     elseif(isset($data[$ego])){
@@ -85,11 +88,14 @@ function qv_solveuser($maestro, $data, $id, $ego, $name, &$SYSID, &$USERNAME){
             $SYSID=$r[0]["SYSID"];
             $USERNAME=$r[0]["USERNAME"];
         }
-        else{
+        elseif($raise){
             $babelcode="QVERR_NOEGO";
             $b_params=array("EGOID" => $EGOID, "table" => "QVUSERS");
             $b_pattern="Nome [{1}] non trovato in [{2}]";
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+        }
+        else{
+            writelog("Utente EGO [$EGOID] non trovato.\n---> ".serialize($data));
         }
     }
     elseif(isset($data[$name])){
@@ -98,11 +104,14 @@ function qv_solveuser($maestro, $data, $id, $ego, $name, &$SYSID, &$USERNAME){
         if(count($r)==1){
             $SYSID=$r[0]["SYSID"];
         }
-        else{
+        elseif($raise){
             $babelcode="QVERR_NONAME";
             $b_params=array("USERNAME" => $USERNAME, "table" => "QVUSERS");
             $b_pattern="Nome [{1}] non trovato in [{2}]";
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+        }
+        else{
+            writelog("Utente [$USERNAME] non trovato.\n---> ".serialize($data));
         }
     }
 }

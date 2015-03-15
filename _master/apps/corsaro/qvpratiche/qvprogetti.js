@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            qvprogetti.js                                            *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -23,8 +23,6 @@ function class_qvprogetti(settings,missing){
     var flagsuspend=false;
     var loadedsysid="";
     var loadedsys3id="";
-    var timerid=false;
-    var intervallo=15*60000;
     var gantt_attivwidth=250;
     var gantt_ratio=1;
     var gantt_inizio=null;
@@ -471,17 +469,9 @@ function class_qvprogetti(settings,missing){
             if(!flagsuspend){
                 switch(i){
                 case 1:
-                    if(timerid!==false){
-                        clearTimeout(timerid);
-                        timerid=false;
-                    }
                     break;
                 case 2:
                     // CARICAMENTO DEL CONTESTO
-                    if(timerid!==false){
-                        clearTimeout(timerid);
-                        timerid=false;
-                    }
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
                     qv_maskclear(formid, "C");
                     RYQUE.query({
@@ -507,10 +497,6 @@ function class_qvprogetti(settings,missing){
                     break;
                 case 4:
                     // CARICAMENTO DOCUMENTI
-                    if(timerid!==false){
-                        clearTimeout(timerid);
-                        timerid=false;
-                    }
                     filemanager.initialize(currsysid, "Contesto: "+context, currtypologyid);
                     qv_contextmanagement(context, {sysid:currsysid, table:"QVOBJECTS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
                         done:function(d){
@@ -544,10 +530,6 @@ function class_qvprogetti(settings,missing){
         }
     );
     function tracciaGantt(){
-        if(timerid!==false){
-            clearTimeout(timerid);
-            timerid=false;
-        }
         // REPERSICO LE PRATICHE SELEZIONATE
         RYQUE.query({
             sql:"SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTTABLE='QVOBJECTS' AND PARENTID='"+currsysid+"' AND SELECTEDTABLE='QVQUIVERS'",
@@ -620,11 +602,6 @@ function class_qvprogetti(settings,missing){
                                         gantt_finedate=arrayatt[i]["TARGETTIME"]
                                 }
                                 refreshGantt();
-                                timerid=setTimeout(
-                                    function(){
-                                        tracciaGantt();
-                                    }, intervallo
-                                );
                             }
                         });
                     }
@@ -849,12 +826,11 @@ function class_qvprogetti(settings,missing){
         sql+="ORDER BY BOWTIME";
         return sql;
     }
-    this._unload=function(){
-        if(timerid!==false){
-            clearTimeout(timerid);
-            timerid=false;
+    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, xfocus:"DESCRIPTION", files:4} );
+    this._timer=function(){
+        if(objtabs.currtab()==3){
+            tracciaGantt();
         }
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, xfocus:"DESCRIPTION", files:4} );
 }
 

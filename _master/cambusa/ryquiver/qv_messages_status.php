@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_messages_status.php                                   *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -17,34 +17,53 @@ function qv_messages_status($maestro, $data){
         $message="Operazione riuscita";
         $SYSID="";
 
-        // INDIVIDUAZIONE RECORD
-        $sets="";
-        qv_solverecord($maestro, $data, "QVMESSAGES", "SYSID", "", $SYSID);
-        if($SYSID==""){
-            $babelcode="QVERR_SYSID";
-            $b_params=array();
-            $b_pattern="Dati insufficienti per individuare il record";
-            throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
-        }
+        // DETERMINO ACTION
+        if(isset($data["ACTION"]))
+            $ACTION=$data["ACTION"];
+        else
+            $ACTION="";
         
-        // DETERMINO STATUS
-        if(isset($data["STATUS"])){
-            $STATUS=intval($data["STATUS"]);
-            if($STATUS<0 || $STATUS>3 )
-                $STATUS=1;
+        // DETERMINO RECEIVERID
+        if(isset($data["RECEIVERID"]))
+            $RECEIVERID=$data["RECEIVERID"];
+        else
+            $RECEIVERID="";
+        
+        // DETERMINO EGOID
+        if(isset($data["EGOID"]))
+            $EGOID=$data["EGOID"];
+        else
+            $EGOID="";
+        
+        // DETERMINO LIST
+        if(isset($data["LIST"])){
+            $LIST=$data["LIST"];
+            $LIST="'" . str_replace("|", "','", $LIST) . "'";
         }
         else{
-            $STATUS=1;
-        }
-        qv_appendcomma($sets,"STATUS=$STATUS");
-        
-        if($STATUS==1){
-            $RECEIVINGTIME="[:NOW()]";
-            qv_appendcomma($sets,"RECEIVINGTIME=$RECEIVINGTIME");
+            $LIST="''";
         }
         
-        if($sets!=""){
-            $sql="UPDATE QVMESSAGES SET $sets WHERE SYSID='$SYSID'";
+        // DETERMINAZIONE DELLA UPDATE
+        $sql="";
+        switch($ACTION){
+        case "RECEIVED":
+            if($RECEIVERID!="")
+                $sql="UPDATE QVMESSAGES SET STATUS=1,RECEIVINGTIME=[:NOW()] WHERE RECEIVERID='$RECEIVERID' AND STATUS=0";
+            else
+                $sql="UPDATE QVMESSAGES SET STATUS=1,RECEIVINGTIME=[:NOW()] WHERE RECEIVERID IN (SELECT SYSID FROM QVUSERS WHERE EGOID='$EGOID' AND ARCHIVED=0) AND STATUS=0";
+            break;
+        case "UNREAD":
+            $sql="UPDATE QVMESSAGES SET STATUS=1 WHERE SYSID IN ($LIST)";
+            break;
+        case "READ":
+            $sql="UPDATE QVMESSAGES SET STATUS=2 WHERE SYSID IN ($LIST)";
+            break;
+        case "DELETE":
+            $sql="UPDATE QVMESSAGES SET STATUS=3 WHERE SYSID IN ($LIST)";
+            break;
+        }
+        if($sql!=""){
             if(!maestro_execute($maestro, $sql, false)){
                 $babelcode="QVERR_EXECUTE";
                 $trace=debug_backtrace();

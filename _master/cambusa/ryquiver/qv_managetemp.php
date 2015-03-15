@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_managetemp.php                                        *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -21,11 +21,12 @@ function qv_managetemp($maestro, $data){
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
         qv_environs($maestro, $dirtemp, $dirattach);
         
+        clearstatcache();
         $d=glob($dirtemp."*.*");
         $sec=60*60;
         foreach($d as $filename){
             try{
-                if(time()-@fileatime($filename)>$sec){
+                if(time()-@filemtime($filename)>$sec){
                     @unlink($filename);
                 }
             }

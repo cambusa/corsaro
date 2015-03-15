@@ -1,10 +1,10 @@
 /****************************************************************************
 * Name:            rydraw.js                                                *
 * Project:         Cambusa/rydraw                                           *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Graphic Features                                         *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/

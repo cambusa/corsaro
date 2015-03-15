@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            customize.php                                            *
 * Project:         Cambusa/ryGeneral                                        *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Global functions and variables                           *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -15,12 +15,18 @@ try{
     include_once $tocambusa."tbs_us/tbs_class.php";
     include_once $tocambusa."tbs_us/plugins/tbs_plugin_opentbs.php";
     include_once $tocambusa."odsgeneration/classes/OpenOfficeSpreadsheet.class.php";
-    include_once $tocambusa."mpdf/mpdf.php";
-    include_once $tocambusa."rypaper/report.php";
+    include_once $tocambusa."rypaper/rypaper.php";
     include_once $tocambusa."rygeneral/format.php";
     include_once $tocambusa."rygeneral/datetime.php";
     include_once $tocambusa."ryvlad/ryvlad.php";
 
+    $rtype=1;
+    if(isset($_POST["xml"])){
+        $rtype=2;
+        include_once $tocambusa."ryquiver/quiverxml.php";
+        _qv_loadxml($_POST["xml"]);
+    }
+        
     if(isset($_POST["sessionid"]))
         $sessionid=$_POST["sessionid"];
     else
@@ -91,8 +97,15 @@ try{
     maestro_closedb($maestro);
     
     // STRUTTURA DI RITORNO
-    array_walk_recursive($jret, "maestro_escapize");
-    print json_encode($jret);
+    switch($rtype){
+        case 1:
+            array_walk_recursive($jret, "customize_escapize");
+            print json_encode($jret);break;
+        case 2:
+            print _qv_savexml($jret);break;
+        default:
+            print serialize($jret);
+    }
 }
 catch(Exception $e){
     $jret=array();
@@ -101,7 +114,22 @@ catch(Exception $e){
     $jret["params"]=array();
     $jret["message"]=$e->getMessage();
     $jret["infos"]=array();
-    array_walk_recursive($jret, "maestro_escapize");
-    print json_encode($jret);
+    switch($rtype){
+        case 1:
+            array_walk_recursive($jret, "customize_escapize");
+            print json_encode($jret);break;
+        case 2:
+            print _qv_savexml($jret);break;
+        default:
+            print serialize($jret);
+    }
+}
+function customize_escapize(&$value){
+    if($value!=""){
+        if(!mb_check_encoding($value, "UTF-8")){
+            // CI SONO CARATTERI NON UNICODE
+            $value=utf8_encode($value);
+        }
+    }
 }
 ?>

@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_files_export.php                                      *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -137,12 +137,17 @@ function qv_files_export($maestro, $data){
                 }
                 // TRASFORAMZIONE IN PDF
                 if(strtoupper($ext)==".PHT"){
+                    $buffer=utf8_encode(file_get_contents($filetmp));
+                    $filetmp=substr($filetmp, 0, -3)."pdf";
+                    qv_file_pdfoutput($filetmp, $buffer);
+                    /*
                     include_once "../mpdf/mpdf.php";
                     $mpdf=new mPDF("UTF-8", array( 210, 297), 0, "", 12.7, 12.7, 12.7, 0,0,0);
                     $buffer=utf8_encode(file_get_contents($filetmp));
                     $mpdf->WriteHTML($buffer);
                     $filetmp=substr($filetmp, 0, -3)."pdf";
                     $mpdf->Output($filetmp, "F");
+                    */
                 }
                 // FIRMA ELETTRONICA
                 if($sign){
@@ -154,12 +159,17 @@ function qv_files_export($maestro, $data){
                 if(@copy($dirattach.$SUBPATH.$SYSID.$ext, $filetmp)){
                     // TRASFORAMZIONE IN PDF
                     if(strtoupper($ext)==".PHT"){
+                        $buffer=utf8_encode(file_get_contents($filetmp));
+                        $filetmp=substr($filetmp, 0, -3)."pdf";
+                        qv_file_pdfoutput($filetmp, $buffer);
+                        /*
                         include_once "../mpdf/mpdf.php";
                         $mpdf=new mPDF("UTF-8", array( 210, 297), 0, "", 12.7, 12.7, 12.7, 0,0,0);
                         $buffer=utf8_encode(file_get_contents($filetmp));
                         $mpdf->WriteHTML($buffer);
                         $filetmp=substr($filetmp, 0, -3)."pdf";
                         $mpdf->Output($filetmp, "F");
+                        */
                     }
                     if($sign){
                         $filetmp=signature_p7m($filetmp);
@@ -216,6 +226,35 @@ function qv_file_merge(&$r){
 function qv_file_mergenum(&$r, $col, $numdec){
     foreach($r as $ind => &$row){
         $row[$col]=formatta_numero($row[$col], $numdec);
+    }
+}
+function qv_file_pdfoutput(&$filename, $content, $orientation="P"){
+    global $path_cambusa;
+    try{
+        require_once $path_cambusa."html2pdf/html2pdf.class.php";
+        $objpdf=new HTML2PDF($orientation, "A4", "en", true, "UTF-8", array(12.7, 12.7, 12.7, 12.7));
+        
+        if(strpos($content,"</page>")===false){
+            $content=preg_replace("@<!DOCTYPE html>@i", "", $content);
+            $content=preg_replace("@<head>@i", "", $content);
+            $content=preg_replace("@</head>@i", "", $content);
+            $content=preg_replace("@</?meta[^>]*>@i", "", $content);
+            $content=preg_replace("@<title>[^<]*</title>@i", "", $content);
+            $content=preg_replace("@<body[^>]*>@i", "", $content);
+            $content=preg_replace("@</body>@i", "", $content);
+            $content=preg_replace("@<html>@i", "", $content);
+            $content=preg_replace("@</html>@i", "", $content);
+            $content="<page>".$content."</page>";
+        }
+        $objpdf->WriteHTML($content);
+        $objpdf->Output($filename, "F");
+    }
+    catch(HTML2PDF_exception $e) {
+        $filename.=".txt";
+        $fp=fopen($filename, "w");
+        fwrite($fp, $e);
+        fclose($fp);
+        writelog($content);
     }
 }
 ?>

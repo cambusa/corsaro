@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qvprocessi.php                                           *
 * Project:         Corsaro                                                  *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows Oriented Modeling                                 *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -52,7 +52,6 @@
         <div relid="operm_remove"></div>
         <div relid="operm_update"></div>
         <div relid="LBM_DESCRIPTION"></div><div relid="M_DESCRIPTION"></div>
-        <div relid="LBM_REGISTRY"></div><div relid="M_REGISTRY"></div>
         <div relid="LBM_SCOPE"></div><div relid="M_SCOPE"></div>
         <div relid="LBM_UPDATING"></div><div relid="M_UPDATING"></div>
         <div relid="LBM_COUNTERPARTID"></div><div relid="M_COUNTERPARTID"></div>
@@ -75,6 +74,7 @@
         <div relid="LBM_NAME"></div><div relid="M_NAME"></div>
         <div relid="LBM_PROTSERIE"></div><div relid="M_PROTSERIE"></div>
         <div relid="M_CONOSCENZA"></div>
+        <div relid="M_REGISTRY"></div>
         <div relid="operm_top"></div>
         <div relid="motivibottom">&nbsp;</div>
     </div>
@@ -88,12 +88,13 @@
         <div relid="oper_statiunsaved"></div>
         <div relid="oper_statiremove"></div>
         <div relid="oper_statiupdate"></div>
-        <div relid="LB_STATO_DESCRIPTION"></div><div relid="STATO_DESCRIPTION"></div><div relid="STATO_REGISTRY"></div>
+        <div relid="LB_STATO_DESCRIPTION"></div><div relid="STATO_DESCRIPTION"></div>
         <div relid="LB_STATO_ATTOREID"></div><div relid="STATO_ATTOREID"></div>
         <div relid="LB_STATO_CONTOID"></div><div relid="STATO_CONTOID"></div>
         <div relid="LB_STATO_INIZIALE"></div><div relid="STATO_INIZIALE"></div>
         <div relid="LB_STATO_FINALE"></div><div relid="STATO_FINALE"></div>
         <div relid="LB_STATO_ORDINATORE"></div><div relid="STATO_ORDINATORE"></div>
+        <div relid="STATO_REGISTRY"></div>
         <div relid="oper_statitop"></div>
         <div relid="statibottom">&nbsp;</div>
     </div>

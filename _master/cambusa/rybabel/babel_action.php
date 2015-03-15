@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            babel_action.php                                         *
 * Project:         Cambusa/ryBabel                                          *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Language localization                                    *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/

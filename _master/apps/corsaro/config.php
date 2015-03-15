@@ -2,13 +2,17 @@
 /****************************************************************************
 * Name:            config.php                                               *
 * Project:         Corsaro                                                  *
-* Version:         1.56                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented application                              *
-* Copyright (C):   2014  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/apps/corsaro/license.html           *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+
+// ***************************************************************
+// CORSARO
+// ***************************************************************
 
 // NOME DELL'AZIENDA CLIENTE
 $companyname="RudyZ";
@@ -19,18 +23,30 @@ $copyright_dealer="";
 // DATI DI VERSIONE
 include_once "version.php";
 
-// PREDEFINITI PER FILIBUSTER
-$filibuster_host="";
+// ***************************************************************
+// FILIBUSTER
+// ***************************************************************
+
+// DATI REMOTI
 //$filibuster_host="http://www.rudyz.net/apps/ryquiver/";
+
+// DATI LOCALI
+$filibuster_host="";
+
+// AMBIENTE PREDEFINITO
 $filibuster_environ="flb_rudyz";
-//$filibuster_environ="mysql";
+
+// SITO PREDEFINITO
 $filibuster_site="rudyz";
 
-// Originale
-//$mathjax_path="http://www.rudyz.net/cambusa/mathjax/MathJax.js?config=default";
-// Nuovo
+// DIMENSIONE MASSIMA DOCUMENTO PER SINTESI VOCALE AD ALTA QUALITA'
+$filibuster_sizeHQ=2500;
+
+// ***************************************************************
+// MATHJAX
+// ***************************************************************
+
+// PERCORSO
 $mathjax_path="http://www.rudyz.net/cambusa/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-// Remoto
-//$mathjax_path="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
 
 ?>

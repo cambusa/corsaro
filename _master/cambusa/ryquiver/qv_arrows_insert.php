@@ -2,10 +2,10 @@
 /****************************************************************************
 * Name:            qv_arrows_insert.php                                     *
 * Project:         Cambusa/ryQuiver                                         *
-* Version:         1.00                                                     *
+* Version:         1.69                                                     *
 * Description:     Arrows-oriented Library                                  *
-* Copyright (C):   2013  Rodolfo Calzetti                                   *
-* License GNU GPL: http://www.rudyz.net/cambusa/license.html                *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
@@ -13,6 +13,8 @@ include_once "quiverinf.php";
 include_once "quiverval.php";
 include_once "quivertrg.php";
 include_once "quiverext.php";
+include_once "quiverarw.php";
+include_once "../rymaestro/maestro_querylib.php";
 function qv_arrows_insert($maestro, $data){
     global $global_quiveruserid,$global_quiverroleid;
     global $babelcode, $babelparams;
@@ -143,6 +145,7 @@ function qv_arrows_insert($maestro, $data){
             $MOTIVE_UPDATING=intval($fields["UPDATING"]);
             $MOTIVE_DELETING=intval($fields["DELETING"]);
             $MOTIVE_STATUS=intval($fields["STATUS"]); // Non deve essere -1
+            $MOTIVE_DISCHARGE=intval($fields["DISCHARGE"]);
         }
         else{
             $babelcode="QVERR_MOTIVEID";
@@ -229,6 +232,8 @@ function qv_arrows_insert($maestro, $data){
                 $BOWTIME=$BOWBEGIN;
             }
         }
+        // MEMORIZZO BOWTIME PER LO SCARICO
+        $PURETIME=$BOWTIME;
         
         // DETERMINO TARGETTIME
         if(isset($data["TARGETTIME"])){
@@ -380,6 +385,7 @@ function qv_arrows_insert($maestro, $data){
         $PHASE=0;
         $PHASENOTE="";
         
+        // CAMPI AMMINISTRATIRVI
         $DELETED=0;
         $ROLEID=$global_quiverroleid;
         $USERINSERTID=$global_quiveruserid;
@@ -404,6 +410,9 @@ function qv_arrows_insert($maestro, $data){
         
         // GESTIONE DEI DATI ESTESI
         qv_extension($maestro, $data, "QVARROW", $SYSID, $TYPOLOGYID, 0);
+        
+        // GESTIONE DELLO SCARICO "FORTE"
+        _qv_discharge($maestro, 0, $SYSID, $TYPOLOGYID, $ROUNDING, "", 0, "", "", "", $MOTIVEID, $MOTIVE_DISCHARGE, $AMOUNT, $BOWID, $PURETIME, $GENREID);
         
         // TRIGGER PERSONALIZZATO
         qv_triggerarrow($maestro, $data, $SYSID, $TYPOLOGYID, 0);
