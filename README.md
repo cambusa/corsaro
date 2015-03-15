@@ -1,4 +1,4 @@
-Corsaro © 2014 Rodolfo Calzetti
+Corsaro © 2015 Rodolfo Calzetti
 ===============================
 
 Web application framework (_Cambusa_)  
@@ -101,24 +101,8 @@ A single page, but many independent windows dynamically loaded. Your application
 License
 =======
 
-__GNU General Public License v3__
+__GNU Lesser General Public License v3__
 
-I'd like to use a weaker copyleft than the GPL, but unfortunately some third-party components included in the library _Cambusa_ wouldn't have compatible licenses.
+Build your web application with _Cambusa_!.
 
 ---
-
-ToDo
-====
-
-1. Attribution of the _"babelcodes"_ for the localization.<br>
-   <code>...</code><br>
-   <code>\<div relid="LB\_NOME" __babelcode="NAME"__\>\</div\>\<div relid="NOME"\>\</div\> </code><br>
-   <code>\<div relid="LB\_COGNOME" __babelcode="SURNAME"__\>\</div\>\<div relid="COGNOME"\>\</div\> </code><br>
-   <code>... </code>
-
-2. New management of requests queue.
-
-3. Quiver: provide a parameter _"module"_ as a namespace.
-
-
-
