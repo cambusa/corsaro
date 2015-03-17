@@ -11,7 +11,7 @@
         "type":"database",
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
-            "SESSIONID":{"type":"VARCHAR", "size":24},
+            "SESSIONID":{"type":"VARCHAR", "size":100},
             "USERID":{"type":"VARCHAR", "size":30},
             "USERNAME":{"type":"VARCHAR", "size":100},
             "ADMINISTRATOR":{"type":"BOOLEAN"},
