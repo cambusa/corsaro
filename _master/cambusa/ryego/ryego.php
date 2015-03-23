@@ -9,9 +9,28 @@
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-// CARICO LE LIBRERIE
+// CARICO I PERCORSI
 if(!isset($tocambusa))
     $tocambusa="../";
+include_once $tocambusa."sysconfig.php";
+    
+// APPLICAZIONE
+if(isset($_GET["app"]))
+    $appname=$_GET["app"];
+elseif(isset($_POST["app"]))
+    $appname=$_POST["app"];
+else
+    $appname="";
+
+// RISOLVO LE IMMAGINI DECORATIVE
+$egoimage_header=$url_cambusa."ryego/images/classic-backheader.svg";
+$egoimage_logo=$url_cambusa."ryego/images/ego.gif";
+$egoimage_footer=$url_cambusa."ryego/images/classic-backfooter.svg";
+if(is_file($path_customize."ryego/custdecos.php")){
+    include_once($path_customize."ryego/custdecos.php");
+}
+
+// CARICO LE LIBRERIE
 include_once $tocambusa."ryego/ego_crypt.php";    
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."ryque/ryq_util.php";
@@ -34,14 +53,6 @@ else{
     $returnurl="";
     $egomethod="POST";
 }
-
-// APPLICAZIONE
-if(isset($_GET["app"]))
-    $appname=$_GET["app"];
-elseif(isset($_POST["app"]))
-    $appname=$_POST["app"];
-else
-    $appname="";
 
 if(isset($_GET["title"]))
     $apptitle=$_GET["title"];
@@ -148,7 +159,7 @@ if(isset($_COOKIE['_egolanguage']))
 
 // PREPARAZIONE CRITTOGRAFIA PER PROTEZIONE PASSWORD
 prepareEncrypt($maestro, $publickey);
-    
+
 ?><!DOCTYPE HTML>
 <html>
 <head>
@@ -283,7 +294,7 @@ elseif($msk=="setup"){
 <div class='classicSheet'>
 
 <!-- MENU' SUPERIORE -->
-<div class='classicBackImage' style='top:13px;height:90px;background-image:url(<?php print $url_customize; ?>ryego/images/classic-backheader.svg);'>&nbsp;</div>
+<div class='classicBackImage' style='top:13px;height:90px;background-image:url(<?php print $egoimage_header; ?>);'>&nbsp;</div>
 <?php if($sessionid!=""){ ?>
 <div class='classicTopMenu'><a class='classicMiniAnchor' href='javascript:egoterminate(true)'>Logout</a>&nbsp;&nbsp;</div>
 <?php } ?>
@@ -386,7 +397,7 @@ elseif($msk=="setup"){
 
 <!-- INIZIO CONTENUTI DI DESTRA -->
 
-<img src='<?php print $url_customize; ?>ryego/images/ego.gif' height='60px' border='0'>
+<img src='<?php print $egoimage_logo; ?>' height='60px' border='0'>
 <div id="titlename" class="classicAppName"><?php print $apptitle ?></div>
 
 <div class='classicSkip10'>&nbsp;</div>
@@ -443,7 +454,7 @@ if($msk=="setup"){
 <div class='classicSkip20'>&nbsp;</div>
 -->
 <div style='position:relative;'>
-<div class='classicBackImage' style='top:-35px;height:35px;background-image:url(<?php print $url_customize; ?>ryego/images/classic-backfooter.svg);'>&nbsp;</div>
+<div class='classicBackImage' style='top:-35px;height:35px;background-image:url(<?php print $egoimage_footer; ?>);'>&nbsp;</div>
 <!--
 <div class='classicBottomMenu'><a class='classicMiniAnchor' href='../license.html' target='_blank'>Framework Cambusa</a>&nbsp;&nbsp;</div>
 -->

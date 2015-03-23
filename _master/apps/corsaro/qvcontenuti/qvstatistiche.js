@@ -149,7 +149,7 @@ function class_qvstatistiche(settings,missing){
     
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
-        top:10,position:"relative",
+        top:0,
         tabs:[
             {title:"Statistiche", code:"STATISTICS"}
         ]

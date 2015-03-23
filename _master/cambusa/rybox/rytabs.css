@@ -1,0 +1,39 @@
+/****************************************************************************
+* Name:            rytabs.css                                               *
+* Project:         Cambusa/ryBox                                            *
+* Version:         1.69                                                     *
+* Description:     Masked input and other form controls                     *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+.rytabs li{
+font-size:14px;
+line-height:19px;
+font-family:verdana,sans-serif;
+}
+
+.rytabs-bar{
+position:absolute;
+left:0px;
+top:0px;
+right:0px;
+height:25px;
+overflow-x:auto;
+overflow-y:hidden;
+border-bottom:1px solid gray;
+background-color:transparent;
+background: -webkit-linear-gradient(white, #CCC); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(white, #CCC); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(white, #CCC); /* For Firefox 3.6 to 15 */
+background: linear-gradient(white, #CCC); /* Standard syntax */
+}
+
+.rytabs-selected{
+background-color:transparent;
+background: -webkit-linear-gradient(gray, #333); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(gray, #333); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(gray, #333); /* For Firefox 3.6 to 15 */
+background: linear-gradient(gray, #333); /* Standard syntax */
+}

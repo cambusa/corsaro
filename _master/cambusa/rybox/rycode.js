@@ -29,7 +29,6 @@ if(_ismissing(_globalcodeinsert)){
 			var propstart=0;
 			var propfocusout=true;
             var propselected=false;
-            var propsospendsel=false;
 			var propctrl=false;
 			var propshift=false;
 			var propobj=this;
@@ -106,8 +105,7 @@ if(_ismissing(_globalcodeinsert)){
             			$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
                         propfocusout=false;
                         propchanged=false;
-                        if(!propsospendsel)
-                            propobj.selected(true);
+                        propobj.selected(true);
                         propstart=0;
                         propobj.refreshcursor();
                         propobj.raisegotfocus();
@@ -253,6 +251,10 @@ if(_ismissing(_globalcodeinsert)){
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
                         return true;
             		if(propenabled && !proplock){
+                        if(propselected){
+                            propobj.clear();
+                            propobj.selected(false);
+                        }
                         var n=String.fromCharCode(k.which);
             			var u=n.toUpperCase();
             			if(propstart<propmaxlen){
@@ -271,10 +273,6 @@ if(_ismissing(_globalcodeinsert)){
                                 }
                             }
             				if(ok){
-                                if(propselected){
-                                    propobj.clear();
-                                    propobj.selected(false);
-                                }
                                 if( propstart<propmaxlen ){
                                     if(propinsert)
                                         propcode=propcode.substr(0,propstart)+n+propcode.substr(propstart);
@@ -302,6 +300,12 @@ if(_ismissing(_globalcodeinsert)){
                     $("#"+propname+"_anchor").val("");
                 }
             );
+            $("#"+propname+"_text").dblclick(
+                function(){
+                    if(propenabled)
+                        propobj.selected(true);
+                }
+            );
             $("#"+propname+"_text").mousedown(
             	function(evt){
                     if(propselected){
@@ -311,7 +315,7 @@ if(_ismissing(_globalcodeinsert)){
             			var p=evt.pageX-propleft;
             			var l,i;
             			propstart=0;
-            			for(i=1;i<=propmaxlen;i++){
+            			for(i=1;i<=propcode.length;i++){
             				l=propobj.textwidth(propcode.substr(0,i));
             				if(l>p+3){
                                 propstart=i;
@@ -325,7 +329,8 @@ if(_ismissing(_globalcodeinsert)){
             $("#"+propname).mousedown(
             	function(evt){
             		if(propenabled){
-            			castFocus(propname);
+                        if(!propselected)
+                            castFocus(propname);
             		}
             	}
             );
@@ -387,7 +392,6 @@ if(_ismissing(_globalcodeinsert)){
 			}
 			this.showdialog=function(r){
                 if(settings.dialog!=missing){
-                    propsospendsel=true;
                     settings.dialog(propobj);
                 }
 			}
@@ -537,7 +541,6 @@ if(_ismissing(_globalcodeinsert)){
 			}
             this.selected=function(v){
                 propselected=v;
-                propsospendsel=false;
                 if($("#"+propname+"_text").html()=="")
                     propselected=false;
                 if(propselected)

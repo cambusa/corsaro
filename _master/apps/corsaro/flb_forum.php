@@ -10,12 +10,24 @@
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+
+/*******************************
+| INIZIALIZZAZIONE GESTORE MDI |
+*******************************/
+
+include_once "../../cambusa/rywinz/rywinclude.php";
+
+/******************************
+| CONFIGURAZIONE APPLICAZIONE |
+******************************/
+
 $winz_appname="corsaro";
 $winz_apptitle="Corsaro";
 $winz_loadmodules="library.php";
 $winz_functionname="qvforum";
 $winz_functionpath="qvcontenuti/";
 $winz_functiontitle="Forum Filibuster";
+$winz_applogout=true;
 
 if(isset($_GET["environ"])){
     $winz_appenviron=$_GET["environ"];
@@ -53,7 +65,9 @@ var _filibustersitename="{$sitename}";
 </script>
 MOREMODULES;
 
-include_once "../appconfig.php";
-include_once "config.php";
-include_once "../../cambusa/rywinz/rywembed.php";
+/**************
+| GESTORE MDI |
+**************/
+
+include_once $path_cambusa."rywinz/rywembed.php";
 ?>

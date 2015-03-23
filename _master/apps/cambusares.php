@@ -11,7 +11,24 @@
 ****************************************************************************/
 $include_lib=Array();
 function CambusaLibrary($id){
-    global $url_cambusa,$url_applications,$url_customize,$include_lib,$google_maps,$google_zoom,$google_lat,$google_lng;
+    global $url_base, $url_cambusa, $url_applications, $url_customize;
+    global $path_root, $path_cambusa, $path_applications, $path_customize;
+    global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
+
+$script_cambusa=<<<CAMBUSA
+<script language="javascript">
+_cambusaURL="../../cambusa/";
+_customizeURL="../../customize/";
+_systeminfo.path.root="$path_root";
+_systeminfo.path.apps="$path_applications";
+_systeminfo.path.cambusa="$path_cambusa";
+_systeminfo.path.customize="$path_customize";
+_systeminfo.url.root="$url_base";
+_systeminfo.url.apps="$url_applications";
+_systeminfo.url.cambusa="$url_cambusa";
+_systeminfo.url.customize="$url_customize";
+</script>
+CAMBUSA;
     
     switch(strtolower($id)){
         case "jquery":
@@ -55,7 +72,7 @@ function CambusaLibrary($id){
             CambusaLibraryAdd("jquery.ui.draggable.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.draggable.js'></script>");
             CambusaLibraryAdd("jquery.ui.mousewheel.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.mousewheel.js'></script>");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js' ></script>");
-            CambusaLibraryAdd("script-cambusa", "<script language='javascript'>_cambusaURL='".$url_cambusa."';_customizeURL='".$url_customize."';</script>");
+            CambusaLibraryAdd("script-cambusa", $script_cambusa);
             CambusaLibraryAdd("ryque.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryque.js' ></script>");
             CambusaLibraryAdd("ryunbound.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryunbound.js' ></script>");
             break;
@@ -64,10 +81,11 @@ function CambusaLibrary($id){
 			CambusaLibraryAdd("jquery.ui.core.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.core.css' rel='stylesheet' />");
             CambusaLibraryAdd("jquery.ui.theme.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.theme.css' rel='stylesheet' />");
             CambusaLibraryAdd("jquery.ui.datepicker.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.datepicker.css' rel='stylesheet' />");
-            CambusaLibraryAdd("jquery.ui.tabs.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.tabs.css' rel='stylesheet' />");
+            //CambusaLibraryAdd("jquery.ui.tabs.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.tabs.css' rel='stylesheet' />");
             CambusaLibraryAdd("css-datepicker", "<style>div.ui-datepicker{font-size:11px;}</style>");
             CambusaLibraryAdd("css-contextmenu", "<style>.ry-contextMenu{font-family:verdana;font-size:12px;}input,select,a:focus{outline:none;border:none;}</style>");
             CambusaLibraryAdd("rybox.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rybox.css' />");
+            CambusaLibraryAdd("rytabs.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytabs.css' />");
             //CambusaLibraryAdd("rytools.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytools.css' />");
             
             CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js' ></script>");
@@ -75,9 +93,9 @@ function CambusaLibrary($id){
             CambusaLibraryAdd("jquery.ui.widget.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.widget.js'></script>");
             CambusaLibraryAdd("jquery.ui.datepicker.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.datepicker.js' ></script>");
             CambusaLibraryAdd("jquery.ui.contextmenu.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.contextmenu.js' ></script>");
-            CambusaLibraryAdd("jquery.ui.tabs.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.tabs.js' ></script>");
+            //CambusaLibraryAdd("jquery.ui.tabs.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.tabs.js' ></script>");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js' ></script>");
-            CambusaLibraryAdd("script-cambusa", "<script language='javascript'>_cambusaURL='".$url_cambusa."';_customizeURL='".$url_customize."';</script>");
+            CambusaLibraryAdd("script-cambusa", $script_cambusa);
             CambusaLibraryAdd("rybox.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rybox.js' ></script>");
             CambusaLibraryAdd("rytabs.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rytabs.js' ></script>");
             //CambusaLibraryAdd("rytools.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rytools.js' ></script>");
@@ -136,7 +154,7 @@ function CambusaLibrary($id){
             CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js' ></script>");
             CambusaLibraryAdd("fileuploader.ry.js", "<script type='text/javascript' src='".$url_cambusa."ryupload/fileuploader.ry.js'></script>");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js' ></script>");
-            CambusaLibraryAdd("script-cambusa", "<script language='javascript'>_cambusaURL='".$url_cambusa."';_customizeURL='".$url_customize."';</script>");
+            CambusaLibraryAdd("script-cambusa", $script_cambusa);
             CambusaLibraryAdd("ryupload.js", "<script type='text/javascript' src='".$url_cambusa."ryupload/ryupload.js'></script>");
             break;
     
@@ -147,14 +165,14 @@ function CambusaLibrary($id){
             CambusaLibraryAdd("jquery.cookie.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.cookie.js' ></script>");
             CambusaLibraryAdd("jquery.treeview.ry.js", "<script type='text/javascript' src='".$url_cambusa."jqtreeview/jquery.treeview.ry.js' ></script>");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js' ></script>");
-            CambusaLibraryAdd("script-cambusa", "<script language='javascript'>_cambusaURL='".$url_cambusa."';_customizeURL='".$url_customize."';</script>");
+            CambusaLibraryAdd("script-cambusa", $script_cambusa);
             CambusaLibraryAdd("ryfamily.js", "<script type='text/javascript' src='".$url_cambusa."ryfamily/ryfamily.js' ></script>");
             break;
     
         case "rysource":
             CambusaLibrary("ryfamily");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js' ></script>");
-            CambusaLibraryAdd("script-cambusa", "<script language='javascript'>_cambusaURL='".$url_cambusa."';_customizeURL='".$url_customize."';</script>");
+            CambusaLibraryAdd("script-cambusa", $script_cambusa);
             CambusaLibraryAdd("rysource.js", "<script type='text/javascript' src='".$url_cambusa."rysource/rysource.js' ></script>");
             CambusaLibraryAdd("css-source", "<style>.anchor_rysource{text-decoration:none;color:#000000;}.anchor_rysource:hover{text-decoration:none;color:red;}</style>");
             break;

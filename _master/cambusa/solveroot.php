@@ -28,6 +28,12 @@ function installationURL(){
         if($p!==false){
             $s=substr($s, 0, $p);
         }
+        else{
+            $p=strrpos($s, "/customize");
+            if($p!==false){
+                $s=substr($s, 0, $p);
+            }
+        }
     }
     $s.="/";
     return $s;

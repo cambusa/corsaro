@@ -39,6 +39,7 @@ var RYBOX;
 			var propvisible=true;
             var proplink=null;
             var propdefault="";
+            var prophelp=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -374,6 +375,12 @@ var RYBOX;
                     $("#"+propname+"_anchor").val("");
                 }
             );
+            $("#"+propname+"_text").dblclick(
+                function(){
+                    if(propenabled)
+                        propobj.selected(true);
+                }
+            );
             $("#"+propname+"_text").mousedown(
             	function(evt){
                     if(propselected){
@@ -403,14 +410,23 @@ var RYBOX;
             $("#"+propname).mousedown(
             	function(evt){
             		if(propenabled){
-            			castFocus(propname);
+                         if(!propselected)
+                            castFocus(propname);
             		}
             	}
             );
             $("#"+propname+"_button").click(
             	function(){
             		if(propenabled){
-            			propobj.showcalendar();
+                        if(!prophelp){
+                            propobj.showcalendar();
+                            prophelp=true;
+                        }
+                        else{
+                            if($("#"+propname+"_text").html()=="__/__/____")
+                                propobj.value(_today());
+                            prophelp=false;
+                        }
             		}
             	}
             );
@@ -462,7 +478,15 @@ var RYBOX;
 						propobj.value(new Date(dateText), true);
 						objectFocus(propname);
 					},
-					{onClose:function(){objectFocus(propname)}},
+					{
+                        onClose:function(){
+                            objectFocus(propname)
+                            prophelp=true;
+                            setTimeout(function(){
+                                prophelp=false;
+                            }, 500);
+                        }
+                    },
 					[p.left,p.top+propheight]
 				);
 			}
@@ -728,6 +752,7 @@ var RYBOX;
 			var propchanged=false;
 			var propenabled=true;
 			var propvisible=true;
+            var prophelp=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -1044,6 +1069,12 @@ var RYBOX;
                     $("#"+propname+"_anchor").val("");
                 }
             );
+            $("#"+propname+"_text").dblclick(
+                function(){
+                    if(propenabled)
+                        propobj.selected(true);
+                }
+            );
             $("#"+propname+"_text").mousedown(
             	function(evt){
                     if(propselected){
@@ -1051,21 +1082,48 @@ var RYBOX;
                     }
             		if(propenabled){
             			propstart=0;
-            			propobj.refreshcursor();
+            			var p=evt.pageX-propleft;
+            			var l,i;
+                        var t=propobj.formatted();
+                        t=t.replace(/&#x02D9;/g, ".");
+                        var x=propwidth-propobj.textwidth(t)-23;
+                        var j=-propinteger.length;
+                        for(i=1;i<=t.length;i++){
+                            l=propobj.textwidth(t.substr(0,i));
+                            if(l+x>p+3){
+                                propstart=j;
+                                break;
+                            }
+                            switch(t.substr(i,1)){
+                            case ".":case "-":
+                                break;
+                            default:
+                                j+=1;
+                            }
+                        }
+                        propobj.refreshcursor();
             		}
             	}
             );
             $("#"+propname).mousedown(
             	function(evt){
             		if(propenabled){
-            			castFocus(propname);
+                        if(!propselected || prophelp)
+                            castFocus(propname);
             		}
             	}
             );
             $("#"+propname+"_button").click(
             	function(){
             		if(propenabled){
-            			propobj.showcalculator();
+                        if(!prophelp){
+                            propobj.showcalculator();
+                            prophelp=true;
+                        }
+                        else{
+                            acceptvalue();
+                            prophelp=false;
+                        }
             		}
             	}
             );
@@ -1115,6 +1173,7 @@ var RYBOX;
 			this.showcalculator=function(r){
                 if(_mobiledetected){
                     var v=prompt("Inserire un valore o una formula");
+                    prophelp=false;
                     if(typeof(v)=="string"){
                         v=v.replace(",", ".");
                         v=v.replace(/[^0-9.+\-*\/\(\)]/g, "");
@@ -1142,6 +1201,10 @@ var RYBOX;
                             globaledittext=false;
                             $("#rybox_calculator").hide();
                             $("#rybox_calculator").empty();
+                            prophelp=true;
+                            setTimeout(function(){
+                                prophelp=false;
+                            }, 500);
                         }
                     );
                     $("#rybox_calculator_input").keydown(
@@ -1150,19 +1213,7 @@ var RYBOX;
                             propctrl=k.ctrlKey;
                             var n=String.fromCharCode(k.which).toUpperCase();
                             if(k.which==13){ // INVIO
-                                var v=0;
-                                try{
-                                    v=$("#rybox_calculator_input").val();
-                                    v=v.replace(",", ".");
-                                    v=v.replace(/[^0-9.+\-*\/\(\)]/g, "");
-                                    v=eval( v );
-                                    if(typeof v==="String")
-                                        v=_getfloat(v);
-                                }catch(e){
-                                    v=0;
-                                }
-                                propobj.value(v, true);
-                                objectFocus(propname);
+                                acceptvalue();
                             }
                             else if(k.which==27){ // ESC
                                 objectFocus(propname);
@@ -1435,6 +1486,23 @@ var RYBOX;
             }
             this.raiseexception=function(){
                 if(settings.exception!=missing){settings.exception(propobj)}
+            }
+            function acceptvalue(){
+                var v=0;
+                try{
+                    v=$("#rybox_calculator_input").val();
+                    if(_isset(v)){
+                        v=v.replace(",", ".");
+                        v=v.replace(/[^0-9.+\-*\/\(\)]/g, "");
+                        v=eval( v );
+                        v=_getfloat(v);
+                    }
+                }catch(e){
+                    if(window.console)console.log(e.message);
+                    v=0;
+                }
+                propobj.value(v, true);
+                objectFocus(propname);
             }
             // ADEGUO I DECIMALI A NUMDEC
             if(propnumdec!=2)
@@ -1812,16 +1880,20 @@ var RYBOX;
             $("#"+propname+"_anchor").focus(
             	function(){
             		if(propenabled){
-                        $("#"+propname+"_caption").css({"background-color":"#FFE8CC"});
+                        if(propflat)
+                            $("#"+propname+"_caption").css({"background-color":"#FFE8CC"});
+                        else{
+                            $("#"+propname+"_caption").css({"border-color":"#666"});
+                        }
             		}
             	}
             );
             $("#"+propname+"_anchor").focusout(
             	function(){
                     if(propflat)
-                        $("#"+propname+"_caption").css({"background-color":"#FFFFFF"});
+                        $("#"+propname+"_caption").css({"background-color":"transparent"});
                     else
-                        $("#"+propname+"_caption").css({"background-color":"#F4F4F4"});
+                        $("#"+propname+"_caption").css({"border-color":"silver"});
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -1844,12 +1916,11 @@ var RYBOX;
                     if(propenabled){
                         if(settings.click!=missing){
                             if(propbutton){
-                                if($.browser.opera||$.browser.msie){
-                                    var prevb=$("#"+propname+"_caption").css("background-color");
-                                    $("#"+propname+"_caption").css("background-color","#FFA333");
+                                if(propflat){
+                                    $("#"+propname+"_caption").css({"background-color":"#FFF8EC"});
                                     setTimeout(function(){
-                                        $("#"+propname+"_caption").css("background-color",prevb);
-                                    }, 300);
+                                        $("#"+propname+"_caption").css({"background-color":"#FFE8CC"});
+                                    }, 500);
                                 }
                                 else{
                                     $("#"+propname+"_caption").addClass("rybutton-click");
@@ -1905,19 +1976,6 @@ var RYBOX;
 					return propenabled;
 				else
                     setenabled(v);
-                    if(_bool(v)==0){
-                        var c="#FFFFFF";
-                        if(propbutton){
-                            if(propflat)
-                                c="#FFFFFF";
-                            else
-                                c="#F4F4F4";
-                        }
-                        $("#"+propname+"_caption").css({"background-color":c, "cursor":"default"});
-                    }
-                    else{
-                        $("#"+propname+"_caption").css({"cursor":"pointer"});
-                    }
 			}
 			this.visible=function(v){
 				if(v==missing)
@@ -1936,13 +1994,19 @@ var RYBOX;
 			}
             // FUNZIONI PRIVATE
             function setenabled(v){
-                if(propenabled=_bool(v)){
+                propenabled=_bool(v);
+                if(propenabled){
                     $("#"+propname+"_caption").css({"color":"inherit"});
-                    $("#"+propname+"_anchor").css({"cursor":"pointer","color":"#AA2222"});
+                    if(propflat)
+                        $("#"+propname+"_anchor").css({"cursor":"pointer","color":"#AA2222"});
+                    else
+                        $("#"+propname+"_anchor").css({"cursor":"pointer","color":"#333"});
+                    $("#"+propname+"_caption").removeClass("rybutton-disabled");
                 }
                 else{
                     $("#"+propname+"_caption").css({"color":"gray"});
                     $("#"+propname+"_anchor").css({"cursor":"text","color":"gray"});
+                    $("#"+propname+"_caption").addClass("rybutton-disabled");
                 }
             }
             function setvisible(v){

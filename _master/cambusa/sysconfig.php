@@ -24,11 +24,19 @@ $url_base=installationURL();
 
 $path_root=installationPATH();
 
-/********************
-| PERCORSO DATABASE |
-********************/
+/************************
+| PERCORSO APPLICATIONS |
+************************/
 
-$path_databases=$path_root."databases/";
+$path_applications=$path_root."apps/";
+$url_applications=$url_base."apps/";
+
+/*******************
+| PERCORSO CAMBUSA |
+*******************/
+
+$path_cambusa=$path_root."cambusa/";
+$url_cambusa=$url_base."cambusa/";
 
 /*********************
 | PERCORSO CUSTOMIZE |
@@ -37,19 +45,11 @@ $path_databases=$path_root."databases/";
 $path_customize=$path_root."customize/";
 $url_customize=$url_base."customize/";
 
-/************************
-| PERCORSO APPLICATIONS |
-************************/
+/********************************
+| PERCORSO DATABASE PREDEFINITO |
+********************************/
 
-$path_applications=$path_root."apps/";
-$url_applications=$url_base."apps/";
-
-/**************
-| URL CAMBUSA |
-**************/
-
-$path_cambusa=$path_root."cambusa/";
-$url_cambusa=$url_base."cambusa/";
+$path_databases=$path_root."databases/";
 
 /************
 | URL MONAD |
@@ -58,21 +58,11 @@ $url_cambusa=$url_base."cambusa/";
 //$url_rymonad="http://www.rudyz.net/cambusa/rymonad/";
 $url_rymonad="";
 
-/********************
-| SESSIONE PUBBLICA |
-********************/
-
-$public_sessionid="";
-$ryque_sessionid="";
-if(is_file($path_databases."_configs/session.php")){
-    include_once $path_databases."_configs/session.php";
-}
-
 /*****************************
 | INDIRIZZO EMAIL DI SISTEMA |
 *****************************/
 
-$postmaster_mail="postmaster@rudyz.net";
+$postmaster_mail="";
 
 /************************
 | ESTENSIONI CONSENTITE |
@@ -86,6 +76,12 @@ $safe_extensions="pdf|zip|jpg|jpeg|gif|png|svg|htm|html|pht|txt|mp3|mp4|wav|avi|
 
 $check_sessionip=false;
 
+/*********************
+| LINGUA PREDEFINITA |
+*********************/
+
+$config_defaultlang="default";
+
 /******************
 | VERSIONE SQLITE |
 ******************/
@@ -95,11 +91,23 @@ if(floatval(phpversion())<5.3){
     $sqlite3_enabled=false;
 }
 
-/*********************
-| LINGUA PREDEFINITA |
-*********************/
+/********************
+| PERSONALIZZAZIONI |
+********************/
 
-$config_defaultlang="default";
+if(is_file($path_customize."_cambusa.php")){
+    include $path_customize."_cambusa.php";
+}
+
+/********************
+| SESSIONE PUBBLICA |
+********************/
+
+$public_sessionid="";
+$ryque_sessionid="";
+if(is_file($path_databases."_configs/session.php")){
+    include_once $path_databases."_configs/session.php";
+}
 
 // Non aggiungere accapi o spazi dopo ">"
 ?>

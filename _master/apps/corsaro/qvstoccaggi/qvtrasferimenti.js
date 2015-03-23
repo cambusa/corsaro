@@ -598,7 +598,7 @@ function class_qvtrasferimenti(settings,missing){
 
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
-        top:40,position:"relative",
+        top:50,
         tabs:[
             {title:"Selezione"},
             {title:"Contesto"},

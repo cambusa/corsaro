@@ -218,6 +218,9 @@ function ryWinz(missing){
                                 .done(function(){
                                     if(window.console&&_sessioninfo.debugmode)console.log(_openingparams);
                                     eval("new class_"+propname+"("+_openingparams+")");
+                                    if(settings.initialize!=missing){
+                                        settings.initialize();
+                                    }
                                     // SCATENO LA LOAD
                                     raiseLoad(propid);
                                     // SCATENO LA PRIMA RESIZE
@@ -238,6 +241,9 @@ function ryWinz(missing){
                             _openingname=propname;
                             if(window.console&&_sessioninfo.debugmode)console.log(_openingparams);
                             eval("new class_"+propname+"("+_openingparams+")");
+                            if(settings.initialize!=missing){
+                                settings.initialize();
+                            }
                             // SCATENO LA LOAD
                             raiseLoad(propid);
                             // SCATENO LA PRIMA RESIZE
@@ -274,6 +280,28 @@ function ryWinz(missing){
         else if(ready){
             ready();
         }
+    }
+    this.shell=function(params){
+        try{
+            _openingparams=_stringify(params);
+            if(params.controls!=missing){
+                if(!params.controls){
+                    params.initialize=function(){
+                        $("#window_rudder div.window_top").css({"display":"none"});
+                        $("#message_rudder").css({"display":"none"});
+                        $("#window_rudder>span.ui-resizable-handle").css({"right":"-50px"});
+                        $("#window_rudder div.window_content").css({"top":0, "bottom":0});
+                    }
+                }
+            }
+            RYWINZ.newform(params);
+            if(params.maximize!=missing){
+                if(params.maximize){
+                    JQD.util.window_resize("#window_rudder");
+                }
+            }
+        }
+        catch(e){}
     }
     function createid(){
         _winzprogrid++;

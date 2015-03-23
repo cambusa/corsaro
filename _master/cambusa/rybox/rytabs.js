@@ -16,13 +16,14 @@
 			var proptop=0;
 			var propwidth=0;
 			var propheight=0;
-            var proptabs=false;
+            var proptabs=[];
             var propprevtab=-1;
             var propcurrtab=0;
             var propsuspend=false;
 			var propobj=this;
 			var propvisible=true;
             var propposition="absolute";
+            var propcolorsel="gray";;
 
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -36,10 +37,11 @@
 			if(settings.width!=missing){propwidth=settings.width};
             if(settings.height!=missing){propheight=settings.height};
             if(settings.tabs!=missing){proptabs=settings.tabs}
-            if(settings.position!=missing){propposition=settings.position}
+            //if(settings.position!=missing){propposition=settings.position}
 			
             $("#"+propname).addClass("rytabs");
-            $("#"+propname).css({position:propposition, left:propleft, top:proptop});
+            $("#"+propname).addClass("ryobject");
+            $("#"+propname).css({position:propposition, left:propleft, top:proptop, width:"100%"});
             if(propwidth>0)
                 $("#"+propname).css({width:propwidth});
             if(propheight>0)
@@ -56,29 +58,25 @@
             );
             
             $("#"+propname).prepend("<ul id='"+propname+"_ul'></ul>");
+            $("#"+propname+"_ul").addClass("rytabs-bar");
             
-            if(proptabs){
-                for(var i=0;i<proptabs.length;i++)
-                    $("#"+propname+"_ul").append("<li><a id='"+propname+"_caption_"+(i+1)+"' href='#"+propname+"-"+(i+1)+"'>"+proptabs[i].title+"</a></li>");
+            for(var i=0;i<proptabs.length;i++){
+                $("#"+propname+"_ul").append("<li><a id='"+propname+"_caption_"+(i+1)+"' href='javascript:'>"+proptabs[i].title+"</a></li>");
+                $("#"+propname+"_caption_"+(i+1)).css({"float":"left", "padding":"2px 25px 2px", "top":5, "height":25, "cursor":"pointer", "border":"none", "color":"black", "white-space":"nowrap"})
+                .prop("_index", i+1)
+                .click(
+                    function(){
+                        propobj.currtab($(this).prop("_index"));
+                    }
+                );
+                proptabs[i].enabled=1;
             }
 
-            $("#"+propname).tabs();
-            $("#"+propname).tabs("select",0);
-            $("#"+propname).tabs({
-                select:function(ev,ui){
-                    propprevtab=propcurrtab;
-                    propcurrtab=ui.index;
-                    if(settings.select!=missing){
-                        if(!propsuspend)
-                            settings.select(propcurrtab+1, propprevtab+1);
-                        // In ogni caso lo pongo a false poiché potrebbe essere posto a true dentro la select
-                        propsuspend=false;
-                    }
+            $("#"+propname+">div").each(
+                function(index){
+                    $(this).css({"position":"absolute", "left":0, "top":0, "width":"100%", "overflow":"visible", "display":(index==0?"block":"none")});
                 }
-            });
-            if(settings.select!=missing){
-                settings.select(1,0);
-            }
+            );
             
             // FUNZIONI PUBBLICHE
             this.move=function(params){
@@ -98,7 +96,41 @@
                 else{
                     if(s!=missing)
                         propsuspend=s;
-                    $("#"+propname).tabs("select", t-1);
+                    if(proptabs[t-1].enabled){
+                        for(var i=0;i<proptabs.length;i++){
+                            var bg="transparent";
+                            var fg="black";
+                            if(!proptabs[i].enabled)
+                                fg="silver";
+                            if(i==t-1){
+                                bg=propcolorsel;
+                                fg="white";
+                            }
+                            $("#"+propname+"_caption_"+(i+1)).css({"background-color":bg, "color":fg});
+                            
+                            if(i==t-1)
+                                $("#"+propname+"_caption_"+(i+1)).addClass("rytabs-selected");
+                            else
+                                $("#"+propname+"_caption_"+(i+1)).removeClass("rytabs-selected");
+                        }
+                        $("#"+propname+">div").each(
+                            function(index){
+                                $(this).css({"display":(index==t-1 ? "block" : "none")});
+                            }
+                        );
+                        propprevtab=propcurrtab;
+                        propcurrtab=t-1;
+                        setTimeout(
+                            function(){
+                                if(settings.select!=missing){
+                                    if(!propsuspend)
+                                        settings.select(propcurrtab+1, propprevtab+1);
+                                    // In ogni caso lo pongo a false poiché potrebbe essere posto a true dentro la select
+                                    propsuspend=false;
+                                }
+                            }
+                        );
+                    }
                 }
             }
             this.prevtab=function(){
@@ -126,19 +158,30 @@
 			}
 			this.enabled=function(t,v){
 				if(v==missing){
-                    var b=$("#"+propname).tabs("option","disabled");
-                    var r=1;
-                    for(var i=0;i<b.length;i++){
-                        if(b[i]==t-1)
-                            r=0;
-                    }
-					return r;
+					return proptabs[t-1].enabled;
 				}
 				else{
-                    if(v)
-                        $("#"+propname).tabs("enable", t-1);
-                    else
-                        $("#"+propname).tabs("disable", t-1);
+                    proptabs[t-1].enabled=_bool(v);
+                    $("#"+propname+"_caption_"+t).css({"color":(v ? "black" : "silver"), "cursor":(v ? "pointer" : "default")});
+
+                    // Gestisco il caso di tab corrente che viene disabilitato
+                    if(propcurrtab==t){
+                        var f=0;
+                        for(var i in proptabs){
+                            if(proptabs[i].enabled && f==0){
+                                f=i+1;
+                            }
+                        }
+                        if(f==0){
+                            f=1;
+                            propobj.enabled(1, 1);
+                        }
+                        setTimeout(
+                            function(){
+                                propobj.currtab(f);
+                            }
+                        );
+                    }
 				}
 			}
 			this.visible=function(v){
@@ -158,6 +201,8 @@
 					propsuspend=v;
                 return propsuspend;
 			}
+            propobj.currtab(1);
+
 			return this;
 		}
 	});

@@ -385,7 +385,7 @@ function class_qvgenretypes(settings,missing){
 
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
-        top:10,position:"relative",
+        top:0,
         tabs:[
             {title:"Selezione"},
             {title:"Contesto"},

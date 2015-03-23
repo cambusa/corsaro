@@ -1,0 +1,8 @@
+<?php
+
+$egoimage_header=$url_customize."ryego/images/classic-backheader.svg";
+$egoimage_logo=$url_customize."ryego/images/ego.gif";
+$egoimage_footer=$url_customize."ryego/images/classic-backfooter.svg";
+
+?>
+

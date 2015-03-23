@@ -1669,7 +1669,7 @@
                     .addClass("ryque")
                     .width(propwidth)
                     .height(proprowh*(proprows+1)+propscrollsize+2)
-                    .css({"position":"absolute","left":propleft,"top":proptop,"font-family":"verdana","font-size":"13px","overflow":"hidden"});
+                    .css({"position":"absolute","left":propleft,"top":proptop,"font-family":"verdana,sans-serif","font-size":"13px","overflow":"hidden"});
                     
                 $("#"+propname+" .column_0")
                     .width(propzerowidth-8)

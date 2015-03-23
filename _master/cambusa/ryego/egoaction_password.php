@@ -15,8 +15,10 @@ if(!isset($tocambusa))
 include_once $tocambusa."ryego/ego_crypt.php";
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."ryque/ryq_util.php";
+include_once $tocambusa."ryego/ego_util.php";
 include_once $tocambusa."phpseclib/Math/BigInteger.php";
 include_once $tocambusa."phpseclib/Crypt/RSA.php";
+
 try{
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
@@ -100,7 +102,7 @@ try{
                 if($newpwd==sha1("")){
                     $success=0;
                     $field=2;
-                    $description="La password è obbligatoria";
+                    $description="La password Ã¨ obbligatoria";
                     $babelcode="EGO_MSG_MANDATORYPWD";
                 }
                 elseif($newpwd==$repeatpwd){
@@ -186,14 +188,14 @@ try{
                     else{
                         $success=0;
                         $field=2;
-                        $description="La nuova password è identica alla vecchia";
+                        $description="La nuova password Ã¨ identica alla vecchia";
                         $babelcode="EGO_MSG_UNCHANGEDPWD";
                     }
                 }
                 else{
                     $success=0;
                     $field=3;
-                    $description="La password è stata digitata in due modi diversi";
+                    $description="La password Ã¨ stata digitata in due modi diversi";
                     $babelcode="EGO_MSG_MISMATCHPWD";
                 }
             }
@@ -223,6 +225,7 @@ $description=qv_babeltranslate($description);
 $j=array();
 $j["success"]=$success;
 $j["field"]=$field;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
+array_walk_recursive($j, "ego_escapize");
 print json_encode($j);
 ?>

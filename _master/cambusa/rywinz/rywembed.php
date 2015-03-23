@@ -24,10 +24,19 @@ else{
         $sessionid="";
 }
 
-// ASSEGNO LA VARIABILE CHE FORZEREBBE L'AMBIENTE SE NON FOSSE SETTATA
+// ASSEGNO LA FORZATURA AMBIENTE
 if(!isset($winz_appenviron)){
     $winz_appenviron="";
 }
+
+// ASSEGNO LA BARRA LOGOUT
+if(!isset($winz_applogout)){
+    $winz_applogout=true;
+}
+if($winz_applogout)
+    $desk_top=13;
+else
+    $desk_top=1;
 
 ?><!DOCTYPE html>
 <html>
@@ -161,11 +170,17 @@ function winz_logout(){
 </head>
 <body spellcheck="false">
 
+<?php
+if($winz_applogout){
+?>
 <div id="winz_draggable" style="position:absolute;top:0px;left:0px;right:0px;height:12px;padding-right:5px;font-size:10px;text-align:right;background:black;">
 <a href="javascript:winz_logout()" style="color:#F9F9F9;cursor:pointer;">Logout</a>
 </div>
+<?php
+}
+?>
 
-<div style="position:absolute;top:12px;left:0px;right:0px;bottom:0px;">
+<div style="position:absolute;top:<?php print $desk_top; ?>px;left:0px;right:0px;bottom:0px;">
 <div id="desktop"></div>
 </div>
 

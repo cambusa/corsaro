@@ -1,32 +1,24 @@
 <?php 
 /****************************************************************************
-* Name:            custconfig.php                                           *
+* Name:            _cambusa.php                                             *
 * Project:         Customize                                                *
 * Version:         1.69                                                     *
 * Description:     Customize configuration file                             *
-* Copyright (C):   2012-2013  Rodolfo Calzetti                              *
+* Copyright (C):   2015 Rodolfo Calzetti                                    *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-/*******************
-| PERCORSO CAMBUSA |
-*******************/
+/**********************
+| VARIABILI FRAMEWORK |
+**********************/
 
-$path_cust2cambusa="../cambusa/";
+$postmaster_mail="postmaster@rudyz.net";
 
-/********************************
-| AMBIENTE DIRECTORY TEMPORANEA |
-********************************/
-
-$temp_environ="temporary";
-
-/***************
-| INTESTAZIONE |
-***************/
-
-$cust_header="Mulfa - Azienda Ombra";
+if(strpos($url_base, "localhost")!==false){
+    $path_databases="D:/WebData/databases/";
+}
 
 // Non aggiungere accapi o spazi dopo ">"
 ?>

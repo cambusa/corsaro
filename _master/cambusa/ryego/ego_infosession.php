@@ -71,6 +71,7 @@ try{
     $user="";
     $admin=0;
     $email="";
+    $registry="";
     $dateformat=0;
     
     if($sqlite3_enabled)
@@ -131,7 +132,7 @@ try{
                 }
 
                 // Alias
-                $sql="SELECT ALIASNAME,USERID,USERNAME,ADMINISTRATOR,EMAIL FROM EGOVIEWUSERS WHERE SYSID='$aliasid'";
+                $sql="SELECT ALIASNAME,USERID,USERNAME,ADMINISTRATOR,EMAIL,REGISTRY FROM EGOVIEWUSERS WHERE SYSID='$aliasid'";
                 maestro_query($maestro, $sql, $r);
                 if(count($r)>0){
                     $alias=$r[0]["ALIASNAME"];
@@ -139,6 +140,7 @@ try{
                     $user=$r[0]["USERNAME"];
                     $admin=intval($r[0]["ADMINISTRATOR"]);
                     $email=$r[0]["EMAIL"];
+                    $registry=$r[0]["REGISTRY"];
                 }
                 
                 // Applicazione
@@ -216,6 +218,7 @@ if($success==0){
     $user="";
     $admin=0;
     $email="";
+    $registry="";
     $dateformat=0;
     $sqlite="";
 }
@@ -245,6 +248,7 @@ $j["userid"]=htmlentities($userid);
 $j["user"]=htmlentities($user);
 $j["admin"]=$admin;
 $j["email"]=htmlentities($email);
+$j["registry"]=htmlentities($registry);
 $j["dateformat"]=$dateformat;
 $j["sqlite"]=$sqlite;
 if($padding=="")

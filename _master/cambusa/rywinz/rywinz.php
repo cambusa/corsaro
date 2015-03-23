@@ -10,7 +10,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-// ASSEGNO LA VARIABILE CHE FORZEREBBE L'AMBIENTE SE NON FOSSE SETTATA
+// ASSEGNO LA FORZATURA AMBIENTE
 if(!isset($winz_appenviron)){
     $winz_appenviron="";
 }
@@ -20,7 +20,7 @@ if(!isset($winz_appenviron)){
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
-<title><?php print $winz_apptitle ?></title>
+<title><?php print $RYWINZ->apptitle ?></title>
 <link rel='shortcut icon' href='_images/favicon.ico' type='image/x-icon'/>
 <?php
 CambusaLibrary("ryBox");
@@ -29,8 +29,9 @@ CambusaLibrary("rySource");
 CambusaLibrary("ryWinz");
 CambusaLibrary("ryDraw");
 
-if(is_file("library.php"))
-    include("library.php");
+if(is_file("library.php")){
+    include_once "library.php";
+}
 
 if(isset($_POST["sessionid"]))
     $sessionid=$_POST["sessionid"];
@@ -39,27 +40,6 @@ elseif(isset($_GET["sessionid"]))
 else
     $sessionid="";
 
-// VALORI DI CONFIGURAZIONE
-if(!isset($companyname))
-    $companyname="Anonymous";
-if(!isset($aboutwidth))
-    $aboutwidth=550;
-if(!isset($aboutheight))
-    $aboutheight=320;
-if(!isset($aboutinclude))
-    $aboutinclude="";
-if(!isset($winz_apptitle))
-    $winz_apptitle="ryWinz";
-if(!isset($winz_appdescr))
-    $winz_appdescr="Arrows-oriented application based on advanced web technologies";
-if(!isset($winz_appversion))
-    $winz_appversion="1.00";
-if(!isset($copyright_name))
-    $copyright_name="RudyZ";
-if(!isset($copyright_year))
-    $copyright_year="2014";
-if(!isset($copyright_dealer))
-    $copyright_dealer="";
 ?>
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="<?php print $url_cambusa ?>jqdesktop/assets/css/ie.css" />
@@ -67,10 +47,22 @@ if(!isset($copyright_dealer))
 <script>
 _baseURL="<?php  print rywinzHost() ?>";
 _sessionid="<?php  print $sessionid ?>";
-var _appname="<?php  print $winz_appname ?>";
-var _apptitle="<?php  print $winz_apptitle ?>";
+var _appname="<?php  print $RYWINZ->appname ?>";
+var _apptitle="<?php  print $RYWINZ->apptitle ?>";
 var _appenviron="<?php  print $winz_appenviron ?>";
+var _companyname="<?php  print $RYWINZ->company ?>";
+var _postmantitle="<?php  print $RYWINZ->postman->title ?>";
 var _timerPostman;
+var PILOTA={
+    id:"rudder",
+    name:"<?php print $RYWINZ->pilota->name ?>",
+    path:"<?php print $RYWINZ->pilota->path ?>",
+    title:"<?php print $RYWINZ->pilota->title ?>",
+    desk:true,
+    icon:"<?php print $RYWINZ->pilota->icon ?>",
+    maximize:<?php print ($RYWINZ->pilota->maximize ? 1 : 0) ?>,
+    controls:<?php print ($RYWINZ->pilota->controls ? 1 : 0) ?>
+}
 $(document).ready(function(){
     RYEGO.go({
         crossdomain:"",
@@ -96,16 +88,12 @@ $(document).ready(function(){
     });
 });
 function mdiconfig(){
-    $("#sessioninfo").html("<?php  print $companyname ?> / "+_apptitle+" / "+_sessioninfo.envdescr+" / "+_sessioninfo.alias);
-    _openingparams="({environ:\""+_appname+"_"+_sessioninfo.role+"\",root:\""+_sessioninfo.roledescr+"\"})";
-    RYWINZ.newform({
-        id:"rudder",
-        name:"rudder",
-        path:_cambusaURL+"rywinz/rudder/",
-        title:"Pilota",
-        desk:true,
-        icon:_cambusaURL+"rywinz/rudder/rudder"
-    });
+    $("#sessioninfo").html(_companyname+" / "+_apptitle+" / "+_sessioninfo.envdescr+" / "+_sessioninfo.alias);
+    var params=PILOTA;
+    params.environ=_appname+"_"+_sessioninfo.role;
+    params.root=_sessioninfo.roledescr;
+    RYWINZ.shell(params);
+    
     // Internet Explorer gestisce l'evento in un modo impossibile
     if(!$.browser.msie){
         window.onbeforeunload=winz_confirmExit;
@@ -214,7 +202,7 @@ function winz_logout(promptmess){
                 ego_logout();
             }, 10000
         );
-        winzRemoveAll(  // Rimozione di tuttu i form
+        winzRemoveAll(  // Rimozione di tutti i form
             function(){
                 RYQUE.dispose(  // Rimozione RYQUE principale
                     function(){
@@ -250,7 +238,7 @@ function winz_postman(){
             id:"postman",
             name:"postman",
             path:_cambusaURL+"rywinz/postman/",
-            title:"Postman",
+            title:_postmantitle,
             desk:true,
             icon:_cambusaURL+"rywinz/postman/postman"
         });
@@ -284,39 +272,48 @@ function winz_postman(){
 			<li>
 				<a class="menu_trigger" href="#">File</a>
 				<ul class="menu">
-					<li><a class="rudyz" href="#icon_dock_rudder">Pilota</a></li>
-                    <li><a class="rudyz" href="javascript:" onclick="winz_postman()">Postman</a></li>
+					<li><a class="rudyz" href="#icon_dock_rudder"><?php print $RYWINZ->pilota->title ?></a></li>
+                    <li><a class="rudyz" href="javascript:" onclick="winz_postman()"><?php print $RYWINZ->postman->title ?></a></li>
 					<li><a class="rudyz" href="javascript:" onclick="winz_logout(true)">Logout</a></li>
 				</ul>
 			</li>
 			<li>
-				<a class="menu_trigger" href="#">Cambusa</a>
+				<a class="menu_trigger" href="#"><?php print $RYWINZ->tools->title; ?></a>
 				<ul class="menu">
-					<li><a class="rudyz" href="<?php print $url_cambusa ?>ryego/ryego.php" target="_blank">Ego</a></li>
-					<li><a class="rudyz" href="<?php print $url_cambusa ?>rymaestro/rymaestro.php" target="_blank">Maestro</a></li>
-                    <li><a class="rudyz" href="<?php print $url_cambusa ?>rymirror/rymirror.php" target="_blank">Mirror</a></li>
-                    <li><a class="rudyz" href="<?php print $url_cambusa ?>rypulse/rypulse.php" target="_blank">Pulse</a></li>
+<?php
+// MENU CAMBUSA
+foreach($RYWINZ->tools->items as $k => $v){
+    print "					<li><a class=\"rudyz\" href=\"" . $v["URL"] . "\" target=\"_blank\">" . $v["TITLE"] . "</a></li>\n";
+}
+?>
 				</ul>
 			</li>
 			<li>
 				<a class="menu_trigger" href="#">Info</a>
 				<ul class="menu">
-					<li><a class="rudyz" href="javascript:" onclick="winz_showabout()">About <?php print $winz_apptitle ?></a></li>
+					<li><a class="rudyz" href="javascript:" onclick="winz_showabout()">About <?php print $RYWINZ->apptitle ?></a></li>
 				</ul>
 			</li>
 		</ul>
 	</div>
     
     <div class="abs" id="bar_bottom">
+<?php
+// ABILITAZIONE "MOSTRA DESKTOP"
+if($RYWINZ->desktop){
+?>
 		<a class="float_left" href="#" id="show_desktop" title="Show Desktop">
 			<img src="<?php print $url_cambusa ?>jqdesktop/assets/images/icons/icon_22_desktop.png" />
 		</a>
+<?php
+}
+?>
 		<ul id="dock">
 		</ul>
 <?php
-    $copy="$winz_apptitle &copy; $copyright_year $copyright_name";
-    if($copyright_dealer!=""){
-        $copy.=" - Dealer ".$copyright_dealer;
+    $copy=$RYWINZ->apptitle." &copy; ".$RYWINZ->copyright;
+    if($RYWINZ->dealer!=""){
+        $copy.=" - Dealer ".$RYWINZ->dealer;
     }
 ?>
 		<span class="float_right" style="font-size:11px;"><?php  print $copy ?></span>
@@ -324,36 +321,11 @@ function winz_postman(){
     </div>
 
     <div id="winz-about-dither" class="winz_dither" style="top:0px;background:#1E90FF;height:120%;"></div>
-    <div id="winz-about" class="winz_dialog" style="display:none;width:<?php  print $aboutwidth ?>px;height: <?php  print $aboutheight ?>px;" title="About <?php print $winz_apptitle ?>">
-    <div class='winz_close'>X</div><div class="winz_msgbox" style="top:30px;width:<?php  print $aboutwidth-50 ?>px;height:<?php  print $aboutheight-60 ?>px;font-size:12px;line-height:14px;">
+    <div id="winz-about" class="winz_dialog" style="display:none;width:<?php  print $RYWINZ->about->width ?>px;height: <?php  print $RYWINZ->about->height ?>px;" title="About <?php print $RYWINZ->apptitle ?>">
+    <div class='winz_close'>X</div><div class="winz_msgbox" style="top:30px;width:<?php  print $RYWINZ->about->width-50 ?>px;height:<?php  print $RYWINZ->about->height-60 ?>px;font-size:12px;line-height:1.8;">
         <!-- INIZIO ABOUT -->
 <?php 
-    if($aboutinclude!=""){ 
-        include $aboutinclude;
-    }
-    else{
-?>
-        <br/>
-        <img src="_images/appicon.png" align="left" style="margin:5px;">
-        <div>&nbsp;</div>
-        <span style="font-size:16px;"><?php print $winz_apptitle." ".$winz_appversion." - Copyright &copy ".$copyright_year." ".$copyright_name ?></span><br/>
-        <div style="line-height:20px;">&nbsp;</div>
-        <div style="text-align:center;color:navy;"><?php print $winz_appdescr ?></div>
-        <div style="line-height:20px;">&nbsp;</div>
-        <a class="winz-linkabout" href="<?php print $url_cambusa ?>license.html" target="_blank">Cambusa License</a><br/>
-        <br/>
-        <a class="winz-linkabout" href="license.html" target="_blank"><?php print $winz_apptitle ?> License</a><br/>
-        <br/>
-        <br/>
-        - Thanks to <b>The jQuery Foundation</b> for <a href="http://jquery.com/" target="_blank" style="cursor:pointer;text-decoration:underline;">jQuery</a> 
-        and <a href="http://jqueryui.com/" target="_blank" style="cursor:pointer;text-decoration:underline;">jQuery UI</a>.<br/>
-        <br/>
-        - Thanks to all who believe in free software licenses.<br/>
-        <br/>
-        - Special thanks to <b>Nathan Smith</b> for his terrific 
-        <a href="http://sonspring.com/journal/jquery-desktop" target="_blank" style="cursor:pointer;text-decoration:underline;">Multiple Document Interface</a>.<br/>
-<?php 
-    }
+    print $RYWINZ->about->content;
 ?>
         <!-- FINE ABOUT -->
     </div>

@@ -38,7 +38,7 @@ var JQD = (function($, window, document, undefined) {
         });
 
         // Cancel right-click.
-        d.on('contextmenu', function() {
+        d.on('contextmenu', function(ev) {
           // rudyz
           //return false;
           if(ev)

@@ -82,7 +82,7 @@
                     bd="1px solid silver";
                 }
                 
-                $("#"+propname).css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"font-family":"verdana,helvetica,arial,sans-serif","font-size":"13px","overflow":sc,"border":bd});
+                $("#"+propname).css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"font-family":"verdana,sans-serif","font-size":"13px","line-heght":"20px","overflow":sc,"border":bd});
                 $("#"+propname).html("<ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
         
         		$("#"+propname+"_root").treeview();
@@ -109,6 +109,12 @@
                 $("#"+parid).treeview({
                     add: branches,
                     rif:params.id
+                });
+                $("#"+propname+"_"+params.id).click(function(evt){
+                    if(evt.screenX-$(this).offset().left<30){
+                        evt.stopPropagation();
+                        $("#"+propname+"_"+params.id+"_text").click();
+                    }
                 });
             }
             this.additem=function(params){

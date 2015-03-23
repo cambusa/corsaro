@@ -14,6 +14,7 @@ if(!isset($tocambusa))
     $tocambusa="../";
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."ryque/ryq_util.php";
+include_once $tocambusa."ryego/ego_util.php";
 
 try{
     // DETERMINO LA SESSIONID
@@ -168,7 +169,7 @@ try{
                     }
                     if($aliasnew!=""){
                         if(strtolower($alias)!=strtolower($aliasnew)){
-                            // Determino aliasid del nuovo valore di alias per vedere se esiste già
+                            // Determino aliasid del nuovo valore di alias per vedere se esiste giÃ 
                             $sql="SELECT SYSID FROM EGOALIASES WHERE [:UPPER(NAME)]='".strtoupper($aliasnew)."'";
                             maestro_query($maestro, $sql, $r);
                             if(count($r)==1)
@@ -246,7 +247,7 @@ try{
                             $aliasid=$r[0]["SYSID"];
                             if($r[0]["MAIN"]==1){
                                 $success=0;
-                                $description="Non si può eliminare l'alias principale";
+                                $description="Non si puÃ² eliminare l'alias principale";
                                 $babelcode="EGO_MSG_MAINALIAS";
                             }
                         }
@@ -339,7 +340,7 @@ try{
                     }
                     else{
                         $success=0;
-                        $description="Alias già in uso";
+                        $description="Alias giÃ  in uso";
                         $babelcode="EGO_MSG_ALIASALREADYUSED";
                     }
                     break;
@@ -358,7 +359,7 @@ try{
                     }
                     else{
                         $success=0;
-                        $description="Alias già in uso";
+                        $description="Alias giÃ  in uso";
                         $babelcode="EGO_MSG_ALIASALREADYUSED";
                     }
                     break;
@@ -376,7 +377,7 @@ try{
                     }
                     else{
                         $success=0;
-                        $description="Alias già in uso";
+                        $description="Alias giÃ  in uso";
                         $babelcode="EGO_MSG_ALIASALREADYUSED";
                     }
                     break;
@@ -459,6 +460,7 @@ $description=qv_babeltranslate($description);
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
+array_walk_recursive($j, "ego_escapize");
 print json_encode($j);
 ?>

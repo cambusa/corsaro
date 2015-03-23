@@ -159,7 +159,7 @@ function qv_objects_update($maestro, $data){
                 $bi=qv_strtime( $row["BEGINTIME"] );
                 $ei=qv_strtime( $row["ENDTIME"] );
                 if( ( $bi>LOWEST_TIME && $bi<$bo ) || ( $ei<HIGHEST_TIME && $ei>$eo ) ){
-                    $babelcode="QVERR_LIFECONFLICT";
+                    $babelcode="QVERR_LIFEINCLUSIONS";
                     $b_params=array();
                     $b_pattern="Ciclo di vita inconsistente con le inclusioni";
                     throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
@@ -170,10 +170,10 @@ function qv_objects_update($maestro, $data){
             $res=maestro_unbuffered($maestro, "SELECT BOWTIME FROM QVARROWS WHERE BOWID='$SYSID'");
             while( $row=maestro_fetch($maestro, $res) ){
                 $f=qv_strtime( $row["BOWTIME"] );
-                if( $f>LOWEST_TIME && ( $f<$bo || $f>$eo ) ){
-                    $babelcode="QVERR_LIFECONFLICT";
+                if( $f>LOWEST_TIME && $f<HIGHEST_TIME && ( $f<$bo || $f>$eo ) ){
+                    $babelcode="QVERR_LIFEARROWS";
                     $b_params=array();
-                    $b_pattern="Ciclo di vita inconsistente con le inclusioni";
+                    $b_pattern="Ciclo di vita inconsistente con le frecce";
                     throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
                 }
             }
@@ -182,10 +182,10 @@ function qv_objects_update($maestro, $data){
             $res=maestro_unbuffered($maestro, "SELECT TARGETTIME FROM QVARROWS WHERE TARGETID='$SYSID'");
             while( $row=maestro_fetch($maestro, $res) ){
                 $f=qv_strtime( $row["TARGETTIME"] );
-                if( $f>LOWEST_TIME && ( $f<$bo || $f>$eo ) ){
-                    $babelcode="QVERR_LIFECONFLICT";
+                if( $f>LOWEST_TIME && $f<HIGHEST_TIME && ( $f<$bo || $f>$eo ) ){
+                    $babelcode="QVERR_LIFEARROWS";
                     $b_params=array();
-                    $b_pattern="Ciclo di vita inconsistente con le inclusioni";
+                    $b_pattern="Ciclo di vita inconsistente con le frecce";
                     throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
                 }
             }

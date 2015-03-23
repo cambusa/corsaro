@@ -14,6 +14,7 @@ if(!isset($tocambusa))
     $tocambusa="../";
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."ryque/ryq_util.php";
+include_once $tocambusa."ryego/ego_util.php";
 
 try{
     // DETERMINO LA SESSIONID
@@ -124,7 +125,7 @@ try{
             if($action=="update"){
                 if($envnew!=""){
                     if($env!=$envnew){
-                        // Determino envid del nuovo valore di env per vedere se esiste già
+                        // Determino envid del nuovo valore di env per vedere se esiste giÃ 
                         $sql="SELECT SYSID FROM EGOENVIRONS WHERE APPID='$appid' AND NAME='$envnew'";
                         maestro_query($maestro, $sql, $r);
                         if(count($r)==1)
@@ -151,7 +152,7 @@ try{
                     }
                     else{
                         $success=0;
-                        $description="Nome già in uso";
+                        $description="Nome giÃ  in uso";
                         $babelcode="EGO_MSG_NAMEALREADYUSED";
                     }
                     break;
@@ -169,7 +170,7 @@ try{
                     }
                     else{
                         $success=0;
-                        $description="Nome già in uso";
+                        $description="Nome giÃ  in uso";
                         $babelcode="EGO_MSG_NAMEALREADYUSED";
                     }
                     break;
@@ -210,6 +211,7 @@ $description=qv_babeltranslate($description);
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
+array_walk_recursive($j, "ego_escapize");
 print json_encode($j);
 ?>

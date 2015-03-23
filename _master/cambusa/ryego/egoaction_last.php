@@ -14,6 +14,7 @@ if(!isset($tocambusa))
     $tocambusa="../";
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."ryque/ryq_util.php";
+include_once $tocambusa."ryego/ego_util.php";
 
 try{
     // DETERMINO LA SESSIONID
@@ -168,6 +169,7 @@ $description=qv_babeltranslate($description);
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
+array_walk_recursive($j, "ego_escapize");
 print json_encode($j);
 ?>

@@ -1,0 +1,23 @@
+<?php 
+/****************************************************************************
+* Name:            _filibuster.php                                          *
+* Project:         Customize                                                *
+* Version:         1.69                                                     *
+* Description:     Customize configuration file                             *
+* Copyright (C):   2015 Rodolfo Calzetti                                    *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
+* Contact:         faustroll@tiscali.it                                     *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+
+/***********************
+| VARIABILI FILIBUSTER |
+***********************/
+
+//$filibuster_host="http://www.rudyz.net/apps/ryquiver/";
+$filibuster_environ="flb_rudyz";
+$filibuster_site="rudyz";
+$filibuster_sizeHQ=3000;
+
+// Non aggiungere accapi o spazi dopo ">"
+?>

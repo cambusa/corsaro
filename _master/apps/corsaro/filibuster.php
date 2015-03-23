@@ -10,7 +10,15 @@
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-include_once "config.php";
+
+$filibuster_host="";            // DATI (IMPOSTARE SE I DATI SONO REMOTI)
+$filibuster_environ="";         // AMBIENTE PREDEFINITO
+$filibuster_sizeHQ=2500;        // DIMENSIONE MASSIMA DOCUMENTO PER SINTESI VOCALE AD ALTA QUALITA'
+$mathjax_path="http://www.rudyz.net/cambusa/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+
+if(is_file("../../customize/_filibuster.php")){
+    include_once "../../customize/_filibuster.php";
+}
 
 if($filibuster_host==""){
     $filibuster_remote=false;

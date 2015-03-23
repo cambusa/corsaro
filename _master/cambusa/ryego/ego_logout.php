@@ -22,16 +22,39 @@ elseif(isset($_GET["sessionid"]))
 else
     $sessionid="";
 
+$appname="";
+    
 try{    
     // APRO IL DATABASE
     $maestro=maestro_opendb("ryego");
     if($maestro->conn!==false){
+        // REPERISCO L'APPLICAZIONE PER UN EVENTUALE LOGOUT ESTERNO
+        $sql="";
+        $sql.="SELECT EGOAPPLICATIONS.NAME AS APPNAME ";
+        $sql.="FROM EGOSESSIONS ";
+        $sql.="INNER JOIN EGOENVIRONS ON EGOENVIRONS.SYSID=EGOSESSIONS.ENVIRONID ";
+        $sql.="INNER JOIN EGOAPPLICATIONS ON EGOAPPLICATIONS.SYSID=EGOENVIRONS.APPID ";
+        $sql.="WHERE EGOSESSIONS.SESSIONID='$sessionid'";
+        maestro_query($maestro, $sql, $v);
+        if(count($v)>0){
+            $appname=$v[0]["APPNAME"];
+        }
         // TERMINO LA SESSIONE
-        if(strlen($sessionid)==24)
-            $sql="UPDATE EGOSESSIONS SET ENDTIME=[:NOW()] WHERE SESSIONID='$sessionid'";
-        else
+        if(strlen($sessionid)==$maestro->lenid)
             $sql="UPDATE EGOSESSIONS SET ENDTIME=[:NOW()] WHERE SYSID='$sessionid'";
+        else
+            $sql="UPDATE EGOSESSIONS SET ENDTIME=[:NOW()] WHERE SESSIONID='$sessionid'";
         maestro_execute($maestro, $sql);
+    }
+
+    // LOGOUT DA SISTEMI ESTERNI
+    $external=$path_customize."ryego/custexternal_$appname.php";
+    $funct="custegologout";
+    if(is_file($external)){
+        include_once $external;
+        if(is_callable($funct)){
+            $funct($maestro, $sessionid);
+        }
     }
 
     // CHIUDO IL DATABASE

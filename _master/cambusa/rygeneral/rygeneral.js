@@ -14,6 +14,22 @@ var _appsURL="../../apps/";
 var _customizeURL="../../customize/";
 var _tempenviron="temporary";
 var _temporaryURL=_customizeURL+"temporary/";
+
+var _systeminfo={
+    path:{
+        root:"/",
+        apps:"../../apps/",
+        cambusa:"../../cambusa/",
+        customize:"../../customize/"
+    },
+    url:{
+        root:"/",
+        apps:"../../apps/",
+        cambusa:"../../cambusa/",
+        customize:"../../customize/"
+    }
+}
+
 var _sessionid="";
 var _sessioninfo={
     debugmode:1,

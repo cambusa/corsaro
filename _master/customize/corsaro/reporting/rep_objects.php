@@ -9,8 +9,7 @@
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-include_once "../../custconfig.php";
-$tocambusa="../../".$path_cust2cambusa;
+include_once "_config.php";
 include_once $tocambusa."sysconfig.php";
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."rypaper/rypaper.php";

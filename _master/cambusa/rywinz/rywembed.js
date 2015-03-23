@@ -255,6 +255,9 @@ function ryWinz(missing){
             ready();
         }
     }
+    this.shell=function(params){
+        // rywinz.js compatibility
+    }
     function createid(){
         _winzprogrid++;
         return "_form"+(_winzprogrid)+"_";

@@ -77,6 +77,7 @@ try{
             $sql.="SELECT EGOUSERS.PASSWORD AS PWD,";
             $sql.="EGOALIASES.SYSID AS ALIASID,";
             $sql.="EGOALIASES.USERID AS USERID,";
+            $sql.="EGOALIASES.NAME AS USERNAME,";
             $sql.="EGOUSERS.ACTIVE AS ACTIVE,";
             $sql.="EGOUSERS.LASTCHANGE AS LASTCHANGE,";
             $sql.="EGOALIASES.DEMIURGE AS DEMIURGE,";
@@ -92,6 +93,7 @@ try{
                         $auth=true;
                         $demiurge=intval($v[0]["DEMIURGE"]);
                         $administrator=intval($v[0]["ADMINISTRATOR"]);
+                        $username=$v[0]["USERNAME"];
                         $userid=$v[0]["USERID"];
                         $aliasid=$v[0]["ALIASID"];
                         $lastchange=str_replace(array("-", ":", "T", " ", "'", "."), "", $v[0]["LASTCHANGE"]);
@@ -231,73 +233,102 @@ try{
                         }
                         if($auth){
                             // CREO UN SESSIONID UNIVOCO
-                            $sessionid="SI".date("YmdHis");
-                            for($i=1; $i<=2; $i++){
-                                $sessionid.=monadrand();
+                            $errexternal="";
+                            $codeexternal="";
+                            $sessionid="";
+                            $external=$path_customize."ryego/custexternal_$app.php";
+                            $funct="custegologin";
+                            $ext=false;
+                            if(is_file($external)){
+                                // LOGIN VERSO SISTEMI ESTERNI
+                                include_once $external;
+                                if(is_callable($funct)){
+                                    $sessionid=$funct($maestro, $userid, $username, $errexternal, $codeexternal);
+                                    $ext=true;
+                                }
                             }
-                            do{
-                                maestro_query($maestro, "SELECT SYSID FROM EGOSESSIONS WHERE SESSIONID='$sessionid'", $v);
-                                if(count($v)>0)
-                                    $sessionid=substr($sessionid, 0, 20).monadrand();
-                                else
-                                    break;
-                            }while(true);
-                            
-                            // INSERISCO LA SESSIONE
-                            $ip=get_ip_address();
-                            $sysid=qv_createsysid($maestro);
-                            $sql="";
-                            $sql.="INSERT INTO EGOSESSIONS(SYSID,SESSIONID,DEMIURGE,ADMINISTRATOR,ALIASID,ENVIRONID,ROLEID,LANGUAGEID,COUNTRYCODE,DEBUGMODE,CLIENTIP,BEGINTIME,RENEWALTIME,ENDTIME) ";
-                            $sql.="VALUES('$sysid',";
-                            $sql.="'$sessionid',";
-                            $sql.="$demiurge,";
-                            $sql.="$administrator,";
-                            $sql.="'$aliasid',";
-                            $sql.="'$environid',";
-                            $sql.="'$roleid',";
-                            $sql.="'$languageid',";
-                            $sql.="'$countrycode',";
-                            $sql.="'$debugmode',";
-                            $sql.="'$ip',";
-                            $sql.="[:NOW()],";
-                            $sql.="[:NOW()],";
-                            $sql.="NULL)";
-                            maestro_execute($maestro, $sql);
-                            
-                            // GESTIONE SCADENZA PASSWORD
-                            if($lastchange!=""){
-                                $sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME IN ('duration','warning') ORDER BY NAME";
+                            if(!$ext){
+                                $sessionid="SI".date("YmdHis");
+                                for($i=1; $i<=2; $i++){
+                                    $sessionid.=monadrand();
+                                }
+                                do{
+                                    maestro_query($maestro, "SELECT SYSID FROM EGOSESSIONS WHERE SESSIONID='$sessionid'", $v);
+                                    if(count($v)>0)
+                                        $sessionid=substr($sessionid, 0, 20).monadrand();
+                                    else
+                                        break;
+                                }while(true);
+                            }
+                            if($sessionid!=""){
+                                // INSERISCO LA SESSIONE
+                                $ip=get_ip_address();
+                                $sysid=qv_createsysid($maestro);
+                                $sql="";
+                                $sql.="INSERT INTO EGOSESSIONS(SYSID,SESSIONID,DEMIURGE,ADMINISTRATOR,ALIASID,ENVIRONID,ROLEID,LANGUAGEID,COUNTRYCODE,DEBUGMODE,CLIENTIP,BEGINTIME,RENEWALTIME,ENDTIME) ";
+                                $sql.="VALUES('$sysid',";
+                                $sql.="'$sessionid',";
+                                $sql.="$demiurge,";
+                                $sql.="$administrator,";
+                                $sql.="'$aliasid',";
+                                $sql.="'$environid',";
+                                $sql.="'$roleid',";
+                                $sql.="'$languageid',";
+                                $sql.="'$countrycode',";
+                                $sql.="'$debugmode',";
+                                $sql.="'$ip',";
+                                $sql.="[:NOW()],";
+                                $sql.="[:NOW()],";
+                                $sql.="NULL)";
+                                maestro_execute($maestro, $sql);
+                                
+                                // GESTIONE SCADENZA PASSWORD
+                                if($lastchange!=""){
+                                    $sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME IN ('duration','warning') ORDER BY NAME";
+                                    maestro_query($maestro, $sql, $r);
+                                    $duration=intval($r[0]["VALUE"]);
+                                    $warning=intval($r[1]["VALUE"]);
+                                    if($duration>0){
+                                        $ly=intval(substr($lastchange,0,4));
+                                        $lm=intval(substr($lastchange,4,2));
+                                        $ld=intval(substr($lastchange,6,2));
+                                        $ty=intval(date("Y"));
+                                        $tm=intval(date("m"));
+                                        $td=intval(date("d"));
+                                        $today_date="D".date("Ymd", mktime(0,0,0,$tm, $td, $ty));
+                                        $expiry_date="D".date("Ymd", mktime(0,0,0,$lm, $ld+$duration, $ly));
+                                        $warning_date="D".date("Ymd", mktime(0,0,0,$lm, $ld+$duration-$warning, $ly));
+                                        if($today_date>=$expiry_date)
+                                            $expiry=2; // password scaduta
+                                        elseif($today_date>=$warning_date)
+                                            $expiry=1; // password scadente
+                                    }
+                                }
+                                else{
+                                    // La password è quella predefinita: 
+                                    // la tratto come se fosse scaduta
+                                    $expiry=2;
+                                }
+
+                                // GESTIONE PROPOSTA UTENTE
+                                $sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME='saveuser'";
                                 maestro_query($maestro, $sql, $r);
-                                $duration=intval($r[0]["VALUE"]);
-                                $warning=intval($r[1]["VALUE"]);
-                                if($duration>0){
-                                    $ly=intval(substr($lastchange,0,4));
-                                    $lm=intval(substr($lastchange,4,2));
-                                    $ld=intval(substr($lastchange,6,2));
-                                    $ty=intval(date("Y"));
-                                    $tm=intval(date("m"));
-                                    $td=intval(date("d"));
-                                    $today_date="D".date("Ymd", mktime(0,0,0,$tm, $td, $ty));
-                                    $expiry_date="D".date("Ymd", mktime(0,0,0,$lm, $ld+$duration, $ly));
-                                    $warning_date="D".date("Ymd", mktime(0,0,0,$lm, $ld+$duration-$warning, $ly));
-                                    if($today_date>=$expiry_date)
-                                        $expiry=2; // password scaduta
-                                    elseif($today_date>=$warning_date)
-                                        $expiry=1; // password scadente
+                                $saveuser=intval($r[0]["VALUE"]);
+                                if($saveuser==1){
+                                    setcookie("_egouser", $usercookie, time()+4000000);
                                 }
                             }
                             else{
-                                // La password è quella predefinita: 
-                                // la tratto come se fosse scaduta
-                                $expiry=2;
-                            }
-
-                            // GESTIONE PROPOSTA UTENTE
-                            $sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME='saveuser'";
-                            maestro_query($maestro, $sql, $r);
-                            $saveuser=intval($r[0]["VALUE"]);
-                            if($saveuser==1){
-                                setcookie("_egouser", $usercookie, time()+4000000);
+                                // FALLITA CREAZIONE SESSIONID
+                                $success=0;
+                                if($errexternal!="")
+                                    $description=$errexternal;
+                                else
+                                    $description="Fallita generazione SessionID";
+                                if($codeexternal!="")
+                                    $babelcode=$codeexternal;
+                                else
+                                    $babelcode="EGO_MSG_NOSESSIONID";
                             }
                         }
                         else{

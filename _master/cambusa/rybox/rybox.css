@@ -11,7 +11,6 @@
 .rybutton-caption {
 position:absolute;
 cursor:pointer;
-background-color:#F4F4F4;
 border:1px solid silver;
 padding-left:3px;
 padding-right:3px;
@@ -26,8 +25,29 @@ white-space:nowrap;
 -webkit-border-radius: 5px;
 -khtml-border-radius: 5px;
 border-radius: 5px;
+text-shadow:1px 1px 2px #A9A9A9;
+color:#333;
+background-color:transparent;
+background: -webkit-linear-gradient(white, #DDD); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(white, #DDD); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(white, #DDD); /* For Firefox 3.6 to 15 */
+background: linear-gradient(white, #DDD); /* Standard syntax */
 }
 
+.rybutton-caption:hover{
+color:#666;
+}
+
+.rybutton-disabled {
+text-shadow:none;
+cursor:default;
+}
+
+.rybutton-click {
+text-shadow:none;
+}
+
+/*
 .rybutton-click {
 -webkit-animation: ryclick 0.3s;
 -moz-animation: ryclick 0.3s;
@@ -35,12 +55,12 @@ border-radius: 5px;
 animation: ryclick 0.3s;
 }
 @-webkit-keyframes ryclick {
-    from {background: #FFA333;}
-    to {background: #FFE8CC;}
+    from {border-color: #FFA333;}
+    to {border-color: #FFE8CC;}
 }
 @-moz-keyframes ryclick {
-    from {background: #FFA333;}
-    to {background: #FFE8CC;}
+    from {border-color: #FFA333;}
+    to {border-color: #FFE8CC;}
 }
 @-o-keyframes ryclick {
     from {background: #FFA333;}
@@ -50,11 +70,11 @@ animation: ryclick 0.3s;
     from {background: #FFA333;}
     to {background: #FFE8CC;}
 }
+*/
 
 .rybutton-caption-flat{
 position:absolute;
 cursor:pointer;
-background-color:#FFFFFF;
 left:0px;
 top:0px;
 height:20px;
@@ -65,6 +85,8 @@ white-space:nowrap;
 -webkit-border-radius: 5px;
 -khtml-border-radius: 5px;
 border-radius: 5px;
+color:#AA2222;
+background-color:transparent;
 }
 
 .rylabel-caption {
@@ -77,6 +99,7 @@ height:20px;
 font-family:verdana,sans-serif;
 font-size:13px;
 white-space:nowrap;
+background-color:transparent;
 }
 
 .ryobject a{
@@ -124,7 +147,7 @@ font-family:verdana,sans-serif;
 position:absolute;
 font-size:14px;
 font-weight:bold;
-font-family:sans-serif;
+font-family:verdana,sans-serif;
 }
 
 .rydate input{
@@ -160,3 +183,21 @@ border:none;
 text-indent:-10px;
 color:white;
 }
+
+.rybutton-rounded{
+position:absolute;
+white-space:nowrap;
+font-family:verdana,sans-serif;
+-moz-border-radius:50%;
+-webkit-border-radius:50%;
+-khtml-border-radius:50%;
+border-radius:50%;
+width:60px;
+cursor:pointer;
+border:6px solid silver;
+}
+
+.rybutton-rounded:hover{
+opacity:0.5;
+}
+

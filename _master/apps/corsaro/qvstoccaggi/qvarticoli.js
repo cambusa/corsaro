@@ -351,7 +351,7 @@ function class_qvarticoli(settings,missing){
 
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
-        top:10,position:"relative",
+        top:0,
         tabs:[
             {title:"Selezione"},
             {title:"Contesto"},

@@ -334,7 +334,7 @@ function class_qvsettings(settings,missing){
     
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
-        top:10,position:"relative",
+        top:0,
         tabs:[
             {title:"Settaggi", code:"SET_TAB_SETTINGS"},
             {title:"Manutenzione", code:"SET_TAB_MAINTENANCE"},

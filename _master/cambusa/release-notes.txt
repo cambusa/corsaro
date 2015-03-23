@@ -1,4 +1,27 @@
 ==================================
+Rilascio 1.69.02    del 23/03/2015
+==================================
+
+Ulteriore razionalizzazione delle configurazioni.
+Tolto "custconfig.php" e sostituito con i più articolati "_cambusa.php", "_apps.php" e "_filibuster.php".
+
+Tolto "appconfig.php": l'inizializzazione ora è sotto ryWinz (rywinclude.php).
+
+Tolto "config.php" dalle singole applicazioni.
+
+Rifatto lo stile di ryTabs.
+
+==================================
+Rilascio 1.69.01    del 19/03/2015
+==================================
+
+Aggiunta la possibilità di interagire con autorizzazioni esterne.
+
+Uniformizzati i "sysconfig.php" e "appconfig.php": i parametri variabili vengono risolti leggendo da "Customize" e da "Databases".
+
+Migliorati i comportamenti dei controlli di maschera.
+
+==================================
 Rilascio 1.69.00    del 14/03/2015
 ==================================
 

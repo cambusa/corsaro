@@ -14,6 +14,7 @@ if(!isset($tocambusa))
     $tocambusa="../";
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."ryque/ryq_util.php";
+include_once $tocambusa."ryego/ego_util.php";
 
 try{
     // DETERMINO LA SESSIONID
@@ -95,7 +96,7 @@ try{
             if($action=="update"){
                 if($langnew!=""){
                     if($lang!=$langnew){
-                        // Determino langid del nuovo valore di lang per vedere se esiste già
+                        // Determino langid del nuovo valore di lang per vedere se esiste giÃ 
                         $sql="SELECT SYSID FROM EGOLANGUAGES WHERE NAME='$langnew'";
                         maestro_query($maestro, $sql, $r);
                         if(count($r)==1)
@@ -122,7 +123,7 @@ try{
                     }
                     else{
                         $success=0;
-                        $description="Lingua già in uso";
+                        $description="Lingua giÃ  in uso";
                         $babelcode="EGO_MSG_LANGALREADYUSED";
                     }
                     break;
@@ -140,7 +141,7 @@ try{
                     }
                     else{
                         $success=0;
-                        $description="Lingua già in uso";
+                        $description="Lingua giÃ  in uso";
                         $babelcode="EGO_MSG_LANGALREADYUSED";
                     }
                     break;
@@ -180,6 +181,7 @@ $description=qv_babeltranslate($description);
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
+array_walk_recursive($j, "ego_escapize");
 print json_encode($j);
 ?>
