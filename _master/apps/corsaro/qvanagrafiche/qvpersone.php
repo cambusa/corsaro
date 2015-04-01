@@ -6,7 +6,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 ?>
@@ -54,7 +54,7 @@
         <div relid="LB_TAG" babelcode="TAGS"></div><div relid="TAG"></div>
         <div relid="LB_REGISTRY" babelcode="NOTES"></div><div relid="REGISTRY"></div>
         <div relid="CLASSI"></div>
-        <div relid="oper_contextengage" babelcode="BUTTON_SAVE"></div>
+        <div relid="oper_engage" babelcode="BUTTON_SAVE"></div>
     </div>
     <div relid="filemanager"></div>
 </div>

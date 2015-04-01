@@ -5,7 +5,7 @@
 * Description:     Multiple Document Interface                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function ryWinz(missing){
@@ -18,6 +18,7 @@ function ryWinz(missing){
         var relid,href;
         var formid=_openingid;
         var name=_openingname;
+        o.id=formid;
         o.controls=new Object();
         o.classform=name;
         o.jqxhr=false;
@@ -80,11 +81,16 @@ function ryWinz(missing){
         }
         catch(e){
             if(window.console)console.log(e.message);
-            setTimeout(function(){done()});
+            if(done!=missing){
+                setTimeout(function(){done()});
+            }
         }
     }
     this.forms=function(n){
-        return _globalforms[n];
+        if(n!=missing)
+            return _globalforms[n];
+        else
+            return _globalforms;
     }
     this.modified=function(n,v){
         if(v==missing){
@@ -258,8 +264,29 @@ function ryWinz(missing){
     this.shell=function(params){
         // rywinz.js compatibility
     }
+    this.formclose=function(id){
+        // rywinz.js compatibility
+    }
     function createid(){
         _winzprogrid++;
-        return "_form"+(_winzprogrid)+"_";
+        return "_form"+_winzprogrid+"_";
     }
+    this.MessageBox=winzMessageBox;
+    this.ConfirmAbandon=winzConfirmAbandon;
+    this.ToObject=winzToObject;
+    this.MaskClear=winzMaskClear;
+    this.ToMask=winzToMask;
+    this.ClearMess=winzClearMess;
+    this.TimeoutMess=winzTimeoutMess;
+    this.KeyTools=winzKeyTools;
+    this.Progress=winzProgress;
+    this.DialogGet=winzDialogGet;
+    this.DialogParams=winzDialogParams;
+    this.DialogOpen=winzDialogOpen;
+    this.DialogClose=winzDialogClose;
+    this.DisposeCtrl=winzDisposeCtrl;
+    this.DialogFree=winzDialogFree;
+    this.AppendCtrl=winzAppendCtrl;
+    this.Post=winzPost;
+    this.BringToFront=function(){}
 }

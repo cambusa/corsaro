@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvsiti(settings,missing){
@@ -374,7 +374,7 @@ function class_qvsiti(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context=txdescr.value();
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -450,7 +450,7 @@ function class_qvsiti(settings,missing){
         },
         changerow:function(o,i){
             currcontainerid="";
-            qv_maskclear(formid, "F");
+            RYWINZ.MaskClear(formid, "F");
             qv_maskenabled(formid, "F", 0);
             operf_update.enabled(0);
             operf_unsaved.visible(0);
@@ -469,7 +469,7 @@ function class_qvsiti(settings,missing){
                     qv_maskenabled(formid, "F", 1);
                     operf_update.enabled(1);
                     // CARICAMENTO TAB CONTENITORI
-                    qv_object2mask(formid, "F", v[0]);
+                    RYWINZ.ToMask(formid, "F", v[0]);
                     operf_unsaved.visible(0);
                     loadedsysidD=currsysid;
                     if(flagfocus){
@@ -498,7 +498,7 @@ function class_qvsiti(settings,missing){
             var istr=0;
             if(RYWINZ.modified(formid)){
                 // ISTRUZIONE DI SALVATAGGIO DEL CONTENITORE MODIFICATO
-                var datasave=qv_mask2object(formid, "F", currcontainerid);
+                var datasave=RYWINZ.ToObject(formid, "F", currcontainerid);
                 stats[istr++]={
                     "function":"objects_update",
                     "data":datasave
@@ -593,7 +593,7 @@ function class_qvsiti(settings,missing){
         button:true,
         click:function(o, done){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "F", currcontainerid);
+            var data=RYWINZ.ToObject(formid, "F", currcontainerid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -856,11 +856,11 @@ function class_qvsiti(settings,missing){
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
                     // RESET MASCHERA
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     RYQUE.query({
                         sql:"SELECT * FROM QW_WEBSITES WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
                             loadedsysidC=currsysid;
                         }
@@ -899,6 +899,7 @@ function class_qvsiti(settings,missing){
     objtabs.enabled(4,false);
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.babels({
         "HLP_SELPRIMARYCONTAINER":"Selezione contenitore principale",
         "HLP_SELDEFAULTPAGE":"Selezione pagina predefinita",
@@ -935,6 +936,5 @@ function class_qvsiti(settings,missing){
             );
         }
     );
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"NOME", xengage:oper_contextengage, files:3} );
 }
 

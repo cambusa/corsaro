@@ -6,14 +6,14 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once "quiverfil.php";
-include_once "../rygeneral/format.php";
+include_once $path_cambusa."rygeneral/format.php";
 function qv_files_export($maestro, $data){
     global $babelcode, $babelparams;
-    global $path_applications, $path_customize;
+    global $path_cambusa, $path_applications, $path_customize;
     try{
         // IMPOSTO I VALORI DI RITORNO PREDEFINITI
         $success=1;
@@ -86,7 +86,7 @@ function qv_files_export($maestro, $data){
         if(isset($data["SIGNATURE"])){
             if(intval($data["SIGNATURE"])){
                 $sign=true;
-                include_once "../rygeneral/signature.php";
+                include_once $path_cambusa."rygeneral/signature.php";
             }
         }
         
@@ -111,8 +111,8 @@ function qv_files_export($maestro, $data){
             }
             $filetmp=$dirtemp.$TEMPID.$ext;
             if(isset($mergedata)){
-                include_once "../tbs_us/tbs_class.php";
-                include_once "../tbs_us/plugins/tbs_plugin_opentbs.php";
+                include_once $path_cambusa."tbs_us/tbs_class.php";
+                include_once $path_cambusa."tbs_us/plugins/tbs_plugin_opentbs.php";
 
                 $TBS=new clsTinyButStrong;
                 if(strpos("|.ODT|.ODS|.DOCX|.XLSX|", "|".$uext."|" )!==false){
@@ -140,14 +140,6 @@ function qv_files_export($maestro, $data){
                     $buffer=utf8_encode(file_get_contents($filetmp));
                     $filetmp=substr($filetmp, 0, -3)."pdf";
                     qv_file_pdfoutput($filetmp, $buffer);
-                    /*
-                    include_once "../mpdf/mpdf.php";
-                    $mpdf=new mPDF("UTF-8", array( 210, 297), 0, "", 12.7, 12.7, 12.7, 0,0,0);
-                    $buffer=utf8_encode(file_get_contents($filetmp));
-                    $mpdf->WriteHTML($buffer);
-                    $filetmp=substr($filetmp, 0, -3)."pdf";
-                    $mpdf->Output($filetmp, "F");
-                    */
                 }
                 // FIRMA ELETTRONICA
                 if($sign){
@@ -162,14 +154,6 @@ function qv_files_export($maestro, $data){
                         $buffer=utf8_encode(file_get_contents($filetmp));
                         $filetmp=substr($filetmp, 0, -3)."pdf";
                         qv_file_pdfoutput($filetmp, $buffer);
-                        /*
-                        include_once "../mpdf/mpdf.php";
-                        $mpdf=new mPDF("UTF-8", array( 210, 297), 0, "", 12.7, 12.7, 12.7, 0,0,0);
-                        $buffer=utf8_encode(file_get_contents($filetmp));
-                        $mpdf->WriteHTML($buffer);
-                        $filetmp=substr($filetmp, 0, -3)."pdf";
-                        $mpdf->Output($filetmp, "F");
-                        */
                     }
                     if($sign){
                         $filetmp=signature_p7m($filetmp);

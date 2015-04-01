@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvmovimenti(settings,missing){
@@ -478,7 +478,7 @@ function class_qvmovimenti(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context=txdescr.value();
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -522,6 +522,12 @@ function class_qvmovimenti(settings,missing){
             {title:"Contesto"},
             {title:"Documenti"}
         ],
+        toggle:function(s, display){
+            $(prefix+"lbf_titolare").css("display", display);
+            $(prefix+"txf_titolare").css("display", display);
+            $(prefix+"lbf_banca").css("display", display);
+            $(prefix+"txf_banca").css("display", display);
+        },
         select:function(i,p){
             if(p==2){
                 // PROVENGO DAI DATI
@@ -547,11 +553,11 @@ function class_qvmovimenti(settings,missing){
                 case 2:
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     RYQUE.query({
                         sql:"SELECT * FROM QW_MOVIMENTI WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
                             currgenreid=v[0]["GENREID"];
                             loadedsysid=currsysid;
@@ -579,6 +585,7 @@ function class_qvmovimenti(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             txf_genre.value(curreuroid, true);
@@ -595,6 +602,5 @@ function class_qvmovimenti(settings,missing){
             , 100);
         }
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"DESCRIPTION", xengage:oper_contextengage, files:3} );
 }
 

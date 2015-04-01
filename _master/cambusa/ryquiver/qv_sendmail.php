@@ -6,11 +6,11 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once "quiverfil.php";
-include_once "../phpmailer/class.phpmailer.php";
+include_once $path_cambusa."phpmailer/class.phpmailer.php";
 function qv_sendmail($maestro, $data){
     global $babelcode, $babelparams, $postmaster_mail, $path_databases;
     try{

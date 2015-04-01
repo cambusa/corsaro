@@ -6,13 +6,11 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-if(!isset($tocambusa))
-    $tocambusa="../";
-include_once $tocambusa."ryquiver/quiversex.php";
-include_once $tocambusa."rygeneral/writelog.php";
+include_once $path_cambusa."ryquiver/quiversex.php";
+include_once $path_cambusa."rygeneral/writelog.php";
 
 // Cache views delle estensioni dati
 $global_cache=array();

@@ -6,7 +6,7 @@
 * Description:     Customize configuration file                             *
 * Copyright (C):   2015 Rodolfo Calzetti                                    *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
@@ -21,6 +21,7 @@ case "acmeweb":
     $RYWINZ->pilota->icon=$url_applications."acmeweb/rudder/rudder";
     $RYWINZ->pilota->maximize=true;
     $RYWINZ->pilota->controls=false;
+    $RYWINZ->postman->enabled=false;
     $RYWINZ->company="A.C.M.E.";
     break;
 }

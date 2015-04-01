@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvvendite(settings,missing){
@@ -344,7 +344,7 @@ function class_qvvendite(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context=tx_descr.value();
-            var data=qv_mask2object(formid, "C", currpraticaid);
+            var data=RYWINZ.ToObject(formid, "C", currpraticaid);
             data["MAGAZZINOID"]=txf_magazzino.value();
             var st=tx_status.key();
             $.post(_cambusaURL+"ryquiver/quiver.php", 
@@ -522,7 +522,7 @@ function class_qvvendite(settings,missing){
             currtrasfid="";
             currprocservizioid="";
             currservizioid="";
-            qv_maskclear(formid, "D");
+            RYWINZ.MaskClear(formid, "D");
             //qv_maskenabled(formid, "D", 0);
             operd_update.enabled(0);
             operd_unsaved.visible(0);
@@ -547,7 +547,7 @@ function class_qvvendite(settings,missing){
                     operd_update.enabled(1);
                     oper_genre.enabled(1);
                     // CARICAMENTO TAB TRASFERIMENTI
-                    qv_object2mask(formid, "D", v[0]);
+                    RYWINZ.ToMask(formid, "D", v[0]);
                     operd_unsaved.visible(0);
                     solalettura();
                 }
@@ -899,6 +899,7 @@ function class_qvvendite(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             TAIL.enqueue(qv_queuequerycall, {
@@ -971,7 +972,7 @@ function class_qvvendite(settings,missing){
             tx_reference.clear();
             lb_fase.caption("");
             tx_status.setkey("0");
-            qv_maskclear(formid, "C");
+            RYWINZ.MaskClear(formid, "C");
             RYQUE.query({
                 sql:"SELECT * FROM QW_PRATICHEJOIN WHERE SYSID='"+currpraticaid+"'",
                 ready:function(v){
@@ -988,7 +989,7 @@ function class_qvvendite(settings,missing){
                             tx_reference.value(z[0]["REFERENCE"]);
                             lb_fase.caption("("+statodescr+")");
                             tx_status.setkey(z[0]["STATUS"]);
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             txf_magazzino.value(v[0]["MAGAZZINOID"]);
                             context=v[0]["DESCRIPTION"];
                             solalettura();
@@ -1010,7 +1011,7 @@ function class_qvvendite(settings,missing){
         var stats=[];
         var istr=0;
         // ISTRUZIONE DI SALVATAGGIO PRATICA
-        var data=qv_mask2object(formid, "C", currpraticaid);
+        var data=RYWINZ.ToObject(formid, "C", currpraticaid);
         data["MAGAZZINOID"]=txf_magazzino.value();
         var st=tx_status.key();
         stats[istr++]={
@@ -1095,6 +1096,5 @@ function class_qvvendite(settings,missing){
         else
             $(prefix+"oper_fileinsert").css({"display":"none"});
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new} );
 }
 

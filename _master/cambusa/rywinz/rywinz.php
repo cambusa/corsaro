@@ -6,7 +6,7 @@
 * Description:     Multiple Document Interface                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
@@ -51,8 +51,11 @@ var _appname="<?php  print $RYWINZ->appname ?>";
 var _apptitle="<?php  print $RYWINZ->apptitle ?>";
 var _appenviron="<?php  print $winz_appenviron ?>";
 var _companyname="<?php  print $RYWINZ->company ?>";
-var _postmantitle="<?php  print $RYWINZ->postman->title ?>";
-var _timerPostman;
+var _timerPostman=false;
+var POSTMAN={
+    title:"<?php  print $RYWINZ->postman->title ?>",
+    enabled:<?php  print ($RYWINZ->postman->enabled ? 1 : 0) ?>
+}
 var PILOTA={
     id:"rudder",
     name:"<?php print $RYWINZ->pilota->name ?>",
@@ -116,32 +119,34 @@ function mdiconfig(){
                 }
             }
             if(f){
-                // NOTIFICHE
-                TAIL.enqueue(function(){
-                    RYQUEAUX.query({
-                        sql:"SELECT COUNT(SYSID) AS NOTIFICATIONS FROM QVMESSAGES WHERE RECEIVERID IN (SELECT SYSID FROM QVUSERS WHERE EGOID='"+_sessioninfo.userid+"' AND ARCHIVED=0) AND STATUS=0 AND [:DATE(SENDINGTIME,1MONTH)]>[:TODAY()]",
-                        ready:function(d){
-                            try{
-                                var n=0;
-                                if(d.length>0){
-                                    n=_getinteger(d[0]["NOTIFICATIONS"]);
+                if(POSTMAN.enabled){
+                    // NOTIFICHE
+                    TAIL.enqueue(function(){
+                        RYQUEAUX.query({
+                            sql:"SELECT COUNT(SYSID) AS NOTIFICATIONS FROM QVMESSAGES WHERE RECEIVERID IN (SELECT SYSID FROM QVUSERS WHERE EGOID='"+_sessioninfo.userid+"' AND ARCHIVED=0) AND STATUS=0 AND [:DATE(SENDINGTIME,1MONTH)]>[:TODAY()]",
+                            ready:function(d){
+                                try{
+                                    var n=0;
+                                    if(d.length>0){
+                                        n=_getinteger(d[0]["NOTIFICATIONS"]);
+                                    }
+                                    if(n>0){
+                                        $("#winz-notifications").html(n).show();
+                                        try{ $("head>title").html(_apptitle+" ( "+n+" )") }catch(e){}
+                                    }
+                                    else{
+                                        $("#winz-notifications").html("").hide();
+                                        try{ $("head>title").html(_apptitle) }catch(e){}
+                                    }
                                 }
-                                if(n>0){
-                                    $("#winz-notifications").html(n).show();
-                                    try{ $("head>title").html(_apptitle+" ( "+n+" )") }catch(e){}
+                                catch(e){
+                                    if(window.console){console.log(e.message)}
                                 }
-                                else{
-                                    $("#winz-notifications").html("").hide();
-                                    try{ $("head>title").html(_apptitle) }catch(e){}
-                                }
+                                TAIL.free();
                             }
-                            catch(e){
-                                if(window.console){console.log(e.message)}
-                            }
-                            TAIL.free();
-                        }
+                        });
                     });
-                });
+                }
                 // REFRESH
                 for(var id in _globalforms){
                     if(_globalforms[id]._timer instanceof Function){
@@ -196,7 +201,8 @@ function winz_logout(promptmess){
     }
     if(ok==true && promptmess==true){
         window.onbeforeunload=null;
-        clearInterval(_timerPostman);
+        if(_timerPostman!==false)
+            clearInterval(_timerPostman);
         var castclose=setTimeout(
             function(){
                 ego_logout();
@@ -238,7 +244,7 @@ function winz_postman(){
             id:"postman",
             name:"postman",
             path:_cambusaURL+"rywinz/postman/",
-            title:_postmantitle,
+            title:POSTMAN.title,
             desk:true,
             icon:_cambusaURL+"rywinz/postman/postman"
         });
@@ -273,7 +279,9 @@ function winz_postman(){
 				<a class="menu_trigger" href="#">File</a>
 				<ul class="menu">
 					<li><a class="rudyz" href="#icon_dock_rudder"><?php print $RYWINZ->pilota->title ?></a></li>
+<?php if($RYWINZ->postman->enabled){ ?>
                     <li><a class="rudyz" href="javascript:" onclick="winz_postman()"><?php print $RYWINZ->postman->title ?></a></li>
+<?php } ?>
 					<li><a class="rudyz" href="javascript:" onclick="winz_logout(true)">Logout</a></li>
 				</ul>
 			</li>
@@ -316,7 +324,7 @@ if($RYWINZ->desktop){
         $copy.=" - Dealer ".$RYWINZ->dealer;
     }
 ?>
-		<span class="float_right" style="font-size:11px;"><?php  print $copy ?></span>
+		<span class="float_right" style="font-size:11px;">&nbsp;&nbsp;&nbsp;<?php  print $copy ?></span>
         <a id="winz-notifications" class="float_right" style="background:red;color:white;cursor:pointer;display:none;" href="javascript:" onclick="winz_postman()"></a>
     </div>
 

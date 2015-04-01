@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvarticoli(settings,missing){
@@ -315,7 +315,7 @@ function class_qvarticoli(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context=txdescr.value();
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -382,12 +382,12 @@ function class_qvarticoli(settings,missing){
                 case 2:
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     objclassi.clear();
                     RYQUE.query({
                         sql:"SELECT * FROM QW_ARTICOLI WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
                             loadedsysid=currsysid;
                             objclassi.parentid(currsysid,
@@ -417,6 +417,7 @@ function class_qvarticoli(settings,missing){
     objtabs.enabled(3,false);
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             setTimeout( 
@@ -473,7 +474,6 @@ function class_qvarticoli(settings,missing){
             }
         }
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"DESCRIPTION", xengage:oper_contextengage, files:3} );
     this._resize=function(){
         if( $("#window_"+formid).width()>1400 )
             $(prefix+"preview").css({left:740, top:80, width:"180mm"});

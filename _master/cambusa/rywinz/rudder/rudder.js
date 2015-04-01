@@ -5,7 +5,7 @@
 * Description:     Multiple Document Interface                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_rudder(settings,missing){
@@ -30,6 +30,7 @@ function class_rudder(settings,missing){
         sessionid:_sessioninfo.sessionid,
         dbenv:_sessioninfo.environ
     });
+    RYWINZ.KeyTools(formid);
 }
 
 function rudder_startup(par){

@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvaziende(settings,missing){
@@ -468,7 +468,7 @@ function class_qvaziende(settings,missing){
         caption:"Cerca...",
         button:true,
         click:function(o){
-            qv_geography(formid,
+            winzGeography(formid,
                 {
                     "type":"comuni",
                     "onselect":function(d){
@@ -539,7 +539,7 @@ function class_qvaziende(settings,missing){
         caption:"Cerca...",
         button:true,
         click:function(o){
-            qv_geography(formid,
+            winzGeography(formid,
                 {
                     "type":"comuni",
                     "onselect":function(d){
@@ -711,7 +711,7 @@ function class_qvaziende(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context=txdescr.value();
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             winzPost(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -771,12 +771,12 @@ function class_qvaziende(settings,missing){
                 case 2:
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     objclassi.clear();
                     RYQUE.query({
                         sql:"SELECT * FROM QW_AZIENDE WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
                             loadedsysid=currsysid;
                             objclassi.parentid(currsysid,
@@ -806,6 +806,7 @@ function class_qvaziende(settings,missing){
     objtabs.enabled(3,false);
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             RYWINZ.loadmodule("ateco.js", _appsURL+"corsaro/_javascript/ateco.js",
@@ -848,6 +849,5 @@ function class_qvaziende(settings,missing){
             break;
         }
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"DESCRIPTION", xengage:oper_contextengage, files:3} );
 }
 

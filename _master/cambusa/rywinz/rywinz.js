@@ -5,7 +5,7 @@
 * Description:     Multiple Document Interface                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function ryWinz(missing){
@@ -18,6 +18,7 @@ function ryWinz(missing){
         var relid,href;
         var formid=_openingid;
         var name=_openingname;
+        o.id=formid;
         o.controls=new Object();
         o.classform=name;
         o.jqxhr=false;
@@ -80,11 +81,16 @@ function ryWinz(missing){
         }
         catch(e){
             if(window.console)console.log(e.message);
-            setTimeout(function(){done()});
+            if(done!=missing){
+                setTimeout(function(){done()});
+            }
         }
     }
     this.forms=function(n){
-        return _globalforms[n];
+        if(n!=missing)
+            return _globalforms[n];
+        else
+            return _globalforms;
     }
     this.modified=function(n,v){
         if(v==missing){
@@ -194,9 +200,22 @@ function ryWinz(missing){
                 // LO SPOSTO UN PO'
                 $(y).css({left:60, top:80});
             }
-            
-            if( (y!="#window_rudder" && y!="#window_postman") || _mobiledetected )
-                JQD.util.window_resize(y);  // Massimizzo
+
+            if(_isset(settings.maximize)){
+                if(settings.maximize){
+                    if( !$(y).hasClass("window_full") )
+                        JQD.util.window_resize(y);  // Massimizzo
+                }
+                else{
+                    if( $(y).hasClass("window_full") )
+                        JQD.util.window_resize(y);  // Normalizzo
+                }
+            }
+            else{
+                if( (y!="#window_rudder" && y!="#window_postman") || _mobiledetected )
+                    JQD.util.window_resize(y);  // Massimizzo
+            }
+
             JQD.util.clear_active();
             
             // GESTIONE EVENTI
@@ -283,28 +302,59 @@ function ryWinz(missing){
     }
     this.shell=function(params){
         try{
+            var id="_form"+(_winzprogrid+1)+"_";
+            if(params.id!=missing){id=params.id}
+
             _openingparams=_stringify(params);
+
             if(params.controls!=missing){
                 if(!params.controls){
                     params.initialize=function(){
-                        $("#window_rudder div.window_top").css({"display":"none"});
-                        $("#message_rudder").css({"display":"none"});
-                        $("#window_rudder>span.ui-resizable-handle").css({"right":"-50px"});
-                        $("#window_rudder div.window_content").css({"top":0, "bottom":0});
+                        $("#window_"+id+" div.window_top").css({"display":"none"});
+                        $("#message_"+id).css({"display":"none"});
+                        $("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px"});
+                        $("#window_"+id+" div.window_content").css({"top":0, "bottom":0});
                     }
                 }
             }
             RYWINZ.newform(params);
-            if(params.maximize!=missing){
-                if(params.maximize){
-                    JQD.util.window_resize("#window_rudder");
-                }
-            }
         }
         catch(e){}
     }
+    this.formclose=function(id){
+        var h="#icon_dock_"+id;
+        var ret=raiseUnload(id);
+        if(ret!==false){
+            $("#wondow_"+id).hide();
+            $(h).hide('fast');
+            if($("#icon_desk_"+id).length == 0){ // Se non ha icona sul desktop, lo rimuovo totalmente
+                if(window.console&&_sessioninfo.debugmode)console.log("Rimozione "+id);
+                $("#window_"+id).remove();
+                $("#icon_dock_"+id).remove();
+                RYWINZ.removeform(id);
+            }
+        }
+    }
     function createid(){
         _winzprogrid++;
-        return "_form"+(_winzprogrid)+"_";
+        return "_form"+_winzprogrid+"_";
     }
+    this.MessageBox=winzMessageBox;
+    this.ConfirmAbandon=winzConfirmAbandon;
+    this.ToObject=winzToObject;
+    this.MaskClear=winzMaskClear;
+    this.ToMask=winzToMask;
+    this.ClearMess=winzClearMess;
+    this.TimeoutMess=winzTimeoutMess;
+    this.KeyTools=winzKeyTools;
+    this.Progress=winzProgress;
+    this.DialogGet=winzDialogGet;
+    this.DialogParams=winzDialogParams;
+    this.DialogOpen=winzDialogOpen;
+    this.DialogClose=winzDialogClose;
+    this.DisposeCtrl=winzDisposeCtrl;
+    this.DialogFree=winzDialogFree;
+    this.AppendCtrl=winzAppendCtrl;
+    this.Post=winzPost;
+    this.BringToFront=winzBringToFront;
 }

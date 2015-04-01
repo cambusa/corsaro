@@ -1,6 +1,6 @@
 <svg width="974" height="35" xmlns="http://www.w3.org/2000/svg">
  <g>
-  <polygon id="ego_footer" points="0,5 30,5 90,31 974,31 974,35 0,35" stroke-width="0" fill="#E69400"/>
+  <polygon id="ego_footer" points="0,31 974,31 974,35 0,35" stroke-width="0" fill="#E69400"/>
   <text xml:space="preserve" id="ego_footer_copyright" text-anchor="middle" font-family="verdana,sans-serif" font-size="10" y="29" x="910" stroke-width="0" fill="#666688">Framework Cambusa</text>
  </g>
 </svg>

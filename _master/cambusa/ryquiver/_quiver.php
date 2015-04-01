@@ -6,15 +6,17 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-if(!isset($tocambusa))
-    $tocambusa="../";
-include_once $tocambusa."ryquiver/quiverlib.php";
+$path_cambusa=realpath(dirname(__FILE__)."/..");
+$path_cambusa=str_replace("\\", "/", $path_cambusa);
+$path_cambusa.="/";
+include_once $path_cambusa."/sysconfig.php";
+include_once $path_cambusa."ryquiver/quiverlib.php";
 
 function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array(), $rtype=1){
-    global $tocambusa, $path_cambusa, $path_customize, $path_databases, $path_applications;
+    global $path_cambusa, $path_customize, $path_databases, $path_applications;
     global $maestro;
     global $babelcode, $babelparams;
     global $global_lastenvname, $public_sessionid;
@@ -57,7 +59,7 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array(), $rty
                             if(isset($stat["macro"])){
                                 $macro=$stat["macro"];
                                 $macro=str_replace("@customize/", $path_customize, $macro);
-                                $macro=str_replace("@cambusa/", $tocambusa, $macro);
+                                $macro=str_replace("@cambusa/", $path_cambusa, $macro);
                                 $macro=str_replace("@databases/", $path_databases, $macro);
                                 $macro=str_replace("@apps/", $path_applications, $macro);
                                 if(file_exists($macro)){
@@ -153,7 +155,7 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array(), $rty
                         // AGGIUNGO IL PREFISSO
                         $function="qv_" . $function;
                         // LANCIO LA FUNZIONE RICHIESTA (LE FUNZIONI DI SISTEMA NON SONO SOVRASCRIVIBILI)
-                        $include=$tocambusa . "ryquiver/" . $space . $function . ".php";
+                        $include=$path_cambusa . "ryquiver/" . $space . $function . ".php";
                         // DO LA PRECEDENZA ALLA FUNZIONE CUSTOM RISPETTO A QUELLA APPLICATIVA
                         $custinclude=$path_customize . "ryquiver/" . $space . $function . ".php";
                         $appinclude=$path_applications . "ryquiver/" . $space . $function . ".php";

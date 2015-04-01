@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvarrows(settings,missing){
@@ -526,7 +526,7 @@ function class_qvarrows(settings,missing){
             context=txdescr.value();
             lb_details_context.caption("Contesto: "+typedescr+" / "+context);
             // CREO UN CONTENITORE CON I DATI AGGIORNATI
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -568,7 +568,7 @@ function class_qvarrows(settings,missing){
         button:true,
         click:function(o, done){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "X", currsysid);
+            var data=RYWINZ.ToObject(formid, "X", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -653,7 +653,7 @@ function class_qvarrows(settings,missing){
                             RYQUE.query({
                                 sql:"SELECT * FROM "+t+" WHERE SYSID='"+currsysid+"'",
                                 ready:function(v){
-                                    qv_object2mask(formid, "C", v[0]);
+                                    RYWINZ.ToMask(formid, "C", v[0]);
                                     context=v[0]["DESCRIPTION"];
                                     loadedsysid=currsysid;
                                     // EVENTUALMENTE PORTO "SALVA" COME ULTIMO CAMPO
@@ -676,11 +676,11 @@ function class_qvarrows(settings,missing){
                 case 3:
                     // CARICAMENTO DETTAGLI
                     lb_details_context.caption("Contesto: "+typedescr+" / "+context);
-                    qv_maskclear(formid, "X");
+                    RYWINZ.MaskClear(formid, "X");
                     RYQUE.query({
                         sql:"SELECT DESCRIPTION,REGISTRY FROM QVARROWS WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
-                            qv_object2mask(formid, "X", v[0]);
+                            RYWINZ.ToMask(formid, "X", v[0]);
                             context=v[0]["DESCRIPTION"];
                             lb_details_context.caption("Contesto: "+typedescr+" / "+context);
                             loadedsysidx=currsysid;
@@ -708,6 +708,7 @@ function class_qvarrows(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid);
     function managetimeunit(){
         var v=(currbowunit=="S" || currtargetunit=="S");
@@ -716,6 +717,5 @@ function class_qvarrows(settings,missing){
         globalobjs[formid+"AUXTIME"].visible(v);
         globalobjs[formid+"STATUSTIME"].visible(v);
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"NAME", xengage:oper_contextengage, details:3, files:4} );
 }
 

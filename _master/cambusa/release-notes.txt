@@ -1,4 +1,28 @@
 ==================================
+Rilascio 1.69.05    del 01/04/2015
+==================================
+
+Gestita la "collassabilità" di ryTabs qualora il suo Top non sia zero.
+
+==================================
+Rilascio 1.69.04    del 31/03/2015
+==================================
+
+Ripensata l'associazione di azioni agli acceleratori di tastiera.
+
+==================================
+Rilascio 1.69.03    del 28/03/2015
+==================================
+
+Forzatura del ricaricamento delle librerie da server.
+
+Spostamento e ridenominazione di funzioni sotto RYWINZ.
+
+La gestione del "cambio chiave caricata" integrata in ryTabs.
+
+Spostata la funzione qv_geography e ridenominata winzGeography.
+
+==================================
 Rilascio 1.69.02    del 23/03/2015
 ==================================
 

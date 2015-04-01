@@ -6,15 +6,16 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-if(!isset($tocambusa))
-    $tocambusa="../";
-include_once $tocambusa."rymaestro/maestro_execlib.php";
-include_once $tocambusa."ryquiver/quiverlib.php";
-include_once $tocambusa."ryego/ego_validate.php";
-include_once $tocambusa."rymonad/monad_lib.php";
+$path_cambusa=realpath(dirname(__FILE__)."/..");
+$path_cambusa=str_replace("\\", "/", $path_cambusa);
+$path_cambusa.="/";
+include_once $path_cambusa."rymaestro/maestro_execlib.php";
+include_once $path_cambusa."ryquiver/quiverlib.php";
+include_once $path_cambusa."ryego/ego_validate.php";
+include_once $path_cambusa."rymonad/monad_lib.php";
 
 // UTENTEID E RUOLOID COME SONO REGISTRATI IN QUIVER
 $global_quiveruserid="";

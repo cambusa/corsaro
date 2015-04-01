@@ -6,15 +6,15 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-if(is_file("../ryque/ryq_gauge.php"))
-    include_once "../ryque/ryq_gauge.php";
-elseif(is_file("../ryque/ryq_gauge.phar"))
-    include_once "phar://../ryque/ryq_gauge.phar/ryq_gauge.php";
+if(is_file($path_cambusa."ryque/ryq_gauge.php"))
+    include_once $path_cambusa."ryque/ryq_gauge.php";
+elseif(is_file($path_cambusa."ryque/ryq_gauge.phar"))
+    include_once "phar://".$path_cambusa."ryque/ryq_gauge.phar/ryq_gauge.php";
 else
-    include_once "../ryque/ryq_gaugeminus.php";
+    include_once $path_cambusa."ryque/ryq_gaugeminus.php";
 function qv_smartfinder($maestro, $data){
     global $babelcode, $babelparams;
     try{

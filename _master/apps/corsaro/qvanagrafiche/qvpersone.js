@@ -5,12 +5,12 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvpersone(settings,missing){
     var formid=RYWINZ.addform(this);
-    winzProgress(formid);
+    RYWINZ.Progress(formid);
 
     var currsysid="";
     var currtypologyid=RYQUE.formatid("0PERSONE0000");
@@ -18,8 +18,6 @@ function class_qvpersone(settings,missing){
     var bbl_context="";
     var prefix="#"+formid;
     var flagopen=false;
-    var flagsuspend=false;
-    var loadedsysid="";
     var sospendirefresh=false;
     
     // DEFINIZIONE TAB SELEZIONE
@@ -172,7 +170,7 @@ function class_qvpersone(settings,missing){
         caption:"Nuovo",
         button:true,
         click:function(o){
-            winzProgress(formid);
+            RYWINZ.Progress(formid);
             var data = new Object();
             data["DESCRIPTION"]="(nuova persona)";
             data["TYPOLOGYID"]=currtypologyid;
@@ -191,10 +189,10 @@ function class_qvpersone(settings,missing){
                             flagopen=true;
                             objgridsel.splice(0, 0, newid);
                         }
-                        winzTimeoutMess(formid, v.success, v.message);
+                        RYWINZ.TimeoutMess(formid, v.success, v.message);
                     }
                     catch(e){
-                        winzClearMess(formid);
+                        RYWINZ.ClearMess(formid);
                         alert(d);
                     }
                 }
@@ -252,7 +250,7 @@ function class_qvpersone(settings,missing){
                         {"id":"REGISTRY", "caption":"Note"}
                     ],
                     "ready":function(d){
-                        winzProgress(formid);
+                        RYWINZ.Progress(formid);
                         var stats=[];
                         for(var i in d){
                             // ANALIZZO I DATI PER VEDERE SE CE NE SONO DI IMPOSTATI
@@ -322,10 +320,10 @@ function class_qvpersone(settings,missing){
                                 try{
                                     var v=$.parseJSON(d);
                                     objgridsel.refresh();
-                                    winzTimeoutMess(formid, v.success, v.message);
+                                    RYWINZ.TimeoutMess(formid, v.success, v.message);
                                 }
                                 catch(e){
-                                    winzClearMess(formid);
+                                    RYWINZ.ClearMess(formid);
                                     alert(d);
                                 }
                             }
@@ -387,7 +385,7 @@ function class_qvpersone(settings,missing){
         caption:"Cerca...",
         button:true,
         click:function(o){
-            qv_geography(formid,
+            RYWINZ.Geography(formid,
                 {
                     "type":"comuni",
                     "onselect":function(d){
@@ -479,21 +477,21 @@ function class_qvpersone(settings,missing){
         "selectedtable":"QVOBJECTS"
     });
     
-    var oper_contextengage=$(prefix+"oper_contextengage").rylabel({
+    var oper_engage=$(prefix+"oper_engage").rylabel({
         left:650,
         top:60,
         width:60,
         caption:"Salva",
         button:true,
         click:function(o, done){
-            winzProgress(formid);
+            RYWINZ.Progress(formid);
             if(txdescr.value()=="(nuova persona)" || txdescr.value()==""){
                 if(txnome.value()!="" || txcognome.value()!=""){
                     txdescr.value( txnome.value() + " " + txcognome.value() );
                 }
             }
             context=txdescr.value();
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -506,10 +504,10 @@ function class_qvpersone(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){ RYWINZ.modified(formid, 0) }
                         objgridsel.dataload();
-                        winzTimeoutMess(formid, v.success, v.message);
+                        RYWINZ.TimeoutMess(formid, v.success, v.message);
                     }
                     catch(e){
-                        winzClearMess(formid);
+                        RYWINZ.ClearMess(formid);
                         alert(d);
                     }
                     if(done!=missing){done()}
@@ -529,39 +527,44 @@ function class_qvpersone(settings,missing){
             {title:"Contesto"},
             {title:"Documenti"}
         ],
-        select:function(i,p){
-            if(p==2){
-                // PROVENGO DAI DATI
-                flagsuspend=qv_changemanagement(formid, objtabs, oper_contextengage, {
+        before:function(i,n){
+            if(i==2){
+                // SONO IN CONTESTO
+                RYWINZ.ConfirmAbandon(formid, {
+                    save:function(){
+                        oper_engage.engage(
+                            function(){
+                                objtabs.clear();
+                                objtabs.currtab(n);
+                            }
+                        );
+                    },
                     abandon:function(){
-                        loadedsysid="";
+                        objtabs.clear();
+                        objtabs.currtab(n);
                     }
                 });
             }
-            if(i==1){
-                loadedsysid="";
-            }
-            else if(i==2){
-                if(currsysid==loadedsysid){
-                    flagsuspend=true;
-                }
-            }
-            if(!flagsuspend){
-                switch(i){
-                case 1:
-                    objgridsel.dataload();
-                    break;
-                case 2:
+        },
+        select:function(i,p){
+            switch(i){
+            case 1:
+                objtabs.clear();
+                objgridsel.dataload();
+                break;
+
+            case 2:
+                if(objtabs.ifother(currsysid, 2)){
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     objclassi.clear();
                     RYQUE.query({
                         sql:"SELECT * FROM QW_PERSONE WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
-                            loadedsysid=currsysid;
+                            objtabs.keys(currsysid, 2);
                             objclassi.parentid(currsysid,
                                 function(){
                                     castFocus(prefix+"NOME");
@@ -569,19 +572,19 @@ function class_qvpersone(settings,missing){
                             );
                         }
                     });
-                    break;
-                case 3:
-                    // CARICAMENTO DOCUMENTI
-                    filemanager.initialize(currsysid, bbl_context.replace("{1}", context), currtypologyid);
-                    qv_contextmanagement(context, {sysid:currsysid, table:"QVOBJECTS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
-                        done:function(d){
-                            context=d;
-                            filemanager.caption(bbl_context.replace("{1}", context));
-                        }
-                    });
                 }
+                break;
+
+            case 3:
+                // CARICAMENTO DOCUMENTI
+                filemanager.initialize(currsysid, bbl_context.replace("{1}", context), currtypologyid);
+                qv_contextmanagement(context, {sysid:currsysid, table:"QVOBJECTS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
+                    done:function(d){
+                        context=d;
+                        filemanager.caption(bbl_context.replace("{1}", context));
+                    }
+                });
             }
-            flagsuspend=false;
         }
     });
     objtabs.currtab(1);
@@ -589,6 +592,7 @@ function class_qvpersone(settings,missing){
     objtabs.enabled(3,false);
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs, {xbrowser:objgridsel, xrefresh:oper_refresh, xnew:oper_new, xfocus:txnome, xengage:oper_engage} );
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             bbl_context=RYBOX.babels("BABEL_CONTEXT");
@@ -596,7 +600,7 @@ function class_qvpersone(settings,missing){
                 function(){ 
                     oper_refresh.engage(
                         function(){
-                            winzClearMess(formid);
+                            RYWINZ.ClearMess(formid);
                             txf_search.focus();
                         }
                     ) 
@@ -613,6 +617,5 @@ function class_qvpersone(settings,missing){
             , 100);
         }
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"NOME", xengage:oper_contextengage, files:3} );
 }
 

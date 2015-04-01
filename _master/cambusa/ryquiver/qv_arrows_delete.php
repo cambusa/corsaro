@@ -6,7 +6,7 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once "quiverinf.php";
@@ -15,7 +15,7 @@ include_once "quiverval.php";
 include_once "quivertrg.php";
 include_once "quiverext.php";
 include_once "quiverarw.php";
-include_once "../rymaestro/maestro_querylib.php";
+include_once $path_cambusa."rymaestro/maestro_querylib.php";
 function qv_arrows_delete($maestro, $data){
     global $global_quiveruserid,$global_quiverroleid;
     global $global_lastadmin;

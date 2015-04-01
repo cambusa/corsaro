@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvinterazioni(settings,missing){
@@ -744,7 +744,7 @@ function class_qvinterazioni(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context_attivita=txd_descr.value();
-            var data=qv_mask2object(formid, "D", currattivid);
+            var data=RYWINZ.ToObject(formid, "D", currattivid);
             data["PRATICAID"]=currpraticaid;
             impostastatus(data);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
@@ -790,7 +790,7 @@ function class_qvinterazioni(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context_attivita=txd_descr.value();
-            var data=qv_mask2object(formid, "D", currattivid);
+            var data=RYWINZ.ToObject(formid, "D", currattivid);
             data["PRATICAID"]=currpraticaid;
             data["CONSISTENCY"]=0;
             impostastatus(data);
@@ -922,6 +922,7 @@ function class_qvinterazioni(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             TAIL.enqueue(qv_queuequerycall, {
@@ -1026,7 +1027,7 @@ function class_qvinterazioni(settings,missing){
             sql:"SELECT * FROM QW_ATTIVITAJOIN WHERE SYSID='"+currattivid+"'",
             ready:function(v){
                 // ASSEGNAMENTO CAMPI
-                qv_object2mask(formid, "D", v[0]);
+                RYWINZ.ToMask(formid, "D", v[0]);
                 mascherastatus(v[0]);
                 // REGOLE DI UPDATING: ABILITAZIONE BOTTONE "SALVA" E "INVIA"
                 if(_getinteger(v[0]["CONSISTENCY"])==2){
@@ -1263,7 +1264,6 @@ function class_qvinterazioni(settings,missing){
             }
         );
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new} );
     this._resize=function(){
         if( $("#window_"+formid).width()>1400 )
             $(prefix+"preview").css({left:740, top:80, width:660});

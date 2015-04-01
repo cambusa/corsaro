@@ -5,7 +5,7 @@
 * Description:     Masked input and other form controls                     *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 .rybutton-caption {
@@ -25,7 +25,7 @@ white-space:nowrap;
 -webkit-border-radius: 5px;
 -khtml-border-radius: 5px;
 border-radius: 5px;
-text-shadow:1px 1px 2px #A9A9A9;
+text-shadow:1px 1px 2px #B8B8B8;
 color:#333;
 background-color:transparent;
 background: -webkit-linear-gradient(white, #DDD); /* For Safari 5.1 to 6.0 */

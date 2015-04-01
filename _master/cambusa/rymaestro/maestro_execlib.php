@@ -6,7 +6,7 @@
 * Description:     Databases modeling and maintenance                       *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 if(!isset($tocambusa))
@@ -140,7 +140,7 @@ function maestro_opendb($env, $raise=true){
             }
         }
         else{
-            $errdescr="Incorrect database name";
+            $errdescr="Incorrect database name: ".$path_databases."_environs/".$env.".php";
         }
         $maestro=new Maestro();
         $maestro->conn=$conn;

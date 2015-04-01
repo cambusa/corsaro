@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvattori(settings,missing){
@@ -363,7 +363,7 @@ function class_qvattori(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context=txdescr.value();
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             data["DESCRIPTION"]=txdescr.value();
             data["EMAIL"]=txemail.value();
             $.post(_cambusaURL+"ryquiver/quiver.php", 
@@ -426,14 +426,14 @@ function class_qvattori(settings,missing){
                 case 2:
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     txdescr.clear();
                     RYQUE.query({
                         sql:"SELECT * FROM QW_ATTORI WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
                             txdescr.value(v[0]["DESCRIPTION"]);
                             txemail.value(v[0]["EMAIL"]);
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
                             loadedsysid=currsysid;
                             castFocus(prefix+"AZIENDAID");
@@ -459,6 +459,7 @@ function class_qvattori(settings,missing){
     objtabs.enabled(3,false);
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             setTimeout( 
@@ -473,6 +474,5 @@ function class_qvattori(settings,missing){
             );
         }
     );
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xengage:oper_contextengage, files:3} );
 }
 

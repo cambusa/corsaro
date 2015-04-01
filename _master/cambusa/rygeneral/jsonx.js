@@ -14,7 +14,7 @@ function xtoj(xml, tag, doublequote){
         var v=[];
         var row=0,r,s,exc;
         var exb=new RegExp(" *$", "gm");
-        var exr=new RegExp("<"+tag+"[^>]*", "gm");
+        var exr=new RegExp("<"+tag+"(>| [^>]*)", "gm");
         if(doublequote)
             exc=/(\w+)="([^"]*)"/gm;
         else
@@ -26,6 +26,32 @@ function xtoj(xml, tag, doublequote){
             while(s=exc.exec(t[r])){
                 v[row][s[1].toUpperCase()]=s[2].replace(exb, "");
             }
+            row+=1;
+        }
+    }
+    catch(e){
+        if(window.console){console.log(e.message)}
+        var v=[];
+    }
+    return v;
+}
+
+function xxtoj(xml, tag, sub, doublequote){
+    try{
+        var v=[];
+        var row=0,s,t,exc;
+        var exb=new RegExp(" *$", "gm");
+        var exr=new RegExp("<"+tag+"(>| [^>]*)(.+?)</"+tag+">", "gm");
+        if(doublequote)
+            exc=/(\w+)="([^"]*)"/gm;
+        else
+            exc=/(\w+)='([^']*)'/gm;
+        while(t=exr.exec(xml)){
+            v[row]={};
+            while(s=exc.exec(t[1])){
+                v[row][s[1].toUpperCase()]=s[2].replace(exb, "");
+            }
+            v[row]["__DATA__"]=xtoj(t[2], sub, doublequote);
             row+=1;
         }
     }

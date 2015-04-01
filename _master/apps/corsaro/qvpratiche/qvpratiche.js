@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvpratiche(settings,missing){
@@ -680,7 +680,7 @@ function class_qvpratiche(settings,missing){
         button:true,
         click:function(o, done){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "C", currpraticaid);
+            var data=RYWINZ.ToObject(formid, "C", currpraticaid);
             travasacustom(data);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
@@ -1243,7 +1243,7 @@ function class_qvpratiche(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context_attivita=txd_descr.value();
-            var data=qv_mask2object(formid, "D", currattivid);
+            var data=RYWINZ.ToObject(formid, "D", currattivid);
             data["PRATICAID"]=currpraticaid;
             impostastatus(data);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
@@ -1284,7 +1284,7 @@ function class_qvpratiche(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context_attivita=txd_descr.value();
-            var data=qv_mask2object(formid, "D", currattivid);
+            var data=RYWINZ.ToObject(formid, "D", currattivid);
             data["PRATICAID"]=currpraticaid;
             data["CONSISTENCY"]=0;
             impostastatus(data);
@@ -1332,7 +1332,7 @@ function class_qvpratiche(settings,missing){
         click:function(o){
             winzProgress(formid);
             // ISTRUZIONE DI SALVATAGGIO DEL DETTAGLIO MODIFICATO
-            var data=qv_mask2object(formid, "D", currattivid);
+            var data=RYWINZ.ToObject(formid, "D", currattivid);
             data["PRATICAID"]=currpraticaid;
             data["STATUS"]=0;
             $.post(_cambusaURL+"ryquiver/quiver.php", 
@@ -1374,7 +1374,7 @@ function class_qvpratiche(settings,missing){
                 txd_begin.value(_today())
             }
             // ISTRUZIONE DI SALVATAGGIO DEL DETTAGLIO MODIFICATO
-            var data=qv_mask2object(formid, "D", currattivid);
+            var data=RYWINZ.ToObject(formid, "D", currattivid);
             data["PRATICAID"]=currpraticaid;
             data["STATUS"]=1;
             $.post(_cambusaURL+"ryquiver/quiver.php", 
@@ -1411,7 +1411,7 @@ function class_qvpratiche(settings,missing){
         click:function(o){
             winzProgress(formid);
             // ISTRUZIONE DI SALVATAGGIO DEL DETTAGLIO MODIFICATO
-            var data=qv_mask2object(formid, "D", currattivid);
+            var data=RYWINZ.ToObject(formid, "D", currattivid);
             data["PRATICAID"]=currpraticaid;
             data["STATUS"]=2;
             $.post(_cambusaURL+"ryquiver/quiver.php", 
@@ -1731,7 +1731,7 @@ function class_qvpratiche(settings,missing){
             if(qv_changerowmanagement(formid, o, n)){return false;}
         },
         changerow:function(o,i){
-            qv_maskclear(formid, "M");
+            RYWINZ.MaskClear(formid, "M");
             tx_movauxtime.value(_today());
             qv_maskenabled(formid, "M", 0);
             tx_movauxtime.enabled(0);
@@ -1758,7 +1758,7 @@ function class_qvpratiche(settings,missing){
                     else
                         tx_movauxtime.value(v[0]["TARGETTIME"]);
                     tx_movmotiveid.value(v[0]["MOTIVEID"]);
-                    qv_object2mask(formid, "M", v[0]);
+                    RYWINZ.ToMask(formid, "M", v[0]);
                     operm_unsaved.visible(0);
                     solalettura();
                     if(flagmovnuovo){
@@ -1837,7 +1837,7 @@ function class_qvpratiche(settings,missing){
                     var istr=0;
                     if(RYWINZ.modified(formid)){
                         // ISTRUZIONE DI SALVATAGGIO DEL MOVIMENTO MODIFICATO
-                        var datasave=qv_mask2object(formid, "M", currmovid);
+                        var datasave=RYWINZ.ToObject(formid, "M", currmovid);
                         var auxtime=tx_movauxtime.text()
                         datasave["BOWTIME"]=auxtime;
                         datasave["TARGETTIME"]=auxtime;
@@ -1962,7 +1962,7 @@ function class_qvpratiche(settings,missing){
         button:true,
         click:function(o, done){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "M", currmovid);
+            var data=RYWINZ.ToObject(formid, "M", currmovid);
             var auxtime=tx_movauxtime.text()
             data["BOWTIME"]=auxtime;
             data["TARGETTIME"]=auxtime;
@@ -2118,14 +2118,14 @@ function class_qvpratiche(settings,missing){
                     break;
                 case 2:
                     // CARICAMENTO DEL CONTESTO
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     tx_reference.clear();
                     $(prefix+"LB_STATODESCRIPTION").html("");
                     currstatoid=""; // Forzo il caricamento dei dati
                     caricapratica(
                         function(d){
                             // ASSEGNAMENTO CAMPI
-                            qv_object2mask(formid, "C", d);
+                            RYWINZ.ToMask(formid, "C", d);
                             tx_reference.value(d["REFERENCE"]);
                             loadedpraticaCid=currpraticaid;
                             // GESTIONE INTERPROCESSO
@@ -2206,6 +2206,7 @@ function class_qvpratiche(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             TAIL.enqueue(qv_queuequerycall, {
@@ -2248,7 +2249,7 @@ function class_qvpratiche(settings,missing){
         var stats=[];
         var istr=0;
         // ISTRUZIONE DI SALVATAGGIO PRATICA
-        var data=qv_mask2object(formid, "C", currpraticaid);
+        var data=RYWINZ.ToObject(formid, "C", currpraticaid);
         travasacustom(data);
         stats[istr++]={
             "function":"pratiche_update",
@@ -2325,7 +2326,7 @@ function class_qvpratiche(settings,missing){
         var stats=[];
         var istr=0;
         // ISTRUZIONE DI SALVATAGGIO PRATICA
-        var data=qv_mask2object(formid, "C", currpraticaid);
+        var data=RYWINZ.ToObject(formid, "C", currpraticaid);
         travasacustom(data);
         stats[istr++]={
             "function":"pratiche_update",
@@ -2549,7 +2550,7 @@ function class_qvpratiche(settings,missing){
         var istr=0;
         if(newstatus==1){
             // SALVATAGGIO
-            var data=qv_mask2object(formid, "C", currpraticaid);
+            var data=RYWINZ.ToObject(formid, "C", currpraticaid);
             travasacustom(data);
             stats[istr++]={
                 "function":"pratiche_update",
@@ -2677,12 +2678,12 @@ function class_qvpratiche(settings,missing){
         globalobjs[formid+"operm_delete"].visible(flag);
     }
     function caricaattivita(after, missing){
-        qv_maskclear(formid, "D");
+        RYWINZ.MaskClear(formid, "D");
         RYQUE.query({
             sql:"SELECT * FROM QW_ATTIVITAJOIN WHERE SYSID='"+currattivid+"'",
             ready:function(v){
                 // ASSEGNAMENTO CAMPI
-                qv_object2mask(formid, "D", v[0]);
+                RYWINZ.ToMask(formid, "D", v[0]);
                 mascherastatus(v[0]);
                 if(txd_bowid.value()==""){
                     txd_bowid.value(currattoreid);
@@ -2903,7 +2904,6 @@ function class_qvpratiche(settings,missing){
             }
         }
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xengage:oper_contextengage} );
     this._resize=function(){
         if( $("#window_"+formid).width()>1400 )
             $(prefix+"preview").css({left:740, top:80, width:"180mm"}); // era 660

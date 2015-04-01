@@ -5,57 +5,11 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var qv_handletemp=false;
 var RYQUEAUX=new ryQue();
-function qv_mask2object(formid, datalot, sysid){
-    var data = new Object();
-    var o=_globalforms[formid];
-    if(_isset(sysid))
-        data["SYSID"]=sysid;
-    for(var k in o.controls){   // Ciclo sui controlli di maschera
-        var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
-        if( !_ismissing(datum) ){   // Controllo che datum sia definito
-            if(datum==datalot){  // Controllo che si un campo del lotto che voglio travasare
-                var c=globalobjs[k];
-                if(c.modified() && c.tag){
-                    switch(c.type){
-                    case "date":
-                        data[c.tag]=c.text();break;
-                    case "number":
-                        data[c.tag]=c.value().toString();break;
-                    case "check":
-                        data[c.tag]=c.value();break;
-                    case "list":
-                        data[c.tag]=_ajaxescapize( c.key(c.value()) );break;
-                    default:
-                        data[c.tag]=_ajaxescapize( c.value() );break;
-                    }
-                }
-            }
-        }
-    }
-    if(window.console&&_sessioninfo.debugmode&&_sessioninfo.debugmode){console.log(data)}
-    return data;
-}
-function qv_maskclear(formid, datalot){
-    var o=_globalforms[formid];
-    for(var k in o.controls){   // Ciclo sui controlli di maschera
-        var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
-        if( !_ismissing(datum) ){   // Controllo che datum sia definito
-            if(datum==datalot){  // Controllo che si un campo del lotto che voglio ripulire
-                var c=globalobjs[k];
-                if(c.type=="list")
-                    c.value(1);
-                else
-                    c.clear();  // Se è definito pulisco qualunque sia il valore di datum
-            }
-        }
-    }
-    RYWINZ.modified(formid, 0);
-}
 function qv_maskenabled(formid, datalot, flag){
     var o=_globalforms[formid];
     for(var k in o.controls){   // Ciclo sui controlli di maschera
@@ -66,43 +20,6 @@ function qv_maskenabled(formid, datalot, flag){
             }
         }
     }
-}
-function qv_object2mask(formid, datalot, data){
-    var o=_globalforms[formid];
-    for(var k in o.controls){   // Ciclo sui controlli di maschera
-        var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
-        if( !_ismissing(datum) ){   // Controllo che datum sia definito
-            if(datum==datalot){  // Controllo che si un campo del lotto che voglio travasare
-                var c=globalobjs[k];
-                if(c.tag){
-                    var d=_fittingvalue(data[c.tag]);
-                    switch(c.type){
-                    case "date":
-                        c.value(d);break;
-                    case "number":
-                        c.value(d);break;
-                    case "check":
-                        c.value( _bool( d ) );break;
-                    case "list":
-                        c.value( c.index( d ) );break;
-                        break;
-                    default:
-                        if(c.tag=="NAME"){
-                            if(d.substr(0,2)!="__")
-                                c.value(d);
-                            else
-                                c.value("");
-                        }
-                        else{
-                            c.value(d);
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    RYWINZ.modified(formid, 0);
 }
 function qv_printselected(formid, objgrid, template, options){
     var dlg=winzDialogGet(formid);
@@ -886,7 +803,7 @@ function qv_autoconfigure(formid, viewname, tableprefix, typologyid, offsety, ca
         //$(prefix+"extension").empty();
         $(prefix+"extension").html("");
     }
-    qv_maskclear(formid, "C");
+    RYWINZ.MaskClear(formid, "C");
     if(viewname!=""){
         // LA VISTA E' DEFINITA
         if(flagload){
@@ -1356,6 +1273,7 @@ function qv_idrequest(formid, settings, missing){
 			var propfocusout=true;
 			var propctrl=false;
 			var propshift=false;
+            var propalt=false;
 			var propobj=this;
 			var propenabled=true;
 			var propvisible=true;
@@ -1457,12 +1375,13 @@ function qv_idrequest(formid, settings, missing){
             		if(propenabled){
             			propctrl=k.ctrlKey; // da usare nella press
             			propshift=k.shiftKey;
+                        propalt=k.altKey;
             			if(k.which==46){ // delete
             				if(propctrl){
             					propobj.clear();
             				}
             			}
-            			else if(k.which==113){ // F2
+            			else if(k.which==113 || (propalt && k.which==50)){ // F2  Alt+2
                             k.preventDefault();
             				propobj.showhelper();
             			}

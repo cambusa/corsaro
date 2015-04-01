@@ -6,7 +6,7 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once "quiverinf.php";
@@ -60,19 +60,19 @@ function qv_messages_send($maestro, $data){
             $PRIORITY=0;
         }
         
-        // DETERMINO ACTION
-        if(isset($data["ACTION"]))
-            $ACTION=ryqEscapize($data["ACTION"]);
+        // DETERMINO ENGAGEPARAMS
+        if(isset($data["ENGAGEPARAMS"]))
+            $ENGAGEPARAMS=ryqEscapize($data["ENGAGEPARAMS"]);
         else
-            $ACTION="";
+            $ENGAGEPARAMS="";
             
         $STATUS=0;  // 0 (sent), 1 (received), 2 (viewed), 4 (deleted)
         $SENDINGTIME="[:NOW()]";
         $RECEIVINGTIME="[:DATE(" . LOWEST_DATE . ")]";
         
         // PREDISPONGO COLONNE E VALORI DA REGISTRARE
-        $columns="SYSID,DESCRIPTION,REGISTRY,SENDERID,RECEIVERID,SENDINGTIME,RECEIVINGTIME,PRIORITY,STATUS,ACTION";
-        $values="'$SYSID','$DESCRIPTION',$REGISTRY,'$SENDERID','$RECEIVERID',$SENDINGTIME,$RECEIVINGTIME,$PRIORITY,$STATUS,'$ACTION'";
+        $columns="SYSID,DESCRIPTION,REGISTRY,SENDERID,RECEIVERID,SENDINGTIME,RECEIVINGTIME,PRIORITY,STATUS,ENGAGEPARAMS";
+        $values="'$SYSID','$DESCRIPTION',$REGISTRY,'$SENDERID','$RECEIVERID',$SENDINGTIME,$RECEIVINGTIME,$PRIORITY,$STATUS,'$ENGAGEPARAMS'";
         $sql="INSERT INTO QVMESSAGES($columns) VALUES($values)";
         
         if(!maestro_execute($maestro, $sql, false, $clobs)){

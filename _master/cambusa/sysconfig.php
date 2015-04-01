@@ -6,11 +6,13 @@
 * Description:     Cambusa configuration file                               *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-include_once "solveroot.php";
+$curdir=realpath(dirname(__FILE__));
+$curdir=str_replace("\\", "/", $curdir);
+include_once $curdir."/solveroot.php";
 
 /**************
 | URL DOMINIO |
@@ -106,7 +108,7 @@ if(is_file($path_customize."_cambusa.php")){
 $public_sessionid="";
 $ryque_sessionid="";
 if(is_file($path_databases."_configs/session.php")){
-    include_once $path_databases."_configs/session.php";
+    include $path_databases."_configs/session.php";
 }
 
 // Non aggiungere accapi o spazi dopo ">"

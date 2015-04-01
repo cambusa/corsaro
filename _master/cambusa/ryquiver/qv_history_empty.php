@@ -6,10 +6,10 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-include_once "../rymaestro/maestro_querylib.php";
+include_once $path_cambusa."rymaestro/maestro_querylib.php";
 function qv_history_empty($maestro, $data){
     global $babelcode, $babelparams;
     global $global_lastadmin;

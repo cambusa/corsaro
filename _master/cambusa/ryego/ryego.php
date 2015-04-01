@@ -6,7 +6,7 @@
 * Description:     Central Authentication Service (CAS)                     *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 // CARICO I PERCORSI
@@ -314,7 +314,7 @@ elseif($msk=="setup"){
 <td colspan='8' valign='top'>
 
 <div class='classicSkip10'>&nbsp;</div>
-<div style='position:relative;font-size:48px;height:70px;'><div style='position:absolute;white-space:nowrap;top:0px;left:20px;color:black;'>Ego - <span id="egotitle">Servizio di autenticazione</span></div></div>
+<div style='position:relative;font-size:16px;height:30px;text-align:center;white-space:nowrap;color:black;'>Ego - <span id="egotitle">Servizio di autenticazione</span></div>
 <div class='classicSkip10'>&nbsp;</div>
 <div class='classicHR'>&nbsp;</div>
 <div class='classicSkip20'>&nbsp;</div>

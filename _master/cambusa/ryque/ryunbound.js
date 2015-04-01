@@ -5,7 +5,7 @@
 * Description:     Lightweight access to databases                          *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 (function($,missing) {
@@ -613,6 +613,7 @@
                             propobj.dataload();
                     }
                 });
+                /*
                 $("#"+propname).contextMenu("ryque_menu", {
                     bindings: {
                         'ryque_use': function(t) {
@@ -639,6 +640,7 @@
                             return menu;
                         }
                 });
+                */
                 if(propmaxwidth>propminwidth){
                     var par=$("#"+propname).parents(".window_main");
                     if(par.length>0){

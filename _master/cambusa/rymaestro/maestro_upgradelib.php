@@ -6,7 +6,7 @@
 * Description:     Databases modeling and maintenance                       *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 // CARICO LE LIBRERIE
@@ -21,6 +21,9 @@ include_once $tocambusa."rygeneral/writelog.php";
 function maestro_upgrade($maestro, $logonly=false){
     global $path_databases, $sqlite3_enabled;
     try{
+        // IMPOSTO UN TEMPO DI RISPOSTA ILLIMITATO
+        set_time_limit(0);
+        
         // IMPOSTO I VALORI DI RITORNO
         $success=1;
         $description="Aggiornamento terminato";

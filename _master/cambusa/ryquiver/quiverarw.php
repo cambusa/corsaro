@@ -6,7 +6,7 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function _qv_discharge($maestro, $oper, $SYSID, $TYPOLOGYID, $ROUNDING, $OLD_MOTIVEID, $OLD_AMOUNT, $OLD_BOWID, $OLD_BOWTIME, $OLD_GENREID, $NEW_MOTIVEID, $NEW_MOTIVE_DISCHARGE, $NEW_AMOUNT, $NEW_BOWID, $NEW_BOWTIME, $NEW_GENREID){

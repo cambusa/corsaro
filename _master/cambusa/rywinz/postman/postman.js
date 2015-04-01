@@ -5,7 +5,7 @@
 * Description:     Multiple Document Interface                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_postman(settings,missing){
@@ -71,13 +71,12 @@ function class_postman(settings,missing){
         caption:"Attiva",
         button:true,
         click:function(o){
-            var params=$.parseJSON(curraction);
-            _openingparams="("+curraction+")";
-            RYWINZ.newform({
-                name:params.formname,
-                path:_cambusaURL+"../apps/corsaro/"+params.formpath,
-                title:params.formtitle
-            });
+            try{
+                var params=$.parseJSON(curraction);
+                RYWINZ.shell( params );
+            }catch(e){
+                alert(e.message);
+            }
         }
     });
 
@@ -206,9 +205,8 @@ function class_postman(settings,missing){
     var objgridsel=$(prefix+"gridsel").ryque({
         left:20,
         top:offsety,
-        width:700,
+        width:703,
         height:200,
-        maxwidth:-1,
         numbered:false,
         checkable:true,
         environ:_sessioninfo.environ,
@@ -216,7 +214,7 @@ function class_postman(settings,missing){
         orderby:"SENDINGTIME DESC",
         columns:[
             {id:"PRIORITY", caption:"", width:25},
-            {id:"ACTION", caption:"", width:25},
+            {id:"ENGAGEPARAMS", caption:"", width:25},
             {id:"STATUS", caption:"", width:0},
             {id:"SENDINGTIME", caption:"Invio", width:130, type:":"},
             {id:"DESCRIPTION", caption:"Descrizione", width:700}
@@ -241,10 +239,10 @@ function class_postman(settings,missing){
         solveid:function(o,d){
             currsysid=d;
             RYQUE.query({
-                sql:"SELECT REGISTRY,ACTION FROM QVMESSAGES WHERE SYSID='"+currsysid+"'",
+                sql:"SELECT REGISTRY,ENGAGEPARAMS FROM QVMESSAGES WHERE SYSID='"+currsysid+"'",
                 ready:function(v){
                     if(v.length>0){
-                        curraction=v[0]["ACTION"];
+                        curraction=v[0]["ENGAGEPARAMS"];
                         if(curraction!=""){
                             oper_engage.enabled(1);
                         }
@@ -271,15 +269,15 @@ function class_postman(settings,missing){
                     d[i]["PRIORITY"]=_iconLow();
                     break;
                 case "1":
-                    d[i]["PRIORITY"]="";
+                    d[i]["PRIORITY"]=_iconMedium();
                     break;
                 case "2":
                     d[i]["PRIORITY"]=_iconHigh()
                     break;
                 }
-                // COLONNA ACTION
-                if(d[i]["ACTION"]!=""){
-                    d[i]["ACTION"]=_iconAction();
+                // COLONNA ENGAGEPARAMS
+                if(d[i]["ENGAGEPARAMS"]!=""){
+                    d[i]["ENGAGEPARAMS"]=_iconAction();
                 }
                 // COLONNA STATUS
                 var fd=o.screenrow(i);
@@ -307,6 +305,7 @@ function class_postman(settings,missing){
     objtabs.currtab(1);
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             TAIL.enqueue(function(){

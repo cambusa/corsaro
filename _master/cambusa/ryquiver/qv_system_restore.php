@@ -6,11 +6,11 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once "quiverfil.php";
-include_once "../rymonad/monad_lib.php";
+include_once $path_cambusa."rymonad/monad_lib.php";
 function qv_system_restore($maestro, $data){
     global $babelcode, $babelparams;
     global $path_databases, $url_rymonad, $path_root, $url_base;

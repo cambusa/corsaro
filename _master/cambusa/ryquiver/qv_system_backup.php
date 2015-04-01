@@ -6,12 +6,12 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once "quiverfil.php";
-include_once "../rymaestro/maestro_querylib.php";
-include_once "../tbs_us/plugins/tbs_plugin_opentbs.php";
+include_once $path_cambusa."rymaestro/maestro_querylib.php";
+include_once $path_cambusa."tbs_us/plugins/tbs_plugin_opentbs.php";
 function qv_system_backup($maestro, $data){
     global $babelcode, $babelparams;
     global $path_databases, $path_cambusa;

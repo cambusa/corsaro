@@ -33,7 +33,7 @@ function engage_main(){
         writelog($json);
     }
     
-    pulse_notification($env, "demiurge", "Acquisizione CBI", "Acquisiti $instr movimenti da fonte CBI.", 2);
+    pulse_notification($env, "demiurge", "Acquisizione CBI", "Acquisiti $instr movimenti da fonte CBI.", 0);
     
     //pulse_sendmail("demiurge", "Acquisizione CBI", "Acquisiti $instr movimenti da fonte CBI.");
     

@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvprocessi(settings,missing){
@@ -375,7 +375,7 @@ function class_qvprocessi(settings,missing){
             lb_attori_context.caption("Contesto: "+context);
             lb_stati_context.caption("Contesto: "+context);
             lb_grafo_context.caption("Contesto: "+context);
-            var data=qv_mask2object(formid, "C", currprocessoid);
+            var data=RYWINZ.ToObject(formid, "C", currprocessoid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -581,7 +581,7 @@ function class_qvprocessi(settings,missing){
             if(qv_changerowmanagement(formid, o, n)){return false;}
         },
         changerow:function(o,i){
-            qv_maskclear(formid, "M");
+            RYWINZ.MaskClear(formid, "M");
             txm_creazione.value(1);
             qv_maskenabled(formid, "M", 0);
             txm_creazione.enabled(0);
@@ -609,7 +609,7 @@ function class_qvprocessi(settings,missing){
                     txm_creazione.enabled(1);
                     operm_update.enabled(1);
                     // CARICAMENTO TAB MOTIVI
-                    qv_object2mask(formid, "M", v[0]);
+                    RYWINZ.ToMask(formid, "M", v[0]);
                     if(v[0]["CONSISTENCY"]=="2"){
                         txm_creazione.value(1);
                     }
@@ -651,7 +651,7 @@ function class_qvprocessi(settings,missing){
             var istr=0;
             if(RYWINZ.modified(formid)){
                 // ISTRUZIONE DI SALVATAGGIO DEL MOTIVO MODIFICATO
-                var datasave=qv_mask2object(formid, "M", currmotiveid);
+                var datasave=RYWINZ.ToObject(formid, "M", currmotiveid);
                 switch(parseInt(txm_creazione.value())){
                 case 1:
                     datasave["CONSISTENCY"]=2;
@@ -762,7 +762,7 @@ function class_qvprocessi(settings,missing){
         button:true,
         click:function(o, done){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "M", currmotiveid);
+            var data=RYWINZ.ToObject(formid, "M", currmotiveid);
             switch(parseInt(txm_creazione.value())){
             case 1:
                 data["CONSISTENCY"]=2;
@@ -1100,7 +1100,7 @@ function class_qvprocessi(settings,missing){
             if(qv_changerowmanagement(formid, o, n)){return false;}
         },
         changerow:function(o,i){
-            qv_maskclear(formid, "S");
+            RYWINZ.MaskClear(formid, "S");
             qv_maskenabled(formid, "S", 0);
             oper_statiupdate.enabled(0);
             statounsaved.visible(0);
@@ -1134,7 +1134,7 @@ function class_qvprocessi(settings,missing){
                 ready:function(v){
                     qv_maskenabled(formid, "S", 1);
                     oper_statiupdate.enabled(1);
-                    qv_object2mask(formid, "S", v[0]);
+                    RYWINZ.ToMask(formid, "S", v[0]);
                     statounsaved.visible(0);
                     contextstato=tx_statodescription.value();
                     lb_vincoli_context.caption("Contesto: "+context+" - "+contextstato);
@@ -1164,7 +1164,7 @@ function class_qvprocessi(settings,missing){
             var istr=0;
             if(RYWINZ.modified(formid)){
                 // ISTRUZIONE DI SALVATAGGIO DELLO STATO MODIFICATO
-                var datasave=qv_mask2object(formid, "S", currstatoid);
+                var datasave=RYWINZ.ToObject(formid, "S", currstatoid);
                 stats[istr++]={
                     "function":"objects_update",
                     "data":datasave
@@ -1256,7 +1256,7 @@ function class_qvprocessi(settings,missing){
         button:true,
         click:function(o, done){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "S", currstatoid);
+            var data=RYWINZ.ToObject(formid, "S", currstatoid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -1641,7 +1641,7 @@ function class_qvprocessi(settings,missing){
             if(qv_changerowmanagement(formid, o, n)){return false;}
         },
         changerow:function(o,i){
-            qv_maskclear(formid, "T");
+            RYWINZ.MaskClear(formid, "T");
             qv_maskenabled(formid, "T", 0);
             oper_transupdate.enabled(0);
             transunsaved.visible(0);
@@ -1665,7 +1665,7 @@ function class_qvprocessi(settings,missing){
                 ready:function(v){
                     qv_maskenabled(formid, "T", 1);
                     oper_transupdate.enabled(1);
-                    qv_object2mask(formid, "T", v[0]);
+                    RYWINZ.ToMask(formid, "T", v[0]);
                     transunsaved.visible(0);
                     if(flagfocus){
                         flagfocus=false;
@@ -1688,7 +1688,7 @@ function class_qvprocessi(settings,missing){
             var istr=0;
             if(RYWINZ.modified(formid)){
                 // ISTRUZIONE DI SALVATAGGIO DELLA TRANSIZIONE MODIFICATA
-                var datasave=qv_mask2object(formid, "T", currtransid);
+                var datasave=RYWINZ.ToObject(formid, "T", currtransid);
                 stats[istr++]={
                     "function":"arrows_update",
                     "data":datasave
@@ -1799,7 +1799,7 @@ function class_qvprocessi(settings,missing){
         button:true,
         click:function(o, done){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "T", currtransid);
+            var data=RYWINZ.ToObject(formid, "T", currtransid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -1978,11 +1978,11 @@ function class_qvprocessi(settings,missing){
                 case 2:
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currprocessoid)}
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     RYQUE.query({
                         sql:"SELECT * FROM QW_PROCESSI WHERE SYSID='"+currprocessoid+"'",
                         ready:function(v){
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
                             loadedprocessoCid=currprocessoid;
                             interprocesso.parentid(v[0]["SETINTERPROCESSO"]);
@@ -2079,6 +2079,7 @@ function class_qvprocessi(settings,missing){
     objtabs.enabled(tabgrafo, false);
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             winzClearMess(formid);
@@ -2138,6 +2139,5 @@ function class_qvprocessi(settings,missing){
             txm_orafine.enabled(1);
         }
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"DESCRIPTION", xengage:oper_contextengage} );
 }
 

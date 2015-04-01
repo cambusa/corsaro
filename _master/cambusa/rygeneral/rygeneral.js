@@ -5,7 +5,7 @@
 * Description:     Global functions and variables                           *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var _baseURL="/";
@@ -345,10 +345,13 @@ function _iconAttachment(){
     return "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90KGAklIGElCSAAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAkJJREFUKM+lk1tIUwEYx/9nN3ex6aZOnS3bMUujGdMSKZY+dDVLMAYh0ovQ6EaQ9RBELwU9CEG9NIgiu8AKibDWyxJLEzQX28TLmrbW3NpB3RmeedzZ3FwvBV00o76n7+H7fXz8+X3A/5bxztyFJnM4feR2IL3p4LnG1eb5AND6Kt0XsPe10j7XgILUpgs2G0zJBI8OT/RPAogtB/IAYJFleUKJgErMO50pbkGajDFshbHtpr7FfBlA3orgAhX1SXNUnHJ9g8H79qkZkC6xM1Nc8Y56U+35rnYAucuCiXiqNslJZHyhRCHLKts/br1+UZRfKmZnQ8jWVjbUnHryEID6N9B+90Q1L0OStxjniKxiXYlIXmLqvrSzWa7eImYCXl6hbm/d9pMdLwHk/BROlPJEU4spW6HuwNnIx6Eva7ftI1NcsizosFwt0O1qCgx12sna4+VKjb7FP/jYAoDlf98Q8Q4EZPmldO7G6mbKafug1jeSYrlqNzcXXhrpvNIbZzyWCmObkQlRWyO+98/5P95NDVtHczYYMpTaqoago8s77ekepcf7hxnK/W56rN9Sc/rMHsrhXzfttnXzfglrftB89Brtdz0o0h8qF0sLI0HXi/ZkjHkEgOJm15CRoCsBQEGsIEZW5THzM4VGVyfKVk9KczWhOEORn3vvF0303LrB0VNW4g9WKQoq6u9lqsjDApEoHYvSzIz7TcfCzKcxAK+JVZTMBFAFQANACIAFiBEg7Sb+wn8ZAMG3ngAwDyD5z9/0Fadn58kX+80CAAAAAElFTkSuQmCC' />";
 }
 function _iconHigh(){
-    return "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAUCAYAAAC58NwRAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90KDhIvJheoAE0AAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAD9JREFUKM9jYKAG2CAt/X+DtPR/bHKM2BQj8wOePmXEqQGXqciaGAkpRtfESIxiXM4jytNMpIbgqAaaaBiRAAA5XBepft1O7wAAAABJRU5ErkJggg==' />";
+    return "<svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'><g><circle cx='8' cy='8' r='5' stroke-width='0' fill='#B22222'/></g></svg>";
+}
+function _iconMedium(){
+    return "<svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'><g><circle cx='8' cy='8' r='5' stroke-width='0' fill='#E69400'/></g></svg>";
 }
 function _iconLow(){
-    return "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAUCAYAAAC58NwRAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90KDhIpBeOV1rkAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAEBJREFUKM9jYKAGUNct+K+uW/AfmxwTqYaNaqCJBkZYRBGj+OblCYyMyLFLSDHcBkKaYIoxNGDThKyYrMQ3IgEAqGAXIXm6H2oAAAAASUVORK5CYII=' />";
+    return "<svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'><g><circle cx='8' cy='8' r='5' stroke-width='0' fill='#4DA64D'/></g></svg>";
 }
 function _iconPencil(){
     return "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAUCAYAAABSx2cSAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90KFwkCJOTubwoAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAg9JREFUOMvtkE1I0wEAxd9/7us/JA8uRTtEUIRWjhilECUOiqIuEXUIJaIPyE4RUjEGRkHYcRA4tCAFo1z2oczY3JZlaBv1d0patukIWxvK3ED24dxeJyHIrQ4de9fHj/fjAX+R6Kv+bXNtbQzZHMySJGkFANmfwPD8tzpvJDXj7bYyZDJhxtiK1UwCBWGSpYuh8O2P4yOjWr2etZ0WYVkmYun5ABLS+AYAkOeDA1Pemln/hDG5GEaFLiRIQR1e761C42FDrqR236G8qrOffLUvn3bQ1dWSS0Z20uOo4q2W85Skye8A8MU1KKyrHY3GLrptj8aKOc+GA++F6Q8l6OvZhB26XV5NunMzAGw3HOHvr0YDTeabZ2l/eJ3Z4ClOuJp54bSeHlt3uOCr8bnP9a7euxwwHyOlPQwON7H1ygn63EMRAJCcPcL6z67ELk867nDYUp3jaDmnrQbeM52k68V9NwD43E4h72pmzrMQ6NWS7yrpt25h+w0Dx970SSSFgrrZeObS135jOvWkjku2MvabD3LB9/bHWr/MeFE+Vma3Pz5HVZkyWtSAJfFaend987ONuv0V8amRtdXSvMuNZ47T6ehiov1qBbORyl+71UymoLZg6XiwUlNdpVDIlFBo5FAWa1CsFinKlYPa8rKjBWGSWyOhmFGlRk4uKofUouhVCDI/AKSTKUElqon/+Tf5CTJhAFJv0ZlwAAAAAElFTkSuQmCC' />";

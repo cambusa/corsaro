@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvsettings(settings,missing){
@@ -37,7 +37,7 @@ function class_qvsettings(settings,missing){
             }
             else{
                 currsysid="";
-                qv_maskclear(formid, "C");
+                RYWINZ.MaskClear(formid, "C");
                 enabledata(0);
                 oper_delete.enabled(o.isselected());
             }
@@ -51,7 +51,7 @@ function class_qvsettings(settings,missing){
                 sql:"SELECT * FROM QVSETTINGS WHERE SYSID='"+d+"'",
                 ready:function(v){
                     try{
-                        qv_object2mask(formid, "C", v[0])
+                        RYWINZ.ToMask(formid, "C", v[0])
                         enabledata(1);
                         oper_delete.enabled(1);
                     }catch(e){}
@@ -153,7 +153,7 @@ function class_qvsettings(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -355,6 +355,7 @@ function class_qvsettings(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             objgridsel.where("");
@@ -407,7 +408,6 @@ function class_qvsettings(settings,missing){
                         "env":_sessioninfo.environ,
                         "function":"importego",
                         "data":{
-                            "APPNAME":"corsaro",
                             "APPID":_sessioninfo.appid,
                             "ENVID":_sessioninfo.envid
                         }
@@ -547,6 +547,5 @@ function class_qvsettings(settings,missing){
         globalobjs[formid+"TAG"].enabled(v);
         oper_engage.enabled(v);
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new} );
 }
 

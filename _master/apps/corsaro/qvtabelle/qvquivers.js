@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvquivers(settings,missing){
@@ -397,7 +397,7 @@ function class_qvquivers(settings,missing){
             context=txdescr.value();
             lb_details_context.caption("Contesto: "+typedescr+" / "+context);
             // CREO UN CONTENITORE CON I DATI AGGIORNATI
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -805,7 +805,7 @@ function class_qvquivers(settings,missing){
                             RYQUE.query({
                                 sql:"SELECT * FROM "+t+" WHERE SYSID='"+currsysid+"'",
                                 ready:function(v){
-                                    qv_object2mask(formid, "C", v[0]);
+                                    RYWINZ.ToMask(formid, "C", v[0]);
                                     context=v[0]["DESCRIPTION"];
                                     loadedsysid=currsysid;
                                     // EVENTUALMENTE PORTO "SALVA" COME ULTIMO CAMPO
@@ -866,6 +866,7 @@ function class_qvquivers(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid);
 
     function refresh_summary(){
@@ -916,6 +917,5 @@ function class_qvquivers(settings,missing){
             setTimeout(function(){operx_refresh.engage();}, 100);
         }
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"NAME", xengage:oper_contextengage, details:3, files:4} );
 }
 

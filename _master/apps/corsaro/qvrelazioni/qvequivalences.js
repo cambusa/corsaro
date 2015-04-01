@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvequivalences(settings,missing){
@@ -484,6 +484,7 @@ function class_qvequivalences(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             RYQUE.query({
@@ -507,6 +508,5 @@ function class_qvequivalences(settings,missing){
             });
         }
     );
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, xfocus:"gridcontext"} );
 }
 

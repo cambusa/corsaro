@@ -5,7 +5,7 @@
 * Description:     Masked input and other form controls                     *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var clipcode=null;
@@ -31,6 +31,7 @@ if(_ismissing(_globalcodeinsert)){
             var propselected=false;
 			var propctrl=false;
 			var propshift=false;
+            var propalt=false;
 			var propobj=this;
             var propchanged=false;
 			var propenabled=1;
@@ -133,6 +134,7 @@ if(_ismissing(_globalcodeinsert)){
             		if(propenabled && !proplock){
             			propctrl=k.ctrlKey; // da usare anche nella press
             			propshift=k.shiftKey;
+                        propalt=k.altKey;
                         // GESTIONE CLIPBOARD
                         if(propctrl){
                             switch(k.keyCode){
@@ -209,7 +211,7 @@ if(_ismissing(_globalcodeinsert)){
                                 propobj.insert(!propinsert);
                             }
             			}
-            			else if(k.which==113){ // F2
+            			else if(k.which==113 || (propalt && k.which==50)){ // F2  Alt+2
             				propobj.showdialog();
             			}
             			else if(k.which==13){ // INVIO
@@ -249,6 +251,8 @@ if(_ismissing(_globalcodeinsert)){
             $("#"+propname+"_anchor").keypress(
             	function(k){
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
+                        return true;
+                    if(propalt)
                         return true;
             		if(propenabled && !proplock){
                         if(propselected){
@@ -447,6 +451,9 @@ if(_ismissing(_globalcodeinsert)){
 					propstart=0;
 					propobj.refreshcursor();
 				}
+			}
+			this.text=function(){
+				return propcode;
 			}
 			this.name=function(){
 				return propname;

@@ -6,7 +6,7 @@
 * Description:     Cambusa - Solve URL/PATH                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
@@ -40,18 +40,23 @@ function installationURL(){
 }
 
 function currPageURL(){
-    $pageURL='http';
-    if(isset($_SERVER["HTTPS"])){
-        if($_SERVER["HTTPS"]=="on"){
-            $pageURL.="s";
+    if(isset($_SERVER["REQUEST_URI"])){
+        $pageURL='http';
+        if(isset($_SERVER["HTTPS"])){
+            if($_SERVER["HTTPS"]=="on"){
+                $pageURL.="s";
+            }
+        }
+        $pageURL.="://";
+        if($_SERVER["SERVER_PORT"]!="80"){
+            $pageURL.=$_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+        }
+        else{
+            $pageURL.=$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
         }
     }
-    $pageURL.="://";
-    if($_SERVER["SERVER_PORT"]!="80"){
-        $pageURL.=$_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-    }
     else{
-        $pageURL.=$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+        $pageURL="";
     }
     return $pageURL;
 }

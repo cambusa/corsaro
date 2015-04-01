@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvfatturazione(settings,missing){
@@ -375,7 +375,7 @@ function class_qvfatturazione(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context=tx_descr.value();
-            var data=qv_mask2object(formid, "C", currpraticaid);
+            var data=RYWINZ.ToObject(formid, "C", currpraticaid);
             data["PRATICAID"]=currpraticaid;
             data["FATTURAID"]=currfatturaid;
             data["DATASCADENZA"]=tx_datafine.text();
@@ -551,7 +551,7 @@ function class_qvfatturazione(settings,missing){
         },
         changerow:function(o,i){
             currflussoid="";
-            qv_maskclear(formid, "D");
+            RYWINZ.MaskClear(formid, "D");
             //qv_maskenabled(formid, "D", 0);
             operd_update.enabled(0);
             operd_unsaved.visible(0);
@@ -572,7 +572,7 @@ function class_qvfatturazione(settings,missing){
                     //qv_maskenabled(formid, "D", 1);
                     operd_update.enabled(1);
                     // CARICAMENTO TAB FLUSSI
-                    qv_object2mask(formid, "D", v[0]);
+                    RYWINZ.ToMask(formid, "D", v[0]);
                     if(_getinteger(v[0]["DIRECTION"])==0)
                         tx_contro.value(v[0]["TARGETID"]);
                     else
@@ -934,6 +934,7 @@ function class_qvfatturazione(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             TAIL.enqueue(qv_queuequerycall, {
@@ -1004,7 +1005,7 @@ function class_qvfatturazione(settings,missing){
             tx_totale.clear();
             lb_fase.caption("");
             tx_status.setkey("0");
-            qv_maskclear(formid, "C");
+            RYWINZ.MaskClear(formid, "C");
             RYQUE.query({
                 sql:"SELECT * FROM QW_PRATICHEJOIN WHERE SYSID='"+currpraticaid+"'",
                 ready:function(v){
@@ -1022,7 +1023,7 @@ function class_qvfatturazione(settings,missing){
                             tx_reference.value(z[0]["REFERENCE"]);
                             lb_fase.caption("("+statodescr+")");
                             tx_status.setkey(z[0]["STATUS"]);
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             if(v[0]["MOREDATA"]!="")
                                 curraggiuntivi=$.parseJSON(v[0]["MOREDATA"]);
                             else
@@ -1048,7 +1049,7 @@ function class_qvfatturazione(settings,missing){
         var stats=[];
         var istr=0;
         // ISTRUZIONE DI SALVATAGGIO PRATICA
-        var data=qv_mask2object(formid, "C", currpraticaid);
+        var data=RYWINZ.ToObject(formid, "C", currpraticaid);
         var st=tx_status.key();
         stats[istr++]={
             "function":"quivers_update",
@@ -1149,7 +1150,5 @@ function class_qvfatturazione(settings,missing){
             oper_fattura.enabled(0);
         }
     }
-    //winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new} );
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh} );
 }
 

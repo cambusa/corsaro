@@ -6,11 +6,12 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function _qv_attivita_notifica($maestro, $ATTIVITAID, $BOWID, $TARGETID, $action){
     global $global_quiveruserid;
+    global $url_applications;
     try{
         $sql="SELECT SYSID,UTENTEID FROM QW_ATTORI WHERE SYSID IN ('$BOWID','$TARGETID') AND UTENTEID<>''";
         maestro_query($maestro, $sql, $r);
@@ -58,7 +59,7 @@ function _qv_attivita_notifica($maestro, $ATTIVITAID, $BOWID, $TARGETID, $action
                             $datax["REGISTRY"]=$REGISTRY;
                             $datax["PRIORITY"]=$IMPORTANZA;
                             if($action){
-                                $datax["ACTION"]='{"formname":"qvinterazioni", "formpath":"qvpratiche/", "formtitle":"Interazioni", "attivita":"'.$ATTIVITAID.'" }';
+                                $datax["ENGAGEPARAMS"]='{"name":"qvinterazioni", "path":"qvpratiche/", "title":"Interazioni", "attivita":"'.$ATTIVITAID.'" }';
                             }
                             $jret=qv_messages_send($maestro, $datax);
                             unset($datax);
@@ -74,7 +75,7 @@ function _qv_attivita_notifica($maestro, $ATTIVITAID, $BOWID, $TARGETID, $action
                             $datax["REGISTRY"]=$REGISTRY;
                             $datax["PRIORITY"]=$IMPORTANZA;
                             if($action){
-                                $datax["ACTION"]='{"formname":"qvinterazioni", "formpath":"qvpratiche/", "formtitle":"Interazioni", "attivita":"'.$ATTIVITAID.'" }';
+                                $datax["ENGAGEPARAMS"]='{"name":"qvinterazioni", "path":"qvpratiche/", "title":"Interazioni", "attivita":"'.$ATTIVITAID.'" }';
                             }
                             $jret=qv_messages_send($maestro, $datax);
                             unset($datax);

@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvinclusions(settings,missing){
@@ -296,7 +296,7 @@ function class_qvinclusions(settings,missing){
                 o.solveid(i);
             }
             else{
-                qv_maskclear(formid, "X");
+                RYWINZ.MaskClear(formid, "X");
                 enabledetails(o.isselected());
             }
         },
@@ -308,7 +308,7 @@ function class_qvinclusions(settings,missing){
                 sql:"SELECT * FROM QVINCLUSIONS WHERE SYSID='"+d+"'",
                 ready:function(v){
                     try{
-                        qv_object2mask(formid, "X", v[0])
+                        RYWINZ.ToMask(formid, "X", v[0])
                         enabledetails(1);
                     }catch(e){}
                 } 
@@ -449,6 +449,7 @@ function class_qvinclusions(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             RYQUE.query({
@@ -479,6 +480,5 @@ function class_qvinclusions(settings,missing){
         oper_update.enabled(v);
         oper_delete.enabled(v);
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, xfocus:"gridcontext"} );
 }
 

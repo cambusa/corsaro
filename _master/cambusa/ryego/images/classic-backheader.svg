@@ -1,5 +1,5 @@
 <svg width="974" height="90" xmlns="http://www.w3.org/2000/svg">
  <g>
-  <polygon id="ego_header" points="0,0 974,0 974,30 930,30 870,4 0,4" stroke-width="0" fill="#E69400"/>
+  <polygon id="ego_header" points="0,0 974,0 974,4 0,4" stroke-width="0" fill="#E69400"/>
  </g>
 </svg>

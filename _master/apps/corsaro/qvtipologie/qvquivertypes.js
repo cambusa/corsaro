@@ -5,7 +5,7 @@
 * Description:     Arrows Oriented Modeling                                 *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvquivertypes(settings,missing){
@@ -208,7 +208,7 @@ function class_qvquivertypes(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             context=txdescr.value();
-            var data=qv_mask2object(formid, "C", currsysid);
+            var data=RYWINZ.ToObject(formid, "C", currsysid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -255,7 +255,7 @@ function class_qvquivertypes(settings,missing){
                 o.solveid(i);
             }
             else{
-                qv_maskclear(formid, "X");
+                RYWINZ.MaskClear(formid, "X");
                 enabledetails(0);
                 oper_detailsdelete.enabled(o.isselected());
             }
@@ -269,7 +269,7 @@ function class_qvquivertypes(settings,missing){
                 sql:"SELECT * FROM QVQUIVERVIEWS WHERE SYSID='"+d+"'",
                 ready:function(v){
                     try{
-                        qv_object2mask(formid, "X", v[0])
+                        RYWINZ.ToMask(formid, "X", v[0])
                         enabledetails(1);
                         oper_detailsdelete.enabled(1);
                     }catch(e){}
@@ -352,7 +352,7 @@ function class_qvquivertypes(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            var data=qv_mask2object(formid, "X", currdetailid);
+            var data=RYWINZ.ToObject(formid, "X", currdetailid);
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessionid,
@@ -422,11 +422,11 @@ function class_qvquivertypes(settings,missing){
                 case 2:
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Caricamento contesto: "+currsysid)}
-                    qv_maskclear(formid, "C");
+                    RYWINZ.MaskClear(formid, "C");
                     RYQUE.query({
                         sql:"SELECT * FROM QVQUIVERTYPES WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
-                            qv_object2mask(formid, "C", v[0]);
+                            RYWINZ.ToMask(formid, "C", v[0]);
                             context=v[0]["DESCRIPTION"];
                             loadedsysid=currsysid;
                             castFocus(prefix+"DESCRIPTION");
@@ -470,6 +470,7 @@ function class_qvquivertypes(settings,missing){
     txf_search.focus();
     
     // INIZIALIZZAZIONE FORM
+    RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             objgridsel.where("");
@@ -494,6 +495,5 @@ function class_qvquivertypes(settings,missing){
         globalobjs[formid+"WRITABLE"].enabled(v);
         oper_detailsengage.enabled(v);
     }
-    winzKeyTools(formid, objtabs, {sfocus:"gridsel", srefresh:oper_refresh, snew:oper_new, xfocus:"NAME", xengage:oper_contextengage, details:3, files:4} );
 }
 

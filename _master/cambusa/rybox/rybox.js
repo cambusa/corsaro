@@ -5,7 +5,7 @@
 * Description:     Masked input and other form controls                     *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var clipdate=null;
@@ -33,6 +33,7 @@ var RYBOX;
             var propselected=false;
 			var propctrl=false;
 			var propshift=false;
+            var propalt=false;
 			var propobj=this;
             var propchanged=false;
 			var propenabled=true;
@@ -131,6 +132,8 @@ var RYBOX;
             		if(propenabled){
             			propctrl=k.ctrlKey; // da usare anche nella press
             			propshift=k.shiftKey;
+                        propalt=k.altKey;
+                        console.log(propalt+" "+k.which);
                         // GESTIONE CLIPBOARD
                         if(propctrl){
                             switch(k.keyCode){
@@ -247,7 +250,7 @@ var RYBOX;
             					propobj.value(clipdate);                    
             				}
             			}
-            			else if(k.which==113){ // F2
+            			else if(k.which==113 || (propalt && k.which==50)){ // F2  Alt+2
             				propobj.showcalendar();
             			}
             			else if(k.which==13){ // INVIO
@@ -304,6 +307,8 @@ var RYBOX;
             $("#"+propname+"_anchor").keypress(
             	function(k){
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
+                        return true;
+                    if(propalt)
                         return true;
             		if(propenabled){
             			var n=String.fromCharCode(k.which).toUpperCase();
@@ -746,6 +751,7 @@ var RYBOX;
             var propenabled=true;
 			var propctrl=false;
 			var propshift=false;
+            var propalt=false;
 			var propminvalue=0;
 			var propmaxvalue=9999999999999.99;
 			var propobj=this;
@@ -843,6 +849,7 @@ var RYBOX;
             		if(propenabled){
             			propctrl=k.ctrlKey; // da usare anche nella press
             			propshift=k.shiftKey;
+                        propalt=k.altKey;
                         // GESTIONE CLIPBOARD
                         if(propctrl){
                             switch(k.keyCode){
@@ -886,11 +893,10 @@ var RYBOX;
                             }
             			}
                         else if(k.which==38){ // up
-                            if(propstart==0 || propstart==-1){
-                                var u=parseInt(propinteger.substr(propinteger.length-1));
-                                if(u<9){
-                                    propinteger=propinteger.substr(0,propinteger.length-1)+(u+1);
-                                }
+                            if(propstart==0){
+                                var u=parseFloat(propobj.value());
+                                if(u+1<=propmaxvalue)
+                                    propobj.value(u+1);
                             }
                             else if(propstart>0){
                                 var u=parseInt(propdecimal.substr(propstart-1, 1));
@@ -907,11 +913,10 @@ var RYBOX;
                             propobj.refresh();
                         }
                         else if(k.which==40){ // down
-                            if(propstart==0 || propstart==-1){
-                                var u=parseInt(propinteger.substr(propinteger.length-1));
-                                if(u>0){
-                                    propinteger=propinteger.substr(0,propinteger.length-1)+(u-1);
-                                }
+                            if(propstart==0){
+                                var u=parseFloat(propobj.value());
+                                if(u-1>=propminvalue)
+                                    propobj.value(u-1);
                             }
                             else if(propstart>0){
                                 var u=parseInt(propdecimal.substr(propstart-1, 1));
@@ -981,7 +986,7 @@ var RYBOX;
             					propobj.value(clipnumber);                    
             				}
             			}
-            			else if(k.which==113){ // F2
+            			else if(k.which==113 || (propalt && k.which==50)){ // F2  Alt+2
             				propobj.showcalculator();
             			}
             			else if(k.which==13){ // INVIO
@@ -1008,6 +1013,8 @@ var RYBOX;
             $("#"+propname+"_anchor").keypress(
             	function(k){
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
+                        return true;
+                    if(propalt)
                         return true;
             		if(propenabled){
             			var n=String.fromCharCode(k.which).toUpperCase();
@@ -1343,7 +1350,7 @@ var RYBOX;
 				if(propnumdec>0)
 					s+="."+propdecimal;
 				var v=_getfloat(s).toFixed(propnumdec);
-				if((v<propminvalue || v>propmaxvalue) && v!=0){
+                if(v<propminvalue || v>propmaxvalue){
 					propobj.value(v,true);
                     propobj.raiseexception();
 				}    
@@ -2004,8 +2011,8 @@ var RYBOX;
                     $("#"+propname+"_caption").removeClass("rybutton-disabled");
                 }
                 else{
-                    $("#"+propname+"_caption").css({"color":"gray"});
-                    $("#"+propname+"_anchor").css({"cursor":"text","color":"gray"});
+                    $("#"+propname+"_caption").css({"color":"silver"});
+                    $("#"+propname+"_anchor").css({"cursor":"text","color":"silver"});
                     $("#"+propname+"_caption").addClass("rybutton-disabled");
                 }
             }
@@ -2954,20 +2961,22 @@ function _busyState(id,v){
     }
 }
 function _navigateKeys(k){
+    /*
     if($.browser.opera){
-        switch(k.which==39){
+        switch(k.which){
         case 39:// right
         case 37:// left
         case 46:// delete
         case 45:// ins
             return false;
         defult:
-            return k.ctrlKey;
+            return (k.ctrlKey && k.which!=50);
         }
     }
     else{
-        return k.altKey;
-    }
+    */
+        return (k.altKey && k.which!=50);
+    //}
 }
 function _visibleobject(id){
     var o=$("#"+id);

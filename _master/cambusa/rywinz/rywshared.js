@@ -5,7 +5,7 @@
 * Description:     Multiple Document Interface                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var RYWINZ;
@@ -14,7 +14,6 @@ var _openingname="";
 var _openingparams="({})";
 var _winzprogrid=0;
 var _globalforms=new Object();
-var _toolavailable=true;
 var _logoutcall=false;
 var _logoutcallext=false;
 var _dialogcount=0;
@@ -70,18 +69,9 @@ function raiseResize(n){
     }catch(e){}
 }
 function raiseControlKey(k){
-    var n="",c="",fn="";
-    if(k.which==27){
-        n=winzActiveForm();
-        var f=RYWINZ.forms(n);
-        if(_isset( f["_escape"] )){
-            try{
-                f["_escape"]();
-            }catch(e){}
-        }
-    }
-    else if($.browser.opera || $.browser.chrome ? k.ctrlKey : k.altKey){
-        // Controllo se ho premuto un tasto funzione per una toolbar
+    var n="",fn="";
+    //if($.browser.opera || $.browser.chrome ? k.ctrlKey : k.altKey){
+    if(k.altKey){
         n=winzActiveForm();
         if(n!=""){
             switch(k.which){
@@ -89,52 +79,34 @@ function raiseControlKey(k){
                     fn="_tool_selection";
                     break;
                 case 49:    // Alt-1
-                    c="new";
                     fn="_tool_context";
                     break;
                 case 50:    // Alt-2
-                    c="open";
-                    fn="_tool_details";
                     break;
                 case 51:    // Alt-3
-                    c="engage";
-                    fn="_tool_files";
+                    fn="_tool_gotorudder";
+                    break;
+                case 52:    // Alt-4
+                    fn="_tool_formclose";
                     break;
                 case 53:    // Alt-5
-                    c="refresh";
                     fn="_tool_refresh";
                     break;
                 case 54:    // Alt-6
-                    c="clone";
+                    fn="_tool_tabprevious";
+                    break;
+                case 55:    // Alt-7
+                    fn="_tool_tabnext";
                     break;
                 case 56:    // Alt-8
-                    c="print";
-                    fn="_tool_new";
+                    fn="_tool_formnext";
                     break;
                 case 57:    // Alt-9
-                    c="delete";
+                    fn="_tool_new";
                     break;
                 case 48:    // Alt-0
-                    c="stop";
                     fn="_tool_engage";
                     break;
-            }
-            if(c!=""){
-                var f=RYWINZ.forms(n);
-                var o;
-                for(var i in f.controls){
-                    o=globalobjs[i];
-                    if(!_ismissing(o)){
-                        if(o.type=="tools"){
-                            if( o.defined(c) ){
-                                try{
-                                    o.action(c);
-                                }catch(e){}
-                                break;
-                            }
-                        }
-                    }
-                }
             }
             if(fn!=""){
                 var f=RYWINZ.forms(n);
@@ -145,104 +117,138 @@ function raiseControlKey(k){
                 }
             }
         }
-        return (c=="" && fn=="");
+        return (fn=="");
     }
     else
         return true;
 }
-function winzKeyTools(formid, tabs, objs, missing){
+function winzKeyTools(formid, tabs, settings, missing){
     var frm=RYWINZ.forms(formid);
-    var tabselection=1, tabcontext=2, tabdetails=0, tabfiles=0;
-    if(objs.selection!=missing){tabselection=objs.selection}
-    if(objs.context!=missing){tabcontext=objs.context}
-    if(objs.details!=missing){tabdetails=objs.details}
-    if(objs.files!=missing){tabfiles=objs.files}
+    var tabselection=1, tabcontext=2, tabnew=1, tabengage=2;
+    /*********************************
+    | VALORI IN SETTINGS
+    | tabselection
+    |   xbrowser
+    |   xrefresh
+    | tabcontext
+    |   xfocus
+    | tabnew
+    |   xnew
+    | tabengage
+    |   xengage
+    *******************************/
     
-    if(tabselection>0){
-        frm._tool_selection=function(){
-            if(_toolavailable){
-                _toolavailable=false;
+    if(settings==missing){
+        settings={};
+    }
+    if(settings.tabselection!=missing){tabselection=settings.tabselection}
+    if(settings.tabcontext!=missing){tabcontext=settings.tabcontext}
+    if(settings.tabnew!=missing){tabnew=settings.tabnew}
+    if(settings.tabengage!=missing){tabengage=settings.tabengage}
+
+    // AGGIUNGO LE FUNZIONI DI SPOSTAMENTO SUL TABS
+    frm._tool_tabnext=function(){
+        if(tabs!=missing)
+            tabs.next();
+    }
+    frm._tool_tabprevious=function(){
+        if(tabs!=missing)
+            tabs.previous();
+    }
+    frm._tool_formclose=function(){
+        if(!RYWINZ.busy(formid)){
+            setTimeout(function(){
+                RYWINZ.formclose(formid);
+            }, 100);
+        }
+    }
+    frm._tool_formnext=function(){
+        var n="";
+        var f=RYWINZ.forms();
+        var t=false;
+        var p="";
+        for(var i in f){
+            if(p=="")
+                p=f[i].id;
+            if(t){
+                n=f[i].id;
+                break
+            }
+            if(f[i].id==formid){
+                t=true;
+            }
+        }
+        if(t && n==""){
+            n=p;
+        }
+        if(n!=""){
+            RYWINZ.BringToFront(n);
+        }
+    }
+    frm._tool_gotorudder=function(){
+        RYWINZ.BringToFront("rudder");
+    }
+    if(tabs!=missing){
+        if(tabselection>0){
+            frm._tool_selection=function(){
                 try{
                     if( tabs.currtab()!=tabselection ){
                         tabs.currtab(tabselection);
-                        if(objs.sfocus!=missing){
-                            objectFocus(formid+objs.sfocus);
+                        if(settings.xbrowser!=missing){
+                            if(typeof settings.xbrowser==="string")
+                                castFocus(formid+settings.xbrowser);
+                            else
+                                castFocus(settings.xbrowser.id);
                         }
                     }
                 }catch(e){}
-                _toolavailable=true;
             }
-        }
-        if(objs.srefresh!=missing){
             frm._tool_refresh=function(){
-                _toolavailable=false;
                 try{
                     if( tabs.currtab()==tabselection ){
-                        objs.srefresh.engage();
+                        if(settings.xrefresh!=missing){
+                            settings.xrefresh.engage();
+                        }
                     }
                 }catch(e){}
-                _toolavailable=true;
             }
         }
-        if(objs.snew!=missing){
-            frm._tool_new=function(){
-                _toolavailable=false;
+        if(tabcontext>0){
+            frm._tool_context=function(){
                 try{
-                    if( tabs.currtab()==tabselection ){
-                        objs.snew.engage();
+                    if( tabs.currtab()!=tabcontext ){
+                        tabs.currtab(tabcontext);
+                        if(settings.xfocus!=missing){
+                            if(typeof settings.xfocus==="string")
+                                castFocus(formid+settings.xfocus);
+                            else
+                                castFocus(settings.xfocus.id);
+                        }
                     }
                 }catch(e){}
-                _toolavailable=true;
             }
         }
-    }
-    if(tabcontext>0){
-        frm._tool_context=function(){
-            _toolavailable=false;
-            try{
-                if( tabs.currtab()!=tabcontext ){
-                    tabs.currtab(tabcontext);
-                    if(objs.xfocus!=missing)
-                        objectFocus(formid+objs.xfocus);
+        if(tabnew>0){
+            if(settings.xnew!=missing){
+                frm._tool_new=function(){
+                    try{
+                        if( tabs.currtab()==tabnew ){
+                            settings.xnew.engage();
+                        }
+                    }catch(e){}
                 }
-            }catch(e){}
-            _toolavailable=true;
-        }
-        if(objs.xengage!=missing){
-            frm._tool_engage=function(){
-                _toolavailable=false;
-                try{
-                    if( tabs.currtab()==tabcontext ){
-                        objs.xengage.engage();
-                    }
-                }catch(e){}
-                _toolavailable=true;
             }
         }
-    }
-    if(tabdetails>0){
-        frm._tool_details=function(){
-            _toolavailable=false;
-            try{
-                if( tabs.currtab()!=tabdetails ){
-                    tabs.currtab(tabdetails);
-                    if(objs.dfocus!=missing)
-                        objectFocus(formid+objs.dfocus);
+        if(tabengage>0){
+            if(settings.xengage!=missing){
+                frm._tool_engage=function(){
+                    try{
+                        if( tabs.currtab()==tabengage ){
+                            settings.xengage.engage();
+                        }
+                    }catch(e){}
                 }
-            }catch(e){}
-            _toolavailable=true;
-        }
-    }
-    if(tabfiles>0){
-        frm._tool_files=function(){
-            _toolavailable=false;
-            try{
-                if( tabs.currtab()!=tabfiles ){
-                    tabs.currtab(tabfiles);
-                    objectFocus(formid+"griddocs");
-                }
-            }catch(e){}
-            _toolavailable=true;
+            }
         }
     }
 }
@@ -354,14 +360,16 @@ function winzMessageBox(formid, params, missing){
     var message="Loading...";
     var babelcode="";
     var confirm=false;
+    var cancel=false;
     var onclose=false;
-    var capOK="OK";
+    var capOK=RYBOX.babels("BUTTON_OK");
     var codeOK="";
     var args={};
     if(_isobject(params)){
         if(params.message!=missing){message=params.message}
         if(params.code!=missing){babelcode=params.code}
         if(params.confirm!=missing){confirm=params.confirm}
+        if(params.cancel!=missing){cancel=params.cancel}
         if(params.close!=missing){onclose=params.close}
         if(params.args!=missing){args=params.args}
         if(params.width!=missing){width=params.width}
@@ -432,6 +440,7 @@ function winzMessageBox(formid, params, missing){
             formid:formid,
             click:function(o){
                 winzDialogClose(dlg);
+                if(cancel!==false){cancel()}
             }
         });
     }
@@ -595,7 +604,7 @@ function winzPost(url, params, success, fail){
             if(fail)
                 fail();
             else
-                success("Call failed!");
+                success({success:0, messsage:"Call failed!"});
         }
     );
 }
@@ -693,13 +702,173 @@ function winzPostProgress(settings, missing){
     return jqxhr;
 }
 function winzBringToFront(formid){
-    JQD.util.window_flat();
-    $("#window_"+formid).addClass('window_stack').show();
-    JQD.util.clear_active();
+    if(!$("#window_"+formid).hasClass('window_stack')){     // Rudyz
+        JQD.util.window_flat();
+        $("#window_"+formid).addClass('window_stack');
+    }
 }
 function winzMereMessage(formid, mess, col, missing){
     if(col==missing){col="black"}
     $("#message_"+formid).html(mess).css({"color":col});
+}
+function winzConfirmAbandon(formid, options, missing){
+    var ok=true;
+    if(RYWINZ.modified(formid)){
+        ok=false;
+        var dlg=winzDialogGet(formid);
+        var hangerid=dlg.hanger;
+        var h="";
+        var vK=[];
+        var title=RYBOX.babels("MSG_DATANOTSAVE");
+        if(options==missing){ options={} }
+        if(options.title!=missing){ title=options.title }
+        winzDialogParams(dlg, {
+            width:500,
+            height:180,
+            open:function(){
+                castFocus(formid+"__save");
+            },
+            close:function(){
+                winzDisposeCtrl(formid, vK);
+                winzDialogFree(dlg);
+            }
+        });
+        // DEFINIZIONE DEL CONTENUTO
+        h+="<div class='winz_msgbox'>";
+        h+=title;
+        h+="</div>";
+        h+=winzAppendCtrl(vK, formid+"__save");
+        h+=winzAppendCtrl(vK, formid+"__abandon");
+        h+=winzAppendCtrl(vK, formid+"__cancel");
+        $("#"+hangerid).html(h);
+        $("#"+formid+"__save").rylabel({
+            left:20,
+            top:dlg.height-40,
+            width:80,
+            caption:RYBOX.babels("BUTTON_SAVE"),
+            button:true,
+            formid:formid,
+            click:function(o){
+                winzDialogClose(dlg);
+                if(options.save)
+                    options.save();
+            }
+        });
+        $("#"+formid+"__abandon").rylabel({
+            left:120,
+            top:dlg.height-40,
+            width:80,
+            caption:RYBOX.babels("BUTTON_ABANDON"),
+            button:true,
+            formid:formid,
+            click:function(o){
+                RYWINZ.modified(formid, 0);
+                winzDialogClose(dlg);
+                if(options.abandon)
+                    options.abandon();
+            }
+        });
+        var _bt_cancel=$("#"+formid+"__cancel").rylabel({
+            left:220,
+            top:dlg.height-40,
+            width:80,
+            caption:RYBOX.babels("BUTTON_CANCEL"),
+            button:true,
+            formid:formid,
+            click:function(o){
+                winzDialogClose(dlg);
+                dlg.cancel();
+                if(options.cancel)
+                    options.cancel();
+            }
+        });
+        // MOSTRO LA DIALOGBOX
+        winzDialogOpen(dlg);
+    }
+    return ok;
+}
+function winzToObject(formid, datalot, sysid){
+    var data = new Object();
+    var o=_globalforms[formid];
+    if(_isset(sysid))
+        data["SYSID"]=sysid;
+    for(var k in o.controls){   // Ciclo sui controlli di maschera
+        var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
+        if( !_ismissing(datum) ){   // Controllo che datum sia definito
+            if(datum==datalot){  // Controllo che si un campo del lotto che voglio travasare
+                var c=globalobjs[k];
+                if(c.modified() && c.tag){
+                    switch(c.type){
+                    case "date":
+                        data[c.tag]=c.text();break;
+                    case "number":
+                        data[c.tag]=c.value().toString();break;
+                    case "check":
+                        data[c.tag]=c.value();break;
+                    case "list":
+                        data[c.tag]=_ajaxescapize( c.key(c.value()) );break;
+                    default:
+                        data[c.tag]=_ajaxescapize( c.value() );break;
+                    }
+                }
+            }
+        }
+    }
+    if(window.console&&_sessioninfo.debugmode){console.log(data)}
+    return data;
+}
+function winzMaskClear(formid, datalot){
+    var o=_globalforms[formid];
+    for(var k in o.controls){   // Ciclo sui controlli di maschera
+        var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
+        if( !_ismissing(datum) ){   // Controllo che datum sia definito
+            if(datum==datalot){  // Controllo che si un campo del lotto che voglio ripulire
+                var c=globalobjs[k];
+                if(c.type=="list")
+                    c.value(1);
+                else
+                    c.clear();  // Se è definito pulisco qualunque sia il valore di datum
+            }
+        }
+    }
+    RYWINZ.modified(formid, 0);
+}
+function winzToMask(formid, datalot, data){
+    var o=_globalforms[formid];
+    for(var k in o.controls){   // Ciclo sui controlli di maschera
+        var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
+        if( !_ismissing(datum) ){   // Controllo che datum sia definito
+            if(datum==datalot){  // Controllo che si un campo del lotto che voglio travasare
+                var c=globalobjs[k];
+                if(c.tag){
+                    var d=_fittingvalue(data[c.tag]);
+                    switch(c.type){
+                    case "date":
+                        c.value(d);break;
+                    case "number":
+                        c.value(d);break;
+                    case "check":
+                        c.value( _bool( d ) );break;
+                    case "list":
+                        c.value( c.index( d ) );break;
+                        break;
+                    default:
+                        if(c.tag=="NAME"){
+                            if(d.substr(0,2)!="__")
+                                c.value(d);
+                            else
+                                c.value("");
+                        }
+                        else{
+                            c.value(d);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    RYWINZ.modified(formid, 0);
 }
 $(document).ready(function(){
     $("body").keydown(
@@ -709,6 +878,10 @@ $(document).ready(function(){
     );
     RYWINZ=new ryWinz();
     RYBOX.babels({
+        "MSG_DATANOTSAVE":"I dati sono stati modificati. Salvare?",
+        "BUTTON_SAVE":"Salva",
+        "BUTTON_ABANDON":"Abbandona",
+        "BUTTON_OK":"OK",
         "BUTTON_CANCEL":"Annulla",
         "MSG_CONFIRMEXIT":"Un'attività è in corso o il documento non è stato salvato.\n\nUscire comunque?",
         "MSG_QUITPAGE":"Richiesta di abbandono della pagina!",

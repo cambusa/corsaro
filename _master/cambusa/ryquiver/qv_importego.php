@@ -6,11 +6,11 @@
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
-* Contact:         faustroll@tiscali.it                                     *
+* Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-include_once "quiverinf.php";
-include_once "../rygeneral/post_request.php";
+include_once $path_cambusa."ryquiver/quiverinf.php";
+include_once $path_cambusa."rygeneral/post_request.php";
 function qv_importego($maestro, $data){
     global $babelcode, $babelparams, $sessionid, $url_cambusa;
     try{
@@ -18,6 +18,12 @@ function qv_importego($maestro, $data){
         $success=1;
         $message="Operazione riuscita";
         $SYSID="";
+
+        // DETERMINO SESSIONID
+        if(isset($data["SESSIONID"]))
+            $SEXID=ryqEscapize($data["SESSIONID"]);
+        else
+            $SEXID=$sessionid;
 
         // DETERMINO APPID
         if(isset($data["APPID"]))
@@ -33,7 +39,7 @@ function qv_importego($maestro, $data){
 
         // IMPORTO DA EGO TUTTI GLI UTENTI E TUTTI I RUOLI
         $postdata = array(
-            'sessionid' => $sessionid,
+            'sessionid' => $SEXID,
             'appid' => $APPID,
             'envid' => $ENVID
         );

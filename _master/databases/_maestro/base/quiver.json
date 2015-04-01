@@ -767,7 +767,7 @@
             "RECEIVINGTIME":{"type":"TIMESTAMP"},
             "PRIORITY":{"type":"INTEGER"},
             "STATUS":{"type":"INTEGER"},
-            "ACTION":{"type":"VARCHAR", "size":1000}
+            "ENGAGEPARAMS":{"type":"VARCHAR", "size":1000}
         }
     },
     "QVJSON":{

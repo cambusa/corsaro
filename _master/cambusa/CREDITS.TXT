@@ -2,7 +2,9 @@ Product:        Cambusa 1.69
 Copyright:      2015 Rodolfo Calzetti
 License:        GNU LGPL v3
 Site:           http://www.rudyz.net/
-Contact:        faustroll@tiscali.it, postmaster@rudyz.net
+                https://github.com/cambusa
+Contact:        faustroll@tiscali.it
+                postmaster@rudyz.net
 
 Credits:
 Andrew Valums                       FileUploader        (http://github.com/Valums-File-Uploader/file-uploader/)
