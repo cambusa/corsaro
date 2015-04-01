@@ -1590,6 +1590,9 @@ var RYBOX;
                     propobj.raisegotfocus();
             	}
             );
+            $("#"+propname+"_anchor").mouseup(function(){
+                return false;
+            });
             $("#"+propname+"_anchor").focusout(
             	function(){
             		globaledittext=false;
