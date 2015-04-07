@@ -278,6 +278,15 @@ function ryWinz(missing){
         return "_form"+_winzprogrid+"_";
     }
     this.logoutcalls=[];
+    this.AddForm=this.addform;
+    this.NewForm=this.newform;
+    this.FormClose=this.formclose;
+    this.RemoveForm=this.removeform;
+    this.Forms=this.forms;
+    this.Modified=this.modified;
+    this.Busy=this.busy;
+    this.LoadModule=this.loadmodule;
+    this.Shell=this.shell;
     this.MessageBox=winzMessageBox;
     this.ConfirmAbandon=winzConfirmAbandon;
     this.ToObject=winzToObject;

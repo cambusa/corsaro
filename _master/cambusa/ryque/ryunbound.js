@@ -1724,7 +1724,11 @@
                             var ml=3;
                             for(r=0; r<propcount; r++){
                                 var l=3;
-                                h=propobj.matrix[r][propcols[c]].replace(/ +$/, "");
+                                h=propobj.matrix[r][propcols[c]];
+                                if(typeof h==="undefined")
+                                    h="";
+                                else
+                                    h=h.replace(/ +$/, "");
                                 if(h.substr(0,5)!="<img "){
                                     l=h.length;
                                     if(nums[i]){
@@ -1738,7 +1742,7 @@
                         }
                         if(m<mins[i])
                             m=mins[i];
-                        else if(m>700)
+                        else if(m>700 && cols.length>1)
                             m=700;
                         m+=10;
                         propdims[c]=m;

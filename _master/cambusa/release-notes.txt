@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.69.08    del 08/04/2015
+==================================
+
+Aggiunta la chiusura form a ryTabs.
+
+Corretta la gestione della "resize" dei form.
+
+==================================
 Rilascio 1.69.07    del 07/04/2015
 ==================================
 

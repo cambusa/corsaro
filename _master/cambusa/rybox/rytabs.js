@@ -24,7 +24,8 @@
             var propcollapsible=false;
             var propcollapsed=false;
             var propposition="absolute";
-            var propcolorsel="gray";;
+            var propcolorsel="gray";
+            var propformid="";
 
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -41,6 +42,9 @@
             if(settings.height!=missing){propheight=settings.height};
             if(settings.tabs!=missing){proptabs=settings.tabs}
             if(settings.collapsible!=missing){propcollapsible=settings.collapsible}
+            if(settings.formid!=missing){
+                propformid=settings.formid
+            }
             //if(settings.position!=missing){propposition=settings.position}
 			
             $("#"+propname).addClass("rytabs");
@@ -78,9 +82,18 @@
             }
             
             if(propcollapsible){
-                $("#"+propname+"_ul").append("<li id='"+propname+"_collapse' style='position:absolute;width:30;height:25;right:10px;cursor:pointer;'>&#8593;&#8593;&#8593;</li>");
+                var r=10;
+                if(propformid!="")
+                    r=40;
+                $("#"+propname+"_ul").append("<li id='"+propname+"_collapse' style='position:absolute;width:30;height:25;right:"+r+"px;cursor:pointer;'>&#8593;&#8593;&#8593;</li>");
                 $("#"+propname+"_collapse").click(function(){
                     propobj.collapsed(!propcollapsed);
+                })
+            }
+            if(propformid!=""){
+                $("#"+propname+"_ul").append("<li id='"+propname+"_formclose' class='winz_close' style='position:absolute;width:30;height:25;right:10px;top:2px;cursor:pointer;font-size:11px;'>X</li>");
+                $("#"+propname+"_formclose").click(function(){
+                    RYWINZ.FormClose(propformid);
                 })
             }
 
@@ -274,6 +287,11 @@
                 propobj.currtab(t);
             }
             propobj.currtab(1);
+            if(settings.toggle){
+                setTimeout(function(){
+                    settings.toggle(propcollapsed, propcollapsed ? "none" : "block");
+                });
+            }
 			return this;
 		}
 	});

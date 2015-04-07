@@ -58,14 +58,15 @@ function raiseResize(n){
         var m=$("#window_"+n);
         var w=m.width();
         var h=m.height();
-        //$("#hanger_"+n).height( h-55 );
         if(RYWINZ.forms(n)._kresize){
             RYWINZ.forms(n)._kresize(w,h);
         }
         if(RYWINZ.forms(n)._resize){
             RYWINZ.forms(n)._resize(w,h);
         }
-    }catch(e){}
+    }catch(e){
+        if(window.console){console.log(e.message)}
+    }
 }
 function raiseControlKey(k){
     var n="",fn="";

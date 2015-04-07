@@ -35,8 +35,7 @@ function class_rudder(settings,missing){
 
 function rudder_startup(par){
     try{
-        _openingparams=_stringify(par);
-        RYWINZ.newform(par);
+        RYWINZ.Shell(par);
     }
     catch(e){}
 }

@@ -224,12 +224,25 @@ function ryWinz(missing){
 
             JQD.util.clear_active();
             
-            // GESTIONE EVENTI
-            $("#window_"+propid).resize(
-            	function(){
-                    setTimeout(function(){raiseResize(propid)});
+            // GESTIONE RESIZE
+            $(window).resize(
+            	function(evt){
+                    if(typeof evt.target.id=="string"){
+                        if(evt.target.id.substr(0, 7)=="window_"){
+                            var id=evt.target.id.substr(7);
+                            setTimeout(function(){raiseResize(id)});
+                        }
+                    }
+                    else{
+                        // SCATENO LA RESIZE DI TUTTI I FORM
+                        var forms=RYWINZ.Forms();
+                        for(var f in forms){
+                            setTimeout(function(){raiseResize(forms[f].id)});
+                        }
+                    }
                 }
             );
+            
             // CARICAMENTO SCHELETRO
             $.post(proppath+propname+".php", {id:propid,name:propname},
                 function(d){
@@ -364,6 +377,15 @@ function ryWinz(missing){
         return "_form"+_winzprogrid+"_";
     }
     this.logoutcalls=[];
+    this.AddForm=this.addform;
+    this.NewForm=this.newform;
+    this.FormClose=this.formclose;
+    this.RemoveForm=this.removeform;
+    this.Forms=this.forms;
+    this.Modified=this.modified;
+    this.Busy=this.busy;
+    this.LoadModule=this.loadmodule;
+    this.Shell=this.shell;
     this.MessageBox=winzMessageBox;
     this.ConfirmAbandon=winzConfirmAbandon;
     this.ToObject=winzToObject;
