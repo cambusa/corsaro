@@ -312,7 +312,10 @@ function class_qvmotives(settings,missing){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        if(v.success>0){ RYWINZ.modified(formid, 0) }
+                        if(v.success>0){ 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
+                        }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -320,7 +323,6 @@ function class_qvmotives(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -348,6 +350,7 @@ function class_qvmotives(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -355,7 +358,6 @@ function class_qvmotives(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }

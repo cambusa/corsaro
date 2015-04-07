@@ -53,6 +53,7 @@ class winz_pilota{
     public $icon;
     public $maximize;
     public $controls;
+    public $statusbar;
     
     function winz_pilota(){
         global $url_cambusa;
@@ -63,6 +64,7 @@ class winz_pilota{
         $this->icon=$url_cambusa."rywinz/rudder/rudder";
         $this->maximize=false;
         $this->controls=true;
+        $this->statusbar=true;
     }
 }
 

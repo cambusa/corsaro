@@ -19,7 +19,6 @@
             var proptabs=[];
             var propprevtab=-1;
             var propcurrtab=0;
-            var propsuspend=false;
 			var propobj=this;
 			var propvisible=true;
             var propcollapsible=false;
@@ -107,6 +106,7 @@
                     return propcurrtab+1;
                 }
                 else{
+                    var suspendselect=false;
                     if(proptabs[t-1].enabled){
                         var ok=true;
                         if(settings.before!=missing){
@@ -114,7 +114,7 @@
                         }
                         if(ok!==false){
                             if(s!=missing)
-                                propsuspend=s;
+                                suspendselect=s;
                             for(var i=0;i<proptabs.length;i++){
                                 var bg="transparent";
                                 var fg="black";
@@ -138,16 +138,13 @@
                             );
                             propprevtab=propcurrtab;
                             propcurrtab=t-1;
-                            setTimeout(
-                                function(){
-                                    if(settings.select!=missing){
-                                        if(!propsuspend)
-                                            settings.select(propcurrtab+1, propprevtab+1);
-                                        // In ogni caso lo pongo a false poiché potrebbe essere posto a true dentro la select
-                                        propsuspend=false;
-                                    }
+                            if(settings.select!=missing){
+                                if(!suspendselect){
+                                    setTimeout(function(){
+                                        settings.select(propcurrtab+1, propprevtab+1);
+                                    });
                                 }
-                            );
+                            }
                         }
                     }
                 }
@@ -232,11 +229,6 @@
                     if(settings.toggle)
                         settings.toggle(propcollapsed, propcollapsed ? "none" : "block");
 				}
-			}
-			this.suspend=function(v){
-				if(v!=missing)
-					propsuspend=_bool(v);
-                return propsuspend;
 			}
 			this.keys=function(k){
                 for(var i=1; i<arguments.length; i++){

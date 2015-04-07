@@ -8,21 +8,6 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-_logoutcall=function(done){
-    $.post(_cambusaURL+"ryquiver/quiver.php", 
-        {
-            "sessionid":_sessionid,
-            "env":_sessioninfo.environ,
-            "function":"system_logout",
-            "data":{
-                "SESSIONID":_sessionid
-            }
-        }, 
-        function(d){
-            if(done){done()}
-        }
-    );
-}
 function corsaro_browserstuff(formid, hanger, missing){
     var prefix="#"+formid;
     var currsysid="";

@@ -45,13 +45,9 @@ function winzGeography(formid, settings, missing){
     if(settings.orderby!=missing){
         proporderby=settings.orderby;
     };
-    var propsubid="";
-    if(settings.subid!=missing){
-        propsubid=settings.subid
-    }
-    var actualid=formid+propsubid;
     var dlg=winzDialogGet(formid);
     var hangerid=dlg.hanger;
+    var actualid=formid+dlg.instanceid;
     var h="";
     var vK=[];
     winzDialogParams(dlg, {

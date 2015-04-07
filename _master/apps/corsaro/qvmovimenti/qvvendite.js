@@ -375,7 +375,8 @@ function class_qvvendite(settings,missing){
                             if(tx_reference.value()==""){
                                 tx_reference.value(v.infos["PROTSERIE"]+v.infos["PROTPROGR"]);
                             }
-                            RYWINZ.modified(formid, 0) 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                         }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
@@ -384,7 +385,6 @@ function class_qvvendite(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -442,7 +442,7 @@ function class_qvvendite(settings,missing){
             winzMessageBox(formid, {
                 message:"Effettuare una transizione di stato?",
                 confirm:function(){
-                    qv_idrequest(formid, {
+                    QVR.RequestID(formid, {
                         table:"QW_TRANSIZIONIJOIN", 
                         select:"TARGETID,ATTOREBOWID,ATTORETARGETID",
                         where:"BOWID='"+currstatoid+"' AND TARGETID<>''",
@@ -523,7 +523,7 @@ function class_qvvendite(settings,missing){
             currprocservizioid="";
             currservizioid="";
             RYWINZ.MaskClear(formid, "D");
-            //qv_maskenabled(formid, "D", 0);
+            //RYWINZ.MaskEnabled(formid, "D", 0);
             operd_update.enabled(0);
             operd_unsaved.visible(0);
             operd_remove.enabled(0);
@@ -543,7 +543,7 @@ function class_qvvendite(settings,missing){
                     currprocservizioid=v[0]["PROCESSOID"];
                     currservizioid=v[0]["SERVIZIOID"];
                     // ABILITAZIONE TAB TRASFERIMENTI
-                    //qv_maskenabled(formid, "D", 1);
+                    //RYWINZ.MaskEnabled(formid, "D", 1);
                     operd_update.enabled(1);
                     oper_genre.enabled(1);
                     // CARICAMENTO TAB TRASFERIMENTI
@@ -692,8 +692,9 @@ function class_qvvendite(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             RYWINZ.modified(formid, 0);
-                            griddett.dataload();
                             operd_unsaved.visible(0);
+                            if(done!=missing){done()}
+                            griddett.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -701,7 +702,6 @@ function class_qvvendite(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }

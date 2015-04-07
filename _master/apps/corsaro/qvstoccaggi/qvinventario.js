@@ -325,14 +325,6 @@ function class_qvinventario(settings,missing){
             {title:"Collocazioni"}
         ],
         select:function(i,p){
-            if(p==2){
-                // PROVENGO DAI DATI
-                flagsuspend=qv_changemanagement(formid, objtabs, oper_contextengage, {
-                    abandon:function(){
-                        loadedsysid="";
-                    }
-                });
-            }
             if(i==1){
                 loadedsysid="";
                 loadedsysid2="";

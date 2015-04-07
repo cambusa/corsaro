@@ -45,7 +45,7 @@ else
 <link rel="stylesheet" href="<?php print $url_cambusa ?>jqdesktop/assets/css/ie.css" />
 <![endif]-->
 <script>
-_baseURL="<?php  print rywinzHost() ?>";
+_baseURL="<?php  print $url_base ?>";
 _sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $RYWINZ->appname ?>";
 var _apptitle="<?php  print $RYWINZ->apptitle ?>";
@@ -64,7 +64,8 @@ var PILOTA={
     desk:true,
     icon:"<?php print $RYWINZ->pilota->icon ?>",
     maximize:<?php print ($RYWINZ->pilota->maximize ? 1 : 0) ?>,
-    controls:<?php print ($RYWINZ->pilota->controls ? 1 : 0) ?>
+    controls:<?php print ($RYWINZ->pilota->controls ? 1 : 0) ?>,
+    statusbar:<?php print ($RYWINZ->pilota->statusbar ? 1 : 0) ?>
 }
 $(document).ready(function(){
     RYEGO.go({
@@ -224,16 +225,19 @@ function winz_logout(promptmess){
         );
     }
     function ego_logout(){
-        if(_logoutcall!==false){    // Logout personalizzato
-            _logoutcall(
-                function(){
-                    RYEGO.logout();
-                }
-            );
+        for(var l in RYWINZ.logoutcalls){
+            TAIL.enqueue(function(){
+                RYWINZ.logoutcalls[l](function(){
+                    TAIL.free();
+                });
+            });
         }
-        else{   // Logout standard
+        TAIL.enqueue(function(){
             RYEGO.logout();
-        }
+            TAIL.free();
+            _pause(200);
+        });
+        TAIL.wriggle();
     }
     return msg;
 }
@@ -346,25 +350,3 @@ if($RYWINZ->desktop){
 </div> <!-- END WRAPPER -->
 </body>
 </html>
-<?php
-function rywinzHost(){
-    $pageURL='http';
-    if(isset($_SERVER["HTTPS"])){
-        if($_SERVER["HTTPS"]=="on"){
-            $pageURL.="s";
-        }
-    }
-    $pageURL.="://";
-    if($_SERVER["SERVER_PORT"]!="80"){
-        $pageURL.=$_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-    }
-    else{
-        $pageURL.=$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-    }
-    $p=strrpos($pageURL, "/apps");
-    if($p!==false){
-        $pageURL=substr($pageURL, 0, $p+1);
-    }
-    return $pageURL;
-}
-?>

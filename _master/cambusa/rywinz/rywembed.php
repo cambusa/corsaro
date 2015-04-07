@@ -65,7 +65,7 @@ if(isset($winz_moremodules)){
 <link rel="stylesheet" href="<?php print $url_cambusa ?>jqdesktop/assets/css/ie.css" />
 <![endif]-->
 <script>
-_baseURL="<?php  print rywinzHost() ?>";
+_baseURL="<?php  print $url_base ?>";
 _sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $winz_appname ?>";
 var _apptitle="<?php  print $winz_apptitle ?>";
@@ -140,22 +140,11 @@ function winz_logout(){
                 }
             );
         });
-        if(_logoutcallext!==false){    // Logout personalizzato esterno
+        for(var l in RYWINZ.logoutcalls){
             TAIL.enqueue(function(){
-                _logoutcallext(
-                    function(){
-                        TAIL.free();
-                    }
-                );
-            });
-        }
-        if(_logoutcall!==false){    // Logout personalizzato
-            TAIL.enqueue(function(){
-                _logoutcall(
-                    function(){
-                        TAIL.free();
-                    }
-                );
+                RYWINZ.logoutcalls[l](function(){
+                    TAIL.free();
+                });
             });
         }
         TAIL.enqueue(function(){
@@ -190,25 +179,3 @@ if($winz_applogout){
     
 </body>
 </html>
-<?php
-function rywinzHost(){
-    $pageURL='http';
-    if(isset($_SERVER["HTTPS"])){
-        if($_SERVER["HTTPS"]=="on"){
-            $pageURL.="s";
-        }
-    }
-    $pageURL.="://";
-    if($_SERVER["SERVER_PORT"]!="80"){
-        $pageURL.=$_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-    }
-    else{
-        $pageURL.=$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-    }
-    $p=strrpos($pageURL, "/apps");
-    if($p!==false){
-        $pageURL=substr($pageURL, 0, $p+1);
-    }
-    return $pageURL;
-}
-?>

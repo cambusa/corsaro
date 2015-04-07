@@ -9,13 +9,12 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var RYWINZ;
+var RYQUEAUX=new ryQue();
 var _openingid="";
 var _openingname="";
 var _openingparams="({})";
 var _winzprogrid=0;
 var _globalforms=new Object();
-var _logoutcall=false;
-var _logoutcallext=false;
 var _dialogcount=0;
 
 // Preload avanzamento
@@ -156,11 +155,9 @@ function winzKeyTools(formid, tabs, settings, missing){
             tabs.previous();
     }
     frm._tool_formclose=function(){
-        if(!RYWINZ.busy(formid)){
-            setTimeout(function(){
-                RYWINZ.formclose(formid);
-            }, 100);
-        }
+        setTimeout(function(){
+            RYWINZ.formclose(formid);
+        }, 100);
     }
     frm._tool_formnext=function(){
         var n="";
@@ -355,6 +352,7 @@ function winzAbort(formid){
 function winzMessageBox(formid, params, missing){
     var dlg=winzDialogGet(formid);
     var hangerid=dlg.hanger;
+    var actualid=formid+dlg.instanceid;
     var width=500;
     var height=180;
     var message="Loading...";
@@ -392,14 +390,14 @@ function winzMessageBox(formid, params, missing){
         width:width, 
         height:height,
         open:function(){
-            castFocus(formid+"_msg_ok");
+            castFocus(actualid+"_msg_ok");
         },
         close:function(){
-            delete globalobjs[formid+"_msg_ok"];
-            delete _globalforms[formid].controls["_msg_ok"];
+            delete globalobjs[actualid+"_msg_ok"];
+            delete _globalforms[formid].controls[actualid+"_msg_ok"];
             if(confirm!==false){
-                delete globalobjs[formid+"_msg_cancel"];
-                delete _globalforms[formid].controls["_msg_cancel"];
+                delete globalobjs[actualid+"_msg_cancel"];
+                delete _globalforms[formid].controls[actualid+"_msg_cancel"];
             }
             winzDialogFree(dlg);
             if(onclose!==false){onclose()}
@@ -408,16 +406,16 @@ function winzMessageBox(formid, params, missing){
     // DEFINIZIONE DEL CONTENUTO
     var t="";
     t+="<div class='winz_msgbox' style='height:"+(height-105)+"px;width:"+(width-42)+"px;'>"+message+"</div>";
-    t+="<div id='"+formid+"_msg_ok' notab='1'></div>";
+    t+="<div id='"+actualid+"_msg_ok' notab='1'></div>";
     if(confirm!==false){
-        t+="<div id='"+formid+"_msg_cancel' notab='1'></div>";
+        t+="<div id='"+actualid+"_msg_cancel' notab='1'></div>";
     }
     $("#"+hangerid).html(t);
     $("#"+hangerid+" a").each(function(i){
         $(this).attr("target","_blank");
         $(this).css({"cursor":"pointer", "color":"navy"});
     });
-    $("#"+formid+"_msg_ok").rylabel({
+    $("#"+actualid+"_msg_ok").rylabel({
         left:20,
         top:height-40,
         width:80,
@@ -431,7 +429,7 @@ function winzMessageBox(formid, params, missing){
         }
     });
     if(confirm!==false){
-        $("#"+formid+"_msg_cancel").rylabel({
+        $("#"+actualid+"_msg_cancel").rylabel({
             left:120,
             top:height-40,
             width:80,
@@ -466,7 +464,7 @@ function winzMessageBox(formid, params, missing){
                     }
                     capOK=v[codeOK];
                     if(capOK!=""){
-                        globalobjs[formid+"_msg_ok"].caption(capOK);
+                        globalobjs[actualid+"_msg_ok"].caption(capOK);
                     }
                 }
                 catch(e){}
@@ -516,10 +514,14 @@ function winzDither(formid, bValue){
         if(bValue){
             RYWINZ.busy(formid, 1);
             $("#dither_"+formid).show();
+            if(!f.options.statusbar)
+                $("#message_"+formid).css({"display":"block"});
         }
         else{
             $("#dither_"+formid).hide();
             RYWINZ.busy(formid, 0);
+            if(!f.options.statusbar)
+                $("#message_"+formid).css({"display":"none"});
         }
     }
 }
@@ -527,12 +529,12 @@ function winzDialogGet(formid){
     var progrid=0;
     if(window.console&&_sessioninfo.debugmode)console.log("Oggetti in apertura dialog: "+_objectlength(globalobjs));
     while($("#dialogout_"+formid+progrid).length>0){progrid+=1}
-    $("#window_"+formid+" .window_inner").append("<div id='dialogdither_"+formid+progrid+"' class='winz_dither'></div><div id='dialogout_"+formid+progrid+"' class='winz_dialog_outer'><div id='dialogframe_"+formid+progrid+"' class='winz_dialog'><div id='dialog_"+formid+progrid+"'></div><div class='winz_close'>X</div></div></div>");
     var r="dialogdither_"+formid+progrid;
     var o="dialogout_"+formid+progrid;
     var d="dialogframe_"+formid+progrid;
     var h="dialog_"+formid+progrid;
-    var dlg={formid:formid, progrid:progrid, dither:r, outer:o, frame:d, hanger:h, width:600, height:500};
+    $("#window_"+formid+" .window_inner").append("<div id='"+r+"' class='winz_dither'></div><div id='"+o+"' class='winz_dialog_outer'><div id='"+d+"' class='winz_dialog'><div id='"+h+"'></div><div class='winz_close'>X</div></div></div>");
+    var dlg={formid:formid, progrid:progrid, instanceid:"_"+progrid+"_", dither:r, outer:o, frame:d, hanger:h, width:600, height:500};
     $("#"+dlg.frame).css({width:dlg.width, height:dlg.height});
     $("#"+d).keydown(
         function(k){
@@ -577,11 +579,11 @@ function winzDialogClose(dlg){
     $("#"+dlg.outer).hide();
     $("#"+dlg.dither).hide();
     if(dlg.close){
-        setTimeout(
-            function(){
+        //setTimeout(
+        //    function(){
                 dlg.close();
-            },200
-        );
+        //    },200
+        //);
     }
 }
 function winzDialogFree(dlg){
@@ -717,6 +719,7 @@ function winzConfirmAbandon(formid, options, missing){
         ok=false;
         var dlg=winzDialogGet(formid);
         var hangerid=dlg.hanger;
+        var actualid=formid+dlg.instanceid;
         var h="";
         var vK=[];
         var title=RYBOX.babels("MSG_DATANOTSAVE");
@@ -726,7 +729,7 @@ function winzConfirmAbandon(formid, options, missing){
             width:500,
             height:180,
             open:function(){
-                castFocus(formid+"__save");
+                castFocus(actualid+"__save");
             },
             close:function(){
                 winzDisposeCtrl(formid, vK);
@@ -737,11 +740,11 @@ function winzConfirmAbandon(formid, options, missing){
         h+="<div class='winz_msgbox'>";
         h+=title;
         h+="</div>";
-        h+=winzAppendCtrl(vK, formid+"__save");
-        h+=winzAppendCtrl(vK, formid+"__abandon");
-        h+=winzAppendCtrl(vK, formid+"__cancel");
+        h+=winzAppendCtrl(vK, actualid+"__save");
+        h+=winzAppendCtrl(vK, actualid+"__abandon");
+        h+=winzAppendCtrl(vK, actualid+"__cancel");
         $("#"+hangerid).html(h);
-        $("#"+formid+"__save").rylabel({
+        $("#"+actualid+"__save").rylabel({
             left:20,
             top:dlg.height-40,
             width:80,
@@ -754,7 +757,7 @@ function winzConfirmAbandon(formid, options, missing){
                     options.save();
             }
         });
-        $("#"+formid+"__abandon").rylabel({
+        $("#"+actualid+"__abandon").rylabel({
             left:120,
             top:dlg.height-40,
             width:80,
@@ -768,7 +771,7 @@ function winzConfirmAbandon(formid, options, missing){
                     options.abandon();
             }
         });
-        var _bt_cancel=$("#"+formid+"__cancel").rylabel({
+        var _bt_cancel=$("#"+actualid+"__cancel").rylabel({
             left:220,
             top:dlg.height-40,
             width:80,
@@ -777,7 +780,6 @@ function winzConfirmAbandon(formid, options, missing){
             formid:formid,
             click:function(o){
                 winzDialogClose(dlg);
-                dlg.cancel();
                 if(options.cancel)
                     options.cancel();
             }
@@ -869,6 +871,17 @@ function winzToMask(formid, datalot, data){
         }
     }
     RYWINZ.modified(formid, 0);
+}
+function winzMaskEnabled(formid, datalot, flag){
+    var o=_globalforms[formid];
+    for(var k in o.controls){   // Ciclo sui controlli di maschera
+        var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
+        if(_isset(datum)){   // Controllo che datum sia definito
+            if(datum==datalot){  // Controllo che si un campo del lotto che voglio ripulire
+                globalobjs[k].enabled(flag);
+            }
+        }
+    }
 }
 $(document).ready(function(){
     $("body").keydown(

@@ -24,6 +24,12 @@ function ryWinz(missing){
         o.jqxhr=false;
         o.timeid=false;
         o.opens=0;
+        if(o.options==missing){
+            o.options={
+                controls:true,
+                statusbar:true
+            };
+        }
         // EVENTO DI STOP DELLE RICHIESTE
         $("#stop_"+formid).click(
             function(){
@@ -236,9 +242,9 @@ function ryWinz(missing){
                             $.getScript(proppath+propname+".js")
                                 .done(function(){
                                     if(window.console&&_sessioninfo.debugmode)console.log(_openingparams);
-                                    eval("new class_"+propname+"("+_openingparams+")");
+                                    var objform=eval("new class_"+propname+"("+_openingparams+")");
                                     if(settings.initialize!=missing){
-                                        settings.initialize();
+                                        settings.initialize(objform);
                                     }
                                     // SCATENO LA LOAD
                                     raiseLoad(propid);
@@ -259,9 +265,9 @@ function ryWinz(missing){
                             _openingid=propid;
                             _openingname=propname;
                             if(window.console&&_sessioninfo.debugmode)console.log(_openingparams);
-                            eval("new class_"+propname+"("+_openingparams+")");
+                            var objform=eval("new class_"+propname+"("+_openingparams+")");
                             if(settings.initialize!=missing){
-                                settings.initialize();
+                                settings.initialize(objform);
                             }
                             // SCATENO LA LOAD
                             raiseLoad(propid);
@@ -307,13 +313,29 @@ function ryWinz(missing){
 
             _openingparams=_stringify(params);
 
-            if(params.controls!=missing){
-                if(!params.controls){
-                    params.initialize=function(){
-                        $("#window_"+id+" div.window_top").css({"display":"none"});
-                        $("#message_"+id).css({"display":"none"});
-                        $("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px"});
-                        $("#window_"+id+" div.window_content").css({"top":0, "bottom":0});
+            if(params.controls!=missing || params.statusbar!=missing){
+                params.initialize=function(objform){
+                    objform.options={
+                        controls:true,
+                        statusbar:true
+                    };
+                    if(params.controls!=missing){
+                        objform.options.controls=params.controls;
+                        if(!params.controls){
+                            $("#window_"+id+" div.window_top").css({"display":"none"});
+                            $("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px"});
+                            $("#window_"+id+" div.window_content").css({"top":0});
+                            $("#dither_"+id).css({"top":0});
+                        }
+                    }
+                    if(params.statusbar!=missing){
+                        objform.options.statusbar=params.statusbar;
+                        if(!params.statusbar){
+                            if(!RYWINZ.busy(id))   // Se non è visibile perché alzato alla new del form lo nascondo
+                                $("#message_"+id).css({"display":"none"});
+                            $("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px"});
+                            $("#window_"+id+" div.window_content").css({"bottom":0});
+                        }
                     }
                 }
             }
@@ -322,16 +344,18 @@ function ryWinz(missing){
         catch(e){}
     }
     this.formclose=function(id){
-        var h="#icon_dock_"+id;
-        var ret=raiseUnload(id);
-        if(ret!==false){
-            $("#wondow_"+id).hide();
-            $(h).hide('fast');
-            if($("#icon_desk_"+id).length == 0){ // Se non ha icona sul desktop, lo rimuovo totalmente
-                if(window.console&&_sessioninfo.debugmode)console.log("Rimozione "+id);
-                $("#window_"+id).remove();
-                $("#icon_dock_"+id).remove();
-                RYWINZ.removeform(id);
+        if(id!="rudder"){
+            var h="#icon_dock_"+id;
+            var ret=raiseUnload(id);
+            if(ret!==false){
+                $("#window_"+id).hide();
+                $(h).hide('fast');
+                if($("#icon_desk_"+id).length == 0){ // Se non ha icona sul desktop, lo rimuovo totalmente
+                    if(window.console&&_sessioninfo.debugmode)console.log("Rimozione "+id);
+                    $("#window_"+id).remove();
+                    $("#icon_dock_"+id).remove();
+                    RYWINZ.removeform(id);
+                }
             }
         }
     }
@@ -339,12 +363,14 @@ function ryWinz(missing){
         _winzprogrid++;
         return "_form"+_winzprogrid+"_";
     }
+    this.logoutcalls=[];
     this.MessageBox=winzMessageBox;
     this.ConfirmAbandon=winzConfirmAbandon;
     this.ToObject=winzToObject;
     this.MaskClear=winzMaskClear;
     this.ToMask=winzToMask;
     this.ClearMess=winzClearMess;
+    this.MaskEnabled=winzMaskEnabled;
     this.TimeoutMess=winzTimeoutMess;
     this.KeyTools=winzKeyTools;
     this.Progress=winzProgress;

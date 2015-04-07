@@ -801,7 +801,10 @@ function class_qvpagine(settings,missing){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        if(v.success>0){ RYWINZ.modified(formid, 0) }
+                        if(v.success>0){ 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
+                        }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -809,7 +812,6 @@ function class_qvpagine(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -971,7 +973,7 @@ function class_qvpagine(settings,missing){
         caption:"Aggiungi",
         button:true,
         click:function(o){
-            qv_idrequest(formid, {
+            QVR.RequestID(formid, {
                 table:"QW_WEBCONTENTS", 
                 classtable:"QW_CLASSICONTENUTO", 
                 select:"SETRELATED",

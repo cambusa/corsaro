@@ -137,7 +137,7 @@ function MaestroAnalyze($maestro, &$success, &$description){
         while ($rows=odbc_fetch_object($res)){
             $tab=$rows->TABLE_NAME;
             if(array_key_exists($tab,$allcolumns)){
-                $f=$rows->COLUMN_NAME;
+                $f=utf8_encode($rows->COLUMN_NAME);
                 $allcolumns[$tab]["fields"][$f]=array();
                 $t=$rows->TYPE_NAME;
                 $s=$rows->COLUMN_SIZE;

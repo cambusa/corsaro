@@ -487,6 +487,7 @@ function class_qvmovimenti(settings,missing){
                     "data":data
                 }, 
                 function(d){
+                    var issue;
                     try{
                         var v=$.parseJSON(d);
                         if(v.success>0){
@@ -497,6 +498,7 @@ function class_qvmovimenti(settings,missing){
                                 globalobjs[formid+"STATUS"].setkey(v.params["STATUS"]);
                             }
                             RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                         }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
@@ -505,7 +507,6 @@ function class_qvmovimenti(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }

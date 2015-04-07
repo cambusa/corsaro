@@ -545,6 +545,7 @@ function class_qvarrows(settings,missing){
                                 globalobjs[formid+"STATUS"].setkey(v.params["STATUS"]);
                             }
                             RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                         }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
@@ -553,7 +554,6 @@ function class_qvarrows(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -581,6 +581,7 @@ function class_qvarrows(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -588,7 +589,6 @@ function class_qvarrows(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }

@@ -226,7 +226,10 @@ function class_qvprogetti(settings,missing){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        if(v.success>0){ RYWINZ.modified(formid, 0) }
+                        if(v.success>0){ 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
+                        }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -234,7 +237,6 @@ function class_qvprogetti(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -249,7 +251,7 @@ function class_qvprogetti(settings,missing){
         caption:"Aggiungi",
         button:true,
         click:function(o, done){
-            qv_idrequest(formid, {
+            QVR.RequestID(formid, {
                 table:"QW_PRATICHE", 
                 where:"GANTT=1 AND STATUS<2 AND SYSID NOT IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+currsysid+"')",
                 title:"Scelta pratiche",
@@ -426,7 +428,7 @@ function class_qvprogetti(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            qv_print(formid+"GANTT");
+            QVR.PrintElement(formid+"GANTT");
         }
     });
     

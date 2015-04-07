@@ -479,7 +479,7 @@ function class_qvpratiche(settings,missing){
             winzMessageBox(formid, {
                 message:"Effettuare una transizione di stato?",
                 confirm:function(){
-                    qv_idrequest(formid, {
+                    QVR.RequestID(formid, {
                         table:"QW_TRANSIZIONIJOIN", 
                         select:"TARGETID,ATTOREBOWID,ATTORETARGETID",
                         where:"BOWID='"+currstatoid+"' AND TARGETID<>''",
@@ -505,7 +505,7 @@ function class_qvpratiche(settings,missing){
             winzMessageBox(formid, {
                 message:"Effettuare un cambio di precesso?",
                 confirm:function(){
-                    qv_idrequest(formid, {
+                    QVR.RequestID(formid, {
                         table:"QW_PROCESSI", 
                         where:"SYSID IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+currinterprocesso+"')",
                         title:"Scelta processo",
@@ -695,6 +695,7 @@ function class_qvpratiche(settings,missing){
                         if(v.success>0){ 
                             RYWINZ.modified(formid, 0);
                             context=txdescr.value();
+                            if(done!=missing){done()}
                             objgridsel.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
@@ -703,7 +704,6 @@ function class_qvpratiche(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -918,7 +918,7 @@ function class_qvpratiche(settings,missing){
         caption:"Nuova",
         button:true,
         click:function(o){
-            qv_idrequest(formid, {
+            QVR.RequestID(formid, {
                 table:"QW_MOTIVIATTIVITA", 
                 where:"(PROCESSOID='"+currprocessoid+"' OR PROCESSOID='') AND CONSISTENCY<>1",
                 orderby:"PROCESSOID DESC,ORDINATORE,DESCRIPTION",
@@ -1058,7 +1058,7 @@ function class_qvpratiche(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            qv_print(formid+"preview");
+            QVR.PrintElement(formid+"preview");
         }
     });
     
@@ -1263,6 +1263,7 @@ function class_qvpratiche(settings,missing){
                                     caricaanteprima(true);
                                 }
                             );
+                            if(done!=missing){done()}
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -1270,7 +1271,6 @@ function class_qvpratiche(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -1311,6 +1311,7 @@ function class_qvpratiche(settings,missing){
                                     );
                                 }
                             );
+                            if(done!=missing){done()}
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -1318,7 +1319,6 @@ function class_qvpratiche(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -1447,7 +1447,7 @@ function class_qvpratiche(settings,missing){
         caption:"Stampa documento",
         button:true,
         click:function(o){
-            qv_printText(txd_registry.value());
+            QVR.PrintText(txd_registry.value());
         }
     });
 
@@ -1733,7 +1733,7 @@ function class_qvpratiche(settings,missing){
         changerow:function(o,i){
             RYWINZ.MaskClear(formid, "M");
             tx_movauxtime.value(_today());
-            qv_maskenabled(formid, "M", 0);
+            RYWINZ.MaskEnabled(formid, "M", 0);
             tx_movauxtime.enabled(0);
             operm_unsaved.visible(0);
             operm_update.enabled(0);
@@ -1749,7 +1749,7 @@ function class_qvpratiche(settings,missing){
             RYQUE.query({
                 sql:"SELECT DESCRIPTION,BOWID,BOWTIME,TARGETID,TARGETTIME,AMOUNT,MOTIVEID FROM QW_MOVIMENTI WHERE SYSID='"+currmovid+"'",
                 ready:function(v){
-                    qv_maskenabled(formid, "M", 1);
+                    RYWINZ.MaskEnabled(formid, "M", 1);
                     tx_movauxtime.enabled(1);
                     operm_update.enabled(1);
                     operm_delete.enabled(1);
@@ -1825,7 +1825,7 @@ function class_qvpratiche(settings,missing){
                 winzMessageBox(formid, "Conto non presente in anagrafica");
                 return;
             }
-            qv_idrequest(formid, {
+            QVR.RequestID(formid, {
                 table:"QW_CAUSALI", 
                 title:"Nuovo movimento - Scelta causale",
                 where:"(REFERENCEID='' OR REFERENCEID='"+movcontoid+"')",
@@ -1980,8 +1980,9 @@ function class_qvpratiche(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             RYWINZ.modified(formid, 0);
-                            gridmovimenti.dataload();
                             operm_unsaved.visible(0);
+                            gridmovimenti.dataload();
+                            if(done!=missing){done()}
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -1989,7 +1990,6 @@ function class_qvpratiche(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -2639,7 +2639,7 @@ function class_qvpratiche(settings,missing){
     function solalettura(){
         var flag=!currchiusa;
         var flagd=currdettenabled && !currchiusa;
-        qv_maskenabled(formid, "C", flag);
+        RYWINZ.MaskEnabled(formid, "C", flag);
         globalobjs[formid+"oper_trans"].enabled(flag);
         globalobjs[formid+"oper_processo"].enabled(flag);
         globalobjs[formid+"oper_datafine"].enabled(flag);
@@ -2653,7 +2653,7 @@ function class_qvpratiche(settings,missing){
         globalobjs[formid+"opera_archivia"].visible(flag);
         
         // DETTAGLIO E ALLEGATI
-        qv_maskenabled(formid, "D", flagd);
+        RYWINZ.MaskEnabled(formid, "D", flagd);
         txd_bowid.enabled(0);
         txd_status.enabled(flagd);
         globalobjs[formid+"operd_salva"].enabled(flagd);
@@ -2672,7 +2672,7 @@ function class_qvpratiche(settings,missing){
             $(prefix+"oper_fileinsert").css({"display":"none"});
         
         // MOVIMENTI
-        qv_maskenabled(formid, "M", flag);
+        RYWINZ.MaskEnabled(formid, "M", flag);
         globalobjs[formid+"operm_new"].visible(flag);
         globalobjs[formid+"operm_update"].visible(flag);
         globalobjs[formid+"operm_delete"].visible(flag);
@@ -2696,7 +2696,7 @@ function class_qvpratiche(settings,missing){
                 if(_getinteger(v[0]["CONSISTENCY"])==2){
                     // BOZZA
                     currdettenabled=1;
-                    qv_maskenabled(formid, "D", 1);
+                    RYWINZ.MaskEnabled(formid, "D", 1);
                     txd_status.enabled(1);
                     globalobjs[formid+"operd_invia"].visible(1);
                 }
@@ -2720,7 +2720,7 @@ function class_qvpratiche(settings,missing){
                         break;
                     }
                     currdettenabled=a;
-                    qv_maskenabled(formid, "D", a);
+                    RYWINZ.MaskEnabled(formid, "D", a);
                     txd_status.enabled(a);
                     globalobjs[formid+"operd_invia"].visible(0);
                 }

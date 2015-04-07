@@ -257,7 +257,10 @@ function class_qvmagazzini(settings,missing){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        if(v.success>0){ RYWINZ.modified(formid, 0) }
+                        if(v.success>0){ 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
+                        }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -265,7 +268,6 @@ function class_qvmagazzini(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -413,7 +415,7 @@ function class_qvmagazzini(settings,missing){
         },
         changerow:function(o,i){
             RYWINZ.MaskClear(formid, "M");
-            qv_maskenabled(formid, "M", 0);
+            RYWINZ.MaskEnabled(formid, "M", 0);
             operm_unsaved.visible(0);
             operm_update.enabled(0);
             operm_delete.enabled(o.isselected());
@@ -431,7 +433,7 @@ function class_qvmagazzini(settings,missing){
             RYQUE.query({
                 sql:"SELECT * FROM QW_COLLOCAZIONI WHERE SYSID='"+currcollid+"'",
                 ready:function(v){
-                    qv_maskenabled(formid, "M", 1);
+                    RYWINZ.MaskEnabled(formid, "M", 1);
                     operm_update.enabled(1);
                     operm_delete.enabled(1);
                     RYWINZ.ToMask(formid, "M", v[0]);
@@ -551,8 +553,9 @@ function class_qvmagazzini(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             RYWINZ.modified(formid, 0);
-                            gridcollocazioni.dataload();
                             operm_unsaved.visible(0);
+                            if(done!=missing){done()}
+                            gridcollocazioni.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -560,7 +563,6 @@ function class_qvmagazzini(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }

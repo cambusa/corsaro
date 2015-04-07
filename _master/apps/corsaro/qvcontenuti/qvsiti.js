@@ -385,7 +385,10 @@ function class_qvsiti(settings,missing){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        if(v.success>0){ RYWINZ.modified(formid, 0) }
+                        if(v.success>0){ 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
+                        }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -393,7 +396,6 @@ function class_qvsiti(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -451,7 +453,7 @@ function class_qvsiti(settings,missing){
         changerow:function(o,i){
             currcontainerid="";
             RYWINZ.MaskClear(formid, "F");
-            qv_maskenabled(formid, "F", 0);
+            RYWINZ.MaskEnabled(formid, "F", 0);
             operf_update.enabled(0);
             operf_unsaved.visible(0);
             operf_remove.enabled(0);
@@ -466,7 +468,7 @@ function class_qvsiti(settings,missing){
                 sql:"SELECT * FROM QW_WEBCONTAINERS WHERE SYSID='"+currcontainerid+"'",
                 ready:function(v){
                     // ABILITAZIONE TAB CONTENITORI
-                    qv_maskenabled(formid, "F", 1);
+                    RYWINZ.MaskEnabled(formid, "F", 1);
                     operf_update.enabled(1);
                     // CARICAMENTO TAB CONTENITORI
                     RYWINZ.ToMask(formid, "F", v[0]);
@@ -606,8 +608,9 @@ function class_qvsiti(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             RYWINZ.modified(formid, 0);
-                            gridframes.dataload();
                             operf_unsaved.visible(0);
+                            if(done!=missing){done()}
+                            gridframes.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -615,7 +618,6 @@ function class_qvsiti(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }

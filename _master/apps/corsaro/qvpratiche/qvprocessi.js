@@ -387,7 +387,8 @@ function class_qvprocessi(settings,missing){
                     try{
                         var v=$.parseJSON(d);
                         if(v.success>0){ 
-                            RYWINZ.modified(formid, 0) 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                             objgridsel.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
@@ -396,7 +397,6 @@ function class_qvprocessi(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -583,7 +583,7 @@ function class_qvprocessi(settings,missing){
         changerow:function(o,i){
             RYWINZ.MaskClear(formid, "M");
             txm_creazione.value(1);
-            qv_maskenabled(formid, "M", 0);
+            RYWINZ.MaskEnabled(formid, "M", 0);
             txm_creazione.enabled(0);
             operm_update.enabled(0);
             operm_unsaved.visible(0);
@@ -605,7 +605,7 @@ function class_qvprocessi(settings,missing){
                 sql:"SELECT * FROM QW_MOTIVIATTIVITA WHERE SYSID='"+currmotiveid+"'",
                 ready:function(v){
                     // ABILITAZIONE TAB MOTIVI
-                    qv_maskenabled(formid, "M", 1);
+                    RYWINZ.MaskEnabled(formid, "M", 1);
                     txm_creazione.enabled(1);
                     operm_update.enabled(1);
                     // CARICAMENTO TAB MOTIVI
@@ -791,8 +791,9 @@ function class_qvprocessi(settings,missing){
                             // FORZO LA RILETTURA DEI VINCOLI
                             loadedstatoVid="";
                             RYWINZ.modified(formid, 0);
-                            gridmotivi.dataload();
                             operm_unsaved.visible(0);
+                            if(done!=missing){done()}
+                            gridmotivi.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -800,7 +801,6 @@ function class_qvprocessi(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -1101,7 +1101,7 @@ function class_qvprocessi(settings,missing){
         },
         changerow:function(o,i){
             RYWINZ.MaskClear(formid, "S");
-            qv_maskenabled(formid, "S", 0);
+            RYWINZ.MaskEnabled(formid, "S", 0);
             oper_statiupdate.enabled(0);
             statounsaved.visible(0);
             loadedstatoVid="";
@@ -1132,7 +1132,7 @@ function class_qvprocessi(settings,missing){
             RYQUE.query({
                 sql:"SELECT * FROM QW_PROCSTATI WHERE SYSID='"+currstatoid+"'",
                 ready:function(v){
-                    qv_maskenabled(formid, "S", 1);
+                    RYWINZ.MaskEnabled(formid, "S", 1);
                     oper_statiupdate.enabled(1);
                     RYWINZ.ToMask(formid, "S", v[0]);
                     statounsaved.visible(0);
@@ -1269,8 +1269,9 @@ function class_qvprocessi(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             RYWINZ.modified(formid, 0);
-                            objgridstati.dataload();
                             statounsaved.visible(0);
+                            if(done!=missing){done()}
+                            objgridstati.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -1278,7 +1279,6 @@ function class_qvprocessi(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -1380,7 +1380,7 @@ function class_qvprocessi(settings,missing){
         caption:"Aggiungi",
         button:true,
         click:function(o, done){
-            qv_idrequest(formid, {
+            QVR.RequestID(formid, {
                 table:"QW_MOTIVIATTIVITA", 
                 where:"PROCESSOID='"+currprocessoid+"' AND SYSID NOT IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+currstatoid+"')",
                 title:"Scelta motivo",
@@ -1642,7 +1642,7 @@ function class_qvprocessi(settings,missing){
         },
         changerow:function(o,i){
             RYWINZ.MaskClear(formid, "T");
-            qv_maskenabled(formid, "T", 0);
+            RYWINZ.MaskEnabled(formid, "T", 0);
             oper_transupdate.enabled(0);
             transunsaved.visible(0);
             if(i>0){
@@ -1663,7 +1663,7 @@ function class_qvprocessi(settings,missing){
             RYQUE.query({
                 sql:"SELECT DESCRIPTION,TARGETID,SVINCOLANTE FROM QW_TRANSIZIONI WHERE SYSID='"+currtransid+"'",
                 ready:function(v){
-                    qv_maskenabled(formid, "T", 1);
+                    RYWINZ.MaskEnabled(formid, "T", 1);
                     oper_transupdate.enabled(1);
                     RYWINZ.ToMask(formid, "T", v[0]);
                     transunsaved.visible(0);
@@ -1812,8 +1812,9 @@ function class_qvprocessi(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             RYWINZ.modified(formid, 0);
-                            objgridtrans.dataload();
                             transunsaved.visible(0);
+                            if(done!=missing){done()}
+                            objgridtrans.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -1821,7 +1822,6 @@ function class_qvprocessi(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -1872,7 +1872,7 @@ function class_qvprocessi(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            qv_print(formid+"grafoviewer");
+            QVR.PrintElement(formid+"grafoviewer");
         }
     });
     offsety+=30;

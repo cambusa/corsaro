@@ -397,7 +397,8 @@ function class_qvfatturazione(settings,missing){
                             }
                             abilitafattura();
                             tx_totale.value(v.params["TOTAL"]);
-                            RYWINZ.modified(formid, 0) 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                         }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
@@ -406,7 +407,6 @@ function class_qvfatturazione(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -464,7 +464,7 @@ function class_qvfatturazione(settings,missing){
             winzMessageBox(formid, {
                 message:"Effettuare una transizione di stato?",
                 confirm:function(){
-                    qv_idrequest(formid, {
+                    QVR.RequestID(formid, {
                         table:"QW_TRANSIZIONIJOIN", 
                         select:"TARGETID,ATTOREBOWID,ATTORETARGETID",
                         where:"BOWID='"+currstatoid+"' AND TARGETID<>''",
@@ -552,7 +552,7 @@ function class_qvfatturazione(settings,missing){
         changerow:function(o,i){
             currflussoid="";
             RYWINZ.MaskClear(formid, "D");
-            //qv_maskenabled(formid, "D", 0);
+            //RYWINZ.MaskEnabled(formid, "D", 0);
             operd_update.enabled(0);
             operd_unsaved.visible(0);
             operd_remove.enabled(0);
@@ -569,7 +569,7 @@ function class_qvfatturazione(settings,missing){
                 sql:"SELECT QW_FLUSSI.DESCRIPTION AS DESCRIPTION,QW_FLUSSI.MOTIVEID AS MOTIVEID,QW_FLUSSI.AMOUNT AS AMOUNT,QW_FLUSSI.BOWID AS BOWID,QW_FLUSSI.TARGETID AS TARGETID,QW_FLUSSI.ALIQUOTA AS ALIQUOTA,QVMOTIVES.DIRECTION AS DIRECTION FROM QW_FLUSSI INNER JOIN QVMOTIVES ON QVMOTIVES.SYSID=QW_FLUSSI.MOTIVEID WHERE QW_FLUSSI.SYSID='"+currflussoid+"'",
                 ready:function(v){
                     // ABILITAZIONE TAB FLUSSI
-                    //qv_maskenabled(formid, "D", 1);
+                    //RYWINZ.MaskEnabled(formid, "D", 1);
                     operd_update.enabled(1);
                     // CARICAMENTO TAB FLUSSI
                     RYWINZ.ToMask(formid, "D", v[0]);
@@ -735,8 +735,9 @@ function class_qvfatturazione(settings,missing){
                             tx_totale.value(v.params["TOTAL"]);
                             tx_contro.value(v.params["CONTROID"]);
                             RYWINZ.modified(formid, 0);
-                            griddett.dataload();
                             operd_unsaved.visible(0);
+                            if(done!=missing){done()}
+                            griddett.dataload();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -744,7 +745,6 @@ function class_qvfatturazione(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }

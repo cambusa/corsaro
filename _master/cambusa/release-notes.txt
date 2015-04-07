@@ -1,4 +1,20 @@
 ==================================
+Rilascio 1.69.07    del 07/04/2015
+==================================
+
+Rinominate sotto un oggetto QVR varie funzioni Javascript di ryQuiver.
+
+==================================
+Rilascio 1.69.06    del 06/04/2015
+==================================
+
+Razionalizzata in parte la posizione delle funzioni ryQuiver.
+
+Corretta la gestione dell'errore al salvataggio nelle maschere di Corsaro.
+
+ryBound: aggiunto autofit e migliorato il sorting.
+
+==================================
 Rilascio 1.69.05    del 01/04/2015
 ==================================
 

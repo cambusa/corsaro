@@ -11,6 +11,8 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
+$cacheversion=9;
+
 $filibuster_host="";            // DATI (IMPOSTARE SE I DATI SONO REMOTI)
 $filibuster_environ="";         // AMBIENTE PREDEFINITO
 $filibuster_sizeHQ=2500;        // DIMENSIONE MASSIMA DOCUMENTO PER SINTESI VOCALE AD ALTA QUALITA'
@@ -230,8 +232,8 @@ body{margin:10px;}
 <script type='text/javascript' src='_javascript/jquery.ui.widget.js'></script>
 <script type='text/javascript' src='_javascript/jquery.ui.mouse.js'></script>
 <script type='text/javascript' src='_javascript/jquery.ui.draggable.js'></script>
-<script type='text/javascript' src='_javascript/filibuster.js'></script>
 <?php
+    print "<script type='text/javascript' src='_javascript/filibuster.js?ver=$cacheversion'></script>";
     if($PROTECTED){
         print "<script type='text/javascript' src='$filibuster_cambusa/rygeneral/rygeneral.js' ></script>";
         print "<script type='text/javascript' src='$filibuster_cambusa/ryego/ryego.js' ></script>";

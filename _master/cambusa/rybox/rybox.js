@@ -911,6 +911,7 @@ var RYBOX;
                                 }
                             }
                             propobj.refresh();
+                            propobj.raisechanged();
                         }
                         else if(k.which==40){ // down
                             if(propstart==0){
@@ -931,6 +932,7 @@ var RYBOX;
                                 }
                             }
                             propobj.refresh();
+                            propobj.raisechanged();
                         }
             			else if(k.which==36){ // home
                             if(propctrl){
@@ -1532,6 +1534,8 @@ var RYBOX;
 			var propenabled=true;
 			var propvisible=true;
             
+            var firstup=true;
+            
             var timerhandle=false;
             var timerbusy=false;
             var timertry=false;
@@ -1587,11 +1591,15 @@ var RYBOX;
                     propfocusout=false;
                     timerbusy=false;
                     timertry=false;
+                    firstup=true;
                     propobj.raisegotfocus();
             	}
             );
             $("#"+propname+"_anchor").mouseup(function(){
-                return false;
+                if(firstup){
+                    firstup=false;
+                    return false;
+                }
             });
             $("#"+propname+"_anchor").focusout(
             	function(){

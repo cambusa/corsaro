@@ -24,6 +24,12 @@ function ryWinz(missing){
         o.jqxhr=false;
         o.timeid=false;
         o.opens=0;
+        if(o.options==missing){
+            o.options={
+                controls:true,
+                statusbar:true
+            };
+        }
         // EVENTO DI STOP DELLE RICHIESTE
         $("#stop_"+formid).click(
             function(){
@@ -271,12 +277,14 @@ function ryWinz(missing){
         _winzprogrid++;
         return "_form"+_winzprogrid+"_";
     }
+    this.logoutcalls=[];
     this.MessageBox=winzMessageBox;
     this.ConfirmAbandon=winzConfirmAbandon;
     this.ToObject=winzToObject;
     this.MaskClear=winzMaskClear;
     this.ToMask=winzToMask;
     this.ClearMess=winzClearMess;
+    this.MaskEnabled=winzMaskEnabled;
     this.TimeoutMess=winzTimeoutMess;
     this.KeyTools=winzKeyTools;
     this.Progress=winzProgress;

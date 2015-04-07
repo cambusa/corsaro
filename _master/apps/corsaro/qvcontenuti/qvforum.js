@@ -8,10 +8,6 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-_logoutcallext=function(done){
-    try{window.parent.FLB.forum.showLogin()}catch(e){}
-    if(done){done()}
-}
 function class_qvforum(settings,missing){
     var formid=RYWINZ.addform(this);
     var objform=this;
@@ -149,6 +145,11 @@ function class_qvforum(settings,missing){
         }
     });
     objtabs.currtab(1);
+
+    RYWINZ.logoutcalls.push(function(done){
+        try{window.parent.FLB.forum.showLogin()}catch(e){}
+        if(done){done()}
+    });
     
     // INIZIALIZZAZIONE FORM
     RYBOX.localize(_sessioninfo.language, formid,

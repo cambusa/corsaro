@@ -739,11 +739,22 @@
                             var v=$.parseJSON(d);
                             var r,c,fd,vl,reff;
                             var dd,dm,dy;
+                            var nums=[];
+                            var decs=[];
                             if(settings.before!=missing){
                                 settings.before(propobj, v);
                             }
+                            for(c=1; c<=propcols.length; c++){
+                                if($.isNumeric(proptyps[c-1])){
+                                    nums[c]=true;
+                                    decs[c]=parseInt(proptyps[c-1]);
+                                }
+                                else{
+                                    nums[c]=false;
+                                }
+                            }
                             for(r=1;r<=proprows;r++){
-                                reff=proptoprow+r-1
+                                reff=proptoprow+r-1;
                                 if (reff<=propcount){
                                     if(propnumbered){
                                         fd="#"+propname+"_"+r+"_0";
@@ -754,47 +765,50 @@
                                         vl=v[r-1][propcols[c-1]];
                                         try{
                                             switch(proptyps[c-1]){
-                                                case "?":
-                                                    if (vl!=0)
-                                                        $(fd).html("&#x2714;");
+                                            case "?":
+                                                if (vl!=0)
+                                                    $(fd).html("&#x2714;");
+                                                else
+                                                    $(fd).html("&#x0020;");
+                                                break;
+                                            case "/":
+                                                if(vl.length>=10){
+                                                    dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
+                                                    if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
+                                                        $(fd).html("");
                                                     else
-                                                        $(fd).html("&#x0020;");
-                                                    break;
-                                                case "0":case "1":case "2":case "3":case "4":case "5":
-                                                    vl=_nformat(vl,proptyps[c-1]);
+                                                        $(fd).html(dd+"/"+dm+"/"+dy);
+                                                }
+                                                else{
+                                                    $(fd).html("");
+                                                }
+                                                break;
+                                            case ":":
+                                                if(vl.length>=10){
+                                                    dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
+                                                    if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
+                                                        $(fd).html("");
+                                                    else
+                                                        $(fd).html(vl.substr(8,2)+"/"+vl.substr(5,2)+"/"+vl.substr(0,4)+" "+vl.substr(11,2)+":"+vl.substr(14,2));
+                                                }
+                                                else{
+                                                    $(fd).html("");
+                                                }
+                                                break;
+                                            default:
+                                                if(nums[c]){
+                                                    vl=_nformat(vl, decs[c]);
                                                     if(vl==="NaN"){vl=""}
-                                                    $(fd).html(vl);break;
-                                                case "/":
-                                                    if(vl.length>=10){
-                                                        dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
-                                                        if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
-                                                            $(fd).html("");
-                                                        else
-                                                            $(fd).html(dd+"/"+dm+"/"+dy);
-                                                    }
-                                                    else{
-                                                        $(fd).html("");
-                                                    }
-                                                    break;
-                                                case ":":
-                                                    if(vl.length>=10){
-                                                        dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
-                                                        if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
-                                                            $(fd).html("");
-                                                        else
-                                                            $(fd).html(vl.substr(8,2)+"/"+vl.substr(5,2)+"/"+vl.substr(0,4)+" "+vl.substr(11,2)+":"+vl.substr(14,2));
-                                                    }
-                                                    else{
-                                                        $(fd).html("");
-                                                    }
-                                                    break;
-                                                default:
-                                                    vl=vl.replace(/<[bh]r\/?>/gi," ");
+                                                    $(fd).html(vl);
+                                                }
+                                                else{
+                                                    vl=vl.replace(/<[bh]r\/?>/gi," ").replace(/ +$/, "");
                                                     $(fd).html(vl);
                                                     if(vl.length>20 && vl.substr(0,5)!="<img ")
                                                         $(fd).attr("title",vl);
                                                     else
                                                         $(fd).attr("title","");
+                                                }
                                             }
                                         }
                                         catch(e){
@@ -1583,11 +1597,7 @@
                                     var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                     // GESTIONE FILE OBSOLETI
-                                    try{
-                                        if(qv_handletemp!==false)
-                                            clearTimeout(qv_handletemp);
-                                        qv_handletemp=setTimeout("qv_managetemp()", 10000);
-                                    }catch(e){}
+                                    QVR.ManageTemp();
                                 }
                             }
                             catch(e){
@@ -1830,8 +1840,8 @@
                         );
                         if(m<8)
                             m=8;
-                        else if(m>1000)
-                            m=1000;
+                        else if(m>700)
+                            m=700;
                         else if(m!=propdims[c-1])
                             m+=8;
                         propdims[c-1]=m;

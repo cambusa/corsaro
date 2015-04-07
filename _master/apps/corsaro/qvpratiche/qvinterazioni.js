@@ -545,7 +545,7 @@ function class_qvinterazioni(settings,missing){
         caption:"Nuova",
         button:true,
         click:function(o){
-            qv_idrequest(formid, {
+            QVR.RequestID(formid, {
                 table:"QW_MOTIVIATTIVITA", 
                 where:"(SYSID='"+motiverichiesta+"' OR SYSID='"+motivenota+"')",
                 orderby:"ORDINATORE,DESCRIPTION",
@@ -643,7 +643,7 @@ function class_qvinterazioni(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            qv_print(formid+"preview");
+            QVR.PrintElement(formid+"preview");
         }
     });
     
@@ -769,6 +769,7 @@ function class_qvinterazioni(settings,missing){
                             else{
                                 inviamessaggio();
                             }
+                            if(done!=missing){done()}
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -776,7 +777,6 @@ function class_qvinterazioni(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -806,6 +806,7 @@ function class_qvinterazioni(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){ 
                             inviamessaggio();
+                            if(done!=missing){done()}
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -813,7 +814,6 @@ function class_qvinterazioni(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -826,7 +826,7 @@ function class_qvinterazioni(settings,missing){
         caption:"Stampa documento",
         button:true,
         click:function(o){
-            qv_printText(txd_registry.value());
+            QVR.PrintText(txd_registry.value());
         }
     });
 
@@ -1192,7 +1192,7 @@ function class_qvinterazioni(settings,missing){
         
         globalobjs[formid+"operd_salva"].visible(flagd);
         globalobjs[formid+"operd_invia"].visible(flagd);
-        qv_maskenabled(formid, "D", flagd);
+        RYWINZ.MaskEnabled(formid, "D", flagd);
         txd_status.enabled(flagd);
         filemanager.enabled(flagd);
     }

@@ -479,7 +479,10 @@
                                 }
                                 
                                 // Riordimento
-                                propobj.sort(col1, type1, asc1, col2, type2, asc2);
+                                if(col2>=0)
+                                    sorting(col1, asc1, col2, asc2);
+                                else
+                                    sorting(col1, asc1);
                                 
                                 // Memorizzazioni
                                 if(propordcol!=c){
@@ -691,6 +694,8 @@
                     var r,c,fd,vl,reff;
                     var dd,dm,dy;
                     var v=[];
+                    var nums=[];
+                    var decs=[];
                     propobj.vscrefresh();
                     for(r=0; r<(proprows<=propcount ? proprows : propcount); r++){
                         v[r]={};
@@ -700,6 +705,15 @@
                     }
                     if(settings.before!=missing){
                         settings.before(propobj, v);
+                    }
+                    for(c=1; c<=propcols.length; c++){
+                        if($.isNumeric(proptyps[c-1])){
+                            nums[c]=true;
+                            decs[c]=parseInt(proptyps[c-1]);
+                        }
+                        else{
+                            nums[c]=false;
+                        }
                     }
                     for(r=1;r<=proprows;r++){
                         reff=proptoprow+r-1
@@ -713,47 +727,50 @@
                                 vl=v[r-1][propcols[c-1]];
                                 try{
                                     switch(proptyps[c-1]){
-                                        case "?":
-                                            if (vl!=0)
-                                                $(fd).html("&#x2714;");
+                                    case "?":
+                                        if (vl!=0)
+                                            $(fd).html("&#x2714;");
+                                        else
+                                            $(fd).html("&#x0020;");
+                                        break;
+                                    case "/":
+                                        if(vl.length>=10){
+                                            dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
+                                            if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
+                                                $(fd).html("");
                                             else
-                                                $(fd).html("&#x0020;");
-                                            break;
-                                        case "0":case "1":case "2":case "3":case "4":case "5":
-                                            vl=_nformat(vl,proptyps[c-1]);
+                                                $(fd).html(dd+"/"+dm+"/"+dy);
+                                        }
+                                        else{
+                                            $(fd).html("");
+                                        }
+                                        break;
+                                    case ":":
+                                        if(vl.length>=10){
+                                            dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
+                                            if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
+                                                $(fd).html("");
+                                            else
+                                                $(fd).html(vl.substr(8,2)+"/"+vl.substr(5,2)+"/"+vl.substr(0,4)+" "+vl.substr(11,2)+":"+vl.substr(14,2));
+                                        }
+                                        else{
+                                            $(fd).html("");
+                                        }
+                                        break;
+                                    default:
+                                        if(nums[c]){
+                                            vl=_nformat(vl, decs[c]);
                                             if(vl==="NaN"){vl=""}
-                                            $(fd).html(vl);break;
-                                        case "/":
-                                            if(vl.length>=10){
-                                                dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
-                                                if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
-                                                    $(fd).html("");
-                                                else
-                                                    $(fd).html(dd+"/"+dm+"/"+dy);
-                                            }
-                                            else{
-                                                $(fd).html("");
-                                            }
-                                            break;
-                                        case ":":
-                                            if(vl.length>=10){
-                                                dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
-                                                if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
-                                                    $(fd).html("");
-                                                else
-                                                    $(fd).html(vl.substr(8,2)+"/"+vl.substr(5,2)+"/"+vl.substr(0,4)+" "+vl.substr(11,2)+":"+vl.substr(14,2));
-                                            }
-                                            else{
-                                                $(fd).html("");
-                                            }
-                                            break;
-                                        default:
+                                            $(fd).html(vl);
+                                        }
+                                        else{
                                             vl=vl.replace(/<[bh]r\/?>/gi," ");
                                             $(fd).html(vl);
                                             if(vl.length>20 && vl.substr(0,5)!="<img ")
                                                 $(fd).attr("title",vl);
                                             else
                                                 $(fd).attr("title","");
+                                        }
                                     }
                                 }
                                 catch(e){
@@ -1227,6 +1244,11 @@
                     propready=true;
                     propobj.dataload();
                     statistics();
+                    
+                    // Ripristino i titoli
+                    for(i=1; i<=proptits.length; i++){
+                        $("#"+propname+"_0_"+i).html( proptits[i-1] );
+                    }
 
                     // Gestione eventi e callback
                     if(settings.ready!=missing){settings.ready(propobj, true)}
@@ -1375,171 +1397,24 @@
                 else
                     stoploading();
             }
-            this.sort=function(col1, type1, asc1, col2, type2, asc2){
-                try{
-                    startloading();
-                    if(this.matrix.length>0){
-                        var i,k1,k2;
-                        var map=[];
-                        var newbag=[];
-
-                        if(col1==missing){col1=1}
-                        if(type1==missing){type1=""}
-                        if(asc1==missing){asc1=true}
-                        if(col2==missing){col2=-1}
-                        if(type2==missing){type2=""}
-                        if(asc2==missing){asc2=true}
-                        
-                        for(i in this.matrix){
-                            if(col1>0)
-                                k1=this.matrix[i][ propcols[col1-1] ];
-                            else if(col1==0)
-                                k1=(_isset(propsels[parseInt(i)+1]) || propselinvert) ? "0" : "1";
-                            else
-                                k1="";
-
-                            if(col2>0)
-                                k2=this.matrix[i][ propcols[col2-1] ];
-                            else
-                                k2="";
-
-                            // indice originale, prima chiave, tipo prima, ordine prima, ordina anche per una seconda chiave, ...
-                            //      0  1   2      3     4          5   6      7 
-                            map[i]=[i, k1, type1, asc1, (col2>=0), k2, type2, asc2];
-                        }
-                        
-                        map.sort(
-                            function(a,b){
-                                var a1,a2,b1,b2;
-                                var asc1,asc2;
-                                var subk=a[4];
-                                
-                                asc1=a[3];
-                                asc2=a[7];
-                                
-                                // Primo valore, prima chiave
-                                switch(a[2]){
-                                case "?":
-                                    if(parseInt(a[1]))
-                                        a1="0";
-                                    else
-                                        a1="1";
-                                    break;
-                                case "0":case "1":case "2":case "3":case "4":case "5":
-                                    a1=parseFloat(a[1]);
-                                    if(isNaN(a1))
-                                        a1=0;
-                                    break;
-                                default:
-                                    a1=a[1].toLowerCase();
-                                }
-                                
-                                // Primo valore, seconda chiave
-                                switch(a[6]){
-                                case "?":
-                                    if(parseInt(a[5]))
-                                        a2="0";
-                                    else
-                                        a2="1";
-                                    break;
-                                case "0":case "1":case "2":case "3":case "4":case "5":
-                                    a2=parseFloat(a[5]);
-                                    break;
-                                default:
-                                    a2=a[5].toLowerCase();
-                                }
-
-                                // Secondo valore, prima chiave
-                                switch(b[2]){
-                                case "?":
-                                    if(parseInt(b[1]))
-                                        b1="0";
-                                    else
-                                        b1="1";
-                                    break;
-                                case "0":case "1":case "2":case "3":case "4":case "5":
-                                    b1=parseFloat(b[1]);
-                                    if(isNaN(b1))
-                                        b1=0;
-                                    break;
-                                default:
-                                    b1=b[1].toLowerCase();
-                                }
-                                
-                                // Secondo valore, seconda chiave
-                                switch(b[6]){
-                                case "?":
-                                    if(parseInt(b[5]))
-                                        b2="0";
-                                    else
-                                        b2="1";
-                                    break;
-                                case "0":case "1":case "2":case "3":case "4":case "5":
-                                    b2=parseFloat(b[5]);
-                                    break;
-                                default:
-                                    b2=b[5].toLowerCase();
-                                }
-
-                                if(a1>b1){
-                                    if(asc1)
-                                        return 1;
-                                    else
-                                        return -1;
-                                }
-                                else if(a1<b1){
-                                    if(asc1)
-                                        return -1;
-                                    else
-                                        return 1;
-                                }
-                                else if(subk){
-                                    if(a2>b2){
-                                        if(asc2)
-                                            return 1;
-                                        else
-                                            return -1;
-                                    }
-                                    else if(a2<b2){
-                                        if(asc2)
-                                            return -1;
-                                        else
-                                            return 1;
-                                    }
-                                    else{
-                                        return 0;
-                                    }
-                                }
-                                else{
-                                    return 0;
-                                }
-                            }
-                        );
-                        var ind=0, sels={}, checked=_objectlength(propsels), newi;
-                        for(i in map){
-                            newi=map[i][0];
-                            newbag[i]=this.matrix[newi];
-                            
-                            // Determinazione nuovo index
-                            if(propindex>0){
-                                if(newi==propindex-1){
-                                    ind=parseInt(i)+1;
-                                }
-                            }
-                            // Determinazione nuova selezione 
-                            if(checked){
-                                if(propsels[parseInt(newi)+1]){
-                                    sels[parseInt(i)+1]=true;
-                                }
-                            }
-                        }
-                        propobj.setmatrix(newbag, true, ind, sels);
+            this.sort=function(){
+                var args=[];
+                for(var a=0; a<arguments.length; a++)
+                    args[a]=arguments[a];
+                sorting(args);
+            }
+            this.autofit=function(){
+                setTimeout(autofit);
+            }
+            this.captions=function(i, t){
+                if(0<i && i <=proptits.length){
+                    if(t==missing){
+                        return proptits[i-1];
                     }
-                    stoploading();
-                }
-                catch(e){
-                    if(window.console){console.log(e.message)}
-                    stoploading();
+                    else{
+                        proptits[i-1]=t;
+                        $("#"+propname+"_0_"+i).html(t);
+                    }
                 }
             }
             // CHIAMATA ALLA GENERAZIONE EFFETTIVA
@@ -1748,30 +1623,7 @@
                     function(evt){
                         if(!propenabled){return}
                         var c=parseInt(evt.target.id.replace(/^.*_sep(\d+)$/,"$1"));
-                        var m=0,w=0,h;
-                        $("#"+propname+" .column_"+c).each(
-                            function(ind){
-                                h=$(this).html();
-                                if(h.substr(0,5)!="<img "){
-                                    $("#"+propname+"_textwidth").html(h);
-                                    w=$("#"+propname+"_textwidth").width();
-                                }
-                                else{
-                                    w=propdims[c-1];
-                                }
-                                if(m<w){
-                                    m=w;
-                                }
-                            }
-                        );
-                        if(m<8)
-                            m=8;
-                        else if(m>1000)
-                            m=1000;
-                        else if(m!=propdims[c-1])
-                            m+=8;
-                        propdims[c-1]=m;
-                        fitcolumns();
+                        autofit(c);
                     }
                 )
                 .draggable({
@@ -1829,6 +1681,217 @@
                 propfrms[l]=form;
                 propcodes[l]=code;
                 return dim;
+            }
+            function autofit(col){
+                try{
+                    var cols=[],nums=[],typs=[],mins=[],r,c,i,h,m,w;
+                    if(col!=missing){
+                        cols.push(col-1);
+                        typs.push( proptyps[col-1] );
+                        nums.push( $.isNumeric(proptyps[col-1]) );
+                        $("#"+propname+"_textwidth").html(proptits[col-1]);
+                        w=$("#"+propname+"_textwidth").width()+10;
+                        mins.push( w>20 ? w : 20 );
+                    }
+                    else{
+                        for(c=1; c<=propcols.length; c++){
+                            cols.push(c-1);
+                            typs.push( proptyps[c-1] );
+                            nums.push( $.isNumeric(proptyps[c-1]) );
+                            $("#"+propname+"_textwidth").html(proptits[c-1]);
+                            w=$("#"+propname+"_textwidth").width()+10;
+                            mins.push( w>20 ? w : 20 );
+                        }
+                    }
+                    // CALCOLO LA LARGHEZZA DEL CARATTERE 0
+                    $("#"+propname+"_textwidth").html("0000000000");
+                    var xl=$("#"+propname+"_textwidth").width()/10;
+                        
+                    for(i=0; i<cols.length; i++){
+                        c=cols[i];
+                        m=0;
+                        switch(typs[i]){
+                        case "?":
+                            m=5*xl;
+                            break;
+                        case "/":
+                            m=10*xl;
+                            break;
+                        case ":":
+                            m=16*xl;
+                            break;
+                        default:
+                            var ml=3;
+                            for(r=0; r<propcount; r++){
+                                var l=3;
+                                h=propobj.matrix[r][propcols[c]].replace(/ +$/, "");
+                                if(h.substr(0,5)!="<img "){
+                                    l=h.length;
+                                    if(nums[i]){
+                                        l=Math.floor(l*1.2);
+                                    }
+                                }
+                                if(ml<l)
+                                    ml=l;
+                            }
+                            m=xl*ml;
+                        }
+                        if(m<mins[i])
+                            m=mins[i];
+                        else if(m>700)
+                            m=700;
+                        m+=10;
+                        propdims[c]=m;
+                    }
+                    fitcolumns();
+                }
+                catch(e){
+                    if(window.console){console.log(e.message)}
+                }
+            }
+            function sorting(){
+                try{
+                    startloading();
+                    if(propobj.matrix.length>0 && arguments.length>0){
+                        var args;
+                        var nams=[];
+                        var cols=[];
+                        var typs=[];    // 0 (string) - 1 (number) - 2 (boolean)
+                        var ords=[];
+                        var i=0;
+                        if(arguments[0] instanceof Array){
+                            args=arguments[0];
+                        }
+                        else{
+                            args=[];
+                            for(var a=0; a<arguments.length; a++)
+                                args[a]=arguments[a];
+                        }
+                        for(var a=0; a<args.length; a+=2){
+                            cols[i]=args[a];
+                            if(typeof cols[i]=="string"){
+                                // NOME DI COLONNA: CERCO L'INDICE
+                                nams[i]=cols[i];
+                                cols[i]=0;
+                                for(var c in propcols){
+                                    if(propcols[c]==nams[i]){
+                                        cols[i]=c+1;
+                                        break;
+                                    }
+                                }
+                            }
+                            else if(cols[i]==0){
+                                // SELEZIONE IN COLONNA ZERO
+                                nams[i]="";
+                            }
+                            else{
+                                // INDICE DI COLONNA
+                                nams[i]=propcols[cols[i]-1];
+                            }
+                            // NORMALIZZAZIONE DEL TIPO
+                            if(cols[i]==0){
+                                typs[i]=0;
+                            }
+                            else{
+                                typs[i]=proptyps[cols[i]-1];
+                                if(typs[i]=="?")
+                                    typs[i]=2;
+                                else if($.isNumeric(typs[i]))
+                                    typs[i]=1;
+                                else    
+                                    typs[i]=0;
+                            }
+                            // TIPO ORDINAMENTO
+                            ords[i]=_bool(args[a+1]);
+                            i+=1;
+                        }
+                        var map=[];
+                        var newbag=[];
+                        var vl;
+                        for(i in propobj.matrix){
+                            map[i]=[i];
+                            for(var b=0; b<cols.length; b++){
+                                if(cols[b]>0){
+                                    vl=propobj.matrix[i][ nams[b] ];
+                                    switch(typs[b]){
+                                    case 1:
+                                        vl=parseFloat(vl);
+                                        if(isNaN(vl))
+                                            vl=0;
+                                        break;
+                                    case 2:
+                                        vl= parseInt(vl) ? "0": "1";
+                                        break;
+                                    default:
+                                        if(typeof vl=="undefined")
+                                            vl="";
+                                        else
+                                            vl=vl.toLowerCase();
+                                    }
+                                }
+                                else{
+                                    vl=(_isset(propsels[parseInt(i)+1]) != propselinvert) ? "1" : "0";
+                                }
+                                map[i][b+1]=vl;
+                            }
+                        }
+                        map.sort(
+                            function(a, b){
+                                var ret=0;
+                                for(var k=1; k<a.length; k++){
+                                    if(a[k]>b[k]){
+                                        if(ords[k-1])
+                                            ret=1;
+                                        else
+                                            ret=-1;
+                                        break;
+                                    }
+                                    else if(a[k]<b[k]){
+                                        if(ords[k-1])
+                                            ret=-1;
+                                        else
+                                            ret=1;
+                                        break;
+                                    }
+                                }
+                                return ret;
+                            }
+                        );
+                        var ind=0, sels={}, checked=_objectlength(propsels), newi;
+                        for(i in map){
+                            newi=map[i][0];
+                            newbag[i]=propobj.matrix[newi];
+                            
+                            // Determinazione nuovo index
+                            if(propindex>0){
+                                if(newi==propindex-1){
+                                    ind=parseInt(i)+1;
+                                }
+                            }
+                            // Determinazione nuova selezione 
+                            if(checked){
+                                if(propsels[parseInt(newi)+1]){
+                                    sels[parseInt(i)+1]=true;
+                                }
+                            }
+                        }
+                        propobj.setmatrix(newbag, true, ind, sels);
+                        // RIASSEGNO LE INTESTAZIONI
+                        if(cols[0]>0){
+                            var h=proptits[cols[0]-1];
+                            if(ords[0])
+                                h+="&nbsp;&#8593;";
+                            else
+                                h+="&nbsp;&#8595;";
+                            $("#"+propname+"_0_"+cols[0]).html(h);
+                        }
+                    }
+                    stoploading();
+                }
+                catch(e){
+                    if(window.console){console.log(e.message)}
+                    stoploading();
+                }
             }
             function setheight(h){
                 proprows=Math.floor(((h-propscrollsize-2)/proprowh)-1);

@@ -572,22 +572,22 @@ function class_qvtrasferimenti(settings,missing){
                             if(_isset(v.params["STATUS"])){
                                 globalobjs[formid+"STATUS"].setkey(v.params["STATUS"]);
                             }
+                            // RICALCOLO GIACENZA E DISPONIBILITA'
+                            setTimeout(
+                                function(){
+                                    calcologiacenza();
+                                }, 500
+                            );
                             RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                         }
                         objgridsel.dataload();
                         winzTimeoutMess(formid, v.success, v.message);
-                        // RICALCOLO GIACENZA E DISPONIBILITA'
-                        setTimeout(
-                            function(){
-                                calcologiacenza();
-                            }, 500
-                        );
                     }
                     catch(e){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }

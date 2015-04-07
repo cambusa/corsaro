@@ -502,7 +502,10 @@ function class_qvpersone(settings,missing){
                 function(d){
                     try{
                         var v=$.parseJSON(d);
-                        if(v.success>0){ RYWINZ.modified(formid, 0) }
+                        if(v.success>0){ 
+                            RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
+                        }
                         objgridsel.dataload();
                         RYWINZ.TimeoutMess(formid, v.success, v.message);
                     }
@@ -510,7 +513,6 @@ function class_qvpersone(settings,missing){
                         RYWINZ.ClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
@@ -530,7 +532,7 @@ function class_qvpersone(settings,missing){
         before:function(i,n){
             if(i==2){
                 // SONO IN CONTESTO
-                RYWINZ.ConfirmAbandon(formid, {
+                return RYWINZ.ConfirmAbandon(formid, {
                     save:function(){
                         oper_engage.engage(
                             function(){
@@ -591,8 +593,14 @@ function class_qvpersone(settings,missing){
     objtabs.enabled(2,false);
     objtabs.enabled(3,false);
     
-    // INIZIALIZZAZIONE FORM
+    /***************************
+    | ACCELERATORI DI TASTIERA |
+    ***************************/
     RYWINZ.KeyTools(formid, objtabs, {xbrowser:objgridsel, xrefresh:oper_refresh, xnew:oper_new, xfocus:txnome, xengage:oper_engage} );
+    
+    /**********************
+    | LOCALIZZAZIONE FORM |
+    **********************/
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             bbl_context=RYBOX.babels("BABEL_CONTEXT");

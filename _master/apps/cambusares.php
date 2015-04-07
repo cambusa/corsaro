@@ -15,7 +15,7 @@ function CambusaLibrary($id){
     global $path_root, $path_cambusa, $path_applications, $path_customize;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
 
-    $cacheversion=3;    
+    $cacheversion=9;
     
 $script_cambusa=<<<CAMBUSA
 <script language="javascript">
@@ -201,8 +201,13 @@ CAMBUSA;
             CambusaLibraryAdd("rydraw.js", "<script type='text/javascript' src='".$url_cambusa."rydraw/rydraw.js?ver=$cacheversion' ></script>");
             break;
 
+        case "ryquiverbase":
+            CambusaLibraryAdd("ryquiverbase.js", "<script type='text/javascript' src='".$url_cambusa."ryquiver/js/ryquiverbase.js?ver=$cacheversion' ></script>");
+            break;
+
         case "ryquiver":
-            CambusaLibraryAdd("ryquiver.js", "<script type='text/javascript' src='".$url_cambusa."ryquiver/ryquiver.js?ver=$cacheversion' ></script>");
+            CambusaLibraryAdd("ryquiverbase.js", "<script type='text/javascript' src='".$url_cambusa."ryquiver/js/ryquiverbase.js?ver=$cacheversion' ></script>");
+            CambusaLibraryAdd("ryquiver.js", "<script type='text/javascript' src='".$url_cambusa."ryquiver/js/ryquiver.js?ver=$cacheversion' ></script>");
             break;
 
         case "jsonx":

@@ -413,6 +413,7 @@ function class_qvquivers(settings,missing){
                                 globalobjs[formid+"STATUSDATE"].value(v.params["STATUSTIME"]);
                             }
                             RYWINZ.modified(formid, 0);
+                            if(done!=missing){done()}
                         }
                         if(flagrefresh)
                             setTimeout(function(){oper_refresh.engage();}, 100);
@@ -424,7 +425,6 @@ function class_qvquivers(settings,missing){
                         winzClearMess(formid);
                         alert(d);
                     }
-                    if(done!=missing){done()}
                 }
             );
         }
