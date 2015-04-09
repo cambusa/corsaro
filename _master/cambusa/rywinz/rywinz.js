@@ -207,19 +207,24 @@ function ryWinz(missing){
                 $(y).css({left:60, top:80});
             }
 
-            if(_isset(settings.maximize)){
-                if(settings.maximize){
-                    if( !$(y).hasClass("window_full") )
-                        JQD.util.window_resize(y);  // Massimizzo
-                }
-                else{
-                    if( $(y).hasClass("window_full") )
-                        JQD.util.window_resize(y);  // Normalizzo
-                }
+            if(_mobiledetected){
+                JQD.util.window_resize(y);  // Massimizzo
             }
             else{
-                if( (y!="#window_rudder" && y!="#window_postman") || _mobiledetected )
-                    JQD.util.window_resize(y);  // Massimizzo
+                if(_isset(settings.maximize)){
+                    if(settings.maximize){
+                        if( !$(y).hasClass("window_full") )
+                            JQD.util.window_resize(y);  // Massimizzo
+                    }
+                    else{
+                        if( $(y).hasClass("window_full") )
+                            JQD.util.window_resize(y);  // Normalizzo
+                    }
+                }
+                else{
+                    if(y!="#window_rudder" && y!="#window_postman")
+                        JQD.util.window_resize(y);  // Massimizzo
+                }
             }
 
             JQD.util.clear_active();

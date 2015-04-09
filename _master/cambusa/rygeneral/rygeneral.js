@@ -35,6 +35,11 @@ var _sessioninfo={
     debugmode:1,
     dateformat:0
 };
+
+String.prototype.subright=function(n){
+    return this.substr(this.length-n,n);
+}
+
 var _criticalactivities=0;
 var _googleZoom=16;
 var _googleLat=45.550084;
@@ -216,7 +221,10 @@ function _dformat(d, e, missing){
         dy=d.substr(0,4);
         dm=d.substr(4,2);
         dd=d.substr(6,2);
-        return dd+"/"+dm+"/"+dy;
+        if(_sessioninfo.dateformat==1)
+            return dm+"/"+dd+"/"+dy;
+        else
+            return dd+"/"+dm+"/"+dy;
     }
     else{
         if(e!=missing)

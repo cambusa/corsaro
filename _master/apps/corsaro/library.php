@@ -9,10 +9,11 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+$cacheversion=10;
 CambusaLibrary("ryUpload");
 CambusaLibrary("ryQuiver");
 CambusaLibrary("GoogleMaps");
 CambusaLibrary("CKEditor");
 CambusaLibrary("Geography");
-CambusaLibraryAdd("corsaro.js", "<script type='text/javascript' src='".$url_applications."corsaro/_javascript/corsaro.js' ></script>");
+CambusaLibraryAdd("corsaro.js", "<script type='text/javascript' src='".$url_applications."corsaro/_javascript/corsaro.js?ver=$cacheversion' ></script>");
 ?>

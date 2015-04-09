@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.69.09    del 09/04/2015
+==================================
+
+Migliorata la gestione delle colonne in ryGrid e ryUnbound.
+
+ryUnbound: aggiunto il metodo "cells".
+
+==================================
 Rilascio 1.69.08    del 08/04/2015
 ==================================
 

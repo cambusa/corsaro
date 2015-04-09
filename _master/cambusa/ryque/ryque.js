@@ -738,7 +738,7 @@
                         try{
                             var v=$.parseJSON(d);
                             var r,c,fd,vl,reff;
-                            var dd,dm,dy;
+                            var dy,dm,dd,dh,dn;
                             var nums=[];
                             var decs=[];
                             if(settings.before!=missing){
@@ -763,19 +763,24 @@
                                     for(c=1;c<=propcols.length;c++){
                                         fd="#"+propname+"_"+r+"_"+c;
                                         vl=v[r-1][propcols[c-1]];
+                                        if(typeof vl!="string")
+                                            vl="";
                                         try{
                                             switch(proptyps[c-1]){
                                             case "?":
-                                                if (vl!=0)
+                                                if(parseInt(vl)!=0)
                                                     $(fd).html("&#x2714;");
                                                 else
                                                     $(fd).html("&#x0020;");
                                                 break;
                                             case "/":
-                                                if(vl.length>=10){
-                                                    dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
-                                                    if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
+                                                vl=vl.replace(/[^\d]/gi, "").substr(0,8);
+                                                if(vl.length==8){
+                                                    dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);
+                                                    if(dy<="1900" || dy>="9999")
                                                         $(fd).html("");
+                                                    else if(_sessioninfo.dateformat==1)
+                                                        $(fd).html(dm+"/"+dd+"/"+dy);
                                                     else
                                                         $(fd).html(dd+"/"+dm+"/"+dy);
                                                 }
@@ -784,12 +789,15 @@
                                                 }
                                                 break;
                                             case ":":
-                                                if(vl.length>=10){
-                                                    dy=vl.substr(0,4);dm=vl.substr(5,2);dd=vl.substr(8,2);
-                                                    if( (dd=="01" && dm=="01" && dy=="1900") || (dd=="31" && dm=="12" && dy=="9999") )
+                                                vl=(vl+"000000").replace(/[^\d]/gi, "").substr(0,14);
+                                                if(vl.length==14){
+                                                    dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);dh=vl.substr(8,2);dn=vl.substr(10,2);
+                                                    if(dy<="1900" || dy>="9999")
                                                         $(fd).html("");
+                                                    else if(_sessioninfo.dateformat==1)
+                                                        $(fd).html(dm+"/"+dd+"/"+dy+" "+dh+":"+dn);
                                                     else
-                                                        $(fd).html(vl.substr(8,2)+"/"+vl.substr(5,2)+"/"+vl.substr(0,4)+" "+vl.substr(11,2)+":"+vl.substr(14,2));
+                                                        $(fd).html(dd+"/"+dm+"/"+dy+" "+dh+":"+dn);
                                                 }
                                                 else{
                                                     $(fd).html("");
@@ -1408,12 +1416,19 @@
                 t.css({"visibility":"hidden"});
                 statistics();
             }
-			this.babelcode=function(k){
-				return propcodes[k-1];
+			this.babelcode=function(i){
+				return propcodes[i-1];
 			}
-			this.caption=function(k,c){
-				proptits[k-1]=c;
-                $("#"+propname+"_0_"+k).html(c);
+			this.caption=function(i, t){
+                if(0<i && i <=proptits.length){
+                    if(t==missing){
+                        return proptits[i-1];
+                    }
+                    else{
+                        proptits[i-1]=t;
+                        $("#"+propname+"_0_"+i).html(t);
+                    }
+                }
 			}
             this.raisechangerow=function(){
                 setfocusable();
