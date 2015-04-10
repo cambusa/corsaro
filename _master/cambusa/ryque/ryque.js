@@ -77,6 +77,7 @@
             var propwheel=!$.browser.opera;
             var propmousebutton=false;
             var propmouseprev=0;
+            var propsuspendchange=false;
             var propscrolling=false;
             
             var solvetimeout=false;
@@ -467,6 +468,7 @@
                             reff=proptoprow+r-1;
                             if(reff<=propcount){
                                 propmouseprev=reff;
+                                propsuspendchange=false;
                                 if(c!=0){
                                     if(reff!=propindex)
                                         propobj.index(reff);
@@ -537,12 +539,20 @@
                     function(evt){
                         propmousebutton=false;
                         propmouseprev=0;
+                        if(propsuspendchange){
+                            propsuspendchange=false;
+                            propobj.raisechangerow();
+                        }
                     }
                 );
                 $("#"+propname).hover(
                     function(evt){
                         propmousebutton=false;
                         propmouseprev=0;
+                        if(propsuspendchange){
+                            propsuspendchange=false;
+                            propobj.raisechangerow();
+                        }
                     }
                 );
                 $("#"+propname).mousemove(
@@ -561,20 +571,25 @@
                             else
                                 r=parseInt(tid.replace(/^.*_(\d+)_\d+$/,"$1"));
                             setfocusable(r);
-                            if(r>0){
+                            if(r>0 && propmouseprev>0){
                                 reff=proptoprow+r-1;
-                                if(reff<=propcount){
-                                    if(reff!=propmouseprev){
-                                        if(propmouseprev>0){
-                                            if(propobj.selected(propmouseprev)==evt.shiftKey)
-                                                selectrow(propmouseprev, true, !evt.shiftKey);
-                                            propmouseprev=0;
-                                        }
-                                        if(propobj.selected(reff)==evt.shiftKey)
-                                            selectrow(reff, true, !evt.shiftKey);
-                                        if(reff!=propindex)
-                                            propobj.index(reff);
+                                if(reff>propcount)
+                                    reff=propcount;
+                                if(reff>propmouseprev){
+                                    for(var m=propmouseprev; m<=reff; m++){
+                                        selectrow(m, true, !evt.shiftKey);
                                     }
+                                    propmouseprev=reff;
+                                }
+                                else if(reff<propmouseprev){
+                                    for(var m=propmouseprev; m>=reff; m--){
+                                        selectrow(m, true, !evt.shiftKey);
+                                    }
+                                    propmouseprev=reff;
+                                }
+                                if(reff!=propindex){
+                                    propsuspendchange=true;
+                                    propobj.index(reff);
                                 }
                             }
                         }
@@ -768,7 +783,7 @@
                                         try{
                                             switch(proptyps[c-1]){
                                             case "?":
-                                                if(parseInt(vl)!=0)
+                                                if(vl!=0)
                                                     $(fd).html("&#x2714;");
                                                 else
                                                     $(fd).html("&#x0020;");
@@ -806,7 +821,6 @@
                                             default:
                                                 if(nums[c]){
                                                     vl=_nformat(vl, decs[c]);
-                                                    if(vl==="NaN"){vl=""}
                                                     $(fd).html(vl);
                                                 }
                                                 else{
@@ -1432,8 +1446,10 @@
 			}
             this.raisechangerow=function(){
                 setfocusable();
-                if(propwhere!="#"){ // Qualcosa deve essere stato fatto prima
-                    if(settings.changerow!=missing){settings.changerow(propobj,propindex)}
+                if(!propsuspendchange){
+                    if(propwhere!="#"){ // Qualcosa deve essere stato fatto prima
+                        if(settings.changerow!=missing){settings.changerow(propobj,propindex)}
+                    }
                 }
             }
 			this.enabled=function(v){
@@ -2272,6 +2288,12 @@ function ryQue(missing){
                 setTimeout(function(){propobj.clean(done)}, 100);
             }
         );
+    }
+    this.actualheight=function(h){
+        var propscrollsize=15;
+        var proprowh=22;
+        var proprows=Math.floor(((h-propscrollsize-2)/proprowh)-1);
+        return  proprowh*(proprows+1)+propscrollsize+2;
     }
 }
 function ryqueFail(nomefunct){

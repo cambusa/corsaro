@@ -39,6 +39,38 @@ var _sessioninfo={
 String.prototype.subright=function(n){
     return this.substr(this.length-n,n);
 }
+String.prototype.getdate=function(){
+    var d=this.replace(/[^\d]/gi, "").substr(0,8)
+    return d.length==8 ? d : "";
+}
+String.prototype.gettime=function(){
+    var d=(this+"000000").replace(/[^\d]/gi, "").substr(0,14);
+    return d.length==14 ? d : "";
+}
+String.prototype.getnumber=function(){
+    var f=parseFloat(this);
+    return isNaN(f) ? "0" : f.toString();
+}
+String.prototype.actualdate=function(){
+    var d=this.replace(/[^\d]/gi, "");
+    if(d.length>=8)
+        d=new Date(Date.UTC(parseInt(d.substr(0,4)), parseInt(d.substr(4,2))-1, parseInt(d.substr(6,2)), 0, 0, 0, 0));
+    else
+        d=new Date(Date.UTC(1900, 0, 1, 0, 0, 0));
+    return d;
+}
+String.prototype.actualtime=function(){
+    var d=(this+"000000").replace(/[^\d]/gi, "");
+    if(d.length>=14)
+        d=new Date(Date.UTC(parseInt(d.substr(0,4)), parseInt(d.substr(4,2))-1, parseInt(d.substr(6,2)), parseInt(d.substr(8,2)), parseInt(d.substr(10,2)), parseInt(d.substr(12,2)), 0));
+    else
+        d=new Date(Date.UTC(1900, 0, 1, 0, 0, 0));
+    return d;
+}
+String.prototype.actualnumber=function(){
+    var f=parseFloat(this);
+    return isNaN(f) ? 0 : f;
+}
 
 var _criticalactivities=0;
 var _googleZoom=16;
@@ -55,6 +87,7 @@ function _isset(v){
 function _nformat(s,d){
     var f,p,i;
     var g="";
+    if(isNaN(s)||s==""){s="0"}
     if(s.substr(0,1)=="-"){
         g="-";
         s=s.substr(1);
@@ -174,7 +207,10 @@ function _getinteger(s){
             return 0;
         if(s.substr(0,1)==".")
             s="0"+s;
-        return parseInt(s);
+        s=parseInt(s);
+        if(isNaN(s))
+            s=0;
+        return s;
     }
     else{
         return s;
@@ -188,6 +224,7 @@ function _getfloat(s){
     if((typeof s)==="string" ){
         // Opera e Safari, se c'è 0 davanti, si comportano male
         s=s.replace(/^0+/, "");
+        s=s.replace(/ /g, "");
         if(s=="")
             return 0;
         if(s.toLowerCase()=="null")
@@ -195,7 +232,7 @@ function _getfloat(s){
         if(s.substr(0,1)==".")
             s="0"+s;
         s=parseFloat(s);
-        if(s==NaN || _ismissing(s))
+        if(isNaN(s))
             s=0;
         return s;
     }
