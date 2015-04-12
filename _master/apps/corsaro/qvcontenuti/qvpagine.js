@@ -70,7 +70,7 @@ function class_qvpagine(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o, i){
+        selchange:function(o){
             oper_delete.enabled(o.isselected());
         },
         solveid:function(o,d){

@@ -393,7 +393,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                                 "function":"files_insert",
                                 "data":{
                                     "IMPORTNAME":name,
-                                    "SUBPATH":strRight(currsysid, 2)
+                                    "SUBPATH":currsysid.subright(2)
                                 },
                                 "pipe":{
                                     "FILEID":"SYSID"

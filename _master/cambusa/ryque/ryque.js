@@ -79,8 +79,9 @@
             var propmouseprev=0;
             var propsuspendchange=false;
             var propscrolling=false;
-            
-            var solvetimeout=false;
+            var timeoutrow=false;
+            var timeoutsel=false;
+            var timeoutsolve=false;
             
             // Eccezioni per Opera
             var propwhich=0;
@@ -204,72 +205,72 @@
                         }
                         proprepeat=false;
                         switch(propwhich){
-                            case 34:if(proppageon==0){proppageon=1}propobj.pagedown(1);break;
-                            case 33:if(proppageon==0){proppageon=1}propobj.pageup(1);break;
-                            case 36:
-                                if(propctrl){
-                                    if(propshift){
-                                        for(var i=2; i<=propindex; i++)
-                                            selectrow(i, false);
-                                        selectrow(1, true);
-                                    }
-                                    propobj.index(1);
-                                }
-                                else
-                                    propobj.rowhome();
-                                break;
-                            case 35:
-                                if(propctrl){
-                                    if(propshift){
-                                        for(var i=propindex; i<propcount; i++)
-                                            selectrow(i, false);
-                                        selectrow(propcount, true);
-                                    }
-                                    propobj.index(propcount);
-                                }
-                                else
-                                    propobj.rowend();
-                                break;
-                            case 40:
+                        case 34:if(proppageon==0){proppageon=1}propobj.pagedown(1);break;
+                        case 33:if(proppageon==0){proppageon=1}propobj.pageup(1);break;
+                        case 36:
+                            if(propctrl){
                                 if(propshift){
-                                    selectrow(propindex, true);
-                                    propobj.rowdown();
-                                    selectrow(propindex, true);
+                                    for(var i=2; i<=propindex; i++)
+                                        selectrow(i, false);
+                                    selectrow(1, true);
                                 }
-                                else if(propctrl){
-                                    propobj.index(proptoprow+proprows-1)
-                                }
-                                else
-                                    propobj.rowdown();
-                                break;
-                            case 38:
+                                propobj.index(1);
+                            }
+                            else
+                                propobj.rowhome();
+                            break;
+                        case 35:
+                            if(propctrl){
                                 if(propshift){
-                                    selectrow(propindex, true);
-                                    propobj.rowup();
-                                    selectrow(propindex, true);
+                                    for(var i=propindex; i<propcount; i++)
+                                        selectrow(i, false);
+                                    selectrow(propcount, true);
                                 }
-                                else if(propctrl)
-                                    propobj.index(proptoprow);
-                                else
-                                    propobj.rowup();
-                                break;
-                            case 39:if(propctrl){propobj.rowend()}else{propobj.rowright()}break;
-                            case 37:if(propctrl){propobj.rowhome()}else{propobj.rowleft()}break;
-                            case 32:propobj.seltoggle(0);break;
-                            case 13:if(settings.enter!=missing){settings.enter(propobj,propindex)}break;
-                            case 46:    // CTRL-DEL: cancello la selezione
-                                if(propctrl){
-                                    propsels={};
-                                    propselinvert=false;
-                                    for(r=1;r<=proprows;r++)
-                                        propobj.rowdecor(r,true);
-                                    propobj.selrefresh();
-                                }
-                                break;
-                            case 9:
-                                if(RYBOX)
-                                    return nextFocus(propname, k.shiftKey);
-                                break;
+                                propobj.index(propcount);
+                            }
+                            else
+                                propobj.rowend();
+                            break;
+                        case 40:
+                            if(propshift){
+                                selectrow(propindex, true);
+                                propobj.rowdown();
+                                selectrow(propindex, true);
+                            }
+                            else if(propctrl){
+                                propobj.index(proptoprow+proprows-1)
+                            }
+                            else
+                                propobj.rowdown();
+                            break;
+                        case 38:
+                            if(propshift){
+                                selectrow(propindex, true);
+                                propobj.rowup();
+                                selectrow(propindex, true);
+                            }
+                            else if(propctrl)
+                                propobj.index(proptoprow);
+                            else
+                                propobj.rowup();
+                            break;
+                        case 39:if(propctrl){propobj.rowend()}else{propobj.rowright()}break;
+                        case 37:if(propctrl){propobj.rowhome()}else{propobj.rowleft()}break;
+                        case 32:propobj.seltoggle(0);break;
+                        case 13:if(settings.enter!=missing){settings.enter(propobj,propindex)}break;
+                        case 46:    // CTRL-DEL: cancello la selezione
+                            if(propctrl){
+                                propsels={};
+                                propselinvert=false;
+                                for(r=1;r<=proprows;r++)
+                                    propobj.rowdecor(r,true);
+                                propobj.selrefresh();
+                            }
+                            break;
+                        case 9:
+                            if(RYBOX)
+                                return nextFocus(propname, k.shiftKey);
+                            break;
                         }
                         if(propshift)
                             return false;
@@ -527,8 +528,7 @@
                                 for(r=1;r<=proprows;r++)
                                     propobj.rowdecor(r,true);
                                 propobj.selrefresh();
-                                // Gestione eventi e callback
-                                if(settings.selchange!=missing){settings.selchange(propobj,0)}
+                                propobj.raisechangesel();
                             }
                         }
                         if(RYBOX)
@@ -542,6 +542,7 @@
                         if(propsuspendchange){
                             propsuspendchange=false;
                             propobj.raisechangerow();
+                            propobj.raisechangesel();
                         }
                     }
                 );
@@ -552,6 +553,7 @@
                         if(propsuspendchange){
                             propsuspendchange=false;
                             propobj.raisechangerow();
+                            propobj.raisechangesel();
                         }
                     }
                 );
@@ -577,12 +579,14 @@
                                     reff=propcount;
                                 if(reff>propmouseprev){
                                     for(var m=propmouseprev; m<=reff; m++){
+                                        propsuspendchange=true;
                                         selectrow(m, true, !evt.shiftKey);
                                     }
                                     propmouseprev=reff;
                                 }
                                 else if(reff<propmouseprev){
                                     for(var m=propmouseprev; m>=reff; m--){
+                                        propsuspendchange=true;
                                         selectrow(m, true, !evt.shiftKey);
                                     }
                                     propmouseprev=reff;
@@ -897,7 +901,7 @@
                 return propselinvert;
             }
             this.selengage=function(back, noselection){
-                var k=propobj.checked();
+                var k=propobj.checked(false);
                 if(k=="" && !propselinvert){
                     if(propindex>0)
                         k=propindex.toString();
@@ -905,19 +909,16 @@
                 if(k!="" || propselinvert)
                     propobj.solveid(k, back, propselinvert);
                 else if(noselection!=missing)
-                    noselection();
+                    noselection(propobj);
             }
             this.solveid=function(ind, back, invert){
-                if(solvetimeout!==false){
-                    clearTimeout(solvetimeout);
-                    solvetimeout=false;
-                }
-                if(invert==missing){
+                if(invert==missing)
                     invert=0;
-                }
-                solvetimeout=setTimeout(
+                if(timeoutsolve!==false)
+                    clearTimeout(timeoutsolve);
+                timeoutsolve=setTimeout(
                     function(){
-                        solvetimeout=false;
+                        timeoutsolve=false;
                         if(ind=="@" && propcount>0){
                             // SE VIENE PASSATO @ INTENDO SELEZIONARE TUTTI GLI INDICI
                             ind="1";
@@ -1003,14 +1004,21 @@
                 }
                 propobj.decrefresh(true);
                 propobj.selrefresh();
-                if(settings.selchange!=missing){settings.selchange(propobj, 0)}
+                propobj.raisechangesel();
             }
-            this.checked=function(){
+            this.checked=function(actual){
                 var i,r="";
-                for(i in propsels){
-                    if(r!="")
-                        r+="|";
-                    r+=i;
+                if(actual==missing)
+                    actual=true;
+                if(actual&&propselinvert){
+                    for(i=1; i<=propcount; i++){
+                        if(typeof propsels[i]=="undefined")
+                            r+=(r==""?i:"|"+i);
+                    }
+                }
+                else{
+                    for(i in propsels)
+                        r+=(r==""?i:"|"+i);
                 }
                 return r;
             }
@@ -1033,8 +1041,7 @@
                 for(r=1;r<=proprows;r++)
                     propobj.rowdecor(r,true);
                 propobj.selrefresh();
-                // Gestione eventi e callback
-                if(settings.selchange!=missing){settings.selchange(propobj, 0)}
+                propobj.raisechangesel();
             }
             this.dispose=function(done){
                 if(propreqid!=""&&propreqprivate==true){
@@ -1329,8 +1336,7 @@
                         propsels[reff]=true;
                     propobj.rowdecor(r,true);
                     propobj.selrefresh();
-		            // Gestione eventi e callback
-		            if(settings.selchange!=missing){settings.selchange(propobj,reff)}
+                    propobj.raisechangesel();
                 }
             }
             this.name=function(){
@@ -1448,7 +1454,26 @@
                 setfocusable();
                 if(!propsuspendchange){
                     if(propwhere!="#"){ // Qualcosa deve essere stato fatto prima
-                        if(settings.changerow!=missing){settings.changerow(propobj,propindex)}
+                        if(settings.changerow!=missing){
+                            if(timeoutrow!==false)
+                                clearTimeout(timeoutrow);
+                            timeoutrow=setTimeout(function(){
+                                timeoutrow=false;
+                                settings.changerow(propobj, propindex);
+                            }, 100);
+                        }
+                    }
+                }
+            }
+            this.raisechangesel=function(){
+                if(!propsuspendchange){
+                    if(settings.selchange!=missing){
+                        if(timeoutsel!==false)
+                            clearTimeout(timeoutsel);
+                        timeoutsel=setTimeout(function(){
+                            timeoutsel=false;
+                            settings.selchange(propobj);
+                        }, 100);
                     }
                 }
             }
@@ -1616,7 +1641,7 @@
                             "reqid":propreqid,
                             "columns":columns,
                             "clause":propclause,
-                            "checked":propobj.checked(),
+                            "checked":propobj.checked(false),
                             "invert":_bool(propobj.selinvert())
                         }, 
                         function(d){
@@ -2055,7 +2080,7 @@
                                 propobj.raisechangerow();
                             }
                             if(!selpreserve){
-                                if(settings.selchange!=missing){settings.selchange(propobj, 0)}
+                                propobj.raisechangesel();
                             }
                         }
                         catch(e){
@@ -2133,8 +2158,7 @@
                     if(ev){
                         propobj.rowdecor(reff-proptoprow+1,true);
                         propobj.selrefresh();
-                        // Gestione eventi e callback
-                        if(settings.selchange!=missing){settings.selchange(propobj,propindex)}
+                        propobj.raisechangesel();
                     }
                 }
             }

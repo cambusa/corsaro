@@ -432,7 +432,7 @@ function heartfunct(exec,missing){
         if(exec==missing)   // Anche lancio script, altrimenti solo ricalcolo scaduti
             exec=1;
         var dt=new Date();
-        objstatus.caption("Last pulse: "+dt.getDate()+"/"+dt.getMonth()+"/"+dt.getFullYear()+" "+strRight("00"+dt.getHours(),2)+":"+strRight("00"+dt.getMinutes(),2)+":"+strRight("00"+dt.getSeconds(),2));
+        objstatus.caption("Last pulse: "+dt.getDate()+"/"+dt.getMonth()+"/"+dt.getFullYear()+" "+("00"+dt.getHours()).subright(2)+":"+("00"+dt.getMinutes()).subright(2)+":"+("00"+dt.getSeconds()).subright(2) );
         runcounter+=1;
         $.post("pulse_heart.php", {"sessionid":_sessionid,"exec":exec},
             function(d){

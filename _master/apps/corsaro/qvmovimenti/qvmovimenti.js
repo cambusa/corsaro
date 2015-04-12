@@ -246,7 +246,7 @@ function class_qvmovimenti(settings,missing){
             }
             context="";
         },
-        selchange:function(o, i){
+        selchange:function(o){
             oper_print.enabled(o.isselected());
             oper_delete.enabled(o.isselected());
         },

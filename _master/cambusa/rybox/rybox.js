@@ -133,7 +133,6 @@ var RYBOX;
             			propctrl=k.ctrlKey; // da usare anche nella press
             			propshift=k.shiftKey;
                         propalt=k.altKey;
-                        console.log(propalt+" "+k.which);
                         // GESTIONE CLIPBOARD
                         if(propctrl){
                             switch(k.keyCode){
@@ -512,11 +511,11 @@ var RYBOX;
 			this.formatted=function(){
                 if(_sessioninfo.dateformat==1){
                     // FORMATO US MM/DD/YYYY
-                    return strRight("__"+propmonth,2)+"/"+strRight("__"+propday,2)+"/"+strRight("____"+propyear,4);
+                    return ("__"+propmonth).subright(2)+"/"+("__"+propday).subright(2)+"/"+("____"+propyear).subright(4);
                 }
                 else{
                     // FORMATO PREDEFINITO DD/MM/YYYY
-                    return strRight("__"+propday,2)+"/"+strRight("__"+propmonth,2)+"/"+strRight("____"+propyear,4);
+                    return ("__"+propday).subright(2)+"/"+("__"+propmonth).subright(2)+"/"+("____"+propyear).subright(4);
                 }
 			}
 			this.completion=function(){
@@ -531,11 +530,11 @@ var RYBOX;
 						
 					if(d.length==0)
 						d=cd.getDate();
-					propday=strRight("00"+d,2);
+					propday=("00"+d).subright(2);
 					
 					if(m.length==0)
 						m=cd.getMonth()+1;
-					propmonth=strRight("00"+m,2);
+					propmonth=("00"+m).subright(2);
 					
 					switch(y.length){
 						case 0:
@@ -587,9 +586,9 @@ var RYBOX;
                                 }
                             }
                             else{
-                                propday=strRight("00"+v.getDate(),2);
-                                propmonth=strRight("00"+(v.getMonth()+1),2);
-                                propyear=strRight("0000"+v.getFullYear(),4);
+                                propday=("00"+v.getDate()).subright(2);
+                                propmonth=("00"+(v.getMonth()+1)).subright(2);
+                                propyear=("0000"+v.getFullYear()).subright(4);
                                 if(proplink){
                                     proplink.value(v);
                                 }
@@ -1389,7 +1388,7 @@ var RYBOX;
 					v=Math.abs(v);
 					propinteger=Math.floor(v).toString();
 					propdecimal=(Math.round((Math.pow(10,propnumdec))*(v%1) ).toString()).substr(0,propnumdec);
-					propdecimal=strRight(propobj.zerofill()+propdecimal,propnumdec);
+					propdecimal=(propobj.zerofill()+propdecimal).subright(propnumdec);
 					propstart=0;
 					propobj.refresh();
 					propobj.raisechanged();
@@ -2218,6 +2217,7 @@ var RYBOX;
 			var propwidth=200;
 			var propheight=22;
 			var propmaxopt=0;
+            var propchanged=false;
 			var propobj=this;
 			var propenabled=true;
 			var propvisible=true;
@@ -2258,6 +2258,7 @@ var RYBOX;
             		if(propenabled){
             			$("#"+propname+"_anchor").css({"background-color":globalcolorfocus});
                         propobj.raisegotfocus();
+                        propchanged=false;
             		}
             	}
             );
@@ -2265,20 +2266,27 @@ var RYBOX;
             	function(){
             		if(propenabled){
             			$("#"+propname+"_anchor").css({"background-color":"#FFFFFF"});
+            			if(propchanged)
+                            propobj.raiseassigned();
                         propobj.raiselostfocus();
             		}
             	}
             );
             $("#"+propname+"_anchor").keydown(
             	function(k){
-                    if(k.which==9){
+                    if(k.which==9)
                         return nextFocus(propname, k.shiftKey);
+                    else if(32<=k.which && k.which<=40)
+                        propobj.raisechanged();
+                    else if(k.which==13){
+                        k.preventDefault();
+                        propobj.raiseassigned();
                     }
             	}
             );
             $("#"+propname+"_anchor").change(
             	function(){
-                    propobj.raiseassigned();
+                    propobj.raisechanged();
             	}
             );
             // FUNZIONI PUBBLICHE
@@ -2409,10 +2417,16 @@ var RYBOX;
             this.raiselostfocus=function(){
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)}
             }
+            this.raisechanged=function(){
+                propchanged=true;
+                propobj.modified(1);
+                if(settings.changed!=missing){settings.changed(propobj)}
+                _modifiedState(propname,true);
+            }
             this.raiseassigned=function(){
                 propobj.modified(1);
                 if(settings.assigned!=missing){settings.assigned(propobj)}
-                _modifiedState(propname,true);
+                propchanged=false;
             }
             this.raiseexception=function(){
                 //$("#exception").trigger("exception",propname,propinput,0);
@@ -2528,13 +2542,13 @@ var RYBOX;
                                 m=v.substr(2,2);
                             }
                             else{
-                                h=strRight("00"+v.getHours(),2);
-                                m=strRight("00"+v.getMinutes(),2);
+                                h=("00"+v.getHours()).subright(2);
+                                m=("00"+v.getMinutes()).subright(2);
                             }
                             prophours.setkey(h);
                             m=_getinteger(m);
                             if(m<55)
-                                m=strRight("00"+(5*Math.round(m/5)),2);
+                                m=("00"+(5*Math.round(m/5))).subright(2);
                             else
                                 m="55";
                             propminutes.setkey(m);
@@ -2853,9 +2867,6 @@ function validateDate(d,m,y){
         r=false;
     }
     return r;
-}
-function strRight(s,n){
-    return s.substr(s.length-n,n);
 }
 function objectFocus(n){
     try{

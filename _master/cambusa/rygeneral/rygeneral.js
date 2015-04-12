@@ -181,16 +181,16 @@ function _HTML5(){
 }
 function _today(){
     var t=new Date();
-    return t.getFullYear() + strRight("00"+(t.getMonth()+1),2) + strRight("00"+t.getDate(),2);
+    return t.getFullYear() + ("00"+(t.getMonth()+1)).subright(2) + ("00"+t.getDate()).subright(2);
 }
 function _time(){
     var t=new Date();
     return t.getFullYear() + 
-           strRight("00"+(t.getMonth()+1),2) + 
-           strRight("00"+t.getDate(),2) + 
-           strRight("00"+t.getHours(),2) +
-           strRight("00"+t.getMinutes(),2) +
-           strRight("00"+t.getSeconds(),2);
+           ("00"+(t.getMonth()+1)).subright(2) + 
+           ("00"+t.getDate()).subright(2) + 
+           ("00"+t.getHours()).subright(2) +
+           ("00"+t.getMinutes()).subright(2) +
+           ("00"+t.getSeconds()).subright(2);
 }
 function _getinteger(s){
     if((typeof s)==="undefined")

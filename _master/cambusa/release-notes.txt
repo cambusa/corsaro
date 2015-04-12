@@ -1,12 +1,14 @@
 ==================================
-Rilascio 1.69.10    del 11/04/2015
+Rilascio 1.69.10    del 12/04/2015
 ==================================
 
 ryUnbound: aggiunto i metodi insert e remove.
 
-ryBound e ryQue: migliorata la gestione delle selezione per trascinamento (la "changerow" viene fatta solo alla fine).
+ryBound e ryQue: migliorata la gestione delle selezione per trascinamento (la "changerow" e la "selection" vengono fatte solo alla fine).
 
-Aggiunte in String delle funzioni per 
+Aggiunte in String delle funzioni per normalizzare date e numeri.
+
+ryBound: ricerca per digitazione.
 
 ==================================
 Rilascio 1.69.09    del 09/04/2015

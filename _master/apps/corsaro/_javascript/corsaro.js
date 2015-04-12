@@ -555,7 +555,7 @@ function qv_importODS(formid, settings, missing){
                                         if(mapc[c].substr(mapc[c].length-4)=="TIME"){
                                             var m=value.match(/\d+/g);
                                             if(m.length==3){
-                                                value=strRight("00"+m[2],4)+strRight("00"+m[1],2)+strRight("0000"+m[0],2);
+                                                value=("0000"+m[2]).subright(4)+("00"+m[1]).subright(2)+("00"+m[0]).subright(2);
                                             }
                                         }
                                     }

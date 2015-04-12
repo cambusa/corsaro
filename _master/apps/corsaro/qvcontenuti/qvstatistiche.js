@@ -78,9 +78,9 @@ function class_qvstatistiche(settings,missing){
             var y=2000+parseInt(tx_anno.value());
             var m=parseInt(tx_mese.key());
             var dend=new Date(y, m+1, 0);
-            sin=y+strRight("00"+(m+1), 2)+"01";
+            sin=y+("00"+(m+1)).subright(2)+"01";
             var gg=dend.getDate();
-            sfi=y+strRight("00"+(m+1), 2)+strRight("00"+gg, 2);
+            sfi=y+("00"+(m+1)).subright(2)+("00"+gg).subright(2);
             RYQUE.query({
                 sql:"SELECT COUNT(*) AS CNT,AUXTIME FROM QW_WEBSTATISTICS WHERE SITEID='"+currsiteid+"' AND AUXTIME>=[:DATE("+sin+")] AND AUXTIME<=[:DATE("+sfi+")] AND USERID<>'' AND USERID<>'@' GROUP BY AUXTIME,USERID",
                 ready:function(v){

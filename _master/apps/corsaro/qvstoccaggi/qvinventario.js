@@ -403,7 +403,7 @@ function class_qvinventario(settings,missing){
     function tempolasco(t){
         var h=t.substr(0,10);
         var m=_getinteger(t.substr(10,2))+4;
-        m=strRight("00"+m,2);
+        m=("00"+m).subright(2);
         return h+m+"59";
     }
 }

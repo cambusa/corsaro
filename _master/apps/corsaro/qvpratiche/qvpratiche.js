@@ -1595,7 +1595,7 @@ function class_qvpratiche(settings,missing){
                             "function":"files_insert",
                             "data":{
                                 "IMPORTNAME":name,
-                                "SUBPATH":strRight(currattivid, 2)
+                                "SUBPATH":currattivid.subright(2)
                             },
                             "pipe":{
                                 "FILEID":"SYSID"
@@ -2413,7 +2413,7 @@ function class_qvpratiche(settings,missing){
                                 var n=v["params"]["EXPORT"];
                                 if(allega){
                                     // ALLEGO IL TEMPLATE COMPILATO DIRETTAMENTE ALLA ATTIVITA
-                                    var pathid=strRight(currpraticaid, 2);
+                                    var pathid=currpraticaid.subright(2);
                                     file_attach(griddocs, n, importname, pathid, currattivid);
                                 }
                                 else{
