@@ -1051,9 +1051,12 @@ function objVoice(obj){
                                     alert("Audio non supportato dal browser");
                             }
                             else{
+                                if(window.console){console.log(d)}
                                 alert("Servizio non disponibile");
                             }
                         }catch(e){
+                            if(window.console){console.log(e.message)}
+                            if(window.console){console.log(d)}
                             alert("Servizio non disponibile");
                         }
                         setTimeout(function(){jbutt.html(prevsymbol)}, 500);

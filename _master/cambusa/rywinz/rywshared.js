@@ -535,6 +535,8 @@ function winzDialogGet(formid){
     var d="dialogframe_"+formid+progrid;
     var h="dialog_"+formid+progrid;
     $("#window_"+formid+" .window_inner").append("<div id='"+r+"' class='winz_dither'></div><div id='"+o+"' class='winz_dialog_outer'><div id='"+d+"' class='winz_dialog'><div id='"+h+"'></div><div class='winz_close'>X</div></div></div>");
+    if(!RYWINZ.Forms(formid).options.controls)
+        $("#"+r).css({"top":0});
     var dlg={formid:formid, progrid:progrid, instanceid:"_"+progrid+"_", dither:r, outer:o, frame:d, hanger:h, width:600, height:500};
     $("#"+dlg.frame).css({width:dlg.width, height:dlg.height});
     $("#"+d).keydown(

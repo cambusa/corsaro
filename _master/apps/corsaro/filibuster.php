@@ -11,7 +11,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-$cacheversion=10;
+$cacheversion=15;
 
 $filibuster_host="";            // DATI (IMPOSTARE SE I DATI SONO REMOTI)
 $filibuster_environ="";         // AMBIENTE PREDEFINITO
@@ -71,7 +71,8 @@ if($buff!=""){
             $GLOBALSTYLE=$FLB["site"]["GLOBALSTYLE"];
             $GLOBALSCRIPT=$FLB["site"]["GLOBALSCRIPT"];
             $GLOBALHEAD=$FLB["site"]["GLOBALHEAD"];
-            $metakeywords=$FLB["meta"];
+            $metakeys=$FLB["metakeys"];
+            $metadescr=$FLB["metadescr"];
             $favicon=$FLB["favicon"];
             $PROTECTED=$FLB["protected"];
             $STRIPPEDCONTENTS=$FLB["bot"];
@@ -204,7 +205,13 @@ else
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
-<meta name="keywords" content="<?php print $metakeywords ?>"/>
+<meta name="keywords" content="<?php print $metakeys ?>"/>
+<meta name="description" content="<?php print $metadescr ?>">
+<meta name="engine" content="Filibuster">
+<meta name="framework" content="Cambusa">
+<meta name="copyright" content="Rodolfo Calzetti">
+<meta name="license" content="GNU LGPL">
+<meta name="repository" content="https://github.com/cambusa/">
 <?php  print $GLOBALHEAD ?>
 
 <title><?php print $TITLESITE ?></title>

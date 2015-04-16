@@ -28,6 +28,9 @@
             var propformid="";
 
 			var propname=$(this).attr("id");
+            var propcustomleft=propname+"_customleft";
+            var propcustomright=propname+"_customright";
+            
 			this.id="#"+propname;
 			this.tag=null;
 			this.type="tabs";
@@ -81,21 +84,23 @@
                 proptabs[i].key="";
             }
             
-            if(propcollapsible){
-                var r=10;
-                if(propformid!="")
-                    r=40;
-                $("#"+propname+"_ul").append("<li id='"+propname+"_collapse' style='position:absolute;width:30;height:25;right:"+r+"px;cursor:pointer;'>&#8593;&#8593;&#8593;</li>");
-                $("#"+propname+"_collapse").click(function(){
-                    propobj.collapsed(!propcollapsed);
-                })
-            }
+            var r=10;
             if(propformid!=""){
                 $("#"+propname+"_ul").append("<li id='"+propname+"_formclose' class='winz_close' style='position:absolute;width:30;height:25;right:10px;top:2px;cursor:pointer;font-size:11px;'>X</li>");
                 $("#"+propname+"_formclose").click(function(){
                     RYWINZ.FormClose(propformid);
                 })
+                r+=30;
             }
+            if(propcollapsible){
+                $("#"+propname+"_ul").append("<li id='"+propname+"_collapse' style='position:absolute;width:30;height:25;right:"+r+"px;cursor:pointer;'>&#8593;&#8593;&#8593;</li>");
+                $("#"+propname+"_collapse").click(function(){
+                    propobj.collapsed(!propcollapsed);
+                })
+                r+=50;
+            }
+            $("#"+propname+"_ul").append("<li style='position:absolute;right:"+r+"px;'><div id='"+propname+"_customright'></div></li>");
+            $("#"+propname+"_ul").append("<li style='float:left;padding:0px 25px 0px;'><div id='"+propname+"_customleft'></div></li>");
 
             $("#"+propname+">div").each(
                 function(index){
@@ -113,6 +118,12 @@
             }
 			this.name=function(){
 				return propname;
+			}
+			this.customleft=function(){
+				return propcustomleft;
+			}
+			this.customright=function(){
+				return propcustomright;
 			}
             this.currtab=function(t, s){
                 if(t==missing){

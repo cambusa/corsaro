@@ -26,7 +26,7 @@ function ryWinz(missing){
         o.opens=0;
         if(o.options==missing){
             o.options={
-                controls:true,
+                controls:false,
                 statusbar:true
             };
         }

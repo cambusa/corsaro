@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.69.11    del 16/04/2015
+==================================
+
+Migliorato il comportamento del contextmenu ora attivabile con ALT-2.
+
+Filibuster: ripristinata la sintesi vocale.
+
+==================================
 Rilascio 1.69.10    del 12/04/2015
 ==================================
 

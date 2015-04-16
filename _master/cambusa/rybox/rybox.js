@@ -458,7 +458,7 @@ var RYBOX;
             		},
             	onShowMenu: 
             		function(e, menu) {
-            			if(!propobj.value()){
+            			if(propobj.value()==null){
             				$('#cut',menu).remove();
             				$('#copy', menu).remove();
             			}
@@ -1152,14 +1152,14 @@ var RYBOX;
             	},
             	onContextMenu:
             		function(e) {
-            			if((clipnumber==null && propobj.value()==null) || !propenabled)
+            			if((clipnumber==null && propobj.value()==0) || !propenabled)
             				return false;
             			else 
             				return true;
             		},
             	onShowMenu: 
             		function(e, menu) {
-            			if(!propobj.value()){
+            			if(propobj.value()==0){
             				$('#cut',menu).remove();
             				$('#copy', menu).remove();
             			}
@@ -2636,9 +2636,9 @@ function ryBox(){
             globalcontainer=c;
     }
     this.createstandard=function(){
-        $(globalcontainer).append("<div id='dateMenu' style='position:absolute;visibility:hidden;'><ul><li class='ry-contextMenu' id='cut'><img src='"+_cambusaURL+"rybox/images/menu-cut.png'>Cut</li><li class='ry-contextMenu' id='copy'><img src='"+_cambusaURL+"rybox/images/menu-copy.png'>Copy</li><li class='ry-contextMenu' id='paste'><img src='"+_cambusaURL+"rybox/images/menu-paste.png'>Paste</li></ul></div>");
+        $(globalcontainer).append("<div id='dateMenu' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li class='ry-contextMenu' id='cut'><img src='"+_cambusaURL+"rybox/images/menu-cut.png'>Cut</li><li class='ry-contextMenu' id='copy'><img src='"+_cambusaURL+"rybox/images/menu-copy.png'>Copy</li><li class='ry-contextMenu' id='paste'><img src='"+_cambusaURL+"rybox/images/menu-paste.png'>Paste</li></ul></div>");
         $(globalcontainer).append("<div id='rybox_calculator' style='position:absolute;display:none;'></div>");
-        $(globalcontainer).append("<div id='ryque_menu' style='position:absolute;visibility:hidden;'><ul><li class='ry-contextMenu' id='ryque_use'><img src='"+_cambusaURL+"rybox/images/menu-use.png'>Use</li><li class='ry-contextMenu' id='ryque_sheet'><img src='"+_cambusaURL+"rybox/images/menu-export.png'>Export</li></ul></div>");
+        $(globalcontainer).append("<div id='ryque_menu' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li class='ry-contextMenu' id='ryque_use'><img src='"+_cambusaURL+"rybox/images/menu-use.png'>Use</li><li class='ry-contextMenu' id='ryque_sheet'><img src='"+_cambusaURL+"rybox/images/menu-export.png'>Export</li></ul></div>");
         $(document).bind("contextmenu",function(e){ return globaledittext; });
         $(document).keydown(
             function(k){

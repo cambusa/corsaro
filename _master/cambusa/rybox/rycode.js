@@ -362,17 +362,17 @@ if(_ismissing(_globalcodeinsert)){
             	},
             	onContextMenu:
             		function(e) {
-            			if((clipcode==null && propobj.value()==null) || !propenabled)
+            			if((clipcode==null && propobj.value()=="") || !propenabled)
             				return false;
             			else 
             				return true;
             		},
             	onShowMenu: 
             		function(e, menu) {
-            			if(!propobj.value()){
+            			if(propobj.value()==""){
             				$('#copy', menu).remove();
             			}
-            			if(!propobj.value() || proplock){
+            			if(propobj.value()=="" || proplock){
             				$('#cut',menu).remove();
             			}
             			if(!clipcode || proplock){

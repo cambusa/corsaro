@@ -32,7 +32,8 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
         if(count($r)==1){
             $food["lenid"]=$maestro->lenid;
             $food["site"]=$r[0];
-            $food["meta"]="";
+            $food["metadescr"]="";
+            $food["metakeys"]="";
             $TITLESITE=$r[0]["DESCRIPTION"];
             $SITEID=$r[0]["SYSID"];
             $HOMEPAGEID=$r[0]["HOMEPAGEID"];
@@ -66,26 +67,42 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                         $food["lang"]="";
                     }
                 }
-                $META=$r[0]["DESCRIPTION"]." ".$r[0]["ABSTRACT"]." ".$r[0]["TAG"];
-                $META=strtolower($META);
+                // META KEYS
+                $META=$r[0]["TAG"]." ".$r[0]["DESCRIPTION"]." ".$r[0]["ABSTRACT"];
                 $META=preg_replace("/<[bh]r\/?>/i", " ", $META);
                 $META=strip_tags($META);
-                $META=htmlentities(utf8Decode($META));
-                $META=preg_replace("/&([aeiou])(grave|acute);/", "$1", $META);
-                @preg_match_all("/([A-Z]{4,})/i", $META, $m);
+                if(!mb_check_encoding($META, "UTF-8")){
+                    $META=utf8_encode($META);
+                }
+                $META=strtolower($META);
+                @preg_match_all("/(\pL{4,})/i", $META, $m);
                 if(isset($m[1]))
                     $v=$m[1];
                 else
                     $v=Array();
+                $max=0;
                 $META="";
-                for($i=0;$i<count($v);$i++){
-                    if($META!=""){
-                        $META.=", ";
+                foreach($v as $word){
+                    if(strpos($META, $word)===false){
+                        if($max>0)
+                            $META.=", ";
+                        $META.=$word;
+                        $max+=1;
+                        if($max>=20)
+                            break;
                     }
-                    $META.=$v[$i];
                 }
-                $food["meta"]=$META;
+                $food["metakeys"]=$META;
 
+                // META DESCR
+                $META=$r[0]["DESCRIPTION"]." - ".$r[0]["ABSTRACT"];
+                $META=preg_replace("/<[bh]r\/?>/i", " ", $META);
+                $META=strip_tags($META);
+                if(!mb_check_encoding($META, "UTF-8")){
+                    $META=utf8_encode($META);
+                }
+                $food["metadescr"]=$META;
+                
                 // TESTO PROVVISORIO PER I MOTORI DI RICERCA
                 $BOT.="<h2><a href='filibuster.php?env=$env&amp;site=$site'>$TITLESITE</a></h2><br/>\n";
                 $BOT.="<br/>\n";

@@ -39,19 +39,44 @@ var _sessioninfo={
 String.prototype.subright=function(n){
     return this.substr(this.length-n,n);
 }
-String.prototype.getdate=function(){
+/***************
+| SERIE STRING |
+***************/
+// stringDate
+String.prototype.stringDate=function(){
     var d=this.replace(/[^\d]/gi, "").substr(0,8)
     return d.length==8 ? d : "";
 }
-String.prototype.gettime=function(){
+// stringTime
+String.prototype.stringTime=function(){
     var d=(this+"000000").replace(/[^\d]/gi, "").substr(0,14);
     return d.length==14 ? d : "";
 }
-String.prototype.getnumber=function(){
+// stringNumber
+String.prototype.stringNumber=function(){
     var f=parseFloat(this);
     return isNaN(f) ? "0" : f.toString();
 }
-String.prototype.actualdate=function(){
+// stringBoolean
+Boolean.prototype.stringBoolean=function(){
+    return this ? "1" : "0";
+}
+/***************
+| SERIE ACTUAL |
+***************/
+// actualNumber
+String.prototype.actualNumber=function(){
+    var f=parseFloat(this);
+    return isNaN(f) ? 0 : f;
+}
+Number.prototype.actualNumber=function(){
+    return this;
+}
+Boolean.prototype.actualNumber=function(){
+    return this ? 1 : 0;
+}
+// actualDate
+String.prototype.actualDate=function(){
     var d=this.replace(/[^\d]/gi, "");
     if(d.length>=8)
         d=new Date(Date.UTC(parseInt(d.substr(0,4)), parseInt(d.substr(4,2))-1, parseInt(d.substr(6,2)), 0, 0, 0, 0));
@@ -59,7 +84,8 @@ String.prototype.actualdate=function(){
         d=new Date(Date.UTC(1900, 0, 1, 0, 0, 0));
     return d;
 }
-String.prototype.actualtime=function(){
+// actualTime
+String.prototype.actualTime=function(){
     var d=(this+"000000").replace(/[^\d]/gi, "");
     if(d.length>=14)
         d=new Date(Date.UTC(parseInt(d.substr(0,4)), parseInt(d.substr(4,2))-1, parseInt(d.substr(6,2)), parseInt(d.substr(8,2)), parseInt(d.substr(10,2)), parseInt(d.substr(12,2)), 0));
@@ -67,9 +93,38 @@ String.prototype.actualtime=function(){
         d=new Date(Date.UTC(1900, 0, 1, 0, 0, 0));
     return d;
 }
-String.prototype.actualnumber=function(){
-    var f=parseFloat(this);
-    return isNaN(f) ? 0 : f;
+// actualBoolean
+String.prototype.actualBoolean=function(){
+    return parseInt(v) ? 1 : 0;
+}
+Number.prototype.actualBoolean=function(){
+    return this ? 1 : 0;
+}
+Boolean.prototype.actualBoolean=function(){
+    return this ? 1 : 0;
+}
+/***************
+| SERIE FORMAT |
+***************/
+// formatNumber
+String.prototype.formatNumber=function(d){
+    return _nformat(this, d);
+}
+Number.prototype.formatNumber=function(d){
+    return this.toString().formatNumber(d);
+}
+Boolean.prototype.formatNumber=function(d){
+    return this ? "&#x2714;" : "&#x0020;";
+}
+// formatBoolean
+String.prototype.formatBoolean=function(){
+    return parseInt(v) ? "&#x2714;" : "&#x0020;";
+}
+Number.prototype.formatBoolean=function(){
+    return this ? "&#x2714;" : "&#x0020;";
+}
+Boolean.prototype.formatBoolean=function(d){
+    return this ? "&#x2714;" : "&#x0020;";
 }
 
 var _criticalactivities=0;
@@ -87,6 +142,8 @@ function _isset(v){
 function _nformat(s,d){
     var f,p,i;
     var g="";
+    if(typeof s=="number")
+        s=s.toString();    
     if(isNaN(s)||s==""){s="0"}
     if(s.substr(0,1)=="-"){
         g="-";

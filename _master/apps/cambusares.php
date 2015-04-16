@@ -15,7 +15,7 @@ function CambusaLibrary($id){
     global $path_root, $path_cambusa, $path_applications, $path_customize;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
 
-    $cacheversion=14;
+    $cacheversion=15;
     
 $script_cambusa=<<<CAMBUSA
 <script language="javascript">
@@ -31,6 +31,15 @@ _systeminfo.url.cambusa="$url_cambusa";
 _systeminfo.url.customize="$url_customize";
 </script>
 CAMBUSA;
+
+$script_rybox=<<<RYBOX
+<style>
+input,select,a:focus{outline:none;border:none;}
+.ry-contextMenu{font-family:verdana;font-size:12px;}
+.ry-contextMenu>a{color:black;}
+.ry-contextMenu>a:focus{outline:1px dotted;color:black;}
+</style>
+RYBOX;
     
     switch(strtolower($id)){
         case "jquery":
@@ -85,7 +94,7 @@ CAMBUSA;
             CambusaLibraryAdd("jquery.ui.datepicker.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.datepicker.css' rel='stylesheet' />");
             //CambusaLibraryAdd("jquery.ui.tabs.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.tabs.css' rel='stylesheet' />");
             CambusaLibraryAdd("css-datepicker", "<style>div.ui-datepicker{font-size:11px;}</style>");
-            CambusaLibraryAdd("css-contextmenu", "<style>.ry-contextMenu{font-family:verdana;font-size:12px;}input,select,a:focus{outline:none;border:none;}</style>");
+            CambusaLibraryAdd("css-contextmenu", $script_rybox);
             CambusaLibraryAdd("rybox.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rybox.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rytabs.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytabs.css?ver=$cacheversion' />");
             //CambusaLibraryAdd("rytools.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytools.css' />");

@@ -13,7 +13,9 @@ $tocambusa="../../cambusa/";
 include_once $tocambusa."rymaestro/maestro_execlib.php";
 include_once $tocambusa."rygeneral/post_request.php";
 include_once "food4_library.php";
-include_once "../corsaro/config.php";
+if(is_file("../../customize/_filibuster.php")){
+    include_once "../../customize/_filibuster.php";
+}
 
 set_time_limit(0);
 

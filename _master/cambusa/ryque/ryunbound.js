@@ -245,6 +245,9 @@
                             if(RYBOX)
                                 return nextFocus(propname, k.shiftKey);
                             break;
+                        case 50:    // ALT-2: apro l'eventuale menù contestuale (è giusto che poi non ci sia il break;)
+                            if(k.altKey)
+                                $("#"+propname).contextmenu();
                         default:
                             setTimeout(function(){
                                 searchmanagement( propwhich==173 ? "-" : String.fromCharCode(propwhich).toUpperCase() );
