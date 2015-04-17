@@ -654,7 +654,7 @@
                             propobj.dataload();
                     }
                 });
-                $("#"+propname).contextMenu("ryque_menu", {
+                $("#"+propname).contextMenu("ryque_popup", {
                     bindings: {
                         'ryque_use': function(t) {
                             if(settings.enter!=missing && propindex>0){
@@ -2321,9 +2321,9 @@ function ryQue(missing){
     }
 }
 function ryqueFail(nomefunct){
-    if(window.console&&_sessioninfo.debugmode){console.log("Fallita "+nomefunct+": verr"+_utf8("a")+" effettuato un nuovo tentativo...")}
+    if(window.console&&_sessioninfo.debugmode){console.log("Fallita "+nomefunct+": verrà effettuato un nuovo tentativo...")}
 }
 function ryqueUnready(status){
-    if(window.console&&_sessioninfo.debugmode){console.log("Grid "+status+": verr"+_utf8("a")+" effettuato un nuovo tentativo...")}
+    if(window.console&&_sessioninfo.debugmode){console.log("Grid "+status+": verrà effettuato un nuovo tentativo...")}
 }
 var RYQUE=new ryQue();

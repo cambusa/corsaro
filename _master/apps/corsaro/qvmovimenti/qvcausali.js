@@ -242,7 +242,7 @@ function class_qvcausali(settings,missing){
         .additem({caption:"Astratta", key:3});
     offsety+=30;
 
-    $(prefix+"LB_SCOPE").rylabel({left:20, top:offsety, caption:"Visibilit"+_utf8("a")});
+    $(prefix+"LB_SCOPE").rylabel({left:20, top:offsety, caption:"Visibilità"});
     $(prefix+"SCOPE").rylist({left:120, top:offsety, width:200, datum:"C", tag:"SCOPE"})
         .additem({caption:"", key:""})
         .additem({caption:"Pubblico", key:0})
@@ -250,7 +250,7 @@ function class_qvcausali(settings,missing){
         .additem({caption:"Privato", key:2});
     offsety+=30;
 
-    $(prefix+"LB_UPDATING").rylabel({left:20, top:offsety, caption:"Modificabilit"+_utf8("a")});
+    $(prefix+"LB_UPDATING").rylabel({left:20, top:offsety, caption:"Modificabilità"});
     $(prefix+"UPDATING").rylist({left:120, top:offsety, width:200, datum:"C", tag:"UPDATING"})
         .additem({caption:"", key:""})
         .additem({caption:"Pubblico", key:0})
@@ -258,7 +258,7 @@ function class_qvcausali(settings,missing){
         .additem({caption:"Privato", key:2});
     offsety+=30;
 
-    $(prefix+"LB_DELETING").rylabel({left:20, top:offsety, caption:"Cancellabilit"+_utf8("a")});
+    $(prefix+"LB_DELETING").rylabel({left:20, top:offsety, caption:"Cancellabilità"});
     $(prefix+"DELETING").rylist({left:120, top:offsety, width:200, datum:"C", tag:"DELETING"})
         .additem({caption:"", key:""})
         .additem({caption:"Pubblico", key:0})

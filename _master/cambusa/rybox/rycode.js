@@ -345,18 +345,18 @@ if(_ismissing(_globalcodeinsert)){
             		}
             	}
             );
-            $("#"+propname+"_text").contextMenu("dateMenu", {
+            $("#"+propname+"_text").contextMenu("rybox_popup", {
             	bindings: {
-            		'cut': function(t) {
+            		'rybox_cut': function(t) {
             			clipcode=propobj.value();
             			propobj.value("");
             		},
-            		'copy': function(t) {
+            		'rybox_copy': function(t) {
             			var v=propobj.value();
             			if(v)
             				clipcode=v;
             		},
-            		'paste': function(t) {
+            		'rybox_paste': function(t) {
             			propobj.value(clipcode);
             		}
             	},
@@ -370,13 +370,13 @@ if(_ismissing(_globalcodeinsert)){
             	onShowMenu: 
             		function(e, menu) {
             			if(propobj.value()==""){
-            				$('#copy', menu).remove();
+            				$('#rybox_copy', menu).remove();
             			}
             			if(propobj.value()=="" || proplock){
-            				$('#cut',menu).remove();
+            				$('#rybox_cut',menu).remove();
             			}
             			if(!clipcode || proplock){
-            				$('#paste', menu).remove();
+            				$('#rybox_paste', menu).remove();
             			}
             			return menu;
             		}

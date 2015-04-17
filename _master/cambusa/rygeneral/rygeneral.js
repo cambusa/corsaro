@@ -116,6 +116,26 @@ Number.prototype.formatNumber=function(d){
 Boolean.prototype.formatNumber=function(d){
     return this ? "&#x2714;" : "&#x0020;";
 }
+// formatDate
+String.prototype.formatDate=function(){
+    var d=this.replace(/[^\d]/gi, "");
+    if(d.length<8)
+        return "";
+    else if(_sessioninfo.dateformat==1)
+        return d.substr(4,2)+"/"+d.substr(6,2)+"/"+d.substr(0,4);
+    else
+        return d.substr(6,2)+"/"+d.substr(4,2)+"/"+d.substr(0,4);
+}
+// formatTime
+String.prototype.formatTime=function(){
+    var d=(this+"000000").replace(/[^\d]/gi, "");
+    if(d.length<14)
+        return "";
+    else if(_sessioninfo.dateformat==1)
+        return d.substr(4,2)+"/"+d.substr(6,2)+"/"+d.substr(0,4)+" "+d.substr(8,2)+":"+d.substr(10,2);
+    else
+        return d.substr(6,2)+"/"+d.substr(4,2)+"/"+d.substr(0,4)+" "+d.substr(8,2)+":"+d.substr(10,2);
+}
 // formatBoolean
 String.prototype.formatBoolean=function(){
     return parseInt(v) ? "&#x2714;" : "&#x0020;";
@@ -125,6 +145,10 @@ Number.prototype.formatBoolean=function(){
 }
 Boolean.prototype.formatBoolean=function(d){
     return this ? "&#x2714;" : "&#x0020;";
+}
+
+String.prototype.htmlDecod=function(){
+    return _decodehtml(this.valueOf());
 }
 
 var _criticalactivities=0;
@@ -185,22 +209,6 @@ function _jsonp(url) {   // Per richieste cross domain
 	script.type = "text/javascript"; 
 	script.src = url;
 	head.appendChild(script); 
-}
-function _utf8(k){
-    switch(k){
-        case "a":return "à";
-        case "A":return "à".toUpperCase();
-        case "e":return "è";
-        case "E":return "è".toUpperCase();
-        case "e'":return "é";
-        case "E'":return "é".toUpperCase();
-        case "i":return "ì";
-        case "I":return "ì".toUpperCase();
-        case "o":return "ò";
-        case "O":return "ò".toUpperCase();
-        case "u":return "ù";
-        case "U":return "ù".toUpperCase();
-    }
 }
 function _ajaxescapize(t){
     return t.replace(/'/g,"\'").replace(/\\/g,"\\\\");

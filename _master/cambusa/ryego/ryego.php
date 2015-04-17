@@ -190,9 +190,15 @@ table{font-family:verdana,sans-serif;font-size:13px;}
 
 <style>
 div.ui-datepicker{font-size:11px;}
-.ry-contextMenu{font-family:verdana,sans-serif;font-size:12px;}
 </style>
 
+<style>
+input,select,a:focus{outline:none;border:none;}
+.contextMenu{position:absolute;display:none;}
+.contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
+.contextMenu>ul>li>a{color:black;}
+.contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
+</style>
             
 <script type='text/javascript' src='../jquery/jquery.js' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.core.js'></script>

@@ -15,7 +15,7 @@ function CambusaLibrary($id){
     global $path_root, $path_cambusa, $path_applications, $path_customize;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
 
-    $cacheversion=15;
+    $cacheversion=16;
     
 $script_cambusa=<<<CAMBUSA
 <script language="javascript">
@@ -35,9 +35,10 @@ CAMBUSA;
 $script_rybox=<<<RYBOX
 <style>
 input,select,a:focus{outline:none;border:none;}
-.ry-contextMenu{font-family:verdana;font-size:12px;}
-.ry-contextMenu>a{color:black;}
-.ry-contextMenu>a:focus{outline:1px dotted;color:black;}
+.contextMenu{position:absolute;display:none;}
+.contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
+.contextMenu>ul>li>a{color:black;}
+.contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
 </style>
 RYBOX;
     

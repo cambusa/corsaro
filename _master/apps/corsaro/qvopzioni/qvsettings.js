@@ -231,7 +231,7 @@ function class_qvsettings(settings,missing){
                     try{
                         var v=$.parseJSON(d);
                         if(v.success>0){ 
-                            winzMessageBox(formid, "Il file "+_utf8("e")+" stato processato");
+                            winzMessageBox(formid, "Il file è stato processato");
                         }
                         winzTimeoutMess(formid, parseInt(v.success), v.message);
                     }

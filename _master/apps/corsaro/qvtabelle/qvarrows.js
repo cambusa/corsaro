@@ -50,7 +50,7 @@ function class_qvarrows(settings,missing){
             {id:"DESCRIPTION",caption:"Descrizione",width:150},
             {id:"AUXTIME",caption:"Data",width:90,type:"/"},
             {id:"BOWID",caption:"",width:0},
-            {id:"AMOUNT",caption:"Quantit"+_utf8("a"),width:120,type:"2"}
+            {id:"AMOUNT",caption:"Quantità",width:120,type:"2"}
         ],
         changerow:function(o,i){
             if(i>0){
@@ -222,7 +222,7 @@ function class_qvarrows(settings,missing){
     offsety+=30;
     
     $(prefix+"lbf_date").rylabel({left:offsetx, top:offsety, caption:"Data massima"});
-    $(prefix+"lbf_amount").rylabel({left:offsetx+155, top:offsety, caption:"Quantit"+_utf8("a")+" &plusmn;5%"});
+    $(prefix+"lbf_amount").rylabel({left:offsetx+155, top:offsety, caption:"Quantità"+" &plusmn;5%"});
     offsety+=20;
     var txf_date=$(prefix+"txf_date").rydate({left:offsetx, top:offsety,  width:145, 
         assigned:function(){
@@ -429,7 +429,7 @@ function class_qvarrows(settings,missing){
         }
     });offsety+=30;
     
-    $(prefix+"LB_AMOUNT").rylabel({left:20, top:offsety, caption:"Quantit"+_utf8("a")});
+    $(prefix+"LB_AMOUNT").rylabel({left:20, top:offsety, caption:"Quantità"});
     var tx_amount=$(prefix+"AMOUNT").rynumber({left:120, top:offsety, width:200, numdec:2, minvalue:0, datum:"C", tag:"AMOUNT"});offsety+=30;
     
     $(prefix+"LB_REFERENCE").rylabel({left:20, top:offsety, caption:"Riferimento"});
@@ -452,28 +452,28 @@ function class_qvarrows(settings,missing){
         .additem({caption:"Simulata", key:2})
         .additem({caption:"Astratta", key:3});offsety+=30;
 
-    $(prefix+"LB_AVAILABILITY").rylabel({left:20, top:offsety, caption:"Disponibilit"+_utf8("a")});
+    $(prefix+"LB_AVAILABILITY").rylabel({left:20, top:offsety, caption:"Disponibilità"});
     $(prefix+"AVAILABILITY").rylist({left:120, top:offsety, width:200, datum:"C", tag:"AVAILABILITY"})
         .additem({caption:"", key:""})
         .additem({caption:"Disponibile", key:0})
         .additem({caption:"Bloccato", key:1})
         .additem({caption:"Archiviato", key:2});offsety+=30;
         
-    $(prefix+"LB_SCOPE").rylabel({left:20, top:offsety, caption:"Visibilit"+_utf8("a")});
+    $(prefix+"LB_SCOPE").rylabel({left:20, top:offsety, caption:"Visibilità"});
     $(prefix+"SCOPE").rylist({left:120, top:offsety, width:200, datum:"C", tag:"SCOPE"})
         .additem({caption:"", key:""})
         .additem({caption:"Pubblico", key:0})
         .additem({caption:"Protetto", key:1})
         .additem({caption:"Privato", key:2});offsety+=30;
 
-    $(prefix+"LB_UPDATING").rylabel({left:20, top:offsety, caption:"Modificabilit"+_utf8("a")});
+    $(prefix+"LB_UPDATING").rylabel({left:20, top:offsety, caption:"Modificabilità"});
     $(prefix+"UPDATING").rylist({left:120, top:offsety, width:200, datum:"C", tag:"UPDATING"})
         .additem({caption:"", key:""})
         .additem({caption:"Pubblico", key:0})
         .additem({caption:"Protetto", key:1})
         .additem({caption:"Privato", key:2});offsety+=30;
 
-    $(prefix+"LB_DELETING").rylabel({left:20, top:offsety, caption:"Cancellabilit"+_utf8("a")});
+    $(prefix+"LB_DELETING").rylabel({left:20, top:offsety, caption:"Cancellabilità"});
     $(prefix+"DELETING").rylist({left:120, top:offsety, width:200, datum:"C", tag:"DELETING"})
         .additem({caption:"", key:""})
         .additem({caption:"Pubblico", key:0})

@@ -814,7 +814,7 @@ function class_qvprocessi(settings,missing){
         }
     });offsety+=35;
     
-    $(prefix+"LBM_SCOPE").rylabel({left:20, top:offsety, caption:"Visibilit"+_utf8("a")});
+    $(prefix+"LBM_SCOPE").rylabel({left:20, top:offsety, caption:"Visibilità"});
     $(prefix+"M_SCOPE").rylist({left:120, top:offsety, width:200, datum:"M", tag:"SCOPE",
         assigned:function(){
             operm_unsaved.visible(1);
@@ -825,7 +825,7 @@ function class_qvprocessi(settings,missing){
         .additem({caption:"Protetto", key:1})
         .additem({caption:"Privato", key:2});
 
-    $(prefix+"LBM_UPDATING").rylabel({left:20, top:offsety+30, caption:"Modificabilit"+_utf8("a")});
+    $(prefix+"LBM_UPDATING").rylabel({left:20, top:offsety+30, caption:"Modificabilità"});
     $(prefix+"M_UPDATING").rylist({left:120, top:offsety+30, width:200, datum:"M", tag:"UPDATING",
         assigned:function(){
             operm_unsaved.visible(1);
@@ -856,13 +856,13 @@ function class_qvprocessi(settings,missing){
     .additem({caption:"Provvisorio", key:1})
     .additem({caption:"Completo", key:2});
     
-    $(prefix+"LBM_GANTT").rylabel({left:650, top:offsety+30, caption:"Gantt", title:"L'attivit"+_utf8("a")+" viene riportata nei Gantt"});
+    $(prefix+"LBM_GANTT").rylabel({left:650, top:offsety+30, caption:"Gantt", title:"L'attività"+" viene riportata nei Gantt"});
     $(prefix+"M_GANTT").rycheck({left:700, top:offsety+30, datum:"M", tag:"GANTT",
         assigned:function(){
             operm_unsaved.visible(1);
         }
     });
-    $(prefix+"LBM_INVIOEMAIL").rylabel({left:650, top:offsety+60, caption:"Email", title:"L'attivit"+_utf8("a")+" genera notifiche"});
+    $(prefix+"LBM_INVIOEMAIL").rylabel({left:650, top:offsety+60, caption:"Email", title:"L'attività"+" genera notifiche"});
     $(prefix+"M_INVIOEMAIL").rycheck({left:700, top:offsety+60, datum:"M", tag:"INVIOEMAIL",
         assigned:function(){
             operm_unsaved.visible(1);

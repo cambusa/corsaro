@@ -644,34 +644,6 @@
                             propobj.dataload();
                     }
                 });
-                /*
-                $("#"+propname).contextMenu("ryque_menu", {
-                    bindings: {
-                        'ryque_use': function(t) {
-                            if(settings.enter!=missing && propindex>0){
-                                settings.enter(propobj, propindex);
-                            }
-                        },
-                        'ryque_sheet': function(t) {
-                            propobj.sheet({});
-                        }
-                    },
-                    onContextMenu:
-                        function(e) {
-                            if(propcount==0 || $("#winz-iframe").length==0)
-                                return false;
-                            else 
-                                return true;
-                        },
-                    onShowMenu: 
-                        function(e, menu) {
-                            if(settings.enter==missing || propindex==0){
-                                $('#ryque_use', menu).remove();
-                            }
-                            return menu;
-                        }
-                });
-                */
                 if(propmaxwidth>propminwidth){
                     var par=$("#"+propname).parents(".window_main");
                     if(par.length>0){

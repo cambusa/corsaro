@@ -17,29 +17,29 @@
  */
 
 (function($) {
- 	var menu, shadow, trigger, content, hash, currentTarget;
-    var selector, curritem;
+    var menu, shadow, trigger, content, hash, currentTarget;
+    var currobj;
     var defaults = {
     menuStyle: {
-      listStyle: 'none',
-      padding: '1px',
-      margin: '0px',
-      backgroundColor: '#fff',
-      border: '1px solid #999',
-      width: '100px'
+        listStyle: 'none',
+        padding: '1px',
+        margin: '0px',
+        backgroundColor: '#fff',
+        border: '1px solid #999',
+        width: '100px'
     },
     itemStyle: {
-      margin: '0px',
-      color: '#000',
-      display: 'block',
-      cursor: 'default',
-      padding: '3px',
-      border: '1px solid #fff',
-      backgroundColor: 'transparent'
+        margin: '0px',
+        color: '#000',
+        display: 'block',
+        cursor: 'default',
+        padding: '3px',
+        border: '1px solid #fff',
+        backgroundColor: 'transparent'
     },
     itemHoverStyle: {
-      border: '1px solid #0a246a',
-      backgroundColor: '#b6bdd2'
+        border: '1px solid #0a246a',
+        backgroundColor: '#b6bdd2'
     },
     eventPosX: 'pageX',
     eventPosY: 'pageY',
@@ -48,147 +48,149 @@
     onShowMenu: null
  	};
 
-  $.fn.contextMenu = function(id, options) {
-    selector=this.selector;
-    if (!menu) {                                      // Create singleton menu
-      menu = $('<div id="jqContextMenu"></div>')
-               .hide()
-               .css({position:'absolute', zIndex:'500'})
-               .appendTo('body')
-               .bind('click', function(e) {
-                 e.stopPropagation();
-               });
-    }
-    
-    $(menu).keydown(
-        function(k){
-            var list=$("#jqContextMenu a");
-            switch(k.which){
-            case 38:
-                if(curritem>0){
-                    curritem-=1;
-                    list[curritem].focus();
-                }
-                k.stopPropagation();
-                break;
-            case 40:
-                if(curritem<list.length-1){
-                    curritem+=1;
-                    list[curritem].focus();
-                }
-                k.stopPropagation();
-                break;
-            case 13:
+    $.fn.contextMenu = function(id, options) {
+        var propobj=this;
+        this.propid="jqContextMenu";
+        this.curritem=0;
+        if (!menu) {                                      // Create singleton menu
+            menu = $('<div id="'+this.propid+'" class="contextMenu"></div>')
+            .hide()
+            .css({position:'absolute', zIndex:'500'})
+            .appendTo('body')
+            .bind('click', function(e) {
+                e.stopPropagation();
+            });
+            $(menu).keydown(
+                function(k){
+                    var list=$("#"+currobj.propid+" a");
+                    switch(k.which){
+                    case 38:
+                        if(currobj.curritem>0){
+                            currobj.curritem-=1;
+                            list[currobj.curritem].focus();
+                        }
+                        k.stopPropagation();
+                        break;
+                    case 40:
+                        if(currobj.curritem<list.length-1){
+                            currobj.curritem+=1;
+                            list[currobj.curritem].focus();
+                        }
+                        k.stopPropagation();
+                        break;
+                    case 13:
 
-                break;
-            case 27:
-                hide();
-                k.preventDefault();
-                k.stopPropagation();
+                        break;
+                    case 27:
+                        castFocus(currobj.selector.substr(1));
+                        hide();
+                        k.preventDefault();
+                        k.stopPropagation();
+                    }
+                }
+            );
+        }
+        if (!shadow) {
+            shadow = $('<div class="contextMenu"></div>')
+            .css({backgroundColor:'#000',position:'absolute',opacity:0.2,zIndex:499})
+            .appendTo('body')
+            .hide();
+        }
+        hash = hash || [];
+        hash.push({
+            id : id,
+            menuStyle: $.extend({}, defaults.menuStyle, options.menuStyle || {}),
+            itemStyle: $.extend({}, defaults.itemStyle, options.itemStyle || {}),
+            itemHoverStyle: $.extend({}, defaults.itemHoverStyle, options.itemHoverStyle || {}),
+            bindings: options.bindings || {},
+            shadow: options.shadow || options.shadow === false ? options.shadow : defaults.shadow,
+            onContextMenu: options.onContextMenu || defaults.onContextMenu,
+            onShowMenu: options.onShowMenu || defaults.onShowMenu,
+            eventPosX: options.eventPosX || defaults.eventPosX,
+            eventPosY: options.eventPosY || defaults.eventPosY
+        });
+
+        var index = hash.length - 1;
+        $(this).bind('contextmenu', function(e) {
+            // Check if onContextMenu() defined
+            var bShowContext = (!!hash[index].onContextMenu) ? hash[index].onContextMenu(e) : true;
+            if (bShowContext) display(index, this, e, options);
+            return false;
+        });
+
+        function display(index, trigger, e, options) {
+            var cur = hash[index];
+            currobj=propobj;
+            content = $('#'+cur.id).find('ul:first').clone(true);
+            content.css(cur.menuStyle).find('li').css(cur.itemStyle).hover(
+                function() {
+                    $(this).css(cur.itemHoverStyle);
+                },
+                function(){
+                    $(this).css(cur.itemStyle);
+                }
+            ).find('img').css({verticalAlign:'middle',paddingRight:'2px'});
+
+            // Send the content to the menu
+            menu.html(content);
+
+            // if there's an onShowMenu, run it now -- must run after content has been added
+            // if you try to alter the content variable before the menu.html(), IE6 has issues
+            // updating the content
+            if(!!cur.onShowMenu){
+                if(typeof e.pageX=="undefined"){
+                    // ALT-2
+                    try{
+                        var p=$(propobj.selector).offset();
+                        var w=$(propobj.selector).width();
+                        var h=$(propobj.selector).height();
+                        var l=(w-$(menu).width())/2;
+                        var t=(h-$(menu).height())/2;
+                        $(menu).css({left:p.left+l, top:p.top+t});
+                        $(shadow).css({left:p.left+l+2, top:p.top+t+2});
+                        propobj.curritem=0;
+                        setTimeout(function(){
+                            $("#"+propobj.propid+" a:first").focus();
+                        }, 500);
+                    }catch(e){}
+                }
+                menu=cur.onShowMenu(e, menu);
             }
+            $.each(cur.bindings, function(id, func) {
+                $('#'+id, menu).bind('click', function(e) {
+                    castFocus(propobj.selector.substr(1));
+                    hide();
+                    func(trigger, currentTarget);
+                });
+            });
+            // Nascondo tutti i menu aperti
+            $('div.contextMenu').hide();
+            
+            menu.css({'left':e[cur.eventPosX],'top':e[cur.eventPosY]}).show();
+            if(cur.shadow){
+                shadow.css({width:menu.width(), height:menu.height(), left:e.pageX+2, top:e.pageY+2}).show();
+            }
+            $(document).one('click', hide);
         }
-    );
-    
-    if (!shadow) {
-      shadow = $('<div></div>')
-                 .css({backgroundColor:'#000',position:'absolute',opacity:0.2,zIndex:499})
-                 .appendTo('body')
-                 .hide();
-    }
-    hash = hash || [];
-    hash.push({
-      id : id,
-      menuStyle: $.extend({}, defaults.menuStyle, options.menuStyle || {}),
-      itemStyle: $.extend({}, defaults.itemStyle, options.itemStyle || {}),
-      itemHoverStyle: $.extend({}, defaults.itemHoverStyle, options.itemHoverStyle || {}),
-      bindings: options.bindings || {},
-      shadow: options.shadow || options.shadow === false ? options.shadow : defaults.shadow,
-      onContextMenu: options.onContextMenu || defaults.onContextMenu,
-      onShowMenu: options.onShowMenu || defaults.onShowMenu,
-      eventPosX: options.eventPosX || defaults.eventPosX,
-      eventPosY: options.eventPosY || defaults.eventPosY
-    });
-
-    var index = hash.length - 1;
-    $(this).bind('contextmenu', function(e) {
-      // Check if onContextMenu() defined
-      var bShowContext = (!!hash[index].onContextMenu) ? hash[index].onContextMenu(e) : true;
-      if (bShowContext) display(index, this, e, options);
-      return false;
-    });
-    return this;
-  };
-
-  function display(index, trigger, e, options) {
-    var cur = hash[index];
-    content = $('#'+cur.id).find('ul:first').clone(true);
-    content.css(cur.menuStyle).find('li').css(cur.itemStyle).hover(
-      function() {
-        $(this).css(cur.itemHoverStyle);
-      },
-      function(){
-        $(this).css(cur.itemStyle);
-      }
-    ).find('img').css({verticalAlign:'middle',paddingRight:'2px'});
-
-    // Send the content to the menu
-    menu.html(content);
-
-    // if there's an onShowMenu, run it now -- must run after content has been added
-		// if you try to alter the content variable before the menu.html(), IE6 has issues
-		// updating the content
-    if(!!cur.onShowMenu){
-        if(typeof e.pageX=="undefined"){
-            // ALT-2
-            try{
-                var p=$(selector).offset();
-                var w=$(selector).width();
-                var h=$(selector).height();
-                var l=(w-$(menu).width())/2;
-                var t=(h-$(menu).height())/2;
-                $(menu).css({left:p.left+l, top:p.top+t});
-                $(shadow).css({left:p.left+l+2, top:p.top+t+2});
-                setTimeout(function(){
-                    curritem=0;
-                    $("#jqContextMenu a:first").focus();
-                }, 200);
-            }catch(e){}
+        function hide() {
+            menu.hide();
+            shadow.hide();
         }
-        menu=cur.onShowMenu(e, menu);
-    }
-
-    $.each(cur.bindings, function(id, func) {
-      $('#'+id, menu).bind('click', function(e) {
-        hide();
-        func(trigger, currentTarget);
-      });
-    });
-
-    menu.css({'left':e[cur.eventPosX],'top':e[cur.eventPosY]}).show();
-    if (cur.shadow) shadow.css({width:menu.width(),height:menu.height(),left:e.pageX+2,top:e.pageY+2}).show();
-    $(document).one('click', hide);
-  }
-
-  function hide() {
-    castFocus(selector.substr(1));
-    menu.hide();
-    shadow.hide();
-  }
-
-  // Apply defaults
-  $.contextMenu = {
-    defaults : function(userDefaults) {
-      $.each(userDefaults, function(i, val) {
-        if (typeof val == 'object' && defaults[i]) {
-          $.extend(defaults[i], val);
+        return this;
+    };
+    // Apply defaults
+    $.contextMenu = {
+        defaults : function(userDefaults) {
+            $.each(userDefaults, function(i, val) {
+                if (typeof val == 'object' && defaults[i]) {
+                    $.extend(defaults[i], val);
+                }
+                else defaults[i] = val;
+            });
         }
-        else defaults[i] = val;
-      });
-    }
-  };
-
+    };
 })(jQuery);
 
 $(function() {
-  $('div.contextMenu').hide();
+    $('div.contextMenu').hide();
 });

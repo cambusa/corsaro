@@ -1,4 +1,14 @@
 ==================================
+Rilascio 1.69.12    del XX/04/2015
+==================================
+
+Aggiunte nuove funzioni prototipali in rygeneral.
+
+Tolta la funzione "_utf8" e convertiti i file a "UTF-8" senza "BOM".
+
+Aggiustamenti al nuovo contextMenu.
+
+==================================
 Rilascio 1.69.11    del 16/04/2015
 ==================================
 

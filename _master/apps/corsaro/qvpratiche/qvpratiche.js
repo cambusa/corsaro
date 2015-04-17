@@ -2046,6 +2046,7 @@ function class_qvpratiche(settings,missing){
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:50,
+        collapsible:false,
         tabs:[
             {title:"Selezione"},
             {title:"Contesto"},
@@ -2522,7 +2523,7 @@ function class_qvpratiche(settings,missing){
                             objtabs.enabled(tabdettaglio, false);
                             objtabs.enabled(taballegati, false);
                             objtabs.enabled(tabmovimenti, false);
-                            alert("Non "+_utf8("e")+" consentito aprire la pratica ai non proprietari");
+                            alert("Non è consentito aprire la pratica ai non proprietari");
                             return;
                         }
                     }

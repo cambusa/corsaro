@@ -47,7 +47,7 @@ function class_qvequivalences(settings,missing){
             {id:"DESCRIPTION",caption:"Descrizione",width:150},
             {id:"AUXTIME",caption:"Data",width:90,type:"/"},
             {id:"BOWID",caption:"",width:0},
-            {id:"AMOUNT",caption:"Quantit"+_utf8("a"),width:120,type:"2"}
+            {id:"AMOUNT",caption:"Quantità",width:120,type:"2"}
         ],
         changerow:function(o,i){
             if(i>0){
@@ -163,7 +163,7 @@ function class_qvequivalences(settings,missing){
     offsety+=30;
     
     $(prefix+"lbf_date").rylabel({left:offsetx, top:offsety, caption:"Data massima"});
-    $(prefix+"lbf_amount").rylabel({left:offsetx+155, top:offsety, caption:"Quantit"+_utf8("a")+" &plusmn;5%"});
+    $(prefix+"lbf_amount").rylabel({left:offsetx+155, top:offsety, caption:"Quantità"+" &plusmn;5%"});
     offsety+=20;
     var txf_date=$(prefix+"txf_date").rydate({left:offsetx, top:offsety, width:145, 
         assigned:function(){
@@ -251,7 +251,7 @@ function class_qvequivalences(settings,missing){
             {id:"DESCRIPTION",caption:"Descrizione",width:140},
             {id:"EQUIVALENCE",caption:"",width:20,type:"?"},
             {id:"AUXTIME",caption:"Data",width:90,type:"/"},
-            {id:"AMOUNT",caption:"Quantit"+_utf8("a"),width:110,type:"2"}
+            {id:"AMOUNT",caption:"Quantità",width:110,type:"2"}
         ],
         changerow:function(o,i){
             if(i>0){

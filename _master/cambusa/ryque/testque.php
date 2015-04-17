@@ -26,7 +26,13 @@ button{width:120px}
 <link type='text/css' href='../jquery/css/jquery.ui.datepicker.css' rel='stylesheet' />
 <link type='text/css' href='../jquery/css/jquery.ui.tabs.css' rel='stylesheet' />
 <style>div.ui-datepicker{font-size:11px;}</style>
-<style>.ry-contextMenu{font-family:verdana;font-size:12px;}input,select,a:focus{outline:none;border:none;}</style>
+<style>
+input,select,a:focus{outline:none;border:none;}
+.contextMenu{position:absolute;display:none;}
+.contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
+.contextMenu>ul>li>a{color:black;}
+.contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
+</style>
 <link rel='stylesheet' href='../rybox/rytools.css' />
 <script type='text/javascript' src='../rybox/rybox.js' ></script>
 

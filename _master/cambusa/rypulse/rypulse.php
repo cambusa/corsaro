@@ -264,10 +264,10 @@ function makemonitor(missing){
         $("#lb_once").rylabel({                      left:280, top:135,caption:"Una tantum",title:"Dopo l'esecuzione l'azione viene disabilitata"});
         obj_once=$("#tx_once").rycheck({             left:362, top:135});
         
-        $("#lb_tolerance").rylabel({                 left:0,  top:160,caption:"Tolleranza",title:"Periodo, a partire dall'istante di 'prossima esecuzione', entro il quale l'azione pu"+_utf8("o")+" essere lanciata\nEsempio: 15MINUTES"});
+        $("#lb_tolerance").rylabel({                 left:0,  top:160,caption:"Tolleranza",title:"Periodo, a partire dall'istante di 'prossima esecuzione', entro il quale l'azione può essere lanciata\nEsempio: 15MINUTES"});
         obj_tolerance=$("#tx_tolerance").rytext({    left:80, top:160,width:300,maxlen:10});
 
-        $("#lb_latency").rylabel({                   left:0,  top:185,caption:"Latenza",title:"Periodo, a partire dall'istante di 'ultima esecuzione', oltre il quale l'azione pu"+_utf8("o")+" essere lanciata\nEsempio: 1HOURS"});
+        $("#lb_latency").rylabel({                   left:0,  top:185,caption:"Latenza",title:"Periodo, a partire dall'istante di 'ultima esecuzione', oltre il quale l'azione può essere lanciata\nEsempio: 1HOURS"});
         obj_latency=$("#tx_latency").rytext({        left:80, top:185,width:300,maxlen:10});
         
         $("#lb_minutes").rylabel({                   left:430,top:10,caption:"Minuti",title:"Filtro minuti\nEsempio: 00,08,27"});
@@ -451,7 +451,7 @@ function monrefresh(){
 function pulselogout(){
     var ok=true;
     if(runcounter>0){
-        ok=confirm("Alcune azioni sono in esecuzione.\nL'uscita comporter"+_utf8("a")+" la loro interruzione.\nUscire comunque?");
+        ok=confirm("Alcune azioni sono in esecuzione.\nL'uscita comporterà la loro interruzione.\nUscire comunque?");
     }
     if(ok){
         if(_sessioninfo.admin){

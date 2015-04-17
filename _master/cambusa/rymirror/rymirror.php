@@ -87,7 +87,11 @@ visibility:hidden;
 <script type='text/javascript' src='../ryque/ryque.js' ></script>
 
 <style>
-.ry-contextMenu{font-family:verdana;font-size:12px;}
+input,select,a:focus{outline:none;border:none;}
+.contextMenu{position:absolute;display:none;}
+.contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
+.contextMenu>ul>li>a{color:black;}
+.contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
 </style>
 
 <link type='text/css' href='../jqtreeview/jquery.treeview.ry.css' rel='stylesheet' />
@@ -835,17 +839,17 @@ function sysmessagehide(){
 
 </div>
 
-<div id='familymenu' style='position:absolute;visibility:hidden;'>
+<div id='familymenu' class='contextMenu'>
 <ul>
-<li class='ry-contextMenu' id='family_newfile'>Nuovo file</li>
-<li class='ry-contextMenu' id='family_newfolder'>Crea cartella</li>
-<li class='ry-contextMenu' id='family_rename'>Rinomina...</li>
-<li class='ry-contextMenu' id='family_saveas'>Salva come...</li>
-<li class='ry-contextMenu' id='family_copy'>Copia</li>
-<li class='ry-contextMenu' id='family_paste'>Incolla</li>
-<li class='ry-contextMenu' id='family_download'>Download</li>
-<li class='ry-contextMenu' ><hr/></li>
-<li class='ry-contextMenu' id='family_delete'>Elimina</li>
+<li id='family_newfile'>Nuovo file</li>
+<li id='family_newfolder'>Crea cartella</li>
+<li id='family_rename'>Rinomina...</li>
+<li id='family_saveas'>Salva come...</li>
+<li id='family_copy'>Copia</li>
+<li id='family_paste'>Incolla</li>
+<li id='family_download'>Download</li>
+<li><hr/></li>
+<li id='family_delete'>Elimina</li>
 </ul>
 </div>
 
