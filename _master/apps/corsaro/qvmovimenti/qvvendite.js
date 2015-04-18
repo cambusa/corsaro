@@ -477,7 +477,7 @@ function class_qvvendite(settings,missing){
 
     $(prefix+"LB_DATA").rylabel({left:350, top:offsety, caption:"Data trasf."});
     var tx_data=$(prefix+"DATA").rydate({left:430, top:offsety});
-    tx_data.value(_today());
+    tx_data.value(Date.stringToday());
 
     offsety+=40;
     var operd_refresh=$(prefix+"operd_refresh").rylabel({

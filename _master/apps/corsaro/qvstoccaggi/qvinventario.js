@@ -344,7 +344,7 @@ function class_qvinventario(settings,missing){
                             context=d;
                             lb_collocazioni_context.caption("Contesto: "+context);
                             loadedsysid2=currsysid;
-                            txtime.value(_time());
+                            txtime.value(Date.stringNow());
                             setTimeout(function(){operm_refresh.engage()}, 100);
                         }
                     });

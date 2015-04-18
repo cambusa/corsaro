@@ -570,7 +570,7 @@ function class_qvpratiche(settings,missing){
         click:function(o){
             var b=txdatainizio.text();
             if(b=="")
-                txdatainizio.value(_today());
+                txdatainizio.value(Date.stringToday());
             b=txdatainizio.text();
             // DEFINIZIONE DELLA DIALOGBOX
             var dlg=winzDialogGet(formid);
@@ -871,33 +871,33 @@ function class_qvpratiche(settings,missing){
             for(var i in d){
                 // COLONNA ALLEGATI
                 if(d[i]["ALLEGATI"]=="1")
-                    d[i]["ALLEGATI"]=_iconAttachment();
+                    d[i]["ALLEGATI"]=GALLERY.Attachment();
                 else
                     d[i]["ALLEGATI"]="";
                 // COLONNA IMPORTANZA
                 if(d[i]["CONSISTENCY"]=="2"){
-                    d[i]["IMPORTANZA"]=_iconPencil();
+                    d[i]["IMPORTANZA"]=GALLERY.Pencil();
                 }
                 else{
                     switch(d[i]["IMPORTANZA"]){
                     case "0":
-                        d[i]["IMPORTANZA"]=_iconLow();
+                        d[i]["IMPORTANZA"]=GALLERY.Low();
                         break;
                     case "1":
                         d[i]["IMPORTANZA"]="";
                         break;
                     case "2":
-                        d[i]["IMPORTANZA"]=_iconHigh()
+                        d[i]["IMPORTANZA"]=GALLERY.High()
                         break;
                     }
                 }
                 // COLONNA DIALOGO
                 if(d[i]["REFARROWID"]!=d[i]["SYSID"]){
-                    d[i]["REFARROWID"]=_iconAnswer();
+                    d[i]["REFARROWID"]=GALLERY.Answer();
                 }
                 else{
                     if(d[i]["RISPOSTE"]=="1")
-                        d[i]["REFARROWID"]=_iconReplied();
+                        d[i]["REFARROWID"]=GALLERY.Replied();
                     else
                         d[i]["REFARROWID"]="";
                 }
@@ -1369,9 +1369,9 @@ function class_qvpratiche(settings,missing){
         click:function(o){
             winzProgress(formid);
             // AGGIORNO LA DATA FINE
-            txd_end.value(_today());
+            txd_end.value(Date.stringToday());
             if(txd_begin.value()>txd_end.value()){
-                txd_begin.value(_today())
+                txd_begin.value(Date.stringToday())
             }
             // ISTRUZIONE DI SALVATAGGIO DEL DETTAGLIO MODIFICATO
             var data=RYWINZ.ToObject(formid, "D", currattivid);
@@ -1732,7 +1732,7 @@ function class_qvpratiche(settings,missing){
         },
         changerow:function(o,i){
             RYWINZ.MaskClear(formid, "M");
-            tx_movauxtime.value(_today());
+            tx_movauxtime.value(Date.stringToday());
             RYWINZ.MaskEnabled(formid, "M", 0);
             tx_movauxtime.enabled(0);
             operm_unsaved.visible(0);
@@ -2627,7 +2627,7 @@ function class_qvpratiche(settings,missing){
                 // ASSEGNO UNA VOLTA SOLA LA DIVISA DEL CONTO E INIZIALIZZO LA DATA
                 if(tx_movgenreid.value()==""){
                     tx_movgenreid.value(movgenereid);
-                    tx_movauxtime.value(_today());
+                    tx_movauxtime.value(Date.stringToday());
                 }
                 RYWINZ.modified(formid, 0);
                 winzClearMess(formid);
@@ -2690,7 +2690,7 @@ function class_qvpratiche(settings,missing){
                     txd_bowid.value(currattoreid);
                 }
                 if(txd_begin.text()==""){
-                    txd_begin.value(_time());
+                    txd_begin.value(Date.stringNow());
                 }
                 txd_reference.value(v[0]["REFERENCE"]);
                 // REGOLE DI UPDATING: ABILITAZIONE BOTTONE "SALVA" E "INVIA"

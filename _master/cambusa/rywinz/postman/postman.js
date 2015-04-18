@@ -266,18 +266,18 @@ function class_postman(settings,missing){
                 // COLONNA PRIORITY
                 switch(d[i]["PRIORITY"]){
                 case "0":
-                    d[i]["PRIORITY"]=_iconLow();
+                    d[i]["PRIORITY"]=GALLERY.Low();
                     break;
                 case "1":
-                    d[i]["PRIORITY"]=_iconMedium();
+                    d[i]["PRIORITY"]=GALLERY.Medium();
                     break;
                 case "2":
-                    d[i]["PRIORITY"]=_iconHigh()
+                    d[i]["PRIORITY"]=GALLERY.High()
                     break;
                 }
                 // COLONNA ENGAGEPARAMS
                 if(d[i]["ENGAGEPARAMS"]!=""){
-                    d[i]["ENGAGEPARAMS"]=_iconAction();
+                    d[i]["ENGAGEPARAMS"]=GALLERY.Action();
                 }
                 // COLONNA STATUS
                 var fd=o.screenrow(i);

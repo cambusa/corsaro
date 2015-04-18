@@ -84,7 +84,23 @@ function jtox(json, opt, missing){
     function subjtox(objDoc, x, j){
         for(var i in j){
             if( isNaN(i) ){
-                if(typeof(j[i])=="object"){
+                if(j[i] instanceof Array){
+                    var e=objDoc.createElement(i);
+                    for(var k in j[i]){
+                        if( isNaN(k) ){
+                            var f=objDoc.createElement("elem");
+                            f.setAttribute(k, j[i][k]);
+                            e.appendChild(f);
+                        }
+                        else if(typeof(j[i])=="object"){
+                            var f=objDoc.createElement("elem");
+                            subjtox(objDoc, f, j[i][k]);
+                            e.appendChild(f);
+                        }
+                    }
+                    x.appendChild(e);
+                }
+                else if(typeof(j[i])=="object"){
                     var e=objDoc.createElement(i);
                     subjtox(objDoc, e, j[i]);
                     x.appendChild(e);

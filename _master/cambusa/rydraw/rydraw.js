@@ -150,7 +150,7 @@
             }
             // Riferimento massimo
             if(n*p>=1){
-                var tx=paper.text((deltax*propvalues.length)+propbarskip+2*propcapwidth+propstrokewidth+propmargin+15, y-5, _nformat( (n*p).toString(),0).replace(/&#x02D9;/g,"."));
+                var tx=paper.text((deltax*propvalues.length)+propbarskip+2*propcapwidth+propstrokewidth+propmargin+15, y-5, __formatNumber( (n*p).toString(),0).replace(/&#x02D9;/g,"."));
                 tx.attr({"font-size":"10px","fill":"gray"});
                 $("tspan", tx.node).attr("dy", 3);
             }
@@ -165,7 +165,7 @@
             }
             // Riferimento minimo
             if(n*p>=1 && mincap){
-                var tx=paper.text((deltax*propvalues.length)+2*propbarskip+propcapwidth+propstrokewidth+propmargin+15, y-5, _nformat( (-n*p).toString(),0).replace(/&#x02D9;/g,"."));
+                var tx=paper.text((deltax*propvalues.length)+2*propbarskip+propcapwidth+propstrokewidth+propmargin+15, y-5, __formatNumber( (-n*p).toString(),0).replace(/&#x02D9;/g,"."));
                 tx.attr({"font-size":"10px","fill":"gray"});
                 $("tspan", tx.node).attr("dy", 3);
             }
@@ -174,7 +174,7 @@
             var coordx=propbarskip+propcapwidth+propstrokewidth+propmargin;
             for(var i=0;i<propvalues.length;i++){
                 var v=propvalues[i]*propratio;
-                var tip=propcaptions[i]+" => "+_nformat(propvalues[i].toString(),0).replace(/&#x02D9;/g,".");
+                var tip=propcaptions[i]+" => "+__formatNumber(propvalues[i].toString(),0).replace(/&#x02D9;/g,".");
                 if(v>=0){
                     paper.rect(coordx, proporigy-v+propmargin+proptitleheight-propstrokewidth, propbarwidth, v)
                         .attr({"gradient":"0-#08f-#048", "fill":"0-#08f-#048", "stroke-width":0, "title":tip});

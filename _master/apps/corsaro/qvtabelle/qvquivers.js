@@ -900,7 +900,7 @@ function class_qvquivers(settings,missing){
                             t+="</tr>";
                             for(var i in sumgenres){
                                 t+="<tr>";
-                                t+="<td>"+sumgenres[i]["GENREDESCR"]+"</td><td style='text-align:right'>"+_nformat(sumgenres[i]["AMOUNT"], 2)+"</td>";
+                                t+="<td>"+sumgenres[i]["GENREDESCR"]+"</td><td style='text-align:right'>"+__(sumgenres[i]["AMOUNT"]).formatNumber(2)+"</td>";
                                 t+="</tr>";
                             }
                             t+="</table>";

@@ -96,13 +96,13 @@ function class_qvattivita(settings,missing){
             for(var i in d){
                 switch(d[i]["IMPORTANZA"]){
                 case "0":
-                    d[i]["IMPORTANZA"]=_iconLow();
+                    d[i]["IMPORTANZA"]=GALLERY.Low();
                     break;
                 case "1":
                     d[i]["IMPORTANZA"]="";
                     break;
                 case "2":
-                    d[i]["IMPORTANZA"]=_iconHigh()
+                    d[i]["IMPORTANZA"]=GALLERY.High()
                     break;
                 }
             }

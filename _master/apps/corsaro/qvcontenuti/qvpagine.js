@@ -859,7 +859,7 @@ function class_qvpagine(settings,missing){
                 currfileid=id;
                 tx_copy.enabled(1);
                 tx_download.enabled(1);
-                var exten=_getextension(d["IMPORTNAME"]);
+                var exten=d["IMPORTNAME"].getExtension();
                 var p=dirattachments+d["SUBPATH"]+d["FILEID"]+"."+exten;
                 var u=urlattachments+d["SUBPATH"]+d["FILEID"]+"."+exten;
                 var w=urlapplications+"ryquiver/food4download.php?env="+_sessioninfo.environ+"&site="+sitename+"&id="+d["FILEID"];

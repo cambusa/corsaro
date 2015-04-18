@@ -726,7 +726,7 @@ function class_qvsiti(settings,missing){
             },
             solveid:function(id, d){
                 currfileid=id;
-                var exten=_getextension(d["IMPORTNAME"]);
+                var exten=d["IMPORTNAME"].getExtension();
                 var p=dirattachments+d["SUBPATH"]+d["FILEID"]+"."+exten;
                 if(exten.toLowerCase().match(/(jpg|jpeg|gif|png|svg)/)){
                     oper_favicon.enabled(1);

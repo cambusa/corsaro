@@ -254,7 +254,7 @@ var RYBOX;
             			}
             			else if(k.which==13){ // INVIO
             				if(!propobj.value())
-            					propobj.value(_today());
+            					propobj.value(Date.stringToday());
             				propstart=0;
             				propobj.refreshcursor();
                             propchanged=false;
@@ -428,7 +428,7 @@ var RYBOX;
                         }
                         else{
                             if($("#"+propname+"_text").html()=="__/__/____")
-                                propobj.value(_today());
+                                propobj.value(Date.stringToday());
                             prophelp=false;
                         }
             		}
@@ -1870,7 +1870,7 @@ var RYBOX;
 
             $("#"+propname).addClass("ryobject");
             $("#"+propname).addClass("rylabel");
-            $("#"+propname).css({"position":"absolute","left":propleft,"top":proptop,"background-color":"transparent"});
+            $("#"+propname).css({"position":"absolute", "left":propleft, "top":proptop, "background-color":"transparent", "line-height":"18px"});
             if(proptitle!=""){
                 $("#"+propname).attr({"title":proptitle});
             }
@@ -1980,7 +1980,7 @@ var RYBOX;
                     v=v.replace(/<[^<>]*>/gi,"");
                     v=v.replace(/[\r\n]+/gi,"\n");
                     v=v.replace(/'"/gi,"’");
-					proptitle=_decodehtml(v);
+					proptitle=v.htmlDecod();
                     if(proptitle.length>1000){
                         proptitle=proptitle.substr(0,1000)+"...";
                     }

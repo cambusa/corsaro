@@ -498,33 +498,33 @@ function class_qvinterazioni(settings,missing){
             for(var i in d){
                 // COLONNA ALLEGATI
                 if(d[i]["ALLEGATI"]=="1")
-                    d[i]["ALLEGATI"]=_iconAttachment();
+                    d[i]["ALLEGATI"]=GALLERY.Attachment();
                 else
                     d[i]["ALLEGATI"]="";
                 // COLONNA IMPORTANZA
                 if(d[i]["CONSISTENCY"]=="2"){
-                    d[i]["IMPORTANZA"]=_iconPencil();
+                    d[i]["IMPORTANZA"]=GALLERY.Pencil();
                 }
                 else{
                     switch(d[i]["IMPORTANZA"]){
                     case "0":
-                        d[i]["IMPORTANZA"]=_iconLow();
+                        d[i]["IMPORTANZA"]=GALLERY.Low();
                         break;
                     case "1":
                         d[i]["IMPORTANZA"]="";
                         break;
                     case "2":
-                        d[i]["IMPORTANZA"]=_iconHigh()
+                        d[i]["IMPORTANZA"]=GALLERY.High()
                         break;
                     }
                 }
                 // COLONNA DIALOGO
                 if(d[i]["REFARROWID"]!=d[i]["SYSID"]){
-                    d[i]["REFARROWID"]=_iconAnswer();
+                    d[i]["REFARROWID"]=GALLERY.Answer();
                 }
                 else{
                     if(d[i]["RISPOSTE"]=="1")
-                        d[i]["REFARROWID"]=_iconReplied();
+                        d[i]["REFARROWID"]=GALLERY.Replied();
                     else
                         d[i]["REFARROWID"]="";
                 }

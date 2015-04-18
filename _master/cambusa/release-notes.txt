@@ -1,5 +1,5 @@
 ==================================
-Rilascio 1.69.12    del XX/04/2015
+Rilascio 1.69.12    del 18/04/2015
 ==================================
 
 Aggiunte nuove funzioni prototipali in rygeneral.

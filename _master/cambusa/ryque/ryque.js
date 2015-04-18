@@ -824,7 +824,7 @@
                                                 break;
                                             default:
                                                 if(nums[c]){
-                                                    vl=_nformat(vl, decs[c]);
+                                                    vl=__formatNumber(vl, decs[c]);
                                                     $(fd).html(vl);
                                                 }
                                                 else{
