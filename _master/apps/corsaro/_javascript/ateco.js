@@ -103,7 +103,7 @@ function qv_helpateco(formid, settings, missing){
             if(sospendirefresh==false){
                 var q="";
                 var arg={};
-                var t=_likeescapize(objsearch.value());
+                var t=qv_forlikeclause(objsearch.value());
                 var s=objsezione.value().toUpperCase();
                 var c=objcodice.value();
                 
@@ -241,7 +241,7 @@ function qv_helpateco(formid, settings, missing){
                 try{
                     // ELIMINO I NULL
                     for(var i in d[0]){
-                        d[0][i]=_fittingvalue(d[0][i]);
+                        d[0][i]=__(d[0][i]);
                     }
                     winzDialogClose(dlg);
                     setTimeout(

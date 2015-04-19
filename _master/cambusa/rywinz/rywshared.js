@@ -317,7 +317,7 @@ function winzClearMess(formid, data){
         $("#stop_"+formid).hide();
         winzDither(formid, false);
         if(_isset(data)){
-            data=_strip_tags(data);
+            data=__(data).stripTags();
             if(window.console&&_sessioninfo.debugmode){console.log(data)}
             alert(data);
         }
@@ -330,7 +330,7 @@ function winzStoppable(formid, jqxhr){
 function winzAbort(formid){
     var f=_globalforms[formid];
     var m=0;
-    if(_isobject(f.jqxhr)){
+    if(typeof f.jqxhr=="object"){
         m=100;
         try{
             f.jqxhr.abort();
@@ -364,7 +364,7 @@ function winzMessageBox(formid, params, missing){
     var capOK=RYBOX.babels("BUTTON_OK");
     var codeOK="";
     var args={};
-    if(_isobject(params)){
+    if(typeof params=="object"){
         if(params.message!=missing){message=params.message}
         if(params.code!=missing){babelcode=params.code}
         if(params.confirm!=missing){confirm=params.confirm}
@@ -792,14 +792,14 @@ function winzConfirmAbandon(formid, options, missing){
     }
     return ok;
 }
-function winzToObject(formid, datalot, sysid){
+function winzToObject(formid, datalot, sysid, missing){
     var data = new Object();
     var o=_globalforms[formid];
-    if(_isset(sysid))
+    if(sysid!=missing)
         data["SYSID"]=sysid;
     for(var k in o.controls){   // Ciclo sui controlli di maschera
         var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
-        if( !_ismissing(datum) ){   // Controllo che datum sia definito
+        if(datum!=missing){   // Controllo che datum sia definito
             if(datum==datalot){  // Controllo che si un campo del lotto che voglio travasare
                 var c=globalobjs[k];
                 if(c.modified() && c.tag){
@@ -811,9 +811,9 @@ function winzToObject(formid, datalot, sysid){
                     case "check":
                         data[c.tag]=c.value();break;
                     case "list":
-                        data[c.tag]=_ajaxescapize( c.key(c.value()) );break;
+                        data[c.tag]=c.key(c.value());break;
                     default:
-                        data[c.tag]=_ajaxescapize( c.value() );break;
+                        data[c.tag]=c.value();break;
                     }
                 }
             }
@@ -822,11 +822,11 @@ function winzToObject(formid, datalot, sysid){
     if(window.console&&_sessioninfo.debugmode){console.log(data)}
     return data;
 }
-function winzMaskClear(formid, datalot){
+function winzMaskClear(formid, datalot, missing){
     var o=_globalforms[formid];
     for(var k in o.controls){   // Ciclo sui controlli di maschera
         var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
-        if( !_ismissing(datum) ){   // Controllo che datum sia definito
+        if(datum!=missing){   // Controllo che datum sia definito
             if(datum==datalot){  // Controllo che si un campo del lotto che voglio ripulire
                 var c=globalobjs[k];
                 if(c.type=="list")
@@ -838,22 +838,22 @@ function winzMaskClear(formid, datalot){
     }
     RYWINZ.modified(formid, 0);
 }
-function winzToMask(formid, datalot, data){
+function winzToMask(formid, datalot, data, missing){
     var o=_globalforms[formid];
     for(var k in o.controls){   // Ciclo sui controlli di maschera
         var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
-        if( !_ismissing(datum) ){   // Controllo che datum sia definito
+        if(datum!=missing){   // Controllo che datum sia definito
             if(datum==datalot){  // Controllo che si un campo del lotto che voglio travasare
                 var c=globalobjs[k];
                 if(c.tag){
-                    var d=_fittingvalue(data[c.tag]);
+                    var d=__(data[c.tag]);
                     switch(c.type){
                     case "date":
                         c.value(d);break;
                     case "number":
                         c.value(d);break;
                     case "check":
-                        c.value( _bool( d ) );break;
+                        c.value( d.booleanNumber() );break;
                     case "list":
                         c.value( c.index( d ) );break;
                         break;

@@ -123,8 +123,8 @@ function class_primanota_sel(settings,missing){
                 objgridsel.where(q);
                 objgridsel.query({
                     args:{
-                        "DESCRIPTION":_ajaxescapize( t ),
-                        "TAG":_ajaxescapize( t )
+                        "DESCRIPTION":t,
+                        "TAG":t
                     }
                 });
             }
@@ -165,7 +165,7 @@ function class_primanota_sel(settings,missing){
                     checkall:true, 
                     params:{
                         "riferimenti":riferimentiid,
-                        "selezione":"da "+_dformat(txf_datamin.text())+" a "+_dformat(txf_datamax.text(), "31/12/9999")
+                        "selezione":"da "+txf_datamin.text().formatDate("01/01/1900")+" a "+txf_datamax.text().formatDate("31/12/9999")
                     }
                 }
             );

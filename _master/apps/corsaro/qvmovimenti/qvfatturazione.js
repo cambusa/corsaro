@@ -121,7 +121,7 @@ function class_qvfatturazione(settings,missing){
             if(currprocessoid!=""){
                 //oper_new.enabled(1);
                 var q="";
-                var t=_likeescapize(txf_search.value());
+                var t=qv_forlikeclause(txf_search.value());
                 var richiedenteid=txf_richiedente.value();
                 var proprie=chk_proprie.value();
                 var aperte=chk_aperte.value();
@@ -899,7 +899,7 @@ function class_qvfatturazione(settings,missing){
                                         tx_genreid.value(curraggiuntivi["_GENREID"]);
                                     }
                                     else{
-                                        var g=_fittingvalue($.cookie(_sessioninfo.environ+"_fatture_genreid"));
+                                        var g=__($.cookie(_sessioninfo.environ+"_fatture_genreid"));
                                         if(g!="")
                                             tx_genreid.value(g);
                                         else if(currdivisaconto!="")
@@ -1015,7 +1015,7 @@ function class_qvfatturazione(settings,missing){
                             currfatturaid=z[0]["ARROWID"];
                             currstatoid=v[0]["STATOID"];
                             statodescr=v[0]["STATODESCR"];
-                            currchiusa=_bool(v[0]["STATUS"]);
+                            currchiusa=__(v[0]["STATUS"]).actualBoolean();
                             tx_totale.value(v[0]["AUXAMOUNT"]);
                             if(elencostati.indexOf(currstatoid)<0){
                                 currchiusa=1;

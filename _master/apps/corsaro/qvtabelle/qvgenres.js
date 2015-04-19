@@ -90,7 +90,7 @@ function class_qvgenres(settings,missing){
         select:"VIEWNAME",
         onselect:function(o,d){
             typedescr=d["DESCRIPTION"];
-            currviewname=_fittingvalue(d["VIEWNAME"]);
+            currviewname=__(d["VIEWNAME"]);
             setTimeout(function(){oper_refresh.engage()},100);
         },
         assigned:function(o){
@@ -116,7 +116,7 @@ function class_qvgenres(settings,missing){
             objgridsel.clear();
             if(currtypologyid!=""){
                 var q="";
-                var t=_likeescapize(txf_search.value());
+                var t=qv_forlikeclause(txf_search.value());
 
                 q="TYPOLOGYID='"+currtypologyid+"'";
                 if(t!="")

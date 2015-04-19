@@ -32,7 +32,7 @@ $(document).ready(function(){
         enter:function(o){
             var u=user.value();
             var m=encryptString( pwd.value() );
-            $.post("ego_begin.php", {"user":_ajaxescapize(u), "pwd":m, "app":_ajaxescapize(_appname), "env":_ajaxescapize(_castenv)},
+            $.post("ego_begin.php", {"user":u, "pwd":m, "app":_appname, "env":_castenv},
                 function(d){
                     try{
                         var v=$.parseJSON(d);
@@ -164,7 +164,7 @@ $(document).ready(function(){
             var u=user.value();
             if(u!=""){
                 if(confirm(RYBOX.getbabel("lbsendpwd", [u]))){
-                    $.post("egorequest_reset.php", {"user":_ajaxescapize(u)},
+                    $.post("egorequest_reset.php", {"user":u},
                         function(d){
                             try{
                                 var v=$.parseJSON(d);

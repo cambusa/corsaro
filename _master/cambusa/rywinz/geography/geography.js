@@ -158,7 +158,7 @@ function winzGeography(formid, settings, missing){
             var q="";
             var arg={};
             var c="";
-            var t=_likeescapize(objsearch.value());
+            var t=qv_forlikeclause(objsearch.value());
             if(propclasstable!=""){c=objclass.key()}
             if(t!=""){
                 q=likesql;
@@ -231,7 +231,7 @@ function winzGeography(formid, settings, missing){
                 try{
                     // ELIMINO I NULL
                     for(var i in d[0]){
-                        d[0][i]=_fittingvalue(d[0][i]);
+                        d[0][i]=__(d[0][i]);
                     }
                     winzDialogClose(dlg);
                     setTimeout(

@@ -139,7 +139,7 @@ function class_qvprocessi(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             
             q="TYPOLOGYID='"+processitype+"'";
             if(t!="")
@@ -421,7 +421,7 @@ function class_qvprocessi(settings,missing){
         flat:true,
         click:function(o){
             var q=" AND [:UPPER(DESCRIPTION)] LIKE '%[=DESCRIPTION]%'";
-            var t=_likeescapize(txattori_search.value());
+            var t=qv_forlikeclause(txattori_search.value());
 
             gridattori.clear();
             gridattorisel.clear();
@@ -1059,7 +1059,7 @@ function class_qvprocessi(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_statisearch.value());
+            var t=qv_forlikeclause(txf_statisearch.value());
             
             q="PROCESSOID='"+currprocessoid+"'";
             if(t!="")
@@ -1601,7 +1601,7 @@ function class_qvprocessi(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_transsearch.value());
+            var t=qv_forlikeclause(txf_transsearch.value());
             
             q="TYPOLOGYID='"+transizionitype+"' AND BOWID='"+currstatoid+"'";
             if(t!="")

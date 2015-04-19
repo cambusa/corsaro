@@ -193,7 +193,7 @@ function class_qvequivalences(settings,missing){
                 return false;
             }
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
 
             refarrowtype=txf_typology.key();
             var tag=txf_typology.tag["K"+refarrowtype];
@@ -336,7 +336,7 @@ function class_qvequivalences(settings,missing){
         button:true,
         click:function(o){
             var q="";
-            var t=_likeescapize(txfc_search.value());
+            var t=qv_forlikeclause(txfc_search.value());
 
             equiarrowtype=txfc_typology.key();
             var tag=txf_typology.tag["K"+equiarrowtype];

@@ -85,7 +85,7 @@ function class_qvarrowtypes(settings,missing){
         button:true,
         click:function(o){
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             
             if(t!="")
                 q+="( [:UPPER(DESCRIPTION)] LIKE '%[=DESCRIPTION]%' OR [:UPPER(TAG)] LIKE '%[=TAG]%' )";
@@ -312,28 +312,6 @@ function class_qvarrowtypes(settings,missing){
                         if(v.success>0){
                             var newid=v.SYSID;
                             objgriddetails.splice(0, 0, newid);
-                            /*
-                            objgriddetails.query({
-                                ready:function(v){
-                                    objgriddetails.search({
-                                            "where": _ajaxescapize("SYSID='"+newid+"'")
-                                        },
-                                        function(d){
-                                            var ind=0;
-                                            try{
-                                                var v=$.parseJSON(d);
-                                                ind=v[0];
-                                                
-                                            }
-                                            catch(e){
-                                                alert(d);
-                                            }
-                                            objgriddetails.index(ind);
-                                        }
-                                    );
-                                }
-                            });
-                            */
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }

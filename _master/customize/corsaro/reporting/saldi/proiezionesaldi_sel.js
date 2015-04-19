@@ -126,7 +126,7 @@ function class_proiezionesaldi_sel(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_searchconti.value());
+            var t=qv_forlikeclause(txf_searchconti.value());
             var divise=txf_divise.value();
             if(divise!=""){
                 divise="'"+divise.replace(/\|/g, "','")+"'";

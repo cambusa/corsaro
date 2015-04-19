@@ -678,9 +678,9 @@ var RYBOX;
 			}
 			this.modified=function(v){
 				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
+					return ($("#"+propname).prop("modified")).booleanNumber();
 				else
-					$("#"+propname).prop("modified", _bool(v) );
+					$("#"+propname).prop("modified", v.booleanNumber());
 			}
             this.selected=function(v){
                 propselected=v;
@@ -1186,7 +1186,7 @@ var RYBOX;
                         v=v.replace(",", ".");
                         v=v.replace(/[^0-9.+\-*\/\(\)]/g, "");
                         v=eval( v );
-                        v=_getfloat(v);
+                        v=__(v).stringNumber();
                         propobj.value(v, true);
                     }
                 }
@@ -1332,9 +1332,7 @@ var RYBOX;
 				var s=propinteger;
 				if(propnumdec>0){
 					s+="."+propdecimal;
-					f=_getfloat(s).toFixed(propnumdec);
-					p=f.indexOf(".");
-					f=f.replace(/\./,",");
+                    f=s.formatNumber(propnumdec);
 				}
 				else{
 					f=s;
@@ -1350,9 +1348,9 @@ var RYBOX;
 				var s=propsignum+propinteger;
 				if(propnumdec>0)
 					s+="."+propdecimal;
-				var v=_getfloat(s).toFixed(propnumdec);
+                var v=s.actualNumber();
                 if(v<propminvalue || v>propmaxvalue){
-					propobj.value(v,true);
+					propobj.value(v, true);
                     propobj.raiseexception();
 				}    
 			}
@@ -1362,19 +1360,10 @@ var RYBOX;
 					var s=propsignum+propinteger;
 					if(propnumdec>0)
 						s+="."+propdecimal;
-					return _getfloat(s).toFixed(propnumdec);
+                    return s;
 				}
 				else{
-					if((typeof v)=="string"){
-						try{
-							v=_getfloat(v).toFixed(propnumdec);
-							if(!v)
-								v=0;
-						}
-						catch(e){
-							v=0;
-						}
-					}
+                    v=__(v).actualNumber();
 					if(v<propminvalue)
 						v=propminvalue;
 					else if(v>propmaxvalue)
@@ -1443,9 +1432,9 @@ var RYBOX;
 			}
 			this.modified=function(v){
 				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
+					return ($("#"+propname).prop("modified")).booleanNumber();
 				else
-					$("#"+propname).prop("modified", _bool(v) );
+					$("#"+propname).prop("modified", v.booleanNumber());
 			}
             this.selected=function(v){
                 propselected=v;
@@ -1503,7 +1492,7 @@ var RYBOX;
                         v=v.replace(",", ".");
                         v=v.replace(/[^0-9.+\-*\/\(\)]/g, "");
                         v=eval( v );
-                        v=_getfloat(v);
+                        v=__(v).stringNumber();
                     }
                 }catch(e){
                     if(window.console)console.log(e.message);
@@ -1757,9 +1746,9 @@ var RYBOX;
 			}
 			this.modified=function(v){
 				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
+					return ($("#"+propname).prop("modified")).booleanNumber();
 				else
-					$("#"+propname).prop("modified", _bool(v) );
+					$("#"+propname).prop("modified", v.booleanNumber());
 			}
 			this.clear=function(){
 				$("#"+propname+"_anchor").val("");
@@ -2011,7 +2000,7 @@ var RYBOX;
 			}
             // FUNZIONI PRIVATE
             function setenabled(v){
-                propenabled=_bool(v);
+                propenabled=v.booleanNumber();
                 if(propenabled){
                     $("#"+propname+"_caption").css({"color":"inherit"});
                     if(propflat)
@@ -2027,7 +2016,7 @@ var RYBOX;
                 }
             }
             function setvisible(v){
-                if(propvisible=_bool(v))
+                if(propvisible=v.booleanNumber())
                     $("#"+propname).css({"visibility":"visible"});
                 else
                     $("#"+propname).css({"visibility":"hidden"});
@@ -2141,7 +2130,7 @@ var RYBOX;
 					return propvalue;
 				}
 				else{
-                    propvalue=_bool(v);
+                    propvalue=v.booleanNumber();
                     if(propvalue)
 						$("#"+propname+"_text").html("&#x2714;");
 					else
@@ -2189,9 +2178,9 @@ var RYBOX;
 			}
 			this.modified=function(v){
 				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
+					return ($("#"+propname).prop("modified")).booleanNumber();
 				else
-					$("#"+propname).prop("modified", _bool(v) );
+					$("#"+propname).prop("modified", v.booleanNumber());
 			}
             this.raisegotfocus=function(){
                 if(settings.gotfocus!=missing){settings.gotfocus(propobj)}
@@ -2404,9 +2393,9 @@ var RYBOX;
 			}
 			this.modified=function(v){
 				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
+					return ($("#"+propname).prop("modified")).booleanNumber();
 				else
-					$("#"+propname).prop("modified", _bool(v) );
+					$("#"+propname).prop("modified", v.booleanNumber());
 			}
 			this.focus=function(){
 				objectFocus(propname);
@@ -2838,6 +2827,9 @@ function ryBox(){
         p=p.replace(/\\n/g, String.fromCharCode(10));
         return p;
     }
+    this.setfocus=function(n){
+        castFocus(n);
+    }
     this.createstandard();
     // FUNZIONI PRIVATE
     function solveparent(o,parentid,missing){
@@ -2846,7 +2838,7 @@ function ryBox(){
         try{
             if(parentid!=missing){
                 attr=$(o.id).prop("parentid");
-                if(!_ismissing(attr)){
+                if(attr!=missing){
                     if(attr!=parentid)
                         range=false;
                 }
@@ -2890,7 +2882,7 @@ function castFocus(n){
         }, 200
     );
 }
-function nextFocus(nm,sh,k){
+function nextFocus(nm,sh,k,missing){
     try{
         var notab=_isset($("#"+nm).attr("notab"));
         if(_isset(k)){k.preventDefault()}
@@ -2901,7 +2893,7 @@ function nextFocus(nm,sh,k){
         var ts="date|number|text|check|list|grid|button|helper|area|edit|code";
         var formid=$("#"+nm).prop("parentid");
         var coll=new Object();
-        if(_ismissing(formid)){
+        if(formid==missing){
             for(var i in globalobjs){
                 if(_isset($("#"+i).attr("notab"))==notab){
                     if(_visibleobject(i)){
@@ -2969,17 +2961,17 @@ function nextFocus(nm,sh,k){
     }
     return false;
 }
-function _modifiedState(id,v){
+function _modifiedState(id,v,missing){
     var formid=$("#"+id).prop("parentid");
     var datum=$("#"+id).prop("datum");
-    if(!_ismissing(formid) && !_ismissing(datum)){
-        RYWINZ.modified(formid, _bool(v));
+    if(formid!=missing && datum!=missing){
+        RYWINZ.modified(formid, __(v).booleanNumber());
     }
 }
-function _busyState(id,v){
+function _busyState(id,v,missing){
     var formid=$("#"+id).prop("parentid");
-    if(!_ismissing(formid)){
-        RYWINZ.busy(formid,_bool(v));
+    if(formid!=missing){
+        RYWINZ.busy(formid, __(v).booleanNumber());
     }
 }
 function _navigateKeys(k){

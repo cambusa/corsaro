@@ -149,8 +149,8 @@ function class_elencoattivita_sel(settings,missing){
             objgridsel.where(q);
             objgridsel.query({
                 args:{
-                    "DESCRIPTION":_ajaxescapize( t ),
-                    "TAG":_ajaxescapize( t )
+                    "DESCRIPTION":t,
+                    "TAG":t
                 }
             });
         }

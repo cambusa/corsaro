@@ -751,7 +751,7 @@ function qv_autoconfigure(formid, viewname, tableprefix, typologyid, offsety, ca
     var table=tableprefix+"S";
     var flagload=false;     // DEVO LEGGERE LA CONFIGURAZIONE DEI CAMPI?
     var flagdispose=false;  // DEVO ELIMINARE I VECCHI CAMPI?
-    if(_ismissing(cacheext["_PREVTYPOLOGYID"])){
+    if(cacheext["_PREVTYPOLOGYID"]==missing){
         // LA FUNZIONE E' CHIAMATA PER LA PRIMA VOLTA
         cacheext["_PREVTYPOLOGYID"]=typologyid;
         cacheext["_CURRCONFIG"]={};
@@ -759,7 +759,7 @@ function qv_autoconfigure(formid, viewname, tableprefix, typologyid, offsety, ca
     }
     else{
         if(cacheext["_PREVTYPOLOGYID"]!=typologyid){
-            flagload=_ismissing(cacheext[typologyid]);
+            flagload=(cacheext[typologyid]==missing);
             flagdispose=true;
             cacheext["_PREVTYPOLOGYID"]=typologyid;
         }
@@ -952,7 +952,7 @@ function qv_queuehelpercall(params){
                     if(d.length>0){
                         // ELIMINO I NULL
                         for(var i in d[0]){
-                            d[0][i]=_fittingvalue(d[0][i]);
+                            d[0][i]=__(d[0][i]);
                         }
                         $("#"+id+"_text").html(d[0]["DESCRIPTION"]);
                         if(globalobjs[id].onselect){

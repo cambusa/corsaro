@@ -93,10 +93,10 @@ function class_qvobjects(settings,missing){
         select:"VIEWNAME,GENRETYPEID,QUIVERTYPEID,TIMEUNIT",
         onselect:function(o,d){
             typedescr=d["DESCRIPTION"];
-            currviewname=_fittingvalue(d["VIEWNAME"]);
-            currgenretypeid=_fittingvalue(d["GENRETYPEID"]);
-            currquivertypeid=_fittingvalue(d["QUIVERTYPEID"]);
-            currtimeunit=_fittingvalue(d["TIMEUNIT"]);
+            currviewname=__(d["VIEWNAME"]);
+            currgenretypeid=__(d["GENRETYPEID"]);
+            currquivertypeid=__(d["QUIVERTYPEID"]);
+            currtimeunit=__(d["TIMEUNIT"]);
             setTimeout(function(){oper_refresh.engage()},100);
         },
         assigned:function(o){
@@ -118,7 +118,7 @@ function class_qvobjects(settings,missing){
             objgridsel.clear();
             if(currtypologyid!=""){
                 var q="";
-                var t=_likeescapize(txf_search.value());
+                var t=qv_forlikeclause(txf_search.value());
                 
                 oper_new.enabled(1);
 

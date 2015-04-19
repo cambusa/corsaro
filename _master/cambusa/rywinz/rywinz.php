@@ -245,8 +245,8 @@ function winz_logout(promptmess){
     }
     return msg;
 }
-function winz_postman(){
-    if(_ismissing(_globalforms["postman"])){
+function winz_postman(missing){
+    if(_globalforms["postman"]==missing){
         _openingparams="({})";
         RYWINZ.newform({
             id:"postman",

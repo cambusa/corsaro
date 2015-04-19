@@ -54,7 +54,7 @@ if(!$.browser.msie){
 $(document).ready(function(){
     activation('dummy');
     if(_sessionid!=""){
-         $.post(_cambusaURL+"ryego/ego_infosession.php",{"sessionid":_sessionid,"app":_ajaxescapize(_appname)}, 
+        $.post(_cambusaURL+"ryego/ego_infosession.php",{"sessionid":_sessionid,"app":_appname}, 
             function(d){
                 try{
                     var v=$.parseJSON(d);

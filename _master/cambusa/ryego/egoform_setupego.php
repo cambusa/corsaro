@@ -245,7 +245,7 @@ function config(missing){
             $.post(_cambusaURL+"ryego/egoaction_settings.php", 
                 {
                     sessionid:_sessionid,
-                    "default":_ajaxescapize(objoptdefault.value())
+                    "default":objoptdefault.value()
                 }, 
                 function(d){
                     try{
@@ -436,8 +436,8 @@ function config(missing){
             objgridusers.where(q);
             objgridusers.query({
                 args:{
-                    "USERNAME":_ajaxescapize( t ),
-                    "ALIASNAME":_ajaxescapize( t )
+                    "USERNAME":t,
+                    "ALIASNAME":t
                 },
                 orderby:"USERNAME,ALIASNAME",
                 ready:function(){
@@ -475,8 +475,8 @@ function config(missing){
                 {
                     action:"newuser",
                     sessionid:_sessionid,
-                    user:_ajaxescapize(objusr_alias.value()), 
-                    email:_ajaxescapize(objusr_email.value()),
+                    user:objusr_alias.value(), 
+                    email:objusr_email.value(),
                     demiurge:objusr_demiurge.value(),
                     admin:objusr_admin.value()
                 }, 
@@ -507,9 +507,9 @@ function config(missing){
                 {
                     action:"newalias",
                     sessionid:_sessionid,
-                    user:_ajaxescapize(objusr_user.caption()),
-                    alias:_ajaxescapize(objusr_alias.value()), 
-                    email:_ajaxescapize(objusr_email.value()),
+                    user:objusr_user.caption(),
+                    alias:objusr_alias.value(), 
+                    email:objusr_email.value(),
                     demiurge:objusr_demiurge.value(),
                     admin:objusr_admin.value()
                 }, 
@@ -540,9 +540,9 @@ function config(missing){
                 {
                     action:"update",
                     sessionid:_sessionid,
-                    alias:_ajaxescapize(curralias), 
-                    aliasnew:_ajaxescapize(objusr_alias.value()),
-                    email:_ajaxescapize(objusr_email.value()),
+                    alias:curralias, 
+                    aliasnew:objusr_alias.value(),
+                    email:objusr_email.value(),
                     demiurge:objusr_demiurge.value(),
                     admin:objusr_admin.value()
                 }, 
@@ -575,7 +575,7 @@ function config(missing){
                     {
                         action:"reset",
                         sessionid:_sessionid,
-                        user:_ajaxescapize(objusr_user.caption())
+                        user:objusr_user.caption()
                     }, 
                     function(d){
                         try{
@@ -605,7 +605,7 @@ function config(missing){
                 {
                     action:"activate",
                     sessionid:_sessionid,
-                    user:_ajaxescapize(objusr_user.caption())
+                    user:objusr_user.caption()
                 }, 
                 function(d){
                     try{
@@ -635,7 +635,7 @@ function config(missing){
                     {
                         action:"delete",
                         sessionid:_sessionid,
-                        alias:_ajaxescapize(curralias)
+                        alias:curralias
                     }, 
                     function(d){
                         try{
@@ -666,7 +666,7 @@ function config(missing){
                     {
                         action:"deleteuser",
                         sessionid:_sessionid,
-                        alias:_ajaxescapize(curralias)
+                        alias:curralias
                     }, 
                     function(d){
                         try{
@@ -823,8 +823,8 @@ function config(missing){
                 {
                     action:"insert",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(objapp_name.value()),
-                    descr:_ajaxescapize(objapp_descr.value())
+                    app:objapp_name.value(),
+                    descr:objapp_descr.value()
                 }, 
                 function(d){
                     try{
@@ -853,9 +853,9 @@ function config(missing){
                 {
                     action:"update",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    appnew:_ajaxescapize(objapp_name.value()),
-                    descr:_ajaxescapize(objapp_descr.value())
+                    app:currapp,
+                    appnew:objapp_name.value(),
+                    descr:objapp_descr.value()
                 }, 
                 function(d){
                     try{
@@ -886,7 +886,7 @@ function config(missing){
                     {
                         action:"delete",
                         sessionid:_sessionid,
-                        app:_ajaxescapize(currapp)
+                        app:currapp
                     }, 
                     function(d){
                         try{
@@ -992,9 +992,9 @@ function config(missing){
                 {
                     action:"insert",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    env:_ajaxescapize(objenv_name.value()),
-                    descr:_ajaxescapize(objenv_descr.value())
+                    app:currapp,
+                    env:objenv_name.value(),
+                    descr:objenv_descr.value()
                 }, 
                 function(d){
                     try{
@@ -1023,10 +1023,10 @@ function config(missing){
                 {
                     action:"update",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    env:_ajaxescapize(currenv),
-                    envnew:_ajaxescapize(objenv_name.value()),
-                    descr:_ajaxescapize(objenv_descr.value())
+                    app:currapp,
+                    env:currenv,
+                    envnew:objenv_name.value(),
+                    descr:objenv_descr.value()
                 }, 
                 function(d){
                     try{
@@ -1057,8 +1057,8 @@ function config(missing){
                     {
                         action:"delete",
                         sessionid:_sessionid,
-                        app:_ajaxescapize(currapp),
-                        env:_ajaxescapize(currenv)
+                        app:currapp,
+                        env:currenv
                     }, 
                     function(d){
                         try{
@@ -1098,9 +1098,9 @@ function config(missing){
                 {
                     action:"add",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    env:_ajaxescapize(currenv),
-                    users:_ajaxescapize(y)
+                    app:currapp,
+                    env:currenv,
+                    users:y
                 }, 
                 function(d){
                     try{
@@ -1136,9 +1136,9 @@ function config(missing){
                 {
                     action:"remove",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    env:_ajaxescapize(currenv),
-                    users:_ajaxescapize(y)
+                    app:currapp,
+                    env:currenv,
+                    users:y
                 }, 
                 function(d){
                     try{
@@ -1177,7 +1177,7 @@ function config(missing){
                 objgridenvuser.where(q);
                 objgridenvuser.query({
                     args:{
-                        "USERNAME":_ajaxescapize( t )
+                        "USERNAME":t
                     },
                     orderby:"USERNAME",
                     ready:function(){
@@ -1188,7 +1188,7 @@ function config(missing){
                         objgridenvusersel.where(q);
                         objgridenvusersel.query({
                             args:{
-                                "USERNAME":_ajaxescapize( t )
+                                "USERNAME":t
                             },
                             orderby:"USERNAME"
                         });
@@ -1306,9 +1306,9 @@ function config(missing){
                 {
                     action:"insert",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    role:_ajaxescapize(objrole_name.value()),
-                    descr:_ajaxescapize(objrole_descr.value())
+                    app:currapp,
+                    role:objrole_name.value(),
+                    descr:objrole_descr.value()
                 }, 
                 function(d){
                     try{
@@ -1337,10 +1337,10 @@ function config(missing){
                 {
                     action:"update",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    role:_ajaxescapize(currrole),
-                    rolenew:_ajaxescapize(objrole_name.value()),
-                    descr:_ajaxescapize(objrole_descr.value())
+                    app:currapp,
+                    role:currrole,
+                    rolenew:objrole_name.value(),
+                    descr:objrole_descr.value()
                 }, 
                 function(d){
                     try{
@@ -1371,8 +1371,8 @@ function config(missing){
                     {
                         action:"delete",
                         sessionid:_sessionid,
-                        app:_ajaxescapize(currapp),
-                        role:_ajaxescapize(currrole)
+                        app:currapp,
+                        role:currrole
                     }, 
                     function(d){
                         try{
@@ -1412,9 +1412,9 @@ function config(missing){
                 {
                     action:"add",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    role:_ajaxescapize(currrole),
-                    users:_ajaxescapize(y)
+                    app:currapp,
+                    role:currrole,
+                    users:y
                 }, 
                 function(d){
                     try{
@@ -1450,9 +1450,9 @@ function config(missing){
                 {
                     action:"remove",
                     sessionid:_sessionid,
-                    app:_ajaxescapize(currapp),
-                    role:_ajaxescapize(currrole),
-                    users:_ajaxescapize(y)
+                    app:currapp,
+                    role:currrole,
+                    users:y
                 }, 
                 function(d){
                     try{
@@ -1491,7 +1491,7 @@ function config(missing){
                 objgridroleuser.where(q);
                 objgridroleuser.query({
                     args:{
-                        "USERNAME":_ajaxescapize( t )
+                        "USERNAME":t
                     },
                     orderby:"USERNAME",
                     ready:function(){
@@ -1502,7 +1502,7 @@ function config(missing){
                         objgridroleusersel.where(q);
                         objgridroleusersel.query({
                             args:{
-                                "USERNAME":_ajaxescapize( t )
+                                "USERNAME":t
                             },
                             orderby:"USERNAME"
                         });
@@ -1616,8 +1616,8 @@ function config(missing){
                 {
                     action:"insert",
                     sessionid:_sessionid,
-                    lang:_ajaxescapize(objlng_lang.value()),
-                    descr:_ajaxescapize(objlng_descr.value())
+                    lang:objlng_lang.value(),
+                    descr:objlng_descr.value()
                 }, 
                 function(d){
                     try{
@@ -1646,9 +1646,9 @@ function config(missing){
                 {
                     action:"update",
                     sessionid:_sessionid,
-                    lang:_ajaxescapize(currlang),
-                    langnew:_ajaxescapize(objlng_lang.value()),
-                    descr:_ajaxescapize(objlng_descr.value())
+                    lang:currlang,
+                    langnew:objlng_lang.value(),
+                    descr:objlng_descr.value()
                 }, 
                 function(d){
                     try{
@@ -1700,7 +1700,7 @@ function config(missing){
                     {
                         action:"delete",
                         sessionid:_sessionid,
-                        lang:_ajaxescapize(currlang)
+                        lang:currlang
                     }, 
                     function(d){
                         try{
@@ -1771,7 +1771,7 @@ function config(missing){
             objgridsessions.where(q);
             objgridsessions.query({
                 args:{
-                    "USERNAME":_ajaxescapize( t )
+                    "USERNAME":t
                 },
                 orderby:"SYSID",
                 ready:function(){

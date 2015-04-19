@@ -927,7 +927,7 @@
                             }
                         }
                         _criticalactivities+=1;
-                        $.post(propfolderryque+"ryq_solve.php", {"reqid":propreqid,"index":ind,"invert":_bool(invert)},
+                        $.post(propfolderryque+"ryq_solve.php", {"reqid":propreqid,"index":ind,"invert":invert.booleanNumber()},
                             function(d) {
                                 _criticalactivities-=1;
                                 if(back==missing){
@@ -1024,15 +1024,15 @@
             }
             this.ischecked=function(i){
                 if(i==missing)
-                    return _bool( _objectlength(propsels)>0 || propselinvert );
+                    return ( _objectlength(propsels)>0 || propselinvert ).booleanNumber();
                 else
-                    return _bool( _isset(propsels[i]) != propselinvert );
+                    return ( _isset(propsels[i]) != propselinvert ).booleanNumber();
             }
             this.isselected=function(i){
                 if(i==missing)
-                    return _bool( _objectlength(propsels)>0 || propselinvert || propindex>0);
+                    return ( _objectlength(propsels)>0 || propselinvert || propindex>0).booleanNumber();
                 else
-                    return _bool( (_isset(propsels[i]) != propselinvert) || i==propindex);
+                    return ( (_isset(propsels[i]) != propselinvert) || i==propindex).booleanNumber();
             }
             this.checkall=function(f){
                 if(f==missing){f=true}
@@ -1482,7 +1482,7 @@
 					return propenabled;
 				}
 				else{
-					propenabled=_bool(v);
+					propenabled=v.booleanNumber();
 				}
                 return propenabled;
 			}
@@ -1642,7 +1642,7 @@
                             "columns":columns,
                             "clause":propclause,
                             "checked":propobj.checked(false),
-                            "invert":_bool(propobj.selinvert())
+                            "invert":propobj.selinvert().booleanNumber()
                         }, 
                         function(d){
                             _criticalactivities-=1;
@@ -2086,7 +2086,7 @@
                         catch(e){
                             if(window.console){console.log(e.message)}
                             stoploading();
-                            alert(_strip_tags(d));
+                            alert( __(d).stripTags() );
                         }
                         if(params.free===true){
                             TAIL.free();
@@ -2248,7 +2248,7 @@ function ryQue(missing){
                         }
                     }
                     catch(e){
-                        alert(_strip_tags(d));
+                        alert( __(d).stripTags() );
                     }
                 }
             ).fail(

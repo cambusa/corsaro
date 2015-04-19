@@ -76,7 +76,7 @@
                     }
                     else{
                         var cn;
-                        propenabled[tool]=_bool(v);
+                        propenabled[tool]=v.booleanNumber();
                         cn="box-tool-"+tool;
                         if(!v)
                             cn+="-gray";
@@ -93,7 +93,7 @@
                     return proploaded;
                 }
                 else{
-                    proploaded=_bool(v);
+                    proploaded=v.booleanNumber();
                     propobj.enabled("engage",proploaded);
                     propobj.enabled("cut",proploaded);
                     propobj.enabled("copy",proploaded);
@@ -134,7 +134,7 @@
                 if(e==missing)
                     e=1;
                 else
-                    e=_bool(e);
+                    e=e.booleanNumber();
                 if(d==missing)
                     d="Done";
                 // Ripristino lo stato

@@ -79,7 +79,7 @@ function corsaro_browserstuff(formid, hanger, missing){
         click:function(o){
             objgrid.clear();
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var classeid=txf_classe.value();
 
             if(t!=""){
@@ -177,7 +177,7 @@ function corsaro_browserstuff(formid, hanger, missing){
         functopen();
         $("#"+formid+hanger).show();
         $("#"+formid+hanger).css({"visibility":"visible"});
-        objectFocus(formid+"stuff_txf_search");
+        RYBOX.setfocus(formid+"stuff_txf_search");
         setTimeout(function(){oper_refresh.engage()},100);
     }
     function caricaanteprima(flag){
@@ -544,14 +544,14 @@ function qv_importODS(formid, settings, missing){
                                     switch(mapc[c]){
                                     case "REGISTRY":
                                         if(value!=""){value+="<br/>"}
-                                        value+=_fittingvalue(copia[r][c]);
+                                        value+=__(copia[r][c]);
                                         break;    
                                     case "TAG":
                                         if(value!=""){value+=", "}
-                                        value+=_fittingvalue(copia[r][c]);
+                                        value+=__(copia[r][c]);
                                         break;
                                     default:
-                                        value=_fittingvalue(copia[r][c]);
+                                        value=__(copia[r][c]);
                                         if(mapc[c].substr(mapc[c].length-4)=="TIME"){
                                             var m=value.match(/\d+/g);
                                             if(m.length==3){

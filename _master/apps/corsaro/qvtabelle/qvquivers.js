@@ -101,12 +101,12 @@ function class_qvquivers(settings,missing){
         select:"VIEWNAME,GENRETYPEID,OBJECTTYPEID,MOTIVETYPEID,ARROWTYPEID,QUIVERTYPEID",
         onselect:function(o,d){
             typedescr=d["DESCRIPTION"];
-            currviewname=_fittingvalue(d["VIEWNAME"]);
-            qgenretypeid=_fittingvalue(d["GENRETYPEID"]);
-            qobjecttypeid=_fittingvalue(d["OBJECTTYPEID"]);
-            qmotivetypeid=_fittingvalue(d["MOTIVETYPEID"]);
-            qarrowtypeid=_fittingvalue(d["ARROWTYPEID"]);
-            qquivertypeid=_fittingvalue(d["QUIVERTYPEID"]);
+            currviewname=__(d["VIEWNAME"]);
+            qgenretypeid=__(d["GENRETYPEID"]);
+            qobjecttypeid=__(d["OBJECTTYPEID"]);
+            qmotivetypeid=__(d["MOTIVETYPEID"]);
+            qarrowtypeid=__(d["ARROWTYPEID"]);
+            qquivertypeid=__(d["QUIVERTYPEID"]);
             setTimeout(function(){oper_refresh.engage()},100);
         },
         assigned:function(o){
@@ -150,7 +150,7 @@ function class_qvquivers(settings,missing){
             objgridsel.clear();
             if(currtypologyid!=""){
                 var q="";
-                var t=_likeescapize(txf_search.value());
+                var t=qv_forlikeclause(txf_search.value());
                 var status=txf_status.key();
                 
                 oper_new.enabled(1);
@@ -409,7 +409,7 @@ function class_qvquivers(settings,missing){
                     try{
                         var v=$.parseJSON(d);
                         if(v.success>0){
-                            if(!_ismissing(v.params["STATUSTIME"])){
+                            if(v.params["STATUSTIME"]!=missing){
                                 globalobjs[formid+"STATUSDATE"].value(v.params["STATUSTIME"]);
                             }
                             RYWINZ.modified(formid, 0);
@@ -615,7 +615,7 @@ function class_qvquivers(settings,missing){
                 return false;
             }
             var q="";
-            var t=_likeescapize(txfx_search.value());
+            var t=qv_forlikeclause(txfx_search.value());
             
             var genreid=txfx_genre.value();
             var motiveid=txfx_motives.value();

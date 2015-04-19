@@ -66,7 +66,7 @@ function class_qvestrazioni(settings,missing){
         button:true,
         click:function(o, done){
             var q=param_where;
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var classeid="";
 
             if(param_classtable!=""){

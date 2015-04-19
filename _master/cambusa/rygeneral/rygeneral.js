@@ -94,6 +94,9 @@ Boolean.prototype.stringNumber=function(){
 String.prototype.stringBoolean=function(){
     return parseInt(this.valueOf()) ? "1" : "0";
 }
+Number.prototype.stringBoolean=function(){
+    return this.valueOf() ? "1" : "0";
+}
 Boolean.prototype.stringBoolean=function(){
     return this.valueOf() ? "1" : "0";
 }
@@ -111,6 +114,19 @@ Date.prototype.actualNumber=function(){
     return this.getTime();
 }
 Boolean.prototype.actualNumber=function(){
+    return this.valueOf() ? 1 : 0;
+}
+// actualInteger
+String.prototype.actualInteger=function(){
+    return parseInt(this.valueOf())||0;
+}
+Number.prototype.actualInteger=function(){
+    return Math.floor(this.valueOf());
+}
+Date.prototype.actualInteger=function(){
+    return Math.floor(this.getTime()/86400000);
+}
+Boolean.prototype.actualInteger=function(){
     return this.valueOf() ? 1 : 0;
 }
 // actualDate
@@ -182,10 +198,14 @@ Boolean.prototype.formatNumber=function(d){
     return this.valueOf() ? "&#x2612;" : "&#x2610;";
 }
 // formatDate
-String.prototype.formatDate=function(){
+String.prototype.formatDate=function(e, missing){
     var d=this.valueOf().replace(/[^\d]/gi, "");
-    if(d.length<8)
-        return "";
+    if(d.length<8){
+        if(e!=missing)
+            return e;
+        else
+            return "";
+    }
     else if(_sessioninfo.dateformat==1)
         return d.substr(4,2)+"/"+d.substr(6,2)+"/"+d.substr(0,4);
     else
@@ -232,12 +252,49 @@ String.prototype.getExtension=function(){
     else
         return "";
 }
+String.prototype.stripTags=function(){
+    try{
+        var s=this.valueOf();
+        s=s.replace(/<[bh]r *\/?>/gi," ");
+        s=s.replace(/<[^<>]*>/gi,"");
+    }catch(er){}
+    return s;
+}
 /********************************************
 | RISOLUZIONE DELLE VARIABILI NON ASSEGNATE |
 ********************************************/
 function __(v){
-    return typeof v==="undefined" ? "" : v;
+   return v||"";
 }
+function _$(v,e){
+   return v||e;
+}
+/***********************
+| ARRICCHIMENTO JQUERY |
+***********************/
+$.extend({
+    isset:function(v){
+        return (typeof v!=="undefined" && v!==null);
+    },
+    pause:function(millis){
+        var date=new Date();
+        var curDate=null;
+        do{curDate=new Date();}
+        while(curDate-date<millis);
+    },
+    objectsize:function(o){
+        try{
+            return Object.keys(o).length;
+        }
+        catch(e){
+            var c=0;
+            for(i in o){
+                c+=1;
+            }
+            return c;
+        }
+    }
+});
 
 var _criticalactivities=0;
 var _googleZoom=16;
@@ -245,21 +302,10 @@ var _googleLat=45.550084;
 var _googleLng=9.180665;
 var _mobiledetected=(navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Mini|Mobile/i)!==null);
 $.browser.chrome=(navigator.userAgent.match(/Chrom(e|ium)/i)!==null);
-function _ismissing(v){
-    return (typeof v==="undefined" || v===null);
-}
-function _isset(v){
+function _isset(v){ // obsoleto: usare $.isset
     return (typeof v!=="undefined" && v!==null);
 }
-function _isobject(v){
-    return (typeof v=='object');
-}
-function _bool(v){
-    if((typeof v)=="string")
-        v=parseInt(v);
-    return v ? 1 : 0;
-}
-function _pause(millis){
+function _pause(millis){    // obsoleto: usare $.pause
     var date=new Date();
     var curDate=null;
     do{curDate=new Date();}
@@ -272,10 +318,7 @@ function _jsonp(url) {   // Per richieste cross domain
 	script.src = url;
 	head.appendChild(script); 
 }
-function _ajaxescapize(t){
-    return t.replace(/'/g,"\'").replace(/\\/g,"\\\\");
-}
-function _likeescapize(t){
+function qv_forlikeclause(t){
     return t.toUpperCase().replace(/ /g,"%").replace(/[^A-Z0-9]/g,"%");
 }
 function _stringify(obj){
@@ -330,67 +373,6 @@ function _getinteger(s){
         return s;
     }
 }
-function _getfloat(s){
-    if((typeof s)==="undefined")
-        return 0;
-    if(s==null)
-        return 0;
-    if((typeof s)==="string" ){
-        // Opera e Safari, se c'è 0 davanti, si comportano male
-        s=s.replace(/^0+/, "");
-        s=s.replace(/ /g, "");
-        if(s=="")
-            return 0;
-        if(s.toLowerCase()=="null")
-            return 0;
-        if(s.substr(0,1)==".")
-            s="0"+s;
-        s=parseFloat(s);
-        if(isNaN(s))
-            s=0;
-        return s;
-    }
-    else{
-        return s;
-    }
-}
-function _fittingvalue(v){
-    if( (typeof v)==="undefined")
-        return "";
-    if( (typeof v)==="string" ){
-        if(v.toLowerCase()=="null"){
-            return "";
-        }
-    }
-    if(v===null)
-        return "";
-    return v;
-}
-function _dformat(d, e, missing){
-    d=d.replace(/[^0-9]/, "");
-    if(d!=""){
-        dy=d.substr(0,4);
-        dm=d.substr(4,2);
-        dd=d.substr(6,2);
-        if(_sessioninfo.dateformat==1)
-            return dm+"/"+dd+"/"+dy;
-        else
-            return dd+"/"+dm+"/"+dy;
-    }
-    else{
-        if(e!=missing)
-            return e;
-        else
-            return "01/01/1900";
-    }
-}
-function _strip_tags(s){
-    try{
-        s=s.replace(/<[bh]r *\/?>/gi," ");
-        s=s.replace(/<[^<>]*>/gi,"");
-    }catch(er){}
-    return s;
-}
 function _food4info(descr, memo){
     var r=descr;
     if(memo!=""){
@@ -401,7 +383,7 @@ function _food4info(descr, memo){
     r=r.replace(/[\r\n]/gi, "");
     return r;
 }
-function _objectlength(o){
+function _objectlength(o){  // obsoleto: usare $.objectsize
     try{
         return Object.keys(o).length;
     }

@@ -76,7 +76,7 @@ function class_qvarticoli(settings,missing){
         click:function(o, done){
             objgridsel.clear();
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var classeid=txf_classe.value();
 
             if(t!=""){

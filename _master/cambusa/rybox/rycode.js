@@ -9,10 +9,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var clipcode=null;
-var _globalcodeinsert=$.cookie("codeinsert");
-if(_ismissing(_globalcodeinsert)){
-    _globalcodeinsert=1;
-}
+var _globalcodeinsert=_$($.cookie("codeinsert").booleanNumber(), 1);
 (function($,missing) {
     $.extend(true,$.fn, {
         rycode:function(settings){
@@ -49,8 +46,8 @@ if(_ismissing(_globalcodeinsert)){
             if(settings.width!=missing){propwidth=settings.width}
             if(settings.maxlen!=missing){propmaxlen=settings.maxlen}
             if(settings.mode!=missing){propmode=settings.mode}
-            if(settings.lock!=missing){proplock=_bool(settings.lock)}
-            if(settings.helper!=missing){prophelper=_bool(settings.helper)}
+            if(settings.lock!=missing){proplock=settings.lock.booleanNumber()}
+            if(settings.helper!=missing){prophelper=settings.helper.booleanNumber()}
 
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -255,12 +252,13 @@ if(_ismissing(_globalcodeinsert)){
                     if(propalt)
                         return true;
             		if(propenabled && !proplock){
-                        if(propselected){
-                            propobj.clear();
-                            propobj.selected(false);
-                        }
                         var n=String.fromCharCode(k.which);
             			var u=n.toUpperCase();
+                        if(propselected){
+                            if(("0"<=u && u<="9") || ("A"<=u && u<="Z") || n=="_" || n==" ")
+                                propobj.clear();
+                            propobj.selected(false);
+                        }
             			if(propstart<propmaxlen){
                             var ok=false;
                             if(!propinsert || propcode.length<propmaxlen ){
@@ -437,6 +435,7 @@ if(_ismissing(_globalcodeinsert)){
 					try{
 						if(v!=""){
                             propcode=v;
+                            propobj.completion();
                             if(a==missing){a=false}
                             if(a){propobj.raiseassigned()}
 						}
@@ -463,8 +462,8 @@ if(_ismissing(_globalcodeinsert)){
 					return propenabled;
 				}
 				else{
-					propenabled=_bool(v);
-					if(v){
+					propenabled=v.booleanNumber();
+					if(propenabled){
 						$("#"+propname+"_anchor").removeAttr("disabled");
 						$("#"+propname+"_text").css({"color":"#000000","cursor":"text"});
 						$("#"+propname+"_button").css({"cursor":"pointer"});
@@ -486,8 +485,8 @@ if(_ismissing(_globalcodeinsert)){
 					return propvisible;
 				}
 				else{
-					propvisible=v;
-					if(v)
+					propvisible=v.booleanNumber();
+					if(propvisible)
 						$("#"+propname).css({"visibility":"visible"});
 					else
 						$("#"+propname).css({"visibility":"hidden"});
@@ -498,7 +497,7 @@ if(_ismissing(_globalcodeinsert)){
 					return propmode;
 				}
 				else{
-					propmode=_bool(v);
+					propmode=v.booleanNumber();
 				}
 			}
 			this.lock=function(v){
@@ -506,7 +505,7 @@ if(_ismissing(_globalcodeinsert)){
 					return proplock;
 				}
 				else{
-					proplock=_bool(v);
+					proplock=v.booleanNumber();
 				}
 			}
 			this.helper=function(v){
@@ -514,7 +513,7 @@ if(_ismissing(_globalcodeinsert)){
 					return prophelper;
 				}
 				else{
-					prophelper=_bool(v);
+					prophelper=v.booleanNumber();
                     if(prophelper){
                         $("#"+propname+"_text").css({"width":propwidth-20});
                         $("#"+propname+"_button").css({"display":"block"});
@@ -530,7 +529,7 @@ if(_ismissing(_globalcodeinsert)){
 					return propinsert;
 				}
 				else{
-					propinsert=_bool(v);
+					propinsert=v.booleanNumber();
                     $.cookie("codeinsert", propinsert, {expires:10000});
 				}
 			}
@@ -542,9 +541,9 @@ if(_ismissing(_globalcodeinsert)){
 			}
 			this.modified=function(v){
 				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
+					return ($("#"+propname).prop("modified")).booleanNumber();
 				else
-					$("#"+propname).prop("modified", _bool(v) );
+					$("#"+propname).prop("modified", v.booleanNumber());
 			}
             this.selected=function(v){
                 propselected=v;

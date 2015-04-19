@@ -146,7 +146,7 @@ function class_qvmovimenti(settings,missing){
                 return false;
             }
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var genreid=currgenreid;
             var motiveid=txf_motives.value();
             var contoid=txf_conto.value();

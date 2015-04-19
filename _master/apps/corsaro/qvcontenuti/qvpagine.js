@@ -165,7 +165,7 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var classeid=txf_classe.value();
 
             if(t!=""){
@@ -706,7 +706,7 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o, done){
             winzProgress(formid);
-            context=_strip_tags(txdescr.value());
+            context=txdescr.value().stripTags();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
             data["REGISTRY"]="";
             data["CONTENTURL"]="";
@@ -1382,7 +1382,7 @@ function class_qvpagine(settings,missing){
                         sql:"SELECT * FROM QW_WEBCONTENTS WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
                             RYWINZ.ToMask(formid, "C", v[0]);
-                            context=_strip_tags(v[0]["DESCRIPTION"]);
+                            context=__(v[0]["DESCRIPTION"]).stripTags();
                             loadedsysidX=currsysid;
                             currsetframes=v[0]["SETFRAMES"];
                             currsetrelated=v[0]["SETRELATED"];
@@ -1489,7 +1489,7 @@ function class_qvpagine(settings,missing){
                     filemanager.initialize(currsysid, bbl_context.replace("{1}", context), currtypologyid);
                     qv_contextmanagement(context, {sysid:currsysid, table:"QVARROWS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
                         done:function(d){
-                            context=_strip_tags(d);
+                            context=d.stripTags();
                             filemanager.caption(bbl_context.replace("{1}", context));
                         }
                     });
@@ -1502,7 +1502,7 @@ function class_qvpagine(settings,missing){
                     RYQUE.query({
                         sql:"SELECT DESCRIPTION,SETRELATED FROM QW_WEBCONTENTS WHERE SYSID='"+currsysid+"'",
                         ready:function(v){
-                            context=_strip_tags(v[0]["DESCRIPTION"]);
+                            context=__(v[0]["DESCRIPTION"]).stripTags();
                             lb_correlati_context.caption(bbl_context.replace("{1}", context));
                             loadedsysidR=currsysid;
                             currsetrelated=v[0]["SETRELATED"];

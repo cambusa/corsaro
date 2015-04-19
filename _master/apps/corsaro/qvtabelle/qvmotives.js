@@ -91,8 +91,8 @@ function class_qvmotives(settings,missing){
         select:"VIEWNAME,OBJECTTYPEID",
         onselect:function(o,d){
             typedescr=d["DESCRIPTION"];
-            currviewname=_fittingvalue(d["VIEWNAME"]);
-            currobjecttype=_fittingvalue(d["OBJECTTYPEID"]);
+            currviewname=__(d["VIEWNAME"]);
+            currobjecttype=__(d["OBJECTTYPEID"]);
             setTimeout(function(){oper_refresh.engage()},100);
         },
         assigned:function(o){
@@ -119,7 +119,7 @@ function class_qvmotives(settings,missing){
             objgridsel.clear();
             if(currtypologyid!=""){
                 var q="";
-                var t=_likeescapize(txf_search.value());
+                var t=qv_forlikeclause(txf_search.value());
                 
                 q="TYPOLOGYID='"+currtypologyid+"'";
                 if(t!="")

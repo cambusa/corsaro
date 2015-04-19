@@ -205,7 +205,7 @@ function class_qvstatistiche(settings,missing){
             h+="  </tr>";
             for(var i=0;i<pages;i++){
                 var n=parseInt(v[i]["CNT"]);
-                var d=_strip_tags(v[i]["DESCRIPTION"]);
+                var d=__(v[i]["DESCRIPTION"]).stripTags();
                 if(d.length>50){
                    d=d.substr(0, 50)+"...";
                 }

@@ -107,7 +107,7 @@ function class_qvprezzario(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var datamin=txf_datemin.text();
             
             oper_new.enabled( currgenreid!="" );

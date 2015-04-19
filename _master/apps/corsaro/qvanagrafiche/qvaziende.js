@@ -69,7 +69,7 @@ function class_qvaziende(settings,missing){
         click:function(o, done){
             if(!sospendirefresh){
                 var q="";
-                var t=_likeescapize(txf_search.value());
+                var t=qv_forlikeclause(txf_search.value());
                 var classeid=txf_classe.value();
                 var tipologia=_getinteger(txf_tipologia.key());
 

@@ -141,7 +141,7 @@ function class_qvinterazioni(settings,missing){
             if(currprocessoid!=""){
                 oper_new.enabled(1);
                 var q="";
-                var t=_likeescapize(txf_search.value());
+                var t=qv_forlikeclause(txf_search.value());
                 var processoid=currprocessoid;
                 var datamin=txf_datemin.text();
                 var datamax=txf_datemax.text();
@@ -368,7 +368,7 @@ function class_qvinterazioni(settings,missing){
         click:function(o){
             gridattivita.clear()
             var q="";
-            var t=_likeescapize(txa_search.value());
+            var t=qv_forlikeclause(txa_search.value());
 
             q+="PRATICAID='"+currpraticaid+"' AND AVAILABILITY=0";
             if(currusointerno){
@@ -1012,7 +1012,7 @@ function class_qvinterazioni(settings,missing){
                 sql:"SELECT DESCRIPTION,STATUS FROM QW_PRATICHE WHERE SYSID='"+currpraticaid+"'",
                 ready:function(v){
                     context=v[0]["DESCRIPTION"];
-                    currchiusa=_bool(v[0]["STATUS"]);
+                    currchiusa=__(v[0]["STATUS"]).actualBoolean();
                     solalettura();
                     after();
                 }
@@ -1144,7 +1144,7 @@ function class_qvinterazioni(settings,missing){
             break;
         case 2:
             gridattivita.search({
-                    "where": _ajaxescapize("SYSID='"+openattivid+"'")
+                    "where":("SYSID='"+openattivid+"'")
                 },
                 function(d){
                     try{
@@ -1163,7 +1163,7 @@ function class_qvinterazioni(settings,missing){
             break;
         case 3:
             gridattivita.search({
-                    "where": _ajaxescapize("SYSID='"+newattivid+"'")
+                    "where":("SYSID='"+newattivid+"'")
                 },
                 function(d){
                     try{

@@ -200,12 +200,12 @@ function ryQuiver(missing){
             click:function(o){
                 var q=propwhere;
                 var arg;
-                if(_isobject(propargs))
+                if(typeof propargs=="object")
                     arg=propargs;
                 else
                     arg={};
                 var c="";
-                var t=_likeescapize(objsearch.value());
+                var t=qv_forlikeclause(objsearch.value());
                 if(propclasstable!=""){c=objclass.value()}
 
                 if(t!=""){
@@ -313,7 +313,7 @@ function ryQuiver(missing){
                         try{
                             // ELIMINO I NULL
                             for(var i in d[0]){
-                                d[0][i]=_fittingvalue(d[0][i]);
+                                d[0][i]=__(d[0][i]);
                             }
                             winzDialogClose(dlg);
                             setTimeout(
@@ -443,7 +443,7 @@ var QVR=new ryQuiver();
 
             if(settings.formid!=missing){
                 propformid=settings.formid;
-                if(_ismissing( $("#"+propname).prop("parentid") )){
+                if($("#"+propname).prop("parentid")==missing){
                     // Aggancio alla maschera per quando i campi sono dinamici
                     $("#"+propname).prop("parentid", propformid);
                     _globalforms[propformid].controls[propname]=propname.substr(propformid.length);
@@ -582,7 +582,7 @@ var QVR=new ryQuiver();
 				else{
                     var single=false;
                     var caption="";
-                    propsysid=_fittingvalue(v);
+                    propsysid=__(v);
                     // Gestione modifica
                     propobj.modified(1);
                     _modifiedState(propname, true);
@@ -676,9 +676,9 @@ var QVR=new ryQuiver();
 			}
 			this.modified=function(v){
 				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
+					return __($("#"+propname).prop("modified")).booleanNumber();
 				else
-					$("#"+propname).prop("modified", _bool(v) );
+					$("#"+propname).prop("modified", v.booleanNumber());
 			}
 			this.clear=function(){
                 propsysid="";
@@ -958,7 +958,7 @@ var QVR=new ryQuiver();
 			}
             this.setid=function(id){
                 gridsel.search({
-                        "where": _ajaxescapize("SYSID='"+id+"'")
+                        "where":("SYSID='"+id+"'")
                     },
                     function(d){
                         var ind=0;

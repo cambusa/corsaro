@@ -218,7 +218,7 @@ function class_qvpratiche(settings,missing){
             objgridsel.clear();
             if(currprocessoid!=""){
                 var q="";
-                var t=_likeescapize(txf_search.value());
+                var t=qv_forlikeclause(txf_search.value());
                 var richid=txf_richiedente.value();
                 var proprie=chk_proprie.value();
                 var aperte=chk_aperte.value();
@@ -750,7 +750,7 @@ function class_qvpratiche(settings,missing){
         click:function(o){
             gridattivita.clear()
             var q="";
-            var t=_likeescapize(txa_search.value());
+            var t=qv_forlikeclause(txa_search.value());
             
             q+="PRATICAID='"+currpraticaid+"' AND AVAILABILITY=0";
             // GESTIONE SCOPE
@@ -1798,7 +1798,7 @@ function class_qvpratiche(settings,missing){
         click:function(o){
             gridmovimenti.clear()
             var q="";
-            var t=_likeescapize(txm_search.value());
+            var t=qv_forlikeclause(txm_search.value());
             
             q+="SYSID IN (SELECT ARROWID FROM QVQUIVERARROW WHERE QUIVERID='"+currpraticaid+"')";
             q+=" AND (BOWID='"+movcontoid+"' OR TARGETID='"+movcontoid+"')";
@@ -2474,7 +2474,7 @@ function class_qvpratiche(settings,missing){
                         objgrid.query({
                             ready:function(v){
                                 objgrid.search({
-                                        "where": _ajaxescapize("SYSID='"+newid+"'")
+                                        "where":("SYSID='"+newid+"'")
                                     },
                                     function(d){
                                         var ind=0;
@@ -2530,7 +2530,7 @@ function class_qvpratiche(settings,missing){
                     mascheracustom(moredata);
                     context=v[0]["DESCRIPTION"];
                     // GESTIONE DELLO STATUS
-                    currchiusa=_bool(v[0]["STATUS"]);
+                    currchiusa=__(v[0]["STATUS"]).actualBoolean();
                     if(currchiusa)
                         oper_chiusura.caption("Riapertura pratica");
                     else
@@ -2615,8 +2615,8 @@ function class_qvpratiche(settings,missing){
                 t+="<br>";
                 t+=v[0]["REGISTRY"];
                 $(prefix+"LB_STATODESCRIPTION").html(t);
-                curriniziale=_bool(v[0]["INIZIALE"]);
-                currfinale=_bool(v[0]["FINALE"]);
+                curriniziale=__(v[0]["INIZIALE"]).actualBoolean();
+                currfinale=__(v[0]["FINALE"]).actualBoolean();
                 currattoreid=v[0]["ATTOREID"];
                 movcontoid=v[0]["CONTOID"];
                 movgenereid=v[0]["GENREID"];

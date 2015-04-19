@@ -93,7 +93,7 @@ function class_qvmagazzini(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
 
             q="TYPOLOGYID='"+currtypologyid+"' AND MAGAZZINO=1";
             if(t!="")
@@ -346,7 +346,7 @@ function class_qvmagazzini(settings,missing){
             if(!sospendirefresh){
                 gridcollocazioni.clear()
                 var q="";
-                var t=_likeescapize(txm_search.value());
+                var t=qv_forlikeclause(txm_search.value());
                 var articoloid=txm_articolo.value();
                 
                 q+="MAGAZZINOID='"+currsysid+"'";

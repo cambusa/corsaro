@@ -99,7 +99,7 @@ function class_qvinclusions(settings,missing){
         button:true,
         click:function(o){
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
 
             currparenttype=txf_typology.key();
             var tag=txf_typology.tag["K"+currparenttype];
@@ -187,7 +187,7 @@ function class_qvinclusions(settings,missing){
         button:true,
         click:function(o){
             var q="";
-            var t=_likeescapize(txfc_search.value());
+            var t=qv_forlikeclause(txfc_search.value());
             
             currchildtype=txfc_typology.key();
             var tag=txf_typology.tag["K"+currchildtype];

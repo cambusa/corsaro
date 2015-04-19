@@ -201,7 +201,7 @@
 					return proptabs[t-1].enabled;
 				}
 				else{
-                    proptabs[t-1].enabled=_bool(v);
+                    proptabs[t-1].enabled=v.booleanNumber();
                     $("#"+propname+"_caption_"+t).css({"color":(v ? "black" : "silver"), "cursor":(v ? "pointer" : "default")});
 
                     // Gestisco il caso di tab corrente che viene disabilitato

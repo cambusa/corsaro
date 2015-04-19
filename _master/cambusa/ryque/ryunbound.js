@@ -880,15 +880,15 @@
             }
             this.ischecked=function(i){
                 if(i==missing)
-                    return _bool( _objectlength(propsels)>0 || propselinvert );
+                    return ( _objectlength(propsels)>0 || propselinvert ).booleanNumber();
                 else
-                    return _bool( _isset(propsels[i]) != propselinvert );
+                    return ( _isset(propsels[i]) != propselinvert ).booleanNumber();
             }
             this.isselected=function(i){
                 if(i==missing)
-                    return _bool( _objectlength(propsels)>0 || propselinvert || propindex>0);
+                    return ( _objectlength(propsels)>0 || propselinvert || propindex>0).booleanNumber();
                 else
-                    return _bool( (_isset(propsels[i]) != propselinvert) || i==propindex);
+                    return ( (_isset(propsels[i]) != propselinvert) || i==propindex).booleanNumber();
             }
             this.checkall=function(f){
                 if(f==missing){f=true}
@@ -1412,7 +1412,7 @@
 					return propenabled;
 				}
 				else{
-					propenabled=_bool(v);
+					propenabled=v.booleanNumber();
 				}
                 return propenabled;
 			}
@@ -1911,7 +1911,7 @@
                                 typs[i]=t;                      
                             }
                             // TIPO ORDINAMENTO
-                            ords[i]=_bool(args[a+1]);
+                            ords[i]=args[a+1].booleanNumber();
                             i+=1;
                         }
                         var map=[];

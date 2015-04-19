@@ -195,7 +195,7 @@ function class_qvtrasferimenti(settings,missing){
         click:function(o, done){
             objgridsel.clear()
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var genreid=currgenreid;
             var motiveid=txf_motives.value();
             var collocazioneid=txf_collocazione.value();

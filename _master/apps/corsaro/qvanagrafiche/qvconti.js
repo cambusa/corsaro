@@ -108,7 +108,7 @@ function class_qvconti(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var classeid=txf_classe.value();
 
             q="TYPOLOGYID='"+currtypologyid+"'";

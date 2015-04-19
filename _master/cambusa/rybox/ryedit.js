@@ -176,7 +176,7 @@
 					return propenabled;
 				}
 				else{
-					propenabled=_bool(v);
+					propenabled=v.booleanNumber();
                     if(propflat){
                         if(propenabled){$("#"+propname+"_anchor").removeAttr("disabled")}
                         else{$("#"+propname+"_anchor").attr("disabled",true)}
@@ -216,9 +216,9 @@
 			}
 			this.modified=function(v){
 				if(v==missing)
-					return _bool( $("#"+propname).prop("modified") );
+					return ($("#"+propname).prop("modified")).booleanNumber();
 				else
-					$("#"+propname).prop("modified", _bool(v) );
+					$("#"+propname).prop("modified", v.booleanNumber());
 			}
 			this.clear=function(){
                 if(propflat){

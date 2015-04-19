@@ -117,16 +117,16 @@ function class_qvarrows(settings,missing){
         select:"VIEWNAME,GENRETYPEID,MOTIVETYPEID,BOWTYPEID,TARGETTYPEID",
         onselect:function(o,d){
             typedescr=d["DESCRIPTION"];
-            currviewname=_fittingvalue(d["VIEWNAME"]);
-            currgenretypeid=_fittingvalue(d["GENRETYPEID"]);
-            currmotivetypeid=_fittingvalue(d["MOTIVETYPEID"]);
-            currbowtypeid=_fittingvalue(d["BOWTYPEID"]);
-            currtargettypeid=_fittingvalue(d["TARGETTYPEID"]);
+            currviewname=__(d["VIEWNAME"]);
+            currgenretypeid=__(d["GENRETYPEID"]);
+            currmotivetypeid=__(d["MOTIVETYPEID"]);
+            currbowtypeid=__(d["BOWTYPEID"]);
+            currtargettypeid=__(d["TARGETTYPEID"]);
             RYQUE.query({
                 sql:"SELECT BTYPES.TIMEUNIT AS BOWUNIT, TTYPES.TIMEUNIT AS TARGETUNIT FROM QVARROWTYPES LEFT JOIN QVOBJECTTYPES BTYPES ON BTYPES.SYSID=QVARROWTYPES.BOWTYPEID LEFT JOIN QVOBJECTTYPES TTYPES ON TTYPES.SYSID=QVARROWTYPES.TARGETTYPEID WHERE QVARROWTYPES.SYSID='"+currtypologyid+"'",
                 ready:function(v){
-                    currbowunit=_fittingvalue(v[0]["BOWUNIT"]);
-                    currtargetunit=_fittingvalue(v[0]["TARGETUNIT"]);
+                    currbowunit=__(v[0]["BOWUNIT"]);
+                    currtargetunit=__(v[0]["TARGETUNIT"]);
                     oper_new.enabled(currtypologyid!="");
                     setTimeout(function(){oper_refresh.engage()},100);
                 }
@@ -247,7 +247,7 @@ function class_qvarrows(settings,missing){
                 return;
             }
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             var genreid=txf_genre.value();
             var motiveid=txf_motives.value();
             var objectid=txf_object.value();

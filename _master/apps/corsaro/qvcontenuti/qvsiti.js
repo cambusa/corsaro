@@ -99,7 +99,7 @@ function class_qvsiti(settings,missing){
         button:true,
         click:function(o, done){
             var q="";
-            var t=_likeescapize(txf_search.value());
+            var t=qv_forlikeclause(txf_search.value());
             
             if(t!=""){
                 if(q!=""){q+=" AND "}

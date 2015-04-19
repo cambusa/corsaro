@@ -173,7 +173,7 @@ function makereport(collat,missing){
                                 }
                                 var fdb=envjson[actualtable].fields[fieldkey];
 
-                                if(_ismissing(fdb)){
+                                if(fdb==missing){
                                     t+="<td class='maestro-nocollat'>DOESN'T EXIST</td>";
                                 }
                                 else if(field.type=="JSON"){
@@ -185,7 +185,7 @@ function makereport(collat,missing){
                                     }
                                 }
                                 else if(field.type!="SYSID" && (field.type!=fdb.type || field.size!=fdb.size)){
-                                    if(_ismissing(fdb.size))
+                                    if(fdb.size==missing)
                                         t+="<td class='maestro-nocollat'>"+fdb.type+"</td>";
                                     else
                                         t+="<td class='maestro-nocollat'>"+fdb.type+"("+fdb.size+")"+"</td>";
@@ -255,7 +255,7 @@ function envcollation(){
 function envupgrade(){
     $("#upgrade-message").html("Aggiornamento in corso...");
     var envname=$("#list-upgrade").val();
-    var logonly=_bool($("input[name=chklogonly]").is(':checked'));
+    var logonly=($("input[name=chklogonly]").is(':checked')).booleanNumber();
     $("#engage-upgrade").addClass('disabled');
     $.post(
         "maestro_upgrade.php", 

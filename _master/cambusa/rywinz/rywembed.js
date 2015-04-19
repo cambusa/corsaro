@@ -98,18 +98,18 @@ function ryWinz(missing){
         else
             return _globalforms;
     }
-    this.modified=function(n,v){
+    this.modified=function(n,v,missing){
         if(v==missing){
             return $("#window_"+n).prop("modified");
         }
         else{
-            v=_bool(v);
+            v=v.booleanNumber();
             $("#window_"+n).prop("modified", v);
             if(v==0){ // Resetto lo stato di modifica dei singoli controlli
                 var o=_globalforms[n];
                 for(var k in o.controls){
                     var datum=$("#"+k).prop("datum");
-                    if( !_ismissing(datum) ){
+                    if(datum!=missing){
                         $("#"+k).prop("modified", 0);
                     }
                 }
@@ -120,7 +120,7 @@ function ryWinz(missing){
         if(v==missing)
             return $("#window_"+n).prop("busy");
         else
-            $("#window_"+n).prop("busy",_bool(v));
+            $("#window_"+n).prop("busy", v.booleanNumber());
     }
     this.newform=function(settings){
         var propid=createid();
@@ -203,7 +203,7 @@ function ryWinz(missing){
                     try{
                         $("#hanger_"+propid).html(d);
                         // CARICAMENTO CODICE
-                        if(_ismissing(objscripts[propname])){
+                        if(objscripts[propname]==missing){
                             _openingid=propid;
                             _openingname=propname;
                             $.getScript(proppath+propname+".js")
@@ -247,8 +247,8 @@ function ryWinz(missing){
             if(window.console)console.log("Unresolved form");
         }
     }
-    this.loadmodule=function(id, path, ready){
-        if(_ismissing(objmodules[id])){
+    this.loadmodule=function(id, path, ready, missing){
+        if(objmodules[id]==missing){
             objmodules[id]=0;
             $.getScript(path)
                 .done(function(){
@@ -279,31 +279,31 @@ function ryWinz(missing){
     }
     this.logoutcalls=[];
     this.AddForm=this.addform;
-    this.NewForm=this.newform;
-    this.FormClose=this.formclose;
-    this.RemoveForm=this.removeform;
-    this.Forms=this.forms;
-    this.Modified=this.modified;
-    this.Busy=this.busy;
-    this.LoadModule=this.loadmodule;
-    this.Shell=this.shell;
-    this.MessageBox=winzMessageBox;
-    this.ConfirmAbandon=winzConfirmAbandon;
-    this.ToObject=winzToObject;
-    this.MaskClear=winzMaskClear;
-    this.ToMask=winzToMask;
-    this.ClearMess=winzClearMess;
-    this.MaskEnabled=winzMaskEnabled;
-    this.TimeoutMess=winzTimeoutMess;
-    this.KeyTools=winzKeyTools;
-    this.Progress=winzProgress;
-    this.DialogGet=winzDialogGet;
-    this.DialogParams=winzDialogParams;
-    this.DialogOpen=winzDialogOpen;
-    this.DialogClose=winzDialogClose;
-    this.DisposeCtrl=winzDisposeCtrl;
-    this.DialogFree=winzDialogFree;
     this.AppendCtrl=winzAppendCtrl;
-    this.Post=winzPost;
     this.BringToFront=function(){}
+    this.Busy=this.busy;
+    this.ClearMess=winzClearMess;
+    this.ConfirmAbandon=winzConfirmAbandon;
+    this.DialogClose=winzDialogClose;
+    this.DialogFree=winzDialogFree;
+    this.DialogGet=winzDialogGet;
+    this.DialogOpen=winzDialogOpen;
+    this.DialogParams=winzDialogParams;
+    this.DisposeCtrl=winzDisposeCtrl;
+    this.FormClose=this.formclose;
+    this.Forms=this.forms;
+    this.KeyTools=winzKeyTools;
+    this.LoadModule=this.loadmodule;
+    this.MaskClear=winzMaskClear;
+    this.MaskEnabled=winzMaskEnabled;
+    this.MessageBox=winzMessageBox;
+    this.Modified=this.modified;
+    this.NewForm=this.newform;
+    this.Post=winzPost;
+    this.Progress=winzProgress;
+    this.RemoveForm=this.removeform;
+    this.Shell=this.shell;
+    this.TimeoutMess=winzTimeoutMess;
+    this.ToMask=winzToMask;
+    this.ToObject=winzToObject;
 }
