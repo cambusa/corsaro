@@ -19,6 +19,8 @@
             var proptabs=[];
             var propprevtab=-1;
             var propcurrtab=0;
+            var propmintop=0;
+            var propmaxtop=0;
 			var propobj=this;
 			var propvisible=true;
             var propcollapsible=false;
@@ -37,12 +39,21 @@
 			
 			globalobjs[propname]=this;
 
-			if(settings.left!=missing){propleft=settings.left};
-			if(settings.top!=missing){proptop=settings.top};
-            if(proptop>0)
+			if(settings.left!=missing){propleft=settings.left}
+			if(settings.top!=missing){
+                proptop=settings.top;
+                propmaxtop=proptop;
+            }
+            if(proptop>10)
                 propcollapsible=true;
-			if(settings.width!=missing){propwidth=settings.width};
-            if(settings.height!=missing){propheight=settings.height};
+			if(settings.width!=missing){propwidth=settings.width}
+            if(settings.height!=missing){propheight=settings.height}
+            if(settings.mintop!=missing){propmintop=settings.mintop}
+            if(settings.maxtop!=missing){
+                propmaxtop=settings.maxtop;
+                if(propmaxtop>10)
+                    propcollapsible=true;
+            }
             if(settings.tabs!=missing){proptabs=settings.tabs}
             if(settings.collapsible!=missing){propcollapsible=settings.collapsible}
             if(settings.formid!=missing){
@@ -243,11 +254,11 @@
 				else{
 					propcollapsed=v;
                     if( propcollapsed ){
-                        $("#"+propname).css("top", 0);
+                        $("#"+propname).css("top", propmintop);
                         $("#"+propname+"_collapse").html("&#8595;&#8595;&#8595;");
                     }
                     else{
-                        $("#"+propname).css("top", proptop);
+                        $("#"+propname).css("top", propmaxtop);
                         $("#"+propname+"_collapse").html("&#8593;&#8593;&#8593;");
                     }
                     if(settings.toggle)

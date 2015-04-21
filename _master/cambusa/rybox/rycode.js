@@ -154,27 +154,47 @@ var _globalcodeinsert=_$($.cookie("codeinsert").booleanNumber(), 1);
                         }
                         // GESTIONE ALTRI TASTI
             			if(k.which==39){ // right
-            				if(propstart<propcode.length){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart<propcode.length){
                                 propstart+=1;
             					propobj.refreshcursor();
             				}
             			}
             			else if(k.which==37){ // left
-            				if(propstart>0){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart>0){
                                 propstart-=1;
-            					propobj.refreshcursor();
+                                propobj.refreshcursor();
             				}
             			}
             			else if(k.which==36){ // home
-            				if(propstart>0){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart>0){
             					propstart=0;
             					propobj.refreshcursor();
             				}
             			}
             			else if(k.which==35){ // end
-            				if(propstart<propcode.length){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart<propcode.length){
             					propstart=propcode.length;
-            					propobj.refreshcursor();
+                                propobj.refreshcursor();
             				}
             			}
             			else if(k.which==46){ // delete
@@ -255,9 +275,10 @@ var _globalcodeinsert=_$($.cookie("codeinsert").booleanNumber(), 1);
                         var n=String.fromCharCode(k.which);
             			var u=n.toUpperCase();
                         if(propselected){
-                            if(("0"<=u && u<="9") || ("A"<=u && u<="Z") || n=="_" || n==" ")
+                            if(("0"<=u && u<="9") || ("A"<=u && u<="Z") || n=="_" || n==" "){
                                 propobj.clear();
-                            propobj.selected(false);
+                                propobj.selected(false);
+                            }
                         }
             			if(propstart<propmaxlen){
                             var ok=false;
@@ -293,7 +314,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert").booleanNumber(), 1);
             );
             $("#"+propname+"_anchor").keyup(
             	function(k){
-                    if(k.which!=9 && k.which!=16){
+                    if(k.which!=9 && k.which!=16 && !( k.which>=35 && k.which<=39 && propshift)){
                         if(propselected){
                             propobj.selected(false);
                         }

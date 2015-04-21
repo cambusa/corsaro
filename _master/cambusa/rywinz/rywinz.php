@@ -22,7 +22,7 @@ if(!isset($winz_appenviron)){
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
 <meta name="framework" content="Cambusa">
 <meta name="copyright" content="Rodolfo Calzetti">
-<meta name="license" content="GNU LGPL">
+<meta name="license" content="GNU LGPL v3">
 <meta name="repository" content="https://github.com/cambusa/">
 <title><?php print $RYWINZ->apptitle ?></title>
 <link rel='shortcut icon' href='_images/favicon.ico' type='image/x-icon'/>

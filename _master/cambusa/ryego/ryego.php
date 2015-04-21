@@ -168,7 +168,7 @@ prepareEncrypt($maestro, $publickey);
 <meta name="description" content="Ego - Central Authentication Service">
 <meta name="framework" content="Cambusa">
 <meta name="copyright" content="Rodolfo Calzetti">
-<meta name="license" content="GNU LGPL">
+<meta name="license" content="GNU LGPL v3">
 <meta name="repository" content="https://github.com/cambusa/">
 <title>Ego - Servizio di autenticazione</title>
 <link rel='shortcut icon' href='images/favicon.ico' type='image/x-icon'/>

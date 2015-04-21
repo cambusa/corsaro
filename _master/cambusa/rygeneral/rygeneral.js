@@ -174,18 +174,25 @@ Boolean.prototype.booleanNumber=function(){
 | SERIE FORMAT |
 ***************/
 function __formatNumber(s,d){
-    var f,p,i;
+    var f,p,i,g="";
     f=parseFloat(s).toFixed(d);
     if(isNaN(f)){
         f=parseFloat("0").toFixed(d);
+    }
+    if(f.substr(0,1)=="-"){
+        g="-";
+        f=f.substr(1);
     }
     if(d>0){
         p=f.indexOf(".");
         f=f.replace(/\./, ",");
     }
+    else{
+        p=f.length;
+    }
     for (i=p-3;i>0;i-=3)
         f=f.substr(0,i)+"&#x02D9;"+f.substr(i);
-    return f;
+    return g+f;
 }
 // formatNumber
 String.prototype.formatNumber=function(d){

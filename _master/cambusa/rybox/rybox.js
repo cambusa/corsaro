@@ -155,7 +155,12 @@ var RYBOX;
                         }
                         // GESTIONE ALTRI TASTI
             			if(k.which==39){ // right
-            				if(propstart<8){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart<8){
             					if(propctrl){
             						switch(propstart){
             							case 0:case 1:
@@ -173,7 +178,12 @@ var RYBOX;
             				}
             			}
             			else if(k.which==37){ // left
-            				if(propstart>0){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart>0){
             					if(propctrl){
             						switch(propstart){
             							case 0:case 1:
@@ -191,15 +201,25 @@ var RYBOX;
             				}
             			}
             			else if(k.which==36){ // home
-            				if(propstart>0){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart>0){
             					propstart=0;
             					propobj.refreshcursor();
             				}
             			}
             			else if(k.which==35){ // end
-            				if(propstart<8){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart<8){
             					propstart=8;
-            					propobj.refreshcursor();
+                                propobj.refreshcursor();
             				}
             			}
             			else if(k.which==46){ // delete
@@ -370,7 +390,7 @@ var RYBOX;
             );
             $("#"+propname+"_anchor").keyup(
             	function(k){
-                    if(k.which!=9 && k.which!=16){
+                    if(k.which!=9 && k.which!=16 && !( k.which>=35 && k.which<=39 && propshift)){
                         if(propselected){
                             propobj.selected(false);
                         }
@@ -871,13 +891,23 @@ var RYBOX;
                         }
                         // GESTIONE ALTRI TASTI
             			if(k.which==39){ // right
-            				if( (propnumdec>0 && propstart<=propnumdec) || propstart<0 ){
+                            if(propshift){
+                                propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if( (propnumdec>0 && propstart<=propnumdec) || propstart<0 ){
             					propstart+=1;
             					propobj.refreshcursor();
             				}
             			}
             			else if(k.which==37){ // left
-            				if(propstart>0){
+                            if(propshift){
+                                propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+            				else if(propstart>0){
             					if(propctrl)
             						propstart=0;
             					else
@@ -934,7 +964,12 @@ var RYBOX;
                             propobj.raisechanged();
                         }
             			else if(k.which==36){ // home
-                            if(propctrl){
+                             if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+                            else if(propctrl){
                                 propstart=0;
                                 propobj.refreshcursor();
                             }
@@ -952,13 +987,18 @@ var RYBOX;
                             }
             			}
             			else if(k.which==35){ // end
-                            if(propstart<=0){
+                            if(propshift){
+            					propstart=0;
+                                propobj.selected(true);
+                                propobj.refreshcursor();
+                            }
+                            else if(propstart<=0){
                                 propstart=0;
                                 propobj.refreshcursor();
                             }
             				else if(propnumdec>0 && propstart<=propnumdec){
             					propstart=propnumdec+1;
-            					propobj.refreshcursor();
+                                propobj.refreshcursor();
             				}
             			}
             			else if(k.which==46){ // delete
@@ -1068,7 +1108,7 @@ var RYBOX;
             );
             $("#"+propname+"_anchor").keyup(
             	function(k){
-                    if(k.which!=9 && k.which!=16){
+                    if(k.which!=9 && k.which!=16 && !( k.which>=35 && k.which<=39 && propshift)){
                         if(propselected){
                             propobj.selected(false);
                         }
@@ -1968,7 +2008,7 @@ var RYBOX;
                     v=v.replace(/<\/p>/gi,"\n");
                     v=v.replace(/<[^<>]*>/gi,"");
                     v=v.replace(/[\r\n]+/gi,"\n");
-                    v=v.replace(/'"/gi,"’");
+                    v=v.replace(/'"/gi,"â€™");
 					proptitle=v.htmlDecod();
                     if(proptitle.length>1000){
                         proptitle=proptitle.substr(0,1000)+"...";

@@ -1500,7 +1500,7 @@
                     r=[propindex];
                 else if(!$.isArray(r))
                     r=[r];
-                r.sort();
+                r.sort(function(a,b){return a-b});
                 var sels={};
                 var map=[];
                 for(i=0; i<propobj.matrix.length; i++)
@@ -1514,7 +1514,7 @@
                     if(s>=0)
                         sels[s+1]=true;
                 }
-                propobj.setmatrix(propobj.matrix, true, propindex, sels);
+                propobj.setmatrix(propobj.matrix, false, propindex, sels);
             }
             // CHIAMATA ALLA GENERAZIONE EFFETTIVA
             try{this.create();}catch(e){}
