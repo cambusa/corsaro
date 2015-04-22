@@ -499,7 +499,7 @@ function sysmessagehide(){
 <div class="pulse-conteiner">
 
 <div class="pulse-title">GESTORE DI AZIONI SCHEDULATE</div>
-<div>ryPulse &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL</div>
+<div>ryPulse &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL v3</div>
 <br/>
 
 <div style="border:1px solid silver;background-color:#F0F0F0;">

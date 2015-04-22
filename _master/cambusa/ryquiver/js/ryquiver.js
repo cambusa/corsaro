@@ -235,7 +235,7 @@ function qv_filedownload(formid, objgrid, params, missing){
                                     $("#winz-iframe").prop("src", h);
                                     winzTimeoutMess(formid, v.success, v.message);
                                     // GESTIONE FILE OBSOLETI
-                                    QVR.ManageTemp();
+                                    RYQUIVER.ManageTemp();
                                 }
                                 catch(e){
                                     winzClearMess(formid);
@@ -1172,6 +1172,9 @@ function qv_contextmanagement(context, params, missing){
     else if(params.done!=missing){
         params.done(context);
     }
+}
+function qv_forlikeclause(t){
+    return t.toUpperCase().replace(/ /g,"%").replace(/[^A-Z0-9]/g,"%");
 }
 $(document).ready(function(){
     RYBOX.babels({

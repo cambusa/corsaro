@@ -793,7 +793,7 @@ function sysmessagehide(){
 <div class="mirror-conteiner">
 
 <div class="mirror-title">MANUTENZIONE SCRIPT</div>
-<div>ryMirror &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL</div>
+<div>ryMirror &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL v3</div>
 <br/>
 
 <div style="border:1px solid silver;background-color:#F0F0F0;">

@@ -11,7 +11,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-$cacheversion=22;
+$cacheversion=23;
 
 $filibuster_host="";            // DATI (IMPOSTARE SE I DATI SONO REMOTI)
 $filibuster_environ="";         // AMBIENTE PREDEFINITO
@@ -210,7 +210,7 @@ else
 <meta name="engine" content="Filibuster">
 <meta name="framework" content="Cambusa">
 <meta name="copyright" content="Rodolfo Calzetti">
-<meta name="license" content="GNU LGPL">
+<meta name="license" content="GNU LGPL v3">
 <meta name="repository" content="https://github.com/cambusa/">
 <?php  print $GLOBALHEAD ?>
 
@@ -242,8 +242,8 @@ body{margin:10px;}
 <?php
     print "<script type='text/javascript' src='_javascript/filibuster.js?ver=$cacheversion'></script>";
     if($PROTECTED){
-        print "<script type='text/javascript' src='$filibuster_cambusa/rygeneral/rygeneral.js' ></script>";
-        print "<script type='text/javascript' src='$filibuster_cambusa/ryego/ryego.js' ></script>";
+        print "<script type='text/javascript' src='$filibuster_cambusa/rygeneral/rygeneral.js?ver=$cacheversion' ></script>";
+        print "<script type='text/javascript' src='$filibuster_cambusa/ryego/ryego.js?ver=$cacheversion' ></script>";
     }
     if(strpos($SPECIALS, "|math|")!==false && $mathjax_path!=""){
         print "<script type='text/javascript' src='".$mathjax_path."'></script>";

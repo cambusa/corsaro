@@ -442,7 +442,7 @@ function class_qvvendite(settings,missing){
             winzMessageBox(formid, {
                 message:"Effettuare una transizione di stato?",
                 confirm:function(){
-                    QVR.RequestID(formid, {
+                    RYQUIVER.RequestID(formid, {
                         table:"QW_TRANSIZIONIJOIN", 
                         select:"TARGETID,ATTOREBOWID,ATTORETARGETID",
                         where:"BOWID='"+currstatoid+"' AND TARGETID<>''",

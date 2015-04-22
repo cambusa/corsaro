@@ -973,7 +973,7 @@ function class_qvpagine(settings,missing){
         caption:"Aggiungi",
         button:true,
         click:function(o){
-            QVR.RequestID(formid, {
+            RYQUIVER.RequestID(formid, {
                 table:"QW_WEBCONTENTS", 
                 classtable:"QW_CLASSICONTENUTO", 
                 select:"SETRELATED",

@@ -335,7 +335,7 @@ function resizebody(){
 <div class="maestro-conteiner">
 
 <div class="maestro-title">MODELLAZIONE E MANUTENZIONE DATABASE</div>
-<div>ryMaestro &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL</div>
+<div>ryMaestro &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL v3</div>
 <br/>
 
 <div style="border:1px solid silver;background-color:#F0F0F0;">

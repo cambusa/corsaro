@@ -1653,7 +1653,7 @@
                                     var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                     // GESTIONE FILE OBSOLETI
-                                    QVR.ManageTemp();
+                                    RYQUIVER.ManageTemp();
                                 }
                             }
                             catch(e){
@@ -2326,4 +2326,7 @@ function ryqueFail(nomefunct){
 function ryqueUnready(status){
     if(window.console&&_sessioninfo.debugmode){console.log("Grid "+status+": verrà effettuato un nuovo tentativo...")}
 }
-var RYQUE=new ryQue();
+$(document).ready(function(){
+    RYQUE=new ryQue();
+});
+

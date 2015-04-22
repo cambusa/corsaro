@@ -1,10 +1,12 @@
 ==================================
-Rilascio 1.69.14    del XX/04/2015
+Rilascio 1.69.14    del 22/04/2015
 ==================================
 
 Portate le funzioni XML <=> JSON sotto la nuova libreria RYJAX.
 
 Campi digitabili: aggiunta la combinazione SHIFT-END per selezionare tutto.
+
+Rinominata la libreria QVR in RYQUIVER.
 
 ==================================
 Rilascio 1.69.13    del 19/04/2015

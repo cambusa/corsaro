@@ -9,7 +9,7 @@
 * Contact:         faustroll@tiscali.it                                     *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-var RYJAX={
+RYJAX={
     xtoj:function(xml, options, missing){
         try{
             if(options==missing)options={};

@@ -16,7 +16,6 @@ var globalcontainer="body";
 var globalcastfocus=false;
 var globalobjs=new Object();
 var globalcolorfocus="#FFF4E6";
-var RYBOX;
 
 (function($,missing) {
     $.extend(true,$.fn, {
@@ -2656,7 +2655,7 @@ var RYBOX;
     });
 })(jQuery);
 		
-function ryBox(){
+function ryBox(missing){
     var propbabelcodes={};
     this.container=function(c){
         if(c==missing)
@@ -2870,6 +2869,12 @@ function ryBox(){
     this.setfocus=function(n){
         castFocus(n);
     }
+    this.controls=function(n){
+        if(n!=missing)
+            return globalobjs[n];
+        else
+            return globalobjs;
+    }
     this.createstandard();
     // FUNZIONI PRIVATE
     function solveparent(o,parentid,missing){
@@ -3002,16 +3007,20 @@ function nextFocus(nm,sh,k,missing){
     return false;
 }
 function _modifiedState(id,v,missing){
-    var formid=$("#"+id).prop("parentid");
-    var datum=$("#"+id).prop("datum");
-    if(formid!=missing && datum!=missing){
-        RYWINZ.modified(formid, __(v).booleanNumber());
+    if(RYWINZ){
+        var formid=$("#"+id).prop("parentid");
+        var datum=$("#"+id).prop("datum");
+        if(formid!=missing && datum!=missing){
+            RYWINZ.modified(formid, __(v).booleanNumber());
+        }
     }
 }
 function _busyState(id,v,missing){
-    var formid=$("#"+id).prop("parentid");
-    if(formid!=missing){
-        RYWINZ.busy(formid, __(v).booleanNumber());
+    if(RYWINZ){
+        var formid=$("#"+id).prop("parentid");
+        if(formid!=missing){
+            RYWINZ.busy(formid, __(v).booleanNumber());
+        }
     }
 }
 function _navigateKeys(k){

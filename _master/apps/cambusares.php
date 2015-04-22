@@ -15,7 +15,7 @@ function CambusaLibrary($id){
     global $path_root, $path_cambusa, $path_applications, $path_customize;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
 
-    $cacheversion=22;
+    $cacheversion=23;
     
 $script_cambusa=<<<CAMBUSA
 <script language="javascript">

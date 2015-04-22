@@ -251,7 +251,7 @@ function class_qvprogetti(settings,missing){
         caption:"Aggiungi",
         button:true,
         click:function(o, done){
-            QVR.RequestID(formid, {
+            RYQUIVER.RequestID(formid, {
                 table:"QW_PRATICHE", 
                 where:"GANTT=1 AND STATUS<2 AND SYSID NOT IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+currsysid+"')",
                 title:"Scelta pratiche",
@@ -428,7 +428,7 @@ function class_qvprogetti(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            QVR.PrintElement(formid+"GANTT");
+            RYQUIVER.PrintElement(formid+"GANTT");
         }
     });
     

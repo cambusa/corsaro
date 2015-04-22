@@ -8,6 +8,16 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+/*******************
+| LIBRERIE CAMBUSA |
+*******************/
+var RYBOX;
+var RYQUE;
+var RYQUEAUX;
+var RYQUIVER;
+var RYWINZ;
+var RYJAX;
+
 var _baseURL="/";
 var _cambusaURL="../../cambusa/";
 var _appsURL="../../apps/";
@@ -324,9 +334,6 @@ function _jsonp(url) {   // Per richieste cross domain
 	script.type = "text/javascript"; 
 	script.src = url;
 	head.appendChild(script); 
-}
-function qv_forlikeclause(t){
-    return t.toUpperCase().replace(/ /g,"%").replace(/[^A-Z0-9]/g,"%");
 }
 function _stringify(obj){
     try{

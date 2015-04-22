@@ -545,7 +545,7 @@ function class_qvinterazioni(settings,missing){
         caption:"Nuova",
         button:true,
         click:function(o){
-            QVR.RequestID(formid, {
+            RYQUIVER.RequestID(formid, {
                 table:"QW_MOTIVIATTIVITA", 
                 where:"(SYSID='"+motiverichiesta+"' OR SYSID='"+motivenota+"')",
                 orderby:"ORDINATORE,DESCRIPTION",
@@ -643,7 +643,7 @@ function class_qvinterazioni(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            QVR.PrintElement(formid+"preview");
+            RYQUIVER.PrintElement(formid+"preview");
         }
     });
     
@@ -826,7 +826,7 @@ function class_qvinterazioni(settings,missing){
         caption:"Stampa documento",
         button:true,
         click:function(o){
-            QVR.PrintText(txd_registry.value());
+            RYQUIVER.PrintText(txd_registry.value());
         }
     });
 

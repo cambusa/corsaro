@@ -8,8 +8,6 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-var RYWINZ;
-var RYQUEAUX=new ryQue();
 var _openingid="";
 var _openingname="";
 var _openingparams="({})";
@@ -892,6 +890,7 @@ $(document).ready(function(){
             return raiseControlKey(k);
         }
     );
+    RYQUEAUX=new ryQue();
     RYWINZ=new ryWinz();
     RYBOX.babels({
         "MSG_DATANOTSAVE":"I dati sono stati modificati. Salvare?",

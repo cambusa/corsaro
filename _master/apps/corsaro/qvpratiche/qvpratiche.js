@@ -479,7 +479,7 @@ function class_qvpratiche(settings,missing){
             winzMessageBox(formid, {
                 message:"Effettuare una transizione di stato?",
                 confirm:function(){
-                    QVR.RequestID(formid, {
+                    RYQUIVER.RequestID(formid, {
                         table:"QW_TRANSIZIONIJOIN", 
                         select:"TARGETID,ATTOREBOWID,ATTORETARGETID",
                         where:"BOWID='"+currstatoid+"' AND TARGETID<>''",
@@ -505,7 +505,7 @@ function class_qvpratiche(settings,missing){
             winzMessageBox(formid, {
                 message:"Effettuare un cambio di precesso?",
                 confirm:function(){
-                    QVR.RequestID(formid, {
+                    RYQUIVER.RequestID(formid, {
                         table:"QW_PROCESSI", 
                         where:"SYSID IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+currinterprocesso+"')",
                         title:"Scelta processo",
@@ -918,7 +918,7 @@ function class_qvpratiche(settings,missing){
         caption:"Nuova",
         button:true,
         click:function(o){
-            QVR.RequestID(formid, {
+            RYQUIVER.RequestID(formid, {
                 table:"QW_MOTIVIATTIVITA", 
                 where:"(PROCESSOID='"+currprocessoid+"' OR PROCESSOID='') AND CONSISTENCY<>1",
                 orderby:"PROCESSOID DESC,ORDINATORE,DESCRIPTION",
@@ -1058,7 +1058,7 @@ function class_qvpratiche(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            QVR.PrintElement(formid+"preview");
+            RYQUIVER.PrintElement(formid+"preview");
         }
     });
     
@@ -1447,7 +1447,7 @@ function class_qvpratiche(settings,missing){
         caption:"Stampa documento",
         button:true,
         click:function(o){
-            QVR.PrintText(txd_registry.value());
+            RYQUIVER.PrintText(txd_registry.value());
         }
     });
 
@@ -1825,7 +1825,7 @@ function class_qvpratiche(settings,missing){
                 winzMessageBox(formid, "Conto non presente in anagrafica");
                 return;
             }
-            QVR.RequestID(formid, {
+            RYQUIVER.RequestID(formid, {
                 table:"QW_CAUSALI", 
                 title:"Nuovo movimento - Scelta causale",
                 where:"(REFERENCEID='' OR REFERENCEID='"+movcontoid+"')",

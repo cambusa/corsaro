@@ -1380,7 +1380,7 @@ function class_qvprocessi(settings,missing){
         caption:"Aggiungi",
         button:true,
         click:function(o, done){
-            QVR.RequestID(formid, {
+            RYQUIVER.RequestID(formid, {
                 table:"QW_MOTIVIATTIVITA", 
                 where:"PROCESSOID='"+currprocessoid+"' AND SYSID NOT IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+currstatoid+"')",
                 title:"Scelta motivo",
@@ -1872,7 +1872,7 @@ function class_qvprocessi(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            QVR.PrintElement(formid+"grafoviewer");
+            RYQUIVER.PrintElement(formid+"grafoviewer");
         }
     });
     offsety+=30;

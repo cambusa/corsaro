@@ -379,7 +379,6 @@ function ryQuiver(missing){
         $("#winz-printing").printThis({importCSS:false});
     }
 };
-var QVR=new ryQuiver();
 (function($,missing) {
     $.extend(true,$.fn, {
         ryhelper:function(settings){
@@ -554,7 +553,7 @@ var QVR=new ryQuiver();
                 if(settings.open!=missing){
                     settings.open(propobj);
                 };
-                QVR.RequestID(propformid, {
+                RYQUIVER.RequestID(propformid, {
                     subid:propsubid,
                     table:proptable, 
                     where:propwhere,
@@ -781,7 +780,7 @@ var QVR=new ryQuiver();
                 formid:propformid,
                 button:true,
                 click:function(o){
-                    QVR.RequestID(propformid, {
+                    RYQUIVER.RequestID(propformid, {
                         table:prophelptable, 
                         where:"SYSID NOT IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+propparentid+"')"+propwhere,
                         clause:prophelpclause,
@@ -991,6 +990,7 @@ var QVR=new ryQuiver();
 	});
 })(jQuery);
 $(document).ready(function(){
+    RYQUIVER=new ryQuiver();
     RYWINZ.logoutcalls.push(function(done){
         $.post(_cambusaURL+"ryquiver/quiver.php", 
             {

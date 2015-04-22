@@ -220,7 +220,7 @@ function class_proiezionesaldi_sel(settings,missing){
                                     var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                     // GESTIONE FILE OBSOLETI
-                                    QVR.ManageTemp();
+                                    RYQUIVER.ManageTemp();
                                 }
                                 winzTimeoutMess(formid, v.success, v.message);
                             }
