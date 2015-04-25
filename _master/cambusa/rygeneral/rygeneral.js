@@ -26,12 +26,6 @@ var _tempenviron="temporary";
 var _temporaryURL=_customizeURL+"temporary/";
 
 var _systeminfo={
-    path:{
-        root:"/",
-        apps:"../../apps/",
-        cambusa:"../../cambusa/",
-        customize:"../../customize/"
-    },
     url:{
         root:"/",
         apps:"../../apps/",

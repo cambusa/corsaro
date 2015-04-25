@@ -2411,6 +2411,7 @@ function class_qvpratiche(settings,missing){
                         try{
                             var v=$.parseJSON(d);
                             if(v.success>0){
+                                var env=v["params"]["ENVIRON"];
                                 var n=v["params"]["EXPORT"];
                                 if(allega){
                                     // ALLEGO IL TEMPLATE COMPILATO DIRETTAMENTE ALLA ATTIVITA
@@ -2419,8 +2420,8 @@ function class_qvpratiche(settings,missing){
                                 }
                                 else{
                                     // ESEGUO UN DOWNLOAD DEL TEMPLATE COMPILATO
-                                    if(window.console&&_sessioninfo.debugmode){console.log("Percorso file: "+_temporaryURL+n)}
-                                    var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+_temporaryURL+n;
+                                    if(window.console&&_sessioninfo.debugmode){console.log("Percorso file: "+env+"/"+n)}
+                                    var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+n;
                                     $("#winz-iframe").prop("src", h);
                                     winzTimeoutMess(formid, parseInt(v.success), v.message);
                                 }

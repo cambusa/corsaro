@@ -31,8 +31,10 @@ function qv_system_backup($maestro, $data){
         }
         
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach);
-        
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
+
         // CARICO LA STRUTTURA DEL DATABASE
         $maestro->loadinfo();
 

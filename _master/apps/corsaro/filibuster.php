@@ -11,7 +11,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-$cacheversion=23;
+$cacheversion=24;
 
 $filibuster_host="";            // DATI (IMPOSTARE SE I DATI SONO REMOTI)
 $filibuster_environ="";         // AMBIENTE PREDEFINITO

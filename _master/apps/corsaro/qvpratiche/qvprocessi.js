@@ -16,7 +16,7 @@ function class_qvprocessi(settings,missing){
     var processitype=RYQUE.formatid("0PROCESSI000");
     var attoritype=RYQUE.formatid("0ATTORI00000");
     var currprocessoid="";
-    var currexported="";
+    var currexport="";
 
     // VARIABILI MOTIVI
     var motiviattivitatype=RYQUE.formatid("0MOTIVIATTIV");
@@ -80,7 +80,7 @@ function class_qvprocessi(settings,missing){
             objtabs.enabled(tabtransizioni, false);
             objtabs.enabled(tabgrafo, false);
             currprocessoid="";
-            currexported="";
+            currexport="";
             loadedprocessoCid="";
             loadedprocessoAid="";
             loadedprocessoMid="";
@@ -250,7 +250,7 @@ function class_qvprocessi(settings,missing){
                     try{
                         var v=$.parseJSON(d);
                         if(v.success>0){
-                            currexported=v.params["EXPORTED"];
+                            currexport=v.params["EXPORT"];
                             oper_download.visible(1);
                         }
                         winzTimeoutMess(formid, v.success, v.message);
@@ -270,7 +270,8 @@ function class_qvprocessi(settings,missing){
         caption:"Scarica",
         button:true,
         click:function(o){
-            var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+_customizeURL+currexported;
+            // La cartella base di default è "customize"
+            var h=_cambusaURL+"rysource/source_download.php?file="+currexport;
             $("#winz-iframe").prop("src", h);
         }
     });

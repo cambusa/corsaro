@@ -16,7 +16,7 @@ function class_qvsiti(settings,missing){
     var currcontainerid="";
     var typesiteid=RYQUE.formatid("0WEBSITES000");
     var typecontainerid=RYQUE.formatid("0WEBCONTAIN0");
-    var currexported="";
+    var currexport="";
     var context="";
     var bbl_context="";
     var prefix="#"+formid;
@@ -48,7 +48,7 @@ function class_qvsiti(settings,missing){
         ],
         changerow:function(o,i){
             currsysid="";
-            currexported="";
+            currexport="";
             objtabs.enabled(2,false);
             objtabs.enabled(3,false);
             objtabs.enabled(4,false);
@@ -214,7 +214,7 @@ function class_qvsiti(settings,missing){
                     try{
                         var v=$.parseJSON(d);
                         if(v.success>0){
-                            currexported=v.params["EXPORTED"];
+                            currexport=v.params["EXPORT"];
                             oper_download.visible(1);
                         }
                         winzTimeoutMess(formid, v.success, v.message);
@@ -235,7 +235,8 @@ function class_qvsiti(settings,missing){
         caption:"Download",
         button:true,
         click:function(o){
-            var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+_customizeURL+currexported;
+            // La cartella base di default è "customize"
+            var h=_cambusaURL+"rysource/source_download.php?file="+currexport;
             $("#winz-iframe").prop("src", h);
         }
     });

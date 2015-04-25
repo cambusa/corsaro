@@ -34,7 +34,9 @@ function qv_files_delete($maestro, $data){
 
             if($ok){
                 // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-                qv_environs($maestro, $dirtemp, $dirattach);
+                $infoenv=qv_environs($maestro);
+                $dirtemp=$infoenv["dirtemp"];
+                $dirattach=$infoenv["dirattach"];
                 
                 if(qv_setting($maestro, "_VIRTUALDELETE", true)){
                     $NAME="__$SYSID";

@@ -91,11 +91,12 @@ function custMain($maestro, $data){
             $TBS->MergeBlock("trasf", $trasf);
             
             // GENERAZIONE DOCUMENTO
-            $filetmp=$temporary."T$praticaid.odt";
-            $TBS->Show(OPENTBS_FILE, $filetmp);
+            $filetmp="T$praticaid.odt";
+            $TBS->Show(OPENTBS_FILE, $temporary.$filetmp);
 
             // VARIABILI DI RITORNO
-            $babelparams["PATH"]=$filetmp;
+            $babelparams["ENVIRON"]=$envtemporary;
+            $babelparams["PATHNAME"]=$filetmp;
         }
     }
     catch(Exception $e){

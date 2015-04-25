@@ -85,7 +85,7 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
                 function(d){
                     try{
                         if(window.console&&_sessioninfo.debugmode){console.log("Risposta da reporting: "+d)}
-                        var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+d;
+                        var h=_cambusaURL+"rysource/source_download.php?file="+d;
                         $("#winz-iframe").prop("src", h);
                         winzClearMess(formid);
                     }
@@ -229,8 +229,9 @@ function qv_filedownload(formid, objgrid, params, missing){
                             function(d){
                                 try{
                                     var v=$.parseJSON(d);
+                                    var env=v["params"]["ENVIRON"];
                                     var n=v["params"]["EXPORT"];
-                                    var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+_temporaryURL+n;
+                                    var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+n;
                                     if(window.console&&_sessioninfo.debugmode){console.log("Download:"+h)}
                                     $("#winz-iframe").prop("src", h);
                                     winzTimeoutMess(formid, v.success, v.message);

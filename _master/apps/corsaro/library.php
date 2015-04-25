@@ -9,7 +9,7 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-$cacheversion=23;
+$cacheversion=24;
 CambusaLibrary("ryUpload");
 CambusaLibrary("ryQuiver");
 CambusaLibrary("GoogleMaps");

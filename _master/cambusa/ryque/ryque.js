@@ -1647,13 +1647,18 @@
                         function(d){
                             _criticalactivities-=1;
                             try{
-                                var s=_getinteger(d.substr(0,1));
-                                var f=d.substr(1);
-                                if(s>0){
-                                    var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+f;
+                                var v=$.parseJSON(d);
+                                if(v.success>0){
+                                    var env=v["environ"];
+                                    var f=v["export"];
+                                    if(window.console&&_sessioninfo.debugmode){console.log("Percorso file: "+env+"/"+f)}
+                                    var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                     // GESTIONE FILE OBSOLETI
                                     RYQUIVER.ManageTemp();
+                                }
+                                else{
+                                    alert(v.message);
                                 }
                             }
                             catch(e){

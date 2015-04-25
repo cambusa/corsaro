@@ -9,7 +9,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 var clipcode=null;
-var _globalcodeinsert=_$($.cookie("codeinsert").booleanNumber(), 1);
+var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 (function($,missing) {
     $.extend(true,$.fn, {
         rycode:function(settings){
@@ -17,9 +17,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert").booleanNumber(), 1);
 			var proptop=20;
 			var propwidth=120;
 			var propheight=22;
-            var propmaxlen=8;
+            var propmaxlen=50;
 			var propcode="";
-            var propmode="alpha";
+            var propmode="free";
             var proplock=0;
             var prophelper=1;
             var propinsert=parseInt(_globalcodeinsert);
@@ -275,10 +275,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert").booleanNumber(), 1);
                         var n=String.fromCharCode(k.which);
             			var u=n.toUpperCase();
                         if(propselected){
-                            if(("0"<=u && u<="9") || ("A"<=u && u<="Z") || n=="_" || n==" "){
-                                propobj.clear();
-                                propobj.selected(false);
-                            }
+                            propobj.clear();
+                            propobj.selected(false);
                         }
             			if(propstart<propmaxlen){
                             var ok=false;
@@ -290,6 +288,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert").booleanNumber(), 1);
                                 case "system":
                                     ok=("0"<=u && u<="9") || ("A"<=u && u<="Z");
                                     n=u;
+                                    break;
+                                case "free":
+                                    ok=true;
                                     break;
                                 default:
                                     ok=("0"<=u && u<="9") || ("A"<=u && u<="Z") || n=="_";

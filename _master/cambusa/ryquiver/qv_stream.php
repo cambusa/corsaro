@@ -24,7 +24,10 @@ function qv_stream($maestro, $data){
         $sql="";
             
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach);
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
+
         $path=date("YmdHis");
         for($i=1; $i<=2; $i++){
             $path.=monadrand();

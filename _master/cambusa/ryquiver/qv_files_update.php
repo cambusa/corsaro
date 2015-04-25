@@ -67,7 +67,9 @@ function qv_files_update($maestro, $data){
             $IMPORTNAME=ryqEscapize($data["IMPORTNAME"]);
             
             // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-            qv_environs($maestro, $dirtemp, $dirattach);
+            $infoenv=qv_environs($maestro);
+            $dirtemp=$infoenv["dirtemp"];
+            $dirattach=$infoenv["dirattach"];
             
             // CONTROLLO CHE IL FILE DA IMPORTARE ESISTA
             if(!is_file($dirtemp.$IMPORTNAME)){

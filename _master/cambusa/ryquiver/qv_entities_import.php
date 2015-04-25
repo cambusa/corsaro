@@ -32,7 +32,9 @@ function qv_entities_import($maestro, $data){
         $SYSID="";
         
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach);
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
         
         // CARICO LA STRUTTURA DEL DATABASE
         $maestro->loadinfo();

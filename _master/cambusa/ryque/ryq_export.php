@@ -13,8 +13,12 @@ if(!isset($tocambusa))
     $tocambusa="../";
 include_once $tocambusa."odsgeneration/classes/OpenOfficeSpreadsheet.class.php";
 include_once $tocambusa."ryquiver/quiversex.php";
+include_once $tocambusa."ryque/ryq_util.php";
 
-$ret="0Unknown exception";
+$success=1;
+$message="Operazione riuscita";
+$environ="";
+$export="";
 
 try{
     if(isset($_POST["reqid"]))
@@ -149,13 +153,14 @@ try{
             }
             // SCRITTURA DEL DOCUMENTO
             $buff=$doc->save(false);
-            $filetmp=$temporary."$tempid.ods";
-            $fp=fopen($filetmp, "wb");
+            $filetmp="$tempid.ods";
+            $fp=fopen($temporary.$filetmp, "wb");
             fwrite($fp, $buff);
             fclose($fp);
             
             // RESTITUZIONE DEL PERCORSO
-            $ret="1".$filetmp;
+            $environ=$envtemporary;
+            $export=$filetmp;
         }
         else{
             throw new Exception( $maestro->errdescr );
@@ -169,9 +174,18 @@ try{
     }
 }
 catch(Exception $e){
-    $ret="0".$e->getMessage();
+    $success=0;
+    $message=$e->getMessage();
 }
-print $ret;
+
+// USCITA JSON
+$jret=array();
+$jret["success"]=$success;
+$jret["message"]=$message;
+$jret["environ"]=$environ;
+$jret["export"]=$export;
+array_walk_recursive($jret, "ryqUTF8");
+print json_encode($jret);
 
 function _inputUTF8($v){
     if($v!=""){

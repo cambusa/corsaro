@@ -92,13 +92,14 @@ function custMain($maestro, $data){
             }
         }
         $buff=$doc->save(false);
-        $filetmp=$temporary."$tempid.ods";
-        $fp=fopen($filetmp, "wb");
+        $filetmp="$tempid.ods";
+        $fp=fopen($temporary.$filetmp, "wb");
         fwrite($fp, $buff);
         fclose($fp);
         
         // VARIABILI DI RITORNO
-        $babelparams["PATH"]=$filetmp;
+        $babelparams["ENVIRON"]=$envtemporary;
+        $babelparams["PATHNAME"]=$filetmp;
     }
     catch(Exception $e){
         $success=0;

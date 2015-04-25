@@ -22,7 +22,9 @@ function qv_pages_iconize($maestro, $data){
         $SYSID="";
 
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach);
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
         
         // DETERMINO L'OPERAZIONE DA EFFETTUARE
         if(isset($data["OPER"])){

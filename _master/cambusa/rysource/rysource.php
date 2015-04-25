@@ -193,7 +193,7 @@ if($env_name!=""){
                 ksort($content);
         }
         $url=escapize($env_baseurl.$subdir);
-        $path=escapize($env_strconn.$subdir);
+        $path=escapize($subdir);
     }
     else{
         $success=0;

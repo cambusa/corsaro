@@ -20,7 +20,11 @@ function qv_files_info($maestro, $data){
         $SYSID="";
         
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach, $urltemp, $urlattach);
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
+        $urltemp=$infoenv["urltemp"];
+        $urlattach=$infoenv["urlattach"];
         
         $babelparams["DIRTEMP"]=$dirtemp;
         $babelparams["DIRATTACH"]=$dirattach;

@@ -26,9 +26,9 @@ RYJAX={
             if(options.tags.length>0){
                 for(var i=0; i<options.tags.length; i++){
                     if(i<options.tags.length-1)
-                        exr[i]=new RegExp("<"+options.tags[i]+"(>| [^>]*)(.+?)</"+options.tags[i]+">", "gm");
+                        exr[i]=new RegExp("<"+options.tags[i]+"(>| [^>]*[^/]>)(.+?)</"+options.tags[i]+">", "gm");
                     else
-                        exr[i]=new RegExp("<"+options.tags[i]+"(>| [^>]*)", "gm");
+                        exr[i]=new RegExp("<"+options.tags[i]+"(/?>| [^>]*/?>)", "gm");
                 }
                 subxtoj(xml, 0, v);
             }
@@ -75,20 +75,25 @@ RYJAX={
             for(var i in j){
                 if( isNaN(i) ){
                     if(j[i] instanceof Array){
-                        var e=objDoc.createElement(i);
-                        for(var k in j[i]){
-                            if( isNaN(k) ){
-                                var f=objDoc.createElement("elem");
-                                f.setAttribute(k, j[i][k]);
-                                e.appendChild(f);
-                            }
-                            else if(typeof(j[i])=="object"){
-                                var f=objDoc.createElement("elem");
-                                subjtox(objDoc, f, j[i][k]);
-                                e.appendChild(f);
-                            }
+                        if(i=="__DATA__"){
+                            subjtox(objDoc, x, j[i]);
                         }
-                        x.appendChild(e);
+                        else{
+                            var e=objDoc.createElement(i);
+                            for(var k in j[i]){
+                                if( isNaN(k) ){
+                                    var f=objDoc.createElement("elem");
+                                    f.setAttribute(k, j[i][k]);
+                                    e.appendChild(f);
+                                }
+                                else if(typeof(j[i])=="object"){
+                                    var f=objDoc.createElement("elem");
+                                    subjtox(objDoc, f, j[i][k]);
+                                    e.appendChild(f);
+                                }
+                            }
+                            x.appendChild(e);
+                        }
                     }
                     else if(typeof(j[i])=="object"){
                         var e=objDoc.createElement(i);

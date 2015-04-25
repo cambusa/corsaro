@@ -10,22 +10,22 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-function qv_environs($maestro, &$dirtemp, &$dirattach, &$urltemp="", &$urlattach=""){
+function qv_environs($maestro){
     global $babelcode, $babelparams;
     global $path_databases, $path_customize, $url_customize, $path_root, $url_base, $safe_extensions;
     // DETERMINO SORGENTE E DESTINAZIONE DEL FILE DA IMPORTARE
-    $tempenviron=qv_setting($maestro, "_TEMPENVIRON","");
-    if($tempenviron!=""){
-        if(is_file($path_databases."_environs/".$tempenviron.".php")){
+    $envtemp=qv_setting($maestro, "_TEMPENVIRON","");
+    if($envtemp!=""){
+        if(is_file($path_databases."_environs/".$envtemp.".php")){
             $env_strconn="";
             $env_baseurl="";
-            include($path_databases."_environs/".$tempenviron.".php");
+            include($path_databases."_environs/".$envtemp.".php");
             $dirtemp=$env_strconn;
             $urltemp=$env_baseurl;
         }
         else{
             $babelcode="QVERR_NOENVIRON";
-            $b_params=array("_TEMPENVIRON" => $tempenviron);
+            $b_params=array("_TEMPENVIRON" => $envtemp);
             $b_pattern="Directory temporanea inesistente";
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
         }
@@ -37,18 +37,18 @@ function qv_environs($maestro, &$dirtemp, &$dirattach, &$urltemp="", &$urlattach
         throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
     }
 
-    $fileenviron=qv_setting($maestro, "_FILEENVIRON","");
-    if($fileenviron!=""){
-        if(is_file($path_databases."_environs/".$fileenviron.".php")){
+    $envattach=qv_setting($maestro, "_FILEENVIRON","");
+    if($envattach!=""){
+        if(is_file($path_databases."_environs/".$envattach.".php")){
             $env_strconn="";
             $env_baseurl="";
-            include($path_databases."_environs/".$fileenviron.".php");
+            include($path_databases."_environs/".$envattach.".php");
             $dirattach=$env_strconn;
             $urlattach=$env_baseurl;
         }
         else{
             $babelcode="QVERR_NOENVIRON";
-            $b_params=array("_FILEENVIRON" => $fileenviron);
+            $b_params=array("_FILEENVIRON" => $envattach);
             $b_pattern="Directory documenti inesistente";
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
         }
@@ -59,6 +59,14 @@ function qv_environs($maestro, &$dirtemp, &$dirattach, &$urltemp="", &$urlattach
         $b_pattern="Directory documenti non specificata nei parametri globali";
         throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
     }
+    return array(
+        "dirtemp" => $dirtemp, 
+        "dirattach" => $dirattach,
+        "urltemp" => $urltemp,
+        "urlattach" => $urlattach,
+        "envtemp" => $envtemp,
+        "envattach" => $envattach
+    );
 }
 
 function qv_makepath($base, $subpath){

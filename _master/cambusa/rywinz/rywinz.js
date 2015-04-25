@@ -407,6 +407,7 @@ function ryWinz(missing){
     this.Progress=winzProgress;
     this.RemoveForm=this.removeform;
     this.Shell=this.shell;
+    this.StatusMessage=winzMereMessage;
     this.TimeoutMess=winzTimeoutMess;
     this.ToMask=winzToMask;
     this.ToObject=winzToObject;

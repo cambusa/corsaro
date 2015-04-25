@@ -15,16 +15,12 @@ function CambusaLibrary($id){
     global $path_root, $path_cambusa, $path_applications, $path_customize;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
 
-    $cacheversion=23;
+    $cacheversion=24;
     
 $script_cambusa=<<<CAMBUSA
 <script language="javascript">
 _cambusaURL="../../cambusa/";
 _customizeURL="../../customize/";
-_systeminfo.path.root="$path_root";
-_systeminfo.path.apps="$path_applications";
-_systeminfo.path.cambusa="$path_cambusa";
-_systeminfo.path.customize="$path_customize";
 _systeminfo.url.root="$url_base";
 _systeminfo.url.apps="$url_applications";
 _systeminfo.url.cambusa="$url_cambusa";

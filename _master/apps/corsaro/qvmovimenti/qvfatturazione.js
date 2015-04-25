@@ -436,9 +436,10 @@ function class_qvfatturazione(settings,missing){
                             try{
                                 var v=$.parseJSON(d);
                                 if(v.success>0){
-                                    var f=v.params["PATH"];
-                                    if(window.console&&_sessioninfo.debugmode){console.log("Risposta da backoffice: "+f)}
-                                    var h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+f;
+                                    var env=v.params["ENVIRON"];
+                                    var f=v.params["PATHFILE"];
+                                    if(window.console&&_sessioninfo.debugmode){console.log("Risposta da backoffice: "+env+"/"+f)}
+                                    var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                 }
                                 winzTimeoutMess(formid, v.success, v.message);

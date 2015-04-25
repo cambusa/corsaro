@@ -41,7 +41,9 @@ function qv_files_insert($maestro, $data){
             $IMPORTNAME=ryqEscapize($IMPORTNAMEORIG);
             
             // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-            qv_environs($maestro, $dirtemp, $dirattach);
+            $infoenv=qv_environs($maestro);
+            $dirtemp=$infoenv["dirtemp"];
+            $dirattach=$infoenv["dirattach"];
             
             // CONTROLLO CHE IL FILE DA IMPORTARE ESISTA
             if(!is_file($dirtemp.$IMPORTNAMEORIG)){

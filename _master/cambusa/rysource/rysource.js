@@ -136,7 +136,7 @@
                     h=encodeURIComponent(path+nf);
                     h=h.replace(/[']/gi, "%27");
                     h=h.replace(/\%26(#|\%23)x([0-9A-F]{2})\%3B/gi, "%$2");
-                    h=_cambusaURL+"rysource/source_download.php?sessionid="+_sessionid+"&file="+h;
+                    h=_cambusaURL+"rysource/source_download.php?env="+propenviron+"&sessionid="+_sessionid+"&file="+h;
                     objfamily.additem({parent:id,id:"k"+propprogr,title:"<a href='"+h+"' class='anchor_rysource' target='_blank' title='"+tl+"'>"+tl+"</a>"});
                 }
             }

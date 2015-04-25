@@ -48,7 +48,9 @@ function qv_pratiche_imap($maestro, $data){
         }
         
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach);
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
         
         // INSERIMENTO AUTOMATICO ATTORI
         $autoattori=intval(qv_setting($maestro, "_EMAILAUTOATTORI", "0"));

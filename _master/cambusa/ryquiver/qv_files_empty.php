@@ -24,7 +24,9 @@ function qv_files_empty($maestro, $data){
         qv_solverecord($maestro, $data, "QVFILES", "SYSID", "NAME", $SYSID);
         
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach);
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
             
         $arrdel=array();
         

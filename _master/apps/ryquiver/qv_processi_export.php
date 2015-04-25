@@ -230,7 +230,7 @@ function qv_processi_export($maestro, $data){
         fclose($fp);
         
         // VARIABILI DI RITORNO
-        $babelparams["EXPORTED"]="_export/$EXPORTNAME.QVR";
+        $babelparams["EXPORT"]="_export/$EXPORTNAME.QVR";
     }
     catch(Exception $e){
         $success=0;

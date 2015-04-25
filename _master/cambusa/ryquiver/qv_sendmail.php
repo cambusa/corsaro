@@ -20,7 +20,9 @@ function qv_sendmail($maestro, $data){
         $SYSID="";
         
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach);
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
         
         // DETERMINO IL SYSID DEL RECORD CON I DATI DA INVIARE
         if(isset($data["SYSID"])){

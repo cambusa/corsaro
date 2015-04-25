@@ -155,11 +155,12 @@ function custMain($maestro, $data){
             $TBS->MergeField("TOTFATT", formatta_numero($lordo+$totimposta, 2));
             
             // GENERAZIONE DOCUMENTO
-            $filetmp=$temporary."F$praticaid.odt";
-            $TBS->Show(OPENTBS_FILE, $filetmp);
+            $filetmp="F$praticaid.odt";
+            $TBS->Show(OPENTBS_FILE, $temporary.$filetmp);
 
             // VARIABILI DI RITORNO
-            $babelparams["PATH"]=$filetmp;
+            $babelparams["ENVIRON"]=$envtemporary;
+            $babelparams["PATHFILE"]=$filetmp;
         }
     }
     catch(Exception $e){

@@ -21,7 +21,10 @@ function qv_files_export($maestro, $data){
         $SYSID="";
         
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
-        qv_environs($maestro, $dirtemp, $dirattach);
+        $infoenv=qv_environs($maestro);
+        $dirtemp=$infoenv["dirtemp"];
+        $dirattach=$infoenv["dirattach"];
+        $envtemp=$infoenv["envtemp"];
         
         if(isset($data["SYSID"])){
             // INDIVIDUAZIONE TRAMITE SYSID
@@ -167,6 +170,7 @@ function qv_files_export($maestro, $data){
                     throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
                 }
             }
+            $babelparams["ENVIRON"]=$envtemp;
         }
         else{
             $babelcode="QVERR_NOFILE";

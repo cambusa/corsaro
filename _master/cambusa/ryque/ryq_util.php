@@ -28,4 +28,12 @@ function ryqEscapize($var, $size=0){
     }
     return str_replace("'", "''", strtr($var, array("\'" => "'", "\\\"" => "\"", "\\\\" => "\\")));
 }
+function ryqUTF8(&$value){
+    if($value!=""){
+        if(!mb_check_encoding($value, "UTF-8")){
+            // CI SONO CARATTERI NON UNICODE
+            $value=utf8_encode($value);
+        }
+    }
+}
 ?>
