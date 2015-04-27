@@ -1151,7 +1151,7 @@ function class_qvpratiche(settings,missing){
     previewX=20;
     previewY=offsety;
     
-    $(prefix+"preview").css({"position":"absolute", "left":20, "top":offsety, "width":"180mm"});
+    $(prefix+"preview").css({"position":"absolute", "left":20, "top":offsety, "width":700});
     
    // DEFINIZIONE TAB DETTAGLIO
     offsety=100;
@@ -2427,7 +2427,6 @@ function class_qvpratiche(settings,missing){
                                 }
                             }
                             else{
-                                if(window.console&&_sessioninfo.debugmode){console.log("Percorso file: "+_temporaryURL+n)}
                                 winzTimeoutMess(formid, parseInt(v.success), v.message);
                             }
                         }
@@ -2695,7 +2694,7 @@ function class_qvpratiche(settings,missing){
                 }
                 txd_reference.value(v[0]["REFERENCE"]);
                 // REGOLE DI UPDATING: ABILITAZIONE BOTTONE "SALVA" E "INVIA"
-                if(_getinteger(v[0]["CONSISTENCY"])==2){
+                if(__(v[0]["CONSISTENCY"]).actualInteger()==2){
                     // BOZZA
                     currdettenabled=1;
                     RYWINZ.MaskEnabled(formid, "D", 1);
@@ -2704,7 +2703,7 @@ function class_qvpratiche(settings,missing){
                 }
                 else{
                     var a=0;
-                    switch(_getinteger(v[0]["UPDATING"])){
+                    switch(__(v[0]["UPDATING"]).actualInteger()){
                     case 0:
                         a=1;
                         break;
@@ -2808,7 +2807,7 @@ function class_qvpratiche(settings,missing){
         );
     }
     function impostastatus(data){
-        switch(_getinteger(txd_status.value())){
+        switch(txd_status.value().actualInteger()){
         case 1:
             data["STATUS"]=0;
             data["PERCENTUALE"]=0;
@@ -2836,11 +2835,11 @@ function class_qvpratiche(settings,missing){
         }
     }
     function mascherastatus(v){
-        switch(_getinteger(v["STATUS"])){
+        switch(__(v["STATUS"]).actualInteger()){
         case 1:txd_status.value(5);break;
         case 2:txd_status.value(6);break;
         default:
-            switch(_getinteger(v["PERCENTUALE"])){
+            switch(__(v["PERCENTUALE"]).actualInteger()){
             case 1:txd_status.value(2);break;
             case 2:txd_status.value(3);break;
             case 3:txd_status.value(4);break;
@@ -2898,7 +2897,7 @@ function class_qvpratiche(settings,missing){
             for(var f in cachefields){
                 n=cachefields[f];
                 if(n!=""){
-                    if(_isset(moredata[n]))
+                    if($.isset(moredata[n]))
                         globalobjs[f].value(moredata[n]);
                     else
                         globalobjs[f].value("");
@@ -2906,11 +2905,11 @@ function class_qvpratiche(settings,missing){
             }
         }
     }
-    this._resize=function(){
-        if( $("#window_"+formid).width()>1400 )
-            $(prefix+"preview").css({left:740, top:80, width:"180mm"}); // era 660
+    this._resize=function(metrics){
+        if( metrics.window.width>1420 )
+            $(prefix+"preview").css({left:740, top:80});
         else
-            $(prefix+"preview").css({left:previewX, top:previewY, width:"180mm"});  // era 700
+            $(prefix+"preview").css({left:previewX, top:previewY});
     }
 }
 

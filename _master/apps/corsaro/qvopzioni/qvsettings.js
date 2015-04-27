@@ -269,7 +269,7 @@ function class_qvsettings(settings,missing){
                                         $("#message_"+formid).html(perc+"%");
                                     }
                                     else{
-                                        counter=_getinteger(xhr.responseText.substr(0,18));
+                                        counter=xhr.responseText.substr(0,18).actualInteger();
                                     }
                                 }, false);
                             } 
@@ -285,13 +285,17 @@ function class_qvsettings(settings,missing){
                                                 $("#message_"+formid).html(perc+"%");
                                             }
                                             else{
-                                                counter=_getinteger(xhr.responseText.substr(0,18));
+                                                counter=xhr.responseText.substr(0,18).actualInteger();
                                             }
                                         } 
-                                        catch(e){} 
+                                        catch(e){
+                                            $("#message_"+formid).html(e.message);
+                                        } 
                                     });
                                 } 
-                                catch(e){} 
+                                catch(e){
+                                    $("#message_"+formid).html(e.message);
+                                } 
                             }                        
                             return xhr;
                         },
@@ -469,7 +473,7 @@ function class_qvsettings(settings,missing){
         );
     }
     function dbrestore(id){
-        var i=_getinteger($("#"+id)).attr("index");
+        var i=__($("#"+id).attr("index")).actualInteger();
         var n=listbackup[i]["NAME"];
         winzMessageBox(formid, {
             height:230,
@@ -490,7 +494,7 @@ function class_qvsettings(settings,missing){
                                     $("#message_"+formid).html(perc+"%");
                                 }
                                 else{
-                                    counter=_getinteger(xhr.responseText.substr(0,18));
+                                    counter=xhr.responseText.substr(0,18).actualInteger();
                                 }
                             }, false);
                         } 
@@ -506,13 +510,17 @@ function class_qvsettings(settings,missing){
                                             $("#message_"+formid).html(perc+"%");
                                         }
                                         else{
-                                            counter=_getinteger(xhr.responseText.substr(0,18));
+                                            counter=xhr.responseText.substr(0,18).actualInteger();
                                         }
                                     } 
-                                    catch(e){} 
+                                    catch(e){
+                                        $("#message_"+formid).html(e.message);
+                                    } 
                                 });
                             } 
-                            catch(e){} 
+                            catch(e){
+                                $("#message_"+formid).html(e.message);
+                            } 
                         }                        
                         return xhr;
                     },

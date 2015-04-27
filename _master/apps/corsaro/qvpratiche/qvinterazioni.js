@@ -62,19 +62,19 @@ function class_qvinterazioni(settings,missing){
     var taballegati=4;
     
     // DETERMINO IL PROCESSO
-    if(_isset(settings["processo"])){
+    if($.isset(settings["processo"])){
         currprocessoname=settings["processo"].toUpperCase();
         currusointerno=false;
         currprivacy=2;
     }
     // DETERMINO LA PRATICA
-    if(_isset(settings["pratica"])){
+    if($.isset(settings["pratica"])){
         openpraticaid=settings["pratica"];
     }
     // DETERMINO APERTURA DA ATTIVITA
-    if(_isset(settings["attivita"])){
+    if($.isset(settings["attivita"])){
         openattivid=settings["attivita"];
-        if(_isset(settings["form"])){
+        if($.isset(settings["form"])){
             operrichiedente=settings["form"];
         }
     }
@@ -1030,7 +1030,7 @@ function class_qvinterazioni(settings,missing){
                 RYWINZ.ToMask(formid, "D", v[0]);
                 mascherastatus(v[0]);
                 // REGOLE DI UPDATING: ABILITAZIONE BOTTONE "SALVA" E "INVIA"
-                if(_getinteger(v[0]["CONSISTENCY"])==2){
+                if(__(v[0]["CONSISTENCY"]).actualInteger()==2){
                     currconsistency=2;
                     currupdating=1;
                     operd_invia.enabled(1);
@@ -1039,7 +1039,7 @@ function class_qvinterazioni(settings,missing){
                     currconsistency=0;
                     if(currusointerno){
                         currupdating=0;
-                        switch(_getinteger(v[0]["UPDATING"])){
+                        switch(__(v[0]["UPDATING"]).actualInteger()){
                         case 0:
                             currupdating=1;
                             break;
@@ -1198,7 +1198,7 @@ function class_qvinterazioni(settings,missing){
     }
     function impostastatus(data){
         //if(txd_status.visible()){
-            switch(_getinteger(txd_status.value())){
+            switch(txd_status.value().actualInteger()){
             case 1:
                 data["STATUS"]=0;
                 data["PERCENTUALE"]=0;
@@ -1224,9 +1224,9 @@ function class_qvinterazioni(settings,missing){
     }
     function mascherastatus(v){
         if(currusointerno){
-            switch(_getinteger(v["STATUS"])){
+            switch(__(v["STATUS"]).actualInteger()){
             case 0:
-                switch(_getinteger(v["PERCENTUALE"])){
+                switch(__(v["PERCENTUALE"]).actualInteger()){
                 case 1:txd_status.value(2);break;
                 case 2:txd_status.value(3);break;
                 case 3:txd_status.value(4);break;
@@ -1253,7 +1253,7 @@ function class_qvinterazioni(settings,missing){
                         caricaanteprima(true,
                             function(){
                                 if(operrichiedente!=""){
-                                    if(_isset(globalobjs[operrichiedente+"gridsel"])){
+                                    if($.isset(globalobjs[operrichiedente+"gridsel"])){
                                         globalobjs[operrichiedente+"gridsel"].refresh();
                                     }
                                 }
@@ -1264,11 +1264,11 @@ function class_qvinterazioni(settings,missing){
             }
         );
     }
-    this._resize=function(){
-        if( $("#window_"+formid).width()>1400 )
-            $(prefix+"preview").css({left:740, top:80, width:660});
+    this._resize=function(metrics){
+        if( metrics.window.width>1420 )
+            $(prefix+"preview").css({left:740, top:80});
         else
-            $(prefix+"preview").css({left:previewX, top:previewY, width:700});
+            $(prefix+"preview").css({left:previewX, top:previewY});
     }
 }
 

@@ -113,62 +113,70 @@ function qv_files_export($maestro, $data){
                 }
             }
             $filetmp=$dirtemp.$TEMPID.$ext;
-            if(isset($mergedata)){
-                include_once $path_cambusa."tbs_us/tbs_class.php";
-                include_once $path_cambusa."tbs_us/plugins/tbs_plugin_opentbs.php";
+            if(is_file($dirattach.$SUBPATH.$SYSID.$ext)){
+                if(isset($mergedata)){
+                    include_once $path_cambusa."tbs_us/tbs_class.php";
+                    include_once $path_cambusa."tbs_us/plugins/tbs_plugin_opentbs.php";
 
-                $TBS=new clsTinyButStrong;
-                if(strpos("|.ODT|.ODS|.DOCX|.XLSX|", "|".$uext."|" )!==false){
-                    $TBS->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
-                }
-                if(strpos("|.HTM|.HTML|.PHT|", "|".$uext."|" )===false){
-                    array_walk_recursive($mergedata, "qv_striptags");
-                }
-                $TBS->LoadTemplate($dirattach.$SUBPATH.$SYSID.$ext);
-                foreach($mergedata as $space => $arr){
-                    $TBS->NoErr=true;
-                    $TBS->MergeBlock($space, $arr);
-                }
-                if(strpos("|.ODT|.ODS|.DOCX|.XLSX|", "|".$uext."|" )!==false){
-                    $TBS->Show(OPENTBS_FILE, $filetmp);
-                }
-                else{
-                    $buff=html_entity_decode($TBS->Source);
-                    $fp=fopen($filetmp, "wb");
-                    fwrite($fp, $buff);
-                    fclose($fp);
-                }
-                // TRASFORAMZIONE IN PDF
-                if(strtoupper($ext)==".PHT"){
-                    $buffer=utf8_encode(file_get_contents($filetmp));
-                    $filetmp=substr($filetmp, 0, -3)."pdf";
-                    qv_file_pdfoutput($filetmp, $buffer);
-                }
-                // FIRMA ELETTRONICA
-                if($sign){
-                    $filetmp=signature_p7m($filetmp);
-                }
-                $babelparams["EXPORT"]=basename($filetmp);
-            }
-            else{
-                if(@copy($dirattach.$SUBPATH.$SYSID.$ext, $filetmp)){
+                    $TBS=new clsTinyButStrong;
+                    if(strpos("|.ODT|.ODS|.DOCX|.XLSX|", "|".$uext."|" )!==false){
+                        $TBS->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
+                    }
+                    if(strpos("|.HTM|.HTML|.PHT|", "|".$uext."|" )===false){
+                        array_walk_recursive($mergedata, "qv_striptags");
+                    }
+                    $TBS->LoadTemplate($dirattach.$SUBPATH.$SYSID.$ext);
+                    foreach($mergedata as $space => $arr){
+                        $TBS->NoErr=true;
+                        $TBS->MergeBlock($space, $arr);
+                    }
+                    if(strpos("|.ODT|.ODS|.DOCX|.XLSX|", "|".$uext."|" )!==false){
+                        $TBS->Show(OPENTBS_FILE, $filetmp);
+                    }
+                    else{
+                        $buff=html_entity_decode($TBS->Source);
+                        $fp=fopen($filetmp, "wb");
+                        fwrite($fp, $buff);
+                        fclose($fp);
+                    }
                     // TRASFORAMZIONE IN PDF
                     if(strtoupper($ext)==".PHT"){
                         $buffer=utf8_encode(file_get_contents($filetmp));
                         $filetmp=substr($filetmp, 0, -3)."pdf";
                         qv_file_pdfoutput($filetmp, $buffer);
                     }
+                    // FIRMA ELETTRONICA
                     if($sign){
                         $filetmp=signature_p7m($filetmp);
                     }
                     $babelparams["EXPORT"]=basename($filetmp);
                 }
                 else{
-                    $babelcode="QVERR_EXPORTFAILED";
-                    $b_params=array("NAME" => $NAME);
-                    $b_pattern="Export del file [{1}] fallito";
-                    throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+                    if(@copy($dirattach.$SUBPATH.$SYSID.$ext, $filetmp)){
+                        // TRASFORAMZIONE IN PDF
+                        if(strtoupper($ext)==".PHT"){
+                            $buffer=utf8_encode(file_get_contents($filetmp));
+                            $filetmp=substr($filetmp, 0, -3)."pdf";
+                            qv_file_pdfoutput($filetmp, $buffer);
+                        }
+                        if($sign){
+                            $filetmp=signature_p7m($filetmp);
+                        }
+                        $babelparams["EXPORT"]=basename($filetmp);
+                    }
+                    else{
+                        $babelcode="QVERR_EXPORTFAILED";
+                        $b_params=array("NAME" => $NAME);
+                        $b_pattern="Export del file [{1}] fallito";
+                        throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+                    }
                 }
+            }
+            else{
+                $babelcode="QVERR_EXPORTNOFILE";
+                $b_params=array("NAME" => $NAME);
+                $b_pattern="Il file [{1}] non esiste";
+                throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
             }
             $babelparams["ENVIRON"]=$envtemp;
         }

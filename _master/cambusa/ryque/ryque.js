@@ -164,13 +164,13 @@
                 t+="<div id='"+propname+"_vscroll'>"; // Scroll verticale
                     t+="<div id='"+propname+"_tooltip'>0-0</div><div id='"+propname+"_vtrack'></div>";
                 t+="</div>";
-                if(_mobiledetected){
+                if($.browser.mobile){
                     t+="<div id='"+propname+"_mobivertback'></div><div id='"+propname+"_mobivertfore'></div>";
                 }
                 t+="<div id='"+propname+"_hscroll'>"; // Scroll orizzontale
                     t+="<div id='"+propname+"_htrack'></div>";
                 t+="</div>";
-                if(_mobiledetected){
+                if($.browser.mobile){
                     t+="<div id='"+propname+"_mobihoriback'></div><div id='"+propname+"_mobihorifore'></div>";
                 }
                 t+="<div id='"+propname+"_quad'></div>"; // prolungamento di hscroll
@@ -407,7 +407,7 @@
                         }
                     }
                 );
-                if(_mobiledetected){
+                if($.browser.mobile){
                     $("#"+propname+"_mobivertback").mousedown(
                         function(evt){
                             if(!propenabled){return}
@@ -515,10 +515,10 @@
                                 propordcol=c;
                             }
                             else if(c==0 && propcheckable){
-                                if(_objectlength(propsels)==propcount && !propselinvert){
+                                if($.objectsize(propsels)==propcount && !propselinvert){
                                     propsels={};
                                 }
-                                else if(_objectlength(propsels)>0 && propselinvert){
+                                else if($.objectsize(propsels)>0 && propselinvert){
                                     propsels={};
                                     propselinvert=false;
                                 }
@@ -684,8 +684,8 @@
                     var par=$("#"+propname).parents(".window_main");
                     if(par.length>0){
                         var id=par[0]["id"];
-                        RYWINZ.forms( id.substr(5) )._kresize=function(w,h){
-                            propwidth=w-2*propleft-20;
+                        RYWINZ.forms( id.substr(5) )._kresize=function(metrics){
+                            propwidth=metrics.window.width-2*propleft-20;
                             if(propwidth<propminwidth)
                                 propwidth=propminwidth;
                             else if(propwidth>propmaxwidth)
@@ -750,10 +750,10 @@
                 }
                 proploadon=true;
                 propobj.vscrefresh();
-                _criticalactivities+=1;
+                _systeminfo.activities+=1;
                 $.post(propfolderryque+"ryq_window.php", {"reqid":propreqid,"offset":proptoprow,"length":proprows,"clause":propclause},
                     function(d){
-                        _criticalactivities-=1;
+                        _systeminfo.activities-=1;
                         try{
                             var v=$.parseJSON(d);
                             var r,c,fd,vl,reff;
@@ -926,10 +926,10 @@
                                 ind+="|"+i;
                             }
                         }
-                        _criticalactivities+=1;
+                        _systeminfo.activities+=1;
                         $.post(propfolderryque+"ryq_solve.php", {"reqid":propreqid,"index":ind,"invert":invert.booleanNumber()},
                             function(d) {
-                                _criticalactivities-=1;
+                                _systeminfo.activities-=1;
                                 if(back==missing){
                                     if(settings.solveid!=missing){settings.solveid(propobj,d)}
                                 }
@@ -951,10 +951,10 @@
             this.selbyid=function(ids, sing, done){
                 if(ids!=""){
                     if(raisebeforechange(0)){return}
-                    _criticalactivities+=1;
+                    _systeminfo.activities+=1;
                     $.post(propfolderryque+"ryq_selbyid.php", {"reqid":propreqid,"listid":ids},
                         function(d){
-                            _criticalactivities-=1;
+                            _systeminfo.activities-=1;
                             propindex=0;
                             propselinvert=false;
                             propsels={};
@@ -1024,15 +1024,15 @@
             }
             this.ischecked=function(i){
                 if(i==missing)
-                    return ( _objectlength(propsels)>0 || propselinvert ).booleanNumber();
+                    return ( $.objectsize(propsels)>0 || propselinvert ).booleanNumber();
                 else
-                    return ( _isset(propsels[i]) != propselinvert ).booleanNumber();
+                    return ( $.isset(propsels[i]) != propselinvert ).booleanNumber();
             }
             this.isselected=function(i){
                 if(i==missing)
-                    return ( _objectlength(propsels)>0 || propselinvert || propindex>0).booleanNumber();
+                    return ( $.objectsize(propsels)>0 || propselinvert || propindex>0).booleanNumber();
                 else
-                    return ( (_isset(propsels[i]) != propselinvert) || i==propindex).booleanNumber();
+                    return ( ($.isset(propsels[i]) != propselinvert) || i==propindex).booleanNumber();
             }
             this.checkall=function(f){
                 if(f==missing){f=true}
@@ -1045,10 +1045,10 @@
             }
             this.dispose=function(done){
                 if(propreqid!=""&&propreqprivate==true){
-                    _criticalactivities+=1;
+                    _systeminfo.activities+=1;
                     $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid},
                         function(d){
-                            _criticalactivities-=1;
+                            _systeminfo.activities-=1;
                             propreqid="";
                             if(done!=missing){
                                 setTimeout(function(){done()});
@@ -1062,7 +1062,7 @@
                         }
                     );
                     if(done==missing){
-                        _pause(100);
+                        $.pause(100);
                     }
                 }
                 else{
@@ -1186,13 +1186,13 @@
                         h=Math.round(h*proptoprow/propmaxtoprow);
                     }
                     t.css({"top":h,"visibility":"visible"});
-                    if(_mobiledetected){
+                    if($.browser.mobile){
                         mobilestate(0, "block");
                     }
                 }
                 else{
                     t.css({"top":0,"visibility":"hidden"});
-                    if(_mobiledetected){
+                    if($.browser.mobile){
                         mobilestate(0, "none");
                     }
                 }
@@ -1211,7 +1211,7 @@
                         l=(w*propleftcol)/(propgridwidth-propwinwidth);
                     }
                     t.css({"left":l,"visibility":"visible"});
-                    if(_mobiledetected){
+                    if($.browser.mobile){
                         mobilestate(1, "block");
                     }
                 }
@@ -1219,7 +1219,7 @@
                     propleftcol=0;
                     $("#"+propname+"_grid").css({"position":"absolute","left":-propleftcol});
                     t.css({"left":0,"visibility":"hidden"});
-                    if(_mobiledetected){
+                    if($.browser.mobile){
                         mobilestate(1, "none");
                     }
                 }
@@ -1304,7 +1304,7 @@
                     var fd="#"+propname+"_0_0";
                     var s=$("#"+propname+"_selicon");
                     var icon="check.gif";
-                    var sels=_objectlength(propsels);
+                    var sels=$.objectsize(propsels);
                     if(sels>0){
                         if(sels<propcount){
                             if(propselinvert)
@@ -1487,10 +1487,10 @@
                 return propenabled;
 			}
 			this.search=function(criteria, action){
-                _criticalactivities+=1;
+                _systeminfo.activities+=1;
                 $.post(propfolderryque+"ryq_search.php", {"reqid":propreqid,"criteria":criteria},
                     function(d) {
-                        _criticalactivities-=1;
+                        _systeminfo.activities-=1;
                         try{
                             action(d);
                         }
@@ -1509,10 +1509,10 @@
 			this.splice=function(start, length, adding, done){
                 if(start==0)
                     start=propcount+1;
-                _criticalactivities+=1;
+                _systeminfo.activities+=1;
                 $.post(propfolderryque+"ryq_splice.php", {"reqid":propreqid, "start":start, "length":length, "adding":adding},
                     function(d){
-                        _criticalactivities-=1;
+                        _systeminfo.activities-=1;
                         propcount+=(adding.split("|").length-length);
                         propmaxtoprow=propcount-proprows+1;
                         if(propmaxtoprow<1)
@@ -1556,10 +1556,10 @@
             }
             this.getprotocol=function(){
                 if(propreqid==""){
-                    _criticalactivities+=1;
+                    _systeminfo.activities+=1;
                     $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessionid},
                         function(d) {
-                            _criticalactivities-=1;
+                            _systeminfo.activities-=1;
                             try{
                                 if(window.console&&_sessioninfo.debugmode){console.log(d)}
                                 var v=$.parseJSON(d);
@@ -1604,10 +1604,10 @@
                 var args="";
                 if(params.args!=missing){args=params.args}
                 if(params.sql!=missing){
-                    _criticalactivities+=1;
+                    _systeminfo.activities+=1;
                     $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args},
                         function(d){
-                            _criticalactivities-=1;
+                            _systeminfo.activities-=1;
                             try{
                                 var v=$.parseJSON(d);
                                 if(params.ready!=missing){
@@ -1635,7 +1635,7 @@
                         "dim":propdims,
                         "type":proptyps
                     };
-                    _criticalactivities+=1;
+                    _systeminfo.activities+=1;
                     $.post(propfolderryque+"ryq_export.php", 
                         {
                             "reqid":propreqid,
@@ -1645,7 +1645,7 @@
                             "invert":propobj.selinvert().booleanNumber()
                         }, 
                         function(d){
-                            _criticalactivities-=1;
+                            _systeminfo.activities-=1;
                             try{
                                 var v=$.parseJSON(d);
                                 if(v.success>0){
@@ -1779,7 +1779,7 @@
                 $("#"+propname+"_vscroll").css({"position":"absolute","background-color":"#E0E0E0","top":proprowh,"left":propwidth-propscrollsize,"width":propscrollsize,"height":proprowh*proprows+1});
                 $("#"+propname+"_tooltip").css({"position":"absolute","visibility":"hidden","top":0,"left":0,"border":"1px solid silver","background-color":"#F5DEB3","white-space":"nowrap"});
                 $("#"+propname+"_vtrack").css({"position":"absolute","visibility":"hidden","background":"transparent url("+propfolderryque+"images/vtrack.gif) no-repeat","height":proptracksize,"width":propscrollsize,"top":0,"left":0,"cursor":"pointer"});
-                if(_mobiledetected){
+                if($.browser.mobile){
                     var semih=(proprowh*proprows+1)/2;
                     $("#"+propname+"_mobivertback").css({"position":"absolute","background-color":"#A0A0A0","top":proprowh,"left":propwidth-propscrollsize,"width":propscrollsize,"height":semih});
                     $("#"+propname+"_mobivertfore").css({"position":"absolute","background-color":"#C0C0C0","top":proprowh+semih,"left":propwidth-propscrollsize,"width":propscrollsize,"height":semih});
@@ -1791,7 +1791,7 @@
                     
                 $("#"+propname+"_hscroll").css({"position":"absolute","background-color":"#E0E0E0","left":2,"width":propwidth-propscrollsize-2,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
                 $("#"+propname+"_htrack").css({"position":"absolute","visibility":"hidden","background":"transparent url("+propfolderryque+"images/htrack.gif) no-repeat","left":0,"top":0,"width":proptracksize,"height":15,"cursor":"pointer"});
-                if(_mobiledetected){
+                if($.browser.mobile){
                     var semiw=(propwidth-propscrollsize-2)/2;
                     $("#"+propname+"_mobihoriback").css({"position":"absolute","background-color":"#A0A0A0","left":2,"width":semiw,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
                     $("#"+propname+"_mobihorifore").css({"position":"absolute","background-color":"#C0C0C0","left":2+semiw,"width":semiw,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
@@ -2040,10 +2040,10 @@
                 proplastorderby=ord;
                 propusedparams={"reqid":propreqid,"select":propselection,"from":propfrom,"where":whe,"orderby":ord,"index":prei,"sels":pres,"args":args,"limit":lim};
                 if(window.console&&_sessioninfo.debugmode){console.log(propusedparams)}
-                _criticalactivities+=1;
+                _systeminfo.activities+=1;
                 $.post(propfolderryque+"ryq_index.php", propusedparams,
                     function(d) {
-                        _criticalactivities-=1;
+                        _systeminfo.activities-=1;
                         try{
                             var v=$.parseJSON(d);
                             var sels=v.sels;
@@ -2214,10 +2214,10 @@ function ryQue(missing){
     this.request=function(params){
         var env=propenviron;
         if(params.environ!=missing){env=params.environ}
-        _criticalactivities+=1;
+        _systeminfo.activities+=1;
         $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessionid},
             function(d){
-                _criticalactivities-=1;
+                _systeminfo.activities-=1;
                 try{
                     if(window.console&&_sessioninfo.debugmode){console.log(d)}
                     var v=$.parseJSON(d);
@@ -2242,10 +2242,10 @@ function ryQue(missing){
         var args="";
         if(params.args!=missing){args=params.args}
         if(params.sql!=missing){
-            _criticalactivities+=1;
+            _systeminfo.activities+=1;
             $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args},
                 function(d){
-                    _criticalactivities-=1;
+                    _systeminfo.activities-=1;
                     try{
                         var v=$.parseJSON(d);
                         if(params.ready!=missing){
@@ -2266,10 +2266,10 @@ function ryQue(missing){
     }
     this.dispose=function(done){
         if(propreqid!=""){
-            _criticalactivities+=1;
+            _systeminfo.activities+=1;
             $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid}, 
                 function(d){
-                    _criticalactivities-=1;
+                    _systeminfo.activities-=1;
                     if(done!=missing){
                         setTimeout(function(){done()});
                     }
@@ -2281,7 +2281,7 @@ function ryQue(missing){
                     setTimeout(function(){propobj.dispose(done)}, 100);
                 }
             );
-            if(done==missing){_pause(100)}
+            if(done==missing){$.pause(100)}
         }
         else{
             if(done!=missing){setTimeout(function(){done()})}
@@ -2304,10 +2304,10 @@ function ryQue(missing){
         return propreqid;
     }
     this.clean=function(done){
-        _criticalactivities+=1;
+        _systeminfo.activities+=1;
         $.post(propfolderryque+"ryq_clean.php", {},
             function(d){
-                _criticalactivities-=1;
+                _systeminfo.activities-=1;
                 if(done!=missing){done()}
             }
         )

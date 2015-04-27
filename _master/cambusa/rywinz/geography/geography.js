@@ -141,7 +141,7 @@ function winzGeography(formid, settings, missing){
         $("#"+actualid+"helperlbclass").rylabel({left:330, top:offsety, caption:classdescr, formid:formid});
         offsety+=20;
         var objclass=$("#"+actualid+"helperclass").rylist({left:330, top:offsety, width:250, formid:formid, 
-            assigned:function(o){
+            changed:function(o){
                 objrefresh.engage()
             }
         });

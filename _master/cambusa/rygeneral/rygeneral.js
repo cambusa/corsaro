@@ -18,31 +18,34 @@ var RYQUIVER;
 var RYWINZ;
 var RYJAX;
 
-var _baseURL="/";
 var _cambusaURL="../../cambusa/";
 var _appsURL="../../apps/";
 var _customizeURL="../../customize/";
 var _tempenviron="temporary";
-var _temporaryURL=_customizeURL+"temporary/";
 
 var _systeminfo={
-    url:{
+    web:{
         root:"/",
         apps:"../../apps/",
         cambusa:"../../cambusa/",
-        customize:"../../customize/"
-    }
+        customize:"../../customize/",
+        temporary:"../../customize/temporary/"
+    },
+    maps:{
+        zoom:16,
+        lat:45.550084,
+        lng:9.180665
+    },
+    activities:0
 }
 
 var _sessionid="";
 var _sessioninfo={
+    sessionid:"",
     debugmode:1,
     dateformat:0
 };
 
-String.prototype.subright=function(n){
-    return this.valueOf().substr(this.length-n,n);
-}
 /***************
 | SERIE STRING |
 ***************/
@@ -104,6 +107,7 @@ Number.prototype.stringBoolean=function(){
 Boolean.prototype.stringBoolean=function(){
     return this.valueOf() ? "1" : "0";
 }
+
 /***************
 | SERIE ACTUAL |
 ***************/
@@ -161,6 +165,7 @@ Number.prototype.actualBoolean=function(){
 Boolean.prototype.actualBoolean=function(){
     return this.valueOf();
 }
+
 /****************
 | SERIE BOOLEAN |
 ****************/
@@ -174,6 +179,7 @@ Number.prototype.booleanNumber=function(){
 Boolean.prototype.booleanNumber=function(){
     return this.valueOf() ? 1 : 0;
 }
+
 /***************
 | SERIE FORMAT |
 ***************/
@@ -242,9 +248,13 @@ Number.prototype.formatBoolean=function(){
 Boolean.prototype.formatBoolean=function(d){
     return this.valueOf() ? "&#x2612;" : "&#x2610;";
 }
+
 /*************************
 | ALTRE FUNZIONI STRINGA |
 *************************/
+String.prototype.subright=function(n){
+    return this.valueOf().substr(this.length-n,n);
+}
 String.prototype.htmlDecod=function(){
     try{
         var txt=document.createElement("textarea");
@@ -271,6 +281,7 @@ String.prototype.stripTags=function(){
     }catch(er){}
     return s;
 }
+
 /********************************************
 | RISOLUZIONE DELLE VARIABILI NON ASSEGNATE |
 ********************************************/
@@ -280,6 +291,7 @@ function __(v){
 function _$(v,e){
    return v||e;
 }
+
 /***********************
 | ARRICCHIMENTO JQUERY |
 ***********************/
@@ -304,106 +316,46 @@ $.extend({
             }
             return c;
         }
+    },
+    stringify:function(obj){
+        try{
+            return JSON.stringify(obj);
+        }
+        catch(er){
+            var t = typeof (obj);
+            if (t != "object" || obj === null) {
+                // simple data type
+                if (t == "string") obj = '"'+obj+'"';
+                return String(obj);
+            }
+            else {
+                // recurse array or object
+                var n, v, json = [], arr = (obj && obj.constructor == Array);
+                for (n in obj) {
+                    v = obj[n]; t = typeof(v);
+                    if (t == "string") v = '"'+v+'"';
+                    else if (t == "object" && v !== null) v = $.stringify(v);
+                    json.push((arr ? "" : '"' + n + '":') + String(v));
+                }
+                return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+            }
+        }
     }
 });
 
-var _criticalactivities=0;
-var _googleZoom=16;
-var _googleLat=45.550084;
-var _googleLng=9.180665;
-var _mobiledetected=(navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Mini|Mobile/i)!==null);
+/***************************
+| INFORMAZIONI SUL BROWSER |
+***************************/
+$.browser.mobile=(navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Mini|Mobile/i)!==null);
 $.browser.chrome=(navigator.userAgent.match(/Chrom(e|ium)/i)!==null);
-function _isset(v){ // obsoleto: usare $.isset
-    return (typeof v!=="undefined" && v!==null);
-}
-function _pause(millis){    // obsoleto: usare $.pause
-    var date=new Date();
-    var curDate=null;
-    do{curDate=new Date();}
-    while(curDate-date<millis);
-}
-function _jsonp(url) {   // Per richieste cross domain
-	var head = document.getElementsByTagName("head")[0]; 
-	var script = document.createElement("SCRIPT"); 
-	script.type = "text/javascript"; 
-	script.src = url;
-	head.appendChild(script); 
-}
-function _stringify(obj){
-    try{
-        return JSON.stringify(obj);
-    }
-    catch(er){
-        var t = typeof (obj);
-        if (t != "object" || obj === null) {
-            // simple data type
-            if (t == "string") obj = '"'+obj+'"';
-            return String(obj);
-        }
-        else {
-            // recurse array or object
-            var n, v, json = [], arr = (obj && obj.constructor == Array);
-            for (n in obj) {
-                v = obj[n]; t = typeof(v);
-                if (t == "string") v = '"'+v+'"';
-                else if (t == "object" && v !== null) v = _stringify(v);
-                json.push((arr ? "" : '"' + n + '":') + String(v));
-            }
-            return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
-        }
-    }
-}
-function _HTML5(){
+$.browser.HTML5=(function(){
     try{return (document.doctype.publicId=="");}
     catch(er){return true;}
-}
-function _getinteger(s){
-    if((typeof s)==="undefined")
-        return 0;
-    if(s==null)
-        return 0;
-    if((typeof s)==="string" ){
-        // Opera e Safari, se c'è 0 davanti, si comportano male
-        s=s.replace(/^0+/, "");
-        s=s.replace(/ /g, "");
-        if(s=="")
-            return 0;
-        if(s.toLowerCase()=="null")
-            return 0;
-        if(s.substr(0,1)==".")
-            s="0"+s;
-        s=parseInt(s);
-        if(isNaN(s))
-            s=0;
-        return s;
-    }
-    else{
-        return s;
-    }
-}
-function _food4info(descr, memo){
-    var r=descr;
-    if(memo!=""){
-        r+="<br/><br/>"+memo;
-    }
-    r=r.replace(/<p>/gi, "");
-    r=r.replace(/<\/p>/gi, "<br/>");
-    r=r.replace(/[\r\n]/gi, "");
-    return r;
-}
-function _objectlength(o){  // obsoleto: usare $.objectsize
-    try{
-        return Object.keys(o).length;
-    }
-    catch(e){
-        var c=0;
-        for(i in o){
-            c+=1;
-        }
-        return c;
-    }
-}
-// GESTIONE DELLE CODE
+})();
+
+/**********************
+| GESTIONE DELLE CODE |
+**********************/
 var TAIL={
     busy:false,
     enqueue:function(eng){
@@ -473,6 +425,10 @@ var TAIL={
     },
     buffer:[]
 };
+
+/*****************
+| GALLERIA ICONE |
+*****************/
 var GALLERY={
     Attachment:function(){
         return "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90KGAklIGElCSAAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAkJJREFUKM+lk1tIUwEYx/9nN3ex6aZOnS3bMUujGdMSKZY+dDVLMAYh0ovQ6EaQ9RBELwU9CEG9NIgiu8AKibDWyxJLEzQX28TLmrbW3NpB3RmeedzZ3FwvBV00o76n7+H7fXz8+X3A/5bxztyFJnM4feR2IL3p4LnG1eb5AND6Kt0XsPe10j7XgILUpgs2G0zJBI8OT/RPAogtB/IAYJFleUKJgErMO50pbkGajDFshbHtpr7FfBlA3orgAhX1SXNUnHJ9g8H79qkZkC6xM1Nc8Y56U+35rnYAucuCiXiqNslJZHyhRCHLKts/br1+UZRfKmZnQ8jWVjbUnHryEID6N9B+90Q1L0OStxjniKxiXYlIXmLqvrSzWa7eImYCXl6hbm/d9pMdLwHk/BROlPJEU4spW6HuwNnIx6Eva7ftI1NcsizosFwt0O1qCgx12sna4+VKjb7FP/jYAoDlf98Q8Q4EZPmldO7G6mbKafug1jeSYrlqNzcXXhrpvNIbZzyWCmObkQlRWyO+98/5P95NDVtHczYYMpTaqoago8s77ekepcf7hxnK/W56rN9Sc/rMHsrhXzfttnXzfglrftB89Brtdz0o0h8qF0sLI0HXi/ZkjHkEgOJm15CRoCsBQEGsIEZW5THzM4VGVyfKVk9KczWhOEORn3vvF0303LrB0VNW4g9WKQoq6u9lqsjDApEoHYvSzIz7TcfCzKcxAK+JVZTMBFAFQANACIAFiBEg7Sb+wn8ZAMG3ngAwDyD5z9/0Fadn58kX+80CAAAAAElFTkSuQmCC' />";

@@ -224,7 +224,7 @@ function class_qvarticoli(settings,missing){
     previewX=20;
     previewY=offsety;
     
-    $(prefix+"preview").css({"position":"absolute", "left":20, "top":offsety, "width":"180mm"});
+    $(prefix+"preview").css({"position":"absolute", "left":20, "top":offsety, "width":700});
     
 
     // DEFINIZIONE TAB CONTESTO
@@ -474,11 +474,11 @@ function class_qvarticoli(settings,missing){
             }
         }
     }
-    this._resize=function(){
-        if( $("#window_"+formid).width()>1400 )
-            $(prefix+"preview").css({left:740, top:80, width:"180mm"});
+    this._resize=function(metrics){
+        if( metrics.window.width>1420 )
+            $(prefix+"preview").css({left:740, top:80});
         else
-            $(prefix+"preview").css({left:previewX, top:previewY, width:"180mm"});
+            $(prefix+"preview").css({left:previewX, top:previewY});
     }
 }
 

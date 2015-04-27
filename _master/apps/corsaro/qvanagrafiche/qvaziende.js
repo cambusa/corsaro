@@ -49,7 +49,7 @@ function class_qvaziende(settings,missing){
     
     $(prefix+"lbf_tipologia").rylabel({left:330, top:offsety, caption:"Tipologia"});
     var txf_tipologia=$(prefix+"txf_tipologia").rylist({left:400, top:offsety, width:150,
-        assigned:function(){
+        changed:function(){
             setTimeout(function(){oper_refresh.engage()}, 100);
         }
     });
@@ -71,7 +71,7 @@ function class_qvaziende(settings,missing){
                 var q="";
                 var t=qv_forlikeclause(txf_search.value());
                 var classeid=txf_classe.value();
-                var tipologia=_getinteger(txf_tipologia.key());
+                var tipologia=txf_tipologia.key().actualInteger();
 
                 if(t!=""){
                     if(q!=""){q+=" AND "}

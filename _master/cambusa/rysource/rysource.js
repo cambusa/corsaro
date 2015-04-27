@@ -126,7 +126,7 @@
                 if(tp!="file"){
                     if(propstartup!=""){
                         try{
-                            h="javascript:"+propstartup+"("+_stringify(par)+")";
+                            h="javascript:"+propstartup+"("+$.stringify(par)+")";
                             objfamily.additem({parent:id,id:"k"+propprogr,title:"<a href='"+h+"' class='anchor_rysource' title='"+tl+"'>"+tl+"</a>"});
                         }
                         catch(e){}

@@ -99,7 +99,7 @@ function class_qvequivalences(settings,missing){
     });offsety+=30;
     $(prefix+"lbf_typology").rylabel({left:offsetx, top:offsety, caption:"Tipologia"});offsety+=20;
     var txf_typology=$(prefix+"txf_typology").rylist({left:offsetx, top:offsety, width:300,
-        assigned: function(){
+        changed: function(){
             setTimeout("_globalforms['"+formid+"'].selrefresh()", 100);
         }
     });offsety+=30;
@@ -279,7 +279,7 @@ function class_qvequivalences(settings,missing){
     });offsety+=30;
     $(prefix+"lbfc_typology").rylabel({left:offsetx, top:offsety, caption:"Tipologia"});offsety+=20;
     var txfc_typology=$(prefix+"txfc_typology").rylist({left:offsetx, top:offsety, width:300,
-        assigned: function(){
+        changed: function(){
             setTimeout("_globalforms['"+formid+"'].xrefresh()", 100);
         }
     });offsety+=30;
@@ -317,7 +317,7 @@ function class_qvequivalences(settings,missing){
 
     $(prefix+"lbfc_yesno").rylabel({left:offsetx, top:offsety, caption:"Seleziona..."});offsety+=20;
     var txfc_yesno=$(prefix+"txfc_yesno").rylist({left:offsetx, top:offsety, width:200,
-        assigned:function(){
+        changed:function(){
             setTimeout("_globalforms['"+formid+"'].xrefresh()", 100);
         }
     })

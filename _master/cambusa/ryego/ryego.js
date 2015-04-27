@@ -91,6 +91,13 @@ function ryEgo(missing){
             }
         }
     }
+    function _jsonp(url) {   // Per richieste cross domain
+        var head = document.getElementsByTagName("head")[0]; 
+        var script = document.createElement("SCRIPT"); 
+        script.type = "text/javascript"; 
+        script.src = url;
+        head.appendChild(script); 
+    }
 }
 function validatesession(v){
     try{

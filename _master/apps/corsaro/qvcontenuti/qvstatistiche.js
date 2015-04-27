@@ -50,7 +50,7 @@ function class_qvstatistiche(settings,missing){
 
     $(prefix+"LB_MESE").rylabel({left:385, top:offsety, caption:"Mese"});
     var tx_mese=$(prefix+"MESE").rylist({left:430, top:offsety, width:100,
-        assigned:function(){
+        changed:function(){
             setTimeout(function(){oper_refresh.engage()}, 100);
         }
     })
@@ -197,7 +197,7 @@ function class_qvstatistiche(settings,missing){
         if(pages>0){
             var tot=0;
             for(var i=0;i<pages;i++){
-                tot+=_getinteger(v[i]["CNT"]);
+                tot+=__(v[i]["CNT"]).actualInteger();
             }
             h+="<table>";
             h+="  <tr style='border-bottom:1px dashed silver;'>";

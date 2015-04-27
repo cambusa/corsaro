@@ -31,7 +31,7 @@ $RYWINZ->about->content=<<<ABOUT
 <br/>
 <img src="_images/appicon.png" align="left" style="margin:5px;">
 <div>&nbsp;</div>
-<span style="font-size:16px;">{$RYWINZ->apptitle} {$RYWINZ->appversion} - Copyright &copy {$RYWINZ->copyright}</span><br/>
+<span style="font-size:16px;">{$RYWINZ->apptitle} {$RYWINZ->appversion} - Copyright &copy; {$RYWINZ->copyright}</span><br/>
 <div style="line-height:20px;">&nbsp;</div>
 <div style="text-align:center;color:navy;">{$RYWINZ->appdescr}</div>
 <div style="line-height:20px;">&nbsp;</div>

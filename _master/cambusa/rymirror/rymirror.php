@@ -92,6 +92,7 @@ input,select,a:focus{outline:none;border:none;}
 .contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
 .contextMenu>ul>li>a{color:black;}
 .contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
+.contextDisabled>a{color:silver !important;}
 </style>
 
 <link type='text/css' href='../jqtreeview/jquery.treeview.ry.css' rel='stylesheet' />
@@ -217,7 +218,7 @@ function makeeditor(missing){
                             objfamily.addfolder({parent:"k0", id:"k"+progrid, info:nf, title:nf});
                         }
                         else{
-                            h="javascript:editorload("+_stringify(p+nf)+")";
+                            h="javascript:editorload("+$.stringify(p+nf)+")";
                             objfamily.additem({parent:"k0", id:"k"+progrid, title:"<a href='"+h+"' class='anchor_ryfamily' title='"+nf+"'>"+nf+"</a>"});
                         }
                     }
@@ -396,7 +397,7 @@ function loadbranch(id){
                             objfamily.addfolder({parent:id, id:"k"+progrid, info:nf, title:nf});
                         }
                         else{
-                            h="javascript:editorload("+_stringify(p+nf)+")";
+                            h="javascript:editorload("+$.stringify(p+nf)+")";
                             objfamily.additem({parent:id, id:"k"+progrid, title:"<a href='"+h+"' class='anchor_ryfamily' title='"+nf+"'>"+nf+"</a>"});
                         }
                     }
@@ -615,7 +616,7 @@ function family_rename(){
                         else{
                             var p=menupath.lastIndexOf("/");
                             var h=menupath.substring(0, p+1)+newname;
-                            h="javascript:editorload("+_stringify(h)+")";
+                            h="javascript:editorload("+$.stringify(h)+")";
                             $("#family_"+menuid+"_text a")
                                 .attr("href", newname)
                                 .html("<a href='"+h+"' class='anchor_ryfamily' title='"+newname+"'>"+newname+"</a>");
@@ -848,7 +849,7 @@ function sysmessagehide(){
 <li id='family_copy'>Copia</li>
 <li id='family_paste'>Incolla</li>
 <li id='family_download'>Download</li>
-<li><hr/></li>
+<li class="contextSeparator"></li>
 <li id='family_delete'>Elimina</li>
 </ul>
 </div>

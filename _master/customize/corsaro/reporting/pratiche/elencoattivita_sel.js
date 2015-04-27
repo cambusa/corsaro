@@ -35,7 +35,7 @@ function class_elencoattivita_sel(settings,missing){
     
     $(prefix+"lbf_stato").rylabel({left:330, top:offsety, caption:"Stato"});
     var txf_stato=$(prefix+"txf_stato").rylist({left:400, top:offsety, width:180,
-        assigned: function(){
+        changed: function(){
             setTimeout(function(){oper_refresh.engage();}, 100);
         }
     });
@@ -47,7 +47,7 @@ function class_elencoattivita_sel(settings,missing){
 
     $(prefix+"lbf_disponibilita").rylabel({left:330, top:offsety, caption:"Disponib."});
     var txf_disponibilita=$(prefix+"txf_disponibilita").rylist({left:400, top:offsety, width:180,
-        assigned: function(){
+        changed: function(){
             setTimeout(function(){oper_refresh.engage();}, 100);
         }
     });

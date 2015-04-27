@@ -407,7 +407,7 @@ function class_qvprogetti(settings,missing){
 
     $(prefix+"lb_gantt_zoom").rylabel({left:130, top:offsety, caption:"Zoom"});
     var gantt_zoom=$(prefix+"gantt_zoom").rylist({left:170, top:offsety, width:70,
-        assigned:function(){
+        changed:function(){
             gantt_ratio=gantt_zoom.key()/100;
             refreshGantt();
         }
@@ -562,7 +562,7 @@ function class_qvprogetti(settings,missing){
                                 gantt_finedate="1900-01-01 00:00";
                                 for(var i in arrayatt){
                                     var pid=arrayatt[i]["PRATICAID"];
-                                    if( !_isset(gantt_prat[pid]) ){
+                                    if( !$.isset(gantt_prat[pid]) ){
                                         gantt_prat[pid]={};
                                         gantt_prat[pid]["INDEX"]=0;
                                         gantt_prat[pid]["NUMATT"]=0;
@@ -712,13 +712,13 @@ function class_qvprogetti(settings,missing){
                         if(att[a]["MOTIVEID"]!=motivotrans){
                             var aid=att[a]["SYSID"];
                             var an=att[a]["DESCRIPTION"];
-                            var gg=_getinteger(att[a]["AMOUNT"]);
+                            var gg=__(att[a]["AMOUNT"]).actualInteger();
                             if(att[a]["GENREID"]==genereore)
                                 gg/=8;
                             var tit=an+":\n   "+att[a]["TARGET"]+"\n   da "+humandate(att[a]["BOWTIME"])+"\n   a "+humandate(att[a]["TARGETTIME"])+"\n   giorni effettivi "+gg;
                             col="#0C0";  // Verde
-                            if(_getinteger(att[a]["STATUS"])==0){
-                                switch(_getinteger(att[a]["PERCENTUALE"])){
+                            if(__(att[a]["STATUS"]).actualInteger()==0){
+                                switch(__(att[a]["PERCENTUALE"]).actualInteger()){
                                 case 1:
                                     col="#C60";break
                                 case 2:
@@ -771,17 +771,9 @@ function class_qvprogetti(settings,missing){
         }
     }
     function absoluteCoord(dt){
-        var y=_getinteger(dt.substr(0, 4));
-        var m=_getinteger(dt.substr(5, 2))-1;
-        var d=_getinteger(dt.substr(8, 2));
-        /*
-        var h=0, n=0;
-        if(dt.length>14){
-            h=_getinteger(dt.substr(11, 2));
-            n=_getinteger(dt.substr(14, 2));
-        }
-        return new Date(y, m, d, h, n);
-        */
+        var y=dt.substr(0, 4).actualInteger();
+        var m=dt.substr(5, 2).actualInteger()-1;
+        var d=dt.substr(8, 2).actualInteger();
         return new Date(y, m, d);
     }
     function relativeCoord(dt){
@@ -789,7 +781,6 @@ function class_qvprogetti(settings,missing){
     }
     function risolviEstremi(bt, tt){
         var rbt=relativeCoord(absoluteCoord(bt));
-        //var rtt=relativeCoord(absoluteCoord(tt));
         var rtt=relativeCoord(new Date(absoluteCoord(tt).valueOf()+1000*60*60*24));
         if(rbt<gantt_attivwidth+1)
             rbt=gantt_attivwidth+1;

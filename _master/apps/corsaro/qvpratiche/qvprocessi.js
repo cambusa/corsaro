@@ -817,7 +817,7 @@ function class_qvprocessi(settings,missing){
     
     $(prefix+"LBM_SCOPE").rylabel({left:20, top:offsety, caption:"Visibilità"});
     $(prefix+"M_SCOPE").rylist({left:120, top:offsety, width:200, datum:"M", tag:"SCOPE",
-        assigned:function(){
+        changed:function(){
             operm_unsaved.visible(1);
         }
     })
@@ -828,7 +828,7 @@ function class_qvprocessi(settings,missing){
 
     $(prefix+"LBM_UPDATING").rylabel({left:20, top:offsety+30, caption:"Modificabilità"});
     $(prefix+"M_UPDATING").rylist({left:120, top:offsety+30, width:200, datum:"M", tag:"UPDATING",
-        assigned:function(){
+        changed:function(){
             operm_unsaved.visible(1);
         }
     })
@@ -849,7 +849,7 @@ function class_qvprocessi(settings,missing){
     });
     $(prefix+"LBM_CREAZIONE").rylabel({left:538, top:offsety, caption:"Creazione"});
     var txm_creazione=$(prefix+"M_CREAZIONE").rylist({left:608, top:offsety, width:110,
-        assigned:function(){
+        changed:function(){
             operm_unsaved.visible(1);
         }
     })
@@ -882,7 +882,7 @@ function class_qvprocessi(settings,missing){
     // RIFERMENTI
     $(prefix+"LBM_RIFERIMENTO").rylabel({left:20, top:offsety, caption:"Riferimento"});
     var txm_rifinizio=$(prefix+"M_RIFERIMENTOINIZIO").rylist({left:120, top:offsety, width:160, datum:"M", tag:"RIFERIMENTOINIZIO",
-        assigned:function(){
+        changed:function(){
             motiviparzializza();
             operm_unsaved.visible(1);
         }
@@ -893,7 +893,7 @@ function class_qvprocessi(settings,missing){
     .additem({caption:"Inizio anno", key:3});
    
     var txm_riffine=$(prefix+"M_RIFERIMENTOFINE").rylist({left:290, top:offsety, width:160, datum:"M", tag:"RIFERIMENTOFINE",
-        assigned:function(){
+        changed:function(){
             motiviparzializza();
             operm_unsaved.visible(1);
         }
@@ -952,7 +952,7 @@ function class_qvprocessi(settings,missing){
     
     $(prefix+"LBM_CALCOLO").rylabel({left:20, top:offsety, caption:"Calcolo"});
     var txm_calcolo=$(prefix+"M_CALCOLO").rylist({left:120, top:offsety, width:100, datum:"M", tag:"CALCOLO",
-        assigned:function(){
+        changed:function(){
             motiviparzializza();
             operm_unsaved.visible(1);
         }

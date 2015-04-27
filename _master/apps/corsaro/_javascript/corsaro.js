@@ -276,7 +276,7 @@ function corsaro_clustersearch(formid, missing){
     });
     
     $(prefix+"search_type").rylist({left:300, top:offsety,  width:160, formid:formid,
-        assigned:function(o){
+        changed:function(o){
             var en=o.value()!=3;
             globalobjs[formid+"search_amount"].enabled(en);
             globalobjs[formid+"search_tolerance"].enabled(en);

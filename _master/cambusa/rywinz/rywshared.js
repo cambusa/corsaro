@@ -54,13 +54,17 @@ function raiseUnload(n){
 function raiseResize(n){
     try{
         var m=$("#window_"+n);
-        var w=m.width();
-        var h=m.height();
+        var metrics={
+            window:{
+                width:m.width(),
+                height:m.height()
+            }
+        };
         if(RYWINZ.forms(n)._kresize){
-            RYWINZ.forms(n)._kresize(w,h);
+            RYWINZ.forms(n)._kresize(metrics);
         }
         if(RYWINZ.forms(n)._resize){
-            RYWINZ.forms(n)._resize(w,h);
+            RYWINZ.forms(n)._resize(metrics);
         }
     }catch(e){
         if(window.console){console.log(e.message)}
@@ -108,7 +112,7 @@ function raiseControlKey(k){
             }
             if(fn!=""){
                 var f=RYWINZ.forms(n);
-                if(_isset( f[fn] )){
+                if($.isset( f[fn] )){
                     try{
                         f[fn]();
                     }catch(e){}
@@ -314,7 +318,7 @@ function winzClearMess(formid, data){
         $("#message_"+formid).html("");
         $("#stop_"+formid).hide();
         winzDither(formid, false);
-        if(_isset(data)){
+        if($.isset(data)){
             data=__(data).stripTags();
             if(window.console&&_sessioninfo.debugmode){console.log(data)}
             alert(data);
@@ -346,7 +350,7 @@ function winzAbort(formid){
         TAIL.abort();
     }
     winzDither(formid, false);
-    if(m>0){_pause(m)}
+    if(m>0){$.pause(m)}
 }
 function winzMessageBox(formid, params, missing){
     var dlg=winzDialogGet(formid);
@@ -509,7 +513,7 @@ function winzRemoveAll(done){
 }
 function winzDither(formid, bValue){
     var f=_globalforms[formid];
-    if(_isset(f)){
+    if($.isset(f)){
         if(bValue){
             RYWINZ.busy(formid, 1);
             $("#dither_"+formid).show();
@@ -526,7 +530,7 @@ function winzDither(formid, bValue){
 }
 function winzDialogGet(formid){
     var progrid=0;
-    if(window.console&&_sessioninfo.debugmode)console.log("Oggetti in apertura dialog: "+_objectlength(globalobjs));
+    if(window.console&&_sessioninfo.debugmode)console.log("Objects before dialog: "+$.objectsize(globalobjs));
     while($("#dialogout_"+formid+progrid).length>0){progrid+=1}
     var r="dialogdither_"+formid+progrid;
     var o="dialogout_"+formid+progrid;
@@ -560,8 +564,8 @@ function winzDialogParams(dlg, params){
 function winzDialogOpen(dlg){
     _dialogcount+=1;
     _globalforms[dlg.formid].opens+=1;
-    _criticalactivities+=1;
-    if(window.console&&_sessioninfo.debugmode){console.log("Dialog aperte: "+_dialogcount)}
+    _systeminfo.activities+=1;
+    if(window.console&&_sessioninfo.debugmode){console.log("Open dialogs: "+_dialogcount)}
     $("#"+dlg.dither).show();
     $("#"+dlg.outer).show();
     if(dlg.open){
@@ -575,8 +579,8 @@ function winzDialogOpen(dlg){
 function winzDialogClose(dlg){
     _dialogcount-=1;
     _globalforms[dlg.formid].opens-=1;
-    _criticalactivities-=1;
-    if(window.console&&_sessioninfo.debugmode){console.log("Dialog aperte: "+_dialogcount)}
+    _systeminfo.activities-=1;
+    if(window.console&&_sessioninfo.debugmode){console.log("Open dialogs: "+_dialogcount)}
     $("#"+dlg.outer).hide();
     $("#"+dlg.dither).hide();
     if(dlg.close){
@@ -591,19 +595,19 @@ function winzDialogFree(dlg){
     $("#"+dlg.hanger).html("");
     $("#"+dlg.outer).remove();
     $("#"+dlg.dither).remove();
-    if(window.console&&_sessioninfo.debugmode)console.log("Oggetti in chiusura dialog: "+_objectlength(globalobjs));
+    if(window.console&&_sessioninfo.debugmode)console.log("Objects after dialog: "+$.objectsize(globalobjs));
 }
 function winzPost(url, params, success, fail){
-    _criticalactivities+=1;
+    _systeminfo.activities+=1;
     $.post(url, params,
         function(d){
-            _criticalactivities-=1;
+            _systeminfo.activities-=1;
             success(d);
         }
     )
     .fail(
         function(){
-            _criticalactivities-=1;
+            _systeminfo.activities-=1;
             if(fail)
                 fail();
             else
@@ -690,7 +694,7 @@ function winzPostProgress(settings, missing){
             else{
                 if(window.console&&_sessioninfo.debugmode){console.log(xhr.responseText)}
                 if(xhr.responseText.length>=propblock){
-                    proptotal=_getinteger(xhr.responseText.substr(0,18));
+                    proptotal=xhr.responseText.substr(0,18).actualInteger();
                     loaded=0;
                     xhr.responseText="";
                 }
@@ -854,7 +858,6 @@ function winzToMask(formid, datalot, data, missing){
                         c.value( d.booleanNumber() );break;
                     case "list":
                         c.value( c.index( d ) );break;
-                        break;
                     default:
                         if(c.tag=="NAME"){
                             if(d.substr(0,2)!="__")
@@ -877,7 +880,7 @@ function winzMaskEnabled(formid, datalot, flag){
     var o=_globalforms[formid];
     for(var k in o.controls){   // Ciclo sui controlli di maschera
         var datum=$("#"+k).prop("datum");   // Leggo la proprietà datum
-        if(_isset(datum)){   // Controllo che datum sia definito
+        if($.isset(datum)){   // Controllo che datum sia definito
             if(datum==datalot){  // Controllo che si un campo del lotto che voglio ripulire
                 globalobjs[k].enabled(flag);
             }

@@ -230,8 +230,8 @@ function makemonitor(missing){
             if(sysid!=""){
                 for(var i in d){
                     if(d[i]["SYSID"]==sysid){
-                        var v=_getinteger(d[i]["ENABLED"]);
-                        var u=_getinteger(d[i]["UNATANTUM"]);
+                        var v=__(d[i]["ENABLED"]).actualInteger();
+                        var u=__(d[i]["UNATANTUM"]).actualInteger();
                         if(u==1 && v!=obj_enabled.value()){
                             obj_enabled.value(v);
                         }
@@ -464,7 +464,7 @@ function pulselogout(){
             }, 
             function(d){}
         );
-        _pause(100);
+        $.pause(100);
         RYEGO.logout();
     }
 }

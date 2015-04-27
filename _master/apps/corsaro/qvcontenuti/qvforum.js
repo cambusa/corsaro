@@ -223,7 +223,7 @@ function class_qvforum(settings,missing){
                         else{
                             if(window.console){console.log(v)}
                             var m="Errore interno; impossibile procedere!";
-                            switch(_getinteger(v.step)){
+                            switch(__(v.step).actualInteger()){
                             case 1:
                                 m="Non trovato sito ["+_filibustersitename+ "] nell'ambiente ["+_sessioninfo.environ+"]";
                                 break;

@@ -47,12 +47,12 @@ function class_qvfatturazione(settings,missing){
     var taballegati=4;
     
     // DETERMINO IL PROCESSO
-    if(_isset(settings["processo"])){
+    if($.isset(settings["processo"])){
         currprocessoname=settings["processo"].toUpperCase();
     }
 
     // DETERMINO IL MOTIVO FATTURA
-    if(_isset(settings["fattura"])){
+    if($.isset(settings["fattura"])){
         currfatturaname=settings["fattura"].toUpperCase();
     }
 
@@ -353,7 +353,7 @@ function class_qvfatturazione(settings,missing){
     offsety+=30;
     $(prefix+"LB_STATUS").rylabel({left:20, top:offsety, caption:"Stato"});
     var tx_status=$(prefix+"STATUS").rylist({left:120, top:offsety, width:120, datum:"C",
-        assigned:function(){
+        changed:function(){
             RYWINZ.modified(formid, 1);
         }
     });
@@ -508,7 +508,7 @@ function class_qvfatturazione(settings,missing){
         select:"ROUNDING",
         onselect:function(o, d){
             $.cookie(_sessioninfo.environ+"_fatture_genreid", o.value(), {expires:10000});
-            tx_amount.numdec( _getinteger(d["ROUNDING"]) );
+            tx_amount.numdec( __(d["ROUNDING"]).actualInteger() );
         }
     });
     
@@ -574,7 +574,7 @@ function class_qvfatturazione(settings,missing){
                     operd_update.enabled(1);
                     // CARICAMENTO TAB FLUSSI
                     RYWINZ.ToMask(formid, "D", v[0]);
-                    if(_getinteger(v[0]["DIRECTION"])==0)
+                    if(__(v[0]["DIRECTION"]).actualInteger()==0)
                         tx_contro.value(v[0]["TARGETID"]);
                     else
                         tx_contro.value(v[0]["BOWID"]);
@@ -892,11 +892,11 @@ function class_qvfatturazione(settings,missing){
                             loadedpraticaDid=currpraticaid;
                             operd_refresh.engage(
                                 function(){
-                                    if(_isset(curraggiuntivi["_CONTROID"]))
+                                    if($.isset(curraggiuntivi["_CONTROID"]))
                                         tx_controdefault.value(curraggiuntivi["_CONTROID"]);
                                     else
                                         tx_controdefault.value($.cookie(_sessioninfo.environ+"_fatture_controid"));
-                                    if(_isset(curraggiuntivi["_GENREID"])){
+                                    if($.isset(curraggiuntivi["_GENREID"])){
                                         tx_genreid.value(curraggiuntivi["_GENREID"]);
                                     }
                                     else{

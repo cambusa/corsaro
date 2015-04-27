@@ -11,7 +11,7 @@
 function class_svgedit(settings,missing){
     var formid=RYWINZ.addform(this);
     $("#"+formid+"iframe iframe").attr("src", _cambusaURL+"svgedit/svg-editor.html");
-    this._resize=function(w,h){
-        $("#"+formid+"iframe iframe").width(w-30).height(h-80);
+    this._resize=function(metrics){
+        $("#"+formid+"iframe iframe").width(metrics.window.width-30).height(metrics.window.height-80);
     }
 }

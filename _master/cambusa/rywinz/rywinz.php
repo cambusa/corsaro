@@ -49,7 +49,6 @@ else
 <link rel="stylesheet" href="<?php print $url_cambusa ?>jqdesktop/assets/css/ie.css" />
 <![endif]-->
 <script>
-_baseURL="<?php  print $url_base ?>";
 _sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $RYWINZ->appname ?>";
 var _apptitle="<?php  print $RYWINZ->apptitle ?>";
@@ -113,8 +112,8 @@ function mdiconfig(){
     )
     _timerPostman=setInterval(
         function(){
-            if(window.console&&_sessioninfo.debugmode){console.log("["+(new Date()).toTimeString()+"] Critical activities: "+_criticalactivities)}
-            var f=(_criticalactivities==0);
+            if(window.console&&_sessioninfo.debugmode){console.log("["+(new Date()).toTimeString()+"] Critical activities: "+_systeminfo.activities)}
+            var f=(_systeminfo.activities==0);
             if(f){
                 for(var id in _globalforms){
                     if(RYWINZ.busy(id)){
@@ -133,7 +132,7 @@ function mdiconfig(){
                                 try{
                                     var n=0;
                                     if(d.length>0){
-                                        n=_getinteger(d[0]["NOTIFICATIONS"]);
+                                        n=__(d[0]["NOTIFICATIONS"]).actualInteger();
                                     }
                                     if(n>0){
                                         $("#winz-notifications").html(n).show();
@@ -239,7 +238,7 @@ function winz_logout(promptmess){
         TAIL.enqueue(function(){
             RYEGO.logout();
             TAIL.free();
-            _pause(200);
+            $.pause(200);
         });
         TAIL.wriggle();
     }

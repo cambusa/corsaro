@@ -317,7 +317,7 @@ function class_qvpagine(settings,missing){
     
     $(prefix+"LB_CONTENTTYPE").rylabel({left:20, top:offsety, caption:"Tipo"});
     var tx_contenttype=$(prefix+"CONTENTTYPE").rylist({left:90, top:offsety, width:120, datum:"C", tag:"CONTENTTYPE",
-        assigned:function(o){
+        changed:function(o){
             for(var i=1; i<=o.count(); i++){
                 $(prefix+"type"+o.key(i)).hide();
             }
@@ -346,7 +346,7 @@ function class_qvpagine(settings,missing){
 
     $(prefix+"LB_LANGUAGE").rylabel({left:240, top:offsety, caption:"Voce"});
     var tx_language=$(prefix+"LANGUAGE").rylist({left:280, top:offsety, width:100, datum:"C",
-        assigned:function(o){
+        changed:function(o){
             for(var i=1; i<=o.count(); i++){
                 $(prefix+"type"+o.key(i)).hide();
             }
@@ -360,7 +360,7 @@ function class_qvpagine(settings,missing){
     .additem({caption:"Espanol", key:"es"});
     
     var tx_gender=$(prefix+"GENDER").rylist({left:390, top:offsety, width:50, datum:"C",
-        assigned:function(o){
+        changed:function(o){
             for(var i=1; i<=o.count(); i++){
                 $(prefix+"type"+o.key(i)).hide();
             }
@@ -603,7 +603,7 @@ function class_qvpagine(settings,missing){
     // MARQUEE
     offsety=0;
     var tx_marqueetype=$(prefix+"MARQUEETYPE").rylist({left:90, top:0, width:200, datum:"C",
-        assigned:function(o){
+        changed:function(o){
             tx_recents.enabled(o.value()==1);
         }
     });
@@ -826,10 +826,10 @@ function class_qvpagine(settings,missing){
         click:function(o){
             var s=(sitename!="" ? sitename : fsitename);
             if(s!=""){
-                if(_isset(currbrowser)){
+                if($.isset(currbrowser)){
                     try{
                         currbrowser.close();
-                        _pause(500);
+                        $.pause(500);
                     }catch(e){}
                 }
                 currbrowser=window.open("filibuster.php?env="+_sessioninfo.environ+"&site="+s+"&id="+currsysid, "filibuster_browser");
@@ -1388,7 +1388,7 @@ function class_qvpagine(settings,missing){
                             currsetrelated=v[0]["SETRELATED"];
                             pageid.value(v[0]["SYSID"]);
                             tx_contenttype.raiseassigned();
-                            if(_getinteger(v[0]["SCOPE"]))
+                            if(__(v[0]["SCOPE"]).actualInteger())
                                 chk_scope.value(0);
                             else
                                 chk_scope.value(1);
@@ -1427,7 +1427,7 @@ function class_qvpagine(settings,missing){
                                 tx_embedid.value(v[0]["EMBEDID"]);
                                 break;
                             case "marquee":
-                                var recs=_getinteger(v[0]["MARQUEETYPE"]);
+                                var recs=__(v[0]["MARQUEETYPE"]).actualInteger();
                                 if(recs>0){
                                     tx_marqueetype.setkey(0);
                                     tx_recents.enabled(1);

@@ -138,13 +138,13 @@
                 t+="<div id='"+propname+"_vscroll'>"; // Scroll verticale
                     t+="<div id='"+propname+"_tooltip'>0-0</div><div id='"+propname+"_vtrack'></div>";
                 t+="</div>";
-                if(_mobiledetected){
+                if($.browser.mobile){
                     t+="<div id='"+propname+"_mobivertback'></div><div id='"+propname+"_mobivertfore'></div>";
                 }
                 t+="<div id='"+propname+"_hscroll'>"; // Scroll orizzontale
                     t+="<div id='"+propname+"_htrack'></div>";
                 t+="</div>";
-                if(_mobiledetected){
+                if($.browser.mobile){
                     t+="<div id='"+propname+"_mobihoriback'></div><div id='"+propname+"_mobihorifore'></div>";
                 }
                 t+="<div id='"+propname+"_quad'></div>"; // prolungamento di hscroll
@@ -388,7 +388,7 @@
                         }
                     }
                 );
-                if(_mobiledetected){
+                if($.browser.mobile){
                     $("#"+propname+"_mobivertback").mousedown(
                         function(evt){
                             if(!propenabled){return}
@@ -505,10 +505,10 @@
                                 propordasc=asc1;
                             }
                             else if(c==0 && propcheckable){
-                                if(_objectlength(propsels)==propcount && !propselinvert){
+                                if($.objectsize(propsels)==propcount && !propselinvert){
                                     propsels={};
                                 }
-                                else if(_objectlength(propsels)>0 && propselinvert){
+                                else if($.objectsize(propsels)>0 && propselinvert){
                                     propsels={};
                                     propselinvert=false;
                                 }
@@ -648,8 +648,8 @@
                     var par=$("#"+propname).parents(".window_main");
                     if(par.length>0){
                         var id=par[0]["id"];
-                        RYWINZ.forms( id.substr(5) )._kresize=function(w,h){
-                            propwidth=w-2*propleft-20;
+                        RYWINZ.forms( id.substr(5) )._kresize=function(metrics){
+                            propwidth=metrics.window.width-2*propleft-20;
                             if(propwidth<propminwidth)
                                 propwidth=propminwidth;
                             else if(propwidth>propmaxwidth)
@@ -880,15 +880,15 @@
             }
             this.ischecked=function(i){
                 if(i==missing)
-                    return ( _objectlength(propsels)>0 || propselinvert ).booleanNumber();
+                    return ( $.objectsize(propsels)>0 || propselinvert ).booleanNumber();
                 else
-                    return ( _isset(propsels[i]) != propselinvert ).booleanNumber();
+                    return ( $.isset(propsels[i]) != propselinvert ).booleanNumber();
             }
             this.isselected=function(i){
                 if(i==missing)
-                    return ( _objectlength(propsels)>0 || propselinvert || propindex>0).booleanNumber();
+                    return ( $.objectsize(propsels)>0 || propselinvert || propindex>0).booleanNumber();
                 else
-                    return ( (_isset(propsels[i]) != propselinvert) || i==propindex).booleanNumber();
+                    return ( ($.isset(propsels[i]) != propselinvert) || i==propindex).booleanNumber();
             }
             this.checkall=function(f){
                 if(f==missing){f=true}
@@ -1019,13 +1019,13 @@
                         h=Math.round(h*proptoprow/propmaxtoprow);
                     }
                     t.css({"top":h,"visibility":"visible"});
-                    if(_mobiledetected){
+                    if($.browser.mobile){
                         mobilestate(0, "block");
                     }
                 }
                 else{
                     t.css({"top":0,"visibility":"hidden"});
-                    if(_mobiledetected){
+                    if($.browser.mobile){
                         mobilestate(0, "none");
                     }
                 }
@@ -1044,7 +1044,7 @@
                         l=(w*propleftcol)/(propgridwidth-propwinwidth);
                     }
                     t.css({"left":l,"visibility":"visible"});
-                    if(_mobiledetected){
+                    if($.browser.mobile){
                         mobilestate(1, "block");
                     }
                 }
@@ -1052,7 +1052,7 @@
                     propleftcol=0;
                     $("#"+propname+"_grid").css({"position":"absolute","left":-propleftcol});
                     t.css({"left":0,"visibility":"hidden"});
-                    if(_mobiledetected){
+                    if($.browser.mobile){
                         mobilestate(1, "none");
                     }
                 }
@@ -1137,7 +1137,7 @@
                     var fd="#"+propname+"_0_0";
                     var s=$("#"+propname+"_selicon");
                     var icon="check.gif";
-                    var sels=_objectlength(propsels);
+                    var sels=$.objectsize(propsels);
                     if(sels>0){
                         if(sels<propcount){
                             if(propselinvert)
@@ -1618,7 +1618,7 @@
                 $("#"+propname+"_vscroll").css({"position":"absolute","background-color":"#E0E0E0","top":proprowh,"left":propwidth-propscrollsize,"width":propscrollsize,"height":proprowh*proprows+1});
                 $("#"+propname+"_tooltip").css({"position":"absolute","visibility":"hidden","top":0,"left":0,"border":"1px solid silver","background-color":"#F5DEB3","white-space":"nowrap"});
                 $("#"+propname+"_vtrack").css({"position":"absolute","visibility":"hidden","background":"transparent url("+propfolderryque+"images/vtrack.gif) no-repeat","height":proptracksize,"width":propscrollsize,"top":0,"left":0,"cursor":"pointer"});
-                if(_mobiledetected){
+                if($.browser.mobile){
                     var semih=(proprowh*proprows+1)/2;
                     $("#"+propname+"_mobivertback").css({"position":"absolute","background-color":"#A0A0A0","top":proprowh,"left":propwidth-propscrollsize,"width":propscrollsize,"height":semih});
                     $("#"+propname+"_mobivertfore").css({"position":"absolute","background-color":"#C0C0C0","top":proprowh+semih,"left":propwidth-propscrollsize,"width":propscrollsize,"height":semih});
@@ -1630,7 +1630,7 @@
                     
                 $("#"+propname+"_hscroll").css({"position":"absolute","background-color":"#E0E0E0","left":2,"width":propwidth-propscrollsize-2,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
                 $("#"+propname+"_htrack").css({"position":"absolute","visibility":"hidden","background":"transparent url("+propfolderryque+"images/htrack.gif) no-repeat","left":0,"top":0,"width":proptracksize,"height":15,"cursor":"pointer"});
-                if(_mobiledetected){
+                if($.browser.mobile){
                     var semiw=(propwidth-propscrollsize-2)/2;
                     $("#"+propname+"_mobihoriback").css({"position":"absolute","background-color":"#A0A0A0","left":2,"width":semiw,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
                     $("#"+propname+"_mobihorifore").css({"position":"absolute","background-color":"#C0C0C0","left":2+semiw,"width":semiw,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
@@ -1941,7 +1941,7 @@
                                     }
                                 }
                                 else{
-                                    vl=(_isset(propsels[parseInt(i)+1]) != propselinvert) ? "1" : "0";
+                                    vl=($.isset(propsels[parseInt(i)+1]) != propselinvert) ? "1" : "0";
                                 }
                                 map[i][b+1]=vl;
                             }
@@ -1968,7 +1968,7 @@
                                 return ret;
                             }
                         );
-                        var ind=0, sels={}, checked=_objectlength(propsels), newi;
+                        var ind=0, sels={}, checked=$.objectsize(propsels), newi;
                         for(i in map){
                             newi=map[i][0];
                             newbag[i]=propobj.matrix[newi];

@@ -198,6 +198,7 @@ input,select,a:focus{outline:none;border:none;}
 .contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
 .contextMenu>ul>li>a{color:black;}
 .contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
+.contextDisabled>a{color:silver !important;}
 </style>
             
 <script type='text/javascript' src='../jquery/jquery.js' ></script>

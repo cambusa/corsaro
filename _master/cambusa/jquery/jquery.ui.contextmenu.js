@@ -122,7 +122,7 @@
             var cur = hash[index];
             currobj=propobj;
             content = $('#'+cur.id).find('ul:first').clone(true);
-            content.css(cur.menuStyle).find('li').css(cur.itemStyle).hover(
+            content.css(cur.menuStyle).find('li:not(.contextSeparator,.contextDisabled)').css(cur.itemStyle).hover(
                 function() {
                     $(this).css(cur.itemHoverStyle);
                 },
@@ -130,6 +130,12 @@
                     $(this).css(cur.itemStyle);
                 }
             ).find('img').css({verticalAlign:'middle',paddingRight:'2px'});
+
+            content.css(cur.menuStyle).find('li.contextSeparator').css(cur.itemStyle).html('<div style="border-bottom:1px solid silver;height:2px;overflow:hidden;">&nbsp;</div>');
+            content.css(cur.menuStyle).find('li.contextDisabled').css(cur.itemStyle).find("a").removeAttr("href");
+            content.find('li.contextDisabled').each(function(){
+                delete cur.bindings[ $(this).attr("id") ];
+            });
 
             // Send the content to the menu
             menu.html(content);
@@ -150,7 +156,7 @@
                         $(shadow).css({left:p.left+l+2, top:p.top+t+2});
                         propobj.curritem=0;
                         setTimeout(function(){
-                            $("#"+propobj.propid+" a:first").focus();
+                            $("#"+propobj.propid+" a:first[href]").focus();
                         }, 500);
                     }catch(e){}
                 }

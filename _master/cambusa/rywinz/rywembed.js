@@ -45,7 +45,7 @@ function ryWinz(missing){
                 o.controls[formid+relid]=relid;
             }
         });
-        if(window.console&&_sessioninfo.debugmode)console.log("Oggetti in apertura: "+_objectlength(globalobjs));
+        if(window.console&&_sessioninfo.debugmode)console.log("Objects before form: "+$.objectsize(globalobjs));
         $("#hanger_"+formid+" a").each(function(i){
             href=$(this).attr("href");
             if (typeof href !== "undefined"){ 
@@ -63,7 +63,7 @@ function ryWinz(missing){
             // ELIMINO TUTTI I CONTROLLI TRANNE I GRID CHE MEMORIZZO
             var vK=_globalforms[id].controls;
             for(var v in vK){
-                if(_isset(globalobjs[v])){
+                if($.isset(globalobjs[v])){
                     if(globalobjs[v].type=="grid")
                         grids.push(v);
                     else
@@ -77,7 +77,7 @@ function ryWinz(missing){
             // RIMOZIONE DEI GRID CON DISPOSE
             winzDisposeGrid(grids,
                 function(){
-                    if(window.console&&_sessioninfo.debugmode)console.log("Closing objects: "+_objectlength(globalobjs));
+                    if(window.console&&_sessioninfo.debugmode)console.log("Objects after form: "+$.objectsize(globalobjs));
                     delete _globalforms[id];
                     if(done!=missing){
                         setTimeout(function(){done()});

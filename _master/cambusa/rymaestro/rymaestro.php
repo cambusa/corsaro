@@ -180,7 +180,7 @@ function makereport(collat,missing){
                                     if(fdb.type=="VARCHAR" && field.size!=fdb.size){
                                         t+="<td class='maestro-nocollat'>"+fdb.type+"("+fdb.size+")"+"</td>";
                                     }
-                                    else if(fdb.type=="TEXT" && _isset(fdb.size)){
+                                    else if(fdb.type=="TEXT" && $.isset(fdb.size)){
                                         t+="<td class='maestro-nocollat'>"+fdb.type+"("+fdb.size+")"+"</td>";
                                     }
                                 }

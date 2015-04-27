@@ -17,11 +17,11 @@ function class_qvlanguages(settings,missing){
     var Languagefrom="Italiano";
     var Languageto="English";
     
-    if(_isset(settings["languagefrom"])){
+    if($.isset(settings["languagefrom"])){
         languagefrom=settings["languagefrom"];
         Languagefrom=languagefrom.substr(0,1).toUpperCase()+languagefrom.substr(1);
     }
-    if(_isset(settings["languageto"])){
+    if($.isset(settings["languageto"])){
         languageto=settings["languageto"];
         Languageto=languageto.substr(0,1).toUpperCase()+languageto.substr(1);
     }

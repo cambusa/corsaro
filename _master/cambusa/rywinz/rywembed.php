@@ -69,7 +69,6 @@ if(isset($winz_moremodules)){
 <link rel="stylesheet" href="<?php print $url_cambusa ?>jqdesktop/assets/css/ie.css" />
 <![endif]-->
 <script>
-_baseURL="<?php  print $url_base ?>";
 _sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $winz_appname ?>";
 var _apptitle="<?php  print $winz_apptitle ?>";
@@ -154,7 +153,7 @@ function winz_logout(){
         TAIL.enqueue(function(){
             RYEGO.logout();
             TAIL.free();
-            _pause(1000);
+            $.pause(1000);
         });
         TAIL.wriggle();
     }

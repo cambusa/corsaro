@@ -15,26 +15,38 @@ function CambusaLibrary($id){
     global $path_root, $path_cambusa, $path_applications, $path_customize;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
 
-    $cacheversion=24;
+    $cacheversion=30;
+
+$url_temporary=$url_customize."temporary/";
     
 $script_cambusa=<<<CAMBUSA
 <script language="javascript">
 _cambusaURL="../../cambusa/";
 _customizeURL="../../customize/";
-_systeminfo.url.root="$url_base";
-_systeminfo.url.apps="$url_applications";
-_systeminfo.url.cambusa="$url_cambusa";
-_systeminfo.url.customize="$url_customize";
+_systeminfo.web.root="$url_base";
+_systeminfo.web.apps="$url_applications";
+_systeminfo.web.cambusa="$url_cambusa";
+_systeminfo.web.customize="$url_customize";
+_systeminfo.web.temporary="$url_temporary";
 </script>
 CAMBUSA;
 
-$script_rybox=<<<RYBOX
+$script_gmaps=<<<MAPS
+<script language="javascript">
+_systeminfo.maps.zoom=$google_zoom;
+_systeminfo.maps.lat=$google_lat;
+_systeminfo.maps.lng=$google_lng;
+</script>
+MAPS;
+
+$style_rybox=<<<RYBOX
 <style>
 input,select,a:focus{outline:none;border:none;}
 .contextMenu{position:absolute;display:none;}
 .contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
 .contextMenu>ul>li>a{color:black;}
 .contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
+.contextDisabled>a{color:silver !important;}
 </style>
 RYBOX;
     
@@ -91,7 +103,7 @@ RYBOX;
             CambusaLibraryAdd("jquery.ui.datepicker.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.datepicker.css' rel='stylesheet' />");
             //CambusaLibraryAdd("jquery.ui.tabs.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.tabs.css' rel='stylesheet' />");
             CambusaLibraryAdd("css-datepicker", "<style>div.ui-datepicker{font-size:11px;}</style>");
-            CambusaLibraryAdd("css-contextmenu", $script_rybox);
+            CambusaLibraryAdd("css-contextmenu", $style_rybox);
             CambusaLibraryAdd("rybox.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rybox.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rytabs.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytabs.css?ver=$cacheversion' />");
             //CambusaLibraryAdd("rytools.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytools.css' />");
@@ -193,7 +205,7 @@ RYBOX;
         case "googlemaps":
             CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js' ></script>");
             if($google_maps){
-                CambusaLibraryAdd("script-google", "<script language='javascript'>_googleZoom=".$google_zoom.";_googleLat=".$google_lat.";_googleLng=".$google_lng.";</script>");
+                CambusaLibraryAdd("script-google", $script_gmaps);
                 CambusaLibraryAdd("googleapis.js", "<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=it'></script>");
                 CambusaLibraryAdd("googlemaps.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/googlemaps.js' ></script>");
             }

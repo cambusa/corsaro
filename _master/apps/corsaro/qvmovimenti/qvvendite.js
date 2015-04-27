@@ -47,12 +47,12 @@ function class_qvvendite(settings,missing){
     var taballegati=4;
     
     // DETERMINO IL PROCESSO
-    if(_isset(settings["processo"])){
+    if($.isset(settings["processo"])){
         currprocessoname=settings["processo"].toUpperCase();
     }
 
     // DETERMINO IL MOTIVO ORDINE
-    if(_isset(settings["ordine"])){
+    if($.isset(settings["ordine"])){
         currordinename=settings["ordine"].toUpperCase();
     }
 
@@ -724,7 +724,7 @@ function class_qvvendite(settings,missing){
                 flaggenre=false;
                 tx_articolo.value(d["DESCRIPTION"], true);
             }
-            tx_amount.numdec( _getinteger(d["ROUNDING"]) );
+            tx_amount.numdec( __(d["ROUNDING"]).actualInteger() );
             tx_servizioid.enabled(1);
         },
         clear:function(){

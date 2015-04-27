@@ -229,14 +229,16 @@ function qv_filedownload(formid, objgrid, params, missing){
                             function(d){
                                 try{
                                     var v=$.parseJSON(d);
-                                    var env=v["params"]["ENVIRON"];
-                                    var n=v["params"]["EXPORT"];
-                                    var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+n;
-                                    if(window.console&&_sessioninfo.debugmode){console.log("Download:"+h)}
-                                    $("#winz-iframe").prop("src", h);
+                                    if(v.success>0){
+                                        var env=v["params"]["ENVIRON"];
+                                        var n=v["params"]["EXPORT"];
+                                        var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+n;
+                                        if(window.console&&_sessioninfo.debugmode){console.log("Download:"+h)}
+                                        $("#winz-iframe").prop("src", h);
+                                        // GESTIONE FILE OBSOLETI
+                                        RYQUIVER.ManageTemp();
+                                    }
                                     winzTimeoutMess(formid, v.success, v.message);
-                                    // GESTIONE FILE OBSOLETI
-                                    RYQUIVER.ManageTemp();
                                 }
                                 catch(e){
                                     winzClearMess(formid);
@@ -838,13 +840,13 @@ function qv_autoconfigurecall(formid, prefix, config, offsety){
             var d=tp.replace(/[^0-9]/g, "");
             tp="NUMBER";
             if(d!="")
-                dec=_getinteger(d);
+                dec=d.actualInteger();
             else
                 dec=2;
         }
         else if(tp.indexOf("CHAR")>=0){
             var d=tp.replace(/[^0-9]/g, "");
-            if(_getinteger(d)>300)
+            if(d.actualInteger()>300)
                 tp="GLOB";
             else
                 tp="TEXT";
@@ -982,10 +984,10 @@ function qv_queuequerycall(params){
     try{
         var sql;
         // DETERMINO LA QUERY
-        if(_isset(params["sql"])){
+        if($.isset(params["sql"])){
             sql=params["sql"];
         }
-        else if(_isset(params["fsql"])){
+        else if($.isset(params["fsql"])){
             sql=params["fsql"]();
         }
         else{

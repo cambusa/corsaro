@@ -478,7 +478,7 @@ var globalcolorfocus="#FFF4E6";
             	onShowMenu: 
             		function(e, menu) {
             			if(propobj.value()==null){
-            				$('#rybox_cut',menu).remove();
+            				$('#rybox_cut', menu).remove();
             				$('#rybox_copy', menu).remove();
             			}
             			if(!clipdate){
@@ -1199,7 +1199,7 @@ var globalcolorfocus="#FFF4E6";
             	onShowMenu: 
             		function(e, menu) {
             			if(propobj.value()==0){
-            				$('#rybox_cut',menu).remove();
+            				$('#rybox_cut', menu).remove();
             				$('#rybox_copy', menu).remove();
             			}
             			if(!clipnumber){
@@ -1218,7 +1218,7 @@ var globalcolorfocus="#FFF4E6";
                 $("#"+propname+"_text").css({"width":propwidth-8});
             }
 			this.showcalculator=function(r){
-                if(_mobiledetected){
+                if($.browser.mobile){
                     var v=prompt("Inserire un valore o una formula");
                     prophelp=false;
                     if(typeof(v)=="string"){
@@ -1527,7 +1527,7 @@ var globalcolorfocus="#FFF4E6";
                 var v=0;
                 try{
                     v=$("#rybox_calculator_input").val();
-                    if(_isset(v)){
+                    if($.isset(v)){
                         v=v.replace(",", ".");
                         v=v.replace(/[^0-9.+\-*\/\(\)]/g, "");
                         v=eval( v );
@@ -1605,7 +1605,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_anchor").css({"cursor":"text"});
             
             var t=0;
-            if(_HTML5())
+            if($.browser.HTML5)
                 t=-1;
             $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":t,"width":propwidth-4,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
             
@@ -1753,7 +1753,7 @@ var globalcolorfocus="#FFF4E6";
 			}
 			this.readonly=function(v){
 				if(v==missing){
-					return _isset($("#"+propname+"_anchor").attr("readonly"));
+					return $.isset($("#"+propname+"_anchor").attr("readonly"));
 				}
 				else{
 					if(v)
@@ -2255,7 +2255,9 @@ var globalcolorfocus="#FFF4E6";
 			this.id="#"+propname;
 			this.tag=null;
 			this.type="list";
-			
+            
+            var htimer=false;
+            
 			globalobjs[propname]=this;
 
 			if(settings.left!=missing){propleft=settings.left}
@@ -2304,8 +2306,9 @@ var globalcolorfocus="#FFF4E6";
             	function(k){
                     if(k.which==9)
                         return nextFocus(propname, k.shiftKey);
-                    else if(32<=k.which && k.which<=40)
+                    else if(32<=k.which && k.which<=40){
                         propobj.raisechanged();
+                    }
                     else if(k.which==13){
                         k.preventDefault();
                         propobj.raiseassigned();
@@ -2327,24 +2330,28 @@ var globalcolorfocus="#FFF4E6";
             }
 			this.value=function(k,a){
 				if(k==missing){
-					return _getinteger($("#"+propname+"_anchor").val());
+					return $("#"+propname+"_anchor").val().actualInteger();
 				}
 				else{
 					$("#"+propname+"_anchor").val(k);
                     if($.browser.msie){
                         $("#"+propname+"_anchor").css({display:"block"});
                     }
+                    propobj.raisechanged();
                     if(a==missing){a=false}
                     if(a){propobj.raiseassigned()}
 				}
 			}
-            this.setkey=function(k){
+            this.setkey=function(k,a){
                 for(var i=1;i<=propobj.count();i++){
                     if(propobj.key(i)==k){
                         $("#"+propname+"_anchor").val(i);
                         if($.browser.msie){
                             $("#"+propname+"_anchor").css({display:"block"});
                         }
+                        propobj.raisechanged();
+                        if(a==missing){a=false}
+                        if(a){propobj.raiseassigned()}
                         break;
                     }
                 }
@@ -2448,7 +2455,15 @@ var globalcolorfocus="#FFF4E6";
             this.raisechanged=function(){
                 propchanged=true;
                 propobj.modified(1);
-                if(settings.changed!=missing){settings.changed(propobj)}
+                if(settings.changed!=missing){
+                    if(htimer){
+                        clearTimeout(htimer)
+                    }
+                    htimer=setTimeout(function(){
+                        htimer=false;
+                        settings.changed(propobj)
+                    }, 100);
+                }
                 _modifiedState(propname,true);
             }
             this.raiseassigned=function(){
@@ -2502,7 +2517,7 @@ var globalcolorfocus="#FFF4E6";
             .css({"position":"absolute","left":propleft,"top":proptop})
             .html("<div id='"+propnameh+"' class='rytime'></div><div id='"+propname+"_separator'>:</div><div id='"+propnamem+"' class='rytime'></div>");
             
-            if(_isset(formid)){
+            if($.isset(formid)){
                 $("#"+propnameh).prop("parentid", formid);
                 _globalforms[formid].controls[propnameh]=propnameh.substr(formid.length);
                 $("#"+propnamem).prop("parentid", formid);
@@ -2556,7 +2571,7 @@ var globalcolorfocus="#FFF4E6";
             }
 			this.value=function(v,a){
 				if(v==missing){
-					return (new Date(0, 0, 0, _getinteger(prophours.key()), _getinteger(propminutes.key())));
+					return (new Date(0, 0, 0, prophours.key().actualInteger(), propminutes.key().actualInteger()));
 				}
 				else{
 					try{
@@ -2574,7 +2589,7 @@ var globalcolorfocus="#FFF4E6";
                                 m=("00"+v.getMinutes()).subright(2);
                             }
                             prophours.setkey(h);
-                            m=_getinteger(m);
+                            m=m.actualInteger();
                             if(m<55)
                                 m=("00"+(5*Math.round(m/5))).subright(2);
                             else
@@ -2600,13 +2615,13 @@ var globalcolorfocus="#FFF4E6";
 			}
 			this.hours=function(){
                 if(propvisible)
-                    return _getinteger(prophours.key());
+                    return prophours.key().actualInteger();
                 else
                     return 0;
 			}
 			this.minutes=function(){
                 if(propvisible)
-                    return _getinteger(propminutes.key());
+                    return propminutes.key().actualInteger();
                 else
                     return 0;
 			}
@@ -2929,8 +2944,8 @@ function castFocus(n){
 }
 function nextFocus(nm,sh,k,missing){
     try{
-        var notab=_isset($("#"+nm).attr("notab"));
-        if(_isset(k)){k.preventDefault()}
+        var notab=$.isset($("#"+nm).attr("notab"));
+        if($.isset(k)){k.preventDefault()}
         var st=0;    // Stato 0 iniziale, 1 incontrato formid, 2 azione terminata, 3 prendi l'ultimo
         var fs="";   // primo
         var pr="";   // precedente
@@ -2940,7 +2955,7 @@ function nextFocus(nm,sh,k,missing){
         var coll=new Object();
         if(formid==missing){
             for(var i in globalobjs){
-                if(_isset($("#"+i).attr("notab"))==notab){
+                if($.isset($("#"+i).attr("notab"))==notab){
                     if(_visibleobject(i)){
                         var o=globalobjs[i];
                         if(ts.indexOf(o.type)>=0){
@@ -2954,7 +2969,7 @@ function nextFocus(nm,sh,k,missing){
         else{
             for(var i in globalobjs){
                 if($("#"+i).prop("parentid")==formid){
-                    if(_isset($("#"+i).attr("notab"))==notab){
+                    if($.isset($("#"+i).attr("notab"))==notab){
                         if(_visibleobject(i)){
                             var o=globalobjs[i];
                             if(ts.indexOf(o.type)>=0){

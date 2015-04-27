@@ -31,12 +31,12 @@ function class_qvprezzario(settings,missing){
     var sospendirefresh=false;
     
     // DETERMINO IL LISTINO
-    if(_isset(settings["listinoid"])){
+    if($.isset(settings["listinoid"])){
         currlistinoid=settings["listinoid"];
     }
 
     // DETERMINO IL MOTIVO
-    if(_isset(settings["motivoid"])){
+    if($.isset(settings["motivoid"])){
         currmotivoid=settings["motivoid"];
     }
 

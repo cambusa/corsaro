@@ -566,10 +566,10 @@ function class_qvtrasferimenti(settings,missing){
                     try{
                         var v=$.parseJSON(d);
                         if(v.success>0){
-                            if(_isset(v.params["STATUSTIME"])){
+                            if($.isset(v.params["STATUSTIME"])){
                                 globalobjs[formid+"STATUSTIME"].value(v.params["STATUSTIME"]);
                             }
-                            if(_isset(v.params["STATUS"])){
+                            if($.isset(v.params["STATUS"])){
                                 globalobjs[formid+"STATUS"].setkey(v.params["STATUS"]);
                             }
                             // RICALCOLO GIACENZA E DISPONIBILITA'
@@ -730,7 +730,7 @@ function class_qvtrasferimenti(settings,missing){
     }
     function tempolasco(t){
         var h=t.substr(0,10);
-        var m=_getinteger(t.substr(10,2))+4;
+        var m=t.substr(10,2).actualInteger()+4;
         m=("00"+m).subright(2);
         return h+m+"59";
     }

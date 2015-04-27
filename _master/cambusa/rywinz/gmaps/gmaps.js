@@ -15,12 +15,12 @@ function class_gmaps(settings,missing){
     if(status)
         status=$.parseJSON(status);
     else
-        status={"zoom":_googleZoom,"lat":_googleLat,"lng":_googleLng};
+        status={"zoom":_systeminfo.maps.zoom,"lat":_systeminfo.maps.lat,"lng":_systeminfo.maps.lng};
     status["click"]=function(d){
         showinfo(d);
     }
     if(window.console)console.log(status);
-    this._resize=function(w,h){
+    this._resize=function(){
         if(objmap){
             status=objmap.status();
             status["click"]=function(d){
@@ -31,9 +31,11 @@ function class_gmaps(settings,missing){
         objmap=$("#"+formid+"map").gmap(status);
     }
     this._unload=function(){
-        status=objmap.status();
-        if(status){
-            $.cookie("googlemaps", _stringify(status), { expires : 10000 });
+        if(objmap){
+            status=objmap.status();
+            if(status){
+                $.cookie("googlemaps", $.stringify(status), { expires : 10000 });
+            }
         }
     }
     function showinfo(d){

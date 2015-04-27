@@ -129,7 +129,7 @@ function class_qvquivers(settings,missing){
     var lbf_status=$(prefix+"lbf_status").rylabel({left:430, top:offsety, caption:"Stato"});
     offsety+=20;
     var txf_status=$(prefix+"txf_status").rylist({left:430, top:offsety, width:300,
-        assigned: function(){
+        changed: function(){
             setTimeout(function(){oper_refresh.engage();}, 100);
         }
     });
@@ -594,7 +594,7 @@ function class_qvquivers(settings,missing){
     
     $(prefix+"lbfx_yesno").rylabel({left:offsetx, top:offsety, caption:"Seleziona..."});offsety+=20;
     var txfx_yesno=$(prefix+"txfx_yesno").rylist({left:offsetx, top:offsety, width:200,
-        assigned:function(){
+        changed:function(){
             setTimeout(function(){operx_refresh.engage();}, 100);
         }
     })
@@ -888,7 +888,7 @@ function class_qvquivers(settings,missing){
                                 var genreid=v[i]["GENREID"];
                                 sumgenres[genreid]={};
                                 sumgenres[genreid]["GENREDESCR"]=v[i]["GENREDESCR"];
-                                if(_isset(sumgenres[genreid]["AMOUNT"]))
+                                if($.isset(sumgenres[genreid]["AMOUNT"]))
                                     sumgenres[genreid]["AMOUNT"]-=parseFloat(v[i]["AMOUNT"]);
                                 else
                                     sumgenres[genreid]["AMOUNT"]=-parseFloat(v[i]["AMOUNT"]);

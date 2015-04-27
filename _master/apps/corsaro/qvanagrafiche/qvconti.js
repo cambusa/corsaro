@@ -309,7 +309,7 @@ function class_qvconti(settings,missing){
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
             if(tx_banca.value()==""){
-                if(_isset(data["BANCAID"])){
+                if($.isset(data["BANCAID"])){
                     data["CIN"]="";
                     data["EUROCIN"]="";
                     data["BIC"]="";

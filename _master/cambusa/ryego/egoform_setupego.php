@@ -109,7 +109,7 @@ function activation(n){
 if(!$.browser.msie){
     window.onbeforeunload=function(){
         egoterminate(false);
-        _pause(1000);
+        $.pause(1000);
     };
 }
 

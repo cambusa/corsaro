@@ -291,7 +291,7 @@ function class_qvinventario(settings,missing){
             winzProgress(formid);
             var data={};
             data["COLLID"]=currcollid;
-            data["MOMENTO"]=txtime.value();
+            data["MOMENTO"]=txtime.text();
             data["AMOUNT"]=txamount.value();
             $.post(_cambusaURL+"ryquiver/quiver.php", 
                 {
@@ -402,7 +402,7 @@ function class_qvinventario(settings,missing){
     }
     function tempolasco(t){
         var h=t.substr(0,10);
-        var m=_getinteger(t.substr(10,2))+4;
+        var m=t.substr(10,2).actualInteger()+4;
         m=("00"+m).subright(2);
         return h+m+"59";
     }

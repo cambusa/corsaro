@@ -36,7 +36,7 @@
             if(settings.height!=missing){propheight=settings.height}
             if(settings.flat!=missing){propflat=settings.flat}
             
-            if(_mobiledetected){
+            if($.browser.mobile){
                 propflat=true;
                 propwidth-=6;
                 propheight-=42;
