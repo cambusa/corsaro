@@ -36,9 +36,9 @@ function class_postman(settings,missing){
                     var data = new Object();
                     data["ACTION"]="RECEIVED";
                     data["EGOID"]=_sessioninfo.userid;
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"messages_status",
                             "data":data
@@ -93,9 +93,9 @@ function class_postman(settings,missing){
                     var data = new Object();
                     data["ACTION"]="UNREAD";
                     data["LIST"]=s;
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"messages_status",
                             "data":data
@@ -131,9 +131,9 @@ function class_postman(settings,missing){
                     var data = new Object();
                     data["ACTION"]="READ";
                     data["LIST"]=s;
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"messages_status",
                             "data":data
@@ -173,9 +173,9 @@ function class_postman(settings,missing){
                             var data = new Object();
                             data["ACTION"]="DELETE";
                             data["LIST"]=s;
-                            $.post(_cambusaURL+"ryquiver/quiver.php", 
+                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
-                                    "sessionid":_sessionid,
+                                    "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,
                                     "function":"messages_status",
                                     "data":data
@@ -231,7 +231,7 @@ function class_postman(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_unread.enabled(o.isselected());
             oper_read.enabled(o.isselected());
             oper_delete.enabled(o.isselected());

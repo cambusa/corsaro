@@ -85,9 +85,9 @@ function class_qvlanguages(settings,missing){
         },
         solveid:function(o, d){
             currsysid=d;
-            $.post(_cambusaURL+"rybabel/babel_action.php", 
+            $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "action":"select",
                     "default":languagefrom,
                     "SYSID":currsysid,
@@ -126,9 +126,9 @@ function class_qvlanguages(settings,missing){
             winzProgress(formid);
             var data = new Object();
             data["DESCRIPTION"]="(nuova opzione)";
-            $.post(_cambusaURL+"rybabel/babel_action.php", 
+            $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "action":"new",
                     "default":languagefrom,
                     "languages":[languagefrom, languageto]
@@ -159,9 +159,9 @@ function class_qvlanguages(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            $.post(_cambusaURL+"rybabel/babel_action.php", 
+            $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "action":"update",
                     "default":languagefrom,
                     "SYSID":currsysid,
@@ -196,9 +196,9 @@ function class_qvlanguages(settings,missing){
             winzMessageBox(formid, {
                 message:"Eliminare la voce selezionata?",
                 confirm:function(){
-                    $.post(_cambusaURL+"rybabel/babel_action.php", 
+                    $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "action":"delete",
                             "default":languagefrom,
                             "SYSID":currsysid,

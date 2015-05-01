@@ -50,7 +50,7 @@ function class_qvmotivetypes(settings,missing){
             }
             context="";
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_print.enabled(o.isselected());
             oper_delete.enabled(o.isselected());
         },
@@ -109,9 +109,9 @@ function class_qvmotivetypes(settings,missing){
             winzProgress(formid);
             var data = new Object();
             data["DESCRIPTION"]="(nuova tipologia)";
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"motivetypes_insert",
                     "data":data
@@ -206,9 +206,9 @@ function class_qvmotivetypes(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"motivetypes_update",
                     "data":data
@@ -259,7 +259,7 @@ function class_qvmotivetypes(settings,missing){
                 oper_detailsdelete.enabled(o.isselected());
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_detailsdelete.enabled(o.isselected());
         },
         solveid:function(o, d){
@@ -286,9 +286,9 @@ function class_qvmotivetypes(settings,missing){
             var data = new Object();
             data["TYPOLOGYID"]=currsysid;
             data["FIELDNAME"]="NomeCampo";
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"motiveviews_insert",
                     "data":data
@@ -330,9 +330,9 @@ function class_qvmotivetypes(settings,missing){
         click:function(o){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "X", currdetailid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"motiveviews_update",
                     "data":data

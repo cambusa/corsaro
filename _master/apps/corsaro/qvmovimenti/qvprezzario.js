@@ -161,7 +161,7 @@ function class_qvprezzario(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_delete.enabled(o.isselected());
         },
         solveid:function(o,d){
@@ -194,9 +194,9 @@ function class_qvprezzario(settings,missing){
             data["EQTYPOLOGYID"]=typemov;
             data["EQGENREID"]=typeeuro;
             data["EQMOTIVEID"]=motivoeqid;
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"listini_insert",
                     "data":data
@@ -234,9 +234,9 @@ function class_qvprezzario(settings,missing){
                     objgridsel.selengage(   // Elenco dei SYSID selezionati
                         function(o, sel){
                             winzProgress(formid);
-                            $.post(_cambusaURL+"ryquiver/quiver.php", 
+                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
-                                    "sessionid":_sessionid,
+                                    "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,
                                     "function":"listini_delete",
                                     "data":{
@@ -309,9 +309,9 @@ function class_qvprezzario(settings,missing){
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
             data["EQUIVALENCEID"]=currsysid;
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"listini_update",
                     "data":data

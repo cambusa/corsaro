@@ -24,6 +24,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             var prophelper=1;
             var propinsert=parseInt(_globalcodeinsert);
 			var propstart=0;
+            var propcharleft=0;
 			var propfocusout=true;
             var propselected=false;
 			var propctrl=false;
@@ -33,6 +34,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             var propchanged=false;
 			var propenabled=1;
 			var propvisible=true;
+            var propmousedown=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -85,7 +87,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":2,"top":1,"height":propheight-4,"overflow":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_cambusaURL+"ryquiver/images/helper.png)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"ryquiver/images/helper.png)"});
             
             if(prophelper){
                 $("#"+propname+"_text").css({"width":propwidth-26});
@@ -160,7 +162,16 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                                 propobj.refreshcursor();
                             }
             				else if(propstart<propcode.length){
-                                propstart+=1;
+                                if(propctrl){
+                                    var m=propcode.substr(propstart).match(/\W+/);
+                                    if(m)
+                                        propstart+=m.index+m[0].length;
+                                    else
+                                        propstart=propcode.length;
+                                }
+                                else{
+                                    propstart+=1;
+                                }
             					propobj.refreshcursor();
             				}
             			}
@@ -171,7 +182,16 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                                 propobj.refreshcursor();
                             }
             				else if(propstart>0){
-                                propstart-=1;
+                                if(propctrl){
+                                    var m=propcode.substr(0, propstart).reverse().match(/(\w+|\W+\w+)/);
+                                    if(m)
+                                        propstart-=(m.index+m[0].length);
+                                    else
+                                        propstart=0;
+                                }
+                                else{
+                                    propstart-=1;
+                                }
                                 propobj.refreshcursor();
             				}
             			}
@@ -211,7 +231,6 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                                     propcode=propcode.substr(0,propstart)+propcode.substr(propstart+1);
                                 }
             				}
-            				$("#"+propname+"_text").html(propcode);
             				propobj.refreshcursor();
                             propobj.raisechanged();
             			}
@@ -251,12 +270,15 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                                 propstart-=1;
                                 propcode=propcode.substr(0,propstart)+propcode.substr(propstart+1);
                             }
-
-                            $("#"+propname+"_text").html(propcode);
             				propobj.refreshcursor();
                             propobj.raisechanged();
             			}
             		}
+                    if(k.which>=35 && k.which<=39 && !propshift){
+                        if(propselected){
+                            propobj.selected(false);
+                        }
+                    }
             		if(k.which==8 || k.which==35 || k.which==36){
             			return false;
             		}
@@ -272,44 +294,44 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                     if(propalt)
                         return true;
             		if(propenabled && !proplock){
-                        var n=String.fromCharCode(k.which);
-            			var u=n.toUpperCase();
-                        if(propselected){
-                            propobj.clear();
-                            propobj.selected(false);
-                        }
-            			if(propstart<propmaxlen){
-                            var ok=false;
-                            if(!propinsert || propcode.length<propmaxlen ){
-                                switch(propmode){
-                                case "filled":
-                                    ok=("0"<=u && u<="9");
-                                    break;
-                                case "system":
-                                    ok=("0"<=u && u<="9") || ("A"<=u && u<="Z");
-                                    n=u;
-                                    break;
-                                case "free":
-                                    ok=true;
-                                    break;
-                                default:
-                                    ok=("0"<=u && u<="9") || ("A"<=u && u<="Z") || n=="_";
+                        if(k.which>0){
+                            var n=String.fromCharCode(k.which);
+                            var u=n.toUpperCase();
+                            if(propselected){
+                                propobj.clear();
+                                propobj.selected(false);
+                            }
+                            if(propstart<propmaxlen){
+                                var ok=false;
+                                if(!propinsert || propcode.length<propmaxlen ){
+                                    switch(propmode){
+                                    case "filled":
+                                        ok=("0"<=u && u<="9");
+                                        break;
+                                    case "system":
+                                        ok=("0"<=u && u<="9") || ("A"<=u && u<="Z");
+                                        n=u;
+                                        break;
+                                    case "free":
+                                        ok=true;
+                                        break;
+                                    default:
+                                        ok=("0"<=u && u<="9") || ("A"<=u && u<="Z") || n=="_";
+                                    }
+                                }
+                                if(ok){
+                                    if( propstart<propmaxlen ){
+                                        if(propinsert)
+                                            propcode=propcode.substr(0,propstart)+n+propcode.substr(propstart);
+                                        else
+                                            propcode=propcode.substr(0,propstart)+n+propcode.substr(propstart+1);
+                                        propstart+=1;
+                                        propobj.refreshcursor();
+                                        propobj.raisechanged();
+                                    }
                                 }
                             }
-            				if(ok){
-                                if( propstart<propmaxlen ){
-                                    if(propinsert)
-                                        propcode=propcode.substr(0,propstart)+n+propcode.substr(propstart);
-                                    else
-                                        propcode=propcode.substr(0,propstart)+n+propcode.substr(propstart+1);
-                                    propstart+=1;
-                                    
-                                    $("#"+propname+"_text").html(propcode);
-                                    propobj.refreshcursor();
-                                    propobj.raisechanged();
-                                }
-            				}
-            			}
+                        }
             		}
             	}
             );
@@ -338,9 +360,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             		if(propenabled && !proplock){
             			var p=evt.pageX-propleft;
             			var l,i;
-            			propstart=0;
-            			for(i=1;i<=propcode.length;i++){
-            				l=propobj.textwidth(propcode.substr(0,i));
+            			propstart=propcode.length;
+            			for(i=propcharleft; i<=propcode.length-1; i++){
+            				l=propobj.textwidth(propcode.substr(propcharleft, i-propcharleft+1));
             				if(l>p+3){
                                 propstart=i;
             					break;
@@ -353,9 +375,23 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             $("#"+propname).mousedown(
             	function(evt){
             		if(propenabled){
+                        propmousedown=true;
                         if(!propselected)
                             castFocus(propname);
             		}
+            	}
+            );
+            $("#"+propname).mousemove(
+            	function(evt){
+            		if(propenabled){
+                        if(propmousedown)
+                            propobj.selected(true);
+            		}
+            	}
+            );
+            $("#"+propname).mouseup(
+            	function(evt){
+                    propmousedown=false;
             	}
             );
             $("#"+propname+"_button").click(
@@ -420,12 +456,29 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 }
 			}
 			this.refreshcursor=function(){
-				var t=propcode;
-				var s=t.substr(0, propstart);
-				$("#"+propname+"_cursor").css({"left":propobj.textwidth(s)+1})
+				var s,x;
+                var w=prophelper ? propwidth-24 : propwidth-4;
+                if(propcharleft>propstart)
+                    propcharleft=propstart;
+                if(propcharleft<propstart){
+                    s=propcode.substr(propcharleft, propstart-propcharleft);
+                    x=propobj.textwidth(s)+1;
+                }
+                else{
+                    x=1;
+                }
+                if(x>w){
+                    do{
+                        propcharleft+=1;
+                        s=propcode.substr(propcharleft, propstart-propcharleft);
+                        x=propobj.textwidth(s)+1;
+                    }while(x>w)
+                }
+                $("#"+propname+"_text").html(propcode.substr(propcharleft).replace(/ /g, "&nbsp;"));
+				$("#"+propname+"_cursor").css({"left":x})
 			}
 			this.textwidth=function(s){
-				$("#"+propname+"_span").html(s);
+				$("#"+propname+"_span").html(s.replace(/ /g, "&nbsp;"));
 				return $("#"+propname+"_span").width();
 			}
 			this.completion=function(){
@@ -444,7 +497,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 }
                 if(propcode!=c)
                     propobj.raisechanged();
-                $("#"+propname+"_text").html(propcode);
+                propobj.refreshcursor();
 			}
 			this.value=function(v,a){
 				if(v==missing){
@@ -468,7 +521,6 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 					catch(e){
 						propobj.clear();
 					}
-					$("#"+propname+"_text").html(propcode);
 					propstart=0;
 					propobj.refreshcursor();
 				}
@@ -569,7 +621,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 			}
             this.selected=function(v){
                 propselected=v;
-                if($("#"+propname+"_text").html()=="")
+                if(propcode=="")
                     propselected=false;
                 if(propselected)
                     $("#"+propname+"_text").css({"background-color":"#87CEFA", "color":"white"});
@@ -579,7 +631,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 			this.clear=function(){
 				propstart=0;
                 propcode="";
-                $("#"+propname+"_text").html(propcode);
+                propobj.refreshcursor();
                 propobj.raisechanged();
 			}
 			this.focus=function(){

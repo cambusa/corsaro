@@ -42,7 +42,7 @@ function class_qvsettings(settings,missing){
                 oper_delete.enabled(o.isselected());
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_delete.enabled(o.isselected());
         },
         solveid:function(o,d){
@@ -93,9 +93,9 @@ function class_qvsettings(settings,missing){
             winzProgress(formid);
             var data = new Object();
             data["DESCRIPTION"]="(nuova opzione)";
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"settings_insert",
                     "data":data
@@ -154,9 +154,9 @@ function class_qvsettings(settings,missing){
         click:function(o){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"settings_update",
                     "data":data
@@ -211,12 +211,12 @@ function class_qvsettings(settings,missing){
         left:100,
         top:120,
         width:300,
-        environ:_tempenviron,
+        environ:_sessioninfo.temporary,
         complete:function(id, name, ret){
             winzProgress(formid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "program":[
                         {
@@ -300,9 +300,9 @@ function class_qvsettings(settings,missing){
                             return xhr;
                         },
                         type:"POST",
-                        url:_cambusaURL+"ryquiver/quiver.php",
+                        url:_systeminfo.relative.cambusa+"ryquiver/quiver.php",
                         data:{
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"system_backup",
                             "data":{}
@@ -375,9 +375,9 @@ function class_qvsettings(settings,missing){
             button:true,
             click:function(o){
                 winzProgress(formid);
-                $.post(_cambusaURL+"ryquiver/quiver.php", 
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
-                        "sessionid":_sessionid,
+                        "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
                         "function":fn,
                         "data":dt
@@ -406,9 +406,9 @@ function class_qvsettings(settings,missing){
             button:true,
             click:function(o){
                 winzProgress(formid);
-                $.post(_cambusaURL+"ryquiver/quiver.php", 
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
-                        "sessionid":_sessionid,
+                        "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
                         "function":"importego",
                         "data":{
@@ -431,9 +431,9 @@ function class_qvsettings(settings,missing){
         });
     }
     function listqbk(){
-        $.post(_cambusaURL+"ryquiver/quiver.php", 
+        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
-                "sessionid":_sessionid,
+                "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,
                 "function":"system_listqbk",
                 "data":{}
@@ -525,9 +525,9 @@ function class_qvsettings(settings,missing){
                         return xhr;
                     },
                     type:"POST",
-                    url:_cambusaURL+"ryquiver/quiver.php",
+                    url:_systeminfo.relative.cambusa+"ryquiver/quiver.php",
                     data:{
-                        "sessionid":_sessionid,
+                        "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
                         "function":"system_restore",
                         "data":{

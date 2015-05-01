@@ -73,6 +73,7 @@ try{
     $email="";
     $registry="";
     $dateformat=0;
+    $temporary="temporary";
     
     if($sqlite3_enabled)
         $sqlite="3";
@@ -220,6 +221,7 @@ if($success==0){
     $email="";
     $registry="";
     $dateformat=0;
+    $temporary="";
     $sqlite="";
 }
 
@@ -250,6 +252,7 @@ $j["admin"]=$admin;
 $j["email"]=htmlentities($email);
 $j["registry"]=htmlentities($registry);
 $j["dateformat"]=$dateformat;
+$j["temporary"]=htmlentities($temporary);
 $j["sqlite"]=$sqlite;
 if($padding=="")
     print json_encode($j);

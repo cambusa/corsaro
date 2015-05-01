@@ -49,9 +49,9 @@ function class_qvforum(settings,missing){
                 switch(curraction){
                 case "insert":
                     winzProgress(formid);
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"forum_insert",
                             "data":{
@@ -85,9 +85,9 @@ function class_qvforum(settings,missing){
                     break;
                 case "update":
                     winzProgress(formid);
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"arrows_update",
                             "data":{
@@ -173,9 +173,9 @@ function class_qvforum(settings,missing){
                 },
                 "return":{"PERSONAID":"#SYSID", "PERSONANOME":"#NOME", "PERSONACOGNOME":"#COGNOME", "UTENTEID":"#UTENTEID"}
             };
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "program":stats
                 }, 
@@ -313,9 +313,9 @@ function class_qvforum(settings,missing){
 
     this._forumDelete=function(pageid, parentid){
         try{
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"arrows_update",
                     "data":{

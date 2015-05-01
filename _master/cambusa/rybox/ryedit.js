@@ -148,7 +148,7 @@
                         try{
                             tempvalue=v;
                             if(!propenabled){
-                                // VISUALIZZAZIONE ALTERNATIVA DURANTE LA DISBILITAZIONE
+                                // VISUALIZZAZIONE ALTERNATIVA DURANTE LA DISABILITAZIONE
                                 $("#"+propname+"_alt").html(v);
                             }
                             TAIL.enqueue(function(n, v){
@@ -226,10 +226,13 @@
                 }
                 else{
                     try{
+                        tempvalue="";
+                        $("#"+propname+"_alt").html("");
                         TAIL.enqueue(function(n){
                             CKEDITOR.instances[n+"_anchor"].setData("",
                                 function(){
                                     CKEDITOR.instances[n+"_anchor"].resetUndo();
+                                    tempvalue=false;
                                     TAIL.free();
                                 }
                             );

@@ -53,8 +53,8 @@ if(!$.browser.msie){
 
 $(document).ready(function(){
     activation('dummy');
-    if(_sessionid!=""){
-        $.post(_cambusaURL+"ryego/ego_infosession.php",{"sessionid":_sessionid,"app":_appname}, 
+    if(_sessioninfo.sessionid!=""){
+        $.post(_systeminfo.relative.cambusa+"ryego/ego_infosession.php",{"sessionid":_sessioninfo.sessionid,"app":_appname}, 
             function(d){
                 try{
                     var v=$.parseJSON(d);
@@ -94,8 +94,8 @@ function config(missing){
         top:offsety,
 		assigned:function(obj){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_last.php", 
-                {"sessionid":_sessionid,"appid":_appid,"aliasid":_aliasid,"environid":obj.key(obj.value())}, 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
+                {"sessionid":_sessioninfo.sessionid,"appid":_appid,"aliasid":_aliasid,"environid":obj.key(obj.value())}, 
                 function(d){
                     try{
                         var v=$.parseJSON(d);
@@ -117,8 +117,8 @@ function config(missing){
         top:offsety,
 		assigned:function(obj){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_last.php", 
-                {"sessionid":_sessionid,"appid":_appid,"aliasid":_aliasid,"roleid":obj.key(obj.value())}, 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
+                {"sessionid":_sessioninfo.sessionid,"appid":_appid,"aliasid":_aliasid,"roleid":obj.key(obj.value())}, 
                 function(d){
                     try{
                         var v=$.parseJSON(d);
@@ -140,8 +140,8 @@ function config(missing){
         top:offsety,
 		assigned:function(obj){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_last.php", 
-                {"sessionid":_sessionid,"appid":_appid,"aliasid":_aliasid,"languageid":obj.key(obj.value())}, 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
+                {"sessionid":_sessioninfo.sessionid,"appid":_appid,"aliasid":_aliasid,"languageid":obj.key(obj.value())}, 
                 function(d){
                     try{
                         var v=$.parseJSON(d);
@@ -169,8 +169,8 @@ function config(missing){
         top:offsety,
 		assigned:function(obj){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_last.php", 
-                {"sessionid":_sessionid,"appid":_appid,"aliasid":_aliasid,"countrycode":obj.key(obj.value())}, 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
+                {"sessionid":_sessioninfo.sessionid,"appid":_appid,"aliasid":_aliasid,"countrycode":obj.key(obj.value())}, 
                 function(d){
                     try{
                         var v=$.parseJSON(d);
@@ -192,8 +192,8 @@ function config(missing){
         top:offsety,
 		assigned:function(obj){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_last.php", 
-                {"sessionid":_sessionid,"appid":_appid,"aliasid":_aliasid,"debugmode":obj.key(obj.value())}, 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
+                {"sessionid":_sessioninfo.sessionid,"appid":_appid,"aliasid":_aliasid,"debugmode":obj.key(obj.value())}, 
                 function(d){
                     try{
                         var v=$.parseJSON(d);
@@ -215,8 +215,8 @@ function config(missing){
         top:offsety,
 		assigned:function(obj){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_last.php", 
-                {"sessionid":_sessionid,"appid":_appid,"aliasid":_aliasid,"email":obj.value()}, 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
+                {"sessionid":_sessioninfo.sessionid,"appid":_appid,"aliasid":_aliasid,"email":obj.value()}, 
                 function(d){
                     try{
                         var v=$.parseJSON(d);
@@ -271,9 +271,9 @@ function config(missing){
             if(n.replace(/[A-Z]/,"")!=n && n.replace(/[a-z]/,"")!=n)
                 ul=1;
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_password.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_password.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     currpwd:encryptString( objcurrpwd.value() ),
                     newpwd:encryptString( n ), 
                     lenpwd:n.length,
@@ -320,10 +320,10 @@ function config(missing){
         flat:true,
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdeactivate"))){
-                $.post(_cambusaURL+"ryego/egoaction_users.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                     {
                         action:"activate",
-                        sessionid:_sessionid,
+                        sessionid:_sessioninfo.sessionid,
                         userid:_userid,
                         active:0
                     }, 
@@ -357,7 +357,7 @@ function config(missing){
             $("body").html("<form id='nextaction' method='<?php  print $egomethod ?>' action=''></form>");
             $("#nextaction").append("<input type='hidden' id='sessionid' name='sessionid'>");
             $("#nextaction").attr({action:"<?php print $returnurl ?>"});
-            $("#sessionid").val(_sessionid);
+            $("#sessionid").val(_sessioninfo.sessionid);
             $("#nextaction").submit();
         }
     });
@@ -396,9 +396,9 @@ function postlocalize(){
 }
 // CARICAMENTO MASCHERA
 function loading(missing){
-    $.post(_cambusaURL+"ryego/ego_infosetup.php", 
+    $.post(_systeminfo.relative.cambusa+"ryego/ego_infosetup.php", 
         {
-            sessionid:_sessionid,
+            sessionid:_sessioninfo.sessionid,
             appid:_appid,
             aliasid:_aliasid
         }, 

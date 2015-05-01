@@ -115,8 +115,8 @@ if(!$.browser.msie){
 
 $(document).ready(function(){
     activation('dummy');
-    if(_sessionid!=""){
-         $.post(_cambusaURL+"ryego/ego_infosession.php",{sessionid:_sessionid,app:""}, 
+    if(_sessioninfo.sessionid!=""){
+         $.post(_systeminfo.relative.cambusa+"ryego/ego_infosession.php",{sessionid:_sessioninfo.sessionid, app:""}, 
             function(d){
                 try{
                     var v=$.parseJSON(d);
@@ -172,9 +172,9 @@ function config(missing){
         numdec:0,
         assigned:function(){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_settings.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     duration:objoptduration.value()
                 }, 
                 function(d){
@@ -197,9 +197,9 @@ function config(missing){
         numdec:0,
         assigned:function(){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_settings.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     warning:objoptwarning.value()
                 }, 
                 function(d){
@@ -224,9 +224,9 @@ function config(missing){
         maxvalue:16,
         assigned:function(){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_settings.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     minlen:objoptminlen.value()
                 }, 
                 function(d){
@@ -242,9 +242,9 @@ function config(missing){
         top:150,
         assigned:function(){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_settings.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     "default":objoptdefault.value()
                 }, 
                 function(d){
@@ -266,9 +266,9 @@ function config(missing){
         top:180,
         assigned:function(){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_settings.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     upperlower:objoptupperlower.value()
                 }, 
                 function(d){
@@ -290,9 +290,9 @@ function config(missing){
         top:210,
         assigned:function(){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_settings.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     letterdigit:objoptletterdigit.value()
                 }, 
                 function(d){
@@ -314,9 +314,9 @@ function config(missing){
         top:240,
         assigned:function(){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_settings.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     saveuser:objoptsaveuser.value()
                 }, 
                 function(d){
@@ -338,9 +338,9 @@ function config(missing){
         top:270,
         assigned:function(){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_settings.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     emailreset:objoptemailreset.value()
                 }, 
                 function(d){
@@ -471,10 +471,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_users.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                 {
                     action:"newuser",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     user:objusr_alias.value(), 
                     email:objusr_email.value(),
                     demiurge:objusr_demiurge.value(),
@@ -503,10 +503,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_users.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                 {
                     action:"newalias",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     user:objusr_user.caption(),
                     alias:objusr_alias.value(), 
                     email:objusr_email.value(),
@@ -536,10 +536,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_users.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                 {
                     action:"update",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     alias:curralias, 
                     aliasnew:objusr_alias.value(),
                     email:objusr_email.value(),
@@ -571,10 +571,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmresetpwd"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_users.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                     {
                         action:"reset",
-                        sessionid:_sessionid,
+                        sessionid:_sessioninfo.sessionid,
                         user:objusr_user.caption()
                     }, 
                     function(d){
@@ -601,10 +601,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_users.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                 {
                     action:"activate",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     user:objusr_user.caption()
                 }, 
                 function(d){
@@ -631,10 +631,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdelalias"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_users.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                     {
                         action:"delete",
-                        sessionid:_sessionid,
+                        sessionid:_sessioninfo.sessionid,
                         alias:curralias
                     }, 
                     function(d){
@@ -662,10 +662,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdeluser"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_users.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                     {
                         action:"deleteuser",
-                        sessionid:_sessionid,
+                        sessionid:_sessioninfo.sessionid,
                         alias:curralias
                     }, 
                     function(d){
@@ -693,10 +693,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdelusers"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_users.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_users.php", 
                     {
                         action:"deleteall",
-                        sessionid:_sessionid
+                        sessionid:_sessioninfo.sessionid
                     }, 
                     function(d){
                         try{
@@ -819,10 +819,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_apps.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_apps.php", 
                 {
                     action:"insert",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:objapp_name.value(),
                     descr:objapp_descr.value()
                 }, 
@@ -849,10 +849,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_apps.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_apps.php", 
                 {
                     action:"update",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     appnew:objapp_name.value(),
                     descr:objapp_descr.value()
@@ -882,10 +882,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdelapp"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_apps.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_apps.php", 
                     {
                         action:"delete",
-                        sessionid:_sessionid,
+                        sessionid:_sessioninfo.sessionid,
                         app:currapp
                     }, 
                     function(d){
@@ -988,10 +988,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_environs.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_environs.php", 
                 {
                     action:"insert",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     env:objenv_name.value(),
                     descr:objenv_descr.value()
@@ -1019,10 +1019,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_environs.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_environs.php", 
                 {
                     action:"update",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     env:currenv,
                     envnew:objenv_name.value(),
@@ -1053,10 +1053,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdelenviron"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_environs.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_environs.php", 
                     {
                         action:"delete",
-                        sessionid:_sessionid,
+                        sessionid:_sessioninfo.sessionid,
                         app:currapp,
                         env:currenv
                     }, 
@@ -1094,10 +1094,10 @@ function config(missing){
         solveid:function(o,y){
             // Sto aggiungendo
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_envuser.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_envuser.php", 
                 {
                     action:"add",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     env:currenv,
                     users:y
@@ -1132,10 +1132,10 @@ function config(missing){
         solveid:function(o,y){
             // Sto togliendo
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_envuser.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_envuser.php", 
                 {
                     action:"remove",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     env:currenv,
                     users:y
@@ -1201,7 +1201,7 @@ function config(missing){
     $("#lbenvusr_action_add").rylabel({
         left:295,
         top:120,
-        caption:"<img src='"+_cambusaURL+"ryego/images/arrow_right.png' style='position:absolute;top:0px;border:none;'>",
+        caption:"<img src='"+_systeminfo.relative.cambusa+"ryego/images/arrow_right.png' style='position:absolute;top:0px;border:none;'>",
         button:true,
         flat:true,
         click:function(o){
@@ -1211,7 +1211,7 @@ function config(missing){
     $("#lbenvusr_action_remove").rylabel({
         left:295,
         top:160,
-        caption:"<img src='"+_cambusaURL+"ryego/images/arrow_left.png' style='position:absolute;top:0px;border:none;'>",
+        caption:"<img src='"+_systeminfo.relative.cambusa+"ryego/images/arrow_left.png' style='position:absolute;top:0px;border:none;'>",
         button:true,
         flat:true,
         click:function(o){
@@ -1302,10 +1302,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_roles.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_roles.php", 
                 {
                     action:"insert",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     role:objrole_name.value(),
                     descr:objrole_descr.value()
@@ -1333,10 +1333,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_roles.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_roles.php", 
                 {
                     action:"update",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     role:currrole,
                     rolenew:objrole_name.value(),
@@ -1367,10 +1367,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdelrole"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_roles.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_roles.php", 
                     {
                         action:"delete",
-                        sessionid:_sessionid,
+                        sessionid:_sessioninfo.sessionid,
                         app:currapp,
                         role:currrole
                     }, 
@@ -1408,10 +1408,10 @@ function config(missing){
         solveid:function(o,y){
             // Sto aggiungendo
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_roleuser.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_roleuser.php", 
                 {
                     action:"add",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     role:currrole,
                     users:y
@@ -1446,10 +1446,10 @@ function config(missing){
         solveid:function(o,y){
             // Sto togliendo
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_roleuser.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_roleuser.php", 
                 {
                     action:"remove",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     app:currapp,
                     role:currrole,
                     users:y
@@ -1516,7 +1516,7 @@ function config(missing){
     $("#lbroleusr_action_add").rylabel({
         left:295,
         top:120,
-        caption:"<img src='"+_cambusaURL+"ryego/images/arrow_right.png' style='position:absolute;top:0px;border:none;'>",
+        caption:"<img src='"+_systeminfo.relative.cambusa+"ryego/images/arrow_right.png' style='position:absolute;top:0px;border:none;'>",
         button:true,
         flat:true,
         click:function(o){
@@ -1526,7 +1526,7 @@ function config(missing){
     $("#lbroleusr_action_remove").rylabel({
         left:295,
         top:160,
-        caption:"<img src='"+_cambusaURL+"ryego/images/arrow_left.png' style='position:absolute;top:0px;border:none;'>",
+        caption:"<img src='"+_systeminfo.relative.cambusa+"ryego/images/arrow_left.png' style='position:absolute;top:0px;border:none;'>",
         button:true,
         flat:true,
         click:function(o){
@@ -1612,10 +1612,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_langs.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_langs.php", 
                 {
                     action:"insert",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     lang:objlng_lang.value(),
                     descr:objlng_descr.value()
                 }, 
@@ -1642,10 +1642,10 @@ function config(missing){
         flat:true,
         click:function(o){
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_langs.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_langs.php", 
                 {
                     action:"update",
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     lang:currlang,
                     langnew:objlng_lang.value(),
                     descr:objlng_descr.value()
@@ -1675,8 +1675,8 @@ function config(missing){
             syswaiting();
             RYBOX.localize(currlang, missing,
                 function(){
-                    $.post(_cambusaURL+"ryego/egoaction_last.php", 
-                        {"sessionid":_sessionid,"appid":"","aliasid":_aliasid,"languageid":currlangid}, 
+                    $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
+                        {"sessionid":_sessioninfo.sessionid,"appid":"","aliasid":_aliasid,"languageid":currlangid}, 
                         function(){
                             postlocalize();
                             sysmessagehide();
@@ -1696,10 +1696,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdellang"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_langs.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_langs.php", 
                     {
                         action:"delete",
-                        sessionid:_sessionid,
+                        sessionid:_sessioninfo.sessionid,
                         lang:currlang
                     }, 
                     function(d){
@@ -1791,7 +1791,7 @@ function config(missing){
             if(ind>0){
                 syswaiting();
                 objgridsessions.solveid(ind, function(o,sid){
-                    $.post(_cambusaURL+"ryego/ego_logout.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryego/ego_logout.php", 
                         {
                             sessionid:sid
                         }, 
@@ -1824,10 +1824,10 @@ function config(missing){
         click:function(o){
             if(confirm(RYBOX.getbabel("lbconfirmdelsessions"))){
                 syswaiting();
-                $.post(_cambusaURL+"ryego/egoaction_sessions.php", 
+                $.post(_systeminfo.relative.cambusa+"ryego/egoaction_sessions.php", 
                     {
                         action:"deleteall",
-                        sessionid:_sessionid
+                        sessionid:_sessioninfo.sessionid
                     }, 
                     function(d){
                         try{
@@ -1883,9 +1883,9 @@ function config(missing){
             if(n.replace(/[A-Z]/,"")!=n && n.replace(/[a-z]/,"")!=n)
                 ul=1;
             syswaiting();
-            $.post(_cambusaURL+"ryego/egoaction_password.php", 
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_password.php", 
                 {
-                    sessionid:_sessionid,
+                    sessionid:_sessioninfo.sessionid,
                     currpwd:encryptString( objcurrpwd.value() ),
                     newpwd:encryptString( n ), 
                     lenpwd:n.length,

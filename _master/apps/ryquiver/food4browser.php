@@ -68,7 +68,7 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                     }
                 }
                 // META KEYS
-                $META=$r[0]["TAG"]." ".$r[0]["DESCRIPTION"]." ".$r[0]["ABSTRACT"];
+                $META=$r[0]["DESCRIPTION"]." ".$r[0]["ABSTRACT"];
                 $META=preg_replace("/<[bh]r\/?>/i", " ", $META);
                 $META=strip_tags($META);
                 if(!mb_check_encoding($META, "UTF-8")){
@@ -92,10 +92,13 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                             break;
                     }
                 }
+                $META=$r[0]["TAG"].", ".$META;
                 $food["metakeys"]=$META;
 
                 // META DESCR
-                $META=$r[0]["DESCRIPTION"]." - ".$r[0]["ABSTRACT"];
+                $META=$r[0]["DESCRIPTION"];
+                if($r[0]["ABSTRACT"]!="")
+                    $META.=" - ".$r[0]["ABSTRACT"];
                 $META=preg_replace("/<[bh]r\/?>/i", " ", $META);
                 $META=strip_tags($META);
                 if(!mb_check_encoding($META, "UTF-8")){

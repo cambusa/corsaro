@@ -9,20 +9,20 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+include_once $path_applications."cacheversion.php";
+
 $include_lib=Array();
+
 function CambusaLibrary($id){
     global $url_base, $url_cambusa, $url_applications, $url_customize;
     global $path_root, $path_cambusa, $path_applications, $path_customize;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
-
-    $cacheversion=30;
+    global $cacheversion;
 
 $url_temporary=$url_customize."temporary/";
     
 $script_cambusa=<<<CAMBUSA
 <script language="javascript">
-_cambusaURL="../../cambusa/";
-_customizeURL="../../customize/";
 _systeminfo.web.root="$url_base";
 _systeminfo.web.apps="$url_applications";
 _systeminfo.web.cambusa="$url_cambusa";

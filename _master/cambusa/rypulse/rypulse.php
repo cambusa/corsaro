@@ -9,6 +9,8 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+include_once "../sysconfig.php";
+include_once $path_applications."cacheversion.php";
 
 // DETERMINAZIONE DELLA SESSIONE
 if(isset($_GET["sessionid"])){
@@ -28,9 +30,9 @@ else{
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <meta charset="utf-8">
-	<title>Pulse - Gestore di azioni schedulate</title>
-</head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<title>Pulse - Gestore di azioni schedulate</title>
 
 <style>
 .pulse-conteiner{position:relative;display:none;}
@@ -56,26 +58,26 @@ a{text-decoration:none;color:maroon;}
 .sx{text-align:left;}
 </style>
 
-<link type='text/css' href='../rybox/rybox.css' rel='stylesheet' />
-<link type='text/css' href='../ryque/ryque.css' rel='stylesheet' />
+<link type='text/css' href='../rybox/rybox.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
+<link type='text/css' href='../ryque/ryque.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
 
 <script type='text/javascript' src="../jquery/jquery.js"></script>
 <script type='text/javascript' src='../jquery/jquery.ui.core.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.datepicker.js' ></script>
-<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.widget.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.button.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mouse.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
 <script type='text/javascript' src='../jquery/jquery.cookie.js' ></script>
-<script type='text/javascript' src='../rygeneral/rygeneral.js' ></script>
-<script type='text/javascript' src='../ryego/ryego.js' ></script>
-<script type='text/javascript' src='../rybox/rybox.js' ></script>
-<script type='text/javascript' src='../ryque/ryque.js' ></script>
+<script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../ryego/ryego.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../rybox/rybox.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../ryque/ryque.js?ver=<?php print $cacheversion ?>' ></script>
 
 <script>
-_sessionid="<?php  print $sessionid ?>";
+_sessioninfo.sessionid="<?php  print $sessionid ?>";
 var _sessioninfo;
 var objpulseenabled;
 var objstatus;
@@ -312,7 +314,7 @@ function makemonitor(missing){
                 syswaiting();
                 $.post("pulseaction_engage.php", 
                     {
-                        "sessionid":_sessionid,
+                        "sessionid":_sessioninfo.sessionid,
                         "SYSID":sysid,
                         "NAME":obj_name.value(), 
                         "DESCRIPTION":obj_description.value(),
@@ -362,7 +364,7 @@ function makemonitor(missing){
                     syswaiting();
                     $.post("pulseaction_remove.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "SYSID":sysid
                         }, 
                         function(d){
@@ -392,7 +394,7 @@ function makemonitor(missing){
                     syswaiting();
                     $.post("pulseaction_cast.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "SYSID":sysid
                         }, 
                         function(d){
@@ -434,7 +436,7 @@ function heartfunct(exec,missing){
         var dt=new Date();
         objstatus.caption("Last pulse: "+dt.getDate()+"/"+dt.getMonth()+"/"+dt.getFullYear()+" "+("00"+dt.getHours()).subright(2)+":"+("00"+dt.getMinutes()).subright(2)+":"+("00"+dt.getSeconds()).subright(2) );
         runcounter+=1;
-        $.post("pulse_heart.php", {"sessionid":_sessionid,"exec":exec},
+        $.post("pulse_heart.php", {"sessionid":_sessioninfo.sessionid, "exec":exec},
             function(d){
                 runcounter-=1;
             }
@@ -460,7 +462,7 @@ function pulselogout(){
         }
         $.post("pulseaction_logout.php", 
             {
-                "sessionid":_sessionid
+                "sessionid":_sessioninfo.sessionid
             }, 
             function(d){}
         );
@@ -493,6 +495,8 @@ function sysmessagehide(){
 	$("#messbar").html("").hide("slow");
 }
 </script>
+
+</head>
 
 <body>
 

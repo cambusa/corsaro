@@ -23,9 +23,9 @@
         
             var propinit=false;
             var propusedparams=false;
-            var propenabled=1;
+            var propenabled=true;
             
-            var propfolderryque=_cambusaURL+"ryque/";
+            var propfolderryque=_systeminfo.relative.cambusa+"ryque/";
         
             var propcols=[];
             var proptits=[];
@@ -59,6 +59,7 @@
             var propordasc=true;
             var propordcol2=-1;
             var propordasc2=true;
+            var propsortable=true;
             
             var proppageon=0;
             var proploadon=false;
@@ -104,6 +105,7 @@
             if(settings.height!=missing){setheight(settings.height)}
             if(settings.numbered!=missing){setnumbered(settings.numbered)}
             if(settings.checkable!=missing){setcheckable(settings.checkable)}
+            if(settings.sortable!=missing){propsortable=settings.sortable.actualBoolean()}
             if(settings.columns!=missing){
                 var cols=settings.columns;
                 var w=propscrollsize+5;
@@ -117,6 +119,8 @@
                     propmaxwidth=w;
                 }
             }
+            // Backward compatibility
+            if(settings.selchange!=missing){settings.changesel=settings.selchange}
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
                 $("#"+propname).prop("parentid", settings.formid);
@@ -461,7 +465,7 @@
                             }
                         }
                         else{
-                            if(c>0){
+                            if(c>0&&propsortable){
                                 // GESTIONE ORDER BY CON MEMORIA DEL PRECEDENTE
                                 var col1,type1,asc1,col2,type2,asc2;
 
@@ -801,11 +805,21 @@
                 if(chain!=missing){
                     chain();
                 }
-           }
-            this.screencell=function(r,c){
+            }
+            this.colbyname=function(n){
+                var c=0;
+                for(var k=0;k<propcols.length;k++){
+                    if(propcols[k]==n){
+                        c=k+1;
+                        break;
+                    }
+                }
+                return c;
+            }
+            this.screencell=function(r, c){
                 return "#"+propname+"_"+(parseInt(r)+1)+"_"+c;
             }
-            this.screenrow=function(r,c){
+            this.screenrow=function(r){
                 return "#"+propname+"_tr"+(parseInt(r)+1);
             }
             this.clear=function(){
@@ -1397,37 +1411,36 @@
             }
             this.raisechangesel=function(){
                 if(!propsuspendchange){
-                    if(settings.selchange!=missing){
+                    if(settings.changesel!=missing){
                         if(timeoutsel!==false)
                             clearTimeout(timeoutsel);
                         timeoutsel=setTimeout(function(){
                             timeoutsel=false;
-                            settings.selchange(propobj);
+                            settings.changesel(propobj);
                         }, 100);
                     }
                 }
             }
 			this.enabled=function(v){
-				if(v==missing){
-					return propenabled;
-				}
-				else{
-					propenabled=v.booleanNumber();
-				}
+				if(v!=missing)
+					propenabled=v.actualBoolean();
                 return propenabled;
 			}
 			this.visible=function(v){
-				if(v==missing){
-					return propvisible;
-				}
-				else{
-					propvisible=v;
+				if(v!=missing){
+					propvisible=v.actualBoolean();
 					if(v)
 						$("#"+propname).css({"visibility":"visible"});
 					else
 						$("#"+propname).css({"visibility":"hidden"});
 				}
-			}            
+                return propvisible;
+			}  
+			this.sortable=function(v){
+				if(v!=missing)
+					propsortable=v.actualBoolean();
+                return propsortable;
+			}
             this.pulsating=function(v){
                 if(v)
                     startloading();
@@ -1568,7 +1581,7 @@
                             tt=proptits[c-1];
                         else
                             tt="&nbsp;";
-                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"' style='top:3px;'>"+tt+"</div><div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";  //Colonna
+                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"'>"+tt+"</div><div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";  //Colonna
                     }
                     t+="</div>";
                 }
@@ -1742,7 +1755,7 @@
                 	},
                     start:function(evt){
                         if(!propenabled){return false}
-                        propenabled=0;
+                        propenabled=false;
                         var c=parseInt(evt.target.id.replace(/^.*_sep(\d+)$/,"$1"));
                         if(c>1)
                             _down0=$("#"+propname+"_sep"+(c-1)).position().left;
@@ -1754,7 +1767,7 @@
                     stop:function(){
                         setTimeout(
                             function(){
-                                propenabled=1;
+                                propenabled=true;
                             }, 500
                         );
                         $("#"+propname+" .ryque-cell,.column_0").show();
@@ -1803,7 +1816,7 @@
                         }
                     }
                     // CALCOLO LA LARGHEZZA DEL CARATTERE 0
-                    $("#"+propname+"_textwidth").html("0000000000");
+                    $("#"+propname+"_textwidth").html("XXXXXXXXXX");
                     var xl=$("#"+propname+"_textwidth").width()/10;
                         
                     for(i=0; i<cols.length; i++){
@@ -1824,7 +1837,7 @@
                             for(r=0; r<propcount; r++){
                                 var l=3;
                                 h=propobj.matrix[r][propcols[c]];
-                                if(typeof h==="undefined")
+                                if(typeof h!="string")
                                     h="";
                                 else
                                     h=h.replace(/ +$/, "");

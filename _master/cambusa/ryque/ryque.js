@@ -32,7 +32,7 @@
             var proplimit=500000;
             var propenabled=1;
         
-            var propfolderryque=_cambusaURL+"ryque/";
+            var propfolderryque=_systeminfo.relative.cambusa+"ryque/";
             
             var propcols=[];
             var proptits=[];
@@ -143,6 +143,8 @@
                     propmaxwidth=w;
                 }
             }
+            // Backward compatibility
+            if(settings.selchange!=missing){settings.changesel=settings.selchange}
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
                 $("#"+propname).prop("parentid", settings.formid);
@@ -270,6 +272,10 @@
                         case 9:
                             if(RYBOX)
                                 return nextFocus(propname, k.shiftKey);
+                            break;
+                        case 50:    // ALT-2: apro il menù contestuale
+                            if(k.altKey)
+                                $("#"+propname).contextmenu();
                             break;
                         }
                         if(propshift)
@@ -1467,12 +1473,12 @@
             }
             this.raisechangesel=function(){
                 if(!propsuspendchange){
-                    if(settings.selchange!=missing){
+                    if(settings.changesel!=missing){
                         if(timeoutsel!==false)
                             clearTimeout(timeoutsel);
                         timeoutsel=setTimeout(function(){
                             timeoutsel=false;
-                            settings.selchange(propobj);
+                            settings.changesel(propobj);
                         }, 100);
                     }
                 }
@@ -1557,7 +1563,7 @@
             this.getprotocol=function(){
                 if(propreqid==""){
                     _systeminfo.activities+=1;
-                    $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessionid},
+                    $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessioninfo.sessionid},
                         function(d) {
                             _systeminfo.activities-=1;
                             try{
@@ -1652,7 +1658,7 @@
                                     var env=v["environ"];
                                     var f=v["export"];
                                     if(window.console&&_sessioninfo.debugmode){console.log("Percorso file: "+env+"/"+f)}
-                                    var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+f;
+                                    var h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                     // GESTIONE FILE OBSOLETI
                                     RYQUIVER.ManageTemp();
@@ -1729,7 +1735,7 @@
                             tt=proptits[c-1];
                         else
                             tt="&nbsp;";
-                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"' style='top:3px;'>"+tt+"</div><div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";  //Colonna
+                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"'>"+tt+"</div><div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";  //Colonna
                     }
                     t+="</div>";
                 }
@@ -2205,7 +2211,7 @@
 })(jQuery);
 		
 function ryQue(missing){
-    var propfolderryque=_cambusaURL+"ryque/";
+    var propfolderryque=_systeminfo.relative.cambusa+"ryque/";
     var propenviron="";
     var propprovider="";
     var proplenid=12;
@@ -2215,7 +2221,7 @@ function ryQue(missing){
         var env=propenviron;
         if(params.environ!=missing){env=params.environ}
         _systeminfo.activities+=1;
-        $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessionid},
+        $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessioninfo.sessionid},
             function(d){
                 _systeminfo.activities-=1;
                 try{

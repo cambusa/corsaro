@@ -262,7 +262,7 @@ function class_qvequivalences(settings,missing){
                 oper_delete.enabled(o.isselected());
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_insert.enabled(o.isselected());
             oper_delete.enabled(o.isselected());
         },
@@ -392,9 +392,9 @@ function class_qvequivalences(settings,missing){
                             }
                         };
                     }
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "program":stats
                         }, 
@@ -438,9 +438,9 @@ function class_qvequivalences(settings,missing){
                                     }
                                 };
                             }
-                            $.post(_cambusaURL+"ryquiver/quiver.php", 
+                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
-                                    "sessionid":_sessionid,
+                                    "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,
                                     "program":stats
                                 }, 

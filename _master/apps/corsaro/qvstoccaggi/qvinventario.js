@@ -293,9 +293,9 @@ function class_qvinventario(settings,missing){
             data["COLLID"]=currcollid;
             data["MOMENTO"]=txtime.text();
             data["AMOUNT"]=txamount.value();
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"stuff_inventario",
                     "data":data
@@ -375,9 +375,9 @@ function class_qvinventario(settings,missing){
     );
     function calcologiacenza(){
         var momento=tempolasco( txtime.text() );
-        $.post(_cambusaURL+"ryquiver/quiver.php", 
+        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
-                "sessionid":_sessionid,
+                "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,
                 "function":"stuff_balance",
                 "data":{

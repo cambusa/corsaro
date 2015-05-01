@@ -17,7 +17,7 @@
             var propobj=this;
             var propcreated=false;
             var propname=$(this).attr("id");
-            var propcambusa=_cambusaURL;
+            var propcambusa=_systeminfo.relative.cambusa;
             var propenv="default";
             var propsessionid="";
             var propuploader=null;

@@ -58,7 +58,7 @@ function class_qvmagazzini(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_print.enabled(o.isselected());
             oper_delete.enabled(o.isselected());
         },
@@ -123,9 +123,9 @@ function class_qvmagazzini(settings,missing){
             data["DESCRIPTION"]="(nuovo magazzino)";
             data["TYPOLOGYID"]=currtypologyid;
             data["MAGAZZINO"]="1";
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"objects_insert",
                     "data":data
@@ -247,9 +247,9 @@ function class_qvmagazzini(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"objects_update",
                     "data":data
@@ -424,7 +424,7 @@ function class_qvmagazzini(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             operm_delete.enabled(o.isselected());
         },
         solveid:function(o,d){
@@ -477,9 +477,9 @@ function class_qvmagazzini(settings,missing){
                 "function":"objects_insert",
                 "data":data
             };
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "program":stats
                 }, 
@@ -541,9 +541,9 @@ function class_qvmagazzini(settings,missing){
                 descr+="/"+tx_collcoordinata.value();
             }
             data["DESCRIPTION"]=descr;
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"objects_update",
                     "data":data

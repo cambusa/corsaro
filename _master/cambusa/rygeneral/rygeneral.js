@@ -18,12 +18,12 @@ var RYQUIVER;
 var RYWINZ;
 var RYJAX;
 
-var _cambusaURL="../../cambusa/";
-var _appsURL="../../apps/";
-var _customizeURL="../../customize/";
-var _tempenviron="temporary";
-
 var _systeminfo={
+    relative:{
+        apps:"../../apps/",
+        cambusa:"../../cambusa/",
+        customize:"../../customize/"
+    },
     web:{
         root:"/",
         apps:"../../apps/",
@@ -39,9 +39,9 @@ var _systeminfo={
     activities:0
 }
 
-var _sessionid="";
 var _sessioninfo={
     sessionid:"",
+    temporary:"temporary",
     debugmode:1,
     dateformat:0
 };
@@ -254,6 +254,9 @@ Boolean.prototype.formatBoolean=function(d){
 *************************/
 String.prototype.subright=function(n){
     return this.valueOf().substr(this.length-n,n);
+}
+String.prototype.reverse=function(){
+    return this.valueOf().split("").reverse().join("");
 }
 String.prototype.htmlDecod=function(){
     try{

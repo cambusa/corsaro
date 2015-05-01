@@ -9,31 +9,26 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-include("../sysconfig.php");
+include_once "../sysconfig.php";
+include_once $path_applications."cacheversion.php";
 
 // DETERMINAZIONE DELLA SESSIONE
 if(isset($_GET["sessionid"])){
     $sessionid=$_GET["sessionid"];
-    $egomethod="GET";
 }
 elseif(isset($_POST["sessionid"])){
     $sessionid=$_POST["sessionid"];
-    $egomethod="POST";
 }
 else{
     $sessionid="";
-    $egomethod="POST";
 }
-
-$direnvirons=$path_databases."_environs/";
-
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-	<title>Mirror - Manutenzione Script</title>
-</head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<title>Mirror - Manutenzione Script</title>
 
 <style>
 .mirror-conteiner{position:relative;display:none;}
@@ -68,23 +63,23 @@ visibility:hidden;
 
 </style>
 
-<link type='text/css' href='../rybox/rybox.css' rel='stylesheet' />
-<link type='text/css' href='../ryque/ryque.css' rel='stylesheet' />
+<link type='text/css' href='../rybox/rybox.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
+<link type='text/css' href='../ryque/ryque.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
 
-<script type='text/javascript' src="../jquery/jquery.js"></script>
+<script type='text/javascript' src='../jquery/jquery.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.core.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.datepicker.js' ></script>
-<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.widget.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.button.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mouse.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
 <script type='text/javascript' src='../jquery/jquery.cookie.js' ></script>
-<script type='text/javascript' src='../rygeneral/rygeneral.js' ></script>
-<script type='text/javascript' src='../ryego/ryego.js' ></script>
-<script type='text/javascript' src='../rybox/rybox.js' ></script>
-<script type='text/javascript' src='../ryque/ryque.js' ></script>
+<script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../ryego/ryego.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../rybox/rybox.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../ryque/ryque.js?ver=<?php print $cacheversion ?>' ></script>
 
 <style>
 input,select,a:focus{outline:none;border:none;}
@@ -98,10 +93,10 @@ input,select,a:focus{outline:none;border:none;}
 <link type='text/css' href='../jqtreeview/jquery.treeview.ry.css' rel='stylesheet' />
 <script type='text/javascript' src='../jqtreeview/jquery.treeview.ry.js' ></script>
 <script language='javascript'>
-    _cambusaURL='<?php print $url_cambusa ?>';
-    _customizeURL='<?php print $url_customize ?>';
+    _systeminfo.relative.cambusa='<?php print $url_cambusa ?>';
+    _systeminfo.relative.customize='<?php print $url_customize ?>';
 </script>
-<script type='text/javascript' src='../ryfamily/ryfamily.js' ></script>
+<script type='text/javascript' src='../ryfamily/ryfamily.js?ver=<?php print $cacheversion ?>' ></script>
 
 <link rel="stylesheet" href="../codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="../codemirror/addon/fold/foldgutter.css">
@@ -133,11 +128,10 @@ input,select,a:focus{outline:none;border:none;}
 
 <link type='text/css' href='../ryupload/fileuploader.ry.css' rel='stylesheet'/>
 <script type='text/javascript' src='../ryupload/fileuploader.ry.js'></script>
-<script type='text/javascript' src='../ryupload/ryupload.js'></script>
+<script type='text/javascript' src='../ryupload/ryupload.js?ver=<?php print $cacheversion ?>'></script>
 
 <script>
-_sessionid="<?php  print $sessionid ?>";
-var _sessioninfo;
+_sessioninfo.sessionid="<?php  print $sessionid ?>";
 
 var progrid=0;
 var objfamily;
@@ -242,7 +236,7 @@ function makeeditor(missing){
             left:530,
             top:60,
             width:300,
-            environ:_tempenviron,
+            environ:_sessioninfo.temporary,
             sessionid:_sessioninfo.sessionid,
             complete:function(id, name, ret){
                 var path=buildpath(currdirid);
@@ -788,6 +782,8 @@ function sysmessagehide(){
 	$("#messbar").html("").hide("slow");
 }
 </script>
+
+</head>
 
 <body onresize="bodyresize()">
 

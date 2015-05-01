@@ -40,6 +40,7 @@ var globalcolorfocus="#FFF4E6";
             var proplink=null;
             var propdefault="";
             var prophelp=false;
+            var propmousedown=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -89,7 +90,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-23,"height":propheight-4,"overflow":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_cambusaURL+"rybox/images/calendar.jpg)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/calendar.jpg)"});
             $("#"+propname+"_calendar").css({"position":"absolute","visibility":"hidden","left":0,"top":propheight});
             
             $("#"+propname+"_anchor").focus(
@@ -314,6 +315,11 @@ var globalcolorfocus="#FFF4E6";
                             propobj.raisechanged();
             			}
             		}
+                    if(k.which>=35 && k.which<=39 && !propshift){
+                        if(propselected){
+                            propobj.selected(false);
+                        }
+                    }
             		if(k.which==8 || k.which==35 || k.which==36){
             			return false;
             		}
@@ -433,9 +439,23 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname).mousedown(
             	function(evt){
             		if(propenabled){
-                         if(!propselected)
+                        propmousedown=true;
+                        if(!propselected)
                             castFocus(propname);
             		}
+            	}
+            );
+            $("#"+propname).mousemove(
+            	function(evt){
+            		if(propenabled){
+                        if(propmousedown)
+                            propobj.selected(true);
+            		}
+            	}
+            );
+            $("#"+propname).mouseup(
+            	function(evt){
+                    propmousedown=false;
             	}
             );
             $("#"+propname+"_button").click(
@@ -703,6 +723,8 @@ var globalcolorfocus="#FFF4E6";
 			}
             this.selected=function(v){
                 propselected=v;
+                propstart=0;
+                propobj.refreshcursor();
                 if($("#"+propname+"_text").html()=="__/__/____")
                     propselected=false;
                 if(propselected)
@@ -716,6 +738,7 @@ var globalcolorfocus="#FFF4E6";
 				propmonth="__";
 				propyear="____";
                 $("#"+propname+"_text").html(propobj.formatted());
+                propobj.refreshcursor();
                 if(proplink){
                     proplink.clear();
                 }
@@ -777,6 +800,7 @@ var globalcolorfocus="#FFF4E6";
 			var propenabled=true;
 			var propvisible=true;
             var prophelp=false;
+            var propmousedown=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -826,7 +850,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-24,"height":propheight-4,"text-align":"right","padding-right":1,"overflow":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_cambusaURL+"rybox/images/calculator.jpg)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/calculator.jpg)"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -1042,6 +1066,11 @@ var globalcolorfocus="#FFF4E6";
             				propobj.delmanage();
             			}
             		}
+                    if(k.which>=35 && k.which<=39 && !propshift){
+                        if(propselected){
+                            propobj.selected(false);
+                        }
+                    }
             		if(k.which==8 || k.which==35 || k.which==36){
             			return false;
             		}
@@ -1155,9 +1184,23 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname).mousedown(
             	function(evt){
             		if(propenabled){
+                        propmousedown=true;
                         if(!propselected || prophelp)
                             castFocus(propname);
             		}
+            	}
+            );
+            $("#"+propname).mousemove(
+            	function(evt){
+            		if(propenabled){
+                        if(propmousedown)
+                            propobj.selected(true);
+            		}
+            	}
+            );
+            $("#"+propname).mouseup(
+            	function(evt){
+                    propmousedown=false;
             	}
             );
             $("#"+propname+"_button").click(
@@ -1477,6 +1520,8 @@ var globalcolorfocus="#FFF4E6";
 			}
             this.selected=function(v){
                 propselected=v;
+                propstart=0;
+                propobj.refreshcursor();
                 if(propselected)
                     $("#"+propname+"_text").css({"background-color":"#87CEFA", "color":"white"});
                 else
@@ -1716,7 +1761,7 @@ var globalcolorfocus="#FFF4E6";
 					return propmaxlen;
 				else
 					propmaxlen=l;
-				$("#"+propname+"_text").attr({"maxlength":propmaxlen});
+				$("#"+propname+"_anchor").attr({"maxlength":propmaxlen});
 			}
             this.move=function(params){
                 if(params.left!=missing){propleft=params.left}
@@ -2256,8 +2301,6 @@ var globalcolorfocus="#FFF4E6";
 			this.tag=null;
 			this.type="list";
             
-            var htimer=false;
-            
 			globalobjs[propname]=this;
 
 			if(settings.left!=missing){propleft=settings.left}
@@ -2455,16 +2498,8 @@ var globalcolorfocus="#FFF4E6";
             this.raisechanged=function(){
                 propchanged=true;
                 propobj.modified(1);
-                if(settings.changed!=missing){
-                    if(htimer){
-                        clearTimeout(htimer)
-                    }
-                    htimer=setTimeout(function(){
-                        htimer=false;
-                        settings.changed(propobj)
-                    }, 100);
-                }
-                _modifiedState(propname,true);
+                if(settings.changed!=missing){settings.changed(propobj)}
+                _modifiedState(propname, true);
             }
             this.raiseassigned=function(){
                 propobj.modified(1);
@@ -2679,9 +2714,9 @@ function ryBox(missing){
             globalcontainer=c;
     }
     this.createstandard=function(){
-        $(globalcontainer).append("<div id='rybox_popup' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li id='rybox_cut'><img src='"+_cambusaURL+"rybox/images/menu-cut.png'>Cut</li><li id='rybox_copy'><img src='"+_cambusaURL+"rybox/images/menu-copy.png'>Copy</li><li id='rybox_paste'><img src='"+_cambusaURL+"rybox/images/menu-paste.png'>Paste</li></ul></div>");
+        $(globalcontainer).append("<div id='rybox_popup' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li id='rybox_cut'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-cut.png'>Cut</li><li id='rybox_copy'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-copy.png'>Copy</li><li id='rybox_paste'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-paste.png'>Paste</li></ul></div>");
         $(globalcontainer).append("<div id='rybox_calculator' style='position:absolute;display:none;'></div>");
-        $(globalcontainer).append("<div id='ryque_popup' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li id='ryque_use'><img src='"+_cambusaURL+"rybox/images/menu-use.png'>Use</li><li id='ryque_sheet'><img src='"+_cambusaURL+"rybox/images/menu-export.png'>Export</li></ul></div>");
+        $(globalcontainer).append("<div id='ryque_popup' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li id='ryque_use'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-use.png'><a href='javascript:'>Use</a></li><li id='ryque_sheet'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-export.png'><a href='javascript:'>Export</a></li></ul></div>");
         $(document).bind("contextmenu",function(e){ return globaledittext; });
         $(document).keydown(
             function(k){
@@ -2699,7 +2734,7 @@ function ryBox(missing){
     }
     this.localize=function(lang, parentid, action, missing){
         TAIL.enqueue(function(lang, parentid){
-            if(_cambusaURL!="" && lang!="default"){
+            if(_systeminfo.relative.cambusa!="" && lang!="default"){
                 var i,c,j,k="";
                 for(i in globalobjs){
                     var o=globalobjs[i];
@@ -2753,7 +2788,7 @@ function ryBox(missing){
                     }
                 }
                 if(k!=""){
-                    $.post(_cambusaURL+"rybabel/rybabel.php", {"lang":lang,"codes":k},
+                    $.post(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"lang":lang,"codes":k},
                         function(d){
                             try{
                                 var i,t,c,j;

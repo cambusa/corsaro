@@ -3,6 +3,7 @@
  *
  * Author: Chris Domigan
  * Contributors: Dan G. Switzer, II
+ *               Rodolfo Calzetti
  * Parts of this plugin are inspired by Joern Zaefferer's Tooltip plugin
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -62,7 +63,7 @@
             });
             $(menu).keydown(
                 function(k){
-                    var list=$("#"+currobj.propid+" a");
+                    var list=$("#"+currobj.propid+" a[href]");
                     switch(k.which){
                     case 38:
                         if(currobj.curritem>0){
@@ -113,6 +114,7 @@
         var index = hash.length - 1;
         $(this).bind('contextmenu', function(e) {
             // Check if onContextMenu() defined
+            $("#"+hash[index].id+">ul>li").removeClass("contextDisabled");
             var bShowContext = (!!hash[index].onContextMenu) ? hash[index].onContextMenu(e) : true;
             if (bShowContext) display(index, this, e, options);
             return false;
@@ -131,11 +133,8 @@
                 }
             ).find('img').css({verticalAlign:'middle',paddingRight:'2px'});
 
-            content.css(cur.menuStyle).find('li.contextSeparator').css(cur.itemStyle).html('<div style="border-bottom:1px solid silver;height:2px;overflow:hidden;">&nbsp;</div>');
+            content.css(cur.menuStyle).find('li.contextSeparator').css(cur.itemStyle).html('<div style="border-top:1px solid silver;height:1px;overflow:hidden;margin:2px 0px 0px"></div>');
             content.css(cur.menuStyle).find('li.contextDisabled').css(cur.itemStyle).find("a").removeAttr("href");
-            content.find('li.contextDisabled').each(function(){
-                delete cur.bindings[ $(this).attr("id") ];
-            });
 
             // Send the content to the menu
             menu.html(content);
@@ -164,9 +163,12 @@
             }
             $.each(cur.bindings, function(id, func) {
                 $('#'+id, menu).bind('click', function(e) {
-                    castFocus(propobj.selector.substr(1));
-                    hide();
-                    func(trigger, currentTarget);
+                    if(!$('#'+id).hasClass("contextDisabled")){
+                        if(RYBOX)
+                            RYBOX.setfocus(propobj.selector.substr(1));
+                        hide();
+                        func(trigger, currentTarget);
+                    }
                 });
             });
             // Nascondo tutti i menu aperti

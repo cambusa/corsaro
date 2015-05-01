@@ -204,9 +204,9 @@ function class_proiezionesaldi_sel(settings,missing){
             preparazioneparametri(
                 function(params){
                     winzProgress(formid);
-                    $.post(_cambusaURL+"rygeneral/customize.php", 
+                    $.post(_systeminfo.relative.cambusa+"rygeneral/customize.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "path":"corsaro/reporting/saldi/proiezionesaldi_rep.php",
                             "data":params
@@ -218,7 +218,7 @@ function class_proiezionesaldi_sel(settings,missing){
                                     var env=v.params["ENVIRON"];
                                     var f=v.params["PATHNAME"];
                                     if(window.console){console.log("Risposta da backoffice: "+env+"/"+f)}
-                                    var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+f;
+                                    var h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                     // GESTIONE FILE OBSOLETI
                                     RYQUIVER.ManageTemp();
@@ -246,9 +246,9 @@ function class_proiezionesaldi_sel(settings,missing){
             preparazioneparametri(
                 function(params){
                     winzProgress(formid);
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"saldi_proiezione",
                             "data":params

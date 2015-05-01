@@ -82,7 +82,7 @@ function class_qvattivita(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_print.enabled(o.isselected());
         },
         solveid:function(o, d){
@@ -122,7 +122,7 @@ function class_qvattivita(settings,missing){
                     _openingparams="({environ:\""+_appname+"_"+_sessioninfo.role+"\",root:\""+_sessioninfo.roledescr+"\",attivita:\""+id+"\",form:\""+formid+"\"})";
                     RYWINZ.newform({
                         name:"qvinterazioni",
-                        path:_cambusaURL+"../apps/corsaro/qvpratiche/",
+                        path:_systeminfo.relative.cambusa+"../apps/corsaro/qvpratiche/",
                         title:"Interazioni"
                     });
                 }

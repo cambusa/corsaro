@@ -55,7 +55,7 @@ function class_qvcausali(settings,missing){
             }
             context="";
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_print.enabled(o.isselected());
             oper_delete.enabled(o.isselected());
         },
@@ -149,9 +149,9 @@ function class_qvcausali(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuovo motivo)";
             data["TYPOLOGYID"]=currtypologyid;
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"motives_insert",
                     "data":data
@@ -319,9 +319,9 @@ function class_qvcausali(settings,missing){
             context=txdescr.value();
             // CREO UN CONTENITORE CON I DATI AGGIORNATI
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"motives_update",
                     "data":data
@@ -355,9 +355,9 @@ function class_qvcausali(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "X", currsysid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"motives_update",
                     "data":data

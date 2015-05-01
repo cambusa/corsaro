@@ -158,7 +158,7 @@ function winzGeography(formid, settings, missing){
             var q="";
             var arg={};
             var c="";
-            var t=qv_forlikeclause(objsearch.value());
+            var t=objsearch.value().toUpperCase().replace(/ /g,"%").replace(/[^A-Z0-9]/g,"%");
             if(propclasstable!=""){c=objclass.key()}
             if(t!=""){
                 q=likesql;

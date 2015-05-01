@@ -9,8 +9,9 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-include("../sysconfig.php");
-include("../rygeneral/json_loader.php");
+include_once "../sysconfig.php";
+include_once "../rygeneral/json_loader.php";
+include_once $path_applications."cacheversion.php";
 
 if(isset($_GET["sessionid"])){
     $sessionid=$_GET["sessionid"];
@@ -29,9 +30,9 @@ $direnvirons=$path_databases."_environs/";
 ?><!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-	<title>Maestro - Modellazione database</title>
-</head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<title>Maestro - Modellazione database</title>
 
 <style>
 .maestro-conteiner{position:relative;width:100%;height:100%;display:none;}
@@ -59,14 +60,13 @@ a.disabled{text-decoration:none;color:gray;cursor:default;}
 .sx{text-align:left;}
 </style>
 
-<script type='text/javascript' src="../jquery/jquery.js"></script>
+<script type='text/javascript' src='../jquery/jquery.js'></script>
 <script type='text/javascript' src='../jquery/jquery.cookie.js' ></script>
-<script type='text/javascript' src='../rygeneral/rygeneral.js' ></script>
-<script type='text/javascript' src='../ryego/ryego.js' ></script>
+<script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../ryego/ryego.js?ver=<?php print $cacheversion ?>' ></script>
 
 <script>
-_sessionid="<?php  print $sessionid ?>";
-var _sessioninfo;
+_sessioninfo.sessionid="<?php  print $sessionid ?>";
 var envjson=false;
 var dbprovider="";
 $(document).ready(function(){
@@ -229,7 +229,7 @@ function envanalyze(){
     if(env!=""){
         $.post(
             "maestro_analyze_test.php", 
-            {"sessionid":_sessionid,"env":env},
+            {"sessionid":_sessioninfo.sessionid, "env":env},
             function(d){
                 try{
                     envjson=$.parseJSON(d);
@@ -259,7 +259,7 @@ function envupgrade(){
     $("#engage-upgrade").addClass('disabled');
     $.post(
         "maestro_upgrade.php", 
-        {"sessionid":_sessionid,"env":envname,"logonly":logonly},
+        {"sessionid":_sessioninfo.sessionid, "env":envname, "logonly":logonly},
         function(d){
             try{
                 d=d.replace(/^ +/g, "");
@@ -290,7 +290,7 @@ function executesql(){
     
     $.post(
         "maestro_execute.php", 
-        {"sessionid":_sessionid,"env":env,"sql":sql},
+        {"sessionid":_sessioninfo.sessionid, "env":env, "sql":sql},
         function(d){
             try{
                 var v=$.parseJSON(d);
@@ -329,6 +329,8 @@ function resizebody(){
     $("#maestro-sql").width(w);
 }
 </script>
+
+</head>
 
 <body onresize="resizebody()" spellcheck="false">
 

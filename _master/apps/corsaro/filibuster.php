@@ -11,12 +11,12 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-$cacheversion=30;
-
 $filibuster_host="";            // DATI (IMPOSTARE SE I DATI SONO REMOTI)
 $filibuster_environ="";         // AMBIENTE PREDEFINITO
 $filibuster_sizeHQ=2500;        // DIMENSIONE MASSIMA DOCUMENTO PER SINTESI VOCALE AD ALTA QUALITA'
 $mathjax_path="http://www.rudyz.net/cambusa/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+
+include_once "../cacheversion.php";
 
 if(is_file("../../customize/_filibuster.php")){
     include_once "../../customize/_filibuster.php";
@@ -216,8 +216,8 @@ else
 
 <title><?php print $TITLESITE ?></title>
 <link rel='icon' href='<?php print $favicon ?>' type='image/x-icon'/>
-<link type='text/css' href='_css/filibuster.css' rel='stylesheet' />
-<link href="_css/dropdown.css" rel="stylesheet" />
+<link type='text/css' href='_css/filibuster.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
+<link href="_css/dropdown.css?ver=<?php print $cacheversion ?>" rel="stylesheet" />
 
 <style>
 /* CUSTOM STYLE */
@@ -294,7 +294,8 @@ var _swipestartY=0;
 var _swipemoveX=0;
 var _swipemoveY=0;
 // AUTENTICAZIONE EGO
-_sessionid="<?php  print $sessionid ?>";
+_sessioninfo={};
+_sessioninfo.sessionid="<?php  print $sessionid ?>";
 // OGGETTO PUBBLICO
 var FLB={};
 FLB.actualid=_actualid;

@@ -294,7 +294,7 @@ function class_qvtrasferimenti(settings,missing){
             }
             context="";
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_print.enabled(o.isselected());
             oper_delete.enabled(o.isselected());
         },
@@ -347,9 +347,9 @@ function class_qvtrasferimenti(settings,missing){
             if(currcollocazioneid!=""){
                 data["REFERENCEID"]=currcollocazioneid;
             }
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"arrows_insert",
                     "data":data
@@ -555,9 +555,9 @@ function class_qvtrasferimenti(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"arrows_update",
                     "data":data
@@ -697,9 +697,9 @@ function class_qvtrasferimenti(settings,missing){
         var targetid=txtarget.value();
         var ids=bowid+"|"+targetid;
         var evs=tempolasco( txbowtime.text() )+"|"+tempolasco( txtargettime.text() );
-        $.post(_cambusaURL+"ryquiver/quiver.php", 
+        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
-                "sessionid":_sessionid,
+                "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,
                 "function":"stuff_balance",
                 "data":{

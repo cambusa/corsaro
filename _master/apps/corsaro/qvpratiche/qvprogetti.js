@@ -101,7 +101,7 @@ function class_qvprogetti(settings,missing){
             }
             context="";
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_print.enabled(o.isselected());
             oper_delete.enabled(o.isselected());
         },
@@ -139,9 +139,9 @@ function class_qvprogetti(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuovo progetto)";
             data["TYPOLOGYID"]=currtypologyid;
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"objects_insert",
                     "data":data
@@ -216,9 +216,9 @@ function class_qvprogetti(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"objects_update",
                     "data":data
@@ -258,9 +258,9 @@ function class_qvprogetti(settings,missing){
                 multiple:true,
                 onselect:function(d){
                     var ids=d["SYSID"];
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"selections_add",
                             "data":{
@@ -299,9 +299,9 @@ function class_qvprogetti(settings,missing){
         click:function(o, done){
             gridpratiche.selengage(
                 function(o, s){
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"selections_remove",
                             "data":{
@@ -335,9 +335,9 @@ function class_qvprogetti(settings,missing){
         caption:"Svuota",
         button:true,
         click:function(o, done){
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_remove",
                     "data":{
@@ -382,7 +382,7 @@ function class_qvprogetti(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_prjremove.enabled(o.isselected());
         },
         solveid:function(o,d){

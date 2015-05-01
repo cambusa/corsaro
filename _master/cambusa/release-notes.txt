@@ -1,4 +1,35 @@
 ==================================
+Rilascio 1.69.20    del 01/05/2015
+==================================
+
+ryQue e ryUnbound: cambiato il nome dell'evento "selchange" in "chengesel".
+Il nome "selchange" è comunque utilizzabile come alias per compatibilità. 
+
+Sostituite tutte le occorrenze di "_sessionid" con "_sessioninfo.sessionid".
+
+Centralizzata la posizione della variabile "$cacheversion".
+
+Memorizzati i nodi aperti di rySource.
+
+==================================
+Rilascio 1.69.19    del 29/04/2015
+==================================
+
+ryCode: gestito lo scroll orizzontale e il CTRL-RIGHT/CTRL-LEFT.
+
+ryBox: gestita la selezione mediante mousedown e mousemove.
+
+Sostituiti molti alias "_sessionid" con "_sessioninfo.sessionid".
+
+==================================
+Rilascio 1.69.18    del 28/04/2015
+==================================
+
+Eliminati molti degli alias delle variabili sotto _sessioninfo e _systeminfo.
+
+Corretto il metodo "clear" di ryEdit (lasciava sporco il valore temporaneo).
+
+==================================
 Rilascio 1.69.17    del 27/04/2015
 ==================================
 

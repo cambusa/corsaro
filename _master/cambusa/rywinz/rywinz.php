@@ -49,7 +49,7 @@ else
 <link rel="stylesheet" href="<?php print $url_cambusa ?>jqdesktop/assets/css/ie.css" />
 <![endif]-->
 <script>
-_sessionid="<?php  print $sessionid ?>";
+_sessioninfo.sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $RYWINZ->appname ?>";
 var _apptitle="<?php  print $RYWINZ->apptitle ?>";
 var _appenviron="<?php  print $winz_appenviron ?>";
@@ -250,10 +250,10 @@ function winz_postman(missing){
         RYWINZ.newform({
             id:"postman",
             name:"postman",
-            path:_cambusaURL+"rywinz/postman/",
+            path:_systeminfo.relative.cambusa+"rywinz/postman/",
             title:POSTMAN.title,
             desk:true,
-            icon:_cambusaURL+"rywinz/postman/postman"
+            icon:_systeminfo.relative.cambusa+"rywinz/postman/postman"
         });
     }
     else{

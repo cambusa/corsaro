@@ -70,7 +70,7 @@ function class_qvpagine(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o){
+        changesel:function(o){
             oper_delete.enabled(o.isselected());
         },
         solveid:function(o,d){
@@ -223,9 +223,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"pages_insert",
                     "data":{
@@ -436,9 +436,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             abilitaspostaf(0);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_arrange",
                     "data":{
@@ -475,9 +475,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             abilitaspostaf(0);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_arrange",
                     "data":{
@@ -514,9 +514,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             abilitaspostaf(0);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_arrange",
                     "data":{
@@ -553,9 +553,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             abilitaspostaf(0);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_arrange",
                     "data":{
@@ -791,9 +791,9 @@ function class_qvpagine(settings,missing){
                 data["AUTHOR"]=tx_author.value();
                 break;
             }
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"arrows_update",
                     "data":data
@@ -867,7 +867,7 @@ function class_qvpagine(settings,missing){
                 tx_download.value(w);
                 if(exten.toLowerCase().match(/(jpg|jpeg|gif|png|svg)/)){
                     oper_icon.enabled(1);
-                    $(prefix+"PREVIEW").html("<img src='"+_cambusaURL+"/phpthumb/phpThumb.php?h=80&src="+p+"' style='border:1px solid silver;'>");
+                    $(prefix+"PREVIEW").html("<img src='"+_systeminfo.relative.cambusa+"/phpthumb/phpThumb.php?h=80&src="+p+"' style='border:1px solid silver;'>");
                     $(prefix+"PREVIEW").css({display:"block"});
                 }
             }
@@ -891,9 +891,9 @@ function class_qvpagine(settings,missing){
         formid:formid,
         button:true,
         click:function(o){
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"pages_iconize",
                     "data":{
@@ -926,9 +926,9 @@ function class_qvpagine(settings,missing){
         formid:formid,
         button:true,
         click:function(o){
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"pages_iconize",
                     "data":{
@@ -982,9 +982,9 @@ function class_qvpagine(settings,missing){
                 multiple:false,
                 onselect:function(d){
                     var parentid=d["SETRELATED"];
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"selections_add",
                             "data":{
@@ -1025,9 +1025,9 @@ function class_qvpagine(settings,missing){
                 sql:"SELECT SETRELATED FROM QW_WEBCONTENTS WHERE SYSID='"+currparentid+"'",
                 ready:function(v){
                     var relateid=v[0]["SETRELATED"];
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"selections_remove",
                             "data":{
@@ -1041,10 +1041,10 @@ function class_qvpagine(settings,missing){
                                 if(v.success>0){
                                     operp_refresh.engage();
                                 }
-                                winzTimeoutMess(propformid, v.success, v.message);
+                                winzTimeoutMess(formid, v.success, v.message);
                             }
                             catch(e){
-                                winzClearMess(propformid);
+                                winzClearMess(formid);
                                 alert(d);
                             }
                         }
@@ -1088,7 +1088,7 @@ function class_qvpagine(settings,missing){
                 o.solveid(i);
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             operp_remove.enabled(o.isselected());
         },
         solveid:function(o, d){
@@ -1143,9 +1143,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             abilitaspostar(0);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_arrange",
                     "data":{
@@ -1182,9 +1182,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             abilitaspostaf(0);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_arrange",
                     "data":{
@@ -1221,9 +1221,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             abilitaspostar(0);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_arrange",
                     "data":{
@@ -1260,9 +1260,9 @@ function class_qvpagine(settings,missing){
         button:true,
         click:function(o){
             abilitaspostar(0);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"selections_arrange",
                     "data":{
@@ -1537,9 +1537,9 @@ function class_qvpagine(settings,missing){
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             bbl_context=RYBOX.babels("BABEL_CONTEXT");
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"files_info",
                     "data":{}

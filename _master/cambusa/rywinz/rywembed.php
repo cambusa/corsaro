@@ -69,7 +69,7 @@ if(isset($winz_moremodules)){
 <link rel="stylesheet" href="<?php print $url_cambusa ?>jqdesktop/assets/css/ie.css" />
 <![endif]-->
 <script>
-_sessionid="<?php  print $sessionid ?>";
+_sessioninfo.sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $winz_appname ?>";
 var _apptitle="<?php  print $winz_apptitle ?>";
 var _appenviron="<?php  print $winz_appenviron ?>";

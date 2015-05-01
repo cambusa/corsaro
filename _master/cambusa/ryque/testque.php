@@ -19,7 +19,6 @@ button{width:120px}
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
 <script type='text/javascript' src='../rygeneral/rygeneral.js' ></script>
-<script language='javascript'>_cambusaURL='../';</script>
 <script type='text/javascript' src='../ryque/ryque.js' ></script>
 
 <link type='text/css' href='../jquery/css/jquery.ui.theme.css' rel='stylesheet' />
@@ -40,7 +39,7 @@ input,select,a:focus{outline:none;border:none;}
 <script language="JavaScript">
 
 var Obj;
-_sessionid="ZZZZZZZZZZZZZZZZZZZZ";
+_sessioninfo.sessionid="ZZZZZZZZZZZZZZZZZZZZ";
 function init(){
 
     Obj = $("#gotha").ryque({

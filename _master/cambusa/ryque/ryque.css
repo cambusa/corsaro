@@ -37,6 +37,11 @@ color:#FFFFFF;
 background-color:#588EBC;
 }
 
+.ryque-cell{
+top:0px;
+line-height:21px;
+}
+
 .ryque-focusin {
 /* Blue */
 background-color:#3F75A2;

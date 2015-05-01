@@ -50,7 +50,7 @@ function class_qvgenretypes(settings,missing){
             }
             context="";
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_print.enabled(o.isselected());
             oper_delete.enabled(o.isselected());
         },
@@ -109,9 +109,9 @@ function class_qvgenretypes(settings,missing){
             winzProgress(formid);
             var data = new Object();
             data["DESCRIPTION"]="(nuova tipologia)";
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"genretypes_insert",
                     "data":data
@@ -203,9 +203,9 @@ function class_qvgenretypes(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"genretypes_update",
                     "data":data
@@ -256,7 +256,7 @@ function class_qvgenretypes(settings,missing){
                 oper_detailsdelete.enabled(o.isselected());
             }
         },
-        selchange:function(o, i){
+        changesel:function(o){
             oper_detailsdelete.enabled(o.isselected());
         },
         solveid:function(o, d){
@@ -284,9 +284,9 @@ function class_qvgenretypes(settings,missing){
             data["TYPOLOGYID"]=currsysid;
             data["FIELDNAME"]="NomeCampo";
             data["CAPTION"]="Etichetta";
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"genreviews_insert",
                     "data":data
@@ -328,9 +328,9 @@ function class_qvgenretypes(settings,missing){
         click:function(o){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "X", currdetailid);
-            $.post(_cambusaURL+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"genreviews_update",
                     "data":data

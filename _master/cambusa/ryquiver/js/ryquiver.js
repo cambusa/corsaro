@@ -74,9 +74,9 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
         function(o,s){
             winzProgress(formid);
             s=s.split("|");
-            $.post(_customizeURL+_sessioninfo.app+"/reporting/"+template, 
+            $.post(_systeminfo.relative.customize+_sessioninfo.app+"/reporting/"+template, 
                 {
-                    "sessionid":_sessionid,
+                    "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "keys":s,
                     "pdf":pdf,
@@ -85,7 +85,7 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
                 function(d){
                     try{
                         if(window.console&&_sessioninfo.debugmode){console.log("Risposta da reporting: "+d)}
-                        var h=_cambusaURL+"rysource/source_download.php?file="+d;
+                        var h=_systeminfo.relative.cambusa+"rysource/source_download.php?file="+d;
                         $("#winz-iframe").prop("src", h);
                         winzClearMess(formid);
                     }
@@ -119,9 +119,9 @@ function qv_bulkdelete(formid, objgrid, prefix){
                             }
                         };
                     }
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "program":stats
                         }, 
@@ -167,9 +167,9 @@ function qv_filedelete(formid, objgrid, after, missing){
                             "data":{}
                         };
                     }
-                    $.post(_cambusaURL+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
-                            "sessionid":_sessionid,
+                            "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "program":stats
                         }, 
@@ -219,9 +219,9 @@ function qv_filedownload(formid, objgrid, params, missing){
                         if(signature){
                             data["SIGNATURE"]=1;
                         }
-                        $.post(_cambusaURL+"ryquiver/quiver.php", 
+                        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                             {
-                                "sessionid":_sessionid,
+                                "sessionid":_sessioninfo.sessionid,
                                 "env":_sessioninfo.environ,
                                 "function":"files_export",
                                 "data":data
@@ -232,7 +232,7 @@ function qv_filedownload(formid, objgrid, params, missing){
                                     if(v.success>0){
                                         var env=v["params"]["ENVIRON"];
                                         var n=v["params"]["EXPORT"];
-                                        var h=_cambusaURL+"rysource/source_download.php?env="+env+"&sessionid="+_sessionid+"&file="+n;
+                                        var h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+n;
                                         if(window.console&&_sessioninfo.debugmode){console.log("Download:"+h)}
                                         $("#winz-iframe").prop("src", h);
                                         // GESTIONE FILE OBSOLETI
@@ -337,7 +337,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                     o.solveid(i);
                 }
             },
-            selchange:function(o, i){
+            changesel:function(o){
                 if(propenabled)
                     oper_filedelete.enabled(o.isselected());
             },
@@ -384,12 +384,12 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             top:90,
             width:300,
             formid:formid,
-            environ:_tempenviron,
+            environ:_sessioninfo.temporary,
             complete:function(id, name, ret){
                 //$(prefix+"oper_fileinsert .qq-upload-success , .qq-upload-fail").remove();
-                $.post(_cambusaURL+"ryquiver/quiver.php", 
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
-                        "sessionid":_sessionid,
+                        "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
                         "program":[
                             {
@@ -443,9 +443,9 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             formid:formid,
             button:true,
             click:function(o){
-                $.post(_cambusaURL+"ryquiver/quiver.php", 
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
-                        "sessionid":_sessionid,
+                        "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
                         "program":[
                             {
@@ -538,9 +538,9 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             formid:formid,
             button:true,
             click:function(o){
-                $.post(_cambusaURL+"ryquiver/quiver.php", 
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
-                        "sessionid":_sessionid,
+                        "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
                         "function":"files_update",
                         "data":{
@@ -617,9 +617,9 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                     click:function(o){
                         bufferdetails=tx_dlgdetails.value();
                         oper_filedetails.title(bufferdetails);
-                        $.post(_cambusaURL+"ryquiver/quiver.php", 
+                        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                             {
-                                "sessionid":_sessionid,
+                                "sessionid":_sessioninfo.sessionid,
                                 "env":_sessioninfo.environ,
                                 "function":"files_update",
                                 "data":{

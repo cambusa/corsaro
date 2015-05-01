@@ -9,9 +9,13 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-// CARICO LE LIBRERIE
+// CARICO I PERCORSI
 if(!isset($tocambusa))
     $tocambusa="../";
+include_once $tocambusa."sysconfig.php";
+
+// CARICO LE LIBRERIE
+include_once $path_applications."cacheversion.php";
 include_once $tocambusa."ryego/ego_crypt.php";    
 include_once $tocambusa."ryquiver/quiversex.php";
 include_once $tocambusa."ryque/ryq_util.php";
@@ -143,8 +147,8 @@ body{font-family:verdana,sans-serif;font-size:13px;background-color:white;}
 table{font-family:verdana,sans-serif;font-size:13px;}
 </style>
 
-<link type='text/css' href='../rybox/rybox.css' rel='stylesheet' />
-<link type='text/css' href='../ryque/ryque.css' rel='stylesheet' />
+<link type='text/css' href='../rybox/rybox.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
+<link type='text/css' href='../ryque/ryque.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
 
 <link type='text/css' href='../jquery/css/jquery.ui.core.css' rel='stylesheet' />
 <link type='text/css' href='../jquery/css/jquery.ui.datepicker.css' rel='stylesheet' />
@@ -168,22 +172,21 @@ input,select,a:focus{outline:none;border:none;}
 <script type='text/javascript' src='../jquery/jquery.js' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.core.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.datepicker.js' ></script>
-<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.widget.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.button.js'></script>
-<script type='text/javascript' src='../rygeneral/rygeneral.js' ></script>
-<script language='javascript'>_cambusaURL='../';</script>
-<script type='text/javascript' src='../rybox/rybox.js' ></script>
+<script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../rybox/rybox.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../cryptojs/rollups/sha1.js' ></script>
 <script type='text/javascript' src='../jsencrypt/bin/jsencrypt.js' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mouse.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.tabs.js'></script>
-<script type='text/javascript' src='../ryque/ryque.js' ></script>
+<script type='text/javascript' src='../ryque/ryque.js?ver=<?php print $cacheversion ?>' ></script>
 
 <script>
-_sessionid="<?php print $sessionid ?>";
+_sessioninfo.sessionid="<?php print $sessionid ?>";
 var htimer="";
 var _publickey="<?php print strtr($publickey, array("\n" => "[n]", "\r" => "[r]")); ?>";
 _publickey=_publickey.replace(/\[n\]/g, "\n").replace(/\[r\]/g, "\r");
