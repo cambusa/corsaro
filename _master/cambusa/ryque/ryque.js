@@ -788,64 +788,79 @@
                                     for(c=1;c<=propcols.length;c++){
                                         fd="#"+propname+"_"+r+"_"+c;
                                         vl=v[r-1][propcols[c-1]];
-                                        if(typeof vl!="string")
+                                        if(typeof vl!="string"){
                                             vl="";
-                                        try{
-                                            switch(proptyps[c-1]){
-                                            case "?":
-                                                if(vl!=0)
-                                                    $(fd).html("&#x2714;");
-                                                else
-                                                    $(fd).html("&#x0020;");
-                                                break;
-                                            case "/":
-                                                vl=vl.replace(/[^\d]/gi, "").substr(0,8);
-                                                if(vl.length==8){
-                                                    dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);
-                                                    if(dy<="1900" || dy>="9999")
-                                                        $(fd).html("");
-                                                    else if(_sessioninfo.dateformat==1)
-                                                        $(fd).html(dm+"/"+dd+"/"+dy);
+                                        }
+                                        else{
+                                            try{
+                                                switch(proptyps[c-1]){
+                                                case "?":
+                                                    if(vl.substr(0,1)!="'"){
+                                                        if(vl!=0)
+                                                            vl="&#x2714;";
+                                                        else
+                                                            vl="&#x0020;";
+                                                    }
                                                     else
-                                                        $(fd).html(dd+"/"+dm+"/"+dy);
-                                                }
-                                                else{
-                                                    $(fd).html("");
-                                                }
-                                                break;
-                                            case ":":
-                                                vl=(vl+"000000").replace(/[^\d]/gi, "").substr(0,14);
-                                                if(vl.length==14){
-                                                    dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);dh=vl.substr(8,2);dn=vl.substr(10,2);
-                                                    if(dy<="1900" || dy>="9999")
-                                                        $(fd).html("");
-                                                    else if(_sessioninfo.dateformat==1)
-                                                        $(fd).html(dm+"/"+dd+"/"+dy+" "+dh+":"+dn);
+                                                        vl=vl.substr(1);
+                                                    break;
+                                                case "/":
+                                                    if(vl.substr(0,1)!="'"){
+                                                        vl=vl.replace(/[^\d]/gi, "").substr(0,8);
+                                                        if(vl.length==8){
+                                                            dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);
+                                                            if(dy<="1900" || dy>="9999")
+                                                                vl="";
+                                                            else if(_sessioninfo.dateformat==1)
+                                                                vl=dm+"/"+dd+"/"+dy;
+                                                            else
+                                                                vl=dd+"/"+dm+"/"+dy;
+                                                        }
+                                                        else
+                                                            vl="";
+                                                    }
                                                     else
-                                                        $(fd).html(dd+"/"+dm+"/"+dy+" "+dh+":"+dn);
-                                                }
-                                                else{
-                                                    $(fd).html("");
-                                                }
-                                                break;
-                                            default:
-                                                if(nums[c]){
-                                                    vl=__formatNumber(vl, decs[c]);
-                                                    $(fd).html(vl);
-                                                }
-                                                else{
-                                                    vl=vl.replace(/<[bh]r\/?>/gi," ").replace(/ +$/, "");
-                                                    $(fd).html(vl);
-                                                    if(vl.length>20 && vl.substr(0,5)!="<img ")
-                                                        $(fd).attr("title",vl);
+                                                        vl=vl.substr(1);
+                                                    break;
+                                                case ":":
+                                                    if(vl.substr(0,1)!="'"){
+                                                        vl=(vl+"000000").replace(/[^\d]/gi, "").substr(0,14);
+                                                        if(vl.length==14){
+                                                            dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);dh=vl.substr(8,2);dn=vl.substr(10,2);
+                                                            if(dy<="1900" || dy>="9999")
+                                                                vl="";
+                                                            else if(_sessioninfo.dateformat==1)
+                                                                vl=dm+"/"+dd+"/"+dy+" "+dh+":"+dn;
+                                                            else
+                                                                vl=dd+"/"+dm+"/"+dy+" "+dh+":"+dn;
+                                                        }
+                                                        else
+                                                            vl="";
+                                                    }
                                                     else
-                                                        $(fd).attr("title","");
+                                                        vl=vl.substr(1);
+                                                    break;
+                                                default:
+                                                    if(nums[c]){
+                                                        if(vl.substr(0,1)!="'")
+                                                            vl=__formatNumber(vl, decs[c]);
+                                                        else
+                                                            vl=vl.substr(1);
+                                                    }
+                                                    else{
+                                                        vl=vl.replace(/<[bh]r\/?>/gi," ").replace(/ +$/, "");
+                                                        if(vl.length>20 && vl.substr(0,5)!="<img ")
+                                                            $(fd).attr("title",vl);
+                                                        else
+                                                            $(fd).attr("title","");
+                                                    }
                                                 }
                                             }
+                                            catch(e){
+                                                vl=e.message;
+                                            }
                                         }
-                                        catch(e){
-                                            $(fd).html("");
-                                        }
+                                        $(fd).html(vl);
                                     }
                                 }
                                 else{
@@ -1711,7 +1726,7 @@
                             t+="<div id='"+propname+"_sep0'></div>";
                         }
                         else{
-                            t+="<div id='"+propname+"_"+r+"_0' class='column_0' style='top:3px;'></div>";
+                            t+="<div id='"+propname+"_"+r+"_0' class='ryque-cell column_0'></div>";
                         }
                         t+="</div>";
                     }
@@ -1735,7 +1750,9 @@
                             tt=proptits[c-1];
                         else
                             tt="&nbsp;";
-                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"'>"+tt+"</div><div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";  //Colonna
+                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"'>"+tt+"</div>";  // Colonna
+                        if(r==0)
+                            t+="<div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";   // Separatore
                     }
                     t+="</div>";
                 }
@@ -1750,9 +1767,9 @@
                     .css({"position":"absolute","left":propleft,"top":proptop,"font-family":"verdana,sans-serif","font-size":"13px","overflow":"hidden"});
                     
                 $("#"+propname+" .column_0")
-                    .width(propzerowidth-8)
+                    .width(propzerowidth)
                     .height(proprowh)
-                    .css({"position":"absolute","left":4,"overflow":"hidden","text-align":"right","white-space":"nowrap","padding":0,"margin":0});
+                    .css({"position":"absolute","left":0,"overflow":"hidden","text-align":"right","white-space":"nowrap","margin":0});
         
                 $("#"+propname+"_grid")
                     .css({"position":"absolute","left":-propleftcol});
@@ -1791,10 +1808,6 @@
                     $("#"+propname+"_mobivertfore").css({"position":"absolute","background-color":"#C0C0C0","top":proprowh+semih,"left":propwidth-propscrollsize,"width":propscrollsize,"height":semih});
                 }
                 
-                var iecorrection=0;
-                //if($.browser.msie)
-                //    iecorrection=1;
-                    
                 $("#"+propname+"_hscroll").css({"position":"absolute","background-color":"#E0E0E0","left":2,"width":propwidth-propscrollsize-2,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
                 $("#"+propname+"_htrack").css({"position":"absolute","visibility":"hidden","background":"transparent url("+propfolderryque+"images/htrack.gif) no-repeat","left":0,"top":0,"width":proptracksize,"height":15,"cursor":"pointer"});
                 if($.browser.mobile){
@@ -1804,7 +1817,7 @@
                 }
                 
                 $("#"+propname+"_rect").css({"position":"absolute","left":propwidth-propscrollsize-1,"top":0,"width":propscrollsize+1,"height":proprowh,"background":"transparent url("+propfolderryque+"images/faded.gif) repeat-x"});
-                $("#"+propname+"_quad").css({"position":"absolute","background-color":"#E0E0E0","left":propwidth-propscrollsize,"top":(proprowh*(proprows+1)+1)-iecorrection,"width":propscrollsize,"height":propscrollsize});
+                $("#"+propname+"_quad").css({"position":"absolute","background-color":"#E0E0E0","left":propwidth-propscrollsize,"top":(proprowh*(proprows+1)+1),"width":propscrollsize,"height":propscrollsize});
                 $("#"+propname+"_lborder").css({"position":"absolute","left":0,"top":proprowh,"width":2,"height":proprowh*proprows+propscrollsize+1});
                 $("#"+propname+"_lborder").addClass("ryque-focusout");
                 $("#"+propname+"_textwidth").css({"position":"absolute","visibility":"hidden"});
@@ -1819,7 +1832,7 @@
                 propobj.selrefresh();
             }
             function fitcolumns(){
-                var x=0,w,dw,dl,uc=propcols.length,k,c;
+                var x=0,w,uc=propcols.length,k,c;
                 for(c=1;c<=uc;c++){
                     w=propdims[c-1]
                     if(c==uc){
@@ -1827,15 +1840,14 @@
                             w=propwinwidth-x-1;
                         }                
                     }
-                    if($.isNumeric(proptyps[c-1])){k="right";dw=8;dl=2;}
-                    else if(proptyps[c-1]=='?'){k="center";dw=8;dl=4;}
-                    else{k="left";dw=8;dl=4;}
-                    
+                    if($.isNumeric(proptyps[c-1])){k="right"}
+                    else if(proptyps[c-1]=='?'){k="center"}
+                    else{k="left"}
                     if(w>0){
                         $("#"+propname+" .column_"+c)
-                            .width(w-dw)
+                            .width(w+1)
                             .height(proprowh)
-                            .css({"position":"absolute","left":(x+dl),"overflow":"hidden","text-align":k,"white-space":"nowrap","padding":0,"margin":0});
+                            .css({"position":"absolute","left":(x-1),"overflow":"hidden","text-align":k,"white-space":"nowrap","margin":0});
             
                         $("#"+propname+"_sep"+c)
                             .width(4)
@@ -1910,7 +1922,7 @@
                         else if(m>700)
                             m=700;
                         else if(m!=propdims[c-1])
-                            m+=8;
+                            m+=12;
                         propdims[c-1]=m;
                         fitcolumns();
                     }

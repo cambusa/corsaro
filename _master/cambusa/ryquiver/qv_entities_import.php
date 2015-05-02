@@ -51,7 +51,7 @@ function qv_entities_import($maestro, $data){
         
         if( file_exists($PATHFILE) ){
             $entity=unserialize(file_get_contents($PATHFILE));
-            unlink($PATHFILE);
+            @unlink($PATHFILE);
         }
         else{
             $babelcode="QVERR_NOFILE";

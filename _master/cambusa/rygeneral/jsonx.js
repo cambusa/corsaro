@@ -11,12 +11,12 @@
 ****************************************************************************/
 RYJAX={
     xtoj:function(xml, options, missing){
+        var v=[];
         try{
             if(options==missing)options={};
             if(options.tags==missing)options.tags=[];
             if(options.doublequote==missing)options.doublequote=true;
-            var v=[];
-            var exb=new RegExp(" *$", "gm");
+            var exb=/ *$/gm;
             var exc;
             if(options.doublequote)
                 exc=/(\w+)="([^"]*)"/gm;
@@ -35,7 +35,7 @@ RYJAX={
         }
         catch(e){
             if(window.console){console.log(e.message)}
-            var v=[];
+            v=[];
         }
         return v;
         function subxtoj(subxml, level, subarr){
@@ -113,5 +113,65 @@ RYJAX={
                 }
             }
         }
+    },
+    getnodes:function(xml){
+        var v=[];
+        try{
+            var t,s,l=0,i=0,b=-1,be,eb,f;
+            var reg=new RegExp("(</|<[^/]|/>|[^/]>)", "gm");
+            while(t=reg.exec(xml)){
+                s=t[0];
+                switch(s.substr(0,1)){
+                case "<":
+                    if(s.substr(1,1)=="/"){
+                        // Apertura del tag di chiusura </tag>
+                        l-=1;
+                        if(l==1)
+                            eb=t.index;
+                    }
+                    else{
+                        // Apertura del tag di apertura <tag>
+                        if(l==1)
+                            b=t.index;
+                        l+=1;
+                        f=(l==2);
+                    }
+                    break;
+                case "/":
+                    // Chiusura del tag autochiuso <tag/>
+                    l-=1;
+                    if(l==1)
+                        v.push({b:b, be:t.index+2, eb:b, e:t.index+2});
+                    break;
+                default:
+                    // Chiusura del tag di apertura-chiusura <tag> ovvero </tag>
+                    if(b>=0 && l==1)
+                        v.push({b:b, be:be, eb:eb, e:t.index+2});
+                    if(f)
+                        be=t.index+2;
+                }
+            }
+        }
+        catch(e){
+            if(window.console){console.log(e.message)}
+            v=[];
+        }
+        return v;
+    },
+    getattributes:function(tag, options, missing){
+        if(options==missing)options={};
+        if(options.doublequote==missing)options.doublequote=true;
+        var v={};
+        var s;
+        var exb=/ *$/gm;
+        var exc;
+        if(options.doublequote)
+            exc=/(\w+)="([^"]*)"/gm;
+        else
+            exc=/(\w+)='([^']*)'/gm;
+        while(s=exc.exec(tag)){
+            v[s[1].toUpperCase()]=s[2].replace(exb, "");
+        }
+        return v;
     }
 }

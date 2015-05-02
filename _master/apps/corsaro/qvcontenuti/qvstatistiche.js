@@ -168,18 +168,20 @@ function class_qvstatistiche(settings,missing){
             users[d-1]+=1;
         }
         $(prefix+"view_users").css({"display":"block"});
-        $(prefix+"view_users").rygram({
-            left:20,
-            top:160,
-            width:0,
-            height:200,
-            barwidth:20,
-            values:users,
-            captions:days,
-            title:RYBOX.babels("STAT_VISITORS"),
-            captionx:RYBOX.babels("STAT_TIME"),
-            captiony:RYBOX.babels("STAT_EVALUATION")
-        });
+        try{
+            $(prefix+"view_users").rygram({
+                left:20,
+                top:160,
+                width:0,
+                height:200,
+                barwidth:20,
+                values:users,
+                captions:days,
+                title:RYBOX.babels("STAT_VISITORS"),
+                captionx:RYBOX.babels("STAT_TIME"),
+                captiony:RYBOX.babels("STAT_EVALUATION")
+            });
+        }catch(e){}
     }
     function tracciapagine(v, rep){
         var pages=v.length;

@@ -112,7 +112,7 @@ RYBOX;
             CambusaLibraryAdd("jquery.ui.core.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.core.js'></script>");
             CambusaLibraryAdd("jquery.ui.widget.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.widget.js'></script>");
             CambusaLibraryAdd("jquery.ui.datepicker.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.datepicker.js' ></script>");
-            CambusaLibraryAdd("jquery.ui.contextmenu.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.contextmenu.js' ></script>");
+            CambusaLibraryAdd("jquery.ui.contextmenu.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.contextmenu.js?ver=$cacheversion' ></script>");
             //CambusaLibraryAdd("jquery.ui.tabs.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.tabs.js' ></script>");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("script-cambusa", $script_cambusa);

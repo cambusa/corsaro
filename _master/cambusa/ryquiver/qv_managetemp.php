@@ -12,6 +12,7 @@
 include_once "quiverfil.php";
 function qv_managetemp($maestro, $data){
     global $babelcode, $babelparams;
+    global $path_databases, $path_customize, $url_customize, $path_root, $url_base, $safe_extensions;
     try{
         // IMPOSTO I VALORI DI RITORNO PREDEFINITI
         $success=1;
@@ -20,12 +21,14 @@ function qv_managetemp($maestro, $data){
 
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
         $infoenv=qv_environs($maestro);
+        $envtemp=$infoenv["envtemp"];
         $dirtemp=$infoenv["dirtemp"];
         $dirattach=$infoenv["dirattach"];
         
         clearstatcache();
-        $d=glob($dirtemp."*.*");
         $sec=60*60;
+        
+        $d=glob($dirtemp."*.*");
         foreach($d as $filename){
             try{
                 if(time()-@filemtime($filename)>$sec){
@@ -33,6 +36,25 @@ function qv_managetemp($maestro, $data){
                 }
             }
             catch(Exception $e){}
+        }
+        
+        if($envtemp!="temporary"){
+            // LA TEMPORANEA D'AMBIENTE E' DIVERSA DA QUELLA PREDEFINITA 
+            if(is_file($path_databases."_environs/temporary.php")){
+                $env_strconn="";
+                include($path_databases."_environs/temporary.php");
+                $dirtemp=$env_strconn;
+
+                $d=glob($dirtemp."*.*");
+                foreach($d as $filename){
+                    try{
+                        if(time()-@filemtime($filename)>$sec){
+                            @unlink($filename);
+                        }
+                    }
+                    catch(Exception $e){}
+                }
+            }
         }
     }
     catch(Exception $e){

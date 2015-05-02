@@ -73,7 +73,7 @@ if(ext_validatesession($sessionid, true, "mirror")){
                 if(is_file($dirtemp.$import)){
                     if($dirtemp.$import!=$env_strconn.$path.$import){
                         copy($dirtemp.$import, $env_strconn.$path.$import);
-                        unlink($dirtemp.$import);
+                        @unlink($dirtemp.$import);
                     }
                 }
                 else{

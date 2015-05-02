@@ -173,7 +173,7 @@ prepareEncrypt($maestro, $publickey);
 <meta name="repository" content="https://github.com/cambusa/">
 <title>Ego - Servizio di autenticazione</title>
 <link rel='shortcut icon' href='images/favicon.ico' type='image/x-icon'/>
-<link type='text/css' href='ryego.css' rel='stylesheet' />
+<link type='text/css' href='ryego.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
     
 <style type="text/css">
 body{font-family:verdana,sans-serif;font-size:13px;background-color:white;}
@@ -308,7 +308,7 @@ elseif($msk=="setup"){
 <!-- MENU' SUPERIORE -->
 <div class='classicBackImage' style='top:13px;height:90px;background-image:url(<?php print $egoimage_header; ?>);'>&nbsp;</div>
 <?php if($sessionid!=""){ ?>
-<div class='classicTopMenu'><a class='classicMiniAnchor' href='javascript:egoterminate(true)'>Logout</a>&nbsp;&nbsp;</div>
+<div class='classicTopMenu'><span class='classicMiniAnchor' onclick='egoterminate(true)'>Logout</span>&nbsp;&nbsp;</div>
 <?php } ?>
 
 <!-- OMBRA SUPERIORE -->

@@ -1,4 +1,13 @@
 ==================================
+Rilascio 1.69.21    del 02/05/2015
+==================================
+
+Rese giuste le dimensioni delle celle  in ryQue e ryUnbound.
+Aggiunto un margine alle icone per compensare la riduzione del "top".
+
+RYJAX: aggiunte funzioni utili.
+
+==================================
 Rilascio 1.69.20    del 01/05/2015
 ==================================
 

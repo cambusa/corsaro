@@ -40,6 +40,8 @@ background-color:#588EBC;
 .ryque-cell{
 top:0px;
 line-height:21px;
+padding:0px 6px;
+box-sizing:border-box;
 }
 
 .ryque-focusin {
