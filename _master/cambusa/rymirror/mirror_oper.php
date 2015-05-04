@@ -168,15 +168,21 @@ if(ext_validatesession($sessionid, true, "mirror")){
                 break;
                 
             case "delete":
-                if(is_dir($env_strconn.$path)){
-                    mirror_xdelete($env_strconn.$path);
-                }
-                elseif(is_file($env_strconn.$path)){
-                    unlink($env_strconn.$path);
+                if($path!=""){
+                    if(is_dir($env_strconn.$path)){
+                        mirror_xdelete($env_strconn.$path);
+                    }
+                    elseif(is_file($env_strconn.$path)){
+                        unlink($env_strconn.$path);
+                    }
+                    else{
+                        $success=0;
+                        $description="'$path' doesn't exist.";
+                    }
                 }
                 else{
                     $success=0;
-                    $description="'$path' doesn't exist.";
+                    $description="Path is mandatory.";
                 }
                 break;
             }
