@@ -272,7 +272,7 @@ if($env!="" && $site!="" && $CONTENTID!=""){
                 $AUTHOR=$r[0]["AUTHOR"];
                 $DEALER=$r[0]["DEALER"];
                 $food.="<div class='filibuster-copyright'>";
-                $food.="Filibuster v1.0 - Technology <a href='http://www.rudyz.net/' target='_blank'>Le Cose di Rudy</a>";
+                $food.="Filibuster 1.00 - Technology <a href='http://www.rudyz.net/' target='_blank'>Le Cose di Rudy</a>";
                 $food.=" - Speech synthesis <a href='http://www.fromtexttospeech.com/' target='_blank'>TextToSpeech</a> and <a href='http://vozme.com/' target='_blank'>vozMe</a>";
                 if($DEALER!=""){
                     $food.=" - Dealer $DEALER";

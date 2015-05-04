@@ -41,6 +41,7 @@ else{
 .mirror-list{width:150px;}
 .mirror-count{width:15px;}
 .mirror-result,td{white-space:nowrap}
+.mirror-currfolder{border:1px dashed silver;}
 
 body{font-family:verdana,sans-serif; font-size:10px;}
 table{font-family:verdana,sans-serif; font-size:10px;border-collapse:collapse;}
@@ -132,12 +133,12 @@ input,select,a:focus{outline:none;border:none;}
 <script>
 _sessioninfo.sessionid="<?php  print $sessionid ?>";
 
+var progrid=0;
 var objfamily;
 var objmirror;
 var currenv="";
 var currpath="";
 var currdirid="";
-var rootid="";
 
 var menuid="";
 var menutype="";
@@ -186,46 +187,51 @@ function activation(id){
 }
 function makeeditor(missing){
     try{
-        objfamily=$("#family").ryfamily({
-            left:0, 
-            top:60, 
-            width:500, 
-            height:500, 
-            scroll:0, 
-            border:1,
-            selectiontype:"folder",
-            expand:function(o, trig){
-                setcurrentfolder(trig.id);
-                loadbranch(trig.id);
-            },
-            collapse:function(o, trig){
-                setcurrentfolder(trig.id);
-                o.remove(trig.id);
-            },
-            context:function(o, trig){
-                if(trig.type=="folder"){
-                    menuid=trig.id;
-                    menutype="folder";
-                    menupath=buildpath(menuid);
-                    menutitle=$(trig.selector+"_text").html();
-                }
-                else{
-                    menuid=trig.id;
-                    menutype="file";
-                    menupath=$(trig.selector+" a").attr("href").replace(/^javascript:editorload\("/, "").replace(/"\)/, "");
-                    menutitle=$(trig.selector+" a").attr("title");
-                }
-            },
-            outofcontext:function(o){
-                menuid="";
-                menutype="";
-                menupath="";
-                menutitle="";
-            }
-        });
+        objfamily=$("#family").ryfamily({left:0, top:60, width:500, height:500, scroll:0, border:1});
     
-        rootid=objfamily.addfolder({title:_sessioninfo.envdescr, open:true});
-
+        objfamily.addfolder({id:"k0", title:_sessioninfo.envdescr, open:true});
+        setcurrentfolder("k0");
+        $.post(
+            "../rymirror/mirror_files.php", 
+            {
+                "env":currenv,
+                "sub":"",
+                "sessionid":_sessioninfo.sessionid
+            },
+            function(d){
+                var v=$.parseJSON(d);
+                var i,nf,tp,p,h;
+                if(v.success==1){
+                    var i,nf,tp,h;
+                    var p=v.path;
+                    for(var i in v.content){
+                        nf=v.content[i].name;
+                        tp=v.content[i].type;
+                        progrid+=1;
+                        if(tp=="folder"){
+                            objfamily.addfolder({parent:"k0", id:"k"+progrid, info:nf, title:nf});
+                        }
+                        else{
+                            h="javascript:editorload("+$.stringify(p+nf)+")";
+                            objfamily.additem({parent:"k0", id:"k"+progrid, title:"<a href='"+h+"' class='anchor_ryfamily' title='"+nf+"'>"+nf+"</a>"});
+                        }
+                    }
+                }
+            }
+        );
+        
+        $("#family").bind("click",
+            function(evt){
+                if(evt.target.className.indexOf("folder")>=0 || 
+                    evt.target.className.indexOf("hitarea")>=0){
+                    var id=$(evt.target).attr("rif");
+                    if($("#family_"+id).hasClass("collapsable")){ // Il nodo si apre: refresh
+                        loadbranch(id);
+                    }
+                }
+            }
+        );
+        
         $("#uploader").ryupload({
             left:530,
             top:60,
@@ -320,7 +326,25 @@ function makeeditor(missing){
             },
             onContextMenu:
                 function(e) {
-                    return (menutype!="");
+                    if(e.target.className.indexOf("folder")>=0 || 
+                        e.target.className.indexOf("hitarea")>=0){
+                        menuid=$(e.target).attr("rif");
+                        menutype="folder";
+                        menupath=buildpath(menuid);
+                        menutitle=$(e.target).html();
+                        return true;
+                    }
+                    else if(e.target.className.indexOf("anchor")>=0 || 
+                        e.target.className.indexOf("hitarea")>=0){
+                        menuid=$(e.target).parent().attr("rif");
+                        menutype="file";
+                        menupath=$(e.target).attr("href").replace(/^javascript:editorload\("/, "").replace(/"\)/, "");
+                        menutitle=$(e.target).attr("title");
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
                 },
             onShowMenu: 
                 function(e, menu) {
@@ -358,16 +382,17 @@ function loadbranch(id){
                 if(v.success==1){
                     var i,nf,tp,h;
                     var p=v.path;
-                    //setcurrentfolder(id);
+                    setcurrentfolder(id);
                     for(i in v.content){
                         nf=v.content[i].name;
                         tp=v.content[i].type;
+                        progrid+=1;
                         if(tp=="folder"){
-                            objfamily.addfolder({parent:id, info:nf, title:nf});
+                            objfamily.addfolder({parent:id, id:"k"+progrid, info:nf, title:nf});
                         }
                         else{
                             h="javascript:editorload("+$.stringify(p+nf)+")";
-                            objfamily.additem({parent:id, title:"<a href='"+h+"' class='anchor_ryfamily' title='"+nf+"'>"+nf+"</a>"});
+                            objfamily.additem({parent:id, id:"k"+progrid, title:"<a href='"+h+"' class='anchor_ryfamily' title='"+nf+"'>"+nf+"</a>"});
                         }
                     }
                 }
@@ -479,13 +504,24 @@ function bodyresize(){
         w=700;
     $("#codescript").width(w);
 }
-function buildpath(menuid){
-    var path=objfamily.getpath(menuid).join("/");
-    path+="/";
-    return path; 
+function buildpath(parid){
+    try{
+        var path="";
+        while(parid.substr(0,1)=="k"){
+            if(parid!="k0")
+                path=$("#family_"+parid+"_text").attr("info")+"/"+path;
+            parid=$("#family_"+parid+"_text").attr("super");
+        }
+        return path; 
+    }
+    catch(e){
+        return "";
+    }
 }
 function setcurrentfolder(id){
     currdirid=id;
+    $(".folder").removeClass("mirror-currfolder");
+    $("#family_"+id+"_text").addClass("mirror-currfolder");
 }
 function family_newfile(){
     $.post(
@@ -564,8 +600,9 @@ function family_rename(){
                     var v=$.parseJSON(d);
                     if(v.success){
                         if(menutype=="folder"){
-                            $("#family_"+menuid).prop("info", newname);
-                            $("#family_"+menuid+"_text").html(newname);
+                            $("#family_"+menuid+"_text")
+                                .attr("info", newname)
+                                .html(newname);
                             if($("#family_"+menuid).hasClass("collapsable")){
                                 loadbranch(menuid);
                             }
@@ -575,9 +612,8 @@ function family_rename(){
                             var h=menupath.substring(0, p+1)+newname;
                             h="javascript:editorload("+$.stringify(h)+")";
                             $("#family_"+menuid+"_text a")
-                                .attr("href", h)
-                                .attr("title", newname)
-                                .html(newname);
+                                .attr("href", newname)
+                                .html("<a href='"+h+"' class='anchor_ryfamily' title='"+newname+"'>"+newname+"</a>");
                         }
                     }
                     else{
@@ -637,7 +673,7 @@ function family_paste(){
     if(menutype=="folder")
         target=menupath;
     else
-        target=buildpath(menuid);
+        target=buildpath(parid);
     $.post(
         "../rymirror/mirror_oper.php", 
         {

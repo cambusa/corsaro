@@ -24,7 +24,8 @@
             var propmnemonic=true;
             var propobj=this;
             var propname=$(this).attr("id");
-            var objfamily;
+            var propprogr=0;
+            var objfamily=null;
             
             if(settings.left!=missing){propleft=settings.left}
             if(settings.top!=missing){proptop=settings.top}
@@ -41,26 +42,33 @@
             if(proproot=="")
                 proproot=propenviron;
             
-            objfamily=$("#"+propname).ryfamily({
-                left:propleft,
-                top:proptop,
-                width:propwidth,
-                height:propheight,
-                scroll:propscroll,
-                expand:function(o, trig){
-                    var path=o.getpath(trig.id).join("/");
-                    path+="/";
-                    openbranch(path, trig.id);
-                },
-                collapse:function(o, trig){
-                    o.remove(trig.id);
-                    if(propmnemonic){
-                        $.cookie("rysource_"+propenviron+"_"+trig.id, 0, {expires:100000});
+            objfamily=$("#"+propname).ryfamily({left:propleft,top:proptop,width:propwidth,height:propheight,scroll:propscroll});
+        
+            $("#"+propname).bind("click",
+                function(evt){
+                    if(evt.target.className.indexOf("folder")>=0 || 
+                       evt.target.className.indexOf("hitarea")>=0){
+                        var id=$(evt.target).attr("rif");
+                        if($("#"+propname+"_"+id).hasClass("collapsable")){ // Il nodo si apre: refresh
+                            var parid=id;
+                            var path="";
+                            objfamily.remove(id);
+                            while(parid.substr(0,1)=="k"){
+                                if(parid!="k0")
+                                    path=$("#"+propname+"_"+parid+"_text").attr("info")+"/"+path;
+                                parid=$("#"+propname+"_"+parid+"_text").attr("super");
+                            }
+                            openbranch(path, id);
+                        }
+                        else if(propmnemonic){
+                            $.cookie("rysource_"+propenviron+"_"+id, 0, {expires:100000});
+                        }
                     }
                 }
-            });
+            );
             if(propenviron!=""){
-                objfamily.addfolder({title:proproot, open:true});
+                objfamily.addfolder({id:"k0", title:proproot, open:true});
+                openbranch("", "k0");
             }
             this.move=function(params){
                 if(params.left!=missing){propleft=params.left}
@@ -80,7 +88,7 @@
                     if(propstartup!=""){
                         try{
                             h="javascript:"+propstartup+"("+$.stringify(par)+")";
-                            objfamily.additem({parent:id,title:"<a href='"+h+"' class='anchor_rysource' title='"+tl+"'>"+tl+"</a>"});
+                            objfamily.additem({parent:id,id:"k"+propprogr,title:"<a href='"+h+"' class='anchor_rysource' title='"+tl+"'>"+tl+"</a>"});
                         }
                         catch(e){}
                     }
@@ -90,47 +98,62 @@
                     h=h.replace(/[']/gi, "%27");
                     h=h.replace(/\%26(#|\%23)x([0-9A-F]{2})\%3B/gi, "%$2");
                     h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+propenviron+"&sessionid="+_sessioninfo.sessionid+"&file="+h;
-                    objfamily.additem({parent:id,title:"<a href='"+h+"' class='anchor_rysource' target='_blank' title='"+tl+"'>"+tl+"</a>"});
+                    objfamily.additem({parent:id,id:"k"+propprogr,title:"<a href='"+h+"' class='anchor_rysource' target='_blank' title='"+tl+"'>"+tl+"</a>"});
                 }
             }
-            function openbranch(path, parentid){
-                objfamily.remove(parentid);
-                TAIL.enqueue(function(arg_path){
-                    $.post(_systeminfo.relative.cambusa+"rysource/rysource.php", {"env":propenviron, "sub":arg_path, "sessionid":propsessionid, "dbenv":propdbenv},
-                        function(d){
-                            try{
-                                var v=$.parseJSON(d);
-                                var p=v.path;
-                                var i,nf,tl,tp,par;
-                                for(i in v.content){
-                                    nf=v.content[i].name;
-                                    tl=v.content[i].title;
-                                    tp=v.content[i].type;
-                                    par=v.content[i].params;
-                                    if(tp=="folder"){
-                                        var status=0;
-                                        var childid=objfamily.nextchild(parentid);
-                                        if(propmnemonic){
-                                            status=__($.cookie("rysource_"+propenviron+"_"+childid)).actualInteger();
+            function openbranch(path, parentid, callback){
+                $.post(_systeminfo.relative.cambusa+"rysource/rysource.php", {"env":propenviron, "sub":path, "sessionid":propsessionid, "dbenv":propdbenv},
+                    function(d){
+                        try{
+                            var v=$.parseJSON(d);
+                            var p=v.path;
+                            var i,nf,tl,tp,par;
+                            for(i in v.content){
+                                nf=v.content[i].name;
+                                tl=v.content[i].title;
+                                tp=v.content[i].type;
+                                par=v.content[i].params;
+                                propprogr+=1;
+                                if(tp=="folder"){
+                                    var status=0;
+                                    if(propmnemonic){
+                                        status=__($.cookie("rysource_"+propenviron+"_"+"k"+propprogr)).actualInteger();
+                                    }
+                                    objfamily.addfolder({parent:parentid, id:"k"+propprogr, info:nf, title:tl, open:status});
+                                    if(propmnemonic){
+                                        if(status){
+                                            var temp={id:"k"+propprogr};
+                                            if(path=="")
+                                                temp.path=nf+"/";
+                                            else
+                                                temp.path=path+nf+"/";
+                                            TAIL.enqueue(function(temp){
+                                                openbranch(temp.path, temp.id, 
+                                                    function(){
+                                                        TAIL.free();
+                                                    }
+                                                );
+                                            }, temp);
                                         }
-                                        objfamily.addfolder({parent:parentid, info:nf, title:tl, open:status});
-                                    }
-                                    else{
-                                        createlink(parentid,p,nf,tl,tp,par);
                                     }
                                 }
-                                if(propmnemonic){
-                                    $.cookie("rysource_"+propenviron+"_"+parentid, 1, {expires:100000});
+                                else{
+                                    createlink(parentid,p,nf,tl,tp,par);
                                 }
                             }
-                            catch(e){
-                                alert(d);
+                            TAIL.wriggle();
+                            if(propmnemonic){
+                                $.cookie("rysource_"+propenviron+"_"+parentid, 1, {expires:100000});
                             }
-                            TAIL.free();
                         }
-                    );
-                }, path);
-                TAIL.wriggle();
+                        catch(e){
+                            alert(d);
+                        }
+                        if(callback){
+                            callback();
+                        }
+                    }
+                );
             }
 			return this;
 		}
