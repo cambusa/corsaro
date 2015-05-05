@@ -179,7 +179,7 @@ RYBOX;
             break;
     
         case "ryfamily":
-            CambusaLibraryAdd("jquery.treeview.ry.css", "<link type='text/css' href='".$url_cambusa."jqtreeview/jquery.treeview.ry.css' rel='stylesheet' />");
+            CambusaLibraryAdd("jquery.treeview.ry.css", "<link type='text/css' href='".$url_cambusa."jqtreeview/jquery.treeview.ry.css?ver=$cacheversion' rel='stylesheet' />");
 
             CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js' ></script>");
             CambusaLibraryAdd("jquery.cookie.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.cookie.js' ></script>");

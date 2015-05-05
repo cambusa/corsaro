@@ -12,15 +12,20 @@
 ?>
 <div relid="tabs" >
     <div>
-        <div relid="gridsel"></div>
-        <div relid="lbf_search" babelcode="SEARCH"></div><div relid="txf_search"></div>
         <div relid="lbf_site" babelcode="SITE"></div><div relid="txf_site"></div>
-        <div relid="lbf_parent" babelcode="PARENT"></div><div relid="txf_parent"></div>
-        <div relid="lbf_classe" babelcode="CLASS"></div><div relid="txf_classe"></div>
-        <div relid="oper_refresh" babelcode="REFRESH"></div>
-        <div relid="oper_reset" babelcode="RESET"></div>
-        <div relid="oper_new" babelcode="BUTTON_NEW"></div>
-        <div relid="oper_delete" babelcode="BUTTON_SELDELETE"></div>
+        <div relid="modetabs" >
+            <div>
+                <div relid="lbf_search" babelcode="SEARCH"></div><div relid="txf_search"></div>
+                <div relid="lbf_classe" babelcode="CLASS"></div><div relid="txf_classe"></div>
+                <div relid="lbf_parent" babelcode="PARENT"></div><div relid="txf_parent"></div>
+                <div relid="gridsel"></div>
+                <div relid="oper_new" babelcode="BUTTON_NEW"></div>
+                <div relid="oper_delete" babelcode="BUTTON_SELDELETE"></div>
+            </div>
+            <div>
+                <div relid="treesel"></div>
+            </div>
+        </div>
         <div relid="pagepreview"><div relid="previewinner"></div></div>
     </div>
     <div>

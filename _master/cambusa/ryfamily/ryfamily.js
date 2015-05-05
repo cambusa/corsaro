@@ -43,7 +43,7 @@
                 bd="1px solid silver";
             }
             
-            $("#"+propname).css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"font-family":"verdana,sans-serif","font-size":"13px","line-heght":"20px","overflow":sc,"border":bd});
+            $("#"+propname).css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px","overflow":sc,"border":bd});
             $("#"+propname).html("<ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
     
             $("#"+propname+"_root").treeview();
@@ -56,7 +56,7 @@
                         if(settings.click){
                             settings.click(propobj, trig);
                         }
-                        if(trig.type=="folder"){
+                        if(trig.type=="folder" && !(trig.hitfolder && trig.hitnode)){
                             if(trig.open){
                                 if(settings.expand){
                                     settings.expand(propobj, trig);
@@ -239,7 +239,7 @@
                 }
                 info=$(selector).prop("info");
                 text=__($(selector+"_text").html()).stripTags();
-                return {id:id, info:info, open:open, parent:parent, selector:selector, text:text, type:type, hitnode:false};
+                return {id:id, info:info, open:open, parent:parent, selector:selector, text:text, type:type, hitnode:false, hitfolder:false};
             }
             this.getpath=function(nodeid){
                 var v=[];
@@ -307,6 +307,18 @@
                 }
                 return propselectedid;
             }
+            this.expand=function(nodeid){
+                $("#"+propname+"_"+nodeid)
+                .removeClass("closed expandable lastExpandable")
+                .addClass("open collapsable lastCollapsable");
+                $("#"+propname+"_"+nodeid+"_root").show();
+            }
+            this.collapse=function(nodeid){
+                $("#"+propname+"_"+nodeid)
+                .removeClass("open collapsable lastCollapsable")
+                .addClass("closed expandable lastExpandable");
+                $("#"+propname+"_"+nodeid+"_root").hide();
+            }
             function createtrigger(evt, name){
                 var id,open,info,type,text,parent,selector;
                 var trig=false;
@@ -340,9 +352,10 @@
                         type="file";
                     }
                 }
-                hitnode=(evt.isTrigger!=missing);
+                var hitnode=(evt.isTrigger!=missing);
+                var hitfolder=$(evt.target).hasClass("hover");
                 if(id!=missing){
-                    trig={id:id, info:info, open:open, parent:parent, selector:selector, text:text, type:type, hitnode:hitnode};
+                    trig={id:id, info:info, open:open, parent:parent, selector:selector, text:text, type:type, hitnode:hitnode, hitfolder:hitfolder};
                     $("#"+propname).trigger(name, trig);
                 }
                 return trig;

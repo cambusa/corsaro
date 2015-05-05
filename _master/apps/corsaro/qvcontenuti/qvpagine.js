@@ -36,14 +36,88 @@ function class_qvpagine(settings,missing){
     var currbrowser;
     var currparentid="";
     var sospendirefresh=false;
+    var treeid="";
+    var treesysid="";
+    var treeparentsysid="";
+    var treeparentid="";
    
     // DEFINIZIONE TAB SELEZIONE
     
+    var offsety=50;
+    $(prefix+"lbf_site").rylabel({left:410, top:offsety, caption:"Sito"});
+    var txf_site=$(prefix+"txf_site").ryhelper({left:450, top:offsety, width:270, 
+        formid:formid, table:"QW_WEBSITES", titlecode:"HLP_SELSITE", multiple:false,
+        open:function(o){
+            o.where("");
+        },
+        select:"NAME,DESCRIPTION",
+        onselect:function(o, d){
+            currsiteid=d["SYSID"];
+            fsitename=d["NAME"];
+            if(objmodetabs.currtab()==1){
+                objmodetabs.enabled(2, true);
+                refreshselection();
+            }
+            else{
+                initfamily();
+            }
+        },
+        clear:function(){
+            currsiteid="";
+            fsitename="";
+            if(objmodetabs.currtab()!=1)
+                objmodetabs.currtab(1);
+            objmodetabs.enabled(2, false);
+            refreshselection();
+        }
+    });
+    
     // GRID DI SELEZIONE
+    offsety=40;
+    var lbf_search=$(prefix+"lbf_search").rylabel({left:0, top:offsety, caption:"Ricerca"});
+    var txf_search=$(prefix+"txf_search").rytext({left:60, top:offsety, width:640, 
+        assigned:function(){
+            refreshselection();
+        }
+    });
+    
+    offsety+=30;
+    $(prefix+"lbf_classe").rylabel({left:0, top:offsety, caption:"Classe"});
+    var txf_classe=$(prefix+"txf_classe").ryhelper({left:60, top:offsety, width:270, 
+        formid:formid, table:"QW_CLASSICONTENUTO", titlecode:"HLP_SELCLASS", multiple:false,
+        open:function(o){
+            o.where("");
+        },
+        onselect:function(){
+            refreshselection();
+        },
+        clear:function(){
+            refreshselection();
+        }
+    });
+    
+    $(prefix+"lbf_parent").rylabel({left:370, top:offsety, caption:"Genitore"});
+    var txf_parent=$(prefix+"txf_parent").ryhelper({left:430, top:offsety, width:270, 
+        formid:formid, table:"QW_WEBCONTENTS", titlecode:"HLP_SELPARENT", multiple:false,
+        open:function(o){
+            o.where("SYSID<>'"+currsysid+"' AND SETRELATED IN (SELECT PARENTID FROM QVSELECTIONS)");
+        },
+        select:"SETRELATED",
+        onselect:function(o, d){
+            currparentset=d["SETRELATED"];
+            refreshselection();
+        },
+        clear:function(){
+            currparentset="";
+            refreshselection();
+        }
+    });
+    
+    offsety+=30;
     var objgridsel=$(prefix+"gridsel").ryque({
-        left:20,
-        top:80,
-        width:400,
+        left:0,
+        top:offsety,
+        width:700,
         height:400,
         numbered:false,
         checkable:true,
@@ -91,78 +165,107 @@ function class_qvpagine(settings,missing){
             objtabs.currtab(2);
         }
     });
-    var offsety=80;
-    var lbf_search=$(prefix+"lbf_search").rylabel({left:430, top:offsety, caption:"Ricerca"});
-    offsety+=20;
-    var txf_search=$(prefix+"txf_search").rytext({left:430, top:offsety, width:300, 
-        assigned:function(){
-            refreshselection();
-        }
-    });
-    offsety+=30;
     
-    $(prefix+"lbf_site").rylabel({left:430, top:offsety, caption:"Sito"});
-    offsety+=20;
-    var txf_site=$(prefix+"txf_site").ryhelper({left:430, top:offsety, width:300, 
-        formid:formid, table:"QW_WEBSITES", titlecode:"HLP_SELSITE", multiple:false,
-        open:function(o){
-            o.where("");
-        },
-        select:"NAME",
-        onselect:function(o, d){
-            currsiteid=d["SYSID"];
-            fsitename=d["NAME"];
-            refreshselection();
-        },
-        clear:function(){
-            currsiteid="";
-            fsitename="";
-            refreshselection();
-        }
-    });
-    offsety+=30;
-    
-    $(prefix+"lbf_parent").rylabel({left:430, top:offsety, caption:"Genitore"});
-    offsety+=20;
-    var txf_parent=$(prefix+"txf_parent").ryhelper({left:430, top:offsety, width:300, 
-        formid:formid, table:"QW_WEBCONTENTS", titlecode:"HLP_SELPARENT", multiple:false,
-        open:function(o){
-            o.where("SYSID<>'"+currsysid+"' AND SETRELATED IN (SELECT PARENTID FROM QVSELECTIONS)");
-        },
-        select:"SETRELATED",
-        onselect:function(o, d){
-            currparentset=d["SETRELATED"];
-            refreshselection();
-        },
-        clear:function(){
-            currparentset="";
-            refreshselection();
-        }
-    });
-    offsety+=30;
-    
-    $(prefix+"lbf_classe").rylabel({left:430, top:offsety, caption:"Classe"});
-    offsety+=20;
-    var txf_classe=$(prefix+"txf_classe").ryhelper({left:430, top:offsety, width:300, 
-        formid:formid, table:"QW_CLASSICONTENUTO", titlecode:"HLP_SELCLASS", multiple:false,
-        open:function(o){
-            o.where("");
-        },
-        onselect:function(){
-            refreshselection();
-        },
-        clear:function(){
-            refreshselection();
-        }
-    });
-    offsety+=30;
-    
-    var oper_refresh=$(prefix+"oper_refresh").rylabel({
-        left:430,
+    // NAVIGAZIONE CON ALBERO
+    offsety=35;
+    var objtreesel=$(prefix+"treesel").ryfamily({
+        left:0,
         top:offsety,
+        width:698,
+        height:500,
+        scroll:true,
+        expand:function(o, trig){
+            solverelated(trig.info,
+                function(v){
+                    openbranch(trig.id, v[0]["SETRELATED"]);
+                }
+            );
+        },
+        collapse:function(o, trig){
+            o.remove(trig.id);
+        },
+        click:function(o, trig){
+            currsysid=trig.info;
+            if(!trig.hitnode || trig.hitfolder){
+                refreshpreview();
+            }
+        },
+        context:function(o, trig){
+            treeid=trig.id;
+            treesysid=trig.info;
+            var inf=objtreesel.getinfo(trig.parent);
+            treeparentsysid=inf.info;
+            treeparentid=inf.id;
+            currsysid=treesysid;
+        },
+        outofcontext:function(o){
+            treeid="";
+            treesysid="";
+            treeparentsysid="";
+            treeparentid="";
+            currsysid="";
+        }
+    });
+    $(prefix+"treesel").contextMenu("filibuster_popup", {
+        bindings: {
+            'flb_insert': function(t){
+                oper_new.engage();
+            },
+            'flb_update': function(t){
+                currsysid=treesysid;
+                objtabs.enabled(2,true);
+                objtabs.enabled(3,true);
+                objtabs.enabled(4,true);
+                objtabs.currtab(2); 
+            }
+        },
+        onContextMenu:
+            function(e) {
+                return true;
+            },
+        onShowMenu: 
+            function(e, menu) {
+                return menu;
+            }
+    });
+    
+    offsety=90;
+    var objmodetabs=$( prefix+"modetabs" ).rytabs({
+        left:20,
+        top:offsety,
+        width:700,
+        collapsible:false,
+        tabs:[
+            {title:"Piatto", code:""},
+            {title:"Gerarchico", code:""}
+        ],
+        select:function(i, p){
+            oper_refresh.enabled(i==1);
+            oper_reset.enabled(i==1);
+            if(i==1){
+                currsysid="";
+            }
+            objgridsel.checkall(false);
+            objgridsel.index(0);
+            if(i==2){
+                initfamily();
+            }
+        }
+    });
+    objmodetabs.currtab(1);
+    objmodetabs.enabled(2, false);
+
+    var custright=objmodetabs.customright();
+    
+    $("#"+custright).css({width:150}).html("<div id='"+custright+"_refresh'></div><div id='"+custright+"_reset'></div>");
+
+    var oper_refresh=$("#"+custright+"_refresh").rylabel({
+        left:0,
+        top:2,
         width:70,
         caption:"Aggiorna",
         button:true,
+        formid:formid,
         click:function(o, done){
             var q="";
             var t=qv_forlikeclause(txf_search.value());
@@ -197,9 +300,9 @@ function class_qvpagine(settings,missing){
             });
         }
     });
-    var oper_reset=$(prefix+"oper_reset").rylabel({
-        left:650,
-        top:offsety,
+    var oper_reset=$("#"+custright+"_reset").rylabel({
+        left:80,
+        top:2,
         caption:"Pulisci",
         width:70,
         button:true,
@@ -213,23 +316,28 @@ function class_qvpagine(settings,missing){
             refreshselection();
         }
     });
-    
-    offsety+=50;
+
+    offsety=495;
     var oper_new=$(prefix+"oper_new").rylabel({
-        left:430,
+        left:0,
         top:offsety,
-        width:70,
+        width:120,
         caption:"Nuovo",
         button:true,
         click:function(o){
             winzProgress(formid);
+            var parid="";
+            if(objmodetabs.currtab()==2){
+                parid=treesysid;
+            }
             $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
                     "function":"pages_insert",
                     "data":{
-                        "SITEID":currsiteid
+                        "SITEID":currsiteid,
+                        "PARENTID":parid
                     }
                 }, 
                 function(d){
@@ -237,13 +345,25 @@ function class_qvpagine(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){
                             var newid=v.SYSID;
-                            flagopen=true;
-                            objgridsel.splice(0, 0, newid);
+                            if(objmodetabs.currtab()==1){
+                                // MODALITA' FLAT
+                                flagopen=true;
+                                objgridsel.splice(0, 0, newid);
+                            }
+                            else if(treesysid!=""){
+                                // MODALITA' ALBERO
+                                currsysid=newid;
+                                objtabs.enabled(2,true);
+                                objtabs.enabled(3,true);
+                                objtabs.enabled(4,true);
+                                objtabs.currtab(2);
+                            }
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
                     catch(e){
                         winzClearMess(formid);
+                        if(window.console){console.log(e.message)}
                         alert(d);
                     }
                 }
@@ -252,8 +372,8 @@ function class_qvpagine(settings,missing){
     });
     
     var oper_delete=$(prefix+"oper_delete").rylabel({
-        left:430,
-        top:450,
+        left:570,
+        top:offsety,
         width:120,
         caption:"Elimina selezione",
         button:true,
@@ -263,7 +383,7 @@ function class_qvpagine(settings,missing){
     });
     
     $(prefix+"previewinner").addClass("winz-zoom75");
-    $(prefix+"pagepreview").css({"position":"absolute", "left":740, "top":70, "width":600, "border-left":"1px solid red", "padding-left":8, "display":"none"});
+    $(prefix+"pagepreview").css({"position":"absolute", "left":740, "top":60, "width":600, "border-left":"1px solid red", "padding-left":8, "display":"none"});
 
     // DEFINIZIONE TAB CONTESTO
     var offsety=60;
@@ -1333,11 +1453,31 @@ function class_qvpagine(settings,missing){
             if(!flagsuspend){
                 switch(i){
                 case 1:
-                    objgridsel.dataload(
-                        function(){
+                    if(objmodetabs.currtab()==1){
+                        objgridsel.dataload(
+                            function(){
+                                refreshpreview();
+                            }
+                        );
+                    }
+                    else{ 
+                        if(currsysid==treesysid){
+                            objtreesel.setinfo(treeid, {text:txdescr.value()});
                             refreshpreview();
                         }
-                    );
+                        else{
+                            solverelated(treesysid,
+                                function(v){
+                                    openbranch(treeid, v[0]["SETRELATED"],
+                                        function(){
+                                            objtreesel.expand(treeid);
+                                            refreshpreview();
+                                        }
+                                    );
+                                }
+                            );
+                        }
+                    }
                     break;
                 case 2:
                     // CARICAMENTO DEL CONTESTO
@@ -1551,6 +1691,18 @@ function class_qvpagine(settings,missing){
                         urlattachments=v.params["URLATTACH"];
                         urlapplications=v.params["URLAPPS"];
                     }catch(e){}
+                    
+                    if( $("#filibuster_popup").length==0 ){
+                        var h="";
+                        h+="<div id='filibuster_popup' class='contextMenu'>";
+                        h+="   <ul>";
+                        h+="       <li id='flb_insert'><a href='javascript:'>Inserisci</a></li>";
+                        h+="       <li id='flb_update'><a href='javascript:'>Modifica</a></li>";
+                        h+="   </ul>";
+                        h+="</div>";
+                        $("body").append(h);    
+                    }
+                    
                     refreshselection(
                         function(){
                             winzClearMess(formid);
@@ -1600,6 +1752,39 @@ function class_qvpagine(settings,missing){
                 h=h.replace(/<iframe[^\x00]+<\/iframe>/ig, "");
                 $(prefix+"previewinner").html(h);
                 $(prefix+"pagepreview").show();
+            }
+        });
+    }
+    function solverelated(contentid, callback){
+        RYQUE.query({
+            sql:"SELECT SYSID,DESCRIPTION,SETRELATED FROM QW_WEBCONTENTS WHERE SYSID='"+contentid+"'",
+            ready:function(v){
+                callback(v);
+            }
+        });
+    }
+    function openbranch(parentid, setrelated, callback){
+        objtreesel.remove(parentid);
+        RYQUE.query({
+            sql:"SELECT SYSID,DESCRIPTION FROM QW_WEBCONTENTS WHERE (SITEID='' OR SITEID='"+currsiteid+"') AND SYSID IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+setrelated+"')",
+            ready:function(v){
+                for(var i in v){
+                    objtreesel.addfolder({parent:parentid, info:v[i]["SYSID"], title:v[i]["DESCRIPTION"].stripTags()});
+                }
+                if(callback)
+                    callback();
+            }
+        });
+    }
+    function initfamily(){
+        objtreesel.clear();
+        // REPERISCO LA PAGINA PRINCIPALE
+         RYQUE.query({
+            sql:"SELECT QW_WEBSITES.DEFAULTID AS DEFAULTID, QW_WEBCONTENTS.DESCRIPTION AS DESCRIPTION FROM QW_WEBSITES INNER JOIN QW_WEBCONTENTS ON QW_WEBCONTENTS.SYSID=QW_WEBSITES.DEFAULTID WHERE QW_WEBSITES.SYSID='"+currsiteid+"'",
+            ready:function(v){
+                if(v.length>0){
+                    objtreesel.addfolder({info:__(v[0]["DEFAULTID"]), title:v[0]["DESCRIPTION"].stripTags(), open:true});
+                }
             }
         });
     }

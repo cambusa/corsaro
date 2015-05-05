@@ -1,4 +1,10 @@
 ==================================
+Rilascio 1.69.23    del 05/05/2015
+==================================
+
+Amministrazione pagine Filibuster: aggiunta la modalità di navigazione ad albero.
+
+==================================
 Rilascio 1.69.22    del 04/05/2015
 ==================================
 

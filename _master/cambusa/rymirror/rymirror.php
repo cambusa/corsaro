@@ -89,8 +89,8 @@ input,select,a:focus{outline:none;border:none;}
 .contextDisabled>a{color:silver !important;}
 </style>
 
-<link type='text/css' href='../jqtreeview/jquery.treeview.ry.css' rel='stylesheet' />
-<script type='text/javascript' src='../jqtreeview/jquery.treeview.ry.js' ></script>
+<link type='text/css' href='../jqtreeview/jquery.treeview.ry.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
+<script type='text/javascript' src='../jqtreeview/jquery.treeview.ry.js?ver=<?php print $cacheversion ?>' ></script>
 <script language='javascript'>
     _systeminfo.relative.cambusa='<?php print $url_cambusa ?>';
     _systeminfo.relative.customize='<?php print $url_customize ?>';
@@ -125,8 +125,8 @@ input,select,a:focus{outline:none;border:none;}
 .cm-s-monokai span{font-family:monospace; font-size:16px}
 </style>
 
-<link type='text/css' href='../ryupload/fileuploader.ry.css' rel='stylesheet'/>
-<script type='text/javascript' src='../ryupload/fileuploader.ry.js'></script>
+<link type='text/css' href='../ryupload/fileuploader.ry.css?ver=<?php print $cacheversion ?>' rel='stylesheet'/>
+<script type='text/javascript' src='../ryupload/fileuploader.ry.js?ver=<?php print $cacheversion ?>'></script>
 <script type='text/javascript' src='../ryupload/ryupload.js?ver=<?php print $cacheversion ?>'></script>
 
 <script>

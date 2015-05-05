@@ -10,6 +10,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 include_once $path_cambusa."ryquiver/qv_arrows_insert.php";
+include_once $path_cambusa."ryquiver/qv_selections_add.php";
 function qv_pages_insert($maestro, $data){
     global $babelcode, $babelparams;
     try{
@@ -53,6 +54,28 @@ function qv_pages_insert($maestro, $data){
             return $jret;
         }
         $SYSID=$jret["SYSID"];
+        
+        qv_solverecord($maestro, $data, "QW_WEBCONTENTS", "PARENTID", "", $PARENTID);
+        if($PARENTID!=""){
+            // CORRELAZIONE AUTOMATICA
+            // DETERMINO LA SETRELATED DEL GENITORE
+            $sql="SELECT SETRELATED FROM QW_WEBCONTENTS WHERE SYSID='$PARENTID'";
+            maestro_query($maestro, $sql, $r);
+            if(count($r)>0){
+                $PARENTRELATED=$r[0]["SETRELATED"];
+                $datax=array();
+                $datax["PARENTTABLE"]="QW_WEBCONTENTS";
+                $datax["PARENTFIELD"]="SETRELATED";
+                $datax["SELECTEDTABLE"]="QVARROWS";
+                $datax["PARENTID"]=$PARENTRELATED;
+                $datax["SELECTION"]=$SYSID;
+                $jret=qv_selections_add($maestro, $datax);
+                unset($datax);
+                if(!$jret["success"]){
+                    return $jret;
+                }
+            }
+        }
     }
     catch(Exception $e){
         $success=0;

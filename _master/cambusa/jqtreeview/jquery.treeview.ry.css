@@ -73,4 +73,5 @@
 .filetree li.expandable span.folder { background: url(images/folder-closed.gif) 0px 2px no-repeat; }
 .filetree span.file { background: url(images/file.gif) 0px 2px no-repeat; }
 
+.folder,.file{border:1px solid transparent;}
 .ryfamily-current{border:1px dashed silver;}
