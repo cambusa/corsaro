@@ -114,10 +114,17 @@ if(isset($_GET['file'])){
         $tr["\\\\"]="\\";
         $file=strtr($file,$tr);
         if(strpos($file, "..")===false){
-            if(substr($file,0,1)!="/" && substr($file,1,1)!=":"){
+            // NORMALIZZO LA BASE
+            $base=str_replace("\\", "/", $base);
+            // NORMALIZZO IL FILE
+            $file=str_replace("\\", "/", $file);
+            if(substr($file,1,2)!="//" && substr($file,1,2)!=":/"){
+                if(substr($file,0,1)=="/"){
+                    $file=substr($file,1);
+                }
                 $file=$base.$file;
             }
-            $base=str_replace("\\", "/", $base);
+            // RISOLVO E RINORMALIZZO
             $file=realpath($file);
             $file=str_replace("\\", "/", $file);
             if(strpos(strtolower($file), strtolower($base))!==false){

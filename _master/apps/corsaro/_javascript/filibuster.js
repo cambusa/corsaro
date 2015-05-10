@@ -1311,11 +1311,13 @@ function supportsSVG(){
 }
 function supportsUnicode(){
     var e=false;
-    $("#filibuster-chartest").html("<span id='filibuster-wide'></span><span id='filibuster-narrow'></span>");
-    $("#filibuster-wide").html("&#x1f50d;");
-    $("#filibuster-narrow").html("&#x1f4fd;");
-    e=$("#filibuster-wide").width()!=$("#filibuster-narrow").width();
-    $("#filibuster-chartest").remove();
+    if(!$.browser.chrome){
+        $("#filibuster-chartest").html("<span id='filibuster-wide'></span><span id='filibuster-narrow'></span>");
+        $("#filibuster-wide").html("&#x1f50d;");
+        $("#filibuster-narrow").html("&#x1f4fd;");
+        e=$("#filibuster-wide").width()!=$("#filibuster-narrow").width();
+        $("#filibuster-chartest").remove();
+    }
     FLB.supports.unicode=e;
 }
 function supportsCookies(){

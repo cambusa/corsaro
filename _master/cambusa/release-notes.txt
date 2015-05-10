@@ -6,6 +6,8 @@ Filbuster: ottimizzate le query e migliorata l'interfaccia ad albero.
 
 ryFamily: perfezionamenti e nuove proprietà.
 
+Miglioramenti nel comportamento di rySource usato stand-alone.
+
 ==================================
 Rilascio 1.69.24    del 09/05/2015
 ==================================

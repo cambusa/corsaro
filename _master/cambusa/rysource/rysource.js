@@ -66,6 +66,9 @@
                             }
                         }
                         else{
+                            if($("#winz-iframe").length==0){
+                                $("<iframe id='winz-iframe'></iframe>").appendTo("body");
+                            }
                             $("#winz-iframe").prop("src", trig.info);
                         }
                     }

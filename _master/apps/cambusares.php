@@ -186,6 +186,7 @@ RYBOX;
             CambusaLibraryAdd("jquery.treeview.ry.js", "<script type='text/javascript' src='".$url_cambusa."jqtreeview/jquery.treeview.ry.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("script-cambusa", $script_cambusa);
+            CambusaLibraryAdd("rybox.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rybox.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("ryfamily.js", "<script type='text/javascript' src='".$url_cambusa."ryfamily/ryfamily.js?ver=$cacheversion' ></script>");
             break;
     
@@ -194,6 +195,7 @@ RYBOX;
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("script-cambusa", $script_cambusa);
             CambusaLibraryAdd("rysource.js", "<script type='text/javascript' src='".$url_cambusa."rysource/rysource.js?ver=$cacheversion' ></script>");
+            CambusaLibraryAdd("rywinz.css", "<link rel='stylesheet' href='".$url_cambusa."rywinz/rywinz.css?ver=$cacheversion' />");
             CambusaLibraryAdd("css-source", "<style>.anchor_rysource{text-decoration:none;color:#000000;}.anchor_rysource:hover{text-decoration:none;color:red;}</style>");
             break;
     
@@ -238,6 +240,9 @@ RYBOX;
 
         case "geography":
             CambusaLibraryAdd("geography.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/geography/geography.js?ver=$cacheversion' ></script>");
+
+        case "ryzero":
+            CambusaLibraryAdd("ryzero.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryzero.js?ver=$cacheversion' ></script>");
     }
 }
 
