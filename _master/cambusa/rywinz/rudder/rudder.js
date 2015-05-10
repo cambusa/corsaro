@@ -25,18 +25,16 @@ function class_rudder(settings,missing){
         top:20,
         width:"98%",
         height:"90%",
-        scroll:0,
-        startup:"rudder_startup",
+        scroll:false,
+        border:false,
+        startup:function(par){
+            try{
+                RYWINZ.Shell(par);
+            }
+            catch(e){}
+        },
         sessionid:_sessioninfo.sessionid,
         dbenv:_sessioninfo.environ
     });
     RYWINZ.KeyTools(formid);
 }
-
-function rudder_startup(par){
-    try{
-        RYWINZ.Shell(par);
-    }
-    catch(e){}
-}
-

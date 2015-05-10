@@ -62,12 +62,24 @@ function solvenavigator($maestro, $CONTENTID){
     }
     // TUTTI I PARENT
     $v=array();
-    maestro_query($maestro, "SELECT * FROM QVSELECTIONS WHERE PARENTFIELD='SETRELATED' AND SELECTEDID='$CONTENTID' ORDER BY SORTER", $p);
-    for($i=0;$i<count($p);$i++){
-        $v[]=$p[$i]["PARENTID"];
-    }
-    $PARENTLIST="'".implode($v, "','")."'";
-    maestro_query($maestro, "SELECT SYSID,DESCRIPTION,ABSTRACT,ICON FROM QW_WEBCONTENTS WHERE SETRELATED IN ($PARENTLIST) AND SCOPE=0 AND (SITEID='' OR SITEID='$SITEID')", $parents);
+    
+    $sql="";
+    $sql.="SELECT ";
+    $sql.="  QW_WEBCONTENTS.SYSID AS SYSID,";
+    $sql.="  QW_WEBCONTENTS.DESCRIPTION AS DESCRIPTION,";
+    $sql.="  QW_WEBCONTENTS.ABSTRACT AS ABSTRACT,";
+    $sql.="  QW_WEBCONTENTS.ICON AS ICON ";
+    $sql.="FROM QW_WEBCONTENTS ";
+    $sql.="INNER JOIN QVSELECTIONS ON ";
+    $sql.="  QVSELECTIONS.PARENTFIELD='SETRELATED' AND ";
+    $sql.="  QVSELECTIONS.SELECTEDID='$CONTENTID' ";
+    $sql.="WHERE ";
+    $sql.="  QW_WEBCONTENTS.SETRELATED=QVSELECTIONS.PARENTID AND ";
+    $sql.="  QW_WEBCONTENTS.SCOPE=0 AND ";
+    $sql.="  (QW_WEBCONTENTS.SITEID='' OR QW_WEBCONTENTS.SITEID='$SITEID') ";
+    $sql.="ORDER BY QVSELECTIONS.SORTER";
+
+    maestro_query($maestro, $sql, $parents);
     if($OPT_NAVPARENTS){
         for($i=0;$i<count($parents);$i++){
             if(!in_array($parents[$i]["SYSID"], $index)){
@@ -80,7 +92,7 @@ function solvenavigator($maestro, $CONTENTID){
             }
         }
     }
-    
+
     // TUTTI I FRATELLI
     _navsiblings($maestro, $CONTENTID, $parents, $index, $total, $flagrelated);
 

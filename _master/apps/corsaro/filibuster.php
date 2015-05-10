@@ -240,7 +240,6 @@ body{margin:10px;}
 <script type='text/javascript' src='_javascript/jquery.ui.mouse.js'></script>
 <script type='text/javascript' src='_javascript/jquery.ui.draggable.js'></script>
 <?php
-    print "<script type='text/javascript' src='_javascript/filibuster.js?ver=$cacheversion'></script>";
     if($PROTECTED){
         print "<script type='text/javascript' src='$filibuster_cambusa/rygeneral/rygeneral.js?ver=$cacheversion' ></script>";
         print "<script type='text/javascript' src='$filibuster_cambusa/ryego/ryego.js?ver=$cacheversion' ></script>";
@@ -257,10 +256,6 @@ body{margin:10px;}
 ?>
 
 <script>
-var _containers={};
-var _loading={};
-var _scripting={};
-var flaghierarchy=false;
 var _lenid=<?php print $lensysid ?>;
 var _host="<?php print $filibuster_host ?>";
 var _hostego="<?php print $filibuster_hostego ?>";
@@ -279,141 +274,18 @@ var _filibusterbody="<?php print $filibusterbody ?>";
 var _currentpage="<?php print $CURRENTPAGE ?>";
 var _voicelang="<?php print $VOICELANG ?>";
 var _voicegender="<?php print $VOICEGENDER ?>";
-var _flagstats=false;
 var sheet_width=<?php print $sheet_width_normal ?>;
 var sheet_width_orig=sheet_width;
 var sheet_width_narrow=<?php print $sheet_width_narrow ?>;
 var _mathurl="<?php print $mathjax_path ?>";
-// Gestione Voice
-var _currVoice=false;
-$.browser.chrome=(navigator.userAgent.match(/Chrom(e|ium)/i)!==null);
-// Swipe
-var _swipedirection=0;
-var _swipestartX=0;
-var _swipestartY=0;
-var _swipemoveX=0;
-var _swipemoveY=0;
 // AUTENTICAZIONE EGO
 _sessioninfo={};
 _sessioninfo.sessionid="<?php  print $sessionid ?>";
-// OGGETTO PUBBLICO
-var FLB={};
-FLB.actualid=_actualid;
-FLB.supports={};
-FLB.supports.svg=true;
-FLB.supports.unicode=true;
-FLB.metrics={};
-FLB.metrics.width=800;
-FLB.metrics.density=96;
-FLB.detected={};
-FLB.detected.mobile=<?php print $DETECTMOBILE ?>;
-FLB.refresh=function(){
-    containers_locate();
-}
-FLB.gallery=function(options){
-    flb_gallery(options);
-}
-FLB.dropdown=function(options){
-    flb_dropdown(options);
-}
-// GESTIONE FORUM
-FLB.pause=function(millis){
-    var date=new Date();
-    var curDate=null;
-    do{curDate=new Date();}
-    while(curDate-date<millis);
-};
-FLB.gotoPage=function(pageid){
-    var h=location.href;
-    h=h.replace(/site=[^&]+/, "site="+_site);
-    h=h.replace(/id=[^&]+/, "id="+pageid);
-    location.href=h;
-};
-FLB.forum={
-    formid:"", 
-    userid:"", 
-    username:"",
-    postid:"",
-    parentid:"",
-    action:"",
-    header:false,
-    putInfo:function(info, missing){
-        if(info.formid!=missing){FLB.forum.formid=info.formid}
-        if(info.userid!=missing){FLB.forum.userid=info.userid}
-        if(info.username!=missing){FLB.forum.username=info.username}
-    },
-    getInfo:function(obj){
-        var ret={};
-        ret.frame=$(obj).parents(".filibuster-forum");
-        ret.post=$(obj).parents(".filibuster-forum-post");
-        ret.corsaro=ret.frame.find(".filibuster-forum-iframe")[0];
-        ret.iframe=$(ret.corsaro).find("iframe")[0];
-        ret.postid="";
-        ret.parentid="";
-        if(ret.post.length>0){
-            // SYSID DEL POST E DEL PARENT
-            ret.postid=ret.post.attr("_sysid");
-            ret.parentid=ret.post.attr("_parentid");
-            // TOP RELATIVO DEL POST
-            ret.relTop=ret.post.position().top;
-            // LEFT ASSOLUTO DEL POST
-            ret.absLeft=ret.post.offset().left;
-            // TOP ASSOLUTO DEL POST
-            ret.absTop=ret.post.offset().top;
-            // MARGINE TOP DEL POST
-            ret.margTop=parseInt($(ret.post).css("margin-top"));
-            // DATI TOOLS
-            ret.tools=$(ret.post).find(".filibuster-forum-tools")[0];
-            ret.toolsTop=$(ret.tools).position().top; 
-            ret.toolsHeight=$(ret.tools).height();
-            // TOP E BOTTOM ASSOLUTI DEI MARGINI VISIBILI DELLA FINESTRA
-            ret.scrollTop=$(window).scrollTop();
-            ret.scrollBottom=ret.scrollTop+$(window).height();
-            // DATI FINESTRA IMMERSA
-            ret.corsaroWidth=$(ret.corsaro).width();
-            ret.corsaroHeight=$(ret.corsaro).height();
-            // LEFT OTTIMA
-            ret.fitLeft=ret.absLeft;
-            if(ret.fitLeft>ret.corsaroWidth)
-                ret.fitLeft=ret.corsaroWidth-50;
-            else
-                ret.fitLeft-=50;
-            ret.fitLeft=-ret.fitLeft;
-            // TOP OTTIMO
-            ret.fitTop=ret.relTop+ret.toolsTop+ret.toolsHeight+ret.margTop+5;
-            if(ret.fitTop<ret.scrollTop-ret.absTop+30){ // controllo se il margine superiore del post è nascosto per via dello scroll
-                ret.fitTop=ret.scrollTop-ret.absTop+30;
-            }
-            if(ret.absTop-ret.relTop+ret.fitTop+ret.corsaroHeight>ret.scrollBottom){
-                ret.fitTop=ret.scrollBottom-ret.absTop+ret.relTop-ret.corsaroHeight
-            }
-            if(ret.fitTop<ret.scrollTop+30){
-                ret.fitTop=ret.scrollTop+30;
-            }
-        }
-        return ret;
-    },
-    showLogout:function(){
-        $(FLB.forum.header).find("span").html("Welcome <b>"+FLB.forum.username+"</b>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;");
-        $(FLB.forum.header).find("span,a").hide();
-        $(FLB.forum.header).find("span,.filibuster-forum-logout").show();
-        $(".filibuster-forum a[_userid="+FLB.forum.userid+"]").each(
-            function(index){
-                $(this).removeClass("filibuster-forum-disabled");
-            }
-        );
-    },
-    showLogin:function(){
-        $(FLB.forum.header).find("span").html("");
-        $(FLB.forum.header).find("span,a").hide();
-        $(FLB.forum.header).find("span,.filibuster-forum-login").show();
-        $(".filibuster-forum a[_userid="+FLB.forum.userid+"]").each(
-            function(index){
-                $(this).addClass("filibuster-forum-disabled");
-            }
-        );
-    }
-};
+</script>
+
+<script type='text/javascript' src='_javascript/filibuster.js?ver=<?php print $cacheversion ?>'></script>
+
+<script>
 <?php
     if($GLOBALSCRIPT!=""){
         print $GLOBALSCRIPT."\n";

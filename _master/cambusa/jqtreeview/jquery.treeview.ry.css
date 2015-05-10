@@ -5,7 +5,7 @@
 }
 
 .treeview ul {
-	background-color: white;
+	/* background-color: white; */
 	margin-top: 4px;
 }
 
@@ -73,5 +73,7 @@
 .filetree li.expandable span.folder { background: url(images/folder-closed.gif) 0px 2px no-repeat; }
 .filetree span.file { background: url(images/file.gif) 0px 2px no-repeat; }
 
-.folder,.file{border:1px solid transparent;}
-.ryfamily-current{border:1px dashed silver;}
+.folder,.file{border:1px solid transparent;white-space:nowrap;}
+.ryfamily-current{border:1px dashed silver;white-space:nowrap;}
+.file:hover{color: red; cursor: pointer;}
+.nodeloading {background:url(images/ajax-loader.gif) 0 0 no-repeat !important; display: block;}

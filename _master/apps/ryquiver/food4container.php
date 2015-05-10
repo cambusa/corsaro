@@ -389,34 +389,44 @@ function solveattachment($maestro, $CONTENTID){
 }
 function solvecontainers($maestro, $CONTENTID, &$jfood){
     $frames=0;
-    // DETERMINO IL PARENT DEI CONTENITORI
-    maestro_query($maestro, "SELECT SETFRAMES FROM QW_WEBCONTENTS WHERE SYSID='$CONTENTID'", $c);
-    if(count($c)==1){
-        $SETFRAMES=$c[0]["SETFRAMES"];
-        // DETERMINO I CONTENITORI
-        maestro_query($maestro, "SELECT * FROM QVSELECTIONS WHERE PARENTID='$SETFRAMES' ORDER BY SORTER", $r);
-        for($i=0; $i<count($r); $i++){
-            $SELECTEDID=$r[$i]["SELECTEDID"];
-            maestro_query($maestro, "SELECT * FROM QW_WEBCONTAINERS WHERE SYSID='$SELECTEDID' AND (ENABLED=1 OR ENABLED IS NULL)", $s);
-            if(count($s)==1){
-                $FUNCTIONNAME=$s[0]["FUNCTIONNAME"];
-                if($FUNCTIONNAME!="")
-                    $CONTAINERID=$FUNCTIONNAME;
-                else
-                    $CONTAINERID="K".$s[0]["SYSID"];
-                $FRAMESTYLE=trim($s[0]["FRAMESTYLE"]);
-                if($FRAMESTYLE==""){
-                    $FRAMESTYLE="{}";
-                }
-                $jfood[$frames]=array();
-                $jfood[$frames]["containerid"]=$CONTAINERID;
-                $jfood[$frames]["contentid"]=$s[0]["CONTENTID"];
-                $jfood[$frames]["classes"]=$s[0]["CLASSES"];
-                $jfood[$frames]["style"]=$FRAMESTYLE;
-                $jfood[$frames]["script"]=trim($s[0]["FRAMESCRIPT"]);
-                $frames+=1;
-            }
+    
+    $sql="";
+    $sql.="SELECT ";
+    $sql.="  QW_WEBCONTAINERS.SYSID AS SYSID,";
+    $sql.="  QW_WEBCONTAINERS.CURRENTPAGE AS CURRENTPAGE,";
+    $sql.="  QW_WEBCONTAINERS.CONTENTID AS CONTENTID,";
+    $sql.="  QW_WEBCONTAINERS.FUNCTIONNAME AS FUNCTIONNAME,";
+    $sql.="  QW_WEBCONTAINERS.FRAMESTYLE AS FRAMESTYLE,";
+    $sql.="  QW_WEBCONTAINERS.CLASSES AS CLASSES,";
+    $sql.="  QW_WEBCONTAINERS.FRAMESCRIPT AS FRAMESCRIPT ";
+    $sql.="FROM QW_WEBCONTAINERS ";
+    $sql.="INNER JOIN QW_WEBCONTENTS PARENT ON ";
+    $sql.="  PARENT.SYSID='$CONTENTID' ";
+    $sql.="INNER JOIN QVSELECTIONS ON ";
+    $sql.="  QVSELECTIONS.PARENTID=PARENT.SETFRAMES ";
+    $sql.="WHERE ";
+    $sql.="  QW_WEBCONTAINERS.SYSID=QVSELECTIONS.SELECTEDID AND ";
+    $sql.="  (QW_WEBCONTAINERS.ENABLED=1 OR QW_WEBCONTAINERS.ENABLED IS NULL) ";
+    $sql.="ORDER BY QVSELECTIONS.SORTER";
+    
+    maestro_query($maestro, $sql, $r);
+    for($i=0; $i<count($r); $i++){
+        $FUNCTIONNAME=$r[$i]["FUNCTIONNAME"];
+        if($FUNCTIONNAME!="")
+            $CONTAINERID=$FUNCTIONNAME;
+        else
+            $CONTAINERID="K".$r[$i]["SYSID"];
+        $FRAMESTYLE=trim($r[$i]["FRAMESTYLE"]);
+        if($FRAMESTYLE==""){
+            $FRAMESTYLE="{}";
         }
+        $jfood[$frames]=array();
+        $jfood[$frames]["containerid"]=$CONTAINERID;
+        $jfood[$frames]["contentid"]=$r[$i]["CONTENTID"];
+        $jfood[$frames]["classes"]=$r[$i]["CLASSES"];
+        $jfood[$frames]["style"]=$FRAMESTYLE;
+        $jfood[$frames]["script"]=trim($r[$i]["FRAMESCRIPT"]);
+        $frames+=1;
     }
 }
 
@@ -732,35 +742,28 @@ function flb_createitem($maestro, $url, $site, $SYSID, $DESCRIPTION, $ICON, $ABS
 }
 function _getrelated($maestro, $CONTENTID){
     global $SITEID;
-    // DETERMINO IL PARENT DEI CORRELATI
-    maestro_query($maestro, "SELECT SETRELATED FROM QW_WEBCONTENTS WHERE SYSID='$CONTENTID'", $c);
-    if(count($c)==1){
-        $SETRELATED=$c[0]["SETRELATED"];
-        $v=array();
-        $k=array();
-        $ord=array();
-        $related=array();
-        // DETERMINO LE CHIAVI DEI CORRELATI
-        maestro_query($maestro, "SELECT * FROM QVSELECTIONS WHERE PARENTFIELD='SETRELATED' AND PARENTID='$SETRELATED' ORDER BY SORTER", $d);
-        for($i=0; $i<count($d); $i++){
-            $v[$i]=$d[$i]["SELECTEDID"];
-            $k[ $d[$i]["SELECTEDID"] ]=$i;
-        }
-        $RELATED="'".implode($v, "','")."'";
-        // CORRELATI
-        maestro_query($maestro, "SELECT SYSID,DESCRIPTION,ABSTRACT,ICON,SETRELATED,CONTENTTYPE,CONTENTURL FROM QW_WEBCONTENTS WHERE SYSID IN ($RELATED) AND SCOPE=0 AND (SITEID='' OR SITEID='$SITEID')", $preord);
-        for($i=0; $i<count($preord); $i++){
-            $ord[ $k[ $preord[$i]["SYSID"] ] ]=$preord[$i];
-        }
-        ksort($ord);
-        // COPIO ORDINATO SENZA BUCHI
-        foreach($ord as $rec){
-            $related[]=$rec;
-        }
-    }
-    else{
-        $related=array();
-    }
+    $sql="";
+    $sql.="SELECT ";
+    $sql.="  QW_WEBCONTENTS.SYSID AS SYSID,";
+    $sql.="  QW_WEBCONTENTS.DESCRIPTION AS DESCRIPTION,";
+    $sql.="  QW_WEBCONTENTS.ABSTRACT AS ABSTRACT,";
+    $sql.="  QW_WEBCONTENTS.ICON AS ICON,";
+    $sql.="  QW_WEBCONTENTS.SETRELATED AS SETRELATED,";
+    $sql.="  QW_WEBCONTENTS.CONTENTTYPE AS CONTENTTYPE,";
+    $sql.="  QW_WEBCONTENTS.CONTENTURL AS CONTENTURL ";
+    $sql.="FROM QW_WEBCONTENTS ";
+    $sql.="INNER JOIN QW_WEBCONTENTS PARENT ON ";
+    $sql.="  PARENT.SYSID='$CONTENTID' ";
+    $sql.="INNER JOIN QVSELECTIONS ON ";
+    $sql.="  QVSELECTIONS.PARENTFIELD='SETRELATED' AND ";
+    $sql.="  QVSELECTIONS.PARENTID=PARENT.SETRELATED ";
+    $sql.="WHERE ";
+    $sql.="  QW_WEBCONTENTS.SYSID=QVSELECTIONS.SELECTEDID AND ";
+    $sql.="  QW_WEBCONTENTS.SCOPE=0 AND ";
+    $sql.="  (QW_WEBCONTENTS.SITEID='' OR QW_WEBCONTENTS.SITEID='$SITEID') ";
+    $sql.="ORDER BY QVSELECTIONS.SORTER";
+
+    maestro_query($maestro, $sql, $related);
     return $related;
 }
 

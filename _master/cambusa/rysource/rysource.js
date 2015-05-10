@@ -53,9 +53,21 @@
                     openbranch(path, trig.id);
                 },
                 collapse:function(o, trig){
-                    o.remove(trig.id);
+                    o.clear(trig.id);
                     if(propmnemonic){
                         $.cookie("rysource_"+propenviron+"_"+trig.id, 0, {expires:100000});
+                    }
+                },
+                click:function(o, trig){
+                    if(!trig.folder){
+                        if(typeof trig.info=="object"){
+                            if(propstartup instanceof Function){
+                                propstartup(trig.info);
+                            }
+                        }
+                        else{
+                            $("#winz-iframe").prop("src", trig.info);
+                        }
                     }
                 }
             });
@@ -73,32 +85,33 @@
                 return propname;
             }
             function createlink(id,path,nf,tl,tp,par){
-                var h;
                 var t=nf.replace(/[']/gi, "&acute;");
                 tl=tl.replace(/[']/gi, "&acute;");
                 if(tp!="file"){
                     if(propstartup!=""){
                         try{
-                            h="javascript:"+propstartup+"("+$.stringify(par)+")";
-                            objfamily.additem({parent:id,title:"<a href='"+h+"' class='anchor_rysource' title='"+tl+"'>"+tl+"</a>"});
+                            objfamily.additem({parent:id, info:par, title:tl});
                         }
                         catch(e){}
                     }
                 }
                 else{
-                    h=encodeURIComponent(path+nf);
+                    var h=encodeURIComponent(path+nf);
                     h=h.replace(/[']/gi, "%27");
                     h=h.replace(/\%26(#|\%23)x([0-9A-F]{2})\%3B/gi, "%$2");
                     h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+propenviron+"&sessionid="+_sessioninfo.sessionid+"&file="+h;
-                    objfamily.additem({parent:id,title:"<a href='"+h+"' class='anchor_rysource' target='_blank' title='"+tl+"'>"+tl+"</a>"});
+                    objfamily.additem({parent:id, info:h, title:tl});
                 }
             }
             function openbranch(path, parentid){
-                objfamily.remove(parentid);
+                objfamily.clear(parentid);
+                objfamily.loading(parentid, true);
                 TAIL.enqueue(function(arg_path){
                     $.post(_systeminfo.relative.cambusa+"rysource/rysource.php", {"env":propenviron, "sub":arg_path, "sessionid":propsessionid, "dbenv":propdbenv},
                         function(d){
                             try{
+                                objfamily.loading(parentid, false);
+                                objfamily.clear(parentid);
                                 var v=$.parseJSON(d);
                                 var p=v.path;
                                 var i,nf,tl,tp,par;

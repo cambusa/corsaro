@@ -71,9 +71,6 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                 $META=$r[0]["DESCRIPTION"]." ".$r[0]["ABSTRACT"];
                 $META=preg_replace("/<[bh]r\/?>/i", " ", $META);
                 $META=strip_tags($META);
-                if(!mb_check_encoding($META, "UTF-8")){
-                    $META=utf8_encode($META);
-                }
                 $META=strtolower($META);
                 @preg_match_all("/(\pL{4,})/i", $META, $m);
                 if(isset($m[1]))
@@ -92,7 +89,12 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                             break;
                     }
                 }
-                $META=$r[0]["TAG"].", ".$META;
+                if($r[0]["TAG"]!=""){
+                    $META=$r[0]["TAG"].", ".$META;
+                }
+                if(!mb_check_encoding($META, "UTF-8")){
+                    $META=utf8_encode($META);
+                }
                 $food["metakeys"]=$META;
 
                 // META DESCR
@@ -113,22 +115,26 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
 
                 // Gli accodo i correlati
                 $SETRELATED=$r[0]["SETRELATED"];
-                $v=array();
-                // Determino le chiavi dei correlati
-                maestro_query($maestro, "SELECT * FROM QVSELECTIONS WHERE PARENTFIELD='SETRELATED' AND PARENTID='$SETRELATED'", $d);
-                for($i=0; $i<count($d); $i++){
-                    $v[]=$d[$i]["SELECTEDID"];
-                }
-                $RELATED="'".implode($v, "','")."'";
-
-                // Correlati
-                maestro_query($maestro, "SELECT SYSID,DESCRIPTION FROM QW_WEBCONTENTS WHERE SYSID IN ($RELATED) AND SCOPE=0 AND (SITEID='' OR SITEID='$SITEID')", $d);
+                $sql="";
+                $sql.="SELECT ";
+                $sql.="  QW_WEBCONTENTS.SYSID AS SYSID,";
+                $sql.="  QW_WEBCONTENTS.DESCRIPTION AS DESCRIPTION ";
+                $sql.="FROM QW_WEBCONTENTS ";
+                $sql.="INNER JOIN QVSELECTIONS ON ";
+                $sql.="  QVSELECTIONS.PARENTFIELD='SETRELATED' AND ";
+                $sql.="  QVSELECTIONS.PARENTID='$SETRELATED' ";
+                $sql.="WHERE ";
+                $sql.="  QW_WEBCONTENTS.SYSID=QVSELECTIONS.SELECTEDID AND ";
+                $sql.="  QW_WEBCONTENTS.SCOPE=0 AND ";
+                $sql.="  (QW_WEBCONTENTS.SITEID='' OR QW_WEBCONTENTS.SITEID='$SITEID') ";
+                $sql.="ORDER BY QVSELECTIONS.SORTER";
+                maestro_query($maestro, $sql, $d);
                 for($i=0; $i<count($d); $i++){
                     $RELID=$d[$i]["SYSID"];
                     $DESCRIPTION=$d[$i]["DESCRIPTION"];
-                    $LINKBOT.="<a href='filibuster.php?env=$env&site=$site&id=$RELID'>$DESCRIPTION</a><br/>\n";
+                    $LINKBOT.="<a href='filibuster.php?env=$env&amp;site=$site&amp;id=$RELID'>$DESCRIPTION</a><br/>\n";
                 }
-
+                
                 // Allegati
                 if($CONTENTTYPE=="attachment"){
                     // Sottocartella di "databases" dei documenti allegati
@@ -239,20 +245,24 @@ function solvespecials($maestro, $container, $flagbot){
 function solvecontainers2($maestro, $CONTENTID){
     global $SITEID;
     
-    // DETERMINO IL PARENT DEI CONTENITORI
-    maestro_query($maestro, "SELECT SETFRAMES FROM QW_WEBCONTENTS WHERE SYSID='$CONTENTID'", $c);
-    if(count($c)==1){
-        $SETFRAMES=$c[0]["SETFRAMES"];
-        // DETERMINO I CONTENITORI
-        maestro_query($maestro, "SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='$SETFRAMES' ORDER BY SORTER", $r);
-        for($i=0; $i<count($r); $i++){
-            $SELECTEDID=$r[$i]["SELECTEDID"];
-            maestro_query($maestro, "SELECT CURRENTPAGE,CONTENTID FROM QW_WEBCONTAINERS WHERE SYSID='$SELECTEDID'", $s);
-            if(count($s)==1){
-                // DETERMINO I CONTENUTI SPECIALI
-                solvespecials($maestro, $s[0], true);
-            }
-        }
+    $sql="";
+    $sql.="SELECT ";
+    $sql.="  QW_WEBCONTAINERS.CURRENTPAGE AS CURRENTPAGE,";
+    $sql.="  QW_WEBCONTAINERS.CONTENTID AS CONTENTID ";
+    $sql.="FROM QW_WEBCONTAINERS ";
+    $sql.="INNER JOIN QW_WEBCONTENTS PARENT ON ";
+    $sql.="  PARENT.SYSID='$CONTENTID' ";
+    $sql.="INNER JOIN QVSELECTIONS ON ";
+    $sql.="  QVSELECTIONS.PARENTID=PARENT.SETFRAMES ";
+    $sql.="WHERE ";
+    $sql.="  QW_WEBCONTAINERS.SYSID=QVSELECTIONS.SELECTEDID AND ";
+    $sql.="  (QW_WEBCONTAINERS.ENABLED=1 OR QW_WEBCONTAINERS.ENABLED IS NULL) ";
+    $sql.="ORDER BY QVSELECTIONS.SORTER";
+
+    maestro_query($maestro, $sql, $r);
+    for($i=0; $i<count($r); $i++){
+        // DETERMINO I CONTENUTI SPECIALI
+        solvespecials($maestro, $r[$i], true);
     }
 }
 function buildfood4bot($maestro, $rec){

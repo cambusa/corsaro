@@ -2373,7 +2373,7 @@ var globalcolorfocus="#FFF4E6";
             }
 			this.value=function(k,a){
 				if(k==missing){
-					return $("#"+propname+"_anchor").val().actualInteger();
+                    return _$( $("#"+propname+"_anchor").val(), 0 ).actualInteger();
 				}
 				else{
 					$("#"+propname+"_anchor").val(k);
@@ -2985,7 +2985,7 @@ function nextFocus(nm,sh,k,missing){
         var fs="";   // primo
         var pr="";   // precedente
         var ls="";   // ultimo
-        var ts="date|number|text|check|list|grid|button|helper|area|edit|code";
+        var ts="date|number|text|check|list|grid|button|helper|area|edit|code|tree";
         var formid=$("#"+nm).prop("parentid");
         var coll=new Object();
         if(formid==missing){

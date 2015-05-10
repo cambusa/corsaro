@@ -1,4 +1,20 @@
 ==================================
+Rilascio 1.69.25    del 10/05/2015
+==================================
+
+Filbuster: ottimizzate le query e migliorata l'interfaccia ad albero.
+
+ryFamily: perfezionamenti e nuove proprietà.
+
+==================================
+Rilascio 1.69.24    del 09/05/2015
+==================================
+
+Filibuster: ottimizzazione (parziale) query.
+
+ryFamily: fuoco e navigazione (non terminato).
+
+==================================
 Rilascio 1.69.23    del 05/05/2015
 ==================================
 

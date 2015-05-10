@@ -9,6 +9,138 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+var _containers={};
+var _loading={};
+var _scripting={};
+var flaghierarchy=false;
+var _flagstats=false;
+// GESTIONE VOICE
+var _currVoice=false;
+$.browser.chrome=(navigator.userAgent.match(/Chrom(e|ium)/i)!==null);
+// SWIPE
+var _swipedirection=0;
+var _swipestartX=0;
+var _swipestartY=0;
+var _swipemoveX=0;
+var _swipemoveY=0;
+// OGGETTO PUBBLICO
+var FLB={};
+FLB.actualid=_actualid;
+FLB.supports={};
+FLB.supports.svg=true;
+FLB.supports.unicode=true;
+FLB.metrics={};
+FLB.metrics.width=800;
+FLB.metrics.density=96;
+FLB.detected={};
+FLB.detected.mobile=(navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Mini|Mobile/i)!==null);
+FLB.refresh=function(){
+    containers_locate();
+}
+FLB.gallery=function(options){
+    flb_gallery(options);
+}
+FLB.dropdown=function(options){
+    flb_dropdown(options);
+}
+// GESTIONE FORUM
+FLB.pause=function(millis){
+    var date=new Date();
+    var curDate=null;
+    do{curDate=new Date();}
+    while(curDate-date<millis);
+};
+FLB.gotoPage=function(pageid){
+    var h=location.href;
+    h=h.replace(/site=[^&]+/, "site="+_site);
+    h=h.replace(/id=[^&]+/, "id="+pageid);
+    location.href=h;
+};
+FLB.forum={
+    formid:"", 
+    userid:"", 
+    username:"",
+    postid:"",
+    parentid:"",
+    action:"",
+    header:false,
+    putInfo:function(info, missing){
+        if(info.formid!=missing){FLB.forum.formid=info.formid}
+        if(info.userid!=missing){FLB.forum.userid=info.userid}
+        if(info.username!=missing){FLB.forum.username=info.username}
+    },
+    getInfo:function(obj){
+        var ret={};
+        ret.frame=$(obj).parents(".filibuster-forum");
+        ret.post=$(obj).parents(".filibuster-forum-post");
+        ret.corsaro=ret.frame.find(".filibuster-forum-iframe")[0];
+        ret.iframe=$(ret.corsaro).find("iframe")[0];
+        ret.postid="";
+        ret.parentid="";
+        if(ret.post.length>0){
+            // SYSID DEL POST E DEL PARENT
+            ret.postid=ret.post.attr("_sysid");
+            ret.parentid=ret.post.attr("_parentid");
+            // TOP RELATIVO DEL POST
+            ret.relTop=ret.post.position().top;
+            // LEFT ASSOLUTO DEL POST
+            ret.absLeft=ret.post.offset().left;
+            // TOP ASSOLUTO DEL POST
+            ret.absTop=ret.post.offset().top;
+            // MARGINE TOP DEL POST
+            ret.margTop=parseInt($(ret.post).css("margin-top"));
+            // DATI TOOLS
+            ret.tools=$(ret.post).find(".filibuster-forum-tools")[0];
+            ret.toolsTop=$(ret.tools).position().top; 
+            ret.toolsHeight=$(ret.tools).height();
+            // TOP E BOTTOM ASSOLUTI DEI MARGINI VISIBILI DELLA FINESTRA
+            ret.scrollTop=$(window).scrollTop();
+            ret.scrollBottom=ret.scrollTop+$(window).height();
+            // DATI FINESTRA IMMERSA
+            ret.corsaroWidth=$(ret.corsaro).width();
+            ret.corsaroHeight=$(ret.corsaro).height();
+            // LEFT OTTIMA
+            ret.fitLeft=ret.absLeft;
+            if(ret.fitLeft>ret.corsaroWidth)
+                ret.fitLeft=ret.corsaroWidth-50;
+            else
+                ret.fitLeft-=50;
+            ret.fitLeft=-ret.fitLeft;
+            // TOP OTTIMO
+            ret.fitTop=ret.relTop+ret.toolsTop+ret.toolsHeight+ret.margTop+5;
+            if(ret.fitTop<ret.scrollTop-ret.absTop+30){ // controllo se il margine superiore del post è nascosto per via dello scroll
+                ret.fitTop=ret.scrollTop-ret.absTop+30;
+            }
+            if(ret.absTop-ret.relTop+ret.fitTop+ret.corsaroHeight>ret.scrollBottom){
+                ret.fitTop=ret.scrollBottom-ret.absTop+ret.relTop-ret.corsaroHeight
+            }
+            if(ret.fitTop<ret.scrollTop+30){
+                ret.fitTop=ret.scrollTop+30;
+            }
+        }
+        return ret;
+    },
+    showLogout:function(){
+        $(FLB.forum.header).find("span").html("Welcome <b>"+FLB.forum.username+"</b>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;");
+        $(FLB.forum.header).find("span,a").hide();
+        $(FLB.forum.header).find("span,.filibuster-forum-logout").show();
+        $(".filibuster-forum a[_userid="+FLB.forum.userid+"]").each(
+            function(index){
+                $(this).removeClass("filibuster-forum-disabled");
+            }
+        );
+    },
+    showLogin:function(){
+        $(FLB.forum.header).find("span").html("");
+        $(FLB.forum.header).find("span,a").hide();
+        $(FLB.forum.header).find("span,.filibuster-forum-login").show();
+        $(".filibuster-forum a[_userid="+FLB.forum.userid+"]").each(
+            function(index){
+                $(this).addClass("filibuster-forum-disabled");
+            }
+        );
+    }
+};
 function flb_initialize(){
     supportsSVG();
     supportsUnicode();

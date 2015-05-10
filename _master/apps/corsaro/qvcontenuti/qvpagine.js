@@ -37,9 +37,10 @@ function class_qvpagine(settings,missing){
     var currparentid="";
     var sospendirefresh=false;
     var treeid="";
-    var treesysid="";
     var treeparentsysid="";
     var treeparentid="";
+    var refreshtree=false;
+    var refreshflat=false;
    
     // DEFINIZIONE TAB SELEZIONE
     
@@ -54,6 +55,7 @@ function class_qvpagine(settings,missing){
         onselect:function(o, d){
             currsiteid=d["SYSID"];
             fsitename=d["NAME"];
+            $.cookie(_sessioninfo.environ+"_siteid", currsiteid, {expires:100000});
             if(objmodetabs.currtab()==1){
                 objmodetabs.enabled(2, true);
                 refreshselection();
@@ -65,6 +67,7 @@ function class_qvpagine(settings,missing){
         clear:function(){
             currsiteid="";
             fsitename="";
+            $.cookie(_sessioninfo.environ+"_siteid", currsiteid, {expires:100000});
             if(objmodetabs.currtab()!=1)
                 objmodetabs.currtab(1);
             objmodetabs.enabled(2, false);
@@ -138,8 +141,7 @@ function class_qvpagine(settings,missing){
             objtabs.enabled(4,false);
             oper_delete.enabled(o.isselected());
             context="";
-            $(prefix+"previewinner").html("");
-            $(prefix+"pagepreview").hide();
+            refreshpreview();
             if(i>0){
                 o.solveid(i);
             }
@@ -173,50 +175,60 @@ function class_qvpagine(settings,missing){
         top:offsety,
         width:698,
         height:500,
-        scroll:true,
+        scroll:false,
+        border:true,
         expand:function(o, trig){
-            solverelated(trig.info,
-                function(v){
-                    openbranch(trig.id, v[0]["SETRELATED"]);
-                }
-            );
+            openbranch(trig.id, trig.info);
         },
         collapse:function(o, trig){
-            o.remove(trig.id);
+            o.clear(trig.id);
         },
         click:function(o, trig){
+            treeid=trig.id;
             currsysid=trig.info;
-            if(!trig.hitnode || trig.hitfolder){
+            objtabs.enabled(2,true);
+            objtabs.enabled(3,true);
+            objtabs.enabled(4,true);
+             if(!trig.hitnode || trig.hitfolder){
                 refreshpreview();
             }
         },
         context:function(o, trig){
             treeid=trig.id;
-            treesysid=trig.info;
+            currsysid=trig.info;
             var inf=objtreesel.getinfo(trig.parent);
             treeparentsysid=inf.info;
             treeparentid=inf.id;
-            currsysid=treesysid;
+            objtabs.enabled(2,true);
+            objtabs.enabled(3,true);
+            objtabs.enabled(4,true);
         },
         outofcontext:function(o){
             treeid="";
-            treesysid="";
+            currsysid="";
             treeparentsysid="";
             treeparentid="";
-            currsysid="";
+            objtabs.enabled(2,false);
+            objtabs.enabled(3,false);
+            objtabs.enabled(4,false);
         }
     });
     $(prefix+"treesel").contextMenu("filibuster_popup", {
         bindings: {
             'flb_insert': function(t){
                 oper_new.engage();
+                refreshflat=true;
             },
             'flb_update': function(t){
-                currsysid=treesysid;
                 objtabs.enabled(2,true);
                 objtabs.enabled(3,true);
                 objtabs.enabled(4,true);
                 objtabs.currtab(2); 
+                refreshflat=true;
+            },
+            'flb_delete': function(t){
+                treecancella();
+                refreshflat=true;
             }
         },
         onContextMenu:
@@ -242,12 +254,22 @@ function class_qvpagine(settings,missing){
         select:function(i, p){
             oper_refresh.enabled(i==1);
             oper_reset.enabled(i==1);
-            if(i==1){
-                currsysid="";
-            }
             objgridsel.checkall(false);
             objgridsel.index(0);
-            if(i==2){
+            if(i==1){
+                currsysid="";
+                objtabs.enabled(2,false);
+                objtabs.enabled(3,false);
+                objtabs.enabled(4,false);
+                if(refreshflat){
+                    refreshflat=false;
+                    objgridsel.refresh();
+                }
+                else{
+                    objgridsel.dataload();
+                }
+            }
+            else if(i==2){
                 initfamily();
             }
         }
@@ -328,7 +350,7 @@ function class_qvpagine(settings,missing){
             winzProgress(formid);
             var parid="";
             if(objmodetabs.currtab()==2){
-                parid=treesysid;
+                parid=currsysid;
             }
             $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
@@ -350,13 +372,15 @@ function class_qvpagine(settings,missing){
                                 flagopen=true;
                                 objgridsel.splice(0, 0, newid);
                             }
-                            else if(treesysid!=""){
+                            else{
                                 // MODALITA' ALBERO
                                 currsysid=newid;
+                                treeid=objtreesel.addfolder({parent:treeid, info:currsysid, title:"(nuovo contenuto)", open:false});
+                                objtreesel.selectedid(treeid);
                                 objtabs.enabled(2,true);
                                 objtabs.enabled(3,true);
                                 objtabs.enabled(4,true);
-                                objtabs.currtab(2);
+                                objtabs.currtab(2); 
                             }
                         }
                         winzTimeoutMess(formid, v.success, v.message);
@@ -1246,10 +1270,14 @@ function class_qvpagine(settings,missing){
         "classtable":"QW_CLASSICONTENUTO", 
         "changerow":function(){
             abilitaspostar(0);
+            refreshtree=true;
         },
         "solveid":function(id){
             currselectedid=id;
             abilitaspostar(1);
+        },
+        "change":function(){
+            refreshtree=true;
         }
     });
     
@@ -1461,21 +1489,15 @@ function class_qvpagine(settings,missing){
                         );
                     }
                     else{ 
-                        if(currsysid==treesysid){
-                            objtreesel.setinfo(treeid, {text:txdescr.value()});
-                            refreshpreview();
-                        }
-                        else{
-                            solverelated(treesysid,
-                                function(v){
-                                    openbranch(treeid, v[0]["SETRELATED"],
-                                        function(){
-                                            objtreesel.expand(treeid);
-                                            refreshpreview();
-                                        }
-                                    );
-                                }
-                            );
+                        if(treeid!=""){
+                            objtreesel.setinfo(treeid, {text:context});
+                            if(refreshtree && objtreesel.getinfo(treeid).open){
+                                refreshtree=false;
+                                objtreesel.expand(treeid);
+                            }
+                            else{
+                                refreshpreview();
+                            }
                         }
                     }
                     break;
@@ -1698,11 +1720,15 @@ function class_qvpagine(settings,missing){
                         h+="   <ul>";
                         h+="       <li id='flb_insert'><a href='javascript:'>Inserisci</a></li>";
                         h+="       <li id='flb_update'><a href='javascript:'>Modifica</a></li>";
+                        h+="       <li class='contextSeparator'></li>";
+                        h+="       <li id='flb_delete'><a href='javascript:'>Elimina</a></li>";
                         h+="   </ul>";
                         h+="</div>";
                         $("body").append(h);    
                     }
-                    
+                    var s=__($.cookie(_sessioninfo.environ+"_siteid"));
+                    if(s!="")
+                        txf_site.value(s);
                     refreshselection(
                         function(){
                             winzClearMess(formid);
@@ -1713,6 +1739,11 @@ function class_qvpagine(settings,missing){
             );
         }
     );
+    this._resize=function(metrics){
+        var h=metrics.window.height-210;
+        objtreesel.height(h>300 ? h : 300);
+    
+    }
     function abilitaspostaf(f){
         operf_first.enabled(f);
         operf_up.enabled(f);
@@ -1735,44 +1766,99 @@ function class_qvpagine(settings,missing){
         }
     }
     function refreshpreview(){
-        RYQUE.query({
-            sql:"SELECT DESCRIPTION,ABSTRACT,REGISTRY FROM QW_WEBCONTENTS WHERE SYSID='"+currsysid+"'",
-            ready:function(v){
-                var h="";
-                h+="<div style='margin-bottom:4px'>";
-                h+="<h2>"+v[0]["DESCRIPTION"]+"</h2>";
-                h+="</div>";
-                h+="<div style='margin-bottom:10px'>";
-                h+="<i>"+v[0]["ABSTRACT"]+"</i>";
-                h+="</div>";
-                h+="<div>";
-                h+=v[0]["REGISTRY"];
-                h+="</div>";
-                h=h.replace(/<script[^\x00]+<\/script>/ig, "");
-                h=h.replace(/<iframe[^\x00]+<\/iframe>/ig, "");
-                $(prefix+"previewinner").html(h);
-                $(prefix+"pagepreview").show();
-            }
-        });
+        if(currsysid!=""){
+            RYQUE.query({
+                sql:"SELECT DESCRIPTION,ABSTRACT,REGISTRY FROM QW_WEBCONTENTS WHERE SYSID='"+currsysid+"'",
+                ready:function(v){
+                    var h="";
+                    h+="<div style='margin-bottom:4px'>";
+                    h+="<h2>"+v[0]["DESCRIPTION"]+"</h2>";
+                    h+="</div>";
+                    h+="<div style='margin-bottom:10px'>";
+                    h+="<i>"+v[0]["ABSTRACT"]+"</i>";
+                    h+="</div>";
+                    h+="<div>";
+                    h+=v[0]["REGISTRY"];
+                    h+="</div>";
+                    h=h.replace(/<script[^\x00]+<\/script>/ig, "");
+                    h=h.replace(/<iframe[^\x00]+<\/iframe>/ig, "");
+                    $(prefix+"previewinner").html(h);
+                    $(prefix+"pagepreview").show();
+                }
+            });
+        }
+        else{
+            $(prefix+"previewinner").html("");
+            $(prefix+"pagepreview").hide();
+        }
     }
-    function solverelated(contentid, callback){
+    function openbranch(parentid, parentsysid, callback){
+        objtreesel.clear(parentid);
+        objtreesel.loading(parentid, true);
+        var q="";
+        q+="SELECT ";
+        q+="  QW_WEBCONTENTS.SYSID AS SYSID,";
+        q+="  QW_WEBCONTENTS.DESCRIPTION AS DESCRIPTION ";
+        q+="FROM QW_WEBCONTENTS ";
+        q+="INNER JOIN QW_WEBCONTENTS PARENT ON ";
+        q+="  PARENT.SYSID='"+parentsysid+"' ";
+        q+="INNER JOIN QVSELECTIONS ON ";
+        q+="  QVSELECTIONS.PARENTFIELD='SETRELATED' AND ";
+        q+="  QVSELECTIONS.PARENTID=PARENT.SETRELATED ";
+        q+="WHERE ";
+        q+="  QW_WEBCONTENTS.SYSID=QVSELECTIONS.SELECTEDID AND ";
+        q+="  (QW_WEBCONTENTS.SITEID='' OR QW_WEBCONTENTS.SITEID='"+currsiteid+"') ";
+        q+="ORDER BY QVSELECTIONS.SORTER";
         RYQUE.query({
-            sql:"SELECT SYSID,DESCRIPTION,SETRELATED FROM QW_WEBCONTENTS WHERE SYSID='"+contentid+"'",
+            sql:q,
             ready:function(v){
-                callback(v);
-            }
-        });
-    }
-    function openbranch(parentid, setrelated, callback){
-        objtreesel.remove(parentid);
-        RYQUE.query({
-            sql:"SELECT SYSID,DESCRIPTION FROM QW_WEBCONTENTS WHERE (SITEID='' OR SITEID='"+currsiteid+"') AND SYSID IN (SELECT SELECTEDID FROM QVSELECTIONS WHERE PARENTID='"+setrelated+"')",
-            ready:function(v){
+                objtreesel.loading(parentid, false);
+                objtreesel.clear(parentid);
                 for(var i in v){
                     objtreesel.addfolder({parent:parentid, info:v[i]["SYSID"], title:v[i]["DESCRIPTION"].stripTags()});
                 }
                 if(callback)
                     callback();
+            }
+        });
+    }
+    function treecancella(){
+        var d=objtreesel.getinfo(treeid).text.stripTags();
+        RYWINZ.MessageBox(formid, 
+            {message:"Cancellare la pagina ["+d+"]?",
+            ok:"Elimina",
+            confirm:function(){
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    {
+                        "sessionid":_sessioninfo.sessionid,
+                        "env":_sessioninfo.environ,
+                        "function":"arrows_delete",
+                        "data":{
+                            "SYSID":currsysid
+                        }
+                    }, 
+                    function(d){
+                        try{
+                            var v=$.parseJSON(d);
+                            if(v.success>0){
+                                objtreesel.remove(treeid);
+                                treeid="";
+                                currsysid="";
+                                treeparentsysid="";
+                                treeparentid="";
+                                objtabs.enabled(2,false);
+                                objtabs.enabled(3,false);
+                                objtabs.enabled(4,false);
+                                refreshpreview();
+                            }
+                            winzTimeoutMess(formid, v.success, v.message);
+                        }catch(e){
+                            winzClearMess(formid);
+                            if(window.console){console.log(e.message)}
+                            alert(d);
+                        }
+                    }
+                );
             }
         });
     }

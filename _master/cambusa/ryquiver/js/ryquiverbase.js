@@ -808,6 +808,8 @@ function ryQuiver(missing){
                                         var v=$.parseJSON(d);
                                         if(v.success>0){
                                             gridsel.refresh();
+                                            if(settings.change)
+                                                settings.change("add");
                                         }
                                         winzTimeoutMess(propformid, v.success, v.message);
                                     }
@@ -847,6 +849,8 @@ function ryQuiver(missing){
                                         var v=$.parseJSON(d);
                                         if(v.success>0){
                                             gridsel.refresh();
+                                            if(settings.change)
+                                                settings.change("remove");
                                         }
                                         winzTimeoutMess(propformid, v.success, v.message);
                                     }
@@ -884,6 +888,8 @@ function ryQuiver(missing){
                                 if(v.success>0){
                                     gridsel.refresh();
                                 }
+                                if(settings.change)
+                                    settings.change("clear");
                                 winzTimeoutMess(propformid, v.success, v.message);
                             }
                             catch(e){

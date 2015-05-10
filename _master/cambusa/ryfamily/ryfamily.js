@@ -15,12 +15,20 @@
             var proptop=20;
             var propwidth=200;
             var propheight=400;
-            var propscroll=1;
-            var propborder=-1;
+            var propscroll=true;
+            var propborder=false;
             var propobj=this;
-            var propname=$(this).attr("id");
             var propselectedid="";
             var propselectiontype="all";
+            var propenabled=true;
+            var propvisible=true;
+
+            var propname=$(this).attr("id");
+			this.id="#"+propname;
+			this.tag=null;
+			this.type="tree";
+
+			globalobjs[propname]=this;
             
             if(settings.left!=missing){propleft=settings.left}
             if(settings.top!=missing){proptop=settings.top}
@@ -30,64 +38,173 @@
             if(settings.border!=missing){propborder=settings.border}
             if(settings.selectiontype!=missing){propselectiontype=settings.selectiontype}
             
+            if(settings.formid!=missing){
+                // Aggancio alla maschera per quando i campi sono dinamici
+                $("#"+propname).prop("parentid", settings.formid);
+                _globalforms[settings.formid].controls[propname]=propname.substr(settings.formid.length);
+            }
+            if(settings.tag!=missing){this.tag=settings.tag}
+            
             var sc="visible";
             var bd="none";
             if(propscroll){
                 sc="scroll";
-                if(propborder==-1)
+                if(!propborder)
                     bd="1px solid silver";
             }
-            if(propborder==1){
+            if(propborder){
                 if(sc=="visible")
                     sc="auto";
                 bd="1px solid silver";
             }
             
-            $("#"+propname).css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px","overflow":sc,"border":bd});
-            $("#"+propname).html("<ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
+            $("#"+propname)
+            .addClass("ryobject")
+            .addClass("ryfamily")
+            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px","overflow":sc,"border":bd});
+            $("#"+propname).html("<a id='"+propname+"_anchor' href='#' style='position:absolute;'>&nbsp;</a><ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
     
             $("#"+propname+"_root").treeview();
-
-            $("#"+propname).click(
-                function(evt){
-                    var trig=createtrigger(evt, "ryclick");
-                    if(trig){
-                        propobj.selectedid(trig.id);
-                        if(settings.click){
-                            settings.click(propobj, trig);
-                        }
-                        if(trig.type=="folder" && !(trig.hitfolder && trig.hitnode)){
-                            if(trig.open){
-                                if(settings.expand){
-                                    settings.expand(propobj, trig);
-                                }
+            
+            $("#"+propname+"_anchor").focus(function(){
+                if(propborder)
+                    $("#"+propname).css({"border-left":"1px solid #3F75A2"});
+            });
+            $("#"+propname+"_anchor").focusout(function(){
+                if(propborder)
+                    $("#"+propname).css({"border-left":bd});
+            });
+            $("#"+propname+"_anchor").keydown(
+            	function(k){
+            		if(propenabled){
+                        // GESTIONE ALTRI TASTI
+            			switch(k.which){
+                        case 40:    // DOWN (sibling inferiore)
+                            if(propselectedid==""){
+                                propobj.selectedid("k1");
                             }
                             else{
-                                if(settings.collapse){
-                                    settings.collapse(propobj, trig);
+                                var parid=$("#"+propname+"_"+propselectedid+"_text").attr("super");
+                                parid=propname+"_"+parid+"_root";
+                                var lastid=$("#"+parid).prop("lastid");
+                                var m=propselectedid.match(/^(.*k)(\d+)$/);
+                                var b=m[1];
+                                var n=m[2].actualInteger();
+                                for(var i=n+1; i<=lastid; i++){
+                                    if($("#"+propname+"_"+b+i).length>0){
+                                        propobj.selectedid(b+i);
+                                        k.preventDefault();
+                                        break;
+                                    }
                                 }
+                            }
+                            break;
+            			case 38:    // UP (sibling superiore)
+                            if(propselectedid==""){
+                                propobj.selectedid("k1");
+                            }
+                            else{
+                                var parid=$("#"+propname+"_"+propselectedid+"_text").attr("super");
+                                parid=propname+"_"+parid+"_root";
+                                var lastid=$("#"+parid).prop("lastid");
+                                var m=propselectedid.match(/^(.*k)(\d+)$/);
+                                var b=m[1];
+                                var n=m[2].actualInteger();
+                                for(var i=n-1; i>=1; i++){
+                                    if($("#"+propname+"_"+b+i).length>0){
+                                        propobj.selectedid(b+i);
+                                        k.preventDefault();
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+            			case 39:    // RIGHT (figlio)
+                            if(propselectedid==""){
+                                propobj.selectedid("k1");
+                            }
+                            else{
+                                var node=propname+"_"+propselectedid+"_root";
+                                var lastid=$("#"+node).prop("lastid");
+                                for(var i=1; i<=lastid; i++){
+                                    if($("#"+propname+"_"+propselectedid+"k"+i).length>0){
+                                        propobj.selectedid(propselectedid+"k"+i);
+                                        k.preventDefault();
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+            			case 37:    // LEFT (padre)
+                            if(propselectedid==""){
+                                propobj.selectedid("k1");
+                            }
+                            else if(propselectedid!="k1"){
+                                var parid=$("#"+propname+"_"+propselectedid+"_text").attr("super");
+                                propobj.selectedid(parid);
+                                k.preventDefault();
+                            }
+                            break;
+            			case 13:    // INVIO
+                            if(propselectedid!=""){
+                                var trig=propobj.getinfo(propselectedid);
+                                if(settings.click){
+                                    settings.click(propobj, trig);
+                                }
+                                if(trig.folder){
+                                    if(trig.open)
+                                        propobj.collapse(propselectedid);
+                                    else
+                                        propobj.expand(propselectedid);
+                                }
+                            }
+                            break;
+            			}
+            		}
+            		if(k.which==8){
+            			return false;
+            		}
+                    else if(k.which==9){
+                        return nextFocus(propname, k.shiftKey);
+                    }
+            	}
+            );
+            $("#"+propname).click(function(evt){
+                $("#"+propname+"_anchor").focus();
+                var trig=createtrigger(evt, "ryclick");
+                if(trig){
+                    propobj.selectedid(trig.id);
+                    if(settings.click){
+                        settings.click(propobj, trig);
+                    }
+                    if(trig.folder && !(trig.hitfolder && trig.hitnode)){
+                        if(trig.open){
+                            if(settings.expand){
+                                settings.expand(propobj, trig);
+                            }
+                        }
+                        else{
+                            if(settings.collapse){
+                                settings.collapse(propobj, trig);
                             }
                         }
                     }
                 }
-            );
-            $("#"+propname).contextmenu(
-                function(evt){
-                    var trig=createtrigger(evt, "rycontext");
-                    if(trig){
-                        propobj.selectedid(trig.id);
-                        if(settings.context){
-                            settings.context(propobj, trig);
-                        }
-                    }
-                    else{
-                        if(settings.outofcontext){
-                            settings.outofcontext(propobj);
-                        }
+            });
+            $("#"+propname).contextmenu(function(evt){
+                var trig=createtrigger(evt, "rycontext");
+                if(trig){
+                    propobj.selectedid(trig.id);
+                    if(settings.context){
+                        settings.context(propobj, trig);
                     }
                 }
-            );
-            
+                else{
+                    if(settings.outofcontext){
+                        settings.outofcontext(propobj);
+                    }
+                }
+            });
             this.left=function(l){
                 if(l==missing)
                     return propleft;
@@ -113,7 +230,7 @@
                 if(h==missing)
                     return propheight;
                 else
-                    propmaxlen=l;
+                    propheight=h;
                 propobj.refreshattr();
             }
             this.move=function(params){
@@ -136,15 +253,14 @@
                 else
                     parid=propname+"_"+params.parent+"_root";
                     
-                if(params.id==missing){
-                    var lastid=$("#"+parid).prop("lastid");
-                    if(lastid==missing)
-                        lastid=1;
-                    else
-                        lastid+=1;
-                    $("#"+parid).prop("lastid", lastid);
-                    params.id=params.parent+"k"+lastid;
-                }
+                // determinazione id
+                var lastid=$("#"+parid).prop("lastid");
+                if(lastid==missing)
+                    lastid=1;
+                else
+                    lastid+=1;
+                $("#"+parid).prop("lastid", lastid);
+                params.id=params.parent+"k"+lastid;
                     
                 var id=propname+"_"+params.id;
                 if(params.open!=missing){
@@ -183,15 +299,14 @@
                 else
                     parid=propname+"_"+params.parent+"_root";
 
-                if(params.id==missing){
-                    var lastid=$("#"+parid).prop("lastid");
-                    if(lastid==missing)
-                        lastid=1;
-                    else
-                        lastid+=1;
-                    $("#"+parid).prop("lastid", lastid);
-                    params.id=params.parent+"k"+lastid;
-                }
+                // determinazione id
+                var lastid=$("#"+parid).prop("lastid");
+                if(lastid==missing)
+                    lastid=1;
+                else
+                    lastid+=1;
+                $("#"+parid).prop("lastid", lastid);
+                params.id=params.parent+"k"+lastid;
                     
                 var id=propname+"_"+params.id;
                 if(params.info!=missing)
@@ -206,13 +321,19 @@
                 return params.id;
             }
             this.remove=function(id){
-                id=propname+"_"+id+"_root";
+                id=propname+"_"+id;
+                $("#"+id).remove();
+                if(id==propselectedid){
+                    propobj.selectedid("");
+                }
+            }
+            this.clear=function(id){
+                if(id==missing)
+                    id=propname+"_root";
+                else
+                    id=propname+"_"+id+"_root";
                 $("#"+id).prop("lastid", 0);
                 $("#"+id).html("");
-            }
-            this.clear=function(){
-                $("#"+propname+"_root").prop("lastid", 0);
-                $("#"+propname+"_root").html("");
             }
             this.name=function(){
                 return propname;
@@ -239,7 +360,7 @@
                 }
                 info=$(selector).prop("info");
                 text=__($(selector+"_text").html()).stripTags();
-                return {id:id, info:info, open:open, parent:parent, selector:selector, text:text, type:type, hitnode:false, hitfolder:false};
+                return {id:id, info:info, open:open, parent:parent, selector:selector, text:text, type:type, folder:(type=="folder"), hitnode:false, hitfolder:false};
             }
             this.getpath=function(nodeid){
                 var v=[];
@@ -308,16 +429,76 @@
                 return propselectedid;
             }
             this.expand=function(nodeid){
-                $("#"+propname+"_"+nodeid)
-                .removeClass("closed expandable lastExpandable")
-                .addClass("open collapsable lastCollapsable");
-                $("#"+propname+"_"+nodeid+"_root").show();
+                var trig=propobj.getinfo(nodeid);
+                if(trig.folder){
+                    $("#"+propname+"_"+nodeid)
+                    .removeClass("closed expandable lastExpandable")
+                    .addClass("open collapsable lastCollapsable");
+                    $("#"+propname+"_"+nodeid+"_root").show();
+                    if(settings.expand){
+                        trig.open=true;
+                        settings.expand(propobj, trig);
+                    }
+                }
             }
             this.collapse=function(nodeid){
-                $("#"+propname+"_"+nodeid)
-                .removeClass("open collapsable lastCollapsable")
-                .addClass("closed expandable lastExpandable");
-                $("#"+propname+"_"+nodeid+"_root").hide();
+                var trig=propobj.getinfo(nodeid);
+                if(trig.folder){
+                    $("#"+propname+"_"+nodeid)
+                    .removeClass("open collapsable lastCollapsable")
+                    .addClass("closed expandable lastExpandable");
+                    $("#"+propname+"_"+nodeid+"_root").hide();
+                    if(settings.collapse){
+                        trig.open=false;
+                        settings.collapse(propobj, trig);
+                    }
+                }
+            }
+			this.enabled=function(v){
+				if(v!=missing){
+					propenabled=v;
+				}
+                return propenabled;
+			}
+			this.visible=function(v){
+				if(v!=missing){
+					propvisible=v;
+					if(v)
+						$("#"+propname).css({"visibility":"visible"});
+					else
+						$("#"+propname).css({"visibility":"hidden"});
+				}
+                return propvisible;
+			}
+            this.loading=function(nodeid, b){
+                if(b)
+                    $("#"+propname+"_"+nodeid).addClass("nodeloading");
+                else
+                    $("#"+propname+"_"+nodeid).removeClass("nodeloading");
+            }
+            this.parent=function(nodeid){
+                if(nodeid!="" && nodeid!="k1")
+                    return $("#"+propname+"_"+nodeid+"_text").attr("super");
+                else
+                    return "";
+            }
+            this.children=function(nodeid){
+                var c=[];
+                if(nodeid!=""){
+                    var node=propname+"_"+nodeid+"_root";
+                    var lastid=$("#"+node).prop("lastid");
+                    var n;
+                    for(var i=1; i<=lastid; i++){
+                        n=nodeid+"k"+i;
+                        if($("#"+propname+"_"+n).length>0){
+                            c.push(n);
+                        }
+                    }
+                }
+                return c;
+            }
+            this.rootid=function(){
+                return "k1";
             }
             function createtrigger(evt, name){
                 var id,open,info,type,text,parent,selector;
@@ -355,7 +536,7 @@
                 var hitnode=(evt.isTrigger!=missing);
                 var hitfolder=$(evt.target).hasClass("hover");
                 if(id!=missing){
-                    trig={id:id, info:info, open:open, parent:parent, selector:selector, text:text, type:type, hitnode:hitnode, hitfolder:hitfolder};
+                    trig={id:id, info:info, open:open, parent:parent, selector:selector, text:text, type:type, folder:(type=="folder"), hitnode:hitnode, hitfolder:hitfolder};
                     $("#"+propname).trigger(name, trig);
                 }
                 return trig;

@@ -191,8 +191,8 @@ function makeeditor(missing){
             top:60, 
             width:500, 
             height:500, 
-            scroll:0, 
-            border:1,
+            scroll:false, 
+            border:true,
             selectiontype:"folder",
             expand:function(o, trig){
                 setcurrentfolder(trig.id);
@@ -200,7 +200,7 @@ function makeeditor(missing){
             },
             collapse:function(o, trig){
                 setcurrentfolder(trig.id);
-                o.remove(trig.id);
+                o.clear(trig.id);
             },
             context:function(o, trig){
                 if(trig.type=="folder"){
@@ -343,7 +343,8 @@ function makeeditor(missing){
     }
 }
 function loadbranch(id){
-    objfamily.remove(id);
+    objfamily.clear(id);
+    objfamily.loading(id, true);
     path=buildpath(id);
     $.post(
         "../rymirror/mirror_files.php", 
@@ -354,6 +355,8 @@ function loadbranch(id){
         },
         function(d){
             try{
+                objfamily.loading(id, false);
+                objfamily.clear(id);
                 var v=$.parseJSON(d);
                 if(v.success==1){
                     var i,nf,tp,h;
