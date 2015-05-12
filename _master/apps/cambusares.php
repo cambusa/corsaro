@@ -237,12 +237,15 @@ RYBOX;
         case "rycode":
             CambusaLibraryAdd("rycode.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rycode.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rycode.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rycode.js?ver=$cacheversion' ></script>");
+            break;
 
         case "geography":
             CambusaLibraryAdd("geography.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/geography/geography.js?ver=$cacheversion' ></script>");
+            break;
 
         case "ryzero":
             CambusaLibraryAdd("ryzero.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryzero.js?ver=$cacheversion' ></script>");
+            break;
     }
 }
 
