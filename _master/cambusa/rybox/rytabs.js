@@ -28,6 +28,7 @@
             var propposition="absolute";
             var propcolorsel="gray";
             var propformid="";
+            var propclosable=false;
 
 			var propname=$(this).attr("id");
             var propcustomleft=propname+"_customleft";
@@ -57,9 +58,16 @@
             if(settings.tabs!=missing){proptabs=settings.tabs}
             if(settings.collapsible!=missing){propcollapsible=settings.collapsible}
             if(settings.formid!=missing){
-                propformid=settings.formid
+                // Aggancio alla maschera per quando i campi sono dinamici
+                $("#"+propname).prop("parentid", settings.formid);
+                _globalforms[settings.formid].controls[propname]=propname.substr(settings.formid.length);
             }
-            //if(settings.position!=missing){propposition=settings.position}
+            propformid=__($("#"+propname).prop("parentid"));
+            if(propformid!=""){
+                if(!RYWINZ.Forms(propformid).options.controls)
+                    propclosable=true;
+            }
+            if(settings.closable!=missing){propclosable=settings.closable}
 			
             $("#"+propname).addClass("rytabs");
             $("#"+propname).addClass("ryobject");
@@ -96,7 +104,7 @@
             }
             
             var r=10;
-            if(propformid!=""){
+            if(propclosable){
                 $("#"+propname+"_ul").append("<li id='"+propname+"_formclose' class='winz_close' style='position:absolute;width:30;height:25;right:10px;top:2px;cursor:pointer;font-size:11px;'>X</li>");
                 $("#"+propname+"_formclose").click(function(){
                     RYWINZ.FormClose(propformid);

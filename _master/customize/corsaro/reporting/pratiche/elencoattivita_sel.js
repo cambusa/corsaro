@@ -9,7 +9,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_elencoattivita_sel(settings,missing){
-    var formid=RYWINZ.addform(this);
+    var formid=RYWINZ.addform(this, settings);
     var prefix="#"+formid;
     
     // DEFINIZIONE TAB SELEZIONE

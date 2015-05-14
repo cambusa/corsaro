@@ -9,7 +9,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvsilverlight(settings,missing){
-    var formid=RYWINZ.addform(this);
+    var formid=RYWINZ.addform(this, settings);
     var sl_source="";
     var sl_width=730;
     var sl_height=400;

@@ -9,7 +9,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvinclusions(settings,missing){
-    var formid=RYWINZ.addform(this);
+    var formid=RYWINZ.addform(this, settings);
     var currparentid="";
     var currparentdescr="";
     var currparenttype="";

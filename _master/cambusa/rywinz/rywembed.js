@@ -14,7 +14,7 @@ function ryWinz(missing){
     var objmodules={};
     // La addform viene lanciata dopo la newform
     // e serve a popolare le collezioni degli oggetti caricati
-    this.addform=function(o){
+    this.addform=function(o, s){
         var relid,href;
         var formid=_openingid;
         var name=_openingname;
@@ -24,12 +24,13 @@ function ryWinz(missing){
         o.jqxhr=false;
         o.timeid=false;
         o.opens=0;
-        if(o.options==missing){
-            o.options={
-                controls:false,
-                statusbar:true
-            };
-        }
+        // PASSAGGIO PARAMATRI
+        if(o.options==missing){ o.options={} }
+        if(s==missing){ s={} }
+        //o.options.controls=(s.controls!=missing ? s.controls : true);
+        //o.options.statusbar=(s.statusbar!=missing ? s.controls : true);
+        o.options.controls=false;
+        o.options.statusbar=true;
         // EVENTO DI STOP DELLE RICHIESTE
         $("#stop_"+formid).click(
             function(){
@@ -138,6 +139,7 @@ function ryWinz(missing){
         if(settings.path!=missing){
             proppath=settings.path;
             proppath=proppath.replace(/@cambusa\//gi, _systeminfo.relative.cambusa);
+            proppath=proppath.replace(/@apps\//gi, _systeminfo.relative.apps);
             proppath=proppath.replace(/@customize\//gi, _systeminfo.relative.customize);
         }
         if(settings.title!=missing){proptitle=settings.title}
@@ -145,6 +147,7 @@ function ryWinz(missing){
         if(settings.icon!=missing){
             propicon=settings.icon;
             propicon=propicon.replace(/@cambusa\//gi, _systeminfo.relative.cambusa);
+            propicon=propicon.replace(/@apps\//gi, _systeminfo.relative.apps);
             propicon=propicon.replace(/@customize\//gi, _systeminfo.relative.customize);
         }
         

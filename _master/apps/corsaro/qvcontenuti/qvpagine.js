@@ -9,7 +9,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_qvpagine(settings,missing){
-    var formid=RYWINZ.addform(this);
+    var formid=RYWINZ.addform(this, settings);
     winzProgress(formid);
 
     var currsysid="";

@@ -9,7 +9,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_proiezionesaldi_sel(settings,missing){
-    var formid=RYWINZ.addform(this);
+    var formid=RYWINZ.addform(this, settings);
     var currgenretypeid=RYQUE.formatid("0MONEY000000");
     var prefix="#"+formid;
     

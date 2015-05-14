@@ -14,7 +14,7 @@ function ryWinz(missing){
     var objmodules={};
     // La addform viene lanciata dopo la newform
     // e serve a popolare le collezioni degli oggetti caricati
-    this.addform=function(o){
+    this.addform=function(o, s){
         var relid,href;
         var formid=_openingid;
         var name=_openingname;
@@ -24,12 +24,11 @@ function ryWinz(missing){
         o.jqxhr=false;
         o.timeid=false;
         o.opens=0;
-        if(o.options==missing){
-            o.options={
-                controls:true,
-                statusbar:true
-            };
-        }
+        // PASSAGGIO PARAMATRI
+        if(o.options==missing){ o.options={} }
+        if(s==missing){ s={} }
+        o.options.controls=(s.controls!=missing ? s.controls : true);
+        o.options.statusbar=(s.statusbar!=missing ? s.controls : true);
         // EVENTO DI STOP DELLE RICHIESTE
         $("#stop_"+formid).click(
             function(){
@@ -138,6 +137,7 @@ function ryWinz(missing){
         if(settings.path!=missing){
             proppath=settings.path;
             proppath=proppath.replace(/@cambusa\//gi, _systeminfo.relative.cambusa);
+            proppath=proppath.replace(/@apps\//gi, _systeminfo.relative.apps);
             proppath=proppath.replace(/@customize\//gi, _systeminfo.relative.customize);
         }
         if(settings.title!=missing){proptitle=settings.title}
@@ -145,6 +145,7 @@ function ryWinz(missing){
         if(settings.icon!=missing){
             propicon=settings.icon;
             propicon=propicon.replace(/@cambusa\//gi, _systeminfo.relative.cambusa);
+            propicon=propicon.replace(/@apps\//gi, _systeminfo.relative.apps);
             propicon=propicon.replace(/@customize\//gi, _systeminfo.relative.customize);
         }
         
@@ -333,16 +334,12 @@ function ryWinz(missing){
 
             if(params.controls!=missing || params.statusbar!=missing){
                 params.initialize=function(objform){
-                    objform.options={
-                        controls:true,
-                        statusbar:true
-                    };
                     if(params.controls!=missing){
-                        objform.options.controls=params.controls;
-                        if(!params.controls){
+                        objform.options.controls=params.controls.actualBoolean();
+                        if(!objform.options.controls){
                             $("#window_"+id+" div.window_top").css({"display":"none"});
                             $("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px"});
-                            $("#window_"+id+" div.window_content").css({"top":0});
+                            $("#window_"+id+" div.window_content").css({"top":1});
                             $("#dither_"+id).css({"top":0});
                         }
                     }

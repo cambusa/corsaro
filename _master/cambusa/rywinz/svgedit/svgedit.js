@@ -9,7 +9,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function class_svgedit(settings,missing){
-    var formid=RYWINZ.addform(this);
+    var formid=RYWINZ.addform(this, settings);
     $("#"+formid+"iframe iframe").attr("src", _systeminfo.relative.cambusa+"svgedit/svg-editor.html");
     this._resize=function(metrics){
         $("#"+formid+"iframe iframe").width(metrics.window.width-30).height(metrics.window.height-80);

@@ -1,4 +1,10 @@
 ==================================
+Rilascio 1.69.26    del 14/05/2015
+==================================
+
+Passati i parametri alla "RYWINZ.addform" per gestire bene il bottone "Close" di ryTabs.
+
+==================================
 Rilascio 1.69.25    del 10/05/2015
 ==================================
 
