@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.69.27    del 16/05/2015
+==================================
+
+ryCode: aggiunta la proprietà "uppercase".
+
+ryTabs: aggiunta la proprietà "closable".
+
+==================================
 Rilascio 1.69.26    del 14/05/2015
 ==================================
 

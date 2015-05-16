@@ -28,7 +28,9 @@ function ryWinz(missing){
         if(o.options==missing){ o.options={} }
         if(s==missing){ s={} }
         o.options.controls=(s.controls!=missing ? s.controls : true);
-        o.options.statusbar=(s.statusbar!=missing ? s.controls : true);
+        o.options.statusbar=(s.statusbar!=missing ? s.statusbar : true);
+        o.options.desk=(s.desk!=missing ? s.desk : false);
+        o.options.mono=(s.id!=missing);
         // EVENTO DI STOP DELLE RICHIESTE
         $("#stop_"+formid).click(
             function(){

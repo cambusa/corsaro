@@ -20,6 +20,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             var propmaxlen=50;
 			var propcode="";
             var propmode="free";
+            var propuppercase=false;
             var proplock=0;
             var prophelper=1;
             var propinsert=parseInt(_globalcodeinsert);
@@ -48,6 +49,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             if(settings.width!=missing){propwidth=settings.width}
             if(settings.maxlen!=missing){propmaxlen=settings.maxlen}
             if(settings.mode!=missing){propmode=settings.mode}
+            if(settings.uppercase!=missing){propuppercase=settings.uppercase}
             if(settings.lock!=missing){proplock=settings.lock.booleanNumber()}
             if(settings.helper!=missing){prophelper=settings.helper.booleanNumber()}
 
@@ -321,6 +323,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                                 }
                                 if(ok){
                                     if( propstart<propmaxlen ){
+                                        if(propuppercase)
+                                            n=u;
                                         if(propinsert)
                                             propcode=propcode.substr(0,propstart)+n+propcode.substr(propstart);
                                         else

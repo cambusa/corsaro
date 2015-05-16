@@ -8,7 +8,7 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-function class_rudder(settings,missing){
+function class_rudder(settings, missing){
     var formid=RYWINZ.addform(this, settings);
     var propenviron="default";
     var proproot="";
@@ -18,11 +18,19 @@ function class_rudder(settings,missing){
     if(proproot=="")
         proproot=propenviron;
     
+    var objtabs=$( "#"+formid+"tabs" ).rytabs({});
+    
+    var offset=20;
+    if( objtabs.closable() )
+        offset=40;
+    else
+        objtabs.visible(0);
+    
     $("#"+formid+"menu").rysource({
         environ:propenviron,
         root:proproot,
         left:10,
-        top:20,
+        top:offset,
         width:"98%",
         height:"90%",
         scroll:false,
@@ -36,5 +44,6 @@ function class_rudder(settings,missing){
         sessionid:_sessioninfo.sessionid,
         dbenv:_sessioninfo.environ
     });
+
     RYWINZ.KeyTools(formid);
 }

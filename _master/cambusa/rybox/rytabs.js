@@ -64,7 +64,7 @@
             }
             propformid=__($("#"+propname).prop("parentid"));
             if(propformid!=""){
-                if(!RYWINZ.Forms(propformid).options.controls)
+                if(!RYWINZ.Forms(propformid).options.controls && propformid!="rudder")
                     propclosable=true;
             }
             if(settings.closable!=missing){propclosable=settings.closable}
@@ -148,7 +148,7 @@
                 if(t==missing){
                     return propcurrtab+1;
                 }
-                else{
+                else if(proptabs.length>0){
                     var suspendselect=false;
                     if(proptabs[t-1].enabled){
                         var ok=true;
@@ -248,13 +248,17 @@
 					return propvisible;
 				}
 				else{
-					propvisible=v;
+					propvisible=v.actualBoolean();
 					if(v)
 						$("#"+propname).show();
 					else
 						$("#"+propname).hide();
 				}
 			}
+			this.closable=function(){
+                return propclosable;
+			}
+            propclosable
 			this.collapsed=function(v){
 				if(v==missing){
 					return propcollapsed;
