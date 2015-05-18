@@ -543,7 +543,7 @@
         "type":"database",
         "fields":{
             "SYSID":{"type":"SYSID", "key":1},
-            "NAME":{"type":"VARCHAR", "size":20, "unique":1},
+            "NAME":{"type":"VARCHAR", "size":50, "unique":1},
             "DESCRIPTION":{"type":"VARCHAR", "size":200},
             "GENRETYPEID":{"type":"SYSID", "ref":"QVGENRETYPES"},
             "OBJECTTYPEID":{"type":"SYSID", "ref":"QVOBJECTTYPES"},

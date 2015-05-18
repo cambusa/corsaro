@@ -12,44 +12,38 @@
 try{
     include_once "_quiver.php";
 
+    $params=array();
+    
     $rtype=1;
     if(isset($_POST["xml"])){
         $rtype=2;
         include_once "quiverxml.php";
         _qv_loadxml($_POST["xml"]);
     }
+    $params["return"]=$rtype;
 
     if(isset($_POST["sessionid"]))
-        $sessionid=$_POST["sessionid"];
-    else
-        $sessionid="";
+        $params["sessionid"]=$_POST["sessionid"];
 
     if(isset($_POST["env"]))
-        $env=$_POST["env"];
-    else
-        $env="";
+        $params["environ"]=$_POST["env"];
 
     if(isset($_POST["bulk"]))
-        $bulk=intval($_POST["bulk"]);
-    else
-        $bulk=0;
+        $params["bulk"]=intval($_POST["bulk"]);
 
-    if(isset($_POST["program"])){
-        $statements=$_POST["program"];
-    }
-    else{
-        if(isset($_POST["function"]))
-            $statements=$_POST["function"];
-        else
-            $statements="";
-    }
+    if(isset($_POST["program"]))
+        $params["program"]=$_POST["program"];
+        
+    if(isset($_POST["function"]))
+        $params["function"]=$_POST["function"];
     
     if(isset($_POST["data"]))
-        $bag=$_POST["data"];
-    else
-        $bag=array();
+        $params["data"]=$_POST["data"];
 
-    print quiver_execute($sessionid, $env, $bulk, $statements, $bag, $rtype);
+    if(isset($_POST["space"]))
+        $params["spacename"]=$_POST["space"];
+    
+    print quiver_execute($params);
 }
 catch(Exception $e){
     $jret=array();

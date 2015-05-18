@@ -611,7 +611,7 @@ function winzPost(url, params, success, fail){
             if(fail)
                 fail();
             else
-                success({success:0, messsage:"Call failed!"});
+                success({success:0, message:"Call failed!"});
         }
     );
 }

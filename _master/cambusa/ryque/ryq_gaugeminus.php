@@ -472,8 +472,6 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
     // GESTIONE DEL RITORNO
     if($StatusRitorno!=""){
         $v=explode("|", $StatusRitorno);
-        foreach($v as $k => $n)
-            $v[$k]=$n;
     }
     else{
         $v=array();

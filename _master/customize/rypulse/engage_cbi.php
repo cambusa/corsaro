@@ -26,8 +26,15 @@ function engage_main(){
         $env=$PARAMS["env"];
     else
         $env="demo";
+
+    $params=array();
+    $params["sessionid"]=$public_sessionid;
+    $params["environ"]=$env;
+    $params["bulk"]=true;
+    $params["program"]=$xdata;
+
+    $json=quiver_execute($params);
         
-    $json=quiver_execute($public_sessionid, $env, true, $xdata);
     $r=json_decode($json);
     if($r->success==0){
         writelog($json);

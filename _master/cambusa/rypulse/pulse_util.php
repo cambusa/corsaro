@@ -99,7 +99,14 @@ function pulse_notification($env, $notify, $object, $text, $priority=1){
         $xdata[$instr]["data"]["PRIORITY"]=$priority;
         $instr+=1;
     }
-    $json=quiver_execute($public_sessionid, $env, false, $xdata);
+
+    $params=array();
+    $params["sessionid"]=$public_sessionid;
+    $params["environ"]=$env;
+    $params["program"]=$xdata;
+
+    $json=quiver_execute($params);
+
     $r=json_decode($json);
     if($r->success!=1){
         writelog($json);

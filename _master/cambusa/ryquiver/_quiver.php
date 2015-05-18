@@ -15,7 +15,7 @@ $path_cambusa.="/";
 include_once $path_cambusa."/sysconfig.php";
 include_once $path_cambusa."ryquiver/quiverlib.php";
 
-function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array(), $rtype=1){
+function quiver_execute($params){
     global $path_cambusa, $path_customize, $path_databases, $path_applications;
     global $maestro;
     global $babelcode, $babelparams;
@@ -23,6 +23,43 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array(), $rty
     try{
         // IMPOSTO UN TEMPO DI RISPOSTA ILLIMITATO
         set_time_limit(0);
+
+        if(isset($params["sessionid"]))
+            $sessionid=$params["sessionid"];
+        else
+            $sessionid="";
+
+        if(isset($params["environ"]))
+            $env=$params["environ"];
+        else
+            $env="";
+
+        if(isset($params["bulk"]))
+            $bulk=($params["bulk"]!=false);
+        else
+            $bulk=false;
+        
+        if(isset($params["program"]))
+            $statements=$params["program"];
+        elseif(isset($params["function"]))
+            $statements=$params["function"];
+        else
+            $statements="";
+        
+        if(isset($params["data"]))
+            $bag=$params["data"];
+        else
+            $bag=array();
+        
+        if(isset($params["spacename"]))
+            $spacename=$params["spacename"];
+        else
+            $spacename="";
+        
+        if(isset($params["return"]))
+            $rtype=$params["return"];
+        else
+            $rtype=1;
         
         if($rtype==2){
             // CARICO LA LIBRERIA XML
@@ -49,7 +86,7 @@ function quiver_execute($sessionid, $env, $bulk, $statements, $bag=array(), $rty
                     
                     if(is_string($statements)){
                         $program=array();
-                        $program[]=array( "function" => $statements, "space" => "", "fallible" => 0, "data" => $bag, "pipe" => array(), "return" => array() );
+                        $program[]=array( "function" => $statements, "space" => $spacename, "fallible" => 0, "data" => $bag, "pipe" => array(), "return" => array() );
                     }
                     else{
                         $program=&$statements;

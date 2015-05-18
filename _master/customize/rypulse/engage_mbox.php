@@ -15,6 +15,12 @@ function engage_main(){
         $data["MAILBOX"]=$PARAMS["mbox"];
     }
     
-    $json=quiver_execute($public_sessionid, $env, false, "pratiche_imap", $data);
+    $params=array();
+    $params["sessionid"]=$public_sessionid;
+    $params["environ"]=$env;
+    $params["function"]="pratiche_imap";
+    $params["data"]=$data;
+    
+    $json=quiver_execute($params);
 }
 ?>

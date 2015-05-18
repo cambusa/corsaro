@@ -122,7 +122,13 @@ if($env!="" && $site!=""){
                 $program[0]["data"]["FILEID"]=$FILEID;
                 $program[0]["data"]["USERID"]=$USERID;
                 $program[0]["data"]["BROWSER"]=$browser;
-                $json=quiver_execute($public_sessionid, $env, false, $program);
+                
+                $params=array();
+                $params["sessionid"]=$public_sessionid;
+                $params["environ"]=$env;
+                $params["program"]=$program;
+
+                $json=quiver_execute($params);
             }
         }
         $food=$USERID;

@@ -272,7 +272,7 @@ function buildfood4bot($maestro, $rec){
     $CONTENT=$rec["REGISTRY"];
     $CONTENT=preg_replace("/<script[^>]*>[^\\x00]*?<\\/script>/i", "", $CONTENT);
     $CONTENT=preg_replace("/ id=('|\")[^>]*?('|\")/i", "", $CONTENT);
-    $CONTENT=preg_replace("/ href=('|\")([A-Z0-9]{".($maestro->lenid)."})('|\")/", " href=$1filibuster.php?env=$env&site=$site&id=$2$1", $CONTENT);
+    $CONTENT=preg_replace("/ href=('|\")([A-Z0-9]{".($maestro->lenid)."})('|\")/", " href=$1filibuster.php?env=$env&amp;site=$site&amp;id=$2$1", $CONTENT);
     
     $BOT.="<h3>$TITLECONTENT</h3><br/>\n";
     $BOT.="<br/>\n";

@@ -23,8 +23,14 @@ function ego_triggerreg($egoid, $email, $appname, $envname, $rolename, $custom, 
         $data["DESCRIPTION"]=$email;
         $data["EMAIL"]=$email;
         $data["UTENTEID"]=$quiverid;
+
+        $params=array();
+        $params["sessionid"]=$public_sessionid;
+        $params["environ"]=$envname;
+        $params["function"]="objects_insert";
+        $params["data"]=$data;
         
-        $json=json_decode(quiver_execute($public_sessionid, $envname, false, "objects_insert", $data), true);
+        $json=json_decode(quiver_execute($params), true);
 
         if($json["success"]==1){
             $object="Ego - Registrazione nuovo account";

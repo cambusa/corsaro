@@ -176,7 +176,7 @@ function makemonitor(missing){
         changerow:function(o,i){
             if(_sessioninfo.admin){
                 sysid="";
-                obj_save.caption("Inserisci");
+                //obj_save.caption("Inserisci");
                 obj_remove.visible(0);
                 obj_cast.visible(0);
                 obj_name.value("");
@@ -200,7 +200,7 @@ function makemonitor(missing){
         },
         solveid:function(o,d){
             sysid=d;
-            obj_save.caption("Modifica");
+            //obj_save.caption("Modifica");
             obj_remove.visible(1);
             obj_cast.visible(1);
             RYQUE.query({
@@ -296,7 +296,7 @@ function makemonitor(missing){
         $("#lb_clear").rylabel({
             left:0,
             top:-20,
-            caption:"Pulisci",
+            caption:"Nuovo",
             title:"Pulisce i campi predisponendosi all'inserimento",
             button:true,
             click:function(o){
@@ -307,7 +307,7 @@ function makemonitor(missing){
         obj_save=$("#lb_save").rylabel({
             left:100,
             top:-20,
-            caption:"Inserisci",
+            caption:"Salva",
             title:"Inserisce/modifica l'azione schedulata",
             button:true,
             click:function(o){

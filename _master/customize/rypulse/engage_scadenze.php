@@ -8,7 +8,13 @@ function engage_main(){
         $env=$PARAMS["env"];
     else
         $env="demo";
+        
+    $params=array();
+    $params["sessionid"]=$public_sessionid;
+    $params["environ"]=$env;
+    $params["function"]="pratiche_scadenze";
+    $params["data"]=$data;
 
-    $json=quiver_execute($public_sessionid, $env, false, "pratiche_scadenze", $data);
+    $json=quiver_execute($params);
 }
 ?>
