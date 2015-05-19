@@ -21,6 +21,9 @@ $global_pointers=array();
 // Cache dei record
 $global_cacherecord=array();
 
+// Spacename corrente
+$global_spacename="";
+
 define("LOWEST_TIME",  "19000101000000");
 define("LOWEST_DATE",  "19000101");
 define("HIGHEST_TIME", "99991231000000");

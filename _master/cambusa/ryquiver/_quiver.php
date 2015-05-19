@@ -17,7 +17,7 @@ include_once $path_cambusa."ryquiver/quiverlib.php";
 
 function quiver_execute($params){
     global $path_cambusa, $path_customize, $path_databases, $path_applications;
-    global $maestro;
+    global $maestro, $global_spacename;
     global $babelcode, $babelparams;
     global $global_lastenvname, $public_sessionid;
     try{
@@ -161,9 +161,11 @@ function quiver_execute($params){
                     $warning="";
                     foreach($program as $index => $stat){
                         $function=$stat["function"];
-                        $space=$stat["space"];
-                        if($space!=""){
-                            $space.="/";
+                        $global_spacename=$stat["space"];
+                        if($global_spacename!=""){
+                            if(substr($global_spacename, -1)!="/"){
+                                $global_spacename.="/";
+                            }
                         }
                         $fallible=intval($stat["fallible"]);
                         $data=$stat["data"];
@@ -192,10 +194,10 @@ function quiver_execute($params){
                         // AGGIUNGO IL PREFISSO
                         $function="qv_" . $function;
                         // LANCIO LA FUNZIONE RICHIESTA (LE FUNZIONI DI SISTEMA NON SONO SOVRASCRIVIBILI)
-                        $include=$path_cambusa . "ryquiver/" . $space . $function . ".php";
+                        $include=$path_cambusa . "ryquiver/" . $global_spacename . $function . ".php";
                         // DO LA PRECEDENZA ALLA FUNZIONE CUSTOM RISPETTO A QUELLA APPLICATIVA
-                        $custinclude=$path_customize . "ryquiver/" . $space . $function . ".php";
-                        $appinclude=$path_applications . "ryquiver/" . $space . $function . ".php";
+                        $custinclude=$path_customize . "ryquiver/" . $global_spacename . $function . ".php";
+                        $appinclude=$path_applications . "ryquiver/" . $global_spacename . $function . ".php";
 
                         if(is_file($include)){
                             include_once $include;
