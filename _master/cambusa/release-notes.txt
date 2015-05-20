@@ -1,8 +1,10 @@
 ==================================
-Rilascio 1.69.29    del XX/05/2015
+Rilascio 1.69.29    del 20/05/2015
 ==================================
 
 Quiver: introdotta una variabile globale che esprime lo spacename dell'istruzione corrente.
+
+RYJAX: migliorata la "getnodes" (analizza l'intero albero).
 
 ==================================
 Rilascio 1.69.28    del 18/05/2015

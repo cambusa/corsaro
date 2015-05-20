@@ -115,9 +115,10 @@ RYJAX={
         }
     },
     getnodes:function(xml){
-        var v=[];
+        var root={b:0, be:0, eb:0, e:0, par:false, ch:[]};
+        var t,s;
+        var curr=false;
         try{
-            var t,s,l=0,i=0,b=-1,be,eb,f;
             var reg=new RegExp("(</|<[^/]|/>|[^/]>)", "gm");
             while(t=reg.exec(xml)){
                 s=t[0];
@@ -125,38 +126,48 @@ RYJAX={
                 case "<":
                     if(s.substr(1,1)=="/"){
                         // Apertura del tag di chiusura </tag>
-                        l-=1;
-                        if(l==1)
-                            eb=t.index;
+                        curr.eb=t.index;
                     }
                     else{
                         // Apertura del tag di apertura <tag>
-                        if(l==1)
-                            b=t.index;
-                        l+=1;
-                        f=(l==2);
+                        if(curr==false){
+                            curr=root
+                        }
+                        else{
+                            curr.ch.push( {b:0, be:0, eb:0, e:0, par:curr, ch:[]} );
+                            curr=curr.ch[ curr.ch.length-1 ];
+                        }
+                        curr.b=t.index;
                     }
                     break;
                 case "/":
                     // Chiusura del tag autochiuso <tag/>
-                    l-=1;
-                    if(l==1)
-                        v.push({b:b, be:t.index+2, eb:b, e:t.index+2});
+                    curr.be=t.index+2;
+                    curr.eb=curr.b;
+                    curr.e=t.index+2;
+                    if(curr.par!=false)
+                        curr=curr.par;
                     break;
                 default:
                     // Chiusura del tag di apertura-chiusura <tag> ovvero </tag>
-                    if(b>=0 && l==1)
-                        v.push({b:b, be:be, eb:eb, e:t.index+2});
-                    if(f)
-                        be=t.index+2;
+                    if(curr.be==0){
+                        // Chiusura del tag di apertura
+                        curr.be=t.index+2;
+                    }
+                    else{
+                        // Chiusura del tag di chiusura
+                        curr.e=t.index+2;
+                        if(curr.par!=false)
+                            curr=curr.par;
+                    }
                 }
             }
         }
         catch(e){
             if(window.console){console.log(e.message)}
-            v=[];
+            root=[];
         }
-        return v;
+        return root;
     },
     getattributes:function(tag, options, missing){
         if(options==missing)options={};
@@ -173,5 +184,12 @@ RYJAX={
             v[s[1].toUpperCase()]=s[2].replace(exb, "");
         }
         return v;
+    },
+    gettag:function(xml){
+        var t=xml.match(/<(\w+) /);
+        if(t)
+            return t[1];
+        else
+            return "";
     }
 }
