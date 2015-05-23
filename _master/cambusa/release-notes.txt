@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.69.30    del 23/05/2015
+==================================
+
+ryHelper: utilizzato l'elemento "input" per il fuoco.
+
+ryButton: utilizzato l'elemento "input" per il fuoco.
+
+==================================
 Rilascio 1.69.29    del 20/05/2015
 ==================================
 

@@ -62,7 +62,7 @@
             .addClass("ryobject")
             .addClass("ryfamily")
             .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px","overflow":sc,"border":bd});
-            $("#"+propname).html("<a id='"+propname+"_anchor' href='#' style='position:absolute;'>&nbsp;</a><ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
+            $("#"+propname).html("<div style='position:absolute;border:none;left:0px;top:0px;width:1px;height:1px;overflow:hidden;'><input type='textbox' id='"+propname+"_anchor' style='position:absolute;left:-100px;width:10px;'></div><ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
     
             $("#"+propname+"_root").treeview();
             
@@ -168,6 +168,12 @@
                         return nextFocus(propname, k.shiftKey);
                     }
             	}
+            );
+            $("#"+propname+"_anchor").keyup(
+            	function(k){
+                    // MANTENGO PULITO INPUT
+                    $("#"+propname+"_anchor").val("");
+                }
             );
             $("#"+propname).click(function(evt){
                 $("#"+propname+"_anchor").focus();

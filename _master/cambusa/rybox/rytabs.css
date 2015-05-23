@@ -27,6 +27,7 @@ background-color:transparent;
 background: -webkit-linear-gradient(white, #CCC); /* For Safari 5.1 to 6.0 */
 background: -o-linear-gradient(white, #CCC); /* For Opera 11.1 to 12.0 */
 background: -moz-linear-gradient(white, #CCC); /* For Firefox 3.6 to 15 */
+filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FFFFFF', endColorstr='#C0C0C0'); /* For IE */
 background: linear-gradient(white, #CCC); /* Standard syntax */
 }
 
@@ -35,5 +36,6 @@ background-color:transparent;
 background: -webkit-linear-gradient(gray, #333); /* For Safari 5.1 to 6.0 */
 background: -o-linear-gradient(gray, #333); /* For Opera 11.1 to 12.0 */
 background: -moz-linear-gradient(gray, #333); /* For Firefox 3.6 to 15 */
+filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#808080', endColorstr='#303030'); /* For IE */
 background: linear-gradient(gray, #333); /* Standard syntax */
 }

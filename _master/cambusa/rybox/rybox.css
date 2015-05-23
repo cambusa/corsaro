@@ -31,6 +31,7 @@ background-color:transparent;
 background: -webkit-linear-gradient(white, #DDD); /* For Safari 5.1 to 6.0 */
 background: -o-linear-gradient(white, #DDD); /* For Opera 11.1 to 12.0 */
 background: -moz-linear-gradient(white, #DDD); /* For Firefox 3.6 to 15 */
+/* filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FFFFFF', endColorstr='#D0D0D0');*/ /* For IE */
 background: linear-gradient(white, #DDD); /* Standard syntax */
 }
 
@@ -153,35 +154,50 @@ font-family:verdana,sans-serif;
 .rydate input{
 position:absolute;
 font-size:2px;
-right:14px;
+left:6px;
 top:6px;
 width:1px;
 height:1px;
 border:none;
 text-indent:-10px;
+overflow:hidden;
 }
 
 .rynumber input{
 position:absolute;
 font-size:2px;
-right:4px;
+left:6px;
 top:6px;
 width:1px;
 height:1px;
 border:none;
 text-indent:-10px;
+overflow:hidden;
+}
+
+.rybutton input{
+position:absolute;
+font-size:2px;
+left:6px;
+top:6px;
+width:1px;
+height:1px;
+border:none;
+text-indent:-10px;
+overflow:hidden;
 }
 
 .rycheck input{
 position:absolute;
 font-size:2px;
-right:4px;
+left:6px;
 top:6px;
 width:1px;
 height:1px;
 border:none;
 text-indent:-10px;
 color:white;
+overflow:hidden;
 }
 
 .rybutton-rounded{

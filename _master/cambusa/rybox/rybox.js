@@ -1949,8 +1949,8 @@ var globalcolorfocus="#FFF4E6";
             }
             if(propbutton){
                 $("#"+propname).addClass("rybutton");
-                $("#"+propname).html("<a href='javascript:' id='"+propname+"_anchor'><div id='"+propname+"_caption'>"+propcaption+"</div></a>");
-                $("#"+propname+"_anchor").css({"position":"absolute","width":1,"height":20,"text-decoration":"none","background-color":"transparent","cursor":"pointer","color":"#AA2222","font-weight":"normal","outline":"none"});
+                $("#"+propname).html("<input type='textbox' id='"+propname+"_anchor'><span id='"+propname+"_caption'>"+propcaption+"</span>");
+                $("#"+propname+"_anchor").css({"position":"absolute","font-size":"2px","left":"6px","top":"6px","width":"1px","height":"1px","border":"none","text-indent":"-10px","overflow":"hidden"});
                 if(propflat)
                     $("#"+propname+"_caption").addClass("rybutton-caption-flat");
                 else
@@ -1960,7 +1960,7 @@ var globalcolorfocus="#FFF4E6";
                 }
             }
             else{
-                $("#"+propname).html("<div id='"+propname+"_margin'><div id='"+propname+"_caption'>"+propcaption+"</div></div>");
+                $("#"+propname).html("<div id='"+propname+"_caption'>"+propcaption+"</div>");
                 $("#"+propname+"_caption").addClass("rylabel-caption");
             }
 
@@ -1993,6 +1993,12 @@ var globalcolorfocus="#FFF4E6";
                             return nextFocus(propname, k.shiftKey);
                     }
             	}
+            );
+            $("#"+propname+"_anchor").keyup(
+            	function(k){
+                    // MANTENGO PULITO INPUT
+                    $("#"+propname+"_anchor").val("");
+                }
             );
             $("#"+propname).mousedown(
                 function(evt){

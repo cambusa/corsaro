@@ -457,13 +457,27 @@ function ryQuiver(missing){
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
             .addClass("ryhelper")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"silver","font-family":"verdana,sans-serif","font-size":"13px","line-height":"normal"})
-            .html("<a href='javascript:' id='"+propname+"_anchor'></a>");
-            $("#"+propname+"_anchor").css({"position":"absolute","width":propwidth,"height":propheight,"text-decoration":"none","color":"transparent","background-color":"transparent","cursor":"default"});
-            $("#"+propname+"_anchor").html("<div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div><div id='"+propname+"_clear'></div>");
-            $("#"+propname+"_internal").css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"});
-            $("#"+propname+"_internal").html("<div id='"+propname+"_text'></div>");
-            $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":2,"top":1,"width":propwidth-20,"height":propheight-4,"overflow":"hidden","white-space":"nowrap"});
+            .css({
+                "position":"absolute",
+                "left":propleft,
+                "top":proptop,
+                "width":propwidth,
+                "height":propheight,
+                "color":"transparent",
+                "background-color":"silver",
+                "font-family":"verdana,sans-serif",
+                "font-size":"13px",
+                "line-height":"17px",
+                "cursor":"default"
+            })
+            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div><div id='"+propname+"_clear'></div>");
+            
+            $("#"+propname+"_anchor").css({"position":"absolute","font-size":"2px","left":"6px","top":"6px","width":"1px","height":"1px","border":"none","text-indent":"-10px","overflow":"hidden"});
+
+            $("#"+propname+"_internal")
+            .css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"})
+            .html("<div id='"+propname+"_text'></div>");
+            $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-23,"height":propheight-4,"overflow":"hidden"});
             $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"ryquiver/images/helper.png)"});
             $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"ryquiver/images/clear.png)"});
             
@@ -510,6 +524,12 @@ function ryQuiver(missing){
                         }
             		}
             	}
+            );
+            $("#"+propname+"_anchor").keyup(
+            	function(k){
+                    // MANTENGO PULITO INPUT
+                    $("#"+propname+"_anchor").val("");
+                }
             );
             $("#"+propname).mousedown(
             	function(evt){
