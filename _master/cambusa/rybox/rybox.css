@@ -32,20 +32,54 @@ background: -webkit-linear-gradient(white, #DDD); /* For Safari 5.1 to 6.0 */
 background: -o-linear-gradient(white, #DDD); /* For Opera 11.1 to 12.0 */
 background: -moz-linear-gradient(white, #DDD); /* For Firefox 3.6 to 15 */
 /* filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FFFFFF', endColorstr='#D0D0D0');*/ /* For IE */
-background: linear-gradient(white, #DDD); /* Standard syntax */
+background: linear-gradient(#FFFFFF, #D0D0D0); /* Standard syntax */
 }
 
-.rybutton-caption:hover{
-color:#666;
+.rybutton-caption:not(.rybutton-disabled):hover{
+color:#666 !important;
+}
+
+.rybutton-caption-flat{
+position:absolute;
+cursor:pointer;
+left:0px;
+top:0px;
+height:20px;
+font-family:verdana,sans-serif;
+font-size:13px;
+white-space:nowrap;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-khtml-border-radius: 5px;
+border-radius: 5px;
+color:#AA2222;
+background-color:transparent;
+}
+
+.rybutton-caption-flat:not(.rybutton-disabled):hover{
+color:#D04444 !important;
 }
 
 .rybutton-disabled {
-text-shadow:none;
-cursor:default;
+color:silver !important;
+text-shadow:none !important;
+cursor:default !important;
 }
 
 .rybutton-click {
-text-shadow:none;
+text-shadow:none !important;
+}
+
+.rybutton-flat-click {
+background-color:#FFF8EC !important;
+}
+
+.rybutton-focus:not(.rybutton-disabled){
+border-color:#666 !important;
+}
+
+.rybutton-flat-focus:not(.rybutton-disabled){
+background-color:#FFE8CC !important;
 }
 
 /*
@@ -72,23 +106,6 @@ animation: ryclick 0.3s;
     to {background: #FFE8CC;}
 }
 */
-
-.rybutton-caption-flat{
-position:absolute;
-cursor:pointer;
-left:0px;
-top:0px;
-height:20px;
-font-family:verdana,sans-serif;
-font-size:13px;
-white-space:nowrap;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
--khtml-border-radius: 5px;
-border-radius: 5px;
-color:#AA2222;
-background-color:transparent;
-}
 
 .rylabel-caption {
 position:absolute;

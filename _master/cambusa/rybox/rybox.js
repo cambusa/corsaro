@@ -1971,24 +1971,27 @@ var globalcolorfocus="#FFF4E6";
             	function(){
             		if(propenabled){
                         if(propflat)
-                            $("#"+propname+"_caption").css({"background-color":"#FFE8CC"});
-                        else{
-                            $("#"+propname+"_caption").css({"border-color":"#666"});
-                        }
+                            $("#"+propname+"_caption").addClass("rybutton-flat-focus");
+                        else
+                            $("#"+propname+"_caption").addClass("rybutton-focus");
             		}
             	}
             );
             $("#"+propname+"_anchor").focusout(
             	function(){
                     if(propflat)
-                        $("#"+propname+"_caption").css({"background-color":"transparent"});
+                        $("#"+propname+"_caption").removeClass("rybutton-flat-focus");
                     else
-                        $("#"+propname+"_caption").css({"border-color":"silver"});
+                        $("#"+propname+"_caption").removeClass("rybutton-focus");
             	}
             );
             $("#"+propname+"_anchor").keydown(
             	function(k){
-                    if(k.which==9){
+            		if(k.which==13){ // INVIO
+                        if(propbutton)
+                            $("#"+propname).click();
+            		}
+                    else if(k.which==9){
                         if(propbutton)
                             return nextFocus(propname, k.shiftKey);
                     }
@@ -2013,9 +2016,9 @@ var globalcolorfocus="#FFF4E6";
                         if(settings.click!=missing){
                             if(propbutton){
                                 if(propflat){
-                                    $("#"+propname+"_caption").css({"background-color":"#FFF8EC"});
+                                    $("#"+propname+"_caption").addClass("rybutton-flat-click");
                                     setTimeout(function(){
-                                        $("#"+propname+"_caption").css({"background-color":"#FFE8CC"});
+                                        $("#"+propname+"_caption").removeClass("rybutton-flat-click");
                                     }, 500);
                                 }
                                 else{
@@ -2091,19 +2094,10 @@ var globalcolorfocus="#FFF4E6";
             // FUNZIONI PRIVATE
             function setenabled(v){
                 propenabled=v.booleanNumber();
-                if(propenabled){
-                    $("#"+propname+"_caption").css({"color":"inherit"});
-                    if(propflat)
-                        $("#"+propname+"_anchor").css({"cursor":"pointer","color":"#AA2222"});
-                    else
-                        $("#"+propname+"_anchor").css({"cursor":"pointer","color":"#333"});
+                if(propenabled)
                     $("#"+propname+"_caption").removeClass("rybutton-disabled");
-                }
-                else{
-                    $("#"+propname+"_caption").css({"color":"silver"});
-                    $("#"+propname+"_anchor").css({"cursor":"text","color":"silver"});
+                else
                     $("#"+propname+"_caption").addClass("rybutton-disabled");
-                }
             }
             function setvisible(v){
                 if(propvisible=v.booleanNumber())
@@ -2329,7 +2323,7 @@ var globalcolorfocus="#FFF4E6";
             .addClass("rylist")
             .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"silver"})
             .html("<select id='"+propname+"_anchor' size='1'></select>");
-            $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px"});
+            $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
             $("#"+propname+"_anchor option").css({"background-color":"#FFFFFF"});
             
             $("#"+propname+"_anchor").focus(
