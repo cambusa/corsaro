@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.69.31    del 30/05/2015
+==================================
+
+Tolte le informazioni esplicite sul copyright dalle applicazioni Cambusa e arricchiti i metadati.
+
+Filibuster: gestita la policy sui cookie.
+
+==================================
 Rilascio 1.69.30    del 23/05/2015
 ==================================
 

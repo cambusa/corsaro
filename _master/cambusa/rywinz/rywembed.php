@@ -43,8 +43,8 @@ else
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
-<meta name="framework" content="Cambusa">
-<meta name="copyright" content="Rodolfo Calzetti">
+<meta name="description" content="ryWinz - Form Management">
+<meta name="framework" content="Cambusa <?php print $cambusa_version ?>">
 <meta name="license" content="GNU LGPL v3">
 <meta name="repository" content="https://github.com/cambusa/">
 <title><?php print $winz_apptitle ?></title>

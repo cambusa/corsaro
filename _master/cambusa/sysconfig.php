@@ -14,6 +14,12 @@ $curdir=realpath(dirname(__FILE__));
 $curdir=str_replace("\\", "/", $curdir);
 include_once $curdir."/solveroot.php";
 
+/*******************
+| VERSIONE CAMBUSA |
+*******************/
+
+$cambusa_version="v1.69";
+
 /**************
 | URL DOMINIO |
 **************/

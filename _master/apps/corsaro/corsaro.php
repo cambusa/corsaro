@@ -23,7 +23,7 @@ include_once "../../cambusa/rywinz/rywinclude.php";
 $RYWINZ->appname="corsaro";
 $RYWINZ->apptitle="Corsaro";
 $RYWINZ->appdescr="Web-based Enterprise Resource Planning";
-$RYWINZ->appversion="1.69";
+$RYWINZ->appversion="v1.69";
 $RYWINZ->copyright="2015 Rodolfo Calzetti";
 $RYWINZ->dealer="";
 $RYWINZ->about->content=<<<ABOUT

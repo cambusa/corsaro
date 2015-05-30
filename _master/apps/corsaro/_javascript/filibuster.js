@@ -1272,9 +1272,12 @@ function objMailus(obj){
     );
 }
 function flb_statistics(){
-    if(!_flagstats){
-        _flagstats=true;
-        if(supportsCookies()){
+    if(supportsCookies()){
+        if(!$.cookie("FLBCOOKIE_"+_environ+"_"+_site)){
+            $("body").append("<div id='filibuster-privacycookie'>Questo sito fa uso di cookie tecnici non finalizzati alla raccolta di dati personali. Puoi leggere la <a href='flb_privacy.php' target='_blank'>policy sui cookie</a>. <span onclick='removePrivacyCookie()'>&nbsp;X&nbsp;</span></div>");
+        }
+        if(!_flagstats){
+            _flagstats=true;
             var userid=$.cookie("FLBUSER");
             if(!userid){
                 userid="";
@@ -1304,6 +1307,10 @@ function flb_statistics(){
             });
         }
     }
+}
+function removePrivacyCookie(){
+    $("#filibuster-privacycookie").remove();
+    $.cookie("FLBCOOKIE_"+_environ+"_"+_site, 1, { expires : 10000 });
 }
 function supportsSVG(){
     // Preso da Modernizr

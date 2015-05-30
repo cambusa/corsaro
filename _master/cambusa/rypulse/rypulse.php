@@ -26,12 +26,15 @@ else{
     $egomethod="POST";
 }
 
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+?><!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<meta name="description" content="ryPulse - Scheduling Management">
+<meta name="framework" content="Cambusa <?php print $cambusa_version ?>">
+<meta name="license" content="GNU LGPL v3">
+<meta name="repository" content="https://github.com/cambusa/">
 <title>Pulse - Gestore di azioni schedulate</title>
 
 <style>
@@ -502,8 +505,8 @@ function sysmessagehide(){
 
 <div class="pulse-conteiner">
 
-<div class="pulse-title">GESTORE DI AZIONI SCHEDULATE</div>
-<div>ryPulse &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL v3</div>
+<div class="pulse-title">RY-PULSE</div>
+<div>GESTORE DI AZIONI SCHEDULATE</div>
 <br/>
 
 <div style="border:1px solid silver;background-color:#F0F0F0;">
@@ -540,7 +543,7 @@ function sysmessagehide(){
 <div id="lb_save"></div>
 <div id="lb_remove"></div>
 <div id="lb_cast"></div>
-<div id="messbar" style="display:none;position:absolute;left:0;top:225;white-space:nowrap;"></div>
+<div id="messbar" style="display:none;position:absolute;left:0;top:225px;white-space:nowrap;"></div>
 
 </div>
 

@@ -207,9 +207,7 @@ else
 <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
 <meta name="keywords" content="<?php print $metakeys ?>"/>
 <meta name="description" content="<?php print $metadescr ?>">
-<meta name="engine" content="Filibuster">
-<meta name="framework" content="Cambusa">
-<meta name="copyright" content="Rodolfo Calzetti">
+<meta name="engine" content="Filibuster v1.0">
 <meta name="license" content="GNU LGPL v3">
 <meta name="repository" content="https://github.com/cambusa/">
 <?php  print $GLOBALHEAD ?>

@@ -28,6 +28,10 @@ else{
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<meta name="description" content="ryMirror - Script Management">
+<meta name="framework" content="Cambusa <?php print $cambusa_version ?>">
+<meta name="license" content="GNU LGPL v3">
+<meta name="repository" content="https://github.com/cambusa/">
 <title>Mirror - Manutenzione Script</title>
 
 <style>
@@ -756,8 +760,8 @@ function sysmessagehide(){
 
 <div class="mirror-conteiner">
 
-<div class="mirror-title">MANUTENZIONE SCRIPT</div>
-<div>ryMirror &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL v3</div>
+<div class="mirror-title">RY-MIRROR</div>
+<div>MANUTENZIONE SCRIPT</div>
 <br/>
 
 <div style="border:1px solid silver;background-color:#F0F0F0;">

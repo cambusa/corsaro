@@ -32,6 +32,10 @@ $direnvirons=$path_databases."_environs/";
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<meta name="description" content="ryMaestro - Database Management">
+<meta name="framework" content="Cambusa <?php print $cambusa_version ?>">
+<meta name="license" content="GNU LGPL v3">
+<meta name="repository" content="https://github.com/cambusa/">
 <title>Maestro - Modellazione database</title>
 
 <style>
@@ -336,8 +340,8 @@ function resizebody(){
 
 <div class="maestro-conteiner">
 
-<div class="maestro-title">MODELLAZIONE E MANUTENZIONE DATABASE</div>
-<div>ryMaestro &copy; 2015 Rodolfo Calzetti - Licenza GNU LGPL v3</div>
+<div class="maestro-title">RY-MAESTRO</div>
+<div>MODELLAZIONE E MANUTENZIONE DATABASE</div>
 <br/>
 
 <div style="border:1px solid silver;background-color:#F0F0F0;">

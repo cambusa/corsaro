@@ -138,6 +138,10 @@ prepareEncrypt($maestro, $publickey);
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<meta name="description" content="ryEgo - Central Authentication Service">
+<meta name="framework" content="Cambusa <?php print $cambusa_version ?>">
+<meta name="license" content="GNU LGPL v3">
+<meta name="repository" content="https://github.com/cambusa/">
 <title>Ego - Servizio di autenticazione</title>
 <link rel='shortcut icon' href='images/favicon.ico' type='image/x-icon'/>
 <link type='text/css' href='ryego.css' rel='stylesheet' />
