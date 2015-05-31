@@ -1274,7 +1274,7 @@ function objMailus(obj){
 function flb_statistics(){
     if(supportsCookies()){
         if(!$.cookie("FLBCOOKIE_"+_environ+"_"+_site)){
-            $("body").append("<div id='filibuster-privacycookie'>Questo sito fa uso di cookie tecnici non finalizzati alla raccolta di dati personali. Puoi leggere la <a href='flb_privacy.php' target='_blank'>policy sui cookie</a>. <span onclick='removePrivacyCookie()'>&nbsp;X&nbsp;</span></div>");
+            $("body").append("<div id='filibuster-privacycookie'>Questo sito fa uso di cookie tecnici non finalizzati alla raccolta di dati personali. Puoi approfondire leggendo la <a href='flb_privacy.php' target='_blank'>policy sui cookie</a>. <span onclick='removePrivacyCookie()'>Ho letto</span></div>");
         }
         if(!_flagstats){
             _flagstats=true;

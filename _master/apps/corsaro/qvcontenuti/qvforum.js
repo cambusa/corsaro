@@ -347,8 +347,8 @@ function class_qvforum(settings,missing){
 }
 function _forumLogout(){
     try{
-        winz_logout();
-        window.parent.FLB.forum.showLogin();
+        if(winz_logout())
+            window.parent.FLB.forum.showLogin();
     }
     catch(e){}
 }

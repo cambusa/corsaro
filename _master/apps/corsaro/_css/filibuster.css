@@ -252,7 +252,7 @@ line-height:28px;
 
 /* PRIVACYCOOKIE */
 #filibuster-privacycookie{position:absolute;top:0px;left:0px;right:0px;background:black;color:white;border:1px solid silver;padding:2px 10px;font-family:verdana,sans-serif;font-size:80%;}
-#filibuster-privacycookie span{float:right;cursor:pointer;}
+#filibuster-privacycookie span{cursor:pointer;border:1px solid gray;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;padding:1px 5px 1px;background:silver;color:black;font-size:70%;}
 #filibuster-privacycookie a{color:red;cursor:pointer;text-decoration:none;}
 
 /* CLASSI UTILI */

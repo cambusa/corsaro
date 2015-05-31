@@ -273,6 +273,9 @@ function ryWinz(missing){
             ready();
         }
     }
+    this.MDI=function(){
+        return false;
+    }
     this.shell=function(params){
         // rywinz.js compatibility
     }

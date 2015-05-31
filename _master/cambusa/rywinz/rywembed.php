@@ -157,6 +157,7 @@ function winz_logout(){
         });
         TAIL.wriggle();
     }
+    return ok;
 }
 </script>
 </head>

@@ -187,6 +187,7 @@ input,select,a:focus{outline:none;border:none;}
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.tabs.js'></script>
+<script type='text/javascript' src='../jquery/jquery.cookie.js'></script>
 <script type='text/javascript' src='../ryque/ryque.js?ver=<?php print $cacheversion ?>' ></script>
 
 <script>
@@ -231,6 +232,12 @@ function sysmessage(t,s){
 function sysmessagehide(){
     htimer="";
 	$("#messbar").html("").hide("slow");
+}
+function supportsCookies(){
+    return false;
+}
+function removePrivacyCookie(){
+    $("#filibuster-privacycookie").remove();
 }
 </script>
 

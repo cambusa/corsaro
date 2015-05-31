@@ -68,6 +68,9 @@
                     propclosable=true;
             }
             if(settings.closable!=missing){propclosable=settings.closable}
+            if(!RYWINZ.MDI()){
+                propclosable=false;
+            }
 			
             $("#"+propname).addClass("rytabs");
             $("#"+propname).addClass("ryobject");

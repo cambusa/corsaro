@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.69.32    del 31/05/2015
+==================================
+
+RYWINZ: gestito il nuovo flag RYWINZ.MDI() e utilizzato in ryTabs.
+
+Forum: corretta anomalia al logout in caso di modifiche non salvate.
+
+==================================
 Rilascio 1.69.31    del 30/05/2015
 ==================================
 

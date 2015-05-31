@@ -185,6 +185,11 @@ $(document).ready(function(){
     egoinitialize();
 });
 function egoinitialize(missing){
+    if(supportsCookies()){
+        if(!$.cookie("EGOCOOKIE")){
+            $("body").append("<div id='filibuster-privacycookie'>Questo sito fa uso di cookie tecnici non finalizzati alla raccolta di dati personali. Puoi approfondire leggendo la <a href='ego_privacy.php' target='_blank'>policy sui cookie</a>. <span onclick='removePrivacyCookie()'>Ho letto</span></div>");
+        }
+    }
     $("#lbauthenticationservice").rylabel({caption:"Servizio di autenticazione"});
     $("#lbsendpwd").rylabel({caption:"Reimpostare la password dell'utente {1}?"});
     $("#lbmandatoryuser").rylabel({caption:"Inserire un nome utente o alias"});

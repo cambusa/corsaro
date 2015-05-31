@@ -327,6 +327,9 @@ function ryWinz(missing){
             ready();
         }
     }
+    this.MDI=function(){
+        return true;
+    }
     this.shell=function(params){
         try{
             var id="_form"+(_winzprogrid+1)+"_";

@@ -215,6 +215,7 @@ input,select,a:focus{outline:none;border:none;}
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.tabs.js'></script>
+<script type='text/javascript' src='../jquery/jquery.cookie.js'></script>
 <script type='text/javascript' src='../ryque/ryque.js?ver=<?php print $cacheversion ?>' ></script>
 
 <script>
@@ -277,6 +278,14 @@ function logout(){
             }, 100
         );
     }
+}
+function supportsCookies(){
+    $.cookie("EGOTEST", "DUMMY");
+    return ($.cookie("EGOTEST")=="DUMMY");
+}
+function removePrivacyCookie(){
+    $("#filibuster-privacycookie").remove();
+    $.cookie("EGOCOOKIE", 1, { expires : 10000 });
 }
 </script>
 
