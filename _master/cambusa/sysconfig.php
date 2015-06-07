@@ -2,7 +2,7 @@
 /****************************************************************************
 * Name:            sysconfig.php                                            *
 * Project:         Cambusa                                                  *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Cambusa configuration file                               *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
@@ -18,7 +18,7 @@ include_once $curdir."/solveroot.php";
 | VERSIONE CAMBUSA |
 *******************/
 
-$cambusa_version="v1.69";
+$cambusa_version="v1.70";
 
 /**************
 | URL DOMINIO |

@@ -2,7 +2,7 @@
 /****************************************************************************
 * Name:            corsaro.php                                              *
 * Project:         Corsaro                                                  *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Arrows-oriented application                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
@@ -23,7 +23,7 @@ include_once "../../cambusa/rywinz/rywinclude.php";
 $RYWINZ->appname="corsaro";
 $RYWINZ->apptitle="Corsaro";
 $RYWINZ->appdescr="Web-based Enterprise Resource Planning";
-$RYWINZ->appversion="v1.69";
+$RYWINZ->appversion="v1.70";
 $RYWINZ->copyright="2015 Rodolfo Calzetti";
 $RYWINZ->dealer="";
 $RYWINZ->about->content=<<<ABOUT
@@ -37,7 +37,7 @@ $RYWINZ->about->content=<<<ABOUT
 <div style="line-height:20px;">&nbsp;</div>
 <a class="winz-linkabout" href="{$url_cambusa}CREDITS.TXT" target="_blank">Cambusa credits</a><br/>
 <br/>
-<a class="winz-linkabout" href="{$url_applications}LICENSE.TXT" target="_blank">{$RYWINZ->apptitle} License</a><br/>
+<a class="winz-linkabout" href="{$url_applications}{$RYWINZ->appname}/LICENSE.TXT" target="_blank">{$RYWINZ->apptitle} License</a><br/>
 <br/>
 <br/>
 - Thanks to <b>The jQuery Foundation</b> for <a href="http://jquery.com/" target="_blank" style="cursor:pointer;text-decoration:underline;">jQuery</a> 

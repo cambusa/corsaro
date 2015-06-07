@@ -1,4 +1,4 @@
-Product:        Cambusa 1.69
+Product:        Cambusa 1.70
 Copyright:      2015 Rodolfo Calzetti
 License:        GNU LGPL v3
 Site:           http://www.rudyz.net/
