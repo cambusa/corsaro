@@ -2875,46 +2875,55 @@ function ryBox(missing){
         }, lang, parentid);
         TAIL.wriggle();
     }
-    this.babels=function(codes, value, missing){
+    this.babels=function(codes, args, missing){
         if(typeof(codes)=="object"){
             for(var b in codes){
                 propbabelcodes[b]={caption:codes[b], virgin:true};
             }
         }
         else{
-            if(value!=missing){
-                propbabelcodes[codes]={caption:value, virgin:true};
+            try{
+                var b=propbabelcodes[codes].caption;
+                if(args!=missing){
+                    if(typeof(args)=="object"){
+                        var i=0;
+                        for(var a in args){
+                            i+=1;
+                            b=b.replace("{"+a+"}", args[a]).replace("{"+i+"}", args[a]);
+                        }
+                    }
+                    else{
+                        b=b.replace("{1}", args);
+                    }
+                }
+                return b.replace(/\\n/g, String.fromCharCode(10));
             }
-            else{
-                try{
-                    var b=propbabelcodes[codes].caption;
-                    return b.replace(/\\n/g, String.fromCharCode(10));
-                }
-                catch(er){
-                    if(window.console)console.log("["+codes+"] not defined");
-                    return codes;
-                }
+            catch(er){
+                if(window.console)console.log("["+codes+"] not defined");
+                return codes;
             }
         }
     }
     this.getbabel=function(n, args, missing){
-        var p=$("#"+n+" .rylabel-caption").html();
-        if(p===null){
+        var b=$("#"+n+" .rylabel-caption").html();
+        if(b===null){
             if(window.console)console.log("Label ["+n+"] doesn't exist!");
-            p="";
+            b="";
         }
         else if(args!=missing){
-            if(typeof(args)=="array"){
-                for(var i in arg){
-                    p=p.replace("{"+(i+1)+"}", args[i]);
+            if(typeof(args)=="object"){
+                var i=0;
+                for(var a in args){
+                    i+=1;
+                    b=b.replace("{"+a+"}", args[a]).replace("{"+i+"}", args[a]);
                 }
             }
             else{
-                p=p.replace("{1}", args);
+                b=b.replace("{1}", args);
             }
         }
-        p=p.replace(/\\n/g, String.fromCharCode(10));
-        return p;
+        b=b.replace(/\\n/g, String.fromCharCode(10));
+        return b;
     }
     this.setfocus=function(n){
         castFocus(n);

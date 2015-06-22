@@ -9,5 +9,5 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-$cacheversion=70;
+$cacheversion=78;
 ?>

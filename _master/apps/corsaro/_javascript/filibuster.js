@@ -34,6 +34,12 @@ FLB.metrics.width=800;
 FLB.metrics.density=96;
 FLB.detected={};
 FLB.detected.mobile=(navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Mini|Mobile/i)!==null);
+FLB.containers=function(id){
+    if(_containers[id])
+        return _containers[id];
+    else
+        return {};
+}
 FLB.refresh=function(){
     containers_locate();
 }
@@ -272,8 +278,13 @@ function containers_locate(options, missing){
                     sl=v.match(/\[!SHEETLEFT\]/);
                 }
                 if(la){
-                    flb_leftafter=la[1];
-                    flb_leftaftervalue=v;
+                    if(_containers[la[1]]){
+                        flb_leftafter=la[1];
+                        flb_leftaftervalue=v;
+                    }
+                    else{
+                        if(window.console){console.log("Container "+la[1]+" doesn't exist!")}
+                    }
                 }
                 else if(sl){
                     var formula=v.replace(/\[!SHEETLEFT\]/, sheet_left);
@@ -330,8 +341,13 @@ function containers_locate(options, missing){
                     ta=v.match(/\[!TOPAFTER\((.+)\)\]/);
                 }
                 if(ta){
-                    flb_topafter=ta[1];
-                    flb_topaftervalue=v;
+                    if(_containers[ta[1]]){
+                        flb_topafter=ta[1];
+                        flb_topaftervalue=v;
+                    }
+                    else{
+                        if(window.console){console.log("Container "+ta[1]+" doesn't exist!")}
+                    }
                 }
                 else{
                     styouter["top"]=parseInt(v);
@@ -396,6 +412,7 @@ function containers_locate(options, missing){
             flb_radius=false;
             flb_padding=0;
             flb_thick=0;
+            flb_height=0;
         }
         // SPESSORE TOTALE
         if(flb_radius!==false){
@@ -936,7 +953,10 @@ function solvehierarchy(){
             if(typeof(attr)=="string"){
                 var ref=attr.match(/\[!LEFTAFTER\((.+)\)\]/);
                 if(ref){
-                    leftid=ref[1];
+                    if(_containers[ref[1]])
+                        leftid=ref[1];
+                    else
+                        if(window.console){console.log("Container "+ref[1]+" doesn't exist!")}
                 }
             }
         }
@@ -945,7 +965,10 @@ function solvehierarchy(){
             if(typeof(attr)=="string"){
                 var ref=attr.match(/\[!TOPAFTER\((.+)\)\]/);
                 if(ref){
-                    topid=ref[1];
+                    if(_containers[ref[1]])
+                        topid=ref[1];
+                    else
+                        if(window.console){console.log("Container "+ref[1]+" doesn't exist!")}
                 }
             }
         }
@@ -1006,53 +1029,60 @@ function objMarqee(obj){
     obj.flagmarq=true;
     obj.subheight=h+30;
     obj.refid=refid;
-    $(obj).height(2*obj.subheight);
-    $(obj).mouseover(
-        function(){
-            obj.flagmarq=false;
-        }
-    );
-    $(obj).mouseout(
-        function(){
-            obj.flagmarq=true;
-        }
-    );
-    setInterval(
-        function(){
-            var milly=(new Date()).getTime();
-            if(milly-obj.prevtime>obj.slowness){
-                obj.prevtime=milly;
-                if(obj.flagmarq){
-                    obj.base=obj.base-1;
-                    if(obj.base+obj.subheight<0){
-                        obj.base=0;
-                        if(obj.fase==0)
-                            obj.fase=1;
-                        else
-                            obj.fase=0;
-                    }
-                    if(obj.fase==0){
-                        $("#MARQUEE1_"+obj.refid).css({"position":"absolute","top":obj.base});
-                        $("#MARQUEE2_"+obj.refid).css({"position":"absolute","top":obj.base+obj.subheight});
-                    }else{
-                        $("#MARQUEE2_"+obj.refid).css({"position":"absolute","top":obj.base});
-                        $("#MARQUEE1_"+obj.refid).css({"position":"absolute","top":obj.base+obj.subheight});
-                    }
-                }
-                if(obj.slowness>10){
-                    switch(obj.slowness){
-                        case 2500: obj.slowness=60; break;
-                        case 60: obj.slowness=40; break;
-                        case 40: obj.slowness=30; break;
-                        case 30: obj.slowness=25; break;
-                        case 25: obj.slowness=20; break;
-                        case 20: obj.slowness=15; break;
-                        case 15: obj.slowness=10; break;
-                    }
-                }
+    if(FLB.detected.mobile){
+        $(obj).height(obj.subheight);
+        $("#MARQUEE1_"+refid).css({"position":"absolute","top":obj.base});
+        $("#MARQUEE2_"+refid).remove();
+    }
+    else{
+        $(obj).height(2*obj.subheight);
+        $(obj).mouseover(
+            function(){
+                obj.flagmarq=false;
             }
-        }, 10
-    );
+        );
+        $(obj).mouseout(
+            function(){
+                obj.flagmarq=true;
+            }
+        );
+        setInterval(
+            function(){
+                var milly=(new Date()).getTime();
+                if(milly-obj.prevtime>obj.slowness){
+                    obj.prevtime=milly;
+                    if(obj.flagmarq){
+                        obj.base=obj.base-1;
+                        if(obj.base+obj.subheight<0){
+                            obj.base=0;
+                            if(obj.fase==0)
+                                obj.fase=1;
+                            else
+                                obj.fase=0;
+                        }
+                        if(obj.fase==0){
+                            $("#MARQUEE1_"+obj.refid).css({"position":"absolute","top":obj.base});
+                            $("#MARQUEE2_"+obj.refid).css({"position":"absolute","top":obj.base+obj.subheight});
+                        }else{
+                            $("#MARQUEE2_"+obj.refid).css({"position":"absolute","top":obj.base});
+                            $("#MARQUEE1_"+obj.refid).css({"position":"absolute","top":obj.base+obj.subheight});
+                        }
+                    }
+                    if(obj.slowness>10){
+                        switch(obj.slowness){
+                            case 2500: obj.slowness=60; break;
+                            case 60: obj.slowness=40; break;
+                            case 40: obj.slowness=30; break;
+                            case 30: obj.slowness=25; break;
+                            case 25: obj.slowness=20; break;
+                            case 20: obj.slowness=15; break;
+                            case 15: obj.slowness=10; break;
+                        }
+                    }
+                }
+            }, 10
+        );
+    }
 }
 function objSearch(obj){
     var refid=$(obj).attr("id");
@@ -1590,7 +1620,12 @@ function flb_forumLogout(obj){
         var info=FLB.forum.getInfo(obj);
         setTimeout(
             function(){
-                try{info.iframe.contentWindow._forumLogout()}catch(e){}
+                try{
+                    info.iframe.contentWindow._forumLogout()
+                }
+                catch(e){
+                    if(window.console){console.log(e.message)}
+                }
             },100
         );
     }

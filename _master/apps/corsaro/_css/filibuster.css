@@ -34,6 +34,7 @@ a:hover{color:#708090;}
 .filibuster-subtitle{font-size:120%;padding-bottom:10px;}
 .filibuster-content{font-size:100%;padding-bottom:20px;}
 .filibuster-abstract{font-size:100%;padding-bottom:20px;}
+.filibuster-source{font-size:60%;padding:20px 0px 20px 0px;}
 
 /* ATTACHMENT */
 .filibuster-audio{margin-top:0px;margin-bottom:30px;}
@@ -90,6 +91,8 @@ a.filibuster-navigator-enabled:hover{color:#708090;text-decoration:none;}
 
 /* MARQUEE */
 .filibuster-marquee{padding-bottom:0px;overflow:hidden;}
+.filibuster-marquee  .filibuster-description {position:relative;font-size:100%;text-align:center;}
+.filibuster-marquee-container{position:relative;height:100%;overflow:hidden;}
 .filibuster-marquee-sub{position:absolute;top:0px;padding-bottom:0px;width:100%;}
 
 /* TOOL SEARCH */

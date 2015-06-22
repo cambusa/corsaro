@@ -62,6 +62,7 @@
             <div relid="typegallery" style="position:absolute;display:none;"></div>
             <div relid="typeframes" style="position:absolute;display:none;">
                 <div relid="FRAMES"></div>
+                <div relid="operf_refresh" babelcode="REFRESH"></div>
                 <div relid="operf_first" babelcode="BUTTON_FIRST"></div>
                 <div relid="operf_up" babelcode="BUTTON_UP"></div>
                 <div relid="operf_down" babelcode="BUTTON_DOWN"></div>
@@ -73,6 +74,7 @@
             <div relid="typeembedding" style="position:absolute;display:none;">
                 <div relid="LB_EMBEDHOST" babelcode="HOST"></div><div relid="EMBEDHOST"></div>
                 <div relid="LB_EMBEDENV" babelcode="ENVIRON"></div><div relid="EMBEDENV"></div>
+                <div relid="LB_EMBEDSITE" babelcode="SITE"></div><div relid="EMBEDSITE"></div>
                 <div relid="LB_EMBEDID" babelcode="CODE"></div><div relid="EMBEDID"></div>
             </div>
             <div relid="typemarquee" style="position:absolute;display:none;">

@@ -416,7 +416,7 @@ function class_qvpagine(settings,missing){
     
     $(prefix+"LB_SITEID").rylabel({left:470, top:offsety, caption:"Sito"});
     var tx_siteid=$(prefix+"SITEID").ryhelper({
-        left:500, top:offsety, width:140, datum:"C", tag:"SITEID", formid:formid, table:"QW_WEBSITES", titlecode:"HLP_SELSITE",
+        left:500, top:offsety, width:220, datum:"C", tag:"SITEID", formid:formid, table:"QW_WEBSITES", titlecode:"HLP_SELSITE",
         open:function(o){
             o.where("");
         },
@@ -572,6 +572,17 @@ function class_qvpagine(settings,missing){
         }
     });
 
+    $(prefix+"operf_refresh").rylabel({
+        left:440,
+        top:20,
+        width:70,
+        caption:"Aggiorna",
+        button:true,
+        click:function(o){
+            objframes.refresh();
+        }
+    });
+    
     var operf_first=$(prefix+"operf_first").rylabel({
         left:530,
         top:60,
@@ -734,11 +745,15 @@ function class_qvpagine(settings,missing){
     // EMBEDDING
     offsety=10;
     $(prefix+"LB_EMBEDHOST").rylabel({left:20, top:offsety, caption:"Host"});
-    var tx_embedhost=$(prefix+"EMBEDHOST").rytext({left:90, top:offsety, width:300, datum:"C"});
+    var tx_embedhost=$(prefix+"EMBEDHOST").rytext({left:90, top:offsety, width:630, datum:"C"});
 
     offsety+=30;
     $(prefix+"LB_EMBEDENV").rylabel({left:20, top:offsety, caption:"Ambiente"});
     var tx_embedenv=$(prefix+"EMBEDENV").rytext({left:90, top:offsety, width:300, datum:"C"});
+
+    offsety+=30;
+    $(prefix+"LB_EMBEDSITE").rylabel({left:20, top:offsety, caption:"Sito"});
+    var tx_embedsite=$(prefix+"EMBEDSITE").rytext({left:90, top:offsety, width:300, datum:"C"});
 
     offsety+=30;
     $(prefix+"LB_EMBEDID").rylabel({left:20, top:offsety, caption:"Codice"});
@@ -843,7 +858,7 @@ function class_qvpagine(settings,missing){
     var tx_author=$(prefix+"AUTHOR").rytext({left:90, top:offsety, maxlen:100, width:350, datum:"C"});
     
     var oper_contextengage=$(prefix+"oper_contextengage").rylabel({
-        left:680,
+        left:750,
         top:60,
         width:80,
         caption:"Salva",
@@ -896,6 +911,7 @@ function class_qvpagine(settings,missing){
             case "embedding":
                 data["CONTENTURL"]=tx_embedhost.value();
                 data["ENVIRON"]=tx_embedenv.value();
+                data["INCLUDEFILE"]=tx_embedsite.value();
                 data["EMBEDID"]=tx_embedid.value();
                 break;
             case "marquee":
@@ -962,8 +978,8 @@ function class_qvpagine(settings,missing){
     });
 
     var oper_browser=$(prefix+"oper_browser").rylabel({
-        left:780,
-        top:60,
+        left:750,
+        top:110,
         width:80,
         caption:"Visualizza",
         button:true,
@@ -1522,6 +1538,7 @@ function class_qvpagine(settings,missing){
                     tx_contenturl.clear();
                     tx_embedhost.clear();
                     tx_embedenv.clear();
+                    tx_embedsite.clear();
                     tx_embedid.clear();
                     tx_marqueetype.value(1);
                     chk_mardetails.value(1);
@@ -1586,6 +1603,7 @@ function class_qvpagine(settings,missing){
                             case "embedding":
                                 tx_embedhost.value(v[0]["CONTENTURL"]);
                                 tx_embedenv.value(v[0]["ENVIRON"]);
+                                tx_embedsite.value(v[0]["INCLUDEFILE"]);
                                 tx_embedid.value(v[0]["EMBEDID"]);
                                 break;
                             case "marquee":

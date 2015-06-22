@@ -83,21 +83,21 @@ try{
             }
             
             // Reperisco la lista ambienti
-            $sql="SELECT DESCRIPTION,ENVIRONID FROM EGOVIEWENVIRONUSER WHERE APPID='$appid' AND USERID='$userid'";
+            $sql="SELECT DESCRIPTION,ENVIRONID FROM EGOVIEWENVIRONUSER WHERE APPID='$appid' AND USERID='$userid' ORDER BY [:UPPER(DESCRIPTION)]";
             maestro_query($maestro, $sql, $r);
             for($i=0; $i<count($r); $i++){
                 $lstenviron[$i]=array("caption" => $r[$i]["DESCRIPTION"], "key" => $r[$i]["ENVIRONID"]);
             }
             
             // Reperisco la lista ruoli
-            $sql="SELECT DESCRIPTION,ROLEID FROM EGOVIEWROLEUSER WHERE APPID='$appid' AND USERID='$userid'";
+            $sql="SELECT DESCRIPTION,ROLEID FROM EGOVIEWROLEUSER WHERE APPID='$appid' AND USERID='$userid' ORDER BY [:UPPER(DESCRIPTION)]";
             maestro_query($maestro, $sql, $r);
             for($i=0; $i<count($r); $i++){
                 $lstrole[$i]=array("caption" => $r[$i]["DESCRIPTION"], "key" => $r[$i]["ROLEID"]);
             }
             
             // Reperisco la lista lingue
-            $sql="SELECT * FROM EGOLANGUAGES";
+            $sql="SELECT * FROM EGOLANGUAGES ORDER BY [:UPPER(DESCRIPTION)]";
             maestro_query($maestro, $sql, $r);
             for($i=0; $i<count($r); $i++){
                 $lstlanguage[$i]=array("caption" => $r[$i]["DESCRIPTION"], "key" => $r[$i]["SYSID"], "tag" => $r[$i]["NAME"]);

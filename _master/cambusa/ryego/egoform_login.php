@@ -185,33 +185,33 @@ $(document).ready(function(){
     egoinitialize();
 });
 function egoinitialize(missing){
-    if(supportsCookies()){
-        if(!$.cookie("EGOCOOKIE")){
-            $("body").append("<div id='filibuster-privacycookie'>Questo sito fa uso di cookie tecnici non finalizzati alla raccolta di dati personali. Puoi approfondire leggendo la <a href='ego_privacy.php' target='_blank'>policy sui cookie</a>. <span onclick='removePrivacyCookie()'>Ho letto</span></div>");
-        }
-    }
     $("#lbauthenticationservice").rylabel({caption:"Servizio di autenticazione"});
     $("#lbsendpwd").rylabel({caption:"Reimpostare la password dell'utente {1}?"});
     $("#lbmandatoryuser").rylabel({caption:"Inserire un nome utente o alias"});
     RYBOX.babels({
         "EGO_NEWACCOUNT":"Registrare un nuovo account con i dati immessi?",
-        "EGO_MSG_SETCHANGEPWD":"Cambiare password con la funzione di Setup!"
+        "EGO_MSG_SETCHANGEPWD":"Cambiare password con la funzione di Setup!",
+        "EGO_COOKIEPOLICY":"Questo sito fa uso di cookie tecnici non finalizzati alla raccolta di dati personali. Puoi approfondire leggendo la {1}policy sui cookie{2}. {3}Ho letto{4}"
     });
-    if(_egolanguage!="default"){
-        RYBOX.localize(_egolanguage, missing,
-            function(){
-                var t=RYBOX.getbabel("lbauthenticationservice");
-                $("title").html(t);
-                $("#egotitle").html(t);
-                if(_egocontext=="default")
-                    $("#txalias_anchor").focus();
+    RYBOX.localize(_egolanguage, missing,
+        function(){
+            if(supportsCookies()&&_egocontext!="embed"){
+                if(!$.cookie("EGOCOOKIE")){
+                    var cp=RYBOX.babels("EGO_COOKIEPOLICY", ["<a href='ego_privacy.php' target='_blank'>", "</a>", "<span onclick='removePrivacyCookie()'>", "</span>"]);
+                    $("body").append("<div id='filibuster-privacycookie'>"+cp+"</div>");
+                }
             }
-        );
-    }
-    else{
-        if(_egocontext=="default")
-            $("#txalias_anchor").focus();
-    }
+            if(_egolanguage!="default"){
+                try{
+                    var t=RYBOX.getbabel("lbauthenticationservice");
+                    $("#egotitle").html(t);
+                    $("title").html(t);
+                }catch(e){}
+            }
+            if(_egocontext=="default")
+                $("#txalias_anchor").focus();
+        }
+    );
 }
 function egoterminate(lout){
     //

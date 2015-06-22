@@ -134,25 +134,49 @@ if($env!="" && $site!="" && $CONTENTID!=""){
                 break;
             case "wikipedia":
                 include_once $tocambusa."rygeneral/unicode.php";
-                $percorso=$r[0]["CONTENTURL"];
-                
-                // TIPO WIKI
-                preg_match("/[.]w(iki\w*)/i",$percorso, $matches);
-                $tipowiki="W".$matches[1];
+                $source=$r[0]["CONTENTURL"];
                 
                 // PERCORSO DOCUMENTO STAMPABILE
-                preg_match("§([^/]+:\/\/[^/]+).*\/([^/]*)($)§i", $percorso, $matches);
+                preg_match("§([^/]+:\/\/[^/]+).*\/([^/]*)($)§i", $source, $matches);
                 $percorso=$matches[1]."/w/index.php?title=".$matches[2]."&printable=yes";
                 
                 // CONTENUTO
                 $contenuto=@file_get_contents($percorso);
-                $contenuto=utf8Decode($contenuto);
+                if(!mb_check_encoding($contenuto, "UTF-8")){
+                    // CI SONO CARATTERI NON UNICODE
+                    $value=utf8_encode($contenuto);
+                }
+                // PRENDO SOLO I CONTENUTI
+                $i = strpos($contenuto,"<body ");
+                if($i!==false){
+                    $f=strpos($contenuto,"</body>");
+                    if($f!==false){
+                        $contenuto=substr($contenuto,$i,$f-$i+7);
+                    }
+                }
+                // SOSTITUISCO IL TAG BODY
+                $contenuto=preg_replace("/<body/i", "<div", $contenuto);
+                $contenuto=preg_replace("/<\/body>/i", "</div>", $contenuto);
+                // ELIMINO IL WARNING UNICODE
+                $contenuto=preg_replace("/<div id=\"mw-indicator-unicode\".[^>]*>[^\\x00]*?<\/div>/i", "", $contenuto);
+                // SFRONDO LA CODA
+                $i = strpos($contenuto,"<div id=\"mw-navigation\">");
+                if($i!==false){
+                    $contenuto=substr($contenuto,0, $i);
+                    $contenuto.="</div>";
+                }
+                // ELIMINO I COLLEGAMENTI
+                $contenuto=preg_replace("/<a.*?>/i", "", $contenuto);
+                $contenuto=preg_replace("/<\/a.*?>/i", "", $contenuto);
+                // ELIMINO GLI SCRIPT
+                $contenuto=preg_replace("/<script[^\\x00]*?<\/script>/i", "", $contenuto);
+                
                 // COSTRUISCO IL CONTENUTO
                 $food.="<div class='filibuster-description'>";
                 $food.=$DESCRIPTION;
                 $food.="</div>";
                 $food.="<div class='filibuster-abstract'>";
-                $food.="<i>Contenuti estratti in tempo reale da ".$tipowiki."</i>";
+                $food.="<i>Source: <a href='".$source."' target='_blank'>".$source."</a></i>";
                 $food.="</div>";
                 $food.="<div class='filibuster-content'>";
                 $food.=$contenuto;
@@ -213,14 +237,18 @@ if($env!="" && $site!="" && $CONTENTID!=""){
                     $CONTENTURL.="/";
                 }
                 $ENVIRON=$r[0]["ENVIRON"];
+                $EMBEDSITE=$r[0]["INCLUDEFILE"];
                 $EMBEDID=$r[0]["EMBEDID"];
-                $food=file_get_contents($CONTENTURL."food4container.php?env=$ENVIRON&site=$site&id=$EMBEDID&width=$container_width");
+                $food=file_get_contents($CONTENTURL."food4container.php?env=$ENVIRON&site=$EMBEDSITE&id=$EMBEDID&width=$container_width");
                 if(strlen($food)>=3){
                     $food=substr($food,3);
                 }
+                $food.="<div class='filibuster-source'>";
+                $food.="Source:<br/>".$CONTENTURL."food4container.php?env=$ENVIRON&site=$EMBEDSITE&id=$EMBEDID";
+                $food.="</div>";
                 break;
             case "marquee":
-                $food.=solvemarquee($maestro, $CONTENTID, intval($r[0]["MARQUEETYPE"]));
+                $food.=solvemarquee($maestro, $CONTENTID, $DESCRIPTION, intval($r[0]["MARQUEETYPE"]));
                 break;
             case "tools":
                 $food.=solvetools($maestro, $CONTENTID);
@@ -473,12 +501,17 @@ function solvesummary($maestro, $CONTENTID, $DESCRIPTION, $ABSTRACT){
     return $food;
 }
 
-function solvemarquee($maestro, $CONTENTID, $MARQUEETYPE){
+function solvemarquee($maestro, $CONTENTID, $DESCRIPTION, $MARQUEETYPE){
     global $site, $container_width;
     global $SITEID;
     $food="";
     $url=food4containerCorsaro()."filibuster.php";
     $food.="<div id='MARQUEE_$CONTENTID' class='filibuster-marquee'>";
+    
+    $food.="<div class='filibuster-description'>";
+    $food.=$DESCRIPTION;
+    $food.="</div>";
+
     $subfood="";
     $contenttypes="";
     if($MARQUEETYPE>0){
@@ -499,12 +532,16 @@ function solvemarquee($maestro, $CONTENTID, $MARQUEETYPE){
             $r[$i]["ABSTRACT"]
         );
     }
-    $food.="<div id='MARQUEE1_$CONTENTID' class='filibuster-marquee-sub'>";
-    $food.=$subfood;
-    $food.="</div>";
+    $food.="<div class='filibuster-marquee-container'>";
     
-    $food.="<div id='MARQUEE2_$CONTENTID' class='filibuster-marquee-sub'>";
-    $food.=$subfood;
+        $food.="<div id='MARQUEE1_$CONTENTID' class='filibuster-marquee-sub'>";
+        $food.=$subfood;
+        $food.="</div>";
+        
+        $food.="<div id='MARQUEE2_$CONTENTID' class='filibuster-marquee-sub filibuster-marquee-clone'>";
+        $food.=$subfood;
+        $food.="</div>";
+    
     $food.="</div>";
     
     $food.="</div>"; // Chiudo Marquee

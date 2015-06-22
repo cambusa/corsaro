@@ -30,10 +30,10 @@ function class_qvforum(settings,missing){
     // DEFINIZIONE TAB CONTESTO
     var offsety=60;
     $(prefix+"LB_DESCRIPTION").rylabel({left:20, top:offsety, caption:"Titolo"});
-    var tx_descr=$(prefix+"DESCRIPTION").rytext({left:70, top:offsety, width:650, maxlen:200, datum:"C"});
+    var tx_descr=$(prefix+"DESCRIPTION").rytext({left:70, top:offsety, width:650, maxlen:200});
 
     offsety+=40;
-    var tx_wysiwyg=$(prefix+"WYSIWYG").ryedit({left:20, top:offsety, width:700, height:450, datum:"C"});
+    var tx_wysiwyg=$(prefix+"WYSIWYG").ryedit({left:20, top:offsety, width:700, height:450});
 
     offsety+=430;
     var oper_contextengage=$(prefix+"oper_contextengage").rylabel({
@@ -347,8 +347,11 @@ function class_qvforum(settings,missing){
 }
 function _forumLogout(){
     try{
-        if(winz_logout())
+        if(winz_logout()){
             window.parent.FLB.forum.showLogin();
+        }
     }
-    catch(e){}
+    catch(e){
+        if(window.console){console.log(e.message)}
+    }
 }

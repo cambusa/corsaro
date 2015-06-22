@@ -1,0 +1,338 @@
+a:3:{s:4:"type";s:7:"WEBSITE";s:11:"description";s:8:"Giovanni";s:7:"program";a:42:{i:0;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:16:"OBJECTS_WEBSITES";s:4:"data";a:16:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AM)]";s:4:"NAME";s:8:"giovanni";s:11:"DESCRIPTION";s:8:"Giovanni";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBSITES00000";s:10:"HOMEPAGEID";s:24:"[>SYSID(A0000001VP00AN)]";s:9:"DEFAULTID";s:24:"[>SYSID(A0000001VP00B0)]";s:11:"NORMALWIDTH";s:3:"950";s:11:"NARROWWIDTH";s:1:"1";s:11:"GLOBALSTYLE";s:662:"#frame_header a{color:#00007F;}
+#frame_header a:hover{text-decoration:none}
+
+.filibuster-date{display:none;}
+.filibuster-description{display:none;}
+.filibuster-abstract{display:none;}
+.filibuster-item-title{background:transparent}
+
+blockquote{font-style: italic}
+
+.home_title{position:absolute;left:-3px;top:-14px;width:180px;border:2px solid #439768;padding:2px;background:#D5E8DD;font-size:13px;text-align:center;font-weight:bold;}
+
+#frame_content a {color:#20B2AA;text-shadow:1px 1px 2px #A9A9A9;font-size:100%;text-decoration:none;}
+
+#home_riposarestanca p{margin:4px;}
+#home_eclettico p{margin:5px;}
+#home_ospiti p{margin:6px;}
+#home_coerenza p{margin:7px;}";s:12:"GLOBALSCRIPT";s:1101:"function titolo_contatti(){
+    $("#home_contatti_border").append("<div class='home_title'>Contatti</div>");
+}
+
+function titolo_riposarestanca(){
+    $("#home_riposarestanca_border").append("<div class='home_title'>Riposare stanca</div>");
+}
+
+function titolo_eclettico(){
+    $("#home_eclettico_border").append("<div class='home_title'>Non lo trovi altrove</div>");
+}
+
+function titolo_ladri(){
+    $("#home_ladri_border").append("<div class='home_title'>Ladri di biciclette</div>");
+}
+
+function titolo_ospiti(){
+    $("#home_ospiti_border").append("<div class='home_title'>La stanza degli ospiti</div>");
+}
+
+function titolo_cittaidee(){
+    $("#home_cittaidee_border").append("<div class='home_title'>La città delle idee</div>");
+}
+
+function titolo_coerenza(){
+    $("#home_coerenza_border").append("<div class='home_title'>Coerenza in Evidenza</div>");
+}
+
+function titolo_recenti(){
+    $("#home_recenti_border").append("<div class='home_title'>Pagine recenti</div>");
+}
+
+function titolo_galleria(){
+    $("#home_galleria_border").append("<div class='home_title'>Foto galleria (d’Arte?)</div>");
+}";s:10:"GLOBALHEAD";s:161:"<link href='_fonts/report1942/report1942.css' rel='stylesheet' type='text/css'>
+<link href='_fonts/ACFilmstrip/ACFilmstrip.css' rel='stylesheet' type='text/css'>";s:7:"FAVICON";s:2620:"/9j/4AAQSkZJRgABAQAAlgCWAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wgARCABQAGEDASIAAhEBAxEB/8QAGwABAAIDAQEAAAAAAAAAAAAAAAQGAQUHAwL/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/2gAMAwEAAhADEAAAAb+iUovnpUJMWZjNDUxtmr2gFAc8n2jBN8/QabO4wnjzXf4lh3/Q74MKyAAARTnEjVS8rLM3fvVHk7quy3BHak8ADTbnnxU79SL9FoFOd33mh0VNAAETlF0rce8qxUE66+fqviDsQB//xAAkEAACAgEDBAIDAAAAAAAAAAADBAECBQAQIBESExQjMBUhMf/aAAgBAQABBQLbyU7vqYZGtQuWYZN+HveqrZg2iYmNmXYDcDwzX4FSdcyGJWH7mr0qSsp2Fr27imph31kLkhzDgKVng3BbKqLwqtvP7ijABNUdGW6bVyn1/NRMT9DlqwQt4EJBCCJ+RxPTGUrcimTp18scmCwFdkvc1AiWOGs1DprHgbiqgEmPZjllS1Hj628ZcMCLTuwSLk9YfLNM95rDka+Gv8OxrwMKHzu8WS+BasSwy0GSBwpel9r0qSi6K6k8c6btEjWejYK0QRv2EraL14f/xAAVEQEBAAAAAAAAAAAAAAAAAABAEf/aAAgBAwEBPwEdB//EABURAQEAAAAAAAAAAAAAAAAAAEAR/9oACAECAQE/ARwH/8QAMhAAAQIDBQUHAwUAAAAAAAAAAQACAxESBCAhIjEQEzJBUSMwQmFicZFSobEzU4HB0f/aAAgBAQAGPwLZTUJ93VEPsFurKNVN8XtOuq3FsEpcL+qmDt3bRN34VHiuxGRMrJ8XKSixYQO6h5G+o9dlL2gjzU7NELfSdFK0wyPUNFldNRcTxLfuBENunndiNg/qESCZCHLW7EiyLJ4SRfEs7TLnJOY6VEsJbcD3DIbdGjU80LM3U4v/AMQe5zmvdoVnbvofUao4ZByKc5zS1ugAC4XfF57zoAmmHjTJQqRXFJqITGulMDGWzMKXfUE/tKqG1ey0vRJ6uwCn0T7WeeVty0H9yIGD2XO9QDlh/lNLhiTNU9RVte8+ETVnZ0dWb0SJPhCa0gnGpyiPMzQME0ecvnaWOE2nUJxgw6Sb0OF9Rmf4Rf44hkEYfocPtP8Apff4QcNDd//EACUQAQACAQMDBAMBAAAAAAAAAAEAESExQVEQIGGBkbHwMHGh0f/aAAgBAQABPyHogEC0L/Hg59xg6uuiiPmaycpc8sNmKEE5OpPebbiAJaW3a6KaV54KiAjIvqfXPRYh7CPX3ltQ9+rqE2Q5I6UN/baVvrqNfjtEE1Q1rMvdcuXfsAglnErKmklBWrBR6d6uLm9BHhXjooLUDzAbBPHe6MACshLU5v8AsRkAsIUoCk6G2I6pP7iZEBYDNyzI1em/PeC5OA0FAdNwl2VkX2gcAoNF9PmK8MXSeytp9z3Arw18rK5Z3VLEV1Oxv2Xp2RwZ5vf3CtgarzhmzOutMKwKAw50fg6q9QtpYlXInjPcdKMpfMs+NDmWaGwxhL/jERcD9A/06gLLSbkKpqW1+e6p3HocYJuv/uH29wbupD2DqU/auMbYWPb/AP/aAAwDAQACAAMAAAAQwW0738808vV34888s7OM888o68o888550c8//8QAGxEBAAIDAQEAAAAAAAAAAAAAARARACAxITD/2gAIAQMBAT8QkL5iJ3WoW9rjivmGL7p//8QAGREBAAMBAQAAAAAAAAAAAAAAAQARIDEQ/9oACAECAQE/EJfi1BHmbiwK2Tu82OllVj//xAAnEAEAAQMCBgIDAQEAAAAAAAABEQAhMUFRECBhcYGRobHR8PEwwf/aAAgBAQABPxDhlA0QXtv/AJxjzmC6m35bUd6V5H2/eKXwXcnMN5IvsNPobILGLuvf3RpTwkjxG2oLADietJInEoiTZ15ZU+nA22+9jGl5rVmPli879rYacM/BJhSgtvO6Tc+aJFTR7zpRhvMkh3281auCLr/yiKkmBJiUg7DM8qMKbMMFnoK0w3svde31HIIdiFEiVkRHQ0IYlTSmQiEEPoclLCxGAKYAdvrg9MMqgK6pyUnPC8wRk0pWDDK1ZnVYUKDp1yCTw16tWEXGMS3Fp0pq40F0G7l904QAQli9t5tTi5NTBZQYyV/R8wRpUwLm2ml6fePJIQEx4ojZZgGHJdMrWBWwIFw6cGF4wIee/mkbkDcuEo1rpf125rDA61H9aSETjJnc+6Zyyyuf8HvkM5VFmwGPRX7P8c3biEOt4PpoTKhkEgdrLTR41C0LXyeeMzPbZAtOeD3RnI+Q98zJSiCTYR3p++4spvd0t9tRV3kAtoO0nnpVwykicg+HigKJMiZKMmYOmDQUoa8yxgkhzeh6K/FNPH98qPRl6FMbkCBkJdV+VWom6bQ/VBEHNqJJy//Z";s:13:"LOGSTATISTICS";s:1:"1";s:9:"PROTECTED";s:1:"0";}}i:1;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02TO)]";s:11:"DESCRIPTION";s:18:"Home Foto Galleria";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:13:"home_galleria";s:10:"FRAMESTYLE";s:218:"{
+"flb-left":0,
+"flb-top":1590,
+"width":640,
+"height":490,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"75%",
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:18:"titolo_galleria();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00EM)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:2:"15";}}i:2;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02S0)]";s:11:"DESCRIPTION";s:19:"Home Pagine Recenti";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:12:"home_recenti";s:10:"FRAMESTYLE";s:221:"{
+"flb-left":320,
+"flb-top":1280,
+"width":320,
+"height":280,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"100%",
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:17:"titolo_recenti();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP02X2)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:2:"15";}}i:3;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02QC)]";s:11:"DESCRIPTION";s:22:"Home Coerenza Evidenza";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:13:"home_coerenza";s:10:"FRAMESTYLE";s:220:"{
+"flb-left":320,
+"flb-top":1150,
+"width":320,
+"height":100,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"75%",
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:18:"titolo_coerenza();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00FM)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:2:"14";}}i:4;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02OO)]";s:11:"DESCRIPTION";s:22:"Home Città delle Idee";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:14:"home_cittaidee";s:10:"FRAMESTYLE";s:219:"{
+"flb-left":320,
+"flb-top":910,
+"width":320,
+"height":210,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"75%",
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:19:"titolo_cittaidee();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00ES)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:2:"13";}}i:5;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02NA)]";s:11:"DESCRIPTION";s:18:"Home Stanza Ospiti";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:11:"home_ospiti";s:10:"FRAMESTYLE";s:217:"{
+"flb-left":0,
+"flb-top":910,
+"width":290,
+"height":650,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"75%",
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:16:"titolo_ospiti();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00F8)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:2:"12";}}i:6;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AR)]";s:11:"DESCRIPTION";s:21:"Home Ladri Biciclette";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:10:"home_ladri";s:10:"FRAMESTYLE";s:217:"{
+"flb-left":0,
+"flb-top":730,
+"width":220,
+"height":150,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"75%",
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:15:"titolo_ladri();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00EY)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:2:"11";}}i:7;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AQ)]";s:11:"DESCRIPTION";s:20:"Home Riposare Stanca";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:19:"home_riposarestanca";s:10:"FRAMESTYLE";s:243:"{
+"flb-top":30,
+"flb-left":250,
+"width":390,
+"height":850,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"75%",
+"flb-googlefont":"Duru+Sans",
+"flb-overflow":"hidden"
+}";s:11:"FRAMESCRIPT";s:24:"titolo_riposarestanca();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00GQ)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"9";}}i:8;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AP)]";s:11:"DESCRIPTION";s:14:"Home Eclettico";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:14:"home_eclettico";s:10:"FRAMESTYLE";s:217:"{
+"flb-left":0,
+"flb-top":160,
+"width":220,
+"height":540,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"75%",
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:19:"titolo_eclettico();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00FG)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:2:"10";}}i:9;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AO)]";s:11:"DESCRIPTION";s:13:"Home Contatti";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:13:"home_contatti";s:10:"FRAMESTYLE";s:216:"{
+"flb-top":30,
+"flb-left":0,
+"width":220,
+"height":100,
+"flb-radius":8,
+"flb-thick":3,
+"flb-bordercolor":"#439768",
+"flb-backcolor":"white",
+"flb-overflow":"hidden",
+"font-size":"75%",
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:18:"titolo_contatti();";s:7:"CLASSES";s:10:"frame-home";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00F4)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"8";}}i:10;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AN)]";s:11:"DESCRIPTION";s:10:"Frame Body";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:0:"";s:12:"FUNCTIONNAME";s:0:"";s:10:"FRAMESTYLE";s:26:"{
+"background":"#FFFFFF"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:0:"";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"0";}}i:11;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AU)]";s:11:"DESCRIPTION";s:12:"Frame Footer";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000001VP00AN)]";s:12:"FUNCTIONNAME";s:12:"frame_footer";s:10:"FRAMESTYLE";s:211:"{
+"flb-top":"[!TOPAFTER(frame_middle)]+20",
+"flb-left":"[!SHEETLEFT]",
+"flb-width":"[!SHEETWIDTH]", 
+"flb-padding":2,
+"text-align":"right",
+"font-size":"60%",
+"color":"gray",
+"flb-gradient-x":"#FFFFFF-#E2E6E9"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00BM)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"3";}}i:12;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AT)]";s:11:"DESCRIPTION";s:12:"Frame Middle";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000001VP00AN)]";s:12:"FUNCTIONNAME";s:12:"frame_middle";s:10:"FRAMESTYLE";s:68:"{
+"flb-top":"[!TOPAFTER(frame_header)]",
+"flb-left":"[!SHEETLEFT]"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:0:"";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"2";}}i:13;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AS)]";s:11:"DESCRIPTION";s:12:"Frame Header";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000001VP00AN)]";s:12:"FUNCTIONNAME";s:12:"frame_header";s:10:"FRAMESTYLE";s:186:"{
+"flb-left":"[!SHEETLEFT]",
+"top":10, 
+"flb-width":"[!SHEETWIDTH]", 
+"font-size":"400%", 
+"text-align":"center",
+"white-space":"nowrap", 
+"color":"black",
+"flb-googlefont":"Istok Web"
+}";s:11:"FRAMESCRIPT";s:74:"if(FLB.detected.mobile){$("#frame_header_inner").css({"font-size":"50%"})}";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00BJ)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"1";}}i:14;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02ZI)]";s:11:"DESCRIPTION";s:14:"Frame Leterale";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000001VP00AT)]";s:12:"FUNCTIONNAME";s:14:"frame_laterale";s:10:"FRAMESTYLE";s:207:"{
+"flb-top":"[!TOPAFTER(frame_navigatore)]+20",
+"flb-left":"[!LEFTAFTER(frame_content)]+10",
+"flb-width":"280",
+"flb-radius":5,
+"flb-shadow":2,
+"flb-gradient-x":"#FFFFFF-#F6F6F6",
+"flb-googlefont":"Nunito"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00FQ)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"7";}}i:15;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AX)]";s:11:"DESCRIPTION";s:15:"Frame Navigator";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000001VP00AT)]";s:12:"FUNCTIONNAME";s:16:"frame_navigatore";s:10:"FRAMESTYLE";s:202:"{
+"flb-top":"[!TOPAFTER(frame_tools)]+20",
+"flb-left":"[!LEFTAFTER(frame_content)]+10",
+"flb-width":"280",
+"flb-radius":5,
+"flb-shadow":2,
+"flb-gradient-x":"#FFFFFF-#F6F6F6",
+"flb-googlefont":"Nunito"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00BS)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"6";}}i:16;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AW)]";s:11:"DESCRIPTION";s:11:"Frame Tools";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000001VP00AT)]";s:12:"FUNCTIONNAME";s:11:"frame_tools";s:10:"FRAMESTYLE";s:148:"{
+"flb-left":"[!LEFTAFTER(frame_content)]+10",
+"flb-top":20,
+"flb-width":"280",
+"flb-radius":5,
+"flb-shadow":2,
+"flb-gradient-x":"#FFFFFF-#F6F6F6"
+}";s:11:"FRAMESCRIPT";s:0:"";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:24:"[>SYSID(A0000001VP00BP)]";s:11:"CURRENTPAGE";s:1:"0";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"5";}}i:17;a:3:{s:5:"table";s:9:"QVOBJECTS";s:9:"extension";s:21:"OBJECTS_WEBCONTAINERS";s:4:"data";a:15:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00AV)]";s:11:"DESCRIPTION";s:13:"Frame Content";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:10:"TYPOLOGYID";s:14:"0WEBCONTAIN000";s:11:"REFOBJECTID";s:24:"[:SYSID(A0000001VP00AT)]";s:12:"FUNCTIONNAME";s:13:"frame_content";s:10:"FRAMESTYLE";s:103:"{
+"flb-padding":0,
+"flb-padding-top":20,
+"flb-thick":0,
+"flb-width":650,
+"flb-googlefont":"Duru+Sans"
+}";s:11:"FRAMESCRIPT";s:66:"FLB.gallery({"outer":1, "frame":"white", "spacing":10, "inner":1})";s:7:"CLASSES";s:0:"";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:9:"CONTENTID";s:0:"";s:11:"CURRENTPAGE";s:1:"1";s:7:"ENABLED";s:1:"1";s:10:"ORDINATORE";s:1:"4";}}i:18;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00B0)]";s:11:"DESCRIPTION";s:17:"Pagina principale";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"0";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20131201000000";s:7:"AUXTIME";s:14:"20131223071039";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:2620:"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";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00AY)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00AZ)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:6:"frames";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:19;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00B1)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP00AO)]";s:6:"SORTER";s:1:"1";}}i:20;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00B2)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP00AP)]";s:6:"SORTER";s:1:"2";}}i:21;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00B3)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP00AQ)]";s:6:"SORTER";s:1:"3";}}i:22;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00B4)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP00AR)]";s:6:"SORTER";s:1:"4";}}i:23;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02NU)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP02NA)]";s:6:"SORTER";s:1:"5";}}i:24;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02PI)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP02OO)]";s:6:"SORTER";s:1:"6";}}i:25;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02QM)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP02QC)]";s:6:"SORTER";s:1:"7";}}i:26;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02SA)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP02S0)]";s:6:"SORTER";s:1:"8";}}i:27;a:3:{s:5:"table";s:12:"QVSELECTIONS";s:9:"extension";s:0:"";s:4:"data";a:7:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02UI)]";s:11:"PARENTTABLE";s:14:"QW_WEBCONTENTS";s:11:"PARENTFIELD";s:9:"SETFRAMES";s:8:"PARENTID";s:24:"[:SYSID(A0000001VP00AY)]";s:13:"SELECTEDTABLE";s:9:"QVOBJECTS";s:10:"SELECTEDID";s:24:"[:SYSID(A0000001VP02TO)]";s:6:"SORTER";s:1:"9";}}i:28;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00EM)]";s:11:"DESCRIPTION";s:17:"HP1-Foto Homepage";s:8:"REGISTRY";s:266:"<p><a href="A0000001VP018U"><img src="http://www.rudyz.net/databases/attach_giovanni/EM/A0000001VP00EO.jpg" style="border-bottom:medium none; border-left:medium none; border-right:medium none; border-top:medium none; height:450px; margin:0px; width:611px" /></a></p>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213107";s:7:"AUXTIME";s:14:"20150615213107";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00EK)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00EL)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:29;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP02X2)]";s:11:"DESCRIPTION";s:12:"HP10 Recenti";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150616215512";s:7:"AUXTIME";s:14:"20150616215512";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP02X0)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP02X1)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"marquee";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:30;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00FM)]";s:11:"DESCRIPTION";s:39:"HP9-Da non perdere/Coerenza in evidenza";s:8:"REGISTRY";s:185:"<p>Piccole azioni per mettere in pratica l&#39;Ecologia di Papa Francesco...</p>
+
+<p>Vuoi bere? Portati il bicchiere &gt; <a href="A0000001VP00ZI">Pi&ugrave; info</a></p>
+
+<p>&nbsp;</p>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213110";s:7:"AUXTIME";s:14:"20150615213110";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00FK)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00FL)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:31;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00ES)]";s:11:"DESCRIPTION";s:30:"HP2-La citt&agrave; delle idee";s:8:"REGISTRY";s:374:"<p>Un&rsquo;idea, un concetto, un&rsquo;idea...<br />
+finch&eacute; resta un&rsquo;idea &egrave; soltanto un&rsquo;astrazione</p>
+
+<p>... Idee per la citt&agrave;&nbsp;<a href="A0000001VP00Z6">facili da realizzare</a></p>
+
+<p><a href="A0000001VP00Z6"><img src="http://www.rudyz.net/databases/attach_giovanni/ES/A0000001VP00EU.jpg" style="height:81px; width:292px" /></a></p>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213108";s:7:"AUXTIME";s:14:"20150615213108";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00EQ)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00ER)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:32;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00F8)]";s:11:"DESCRIPTION";s:21:"HP7-Ospitalit&agrave;";s:8:"REGISTRY";s:2513:"<p><a href="A0000001VP011Q"><img src="http://www.rudyz.net/databases/attach_giovanni/F8/A0000001VP00FA.jpg" style="float:left; height:85px; width:88px" /></a></p>
+
+<h3>&nbsp;&nbsp;<a href="A0000001VP011Q"><span style="color:#000080">GRUPPO</span></a><br />
+&nbsp;&nbsp;<a href="A0000001VP011Q"><span style="color:#000080">NATURALISTICO</span></a><br />
+&nbsp;&nbsp;<a href="A0000001VP011Q"><span style="color:#000080">della BRIANZA</span></a><br/>
+
+&nbsp;&nbsp;<span style="color:#000080">sezione di</span><br />
+&nbsp;&nbsp;<span style="color:#000080">Cusano Milanino</span></h3>
+
+<p><strong><span style="color:#000080">Ci interessiamo all&#39;ambiente</span></strong> del nord Milano proponendo <a href="A0000001VP011Q">attivit&agrave; di sensibilizzazione dei cittadini e delle pubbliche amministrazioni</a> su temi quali la mobilit&agrave; pubblica e leggera, il verde urbano, la riduzione della produzione di rifiuti, la gestione delle acque meteoriche, la salvaguardia delle bellezze paesaggistiche, storiche e architettoniche del territorio...</p>
+
+<p><strong><span style="color:#000080">Perch&eacute; le nostre citt&agrave;</span></strong> siano pi&ugrave; belle e sia pi&ugrave; bello viverci.</p>
+
+<p><strong><span style="color:#000080">Organizziamo passeggiate</span></strong> per <a href="A0000001VP015S">conoscere meglio ed apprezzare di pi&ugrave;</a> quello che vogliamo difendere e valorizzare.</p>
+
+<p><strong><span style="color:#000080">Collaboriamo</span></strong> con altri comitati ed associazioni.</p>
+
+<p><span style="color:#00007f"><strong>E, contro il sensazionalismo</strong></span>&nbsp;dei media moderni, proponiamo un&#39;informazione ambientale onesta e rigorosa. Un esempio?</p>
+
+<p><strong><span style="color:#00007f">Il METEO... il giorno dopo!</span></strong></p>
+
+<p>Altro che &quot;bombe d&#39;acqua&quot;: ecco <a href="A0000001VP015E">quanto piove davvero</a> nel nord Milano.</p>
+
+<p><strong><span style="color:#000080"><a href="A0000001VP012I"><img src="http://www.rudyz.net/databases/attach_giovanni/F8/A0000001VP00FC.jpg" style="border-bottom:medium none; border-left:medium none; border-right:medium none; border-top:medium none; float:left; height:59px; margin:10px; width:78px" /></a></span></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color:#000080">E <a href="A0000001VP012I"><strong><span style="color:#000080">COMITATO</span></strong></a></span></strong><br />
+<a href="A0000001VP012I"><strong><span style="color:#000080">per il TRAM</span></strong></a></p>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213109";s:7:"AUXTIME";s:14:"20150615213109";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00F6)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00F7)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:33;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00EY)]";s:11:"DESCRIPTION";s:23:"HP4-Ladri di biciclette";s:8:"REGISTRY";s:325:"<div>&nbsp;</div>
+
+<p style="text-align:center"><a href="A0000001VP00KO"><img src="http://www.rudyz.net/databases/attach_giovanni/EY/A0000001VP00F0.jpg" style="border-bottom:medium none; border-left:medium none; border-right:medium none; border-top:medium none; height:84px; margin:0px; width:171px" /></a></p>
+
+<p>&nbsp;</p>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213108";s:7:"AUXTIME";s:14:"20150615213108";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00EW)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00EX)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:34;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00GQ)]";s:11:"DESCRIPTION";s:33:"Riposare stanca - Attivit&agrave;";s:8:"REGISTRY";s:2507:"<h2><a href="A0000001VP00GQ"><span style="color:#00007f">PASSIONI &amp; PROFESSIONI</span></a></h2>
+
+<p><span style="color:#00007f">A servizio di enti pubblici, associazioni, privati, aziende...</span></p>
+
+<p>&nbsp;</p>
+
+<p><a href="A0000001VP00LA"><img src="http://www.rudyz.net/databases/attach_giovanni/GQ/A0000001VP00GS.jpg" style="border-color:-moz-use-text-color; border-style:none; border-width:medium; float:right; height:203px; margin:5px; width:134px" />PUBBLICAZIONI DIVULGATIVE</a><br />
+ideazione e realizzazione</p>
+
+<p><a href="A0000001VP00N6">ECOLOGIA&nbsp;URBANA</a><br />
+conferenze e sensibilizzazione</p>
+
+<p><a href="A0000001VP00N0">GIORNALISMO</a><br />
+collaborazione con diverse testate</p>
+
+<p><a href="A0000001VP00NG">EDUCAZIONE&nbsp;AMBIENTALE</a><br />
+ideazione e conduzione progetti</p>
+
+<p><a href="A0000001VP00QM">VERDE CITTADINO</a><br />
+progettazione, manutenzione, valutazioni stabilit&agrave; alberi, green counselling...</p>
+
+<p><a href="A0000001VP00QY">MUSICA, CULTURA, EVENTI</a><br />
+ideazione, organizzazione, promozione</p>
+
+<p><a href="A0000001VP00SC">SOLUZIONI INFORMATICHE INNOVATIVE</a><br />
+per Pubblica Amministrazione,&nbsp;Aziende e Privati</p>
+
+<p><a href="A0000001VP00UA">PROGETTAZIONE del PAESAGGIO</a><br />
+parchi urbani, studi di fattibilit&agrave;...</p>
+
+<p><a href="A0000001VP00W8">MOBILIT&Agrave; CICLISTICA</a><br />
+progettazione, analisi, comunicazione</p>
+
+<p><a href="A0000001VP00X8">GEOLOGIA</a>&nbsp;<br />
+idrogeologia e difesa del suolo</p>
+
+<p><a href="A0000001VP00Y0">COMUNICAZIONE e PARTECIPAZIONE</a><br />
+ideazione e realizzazione campagne</p>
+
+<p><a href="A0000001VP00Y8">GIOCHI di SOCIET&Agrave;</a><br />
+invenzione</p>
+
+<p><a href="A0000001VP00GW">ATTIVIT&Agrave; ISTITUZIONALE</a><br />
+tecnico ambientale del Comune di Vimercate</p>
+
+<p><a href="A0000001VP00Z6">LA CITT&Agrave; delle IDEE</a><br />
+idee per la mia citt&agrave;</p>
+
+<p><a href="A0000001VP00ZO">CAMPANILI VERDI</a><br />
+finalmente anche la Chiesa diventa ecologica</p>
+<br />
+<p><span style="color:#000080"><strong>Affidarsi a chi ha competenze interdisciplinari</strong></span> (<a href="A0000001VP00H2">vedi qui</a>) &egrave; sempre vantaggioso.</p>
+
+<p>A maggior ragione in tempi di limitate disponibilit&agrave; economiche.</p>
+<br />
+<p><span style="color:#000080"><strong>Per INCARICHI o COLLABORAZIONI</strong></span> su una o pi&ugrave; attivit&agrave; fra queste elencate (ma anche per altre attinenti)... <a href="A0000001VP01BE">SCRIVI</a>.</p>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"0";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213113";s:7:"AUXTIME";s:14:"20150615213113";s:8:"ABSTRACT";s:19:"ambiti di interesse";s:4:"ICON";s:2556:"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";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00GO)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00GP)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:35;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00FG)]";s:11:"DESCRIPTION";s:15:"HP8-L'Eclettico";s:8:"REGISTRY";s:1405:"<h2><a href="http://www.rudyz.net/ryp_classic.php?site=eclettico" target="_blank"><span style="color:#000080">L&#39;ECLETTICO</span></a></h2>
+
+<p><strong><span style="color:#000080">&quot;aperiodico&quot; di varia civilt&agrave;</span></strong> (senza pubblicit&agrave;!)</p>
+
+<p><strong><span style="color:#000080">&Egrave; una finestra</span></strong> offerta a persone, iniziative e notizie che dai pi&ugrave; affermati mezzi di comunicazione non ricevono visibilit&agrave; nel modo dovuto.</p>
+
+<p><strong><span style="color:#000080">Propone</span></strong> recensioni di concerti e spettacoli, riflessioni in tema di ecologia a scala cittadina&nbsp;e planetaria, considerazioni filosofiche, dibattiti...</p>
+
+<p><strong><span style="color:#000080">Pubblica</span></strong> articoli &quot;senza scadenza&quot; e di interesse sovralocale anche quando raccontano fatti geograficamente localizzati.</p>
+
+<p><a href="http://www.rudyz.net/ryp_classic.php?site=eclettico" target="_blank">Leggi <em>L&#39;ECLETTICO</em></a></p>
+
+<div>&nbsp;</div>
+
+<p style="text-align:center"><a href="http://www.rudyz.net/ryp_classic.php?site=eclettico" target="_blank"><img src="http://www.rudyz.net/databases/attach_giovanni/FG/A0000001VP00FI.jpg" style="border-bottom:medium none; border-left:medium none; border-right:medium none; border-top:medium none; height:115px; margin:0px; width:116px" /></a></p>
+
+<p>&nbsp;</p>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213110";s:7:"AUXTIME";s:14:"20150615213110";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00FE)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00FF)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:36;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00F4)]";s:11:"DESCRIPTION";s:12:"HP6-Contatti";s:8:"REGISTRY";s:121:"<p><a href="A0000001VP01BE"><span style="color:#800000">Scrivi un&#39;e-mail</span></a></p>
+
+<p>Telefona: 02-66401390</p>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213109";s:7:"AUXTIME";s:14:"20150615213109";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00F2)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00F3)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:37;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00BM)]";s:11:"DESCRIPTION";s:16:"Pagina copyright";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20140131133707";s:7:"AUXTIME";s:14:"20140131133707";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00BK)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00BL)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:9:"copyright";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:14:"Giovanni Guzzi";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:38;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00BJ)]";s:11:"DESCRIPTION";s:13:"Pagina titolo";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20140131132709";s:7:"AUXTIME";s:14:"20140131132709";s:8:"ABSTRACT";s:14:"Giovanni Guzzi";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00BH)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00BI)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:8:"homelink";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:39;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00FQ)]";s:11:"DESCRIPTION";s:11:"HP Laterale";s:8:"REGISTRY";s:656:"<div style="WIDTH: 230px">
+<div><img src="http://www.rudyz.net/databases/attach_giovanni/FQ/A0000001VP00FS.jpg" style="border-bottom:medium none; border-left:medium none; border-right:medium none; border-top:medium none; height:140px; margin:0px; width:180px" /></div>
+
+<p><span style="color:#00007f">Gutta cavat lapidem...</span></p>
+
+<p><span style="color:#00007f">Le formiche</span><br />
+<span style="color:#00007f">quando si uniscono</span><br />
+<span style="color:#00007f">possono muovere</span><br />
+<span style="color:#00007f">un elefante...</span></p>
+
+<p><span style="color:#00007f">Sii il cambiamento<br />
+che vuoi nel mondo</span></p>
+</div>";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20150615213110";s:7:"AUXTIME";s:14:"20150615213110";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00FO)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00FP)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:7:"wysiwyg";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:40;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00BS)]";s:11:"DESCRIPTION";s:17:"Pagina navigatore";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20131223093751";s:7:"AUXTIME";s:14:"20131223093751";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00BQ)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00BR)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:9:"navigator";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}i:41;a:3:{s:5:"table";s:8:"QVARROWS";s:9:"extension";s:18:"ARROWS_WEBCONTENTS";s:4:"data";a:33:{s:5:"SYSID";s:24:"[:SYSID(A0000001VP00BP)]";s:11:"DESCRIPTION";s:12:"Pagina tools";s:8:"REGISTRY";s:0:"";s:3:"TAG";s:0:"";s:5:"SCOPE";s:1:"2";s:10:"TYPOLOGYID";s:14:"0WEBCONTENTS00";s:7:"GENREID";s:14:"0TIMEHOURS0000";s:8:"MOTIVEID";s:14:"0MOTATTANNOT00";s:10:"TARGETTIME";s:14:"20131223093547";s:7:"AUXTIME";s:14:"20131223093547";s:8:"ABSTRACT";s:0:"";s:4:"ICON";s:0:"";s:9:"SETFRAMES";s:24:"[:SYSID(A0000001VP00BN)]";s:10:"SETRELATED";s:24:"[:SYSID(A0000001VP00BO)]";s:6:"SITEID";s:24:"[:SYSID(A0000001VP00AM)]";s:8:"SPECIALS";s:0:"";s:11:"CONTENTTYPE";s:5:"tools";s:10:"CONTENTURL";s:0:"";s:7:"ENVIRON";s:0:"";s:7:"EMBEDID";s:0:"";s:11:"MARQUEETYPE";s:2:"20";s:5:"EMAIL";s:0:"";s:6:"AUTHOR";s:0:"";s:8:"PARENTID";s:0:"";s:11:"INCLUDEFILE";s:0:"";s:11:"ITEMDETAILS";s:1:"1";s:7:"NAVHOME";s:1:"1";s:10:"NAVPRIMARY";s:1:"1";s:10:"NAVPARENTS";s:1:"1";s:11:"NAVSIBLINGS";s:1:"1";s:10:"NAVRELATED";s:1:"1";s:7:"NAVTOOL";s:1:"1";s:11:"SEARCHITEMS";s:3:"100";}}}}

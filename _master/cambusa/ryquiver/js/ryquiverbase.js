@@ -75,9 +75,11 @@ function ryQuiver(missing){
             close:function(){
                 objgrid.dispose(
                     function(){
-                        winzDisposeCtrl(formid, vK);
-                        winzDialogFree(dlg);
-                        if(propclose!==false){propclose()}
+                        setTimeout(function(){
+                            winzDisposeCtrl(formid, vK);
+                            winzDialogFree(dlg);
+                            if(propclose!==false){propclose()}
+                        }, 100);
                     }
                 );
             }
@@ -316,13 +318,13 @@ function ryQuiver(missing){
                                 d[0][i]=__(d[0][i]);
                             }
                             winzDialogClose(dlg);
-                            setTimeout(
-                                function(){
-                                    if(settings.onselect!=missing){
+                            if(settings.onselect!=missing){
+                                setTimeout(
+                                    function(){
                                         settings.onselect(d[0]);
-                                    }
-                                }, 100
-                            );
+                                    }, 100
+                                );
+                            }
                         }catch(e){
                             alert(d);
                         }
@@ -1010,6 +1012,9 @@ function ryQuiver(missing){
                         propclausewhere+=(" AND "+n+"='"+propclause[n]+"'");
                     }
                 }
+            }
+            this.refresh=function(){
+                gridsel.refresh();
             }
 			return this;
 		}       

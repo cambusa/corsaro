@@ -1,4 +1,14 @@
 ==================================
+Rilascio 1.70.01    del 21/06/2015
+==================================
+
+Setup Ego: ordinate per descrizione le liste.
+
+Filibuster: corretto il reperimento dei contenuti da Wikipedia.
+
+Filibuster: aggiunto il titolo al marquee.
+
+==================================
 Rilascio 1.70.00    del 08/06/2015
 ==================================
 

@@ -584,11 +584,7 @@ function winzDialogClose(dlg){
     $("#"+dlg.outer).hide();
     $("#"+dlg.dither).hide();
     if(dlg.close){
-        //setTimeout(
-        //    function(){
-                dlg.close();
-        //    },200
-        //);
+        dlg.close();
     }
 }
 function winzDialogFree(dlg){

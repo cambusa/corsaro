@@ -590,6 +590,6 @@ function qv_importODS(formid, settings, missing){
 
 $(document).ready(function(){
     RYBOX.babels({
-        "BABEL_CONTEXT":"Contesto: {1}",
+        "BABEL_CONTEXT":"Contesto: {1}"
     });
 });
