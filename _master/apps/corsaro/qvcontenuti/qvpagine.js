@@ -24,13 +24,11 @@ function class_qvpagine(settings,missing){
     var bbl_context="";
     var prefix="#"+formid;
     var flagopen=false;
-    var flagsuspend=false;
-    var loadedsysidX="";
-    var loadedsysidR="";
     var currfileid="";
     var dirattachments="";
     var urlattachments="";
     var urlapplications="";
+    var urlcambusa="";
     var sitename="";
     var fsitename="";
     var currbrowser;
@@ -1012,6 +1010,8 @@ function class_qvpagine(settings,missing){
                 tx_copy.enabled(0);
                 tx_download.clear();
                 tx_download.enabled(0);
+                tx_thumb.clear();
+                tx_thumb.enabled(0);
                 $(prefix+"PREVIEW").css({display:"none"});
                 $(prefix+"PREVIEW").html("");
             },
@@ -1026,8 +1026,11 @@ function class_qvpagine(settings,missing){
                 tx_copy.value(u);
                 tx_download.value(w);
                 if(exten.toLowerCase().match(/(jpg|jpeg|gif|png|svg)/)){
+                    tx_thumb.enabled(1);
                     oper_icon.enabled(1);
-                    $(prefix+"PREVIEW").html("<img src='"+_systeminfo.relative.cambusa+"/phpthumb/phpThumb.php?h=80&src="+p+"' style='border:1px solid silver;'>");
+                    var b=urlcambusa+"phpthumb/phpThumb.php?h=80&src="+p;
+                    tx_thumb.value(b);
+                    $(prefix+"PREVIEW").html("<img src='"+b+"' style='border:1px solid silver;'>");
                     $(prefix+"PREVIEW").css({display:"block"});
                 }
             }
@@ -1038,6 +1041,7 @@ function class_qvpagine(settings,missing){
     $(prefix+"filemanager").append("<div id='"+formid+"oper_removeicon' babelcode='PAGE_REMOVEICON'></div>");
     $(prefix+"filemanager").append("<div id='"+formid+"COPY'></div>");
     $(prefix+"filemanager").append("<div id='"+formid+"DOWNLOAD'></div>");
+    $(prefix+"filemanager").append("<div id='"+formid+"THUMB'></div>");
     $(prefix+"filemanager").append("<div id='"+formid+"PREVIEW'></div>");
 
     offsety=370;
@@ -1117,6 +1121,14 @@ function class_qvpagine(settings,missing){
     offsety+=30;
     var tx_download=$(prefix+"DOWNLOAD").rytext({left:20, top:offsety, width:730, formid:formid});
     tx_download.enabled(0);
+    
+    offsety+=30;
+    var tx_thumb=$(prefix+"THUMB").rytext({left:20, top:offsety, width:730, formid:formid,
+        assigned:function(o){
+            $(prefix+"PREVIEW>img").attr("src", o.value());
+        }
+    });
+    tx_thumb.enabled(0);
     
     offsety+=30;
     $(prefix+"PREVIEW").css({position:"absolute", left:20, top:offsety, display:"none"});
@@ -1464,64 +1476,58 @@ function class_qvpagine(settings,missing){
             {title:"Documenti", code:"DOCUMENTS"},
             {title:"Correlazioni", code:"PAGE_RELATIONS"}
         ],
-        select:function(i,p){
-            if(p==2){
-                // PROVENGO DAI DATI
-                flagsuspend=qv_changemanagement(formid, objtabs, oper_contextengage, {
+        before:function(i,n){
+            if(n==1){
+                // SONO IN CONTESTO
+                return RYWINZ.ConfirmAbandon(formid, {
+                    save:function(){
+                        oper_contextengage.engage(
+                            function(){
+                                objtabs.clear();
+                                objtabs.currtab(n);
+                            }
+                        );
+                    },
                     abandon:function(){
-                        loadedsysidX="";
+                        objtabs.clear();
+                        objtabs.currtab(n);
                     }
                 });
             }
-            if(i==1){
-                loadedsysidX="";
-                loadedsysidR="";
-                if(currsysid!=""){
-                    $(prefix+"pagepreview").show();
+        },
+        select:function(i, p){
+            switch(i){
+            case 1:
+                objtabs.clear();
+                if(objmodetabs.currtab()==1){
+                    objgridsel.dataload(
+                        function(){
+                            refreshpreview();
+                        }
+                    );
                 }
-            }
-            else if(i==2){
-                if(currsysid==loadedsysidX){
-                    flagsuspend=true;
-                }
-                $(prefix+"pagepreview").hide();
-            }
-            else if(i==3){
-                $(prefix+"pagepreview").hide();
-            }
-            else if(i==4){
-                if(currsysid==loadedsysidR){
-                    flagsuspend=true;
-                }
-            }
-            if(!flagsuspend){
-                switch(i){
-                case 1:
-                    if(objmodetabs.currtab()==1){
-                        objgridsel.dataload(
-                            function(){
-                                refreshpreview();
-                            }
-                        );
-                    }
-                    else{ 
-                        if(treeid!=""){
-                            objtreesel.setinfo(treeid, {text:context});
-                            if(refreshtree && objtreesel.getinfo(treeid).open){
-                                refreshtree=false;
-                                objtreesel.expand(treeid);
-                            }
-                            else{
-                                refreshpreview();
-                            }
+                else{ 
+                    if(treeid!=""){
+                        objtreesel.setinfo(treeid, {text:context});
+                        if(refreshtree && objtreesel.getinfo(treeid).open){
+                            refreshtree=false;
+                            objtreesel.expand(treeid);
+                        }
+                        else{
+                            refreshpreview();
                         }
                     }
-                    break;
-                case 2:
+                }
+                $(prefix+"pagepreview").show();
+                break;
+            case 2:
+                $(prefix+"pagepreview").hide();
+                if(objtabs.ifother(currsysid, 2)){
                     // CARICAMENTO DEL CONTESTO
                     if(window.console&&_sessioninfo.debugmode){console.log("Loading context: "+currsysid)}
                     // RESET MASCHERA
                     RYWINZ.MaskClear(formid, "C");
+                    objtabs.clear();
                     pageid.clear();
                     objclassi.clear();
                     objframes.clear();
@@ -1562,7 +1568,7 @@ function class_qvpagine(settings,missing){
                         ready:function(v){
                             RYWINZ.ToMask(formid, "C", v[0]);
                             context=__(v[0]["DESCRIPTION"]).stripTags();
-                            loadedsysidX=currsysid;
+                            objtabs.keys(currsysid, 2);
                             currsetframes=v[0]["SETFRAMES"];
                             currsetrelated=v[0]["SETRELATED"];
                             pageid.value(v[0]["SYSID"]);
@@ -1663,18 +1669,22 @@ function class_qvpagine(settings,missing){
                             );
                         }
                     });
-                    break;
-                case 3:
-                    // CARICAMENTO DOCUMENTI
-                    filemanager.initialize(currsysid, bbl_context.replace("{1}", context), currtypologyid);
-                    qv_contextmanagement(context, {sysid:currsysid, table:"QVARROWS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
-                        done:function(d){
-                            context=d.stripTags();
-                            filemanager.caption(bbl_context.replace("{1}", context));
-                        }
-                    });
-                    break;
-                case 4:
+                }
+                break;
+            case 3:
+                $(prefix+"pagepreview").hide();
+                // CARICAMENTO DOCUMENTI
+                filemanager.initialize(currsysid, bbl_context.replace("{1}", context), currtypologyid);
+                qv_contextmanagement(context, {sysid:currsysid, table:"QVARROWS", select:"DESCRIPTION", formula:"[=DESCRIPTION]",
+                    done:function(d){
+                        context=d.stripTags();
+                        filemanager.caption(bbl_context.replace("{1}", context));
+                    }
+                });
+                break;
+            case 4:
+                $(prefix+"pagepreview").hide();
+                if(objtabs.ifother(currsysid, 4)){
                     // CARICAMENTO CORRELAZIONI
                     lb_correlati_context.caption(bbl_context.replace("{1}", context));
                     gridparent.clear()
@@ -1684,7 +1694,7 @@ function class_qvpagine(settings,missing){
                         ready:function(v){
                             context=__(v[0]["DESCRIPTION"]).stripTags();
                             lb_correlati_context.caption(bbl_context.replace("{1}", context));
-                            loadedsysidR=currsysid;
+                            objtabs.keys(currsysid, 4);
                             currsetrelated=v[0]["SETRELATED"];
                             objrelated.where("(SITEID='' OR SITEID='"+currsiteid+"' OR SITEID='"+tx_siteid.value()+"')");
                             objrelated.clause({"PARENTID":currsetrelated});
@@ -1695,10 +1705,9 @@ function class_qvpagine(settings,missing){
                             );
                         }
                     });
-                    break;
                 }
+                break;
             }
-            flagsuspend=false;
         }
     });
     objtabs.currtab(1);
@@ -1730,6 +1739,7 @@ function class_qvpagine(settings,missing){
                         dirattachments=v.params["DIRATTACH"];
                         urlattachments=v.params["URLATTACH"];
                         urlapplications=v.params["URLAPPS"];
+                        urlcambusa=v.params["URLCAMBUSA"];
                     }catch(e){}
                     
                     if( $("#filibuster_popup").length==0 ){

@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.70.02    del 01/07/2015
+==================================
+
+Filibuster - migliorata la gestione delle pagine:
+1. ci si può muovere liberamente tra le cartelle con il documento non salvato fino a quando non si va in selezione;
+2. aggiunto l'URL per le miniature.
+
+==================================
 Rilascio 1.70.01    del 21/06/2015
 ==================================
 
