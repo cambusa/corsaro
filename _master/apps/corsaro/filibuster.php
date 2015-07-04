@@ -3,7 +3,7 @@
 * Name:            filibuster.php                                           *
 * Project:         Corsaro                                                  *
 * Module:          Filibuster                                               *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Arrows-oriented application                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
@@ -205,11 +205,12 @@ else
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
-<meta name="keywords" content="<?php print $metakeys ?>"/>
-<meta name="description" content="<?php print $metadescr ?>">
-<meta name="engine" content="Filibuster v1.0">
-<meta name="license" content="GNU LGPL v3">
-<meta name="repository" content="https://github.com/cambusa/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="keywords" content="<?php print $metakeys ?>" />
+<meta name="description" content="<?php print $metadescr ?>" />
+<meta name="engine" content="Filibuster v1.0" />
+<meta name="license" content="GNU LGPL v3" />
+<meta name="repository" content="https://github.com/cambusa/" />
 <?php  print $GLOBALHEAD ?>
 
 <title><?php print $TITLESITE ?></title>

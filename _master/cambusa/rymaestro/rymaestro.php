@@ -30,12 +30,13 @@ $direnvirons=$path_databases."_environs/";
 ?><!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
-<meta name="description" content="ryMaestro - Database Management">
-<meta name="framework" content="Cambusa <?php print $cambusa_version ?>">
-<meta name="license" content="GNU LGPL v3">
-<meta name="repository" content="https://github.com/cambusa/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="ryMaestro - Database Management" />
+<meta name="framework" content="Cambusa <?php print $cambusa_version ?>" />
+<meta name="license" content="GNU LGPL v3" />
+<meta name="repository" content="https://github.com/cambusa/" />
 <title>Maestro - Modellazione database</title>
 
 <style>

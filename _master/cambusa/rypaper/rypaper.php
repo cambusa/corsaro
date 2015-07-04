@@ -513,6 +513,7 @@ class rypaper{
         $this->write("<html>\n");
         $this->write("<head>\n");
         $this->write("<meta charset='utf-8' />\n");
+        $this->write("<meta name='viewport' content='width=device-width, initial-scale=1.0' />\n");
         $this->write("<title>Report</title>\n");
         $this->write("\n");
         $this->write("<style type='text/css'>\n");

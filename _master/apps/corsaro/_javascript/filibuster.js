@@ -2,7 +2,7 @@
 * Name:            filibuster.js                                            *
 * Project:         Corsaro                                                  *
 * Module:          Filibuster                                               *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Arrows-oriented application                              *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
@@ -18,7 +18,6 @@ var _flagstats=false;
 var _currVoice=false;
 $.browser.chrome=(navigator.userAgent.match(/Chrom(e|ium)/i)!==null);
 // SWIPE
-var _swipedirection=0;
 var _swipestartX=0;
 var _swipestartY=0;
 var _swipemoveX=0;
@@ -207,11 +206,10 @@ function containers_locate(options, missing){
         styouter["left"]=0;
         styinner["overflow"]="visible";
         if(FLB.detected.mobile){
-            $("body").css({"font-size":"300%"});
+            $("body").css({"font-size":"110%"});
             $(".filibuster-skip").css({"font-size":"100%"});
-            $(".filibuster-item-icon img").css({"height":"5em"});
-            $(".filibuster-mailus-email input").css({"width":"50%","font-size":"75%"});
-            $(".filibuster-mailus-body textarea").css({"width":"35%","font-size":"75%"});
+            $(".filibuster-item-icon img").css({"height":"6em"});
+            $(".filibuster-item-icon").css({"text-align":"center"});
         }
         for(var attr in _containers[id]){
             var v=_containers[id][attr];
@@ -817,59 +815,8 @@ function solvecontent(){
                                     $("#"+id+"_inner .filibuster-navigator-forward").html("&nbsp;<img class='filibuster-surrogate' src='_images/right.png' border='0'/>&nbsp;");
                                 }
                                 if(FLB.detected.mobile){
-                                    $(window).on("touchstart", 
-                                        function(event){ 
-                                            try{
-                                                if(event.originalEvent.targetTouches.length==1){
-                                                    _swipedirection=0;
-                                                    _swipemoveX=0;
-                                                    _swipemoveY=0;
-                                                    _swipestartX=event.originalEvent.targetTouches[0].pageX;
-                                                    _swipestartY=event.originalEvent.targetTouches[0].pageY;
-                                                }
-                                            }catch(e){}
-                                        }
-                                    );
-                                    $(window).on("touchmove", 
-                                        function(event){ 
-                                            try{
-                                                if(event.originalEvent.targetTouches.length==1){
-                                                    _swipemoveX=event.originalEvent.targetTouches[0].pageX;
-                                                    _swipemoveY=event.originalEvent.targetTouches[0].pageY;
-                                                }
-                                            }catch(e){}
-                                        }
-                                    );
-                                    $(window).on("touchend", 
-                                        function(event){ 
-                                            try{
-                                                var deltaX=Math.abs(_swipestartX-_swipemoveX);
-                                                var deltaY=Math.abs(_swipestartY-_swipemoveY);
-                                                if(deltaX/FLB.metrics.width>0.75 &&
-                                                   deltaY/deltaX<0.7
-                                                ){
-                                                    switch(_swipedirection){
-                                                    case -1:
-                                                        flb_navigator_back();
-                                                        break;
-                                                    case 1:
-                                                        flb_navigator_forward();
-                                                        break;
-                                                    }
-                                                }
-                                            }catch(e){}
-                                        }
-                                    );
-                                    $(window).on("swiperight", 
-                                        function(event){ 
-                                            _swipedirection=-1;
-                                        }
-                                    );
-                                    $(window).on("swipeleft", 
-                                        function(event){ 
-                                            _swipedirection=1;
-                                        }
-                                    );
+                                    $("body").append("<div class='filibuster-changepage filibuster-prevpage' style='left:-1.5em' onclick='flb_navigator_back()'>&nbsp;</div>");
+                                    $("body").append("<div class='filibuster-changepage filibuster-nextpage' style='right:-1.5em' onclick='flb_navigator_forward()'>&nbsp;</div>");
                                 }
                             }
                         );

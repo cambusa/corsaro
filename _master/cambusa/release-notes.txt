@@ -1,4 +1,10 @@
 ==================================
+Rilascio 1.70.03    del 04/07/2015
+==================================
+
+Filibuster: utilizzato il meta viewport; sostituito il cambio pagina mediante eventi sweep con bottoni espliciti semitrasparenti.
+
+==================================
 Rilascio 1.70.02    del 01/07/2015
 ==================================
 

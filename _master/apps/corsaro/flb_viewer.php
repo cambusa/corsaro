@@ -33,6 +33,7 @@ $LINK="filibuster.php?env=$env&site=$site&id=$id";
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Filibuster Viewer</title>
 <style>
 body{font-family:sans-serif;font-size:100%;}

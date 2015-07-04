@@ -43,10 +43,11 @@ else
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
-<meta name="description" content="ryWinz - Form Management">
-<meta name="framework" content="Cambusa <?php print $cambusa_version ?>">
-<meta name="license" content="GNU LGPL v3">
-<meta name="repository" content="https://github.com/cambusa/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="ryWinz - Form Management" />
+<meta name="framework" content="Cambusa <?php print $cambusa_version ?>" />
+<meta name="license" content="GNU LGPL v3" />
+<meta name="repository" content="https://github.com/cambusa/" />
 <title><?php print $winz_apptitle ?></title>
 <link rel='shortcut icon' href='_images/favicon.ico' type='image/x-icon'/>
 <?php

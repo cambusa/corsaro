@@ -2,7 +2,7 @@
 /****************************************************************************
 * Name:            food4container.php                                       *
 * Project:         Corsaro/ryQuiver Extension                               *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Arrows-oriented Library                                  *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
@@ -573,8 +573,8 @@ function solvemultimedia($maestro, $DESCRIPTION, $ABSTRACT, $REGISTRY, $AUXTIME,
         if($param!==false){
             $videopath=substr($videopath,0,$param);
         }
-        $videopath="http://www.youtube.com/v/".$videopath;
-        $food.="<embed class='filibuster-stretchable' src='".$videopath."' type='application/x-shockwave-flash' allowfullscreen='true' width='480' height='380' wmode='transparent'></embed>";
+        $videopath="http://www.youtube.com/embed/".$videopath;
+        $food.="<iframe class='filibuster-resizable filibuster-fittable' frameborder='0' scrolling='no' src='$videopath' width='480' height='320' ></iframe>";
     }
     else{
         $food.="<div class='filibuster-subtitle'>";

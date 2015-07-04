@@ -250,6 +250,28 @@ line-height:28px;
 }
 .filibuster-forum-cancel a{text-decoration:none;color:black;}
 
+/* MOBILE PREVIOUS/NEXT PAGE */
+.filibuster-changepage{
+position:fixed;
+bottom:1em;
+width:1em;
+height:1em;
+line-height:1px;
+overflow:hidden;
+border:1px solid black;
+color:black;
+background:silver;
+cursor:pointer;
+padding:1em;
+text-align:center;
+opacity:0.25;
+filter:alpha(opacity=25); /* For IE8 and earlier */
+z-index:10000;
+-webkit-border-radius:50%;
+ -moz-border-radius:50%;
+      border-radius:50%;
+}
+
 /* FOOD4BOT */
 #filibuster-food4bot{position:absolute;display:none;}
 

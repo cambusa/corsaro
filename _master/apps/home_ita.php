@@ -8,8 +8,9 @@ else
 
 <html>
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
     <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Portale Progetto <?php print $progetto ?></title>
 </head>
 

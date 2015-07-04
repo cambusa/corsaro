@@ -2,7 +2,7 @@
 /****************************************************************************
 * Name:            source_download.php                                      *
 * Project:         Cambusa/rySource                                         *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Remote file system browser                               *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
@@ -118,10 +118,7 @@ if(isset($_GET['file'])){
             $base=str_replace("\\", "/", $base);
             // NORMALIZZO IL FILE
             $file=str_replace("\\", "/", $file);
-            if(substr($file,1,2)!="//" && substr($file,1,2)!=":/"){
-                if(substr($file,0,1)=="/"){
-                    $file=substr($file,1);
-                }
+            if(substr($file,0,1)!="/" && substr($file,1,2)!=":/"){
                 $file=$base.$file;
             }
             // RISOLVO E RINORMALIZZO
