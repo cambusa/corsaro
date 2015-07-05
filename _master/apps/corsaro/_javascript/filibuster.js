@@ -682,9 +682,9 @@ function solvecontent(){
                                     var old_w=$(this).width();
                                     var old_h=$(this).height();
                                     var ratio=old_h/old_w;
-                                    var new_w=$("#"+id+"_inner").width();
+                                    var new_w=Math.round($("#"+id+"_inner").width()*0.96);
                                     $(this).width(new_w);
-                                    $(this).height(new_w*ratio);
+                                    $(this).height(Math.round(new_w*ratio));
                                 }catch(e){
                                     if(window.console){console.log(buff)}
                                 }
@@ -711,7 +711,7 @@ function solvecontent(){
                         $("#"+id+"_inner .filibuster-stretchable").each(
                             function(index){
                                 try{
-                                    var new_w=$("#"+id+"_inner").width();
+                                    var new_w=Math.round($("#"+id+"_inner").width()*0.96);
                                     $(this).width(new_w);
                                 }catch(e){
                                     if(window.console){console.log(buff)}
@@ -815,11 +815,32 @@ function solvecontent(){
                                     $("#"+id+"_inner .filibuster-navigator-forward").html("&nbsp;<img class='filibuster-surrogate' src='_images/right.png' border='0'/>&nbsp;");
                                 }
                                 if(FLB.detected.mobile){
-                                    $("body").append("<div class='filibuster-changepage filibuster-prevpage' style='left:-1.5em' onclick='flb_navigator_back()'>&nbsp;</div>");
-                                    $("body").append("<div class='filibuster-changepage filibuster-nextpage' style='right:-1.5em' onclick='flb_navigator_forward()'>&nbsp;</div>");
+                                    if($(".filibuster-changepage").length==0){
+                                        $("body").append("<div class='filibuster-changepage filibuster-prevpage' style='left:-1.5em' onclick='flb_navigator_back()'>&nbsp;</div>");
+                                        $("body").append("<div class='filibuster-changepage filibuster-nextpage' style='right:-1.5em' onclick='flb_navigator_forward()'>&nbsp;</div>");
+                                    }
                                 }
                             }
                         );
+                        if(FLB.detected.mobile){
+                            // FITTING IMMAGINI
+                            $("#"+id+"_inner img").each(
+                                function(index){
+                                    try{
+                                        var old_w=$(this).width();
+                                        if(old_w>FLB.metrics.width){
+                                            var old_h=$(this).height();
+                                            var ratio=old_h/old_w;
+                                            var new_w=Math.round($("#"+id+"_inner").width()*0.96);
+                                            $(this).width(new_w);
+                                            $(this).height(Math.round(new_w*ratio));
+                                        }
+                                    }catch(e){
+                                        if(window.console){console.log(buff)}
+                                    }
+                                }
+                            );
+                        }
                         var bMathjax=false;
                         // CONTENUTI SPECIALI: MATEMATICA
                         if($("#"+id+"_inner .filibuster-specials-math").length>0){

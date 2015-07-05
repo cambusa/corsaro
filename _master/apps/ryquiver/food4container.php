@@ -574,7 +574,7 @@ function solvemultimedia($maestro, $DESCRIPTION, $ABSTRACT, $REGISTRY, $AUXTIME,
             $videopath=substr($videopath,0,$param);
         }
         $videopath="http://www.youtube.com/embed/".$videopath;
-        $food.="<iframe class='filibuster-resizable filibuster-fittable' frameborder='0' scrolling='no' src='$videopath' width='480' height='320' ></iframe>";
+        $food.="<iframe class='filibuster-resizable' frameborder='0' scrolling='no' src='$videopath' width='480' height='320' ></iframe>";
     }
     else{
         $food.="<div class='filibuster-subtitle'>";
