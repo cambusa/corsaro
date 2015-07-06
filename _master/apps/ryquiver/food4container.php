@@ -310,6 +310,9 @@ if($env!="" && $site!="" && $CONTENTID!=""){
                 }
                 $food.="</div>";
                 break;
+            case "socialbox":
+                $food.="<div class='filibuster-social'></div>";
+                break;
             }
         }
         else{

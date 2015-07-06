@@ -484,6 +484,7 @@ function class_qvpagine(settings,missing){
     .additem({caption:"Mailus", key:"mailus"})
     .additem({caption:"Include", key:"include"})
     .additem({caption:"Forum", key:"forum"})
+    .additem({caption:"SocialBox", key:"socialbox"})
     .additem({caption:"Copyright", key:"copyright"});
 
     $(prefix+"LB_LANGUAGE").rylabel({left:240, top:offsety, caption:"Voce"});
@@ -846,6 +847,8 @@ function class_qvpagine(settings,missing){
     $(prefix+"LB_INCLUDEFILE").rylabel({left:20, top:0, caption:"Sorgente"});
     var tx_include=$(prefix+"INCLUDEFILE").rytext({left:90, top:0, width:630, datum:"C"});
     
+    // SOCIALBOX
+    
     // COPYRIGHT
     offsety=0;
     $(prefix+"LB_DEALER").rylabel({left:20, top:offsety, caption:"Distribuz."});
@@ -943,6 +946,8 @@ function class_qvpagine(settings,missing){
                 break;
             case "include":
                 data["INCLUDEFILE"]=tx_include.value();
+                break;
+            case "socialbox":
                 break;
             case "copyright":
                 data["DEALER"]=tx_dealer.value();
@@ -1650,6 +1655,8 @@ function class_qvpagine(settings,missing){
                                 break;
                             case "include":
                                 tx_include.value(v[0]["INCLUDEFILE"]);
+                                break;
+                            case "socialbox":
                                 break;
                             case "copyright":
                                 tx_dealer.value(v[0]["DEALER"]);

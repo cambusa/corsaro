@@ -109,6 +109,8 @@
                 <div relid="LB_INCLUDEFILE" babelcode="PAGE_SOURCE"></div><div relid="INCLUDEFILE"></div>
             </div>
             <div relid="typeforum" style="position:absolute;display:none;"></div>
+            <div relid="typesocial" style="position:absolute;display:none;">
+            </div>
             <div relid="typecopyright" style="position:absolute;display:none;">
                 <div relid="LB_DEALER" babelcode="PAGE_DEALER"></div><div relid="DEALER"></div>
                 <div relid="LB_AUTHOR" babelcode="PAGE_AUTHOR"></div><div relid="AUTHOR"></div>

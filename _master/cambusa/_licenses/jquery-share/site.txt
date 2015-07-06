@@ -1,0 +1,2 @@
+https://github.com/iatek/jquery-share
+http://plugins.in1.com/share/demo

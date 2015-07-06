@@ -42,6 +42,7 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
             $PROTECTED=intval($r[0]["PROTECTED"]);
             $BOT="";
             $LINKBOT="";
+            $SOCIALIMG="";
             if($PAGEID==""){
                 $PAGEID=$DEFAULTID;
             }
@@ -71,6 +72,7 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                 $META=$r[0]["DESCRIPTION"]." ".$r[0]["ABSTRACT"];
                 $META=preg_replace("/<[bh]r\/?>/i", " ", $META);
                 $META=strip_tags($META);
+                $META=str_replace("\"", "", $META);
                 $META=strtolower($META);
                 @preg_match_all("/(\pL{4,})/i", $META, $m);
                 if(isset($m[1]))
@@ -103,6 +105,7 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                     $META.=" - ".$r[0]["ABSTRACT"];
                 $META=preg_replace("/<[bh]r\/?>/i", " ", $META);
                 $META=strip_tags($META);
+                $META=str_replace("\"", "", $META);
                 if(!mb_check_encoding($META, "UTF-8")){
                     $META=utf8_encode($META);
                 }
@@ -148,12 +151,15 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
                         $SUBPATH=$f[$i]["SUBPATH"];
                         $IMPORTNAME=$f[$i]["IMPORTNAME"];
                         $path_parts=pathinfo($IMPORTNAME);
-                        if(isset($path_parts["extension"]))
+                        if(isset($path_parts["extension"])){
                             $ext="." . $path_parts["extension"];
-                        else
-                            $ext="";
-                        $urltfile=$urlattachment.$SUBPATH.$SYSID.$ext;
-                        $LINKBOT.="<br/>\n<img src='$urltfile' />";
+                            $urltfile=$urlattachment.$SUBPATH.$SYSID.$ext;
+                            if(strpos("|.jpg|.jpeg|.gif|.png|.svg|", strtolower($ext) )!==false){
+                                $LINKBOT.="<br/>\n<img rel='image_src'  src='$urltfile' />";
+                                if($SOCIALIMG=="")
+                                    $SOCIALIMG=$urltfile;
+                            }
+                        }
                     }
                 }
                 $food["content"]=$TITLECONTENT;
@@ -177,6 +183,7 @@ if(isset($_GET["env"]) && isset($_GET["site"])){
             // DETERMINO I CONTENUTI SPECIALI DELLE SOTTOSTRUTTURE
             $food["specials"]=$SPECIALS;
             $food["bot"]=$BOT.$LINKBOT;
+            $food["social"]=$SOCIALIMG;
         }
         else{
             $food["success"]=0;
@@ -238,6 +245,11 @@ function solvespecials($maestro, $container, $flagbot){
             $CONTENTTYPE=strtolower($r[0]["CONTENTTYPE"]);
             if($CONTENTTYPE=="frames"){
                 solvecontainers2($maestro, $r[0]["SYSID"]);
+            }
+            elseif($CONTENTTYPE=="socialbox"){
+                if(strpos($SPECIALS, "|social|")===false){
+                    $SPECIALS.="social|";
+                }
             }
         }
     }

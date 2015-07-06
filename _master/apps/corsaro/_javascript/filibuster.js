@@ -17,11 +17,6 @@ var _flagstats=false;
 // GESTIONE VOICE
 var _currVoice=false;
 $.browser.chrome=(navigator.userAgent.match(/Chrom(e|ium)/i)!==null);
-// SWIPE
-var _swipestartX=0;
-var _swipestartY=0;
-var _swipemoveX=0;
-var _swipemoveY=0;
 // OGGETTO PUBBLICO
 var FLB={};
 FLB.actualid=_actualid;
@@ -760,6 +755,21 @@ function solvecontent(){
                                 new objMailus(this);
                             }
                         );
+                        // ATTIVAZIONE SOCIAL
+                        $("#"+id+"_inner .filibuster-social").each(
+                            function(index){
+                                $(this).share({
+                                  networks:[
+                                    'facebook', 
+                                    'twitter',
+                                    'googleplus', 
+                                    'pinterest', 
+                                    'linkedin',
+                                    'tumblr'
+                                  ]
+                                });                            
+                            }
+                        );
                         // LOGOUT FORUM
                         $("#"+id+"_inner .filibuster-forum").each(
                             function(index){
@@ -1363,7 +1373,8 @@ function flb_navigator_forward(){
     }
 }
 function flb_gallery(options, missing){
-    //if(FLB.detected.mobile)return;
+    if($(".filibuster-gallery").length==0)
+        return;
     var spacing=0;
     var outer=0;
     var inner=0;

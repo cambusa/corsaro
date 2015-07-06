@@ -79,6 +79,7 @@ if($buff!=""){
             $SPECIALS=$FLB["specials"];
             $VOICELANG=$FLB["lang"];
             $VOICEGENDER=$FLB["gender"];
+            $SOCIALIMG=$FLB["social"];
         }
         else{
             print $FLB["err"];
@@ -211,6 +212,22 @@ else
 <meta name="engine" content="Filibuster v1.0" />
 <meta name="license" content="GNU LGPL v3" />
 <meta name="repository" content="https://github.com/cambusa/" />
+
+<meta property="og:title" content="<?php print $metadescr ?>" />
+<?php
+    if($SOCIALIMG!=""){
+        print "<meta property=\"og:image\" content=\"$SOCIALIMG\" />\n";
+    }
+?>
+
+<script type='text/javascript' src='_javascript/jquery.js'></script>
+<script type='text/javascript' src='_javascript/printThis.js'></script>
+<script type='text/javascript' src='_javascript/jquery.cookie.js'></script>
+<script type='text/javascript' src='_javascript/jquery.ui.core.js'></script>
+<script type='text/javascript' src='_javascript/jquery.ui.widget.js'></script>
+<script type='text/javascript' src='_javascript/jquery.ui.mouse.js'></script>
+<script type='text/javascript' src='_javascript/jquery.ui.draggable.js'></script>
+
 <?php  print $GLOBALHEAD ?>
 
 <title><?php print $TITLESITE ?></title>
@@ -231,27 +248,24 @@ body{margin:10px;}
 </style>
 </noscript>
 
-<script type='text/javascript' src='_javascript/jquery.js'></script>
-<script type='text/javascript' src='_javascript/printThis.js'></script>
-<script type='text/javascript' src='_javascript/jquery.cookie.js'></script>
-<script type='text/javascript' src='_javascript/jquery.ui.core.js'></script>
-<script type='text/javascript' src='_javascript/jquery.ui.widget.js'></script>
-<script type='text/javascript' src='_javascript/jquery.ui.mouse.js'></script>
-<script type='text/javascript' src='_javascript/jquery.ui.draggable.js'></script>
 <?php
     if($PROTECTED){
-        print "<script type='text/javascript' src='$filibuster_cambusa/rygeneral/rygeneral.js?ver=$cacheversion' ></script>";
-        print "<script type='text/javascript' src='$filibuster_cambusa/ryego/ryego.js?ver=$cacheversion' ></script>";
+        print "<script type='text/javascript' src='$filibuster_cambusa/rygeneral/rygeneral.js?ver=$cacheversion' ></script>\n";
+        print "<script type='text/javascript' src='$filibuster_cambusa/ryego/ryego.js?ver=$cacheversion' ></script>\n";
     }
     if(strpos($SPECIALS, "|math|")!==false && $mathjax_path!=""){
-        print "<script type='text/javascript' src='".$mathjax_path."'></script>";
+        print "<script type='text/javascript' src='".$mathjax_path."'></script>\n";
     }
     if(strpos($SPECIALS, "|svg|")!==false){
-        print "<script type='text/javascript' src='_javascript/snapsvg.js'></script>";
+        print "<script type='text/javascript' src='_javascript/snapsvg.js'></script>\n";
     }
-    if($DETECTMOBILE=="true"){
-        print "<script type='text/javascript' src='_javascript/jquery.mobile.js'></script>";
+    if(strpos($SPECIALS, "|social|")!==false){
+        print "<link href='_social/jquery.share.css' rel='stylesheet' type='text/css'>\n";
+        print "<script type='text/javascript' src='_social/jquery.share.js'></script>\n";
     }
+    //if($DETECTMOBILE=="true"){
+    //    print "<script type='text/javascript' src='_javascript/jquery.mobile.js'></script>\n";
+    //}
 ?>
 
 <script>
