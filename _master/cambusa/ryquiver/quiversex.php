@@ -64,7 +64,22 @@ function qv_getbaseid($maestro){
 
 function qv_bulkinitialize($maestro){
     global $global_baseid, $global_progrid;
-    $global_baseid=qv_getbaseid($maestro);
+    
+    // DETERMINO L'ULTIMO PROGRESSIVO GENERATO
+    $sql="SELECT * FROM QVSYSTEM";
+    maestro_query($maestro, $sql, $r);
+    if(count($r)>0)
+        $LASTBASE=$r[0]["LASTBASE"];
+    else
+        $LASTBASE="";
+        
+    $TESTBASE=qv_getbaseid($maestro);
+    if($TESTBASE<=$LASTBASE){
+        // PER QUALCHE MOTIVO IL MONAD ATTUALE NON E' QUELLO CHE HA GENERATO L'ULTIMO BASEID
+        monadset($LASTBASE);
+        $TESTBASE=qv_getbaseid($maestro);
+    }
+    $global_baseid=$TESTBASE;
     $global_progrid=0;
 }
 
@@ -132,7 +147,15 @@ function qv_createsysid($maestro, $alloc=0){
                         $LASTALLOC=$alloc-1;
                     else
                         $LASTALLOC=0;
-                    $LASTBASE=qv_getbaseid($maestro);
+                    $TESTBASE=qv_getbaseid($maestro);
+                    
+                    if($TESTBASE<=$LASTBASE){
+                        // PER QUALCHE MOTIVO IL MONAD ATTUALE NON E' QUELLO CHE HA GENERATO L'ULTIMO BASEID
+                        monadset($LASTBASE);
+                        $TESTBASE=qv_getbaseid($maestro);
+                    }
+
+                    $LASTBASE=$TESTBASE;
                     $LASTPROGR=0;
                     $sql="UPDATE QVSYSTEM SET LASTBASE='$LASTBASE',LASTPROGR='$LASTALLOC'";
                 }

@@ -2003,16 +2003,11 @@ var globalcolorfocus="#FFF4E6";
                     $("#"+propname+"_anchor").val("");
                 }
             );
-            $("#"+propname).mousedown(
-                function(evt){
-                    if(propenabled){
-                        castFocus(propname);
-                    }
-                }
-            );
             $("#"+propname).click(
                 function(evt){
                     if(propenabled){
+                        if(propbutton)
+                            objectFocus(propname);
                         if(settings.click!=missing){
                             if(propbutton){
                                 if(propflat){
@@ -2028,7 +2023,9 @@ var globalcolorfocus="#FFF4E6";
                                     }, 500);
                                 }
                             }
-                            settings.click(propobj);
+                            setTimeout(function(){
+                                settings.click(propobj);
+                            });
                         }
                     }
                 }

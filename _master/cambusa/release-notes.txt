@@ -1,4 +1,14 @@
 ==================================
+Rilascio 1.70.06    del 13/07/2015
+==================================
+
+Monad: la funzione di quiver che crea SYSID adegua i contatori di monad se si accorge che il database è stato popolato con un monad più avanti nei progressivi. 
+Ciò permette di spostare un database da un sistema a un altro senza il rischio di generare codici duplicati.
+
+ryBox: migliorata la gestione del bottone: a volte catturava il fuoco dopo l'esecuzione del comando.
+Questo implicava il riassegnamento dello stato di modifica ai campi appena salvati.
+
+==================================
 Rilascio 1.70.05    del 06/07/2015
 ==================================
 
