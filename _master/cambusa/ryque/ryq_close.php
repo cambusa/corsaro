@@ -21,7 +21,7 @@ try{
             unlink("requests/".$reqid.".tbl");
         if(is_file("requests/".$reqid.".ndx"))
             unlink("requests/".$reqid.".ndx");
-        // file relativi all'algoritmo zero
+        // file relativi all'algoritmo di gauge
         if(is_file("requests/".$reqid.".sts")){
             unlink("requests/".$reqid.".sts");
             if(is_file("requests/".$reqid.".sto"))

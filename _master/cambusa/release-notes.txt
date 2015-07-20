@@ -1,4 +1,13 @@
 ==================================
+Rilascio 1.70.07    del 20/07/2015
+==================================
+
+Ufficializzata la denominazione "algoritmo di gauge" per il rimedio alla complessità del problema delle somme parziali.
+Cambiati i nomi a file e variabili.
+
+Filibuster: corretto errore ne caso di cambio tipo pagina da "summary" ad altro; PARENTID non veniva blankato rendendo incancellabile la pagina senza motivo.
+
+==================================
 Rilascio 1.70.06    del 13/07/2015
 ==================================
 
@@ -48,7 +57,7 @@ Filibuster: aggiunto il titolo al marquee.
 Rilascio 1.70.00    del 08/06/2015
 ==================================
 
-Implementata la versione Javascript dell'Algoritmo Zero.
+Implementata la versione Javascript dell'algoritmo di gauge.
 
 ==================================
 Rilascio 1.69.32    del 31/05/2015

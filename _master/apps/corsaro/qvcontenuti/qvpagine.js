@@ -873,6 +873,7 @@ function class_qvpagine(settings,missing){
             data["STATUS"]="0";
             data["CONSISTENCY"]="0";
             data["REFERENCE"]=tx_gender.key()+tx_language.key();
+            data["PARENTID"]="";
             if(chk_scope.value())
                 data["SCOPE"]="0";
             else

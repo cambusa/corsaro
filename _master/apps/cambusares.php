@@ -243,8 +243,8 @@ RYBOX;
             CambusaLibraryAdd("geography.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/geography/geography.js?ver=$cacheversion' ></script>");
             break;
 
-        case "ryzero":
-            CambusaLibraryAdd("ryzero.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryzero.js?ver=$cacheversion' ></script>");
+        case "rygauge":
+            CambusaLibraryAdd("rygauge.js", "<script type='text/javascript' src='".$url_cambusa."ryque/rygauge.js?ver=$cacheversion' ></script>");
             break;
     }
 }

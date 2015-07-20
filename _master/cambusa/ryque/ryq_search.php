@@ -72,7 +72,7 @@ if(isset($criteria["gauge"])){
     }
     unset($r);
     
-    $s=zerosearch($reqid, array("gauge" => $gauge), $values, $refs);
+    $s=gaugesearch($reqid, array("gauge" => $gauge), $values, $refs);
 }
 elseif(count($criteria)==0){
     if(is_file("requests/".$reqid.".sts")){
@@ -83,7 +83,7 @@ elseif(count($criteria)==0){
         else
             include_once $tocambusa."ryque/ryq_gaugeminus.php";
         
-        $s=zerosearch($reqid);
+        $s=gaugesearch($reqid);
     }
     else{
         $s=array();

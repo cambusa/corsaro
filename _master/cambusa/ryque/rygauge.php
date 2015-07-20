@@ -1,6 +1,6 @@
 <?php 
 /****************************************************************************
-* Name:            ryzero.php                                               *
+* Name:            rygauge.php                                              *
 * Project:         Cambusa/ryQue                                            *
 * Version:         1.69                                                     *
 * Description:     Subset Sum Problem Remedy                                *
@@ -27,11 +27,11 @@ if(isset($_POST['gauge'])){
     $gauge=$_POST['gauge'];
     $values=$_POST['values'];
     $refs=$_POST['refs'];
-    $s=zerosearch($reqid, array("gauge" => $gauge, "exhaustive" => 2), $values, $refs);
+    $s=gaugesearch($reqid, array("gauge" => $gauge, "exhaustive" => 2), $values, $refs);
 }
 else{
     if(is_file("requests/".$reqid.".sts")){
-        $s=zerosearch($reqid);
+        $s=gaugesearch($reqid);
     }
     else{
         $s=array();

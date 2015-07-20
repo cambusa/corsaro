@@ -62,15 +62,15 @@ function qv_smartfinder($maestro, $data){
                     $REQID.=monadrand();
                 }
             }
-            $s=zerosearch($REQID, array("gauge" => $GAUGE, "exhaustive" => 2), $VALUES, $REFS);
+            $s=gaugesearch($REQID, array("gauge" => $GAUGE, "exhaustive" => 2), $VALUES, $REFS);
             break;
 
         case "CONTINUE":
-            $s=zerosearch($REQID);
+            $s=gaugesearch($REQID);
             break;
 
         case "END":
-            zerodispose($REQID);
+            gaugedispose($REQID);
             $s=false;
             break;
         }

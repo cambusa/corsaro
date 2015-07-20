@@ -85,7 +85,7 @@ if($env_quiver){
     }
 }
 
-// SE ERA STATA FATTA UNA RICERCA CON L'ALGORITMO ZERO TOLGO I FILE
+// SE ERA STATA FATTA UNA RICERCA CON L'ALGORITMO DI GAUGE TOLGO I FILE
 if(is_file("requests/".$reqid.".sts")){
     @unlink("requests/".$reqid.".sts");
     @unlink("requests/".$reqid.".sto");

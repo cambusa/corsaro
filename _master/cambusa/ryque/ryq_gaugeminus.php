@@ -17,9 +17,9 @@
 define("MAX_LEVEL",  10);
 
 // Costanti di fase
-define("zeroExhaustive",  0);
-define("zeroMarkov",  1);
-define("zeroEnd",  2);
+define("gaugeExhaustive",  0);
+define("gaugeMarkov",  1);
+define("gaugeEnd",  2);
 
 class StructElemento{
      
@@ -53,7 +53,7 @@ class StructStatus{
      
 }
 
-function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
+function gaugesearch($RequestID, $Params=false, $Values=false, $Refs=false){
 
     global $path_cambusa;
 	global $NameFileSTS;
@@ -96,7 +96,7 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
 	
 	$MsgAvanzamento="";
 
-	$FolderZero="";
+	$FolderGauge="";
 	
 	$Versione="";
 	$Comando="";
@@ -108,22 +108,22 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
 	$Controllo=0;
 	
     try{
-		$FaseRicerca=zeroExhaustive;
+		$FaseRicerca=gaugeExhaustive;
 		
 		if($RequestID != ""){
 		
             $LastControlloT=time();
 			
-			$FolderZero = $path_cambusa."ryque/requests";
+			$FolderGauge = $path_cambusa."ryque/requests";
 			
-			if(!is_dir($FolderZero)){
-				GestioneErroreGrave("Protocol folder '" . $FolderZero . "' doesn't exist");
+			if(!is_dir($FolderGauge)){
+				GestioneErroreGrave("Protocol folder '" . $FolderGauge . "' doesn't exist");
 			}
 			
-			$NameFileSTS = $FolderZero . "/" . $RequestID . ".sts";		// File status
-			$NameFileSTO = $FolderZero . "/" . $RequestID . ".sto";		// File storico
-			$NameFileERR = $FolderZero . "/" . $RequestID . ".err";		// File errori
-            $NameFileSTAR = $FolderZero . "/" . $RequestID . ".*";		// Tutti i file
+			$NameFileSTS = $FolderGauge . "/" . $RequestID . ".sts";		// File status
+			$NameFileSTO = $FolderGauge . "/" . $RequestID . ".sto";		// File storico
+			$NameFileERR = $FolderGauge . "/" . $RequestID . ".err";		// File errori
+            $NameFileSTAR = $FolderGauge . "/" . $RequestID . ".*";		// Tutti i file
 			
 			$TotaleSelez = 0;
 			$ContaSelez = 0;
@@ -199,14 +199,14 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
 				
 				/*
                 if($Status->ExhaustiveLevel > 0)
-					$Status->Phase = zeroExhaustive;
+					$Status->Phase = gaugeExhaustive;
 				else
-					$Status->Phase = zeroMarkov;
+					$Status->Phase = gaugeMarkov;
                 */
                 if($Status->ExhaustiveLevel<3){
                     $Status->ExhaustiveLevel=3;
                 }
-                $Status->Phase = zeroExhaustive;
+                $Status->Phase = gaugeExhaustive;
 				
 				$Status->LastLevel = 1;
 				
@@ -333,7 +333,7 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
 			
 				switch($Status->Phase){
 				
-                case zeroExhaustive:
+                case gaugeExhaustive:
                 
                     //-----------------------
                     // FASE: RICERCA ENNUPLE
@@ -347,7 +347,7 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
                         
                         $Esito = RicercaEnnuple(1, $i, $Status->Gauge);
                         
-                        if($Status->Phase == zeroEnd){
+                        if($Status->Phase == gaugeEnd){
                             // Voglio ottenere una exit do
                             $exitdo=true;
                             break;
@@ -382,8 +382,8 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
 
                                         if($Status->Solutions >= $Status->SkipSolutions - 1){
 
-                                            //$Status->Phase = zeroMarkov;
-                                            $Status->Phase = zeroEnd;
+                                            //$Status->Phase = gaugeMarkov;
+                                            $Status->Phase = gaugeEnd;
 
                                         }
 
@@ -433,15 +433,15 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
                         break;
                     }
                     else{
-                        //$Status->Phase = zeroMarkov;
-                        $Status->Phase = zeroEnd;
+                        //$Status->Phase = gaugeMarkov;
+                        $Status->Phase = gaugeEnd;
                     }
                     break;  // exit case
                     
-                case zeroMarkov:
+                case gaugeMarkov:
                 
                     // MINUS NON HA MARKOV
-                    $Status->Phase = zeroEnd;
+                    $Status->Phase = gaugeEnd;
                     
                     break;  // exit case
 				}
@@ -452,7 +452,7 @@ function zerosearch($RequestID, $Params=false, $Values=false, $Refs=false){
                     
 				ControllaBreak();
 
-			}while($Status->Phase != zeroEnd);
+			}while($Status->Phase != gaugeEnd);
 		}	
 		else{
 		
@@ -709,10 +709,10 @@ function ControllaBreak(){
 		if(abs($CurrTimer - $LastControlloF) > 2){
 		
 			if(!is_file($NameFileSTS)){
-				$Status->Phase = zeroEnd;
+				$Status->Phase = gaugeEnd;
 			}
 			
-			if($Status->Phase == zeroEnd){
+			if($Status->Phase == gaugeEnd){
 			
 				EliminaTemporanei();
 			
@@ -720,7 +720,7 @@ function ControllaBreak(){
 			
 			if($Status->Timeout > 0){
 
-				if($Status->Phase != zeroEnd){
+				if($Status->Phase != gaugeEnd){
 				
 					if(($CurrTimer - $LastControlloT) > $Status->Timeout){
 	
@@ -729,7 +729,7 @@ function ControllaBreak(){
 						// Timeout scaduto: scrivo una risposta vuota
                         $StatusRitorno="";
 						
-						$Status->Phase = zeroEnd;
+						$Status->Phase = gaugeEnd;
 	
 					}
 				
@@ -755,11 +755,11 @@ function ControllaBreak(){
 		
 		GestioneErrore();
         
-        $Status->Phase = zeroEnd;
+        $Status->Phase = gaugeEnd;
 		
 	}
 
-    return ($Status->Phase == zeroEnd);
+    return ($Status->Phase == gaugeEnd);
      
 }
 
@@ -915,7 +915,7 @@ function GestioneErrore(){
     $StatusRitorno="";
 
     // Mi metto nella fase di fine ricerca per uscire dal loop
-    $Status->Phase = zeroEnd;
+    $Status->Phase = gaugeEnd;
      
     return false;
 
@@ -923,7 +923,7 @@ function GestioneErrore(){
 
 function GestioneErroreGrave($Testo){
 
-    $NumFile=fopen("ryzero.err", "w");
+    $NumFile=fopen("rygauge.err", "w");
     fwrite($NumFile, $Testo);
     fclose($NumFile);
 	
@@ -940,7 +940,7 @@ function EliminaTemporanei(){
     catch(Exception $e){}
 }
 
-function zerodispose($RequestID){
+function gaugedispose($RequestID){
     global $path_cambusa, $NameFileSTAR;
     $NameFileSTAR = $path_cambusa."ryque/requests" . "/" . $RequestID . ".*";
     EliminaTemporanei();
