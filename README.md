@@ -20,14 +20,14 @@ The set includes:
    * Master Data<br>
    * Pi Cube (processes, dossiers, projects, CRM, ...)<br>
    * Mercante (Orders and invoices)<br>
+   * Pluto (Financial instruments)<br>
 
 3. CMS __Filibuster__ based on Corsaro  
    An example of a website built by means of _Filibuster_: [No Boundaries](http://www.rudyz.net/apps/corsaro/filibuster.php?env=flb_giovyz&site=senzaconfini&id=A000000009019S)
 
 
-The missing Corsaro modules
+The missing Corsaro module
 * __Legend__ - Invoice collection management<br>
-* __Pluto__ - Financial instruments<br>
 
 will be included.
 
