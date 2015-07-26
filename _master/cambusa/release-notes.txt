@@ -1,4 +1,14 @@
 ==================================
+Rilascio 1.70.08    del 26/07/2015
+==================================
+
+Filibuster: disallocato un oggetto pendente in rimozione form.
+
+ryQue, ryUnbound: immagini non più dipendenti dal posizionamento dei javascript mediate CSS.
+
+ryUnbound: eliminate le dipendeze da ryBox e jquery-desktop.
+
+==================================
 Rilascio 1.70.07    del 20/07/2015
 ==================================
 

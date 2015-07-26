@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Simulazione",
+    "babelcode":"MN_PLUTO_SIMULATIONS",
+    "params":{
+        "name":"qvplutosimula",
+        "path":"qvpluto/",
+        "title":"Simulazione"
+    }
+}

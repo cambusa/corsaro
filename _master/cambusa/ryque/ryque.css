@@ -95,3 +95,68 @@ height:1px;
 border:none;
 text-indent:-10px;
 }
+
+.ryque-check{
+background:transparent url(images/check.gif) no-repeat;
+}
+
+.ryque-uncheck{
+background:transparent url(images/uncheck.gif) no-repeat;
+}
+
+.ryque-almostcheck{
+background:transparent url(images/almostcheck.gif) no-repeat;
+}
+
+.ryque-almostuncheck{
+background:transparent url(images/almostuncheck.gif) no-repeat;
+}
+
+.ryque-sep0{
+position:absolute;
+overflow:hidden;
+background:transparent url(images/colsep.gif) no-repeat right;
+}
+
+.ryque-zhead{
+position:absolute;
+text-align:center;
+color:#000000;
+background:transparent url(images/faded.gif) repeat-x;
+}
+
+.ryque-vtrack{
+position:absolute;
+visibility:hidden;
+background:transparent url(images/vtrack.gif) no-repeat;
+top:0px;
+left:0px;
+}
+
+.ryque-htrack{
+position:absolute;
+visibility:hidden;
+background:transparent url(images/htrack.gif) no-repeat;
+left:0px;
+top:0px;
+height:15px;
+}
+
+.ryque-rect{
+position:absolute;
+top:0px;
+background:transparent url(images/faded.gif) repeat-x;
+}
+
+.ryque-colsep{
+position:absolute;
+overflow:hidden;
+background:transparent url(images/colsep.gif) no-repeat right;
+}
+
+.ryque-head{
+position:absolute;
+left:0px;
+color:#000000;
+background:transparent url(images/faded.gif) repeat-x;
+}

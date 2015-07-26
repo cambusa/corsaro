@@ -326,6 +326,7 @@ function class_qvpagine(settings,missing){
         caption:"Pulisci",
         width:70,
         button:true,
+        formid:formid,
         click:function(o){
             sospendirefresh=true;
             txf_search.clear();

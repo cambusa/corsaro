@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Manutenzione",
+    "babelcode":"MN_PLUTO_MAINTENANCE",
+    "params":{
+        "name":"qvplutomanu",
+        "path":"qvpluto/",
+        "title":"Manutenzione"
+    }
+}

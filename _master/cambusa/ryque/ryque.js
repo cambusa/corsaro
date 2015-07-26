@@ -162,15 +162,15 @@
                 t+="<div id='"+propname+"_outgrid'>"; // Outer Griglia
                     t+=creategrid();
                 t+="</div>"; // Fine outer griglia
-                t+="<div id='"+propname+"_rect'><a style='cursor:default;line-height:20px;font-size:20px;'>&nbsp;&nbsp;</a></div>";  // prolungamento dell'header sopra vscroll
+                t+="<div id='"+propname+"_rect' class='ryque-rect'><a style='cursor:default;line-height:20px;font-size:20px;'>&nbsp;&nbsp;</a></div>";  // prolungamento dell'header sopra vscroll
                 t+="<div id='"+propname+"_vscroll'>"; // Scroll verticale
-                    t+="<div id='"+propname+"_tooltip'>0-0</div><div id='"+propname+"_vtrack'></div>";
+                    t+="<div id='"+propname+"_tooltip'>0-0</div><div id='"+propname+"_vtrack' class='ryque-vtrack'></div>";
                 t+="</div>";
                 if($.browser.mobile){
                     t+="<div id='"+propname+"_mobivertback'></div><div id='"+propname+"_mobivertfore'></div>";
                 }
                 t+="<div id='"+propname+"_hscroll'>"; // Scroll orizzontale
-                    t+="<div id='"+propname+"_htrack'></div>";
+                    t+="<div id='"+propname+"_htrack' class='ryque-htrack'></div>";
                 t+="</div>";
                 if($.browser.mobile){
                     t+="<div id='"+propname+"_mobihoriback'></div><div id='"+propname+"_mobihorifore'></div>";
@@ -450,7 +450,9 @@
                 );
                 $("#"+propname).mousedown(
                     function(evt){
-                        if(!propenabled){return}
+                       evt.preventDefault();
+                       evt.stopPropagation();
+                       if(!propenabled){return}
                         propmousebutton=true;
                         var tid=evt.target.id;
                         var r,c,reff;
@@ -539,6 +541,8 @@
                         }
                         if(RYBOX)
                             castFocus(propname);
+                        else
+                            document.getElementById(propname+"_anchor").focus();
                     }
                 );
                 $("#"+propname).mouseup(
@@ -917,6 +921,7 @@
                 propobj.decrefresh(true);
                 proploadon=false;
                 propobj.raisechangerow();
+                propobj.raisechangesel();
             }
             this.selinvert=function(){
                 return propselinvert;
@@ -1322,34 +1327,31 @@
             }
             this.selrefresh=function(){
                 if(propcheckable){
-                    var fd="#"+propname+"_0_0";
-                    var s=$("#"+propname+"_selicon");
-                    var icon="check.gif";
+                    var icon="ryque-check";
                     var sels=$.objectsize(propsels);
                     if(sels>0){
                         if(sels<propcount){
                             if(propselinvert)
-                                icon="almostcheck.gif";
+                                icon="ryque-almostcheck";
                             else
-                                icon="almostuncheck.gif";
+                                icon="ryque-almostuncheck";
                         }
                         else{
                             if(!propselinvert)
-                                icon="uncheck.gif";
+                                icon="ryque-uncheck";
                         }
                     }        
                     else{
                         if(propselinvert)
-                            icon="uncheck.gif";
+                            icon="ryque-uncheck";
                     }
-                    s.css({"background":"transparent url("+propfolderryque+"images/"+icon+") no-repeat"});
+                    $("#"+propname+"_selicon").removeClass("ryque-check ryque-uncheck ryque-almostcheck ryque-almostuncheck").addClass(icon);
                 }
             }
             this.seltoggle=function(reff){
                 if(reff==0)
                     reff=propindex;
                 var r=reff-proptoprow+1;
-                var fd="#"+propname+"_zr"+r;
                 if(reff<=propcount){
                     if(reff in propsels)
                         delete propsels[reff];
@@ -1397,16 +1399,6 @@
                     }
                 }
                 return propindex;
-            }
-            this.numbered=function(f){
-                if(f!=missing)
-                    setnumbered(f);
-                return propnumbered;
-            }
-            this.checkable=function(f){
-                if(f!=missing)
-                    setcheckable(f);
-                return propcheckable;
             }
             this.selected=function(r){
                 var e=false;
@@ -1723,7 +1715,7 @@
                         t+="<div id='"+propname+"_zr"+r+"' class='"+cl+"' style='top:"+(proprowh*r)+"px;'>";  // Riga colonna zero
                         if(r==0){
                             t+="<div id='"+propname+"_"+r+"_0'><div id='"+propname+"_selicon'></div></div>";
-                            t+="<div id='"+propname+"_sep0'></div>";
+                            t+="<div id='"+propname+"_sep0' class='ryque-sep0'></div>";
                         }
                         else{
                             t+="<div id='"+propname+"_"+r+"_0' class='ryque-cell column_0'></div>";
@@ -1737,20 +1729,24 @@
                 return t;
             }
             function creategrid(){
-                var t,r,c,cl,tt;
+                var t,r,c,cl,sty,tt;
                 t="<div id='"+propname+"_grid'>"; // Griglia
                 for (r=0;r<=proprows;r++){
-                    if (r==0)
+                    if(r==0){
                         cl="ryque-head";
-                    else
+                        sty="cursor:pointer;";
+                    }
+                    else{
                         cl="ryque-row";
+                        sty="";
+                    }
                     t+="<div id='"+propname+"_tr"+r+"' class='"+cl+"' style='top:"+(proprowh*r)+"px;'>";  // Riga
                     for (c=1;c<=propcols.length;c++){
                         if(r==0)
                             tt=proptits[c-1];
                         else
                             tt="&nbsp;";
-                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"'>"+tt+"</div>";  // Colonna
+                        t+="<div id='"+propname+"_"+r+"_"+c+"' class='ryque-cell column_"+c+"' style='"+sty+"'>"+tt+"</div>";  // Colonna
                         if(r==0)
                             t+="<div id='"+propname+"_sep"+c+"' class='ryque-colsep'></div>";   // Separatore
                     }
@@ -1780,7 +1776,7 @@
                 $("#"+propname+"_sep0")
                     .width(4)
                     .height(proprowh)
-                    .css({"position":"absolute","left":propzerowidth-4,"overflow":"hidden","background":"transparent url("+propfolderryque+"images/colsep.gif) no-repeat right","cursor":"default"});
+                    .css({"left":propzerowidth-4, "cursor":"default"});
                 
                 fitcolumns();
                 
@@ -1791,8 +1787,7 @@
                     
                 $("#"+propname+" .ryque-zhead")
                     .height(proprowh)
-                    .width(propzerowidth)
-                    .css({"position":"absolute","text-align":"center","color":"#000000","background":"transparent url("+propfolderryque+"images/faded.gif) repeat-x"});
+                    .width(propzerowidth);
         
                 $("#"+propname+"_zero")
                     .width(propzerowidth)
@@ -1801,7 +1796,7 @@
                 $("#"+propname+"_anchor").css({"position":"absolute","left":-2,top:0,"width":2,"height":proprowh,"cursor":"default","text-decoration":"none","background-color":"transparent"});
                 $("#"+propname+"_vscroll").css({"position":"absolute","background-color":"#E0E0E0","top":proprowh,"left":propwidth-propscrollsize,"width":propscrollsize,"height":proprowh*proprows+1});
                 $("#"+propname+"_tooltip").css({"position":"absolute","visibility":"hidden","top":0,"left":0,"border":"1px solid silver","background-color":"#F5DEB3","white-space":"nowrap"});
-                $("#"+propname+"_vtrack").css({"position":"absolute","visibility":"hidden","background":"transparent url("+propfolderryque+"images/vtrack.gif) no-repeat","height":proptracksize,"width":propscrollsize,"top":0,"left":0,"cursor":"pointer"});
+                $("#"+propname+"_vtrack").css({"height":proptracksize, "width":propscrollsize, "cursor":"pointer"});
                 if($.browser.mobile){
                     var semih=(proprowh*proprows+1)/2;
                     $("#"+propname+"_mobivertback").css({"position":"absolute","background-color":"#A0A0A0","top":proprowh,"left":propwidth-propscrollsize,"width":propscrollsize,"height":semih});
@@ -1809,14 +1804,14 @@
                 }
                 
                 $("#"+propname+"_hscroll").css({"position":"absolute","background-color":"#E0E0E0","left":2,"width":propwidth-propscrollsize-2,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
-                $("#"+propname+"_htrack").css({"position":"absolute","visibility":"hidden","background":"transparent url("+propfolderryque+"images/htrack.gif) no-repeat","left":0,"top":0,"width":proptracksize,"height":15,"cursor":"pointer"});
+                $("#"+propname+"_htrack").css({"width":proptracksize, "cursor":"pointer"});
                 if($.browser.mobile){
                     var semiw=(propwidth-propscrollsize-2)/2;
                     $("#"+propname+"_mobihoriback").css({"position":"absolute","background-color":"#A0A0A0","left":2,"width":semiw,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
                     $("#"+propname+"_mobihorifore").css({"position":"absolute","background-color":"#C0C0C0","left":2+semiw,"width":semiw,"height":propscrollsize,"top":(proprowh*(proprows+1)+1)});
                 }
                 
-                $("#"+propname+"_rect").css({"position":"absolute","left":propwidth-propscrollsize-1,"top":0,"width":propscrollsize+1,"height":proprowh,"background":"transparent url("+propfolderryque+"images/faded.gif) repeat-x"});
+                $("#"+propname+"_rect").css({"left":propwidth-propscrollsize-1, "width":propscrollsize+1, "height":proprowh});
                 $("#"+propname+"_quad").css({"position":"absolute","background-color":"#E0E0E0","left":propwidth-propscrollsize,"top":(proprowh*(proprows+1)+1),"width":propscrollsize,"height":propscrollsize});
                 $("#"+propname+"_lborder").css({"position":"absolute","left":0,"top":proprowh,"width":2,"height":proprowh*proprows+propscrollsize+1});
                 $("#"+propname+"_lborder").addClass("ryque-focusout");
@@ -1827,7 +1822,10 @@
                     $("#"+propname+" .ryque-zhead").css({"cursor":"pointer"});
                     if(propnumbered)
                         l=20;
-                    $("#"+propname+"_selicon").css({"position":"absolute","left":l,"top":2,"width":20,"height":20,"background":"transparent url("+propfolderryque+"images/check.gif) no-repeat"});
+                    $("#"+propname+"_selicon")
+                    .removeClass("ryque-check ryque-uncheck ryque-almostcheck ryque-almostuncheck")
+                    .addClass("ryque-check")
+                    .css({"position":"absolute", "left":l, "top":2, "width":20, "height":20, "cursor":"pointer"});
                 }
                 propobj.selrefresh();
             }
@@ -1852,7 +1850,7 @@
                         $("#"+propname+"_sep"+c)
                             .width(4)
                             .height(proprowh)
-                            .css({"position":"absolute","left":(x+w-3),"overflow":"hidden","background":"transparent url("+propfolderryque+"images/colsep.gif) no-repeat right","cursor":"col-resize"});
+                            .css({"left":(x+w-3), "cursor":"col-resize"});
                     }    
                     else{
                         $("#"+propname+" .column_"+c).css({"position":"absolute","visibility":"hidden"});
@@ -1869,7 +1867,7 @@
                 $("#"+propname+" .ryque-head")
                     .height(proprowh)
                     .width(propgridwidth)
-                    .css({"position":"absolute","left":0,"color":"#000000","cursor":"pointer","background":"transparent url("+propfolderryque+"images/faded.gif) repeat-x"});
+                    .css({"cursor":"pointer"});
                 propobj.hscrefresh();
                 propobj.decrefresh(true);
             }

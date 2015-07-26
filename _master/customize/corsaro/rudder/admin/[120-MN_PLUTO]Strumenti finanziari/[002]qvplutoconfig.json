@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Configurazioni",
+    "babelcode":"MN_PLUTO_CONFIGS",
+    "params":{
+        "name":"qvplutoconfig",
+        "path":"qvpluto/",
+        "title":"Configurazioni"
+    }
+}

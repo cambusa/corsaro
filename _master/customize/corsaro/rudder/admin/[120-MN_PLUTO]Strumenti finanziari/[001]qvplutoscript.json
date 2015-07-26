@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Script",
+    "babelcode":"MN_PLUTO_SCRIPTS",
+    "params":{
+        "name":"qvplutoscript",
+        "path":"qvpluto/",
+        "title":"Script"
+    }
+}

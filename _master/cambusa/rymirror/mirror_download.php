@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
 * Name:            mirror_download.php                                      *
-* Project:         Cambusa/rySource                                         *
+* Project:         Cambusa/ryMirror                                         *
 * Version:         1.69                                                     *
 * Description:     Remote file system browser                               *
 * Copyright (C):   2015  Rodolfo Calzetti                                   *
