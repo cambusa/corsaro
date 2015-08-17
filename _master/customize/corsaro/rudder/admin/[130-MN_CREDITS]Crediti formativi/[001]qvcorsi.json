@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Corsi",
+    "babelcode":"MN_COURSES",
+    "params":{
+        "name":"qvcorsi",
+        "path":"qvcredits/",
+        "title":"Corsi"
+    }
+}

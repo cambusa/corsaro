@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Bandi",
+    "babelcode":"MN_BANDI",
+    "params":{
+        "name":"qvbandi",
+        "path":"qvanagrafiche/",
+        "title":"Bandi"
+    }
+}

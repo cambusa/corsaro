@@ -9,12 +9,7 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-if(is_file($path_cambusa."ryque/ryq_gauge.php"))
-    include_once $path_cambusa."ryque/ryq_gauge.php";
-elseif(is_file($path_cambusa."ryque/ryq_gauge.phar"))
-    include_once "phar://".$path_cambusa."ryque/ryq_gauge.phar/ryq_gauge.php";
-else
-    include_once $path_cambusa."ryque/ryq_gaugeminus.php";
+include_once $path_cambusa."ryque/ryq_gauge.php";
 function qv_smartfinder($maestro, $data){
     global $babelcode, $babelparams;
     try{

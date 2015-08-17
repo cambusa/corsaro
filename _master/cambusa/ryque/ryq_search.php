@@ -49,12 +49,8 @@ if(isset($criteria["where"])){
 if(isset($criteria["gauge"])){
     $gauge=floatval($criteria["gauge"]);
     $name=$criteria["name"];
-    if(is_file($tocambusa."ryque/ryq_gauge.php"))
-        include_once $tocambusa."ryque/ryq_gauge.php";
-    elseif(is_file($tocambusa."ryque/ryq_gauge.phar"))
-        include_once "phar://".$tocambusa."ryque/ryq_gauge.phar/ryq_gauge.php";
-    else
-        include_once $tocambusa."ryque/ryq_gaugeminus.php";
+
+    include_once $tocambusa."ryque/ryq_gauge.php";
     
     $values=array();
     $refs=array();
@@ -76,13 +72,7 @@ if(isset($criteria["gauge"])){
 }
 elseif(count($criteria)==0){
     if(is_file("requests/".$reqid.".sts")){
-        if(is_file($tocambusa."ryque/ryq_gauge.php"))
-            include_once $tocambusa."ryque/ryq_gauge.php";
-        elseif(is_file($tocambusa."ryque/ryq_gauge.phar"))
-            include_once "phar://".$tocambusa."ryque/ryq_gauge.phar/ryq_gauge.php";
-        else
-            include_once $tocambusa."ryque/ryq_gaugeminus.php";
-        
+        include_once $tocambusa."ryque/ryq_gauge.php";
         $s=gaugesearch($reqid);
     }
     else{

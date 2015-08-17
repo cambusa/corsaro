@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Crediti",
+    "babelcode":"MN_ACCREDITATION",
+    "params":{
+        "name":"qvaccrediti",
+        "path":"qvcredits/",
+        "title":"Crediti"
+    }
+}

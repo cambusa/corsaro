@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Script",
+    "babelcode":"MN_LEGENDS_CRIPTS",
+    "params":{
+        "name":"qvlegendscript",
+        "path":"qvlegend/",
+        "title":"Script"
+    }
+}

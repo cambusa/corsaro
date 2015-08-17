@@ -353,8 +353,8 @@ function class_qvmovimenti(settings,missing){
     var txdescr=$(prefix+"DESCRIPTION").rytext({left:120, top:offsety, width:300, maxlen:200, datum:"C", tag:"DESCRIPTION"});
     offsety+=50;
 
-    $(prefix+"LB_BOW").rylabel({left:120, top:offsety, caption:"<b>Dare</b>"});
-    $(prefix+"LB_TARGET").rylabel({left:offsetx+100, top:offsety, caption:"<b>Avere</b>"});
+    $(prefix+"LB_BOW").rylabel({left:120, top:offsety, caption:"<b>Origine</b>"});
+    $(prefix+"LB_TARGET").rylabel({left:offsetx+100, top:offsety, caption:"<b>Destinazione</b>"});
     offsety+=30;
     
     $(prefix+"LB_OBJECTID").rylabel({left:20, top:offsety, caption:"Conto"});

@@ -11,13 +11,7 @@
 ****************************************************************************/
 if(!isset($tocambusa))
     $tocambusa="../";
-if(is_file($tocambusa."ryque/ryq_gauge.php"))
-    include_once $tocambusa."ryque/ryq_gauge.php";
-elseif(is_file($tocambusa."ryque/ryq_gauge.phar"))
-    include_once "phar://".$tocambusa."ryque/ryq_gauge.phar/ryq_gauge.php";
-else
-    include_once $tocambusa."ryque/ryq_gaugeminus.php";
-
+include_once $tocambusa."ryque/ryq_gauge.php";
 include_once $tocambusa."sysconfig.php";
 include_once $tocambusa."rygeneral/writelog.php";
 

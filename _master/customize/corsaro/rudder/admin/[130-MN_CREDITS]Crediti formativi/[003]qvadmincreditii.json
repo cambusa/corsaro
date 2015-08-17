@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Amministrazione crediti",
+    "babelcode":"MN_ADMINCREDITS",
+    "params":{
+        "name":"qvadmincrediti",
+        "path":"qvcredits/",
+        "title":"Amministrazione crediti"
+    }
+}

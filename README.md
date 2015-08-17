@@ -20,18 +20,13 @@ The set includes:
 2. application __Corsaro__ based on Cambusa<br>
    * Maintenance<br>
    * Master Data<br>
-   * Pi Cube (processes, dossiers, projects, CRM, ...)<br>
+   * Pi Cube (processes, dossiers, projects, ...)<br>
    * Mercante (orders and invoices)<br>
    * Pluto (financial instruments)<br>
+   * Legend (invoice collection management)<br>
 
 3. CMS __Filibuster__ based on Corsaro  
    An example of a website built by means of _Filibuster_: [No Boundaries](http://www.rudyz.net/apps/corsaro/filibuster.php?env=flb_giovyz&site=senzaconfini&id=A000000009019S)
-
-
-The missing Corsaro module
-* __Legend__ - Invoice collection management<br>
-
-will be included.
 
 ---
 

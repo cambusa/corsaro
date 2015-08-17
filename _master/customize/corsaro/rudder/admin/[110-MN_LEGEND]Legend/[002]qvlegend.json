@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Configurazioni",
+    "babelcode":"MN_LEGEND_CONFIGS",
+    "params":{
+        "name":"qvlegend",
+        "path":"qvlegend/",
+        "title":"Configurazioni"
+    }
+}

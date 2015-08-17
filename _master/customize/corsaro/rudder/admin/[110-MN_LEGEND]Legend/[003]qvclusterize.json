@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Clustering",
+    "babelcode":"MN_CLUSTERING",
+    "params":{
+        "name":"qvclustering",
+        "path":"qvlegend/",
+        "title":"Clustering"
+    }
+}
