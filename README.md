@@ -33,6 +33,9 @@ The set includes:
 Prerequisites
 * __PHP >= 5.3__<br>
 * __SQLite__ enabled (for default configuration only)<br>
+  be sure that the following are enabled in php.ini<br>
+  extension=php_sqlite.dll<br>
+  extension=php_sqlite3.dll<br>
 
 ---
 
