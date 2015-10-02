@@ -480,7 +480,7 @@ class rypaper{
     }
     public function pagebreak(){
         $this->footermanage();
-        $this->write("<p style='page-break-before:always'></p>\n");
+        $this->write("<p style='page-break-after:always'>&nbsp;</p>\n");
         $this->page+=1;
         $this->offsety=0;
         $this->headermanage();
@@ -519,13 +519,13 @@ class rypaper{
         $this->write("<style type='text/css'>\n");
         $this->write("body{font-family:".$this->font.";font-size:".$this->fontsize."px;background-color:white;}\n");
         $this->write("table{font-family:".$this->font.";font-size:".$this->fontsize."px;border-collapse:collapse;}\n");
-        $this->write("td{padding-right:5px;height:".$this->tablerowheight."mm;overflow:hidden;vertical-align:top;}\n");
-        $this->write(".cellsx{overflow:hidden;white-space:nowrap;height:".$this->tablerowheight."mm;}\n");
-        $this->write(".celldx{text-align:right;overflow:hidden;white-space:nowrap;height:".$this->tablerowheight."mm;}\n");
-        $this->write(".cellcx{text-align:center;overflow:hidden;white-space:nowrap;height:".$this->tablerowheight."mm;}\n");
-        $this->write(".cellax{text-align:align;height:".$this->tablerowheight."mm;}\n");
+        $this->write("td{padding-right:5px;vertical-align:top;}\n");
+        $this->write(".cellsx{text-align:left;overflow-x:hidden;overflow-y:visible;white-space:nowrap;minheight:".$this->tablerowheight."mm;}\n");
+        $this->write(".celldx{text-align:right;overflow-x:hidden;overflow-y:visible;white-space:nowrap;minheight:".$this->tablerowheight."mm;}\n");
+        $this->write(".cellcx{text-align:center;overflow-x:hidden;overflow-y:visible;white-space:nowrap;minheight:".$this->tablerowheight."mm;}\n");
+        $this->write(".cellax{text-align:align;}\n");
         $this->write(".table-header-row{background-color:gray;}\n");
-        $this->write(".table-header-cell{color:white;font-weight:bold;height:".$this->tablerowheight."mm;}\n");
+        $this->write(".table-header-cell{color:white;font-weight:bold;minheight:".$this->tablerowheight."mm;}\n");
         $this->write(".subtitle{font-size:18px;}\n");
         $this->write(".report-selection{position:absolute;top:50px;left:0px;font-size:14px;}\n");
         $this->write("</style>\n");

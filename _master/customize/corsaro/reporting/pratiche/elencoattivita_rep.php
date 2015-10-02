@@ -89,8 +89,8 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
             $col="black";
         else
             $col="red";
-        $durata=$PAPER->getvalue($r, $i, "AMOUNT");
-        $ore=intval($durata);
+        $durata=intval($PAPER->getvalue($r, $i, "AMOUNT"));
+        $ore=$durata;
         $genere=$PAPER->getvalue($r, $i, "GENREID");
         switch($genere){
         case "0TIMEHOURS0000":
@@ -132,7 +132,7 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
             $PAPER->pagebreak();
     }
     
-    $PAPER->write("<div class='subtitle'>Riepilogo<div><br>");
+    $PAPER->write("<div class='subtitle'>Riepilogo</div><div><br>");
 
     // INIZIO SPECCHIETTO
     $PAPER->begintable(
@@ -155,6 +155,8 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
     
     // FINE SPECCHIETTO
     $PAPER->endtable();
+    
+    $PAPER->write("</div>");
 
     // FINE DEL DOCUMENTO
     $PAPER->enddocument();

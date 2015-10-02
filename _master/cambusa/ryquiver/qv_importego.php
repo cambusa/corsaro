@@ -12,7 +12,7 @@
 include_once $path_cambusa."ryquiver/quiverinf.php";
 include_once $path_cambusa."rygeneral/post_request.php";
 function qv_importego($maestro, $data){
-    global $babelcode, $babelparams, $sessionid, $url_cambusa;
+    global $babelcode, $babelparams, $url_cambusa;
     try{
         // IMPOSTO I VALORI DI RITORNO PREDEFINITI
         $success=1;
@@ -23,7 +23,7 @@ function qv_importego($maestro, $data){
         if(isset($data["SESSIONID"]))
             $SEXID=ryqEscapize($data["SESSIONID"]);
         else
-            $SEXID=$sessionid;
+            $SEXID="";
 
         // DETERMINO APPID
         if(isset($data["APPID"]))

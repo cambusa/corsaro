@@ -307,7 +307,6 @@ function qv_pratiche_imap($maestro, $data){
                     if(!$jret["success"]){
                         // Non lo considero errore bloccante
                         //return $jret;
-                        writelog($jret["message"]);
                     }
                     
                     if($ROBOTID!=""){
@@ -335,7 +334,6 @@ function qv_pratiche_imap($maestro, $data){
                             if(!$jret["success"]){
                                 // Non lo considero errore bloccante
                                 //return $jret;
-                                writelog($jret["message"]);
                             }
                         }
                     }

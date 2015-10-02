@@ -29,7 +29,7 @@ include($path_databases."_environs/".$env_name.".php");
 if(isset($env_lenid))
     $lenkey=$env_lenid;
 
-$conn=odbc_connect($env_strconn, $env_user, $env_password, 1);
+$conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
 
 switch($provider){
 case "db2odbc":

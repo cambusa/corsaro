@@ -1150,7 +1150,7 @@ function class_qvpratiche(settings,missing){
     previewX=20;
     previewY=offsety;
     
-    $(prefix+"preview").css({"position":"absolute", "left":20, "top":offsety, "width":700});
+    $(prefix+"preview").css({"position":"absolute", "left":20, "top":offsety, "width":600});
     
    // DEFINIZIONE TAB DETTAGLIO
     offsety=100;
@@ -2905,7 +2905,7 @@ function class_qvpratiche(settings,missing){
         }
     }
     this._resize=function(metrics){
-        if( metrics.window.width>1420 )
+        if( metrics.window.width>1380 )
             $(prefix+"preview").css({left:740, top:80});
         else
             $(prefix+"preview").css({left:previewX, top:previewY});

@@ -113,7 +113,7 @@ case "oracle":
     oci_close($conn);
     break;
 case "db2odbc":
-    $conn=odbc_connect($env_strconn, $env_user, $env_password, 1);
+    $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
     if(($res=odbc_exec($conn, $sql))){
         odbc_longreadlen($res, 100000000);
         while($rows=odbc_fetch_array($res)){
@@ -131,7 +131,7 @@ case "db2odbc":
     odbc_close($conn);
     break;
 default:
-    $conn=odbc_connect($env_strconn, $env_user, $env_password, 1);
+    $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
     if (($res=odbc_exec($conn, $sql))){
         odbc_longreadlen($res, 100000000);
         while($rows=odbc_fetch_array($res)){

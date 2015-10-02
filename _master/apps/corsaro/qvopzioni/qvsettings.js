@@ -412,6 +412,7 @@ function class_qvsettings(settings,missing){
                         "env":_sessioninfo.environ,
                         "function":"importego",
                         "data":{
+                            "SESSIONID":_sessioninfo.sessionid,
                             "APPID":_sessioninfo.appid,
                             "ENVID":_sessioninfo.envid
                         }

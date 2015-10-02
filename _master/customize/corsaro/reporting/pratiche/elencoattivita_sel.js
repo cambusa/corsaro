@@ -191,7 +191,7 @@ function class_elencoattivita_sel(settings,missing){
 
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
-        top:10,position:"relative",
+        top:0,position:"relative",
         tabs:[
             {title:"Selezione"}
         ]

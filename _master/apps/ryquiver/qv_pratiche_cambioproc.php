@@ -138,7 +138,8 @@ function qv_pratiche_cambioproc($maestro, $data){
                 $jret=qv_sendmail($maestro, $datax);
                 unset($datax);
                 if(!$jret["success"]){
-                    return $jret;
+                    // Non lo considero errore bloccante
+                    //return $jret;
                 }
             }
         }

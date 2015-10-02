@@ -1,4 +1,18 @@
 ==================================
+Rilascio 1.70.10    del 01/10/2015
+==================================
+
+Perfezionato il comportamento di ryPaper.
+
+Ridotta l'anteprima attività in gestione pratiche.
+
+Migliorata l'apertura dei database con ODBC.
+
+Considerato non bloccante il mancato invio di email in gestione pratiche.
+
+Corretta l'importazione degli utenti Ego.
+
+==================================
 Rilascio 1.70.09    del 17/08/2015
 ==================================
 

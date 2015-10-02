@@ -127,7 +127,7 @@ function maestro_opendb($env, $raise=true){
                 }
                 break;
             default:
-                if($conn=@odbc_connect($env_strconn, $env_user, $env_password, 1)){
+                if($conn=@odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER)){
                     if($env_provider=="sqlserver"){
                         odbc_exec($conn, "SET TEXTSIZE 2147483647");
                     }

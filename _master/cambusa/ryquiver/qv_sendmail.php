@@ -225,9 +225,9 @@ function qv_sendmail($maestro, $data){
                 $babelcode="QVERR_MAILFAILED";
                 $success=2;
                 $message=$mail->ErrorInfo;
-                if($mail->SMTPDebug>0){
+                //if($mail->SMTPDebug>0){
                     writelog($message);
-                }
+                //}
                 $b_params=array("MAILERR" => $message);
                 $b_pattern="Invio email fallito: {1}";
                 //throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
