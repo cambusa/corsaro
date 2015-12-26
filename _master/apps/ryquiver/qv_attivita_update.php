@@ -160,7 +160,7 @@ function qv_attivita_update($maestro, $data){
                 $RECIPIENTS.="|".$TARGETID;
             }
             if($RECIPIENTS!=""){
-                if( $REG_CONSISTENCY==2 || ($REG_STATUS==0 && $STATUS>0) ){
+                if( $REG_CONSISTENCY==2 || ($REG_STATUS==0 && $STATUS>0) || ($REG_TARGETID!=$TARGETID)){
                     // DETERMINO SE L'INVIO E' A UN ESTERNO
                     $esterno=false;
                     // DETERMINO ATTORE ROBOT

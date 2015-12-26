@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.70.11    del 26/12/2015
+==================================
+
+Pratiche: invio di email anche in caso di cambio destinatario.
+
+Frame MDI: scroll auto in caso di dialogbox troppo grandi.
+
+==================================
 Rilascio 1.70.10    del 01/10/2015
 ==================================
 

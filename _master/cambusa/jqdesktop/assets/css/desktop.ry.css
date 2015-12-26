@@ -548,7 +548,7 @@ th.shrink {
 }
 
 #desktop {
-  overflow: hidden;
+  overflow: auto;
   top: 26px;
   left: 0px;
   right: 0px;
@@ -560,6 +560,6 @@ th.shrink {
   left: 0px;
   right: 0px;
   bottom: 0px;
-  min-width: 700px;
-  min-height: 500px;
+  min-width: 500px;
+  min-height: 400px;
 }
