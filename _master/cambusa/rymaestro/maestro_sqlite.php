@@ -142,4 +142,14 @@ function x_sqlite_finalize(&$res){
     }
     usleep(10000);
 }
+function x_sqlite_create_function($conn, $functname, $functPHP, $numarg){
+    global $sqlite3_enabled;
+    if($sqlite3_enabled)
+        $conn->createFunction($functname, $functPHP, $numarg);
+    else
+        sqlite_create_function($conn, $functname, $functPHP, $numarg);
+}
+function x_sqlite_format($value, $dec){
+    return number_format(floatval($value), intval($dec), ".", "");
+}
 ?>

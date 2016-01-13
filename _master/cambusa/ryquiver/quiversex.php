@@ -282,6 +282,9 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
                         $serverip=$_SERVER['SERVER_ADDR'];
                     else
                         $serverip=$currip;
+                    if($ip!=$currip && $serverip!=$currip){
+                        writelog("Function=quiversex|User=$global_lastusername|ClientIP=$ip|ServerIP=$serverip|CurrentIP=$currip");
+                    }
                     if($ip==$currip || $serverip==$currip || $check_sessionip==false){
                         $global_lastuserid=$r[0]["USERID"];
                         $global_lastusername=$r[0]["USERNAME"];

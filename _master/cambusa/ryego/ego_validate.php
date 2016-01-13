@@ -59,6 +59,9 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
               ){
                 // CONTROLLO IP
                 $currip=get_ip_address();
+                if($ip!=$currip){
+                    writelog("Function=EgoValidate|ClientIP=$ip|CurrentIP=$currip");
+                }
                 if($ip==$currip || $context=="export" || $check_sessionip==false){
                     if($info){
                         $global_lastuserid=$r[0]["USERID"];

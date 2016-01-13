@@ -31,7 +31,12 @@ try{
         $pwd=ryqEscapize($_POST["pwd"]);
     else
         $pwd=sha1("");
-
+        
+    if(isset($_POST["barepwd"]))
+        $barepwd=ryqEscapize($_POST["barepwd"]);
+    else
+        $barepwd="";
+        
     if(isset($_POST["app"]))
         $app=ryqEscapize($_POST["app"]);
     else
@@ -62,6 +67,7 @@ try{
         // CRITTOGRAFIA PER PROTEZIONE PASSWORD
         solvePrivateKey($maestro, $privatekey, $success, $description, $babelcode);
         $pwd=decryptString($pwd, $privatekey);
+        $barepwd=decryptString($barepwd, $privatekey);
         if($pwd=="######"){
             // SESSIONE NON INIZIALIZZATA
             $success=0;
@@ -87,7 +93,37 @@ try{
             $sql.="WHERE [:UPPER(EGOALIASES.NAME)]='".strtoupper($user)."'";
             maestro_query($maestro, $sql, $v);
             if(count($v)==1){   // Esistenza utente
-                if($v[0]["PWD"]==$pwd){     // Correttezza password
+                $iscorrect=false;
+                
+                // TIPO DI VALIDAZIONE PASSWORD
+                $sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME='validator'";
+                maestro_query($maestro, $sql, $r);
+                if(count($r)==1){
+                    $validator=$r[0]["VALUE"];
+                    if($validator=="")
+                        $validator="ego";
+                }
+                else{
+                    $validator="ego";
+                }
+                
+                // UTILIZZO DEL GIUSTO VALIDATORE
+                if($validator=="ego"){
+                    $iscorrect=($v[0]["PWD"]==$pwd);
+                }
+                else{
+                    if(is_file($tocambusa."ryego/validator_$validator.php")){
+                        include_once($tocambusa."ryego/validator_$validator.php");
+                        $functvalidator="egovalidator";
+                        if(function_exists($functvalidator)){
+                            if($functvalidator($user, $barepwd)!==false){
+                                $iscorrect=true;
+                            }
+                        }
+                    }
+                }
+            
+                if($iscorrect){     // Correttezza password
                     if(intval($v[0]["ACTIVE"])==1){     // Stato di utente attivo
                         // AUTORIZZAZIONI
                         $auth=true;

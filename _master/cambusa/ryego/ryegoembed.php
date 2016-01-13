@@ -55,6 +55,17 @@ elseif(isset($_POST["env"]))
 else
     $castenv="";
     
+// VALIDATORE
+$validator="ego";
+if($maestro->conn!==false){
+    $sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME='validator'";
+    maestro_query($maestro, $sql, $r);
+    if(count($r)==1){
+        if($r[0]["VALUE"]!="")
+            $validator=$r[0]["VALUE"];
+    }
+}
+
 // METODO
 if(isset($_GET["method"]))
     $egomethod=$_GET["method"];
@@ -201,10 +212,17 @@ var _egomethod="<?php  print $egomethod ?>";
 var _setuponly=<?php  print $setuponly ?>;
 var _appname="<?php  print $appname ?>";
 var _castenv="<?php  print $castenv ?>";
+var _validator="<?php  print $validator ?>";
 var _egocontext="embed";
 function encryptString(s){
     var e=new JSEncrypt();
     s=CryptoJS.SHA1(s);
+    e.setPublicKey(_publickey);
+    var r=e.encrypt( s.toString() );
+    return r;
+}
+function bareString(s){
+    var e=new JSEncrypt();
     e.setPublicKey(_publickey);
     var r=e.encrypt( s.toString() );
     return r;

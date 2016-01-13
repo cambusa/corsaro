@@ -32,7 +32,11 @@ $(document).ready(function(){
         enter:function(o){
             var u=user.value();
             var m=encryptString( pwd.value() );
-            $.post("ego_begin.php", {"user":u, "pwd":m, "app":_appname, "env":_castenv},
+            var b="";
+            if(_validator!="ego"){
+                b=bareString( pwd.value() );
+            }
+            $.post("ego_begin.php", {"user":u, "pwd":m, "barepwd":b, "app":_appname, "env":_castenv},
                 function(d){
                     try{
                         var v=$.parseJSON(d);

@@ -67,7 +67,8 @@
                     "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETDEFAULT0)], 'default', 'sonoio')",
                     "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETUPPERLOW)], 'upperlower', '0')",
                     "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETLETTDIGT)], 'letterdigit', '0')",
-                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETEMAILRST)], 'emailreset', '1')"
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETEMAILRST)], 'emailreset', '1')",
+                    "INSERT INTO EGOSETTINGS(SYSID,NAME,VALUE) VALUES([:SYSID(0SETVALIDATR)], 'validator', 'ego')"
                 ]
             }
         ]

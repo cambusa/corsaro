@@ -82,7 +82,7 @@ $safe_extensions="pdf|zip|jpg|jpeg|gif|png|svg|ico|htm|html|pht|txt|mp3|mp4|wav|
 | CONTROLLO DELL'IP IN VALIDAZIONE SESSIONI |
 ********************************************/
 
-$check_sessionip=false;
+$check_sessionip=true;
 
 /*********************
 | LINGUA PREDEFINITA |

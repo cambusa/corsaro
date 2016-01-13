@@ -53,7 +53,7 @@ function _qv_attivita_notifica($maestro, $ATTIVITAID, $BOWID, $TARGETID, $action
                     if($CONSISTENCY<2){
                         if($EGOBOWID!="" && $EGOBOWID!=$global_quiveruserid){
                             $datax=array();
-                            $datax["SENDERNAME"]="SERVER";
+                            //$datax["SENDERNAME"]="SERVER";
                             $datax["RECEIVERID"]=$EGOBOWID;
                             $datax["DESCRIPTION"]=$DESCRIPTION;
                             $datax["REGISTRY"]=$REGISTRY;
@@ -69,7 +69,7 @@ function _qv_attivita_notifica($maestro, $ATTIVITAID, $BOWID, $TARGETID, $action
                         }
                         if($EGOTARGETID!="" && $EGOTARGETID!=$global_quiveruserid && $EGOTARGETID!=$EGOBOWID){
                             $datax=array();
-                            $datax["SENDERNAME"]="SERVER";
+                            //$datax["SENDERNAME"]="SERVER";
                             $datax["RECEIVERID"]=$EGOTARGETID;
                             $datax["DESCRIPTION"]=$DESCRIPTION;
                             $datax["REGISTRY"]=$REGISTRY;

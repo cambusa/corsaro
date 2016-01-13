@@ -2,9 +2,9 @@
 /****************************************************************************
 * Name:            egoform_setupbodyego.php                                 *
 * Project:         Cambusa/ryEgo                                            *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Central Authentication Service (CAS)                     *
-* Copyright (C):   2015  Rodolfo Calzetti                                   *
+* Copyright (C):   2016  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
@@ -22,6 +22,7 @@
 <div id="lboptletterdigit" babelcode="EGO_OPT_LETTERDIGIT"></div><div id="txoptletterdigit"></div>
 <div id="lboptsaveuser" babelcode="EGO_OPT_SAVEUSER"></div><div id="txoptsaveuser"></div>
 <div id="lboptemailreset" babelcode="EGO_OPT_EMAILRESET"></div><div id="txoptemailreset"></div>
+<div id="lboptvalidator" babelcode="EGO_OPT_VALIDATOR"></div><div id="txoptvalidator"></div>
 </div>
 
 <div class="toolfunction" id="users">

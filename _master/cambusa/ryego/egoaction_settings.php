@@ -55,6 +55,10 @@ try{
     if(isset($_POST["emailreset"]))
         $emailreset=ryqEscapize($_POST["emailreset"]);
         
+    // DETERMINO VALIDATOR
+    if(isset($_POST["validator"]))
+        $validator=ryqEscapize($_POST["validator"]);
+        
     // INIZIALIZZO LE VARIABILI IN USCITA
     $success=1;
     $field=0;
@@ -108,6 +112,10 @@ try{
                 else
                     $emailreset="0";
                 maestro_execute($maestro, "UPDATE EGOSETTINGS SET VALUE='$emailreset' WHERE NAME='emailreset'");
+            }
+            if(isset($validator)){
+                $validator=strtolower($validator);
+                maestro_execute($maestro, "UPDATE EGOSETTINGS SET VALUE='$validator' WHERE NAME='validator'");
             }
         }
     }

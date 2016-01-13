@@ -1,4 +1,15 @@
 ==================================
+Rilascio 1.70.12    del 10/01/2016
+==================================
+
+Eliminata la necessità di definire l'utente SERVER per ricevere notifiche dal modulo pratiche.
+
+Autenticazione LDAP.
+
+Maestro: arricchito il preprocessore di macro con i nuovi comandi ZEROLEN, NOEMPTY, SETEMPTY, LENGTH, SUBSTR, RIGHT, DATETOSTR, TIMETOSTR, NUMTOSTR, STRTONUM, CONCAT.
+Inoltre conserva le formule all'interno delle stringhe costanti ed è stato reso ricorsivo.
+
+==================================
 Rilascio 1.70.11    del 26/12/2015
 ==================================
 

@@ -93,6 +93,9 @@ try{
         if(count($r)==1){
             $ip=$r[0]["CLIENTIP"];
             $remoteip=get_ip_address();
+            if($ip!=$remoteip){
+                writelog("Function=Infosession|ClientIP=$ip|CurrentIP=$remoteip");
+            }
             if($ip==$remoteip || $check_sessionip==false){
                 $sysid=$r[0]["SYSID"];
                 $aliasid=$r[0]["ALIASID"];

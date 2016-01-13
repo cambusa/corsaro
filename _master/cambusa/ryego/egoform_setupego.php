@@ -2,9 +2,9 @@
 /****************************************************************************
 * Name:            egoform_setupego.php                                     *
 * Project:         Cambusa/ryEgo                                            *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Central Authentication Service (CAS)                     *
-* Copyright (C):   2015  Rodolfo Calzetti                                   *
+* Copyright (C):   2016  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
@@ -356,6 +356,33 @@ function config(missing){
             );
         }
     });
+    $("#lboptvalidator").rylabel({left:20,top:300,caption:"Validatore"});
+    objoptvalidator=$("#txoptvalidator").rylist({ 
+        left:180,
+        top:300,
+        assigned:function(){
+            syswaiting();
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_settings.php", 
+                {
+                    sessionid:_sessioninfo.sessionid,
+                    validator:objoptvalidator.key()
+                }, 
+                function(d){
+                    try{
+                        var v=$.parseJSON(d);
+                        sysmessage(v.description, v.success);
+                    }
+                    catch(e){
+                        sysmessagehide();
+                        alert(d);
+                    }
+                }
+            );
+        }
+    });
+    objoptvalidator.additem({caption:"Ego", key:"ego"});
+    objoptvalidator.additem({caption:"LDAP", key:"ldap"});
+    objoptvalidator.value(1);
     // FINE FORM OPZIONI
 
     // INIZIO FORM USERS
@@ -1995,6 +2022,9 @@ function loading(){
                                 break;
                             case "emailreset":
                                 objoptemailreset.value(v[i].VALUE);
+                                break;
+                            case "validator":
+                                objoptvalidator.setkey(v[i].VALUE);
                                 break;
                         }
                     }

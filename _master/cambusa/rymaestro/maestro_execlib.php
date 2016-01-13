@@ -98,6 +98,9 @@ function maestro_opendb($env, $raise=true){
                         $conn=false;
                         log_write("Connection\r\n--->".$errdescr);
                     }
+                    else{
+                        x_sqlite_create_function($conn, 'FORMAT', 'x_sqlite_format', 2);
+                    }
                 }
                 else{
                     $conn=false;
