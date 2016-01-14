@@ -1,7 +1,7 @@
 Cambusa / Corsaro v1.70
 =======================
 
-### © 2015 Rodolfo Calzetti
+### © 2016 Rodolfo Calzetti
 
 Web application framework (_Cambusa_)  
 Web-based Enterprise Resource Planning (_Corsaro_)  
