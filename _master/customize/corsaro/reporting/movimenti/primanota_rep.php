@@ -95,13 +95,13 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
     $PAPER->begintable(
     '[
         {"d":"Descrizione", "w":50, "t":""},
-        {"d":"Causale", "w":50, "t":""},
+        {"d":"Causale", "w":40, "t":""},
         {"d":"Data Reg.", "w":20, "t":"/"},
         {"d":"Data Val.", "w":20, "t":"/"},
-        {"d":"Riferimento", "w":35, "t":""},
-        {"d":"Controparte", "w":35, "t":""},
+        {"d":"Riferimento", "w":30, "t":""},
+        {"d":"Controparte", "w":30, "t":""},
         {"d":"Importo", "w":30, "t":"2"},
-        {"d":"Divisa", "w":20, "t":""}
+        {"d":"Divisa", "w":15, "t":""}    
     ]'
     );
 
@@ -133,8 +133,8 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
                 $target=$s[0]["DESCRIPTION"];
             }
             unset($s);
-            $description=$PAPER->getvalue($r, $i, "DESCRIPTION");
-            $causale=$PAPER->getvalue($r, $i, "MOTIVE");
+            $description=$PAPER->dotted($PAPER->getvalue($r, $i, "DESCRIPTION"), 25);
+            $causale=$PAPER->dotted($PAPER->getvalue($r, $i, "MOTIVE"),20);
             $datareg=$PAPER->getvalue($r, $i, "AUXTIME");
             $databow=$PAPER->getvalue($r, $i, "BOWTIME");
             $datatarget=$PAPER->getvalue($r, $i, "TARGETTIME");
@@ -144,15 +144,15 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
                 $importo=-$importo;
                 $dataval=$databow;
                 $rifid=$bowid;
-                $conto=$bow;
-                $contro=$target;
+                $conto=$PAPER->dotted($bow,20);
+                $contro=$PAPER->dotted($target,20);
                 $col="maroon";
             }
             else{
                 $dataval=$datatarget;
                 $rifid=$targetid;
-                $conto=$target;
-                $contro=$bow;
+                $conto=$PAPER->dotted($target,20);
+                $contro=$PAPER->dotted($bow,20);
                 $col="black";
             }
             $divisaid=$PAPER->getvalue($r, $i, "GENREID");
@@ -186,7 +186,7 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
     
     $PAPER->pagebreak();
 
-    $PAPER->write("<br><br><div class='subtitle'>Riepilogo<div><br>");
+    $PAPER->write("<br><br><div class='subtitle'>Riepilogo</div><br>");
 
     // INIZIO SPECCHIETTO
     $PAPER->begintable(

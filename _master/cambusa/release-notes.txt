@@ -1,4 +1,10 @@
 ==================================
+Rilascio 1.70.13    del 17/01/2016
+==================================
+
+ryPaper (stampe): aggiunta la funzione "Dotted"; migliorata la resa PDF con le celle di tabella.
+
+==================================
 Rilascio 1.70.12    del 10/01/2016
 ==================================
 

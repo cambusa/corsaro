@@ -478,6 +478,12 @@ class rypaper{
         $this->write($html."\n");
         $this->offsety+=$deltay;
     }
+    public function dotted($text, $maxlen){
+        if(strlen($text)<=$maxlen)
+            return $text;
+        else
+            return substr($text, 0, $maxlen-1) . "&#8230;"; // &hellip;
+    }
     public function pagebreak(){
         $this->footermanage();
         $this->write("<p style='page-break-after:always'>&nbsp;</p>\n");
@@ -628,8 +634,8 @@ class rypaper{
                     $align="left";
                     break;
             }
-            $this->write("<td width='".$width."mm' align='".$align."'>");
-            $this->write("<div class='".$class."' style='width:".$width."mm;'>");
+            $this->write("<td width='".$width."mm'>");
+            $this->write("<div class='".$class."' style='width:".$width."mm;text-align:".$align."'>");            
             $this->write($value);
             $this->write("</div>");
             $this->write("</td>");
@@ -667,8 +673,8 @@ class rypaper{
                     $align="right";
                     break;
             }
-            $this->write("<td width='".$width."mm' align='".$align."'>");
-            $this->write("<div class='".$class." table-header-cell' style='width:".$width."mm;'>");
+            $this->write("<td width='".$width."mm'>");
+            $this->write("<div class='".$class." table-header-cell' style='width:".$width."mm;text-align:".$align."'>");            
             $this->write($value);
             $this->write("</div>");
             $this->write("</td>");
