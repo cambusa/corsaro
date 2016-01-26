@@ -39,7 +39,7 @@ function qv_messages_send($maestro, $data){
             $REGISTRY="''";
 
         // DETERMINO SENDERID (POTREBBE RIMANERE VUOTO)
-        qv_solveuser($maestro, $data, "SENDERID", "SENDEREGO", "SENDERNAME", $SENDERID, $SENDERNAME);
+        qv_solveuser($maestro, $data, "SENDERID", "SENDEREGO", "SENDERNAME", $SENDERID, $SENDERNAME, false);
 
         // DETERMINO RECEIVERID
         qv_solveuser($maestro, $data, "RECEIVERID", "RECEIVEREGO", "RECEIVERNAME", $RECEIVERID, $RECEIVERNAME);

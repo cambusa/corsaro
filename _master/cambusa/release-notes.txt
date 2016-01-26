@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.70.14    del XX/01/2016
+==================================
+
+Aggiunte funzioni diagnostiche all'installatore.
+
+Implementato un editor vbscript: rybox/ryscript.
+
+==================================
 Rilascio 1.70.13    del 17/01/2016
 ==================================
 

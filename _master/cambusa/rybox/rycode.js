@@ -253,6 +253,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             				propobj.showdialog();
             			}
             			else if(k.which==13){ // INVIO
+                            propobj.selected(false);
                             propobj.completion();
             				propstart=0;
             				propobj.refreshcursor();

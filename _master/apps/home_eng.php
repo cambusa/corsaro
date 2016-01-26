@@ -12,25 +12,26 @@ else
     <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Home Project <?php print $progetto ?></title>
+
+    <style>
+    body{font-family:sans-serif;font-size:12px;}
+    a{color: maroon;text-decoration:none;font-weight:bold;}
+    a:hover{text-decoration:underline;}
+    table{font-family:sans-serif;font-size:12px;}
+    #title{position:absolute;left:50px;top:40px;font-size:24px;}
+    #frame{position:absolute;left:50px;top:120px;font-size:18px;}
+    </style>
+
+    <script>
+    function changelang(){
+        var l=document.getElementById("langs");
+        var v=l.options[l.selectedIndex].value;
+        document.cookie="_egolanguage="+v+"; expires=31 Dec 2099 12:00:00 UTC";
+        location.reload();
+    }
+    </script>
+
 </head>
-
-<style>
-body{font-family:sans-serif;font-size:12px;}
-a{color: maroon;text-decoration:none;font-weight:bold;}
-a:hover{text-decoration:underline;}
-table{font-family:sans-serif;font-size:12px;}
-#title{position:absolute;left:50px;top:40px;font-size:24px;}
-#frame{position:absolute;left:50px;top:120px;font-size:18px;}
-</style>
-
-<script>
-function changelang(){
-    var l=document.getElementById("langs");
-    var v=l.options[l.selectedIndex].value;
-    document.cookie="_egolanguage="+v+"; expires=31 Dec 2099 12:00:00 UTC";
-    location.reload();
-}
-</script
 
 <body>
 
@@ -46,6 +47,15 @@ Home Project <?php print $progetto ?>
 </div>
 
 <div id="frame">
+
+<b>Step 0)</b> Diagnostics:
+<a href="../cambusa/sysinstall/sysinfo.php" target="_blank">Show system</a> or <a href="../cambusa/sysinstall/sysdiagnostics.php" target="_blank">Execute checks</a><br>
+<blockquote>
+<span style="font-size:14px;">
+Highlights the system infos and executes some tests.
+</span>
+</blockquote>
+<br>
 
 <b>Step 1)</b> System initialization:
 <a href="../cambusa/sysinstall/sysinstall.php?project=<?php print strtolower($progetto) ?>" target="_blank">Monad, Ego, Pulse and dictionaries</a><br>

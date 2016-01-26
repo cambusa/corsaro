@@ -1784,6 +1784,9 @@ var globalcolorfocus="#FFF4E6";
                     if(a){propobj.raiseassigned()}
 				}
 			}
+			this.text=function(){
+				return propobj.value();
+			}
 			this.enabled=function(v){
 				if(v==missing){
 					return propenabled;

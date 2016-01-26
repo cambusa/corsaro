@@ -8,29 +8,31 @@ else
 
 <html>
 <head>
+
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
     <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Portale Progetto <?php print $progetto ?></title>
+    
+    <style>
+    body{font-family:sans-serif;font-size:12px;}
+    a{color: maroon;text-decoration:none;font-weight:bold;}
+    a:hover{text-decoration:underline;}
+    table{font-family:sans-serif;font-size:12px;}
+    #title{position:absolute;left:50px;top:40px;font-size:24px;}
+    #frame{position:absolute;left:50px;top:120px;font-size:18px;}
+    </style>
+
+    <script>
+    function changelang(){
+        var l=document.getElementById("langs");
+        var v=l.options[l.selectedIndex].value;
+        document.cookie="_egolanguage="+v+"; expires=31 Dec 2099 12:00:00 UTC";
+        location.reload();
+    }
+    </script>
+
 </head>
-
-<style>
-body{font-family:sans-serif;font-size:12px;}
-a{color: maroon;text-decoration:none;font-weight:bold;}
-a:hover{text-decoration:underline;}
-table{font-family:sans-serif;font-size:12px;}
-#title{position:absolute;left:50px;top:40px;font-size:24px;}
-#frame{position:absolute;left:50px;top:120px;font-size:18px;}
-</style>
-
-<script>
-function changelang(){
-    var l=document.getElementById("langs");
-    var v=l.options[l.selectedIndex].value;
-    document.cookie="_egolanguage="+v+"; expires=31 Dec 2099 12:00:00 UTC";
-    location.reload();
-}
-</script
 
 <body>
 
@@ -46,6 +48,15 @@ Portale Progetto <?php print $progetto ?>
 </div>
 
 <div id="frame">
+
+<b>Step 0)</b> Diagnostica:
+<a href="../cambusa/sysinstall/sysinfo.php" target="_blank">Mostra sistema</a> oppure <a href="../cambusa/sysinstall/sysdiagnostics.php" target="_blank">Esegui controlli</a><br>
+<blockquote>
+<span style="font-size:14px;">
+Evidenzia le info di sistema ed effettua test sui prerequisiti.
+</span>
+</blockquote>
+<br>
 
 <b>Passo 1)</b> Inizializzazione sistema:
 <a href="../cambusa/sysinstall/sysinstall.php?project=<?php print strtolower($progetto) ?>" target="_blank">Monad, Ego, Pulse e dizionari</a><br>

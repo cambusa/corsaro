@@ -353,6 +353,11 @@ try{
                                 if($saveuser==1){
                                     setcookie("_egouser", $usercookie, time()+4000000);
                                 }
+
+                                // SE IL VALIDATORE NON E' EGO NON GESTISCO LO SCADERE DELLA PASSWORD
+                                if($validator!="ego"){
+                                    $expiry=0;
+                                }
                             }
                             else{
                                 // FALLITA CREAZIONE SESSIONID

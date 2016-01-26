@@ -110,7 +110,7 @@ function qv_solveuser($maestro, $data, $id, $ego, $name, &$SYSID, &$USERNAME, $r
             $b_pattern="Nome [{1}] non trovato in [{2}]";
             throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
         }
-        else{
+        elseif($USERNAME!=""){
             writelog("Utente [$USERNAME] non trovato.\n---> ".serialize($data));
         }
     }
