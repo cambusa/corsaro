@@ -9,6 +9,22 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+
+if(isset($_GET["mode"]))
+    $mode=$_GET["mode"];
+else
+    $mode="javascript";
+
+if(isset($_GET["indent"]))
+    $indent=intval($_GET["indent"]);
+else
+    $indent=4;    
+
+if(isset($_GET["name"]))
+    $name=$_GET["name"];
+else
+    $name="";
+
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -17,76 +33,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Manutenzione Script</title>
 
-<style>
-.mirror-conteiner{position:relative;display:none;}
-.mirror-tab{position:absolute;top:100px;left:20px;display:none;}
-.mirror-title{font-size:18px;height:25px;}
-.mirror-tabtitle{font-size:18px;height:40px;}
-.mirror-button{font-size:12px}
-.mirror-label{font-size:12px}
-.mirror-selected{font-weight:bold;}
-.mirror-list{width:150px;}
-.mirror-count{width:15px;}
-.mirror-result,td{white-space:nowrap}
-
-body{font-family:verdana,sans-serif; font-size:10px; margin:0px; overflow:hidden;}
-
-</style>
-
 <script type='text/javascript' src='../jquery/jquery.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.core.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.datepicker.js' ></script>
-<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.widget.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.button.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mouse.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
 <script type='text/javascript' src='../jquery/jquery.cookie.js' ></script>
-
-<script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../rygeneral/rygeneral.js'></script>
 
 <link rel="stylesheet" href="../codemirror/doc/docs.css">
 <link rel="stylesheet" href="../codemirror/lib/codemirror.css">
-<link rel="stylesheet" href="../codemirror/addon/fold/foldgutter.css">
-<link rel="stylesheet" href="../codemirror/addon/dialog/dialog.css">
 <link rel="stylesheet" href="../codemirror/theme/monokai.css">
-<link rel="stylesheet" href="../codemirror/hint/show-hint.css">
+<link rel="stylesheet" href="../codemirror/addon/hint/show-hint.css">
+<link rel="stylesheet" href="../codemirror/addon/dialog/dialog.css">
 
 <script src="../codemirror/lib/codemirror.js"></script>
+<script src="../codemirror/addon/hint/show-hint.js"></script>
 <script src="../codemirror/addon/search/searchcursor.js"></script>
 <script src="../codemirror/addon/search/search.js"></script>
 <script src="../codemirror/addon/dialog/dialog.js"></script>
 <script src="../codemirror/addon/edit/matchbrackets.js"></script>
-<script src="../codemirror/addon/edit/closebrackets.js"></script>
+<!-- <script src="../codemirror/addon/edit/closebrackets.js"></script> -->
 <script src="../codemirror/addon/comment/comment.js"></script>
 <script src="../codemirror/addon/wrap/hardwrap.js"></script>
 <script src="../codemirror/addon/fold/foldcode.js"></script>
 <script src="../codemirror/addon/fold/brace-fold.js"></script>
 <script src="../codemirror/addon/hint/show-hint.js"></script>
+<script src="../codemirror/addon/hint/anyword-hint.js"></script>
 
-<!-- <script src="../codemirror/addon/hint/xml-hint.js"></script>
-<script src="../codemirror/mode/xml/xml.js"></script> -->
+<?php 
+    if($mode=="xml"){
+?>
+<script src="../codemirror/addon/hint/xml-hint.js"></script>
+<script src="../codemirror/mode/xml/xml.js"></script>
+<?php 
+    }
+?>
 
+<?php 
+    if($mode=="javascript"){
+?>
 <script src="../codemirror/addon/hint/javascript-hint.js"></script>
 <script src="../codemirror/mode/javascript/javascript.js"></script>
+<?php 
+    }
+?>
 
-<!-- <script src="../codemirror/mode/css/css.js"></script> -->
-<!-- <script src="../codemirror/mode/htmlmixed/htmlmixed.js"></script> -->
-<!-- <script src="../codemirror/mode/clike/clike.js"></script> -->
-<!-- <script src="../codemirror/mode/php/php.js"></script> -->
-<script src="../codemirror/keymap/sublime.js"></script>
+<?php 
+    if($mode=="php"){
+?>
+<script src="../codemirror/mode/php/php.js"></script>
+<?php 
+    }
+?>
+
+<?php 
+    if($mode=="vbscript"){
+?>
+<script src="../codemirror/mode/vbscript/vbscript.js"></script>
+<?php 
+    }
+?>
+
+<?php 
+    if($mode=="css"){
+?>
+<script src="../codemirror/mode/css/css.js"></script>
+<?php 
+    }
+?>
+
+<?php 
+    if($mode=="html"){
+?>
+<script src="../codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="../codemirror/addon/hint/xml-hint.js"></script>
+<script src="../codemirror/mode/xml/xml.js"></script>
+<?php 
+    }
+?>
 
 <style type="text/css">
-.CodeMirror {border-top: 1px solid #eee; border-bottom: 1px solid #eee; line-height: 1.3; height:600px;}
-.CodeMirror-linenumbers { padding: 0 8px; }
-.cm-s-monokai span{font-family:monospace; font-size:16px}
+body{background-color:#272822; font-family:monospace; font-size:16px;}
+.CodeMirror {line-height: 1.3; height:100%}
+.CodeMirror-linenumbers {padding: 0 8px;}
+div.CodeMirror-code{bottom:0px;}
 </style>
 
 <script>
 
 var objmirror;
-var propindent=4;
+var propindent=<?php print $indent ?>;
+var propmode="<?php print $mode ?>";
+var propname="<?php print $name ?>";
 
 $(document).ready(function(){
     makeeditor();
@@ -94,47 +137,8 @@ $(document).ready(function(){
 
 function makeeditor(missing){
     try{
-
-      var dummy = {
-        attrs: {
-          color: ["red", "green", "blue", "purple", "white", "black", "yellow"],
-          size: ["large", "medium", "small"],
-          description: null
-        },
-        children: []
-      };
-    
-        var tags = {
-            "!top": ["top"],
-            "!attrs": {
-              id: null,
-              class: ["A", "B", "C"]
-            },
-            top: {
-              attrs: {
-                lang: ["en", "de", "fr", "nl"],
-                freeform: null
-              },
-              children: ["animal", "plant"]
-            },
-            animal: {
-              attrs: {
-                name: null,
-                isduck: ["yes", "no"]
-              },
-              children: ["wings", "feet", "body", "head", "tail"]
-            },
-            plant: {
-              attrs: {name: null},
-              children: ["leaves", "stem", "flowers"]
-            },
-            wings: dummy, feet: dummy, body: dummy, head: dummy, tail: dummy,
-            leaves: dummy, stem: dummy, flowers: dummy
-        };        
-        
-        
         function completeAfter(cm, pred) {
-            var cur = cm.getCursor();
+            var cur=cm.getCursor();
             if (!pred || pred()) setTimeout(function() {
               if (!cm.state.completionActive)
                 cm.showHint({completeSingle: false});
@@ -142,50 +146,34 @@ function makeeditor(missing){
             return CodeMirror.Pass;
         }
 
-        function completeIfAfterLt(cm) {
-            return completeAfter(cm, function() {
-              var cur = cm.getCursor();
-              return cm.getRange(CodeMirror.Pos(cur.line, cur.ch - 1), cur) == "<";
-            });
-        }
-
-        function completeIfInTag(cm) {
-            return completeAfter(cm, function() {
-              var tok = cm.getTokenAt(cm.getCursor());
-              if (tok.type == "string" && (!/['"]/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1)) return false;
-              var inner = CodeMirror.innerMode(cm.getMode(), tok.state).state;
-              return inner.tagName;
-            });
-        }
-        
         objmirror=CodeMirror(document.getElementById("codescript"), {
-            lineNumbers:false,
-            mode:"javascript",
+            lineNumbers: false,
             indentUnit:propindent,
             indentWithTabs:true,
             tabSize:propindent,
-            keyMap:"sublime",
             autoCloseBrackets:true,
             matchBrackets:true,
             showCursorWhenSelecting:true,
             theme:"monokai",
             extraKeys: {
-                "'<'": completeAfter,
-                "'/'": completeIfAfterLt,
-                "' '": completeIfInTag,
-                "'='": completeIfInTag,            
+                "'.'": completeAfter,
+                "'('": completeAfter,
                 "Ctrl-Space": "autocomplete"
             },
-            hintOptions: {schemaInfo: tags}
+            mode: {name: propmode, globalVars: true}
         });
-        
+      
+        objmirror.on("change",
+            function(){
+                window.parent.globalobjs[propname].raisechanged();
+            }
+        );
+
         bodyresize();
         
-        objmirror.setValue("");
-        objmirror.setOption("mode", "javascript");
-        objmirror.refresh();
-        objmirror.doc.clearHistory();
-        
+        $("body").click(function(){
+            objmirror.focus();
+        });
     }
     catch(e){
         if(window.console){console.log(e.message)}
@@ -193,8 +181,9 @@ function makeeditor(missing){
 }
 
 function bodyresize(){
-    var w=$("body").width()-1;
-    $("#codescript").width(w);
+    var w=$("body").width();
+    var h=$("body").height();
+    $("#codescript").width(w).height(h);
 }
 
 function getvalue(v){
@@ -207,16 +196,123 @@ function setvalue(v){
     objmirror.doc.clearHistory();
 }
 
-function setmode(v){
-    objmirror.setOption("mode", v);
-    objmirror.refresh();
-}
-
 function setindent(v){
     propindent=v;
     objmirror.setOption("indentUnit", v);
     objmirror.setOption("tabSize", v);
     objmirror.refresh();
+}
+
+function setintellisense(v){
+    CodeMirror.registerHelper("hint", propmode, function(cm, options){
+        var cur=cm.getCursor();
+        var curLine=cm.getLine(cur.line);
+        var end=cur.ch;
+        var start=end;
+        var line=cur.line;
+        
+        var ws=[];
+        var e=true;
+        var pos=end;
+        var w="";
+        var ok=true;
+        
+        do{
+            if(pos<=0){
+                e=false;
+                if(w!="")
+                    ws.unshift([w, 0]);
+            }
+            else{
+                var k=curLine.charAt(pos - 1);
+                if(/\w/.test(k)){
+                    // Carattere alpanumerico
+                    w=k+w;
+                    if(pos>1){
+                        // Controllo se il carettere che precede crea spazi
+                        k=curLine.charAt(pos - 2);
+                        if(/\s/.test(k)){
+                            // Aggiungo al percorso
+                            ws.unshift([w, pos-1]);
+                            w="";
+                        }
+                    }
+                }
+                else if(/[.(]/.test(k)){
+                    if(w!=""){
+                        ws.unshift([w, pos]);
+                        w="";
+                    }
+                }
+                else if(/[\s]/.test(k)){
+                    if(w!=""){
+                        ws.unshift([w, pos]);
+                        w="";
+                    }
+                    e=false;
+                    break;
+                }
+            }
+            --pos;
+        }while(e)
+        
+        var list = [];
+        
+        if(ok){
+            var b=CopyLower(v);
+            var curWord="";
+            
+            for(var i in ws){
+                w=ws[i][0];
+                if($.isset(b[ w.toLowerCase()])){
+                    b=b[w.toLowerCase()][0];
+                }
+                else{
+                    curWord=w;
+                    start=ws[i][1];
+                    break;
+                }
+            }
+            if(typeof(b)=="object"){
+                for(var n in b){
+                    if(!curWord || n.substr(0, curWord.length)==curWord.toLowerCase()){
+                        list.push(b[n][1]);
+                    }
+                }
+            }
+            else if(b!=""){
+                list.push(b);
+            }
+        }
+
+        return {
+            list: list,
+            from: CodeMirror.Pos(line, start),
+            to: CodeMirror.Pos(line, end)
+        }
+    });    
+}
+
+function CopyLower(v){
+    var c={};
+    for(var n in v){
+        if(typeof(v[n])=="object")
+            c[n.toLowerCase()]=[CopyLower(v[n]), n];
+        else
+            c[n.toLowerCase()]=[v[n], n];
+    }
+    return c;
+}
+
+function setenabled(v){
+    if(v)
+        objmirror.setOption("readOnly", false);
+    else
+        objmirror.setOption("readOnly", true);
+}
+
+function setfocus(v){
+    objmirror.focus();
 }
 
 </script>

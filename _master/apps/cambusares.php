@@ -246,6 +246,11 @@ RYBOX;
         case "rygauge":
             CambusaLibraryAdd("rygauge.js", "<script type='text/javascript' src='".$url_cambusa."ryque/rygauge.js?ver=$cacheversion' ></script>");
             break;
+
+        case "ryscript":
+            CambusaLibrary("rybox");
+            CambusaLibraryAdd("ryscript.js", "<script type='text/javascript' src='".$url_cambusa."rybox/ryscript.js?ver=$cacheversion' ></script>");
+            break;
     }
 }
 

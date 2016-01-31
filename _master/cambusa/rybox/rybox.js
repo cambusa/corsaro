@@ -2970,6 +2970,8 @@ function objectFocus(n){
             n=n.substr(1);
         if(globalobjs[n].type=="edit")
             CKEDITOR.instances[n+"_anchor"].focus();
+        else if(globalobjs[n].type=="script")
+            globalobjs[n].focus();
         else
             document.getElementById(n+"_anchor").focus();
     }
@@ -2994,7 +2996,7 @@ function nextFocus(nm,sh,k,missing){
         var fs="";   // primo
         var pr="";   // precedente
         var ls="";   // ultimo
-        var ts="date|number|text|check|list|grid|button|helper|area|edit|code|tree";
+        var ts="date|number|text|check|list|grid|button|helper|area|edit|code|tree|script";
         var formid=$("#"+nm).prop("parentid");
         var coll=new Object();
         if(formid==missing){

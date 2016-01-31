@@ -1,10 +1,10 @@
 ==================================
-Rilascio 1.70.14    del XX/01/2016
+Rilascio 1.70.14    del 01/02/2016
 ==================================
 
 Aggiunte funzioni diagnostiche all'installatore.
 
-Implementato un editor vbscript: rybox/ryscript.
+Implementato un editor di script basato su CodeMirror ma compatibile con Cambusa: rybox/ryscript.
 
 ==================================
 Rilascio 1.70.13    del 17/01/2016

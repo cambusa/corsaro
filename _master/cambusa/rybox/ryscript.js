@@ -24,6 +24,7 @@
             
             var propmode="javascript";
             var propindent=4;
+            var propintellisense=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -33,13 +34,16 @@
             var pendingvalue="";
             var pendingmode="";
             var pendingindent=-1;
-			
+            var pendingintellisense=false;
+
 			globalobjs[propname]=this;
 
 			if(settings.left!=missing){propleft=settings.left}
 			if(settings.top!=missing){proptop=settings.top}
             if(settings.width!=missing){propwidth=settings.width}
             if(settings.height!=missing){propheight=settings.height}
+            if(settings.mode!=missing){propmode=settings.mode}
+            if(settings.indent!=missing){propindent=settings.indent}
 
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -69,7 +73,9 @@
                 "line-height":"17px",
                 "cursor":"default"
             })
-            .html("<iframe id='"+propname+"_frame' src='"+_systeminfo.web.cambusa+"rybox/ryscript.php' width='"+propwidth+"px' height='"+(propheight-1)+"px' frameborder='0'></iframe>");
+            .html("<iframe id='"+propname+"_frame' src='"+_systeminfo.web.cambusa+"rybox/ryscript.php?mode="+propmode+"&indent="+propindent+"&name="+propname+"' width='"+(propwidth-2)+"px' height='"+(propheight-2)+"px' frameborder='0'></iframe>");
+            
+            $("#"+propname+"_frame").css({position:"absolute", left:1, top:1});
             
             $("#"+propname+"_frame").load(
                 function(){
@@ -83,9 +89,13 @@
                     if(pendingindent>=0){
                         propobj.indent(pendingindent);
                     }
+                    if(pendingintellisense!=false){
+                        propobj.intellisense(pendingintellisense);
+                    }
                     pendingvalue="";
                     pendingmode="";
                     pendingindent=-1;
+                    pendingintellisense=false;
                 }
             );
 
@@ -95,7 +105,6 @@
 				}
 				else{
                     if(proploaded){
-                        propobj.raisechanged();
                         propchanged=false;
                         document.getElementById(propname+"_frame").contentWindow.setvalue(v);
                         if(a==missing){a=false}
@@ -106,7 +115,6 @@
                     }
 				}
 			}
-            
 			this.mode=function(v){
 				if(v==missing){
                     return propmode;
@@ -121,7 +129,6 @@
                     }
 				}
 			}
-            
 			this.indent=function(v){
 				if(v==missing){
                     return propindent;
@@ -136,7 +143,15 @@
                     }
 				}
 			}
-            
+			this.intellisense=function(v){
+                if(proploaded){
+                    propintellisense=v;
+                    document.getElementById(propname+"_frame").contentWindow.setintellisense(v);
+                }
+                else{
+                    pendingintellisense=v;
+                }
+			}
 			this.name=function(){
 				return propname;
 			}
@@ -146,23 +161,7 @@
 				}
 				else{
 					propenabled=v.booleanNumber();
-                    /*
-					if(propenabled){
-						$("#"+propname+"_anchor").removeAttr("disabled");
-						$("#"+propname+"_text").css({"color":"#000000","cursor":"text"});
-						$("#"+propname+"_button").css({"cursor":"pointer"});
-						if(propfocusout==false){
-							$("#"+propname+"_cursor").css({"visibility":"visible"});
-							propobj.refreshcursor();
-						}
-					}
-					else{
-						$("#"+propname+"_anchor").attr("disabled",true);
-						$("#"+propname+"_text").css({"color":"gray","cursor":"default"});
-						$("#"+propname+"_button").css({"cursor":"default"});
-						$("#"+propname+"_cursor").css({"visibility":"hidden"});
-					}
-                    */
+                    document.getElementById(propname+"_frame").contentWindow.setenabled(propenabled);
 				}
 			}
 			this.visible=function(v){
@@ -193,7 +192,7 @@
             
 			}
 			this.focus=function(){
-				objectFocus(propname);
+                document.getElementById(propname+"_frame").contentWindow.setfocus();
 			}
             this.raisegotfocus=function(){
                 if(settings.gotfocus!=missing){settings.gotfocus(propobj)}
