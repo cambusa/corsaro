@@ -501,7 +501,8 @@ function class_qvpagine(settings,missing){
     .additem({caption:"(nessuna)", key:"##"})
     .additem({caption:"Italiano", key:"it"})
     .additem({caption:"English", key:"en"})
-    .additem({caption:"Espanol", key:"es"});
+    .additem({caption:"Espanol", key:"es"})
+    .additem({caption:"French", key:"fr"});
     
     var tx_gender=$(prefix+"GENDER").rylist({left:390, top:offsety, width:50, datum:"C",
         changed:function(o){

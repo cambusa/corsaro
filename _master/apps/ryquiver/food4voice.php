@@ -78,77 +78,78 @@ if($env!="" && $site!=""){
             $download=true;
         }
         if($download){
-            if(strlen($text)>$filibuster_sizeHQ){
-                $postdata = array(
-                    'text' => $text,
-                    'lang' => $lang,
-                    'gn' => $gender,
-                    'interface' => "full"
-                );
-                $c=do_post_request("http://vozme.com/text2voice.php", $postdata);
-                if(preg_match("/<source src=\"(.+\.mp3)\"/", $c, $m)){
-                    // SCRIVO MP3
-                    $buff=@file_get_contents("http://vozme.com/".$m[1]);
-                    $fp=fopen($pathname, "wb");
-                    fwrite($fp, $buff);
-                    fclose($fp);
-                    // SCRIVO CRC
-                    $fp=fopen($pathcrc, "wb");
-                    fwrite($fp, $crctext);
-                    fclose($fp);
-                    // ESITO POSITIVO
-                    $jret["success"]=1;
-                    $jret["url"]=$urlvoice;
-                }
-            }
-            else{
+            if(strlen($text)<=$filibuster_sizeHQ){
                 $speed="0";
+                $voice="";
                 switch($lang){
                 case "it":
                     $lang="Italian";
                     $speed="1";
                     if($gender=="ml")
-                        $gender="16";
+                        $voice="IVONA Giorgio22 (Italian)";
                     else
-                        $gender="6";
+                        $voice="IVONA Carla22 (Italian)";
                     break;
                 case "en":
                     $lang="British English";
                     if($gender=="ml")
-                        $gender="11";
+                        $voice="IVONA Eric22";
                     else
-                        $gender="12";
+                        $voice="IVONA Kimberly22";
                     break;
                 case "es":
                     $lang="Spanish";
                     if($gender=="ml")
-                        $gender="10";
+                        $voice="IVONA Enrique22 (Spanish [Modern])";
                     else
-                        $gender="13";
+                        $voice="IVONA Conchita22 (Spanish [Modern])";
+                    break;
+                case "fr":
+                    $lang="French";
+                    if($gender=="ml")
+                        $voice="IVONA Mathieu22 (French)";
+                    else
+                        $voice="IVONA Mathieu22 (French)";
                     break;
                 }
                 $postdata = array(
                     'input_text' => $text,
                     'action' => "process_text",
                     'language' => $lang,
-                    'voice' => $gender,
+                    'voice' => $voice,
                     'speed' => $speed
                 );
-                $c=do_post_request("http://www.fromtexttospeech.com/", $postdata);
+                $c=do_post_request("http://www.fromtexttospeech.com/?v=".date("YmdHis"), $postdata);
                 if(preg_match("/<a href='(.+\.mp3)'/", $c, $m)){
                     // SCRIVO MP3
-                    $buff=@file_get_contents("http://www.fromtexttospeech.com/".$m[1]);
-                    $fp=fopen($pathname, "wb");
-                    fwrite($fp, $buff);
-                    fclose($fp);
-                    // SCRIVO CRC
-                    $fp=fopen($pathcrc, "wb");
-                    fwrite($fp, $crctext);
-                    fclose($fp);
-                    // ESITO POSITIVO
-                    $jret["success"]=1;
-                    $jret["url"]=$urlvoice;
+					$buff="";
+                    $path=$m[1];
+                    if(substr($path, 0 ,1)!="/")
+                        $path="/".$path;
+                    $buff=@file_get_contents("http://www.fromtexttospeech.com".$path);
+					if($buff!=""){
+						$fp=fopen($pathname, "wb");
+						fwrite($fp, $buff);
+						fclose($fp);
+						// SCRIVO CRC
+						$fp=fopen($pathcrc, "wb");
+						fwrite($fp, $crctext);
+						fclose($fp);
+						// ESITO POSITIVO
+						$jret["success"]=1;
+						$jret["url"]=$urlvoice;
+					}
+					else{
+						// ESITO POSITIVO
+						$jret["success"]=0;
+						$jret["url"]="";
+					}
                 }
+            }
+            else{
+                // ESITO POSITIVO
+                $jret["success"]=0;
+                $jret["url"]="";
             }
         }
     }

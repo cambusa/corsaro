@@ -1181,23 +1181,23 @@ function objVoice(obj){
                             if(parseInt(v.success)){
                                 var h="";
                                 h+="<audio id='filibuster-player'>";
-                                h+="<source id='filibuster-player-source' src='"+v.url+"' type='audio/mpeg' >";
+                                h+="<source id='filibuster-player-source' src='"+v.url+"?v="+(new Date).valueOf()+"' type='audio/mpeg' >";
                                 h+="</audio>";
                                 $("body").append(h);
                                 var objplayer=$("#filibuster-player").get(0);
                                 if(flb_isset(objplayer.play))
                                     propobj.tryplay(objplayer);
                                 else
-                                    alert("Audio non supportato dal browser");
+                                    alert("Audio not supported");
                             }
                             else{
                                 if(window.console){console.log(d)}
-                                alert("Servizio non disponibile");
+                                alert("Service not available or text too long");
                             }
                         }catch(e){
                             if(window.console){console.log(e.message)}
                             if(window.console){console.log(d)}
-                            alert("Servizio non disponibile");
+                            alert("Service not available or text too long");
                         }
                         setTimeout(function(){jbutt.html(prevsymbol)}, 500);
                     }

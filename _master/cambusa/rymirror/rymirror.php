@@ -111,7 +111,7 @@ input,select,a:focus{outline:none;border:none;}
 <script src="../codemirror/addon/search/search.js"></script>
 <script src="../codemirror/addon/dialog/dialog.js"></script>
 <script src="../codemirror/addon/edit/matchbrackets.js"></script>
-<script src="../codemirror/addon/edit/closebrackets.js"></script>
+<!-- <script src="../codemirror/addon/edit/closebrackets.js"></script> -->
 <script src="../codemirror/addon/comment/comment.js"></script>
 <script src="../codemirror/addon/wrap/hardwrap.js"></script>
 <script src="../codemirror/addon/fold/foldcode.js"></script>
