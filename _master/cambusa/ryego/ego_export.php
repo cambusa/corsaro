@@ -72,15 +72,15 @@ try{
             for($i=0;$i<count($r);$i++){
                 $infos["USERS"][$i]=array( 
                     "SYSID" => $r[$i]["SYSID"], 
-                    "NAME" => htmlentities($r[$i]["NAME"]),
+                    "NAME" => $r[$i]["NAME"],
                     "ADMINISTRATOR" => $r[$i]["ADMINISTRATOR"],
-                    "EMAIL" => htmlentities($r[$i]["EMAIL"])
+                    "EMAIL" => $r[$i]["EMAIL"]
                 );
             }
             $sql="SELECT SYSID,DESCRIPTION FROM EGOROLES WHERE APPID='$appid'";
             maestro_query($maestro, $sql, $r);
             for($i=0;$i<count($r);$i++){
-                $infos["ROLES"][$i]=array( "SYSID" => $r[$i]["SYSID"], "NAME" => htmlentities($r[$i]["DESCRIPTION"]) );
+                $infos["ROLES"][$i]=array( "SYSID" => $r[$i]["SYSID"], "NAME" => $r[$i]["DESCRIPTION"]);
             }
         }
     }
@@ -109,8 +109,9 @@ $description=qv_babeltranslate($description);
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
 $j["infos"]=$infos;
+array_walk_recursive($j, "ryqUTF8");
 if($padding=="")
     print json_encode($j);
 else        // Gestione JSONP (JSON con padding) per le richieste "cross domain"

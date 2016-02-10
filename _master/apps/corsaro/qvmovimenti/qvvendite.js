@@ -223,7 +223,7 @@ function class_qvvendite(settings,missing){
         click:function(o){
             winzProgress(formid);
             var richiedenteid=txf_richiedente.value();
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -264,7 +264,7 @@ function class_qvvendite(settings,missing){
                 message:"Eliminare la pratica selezionata?",
                 confirm:function(){
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -347,7 +347,7 @@ function class_qvvendite(settings,missing){
             var data=RYWINZ.ToObject(formid, "C", currpraticaid);
             data["MAGAZZINOID"]=txf_magazzino.value();
             var st=tx_status.key();
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -401,7 +401,7 @@ function class_qvvendite(settings,missing){
                 message:"Stampare il documento di trasporto?",
                 confirm:function(){
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"rygeneral/customize.php", 
+                    $.post(_systeminfo.web.cambusa+"rygeneral/customize.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -417,7 +417,7 @@ function class_qvvendite(settings,missing){
                                     var env=v.params["ENVIRON"];
                                     var f=v.params["PATHNAME"];
                                     if(window.console&&_sessioninfo.debugmode){console.log("Risposta da backoffice: "+env+"/"+f)}
-                                    var h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+f;
+                                    var h=_systeminfo.web.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                 }
                                 winzTimeoutMess(formid, v.success, v.message);
@@ -592,7 +592,7 @@ function class_qvvendite(settings,missing){
                 "data":data,
                 "return":{"ARROWID":"#TRASFID"}
             };
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -634,7 +634,7 @@ function class_qvvendite(settings,missing){
                 confirm:function(){
                     winzProgress(formid);
                     RYWINZ.modified(formid, 0);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -681,7 +681,7 @@ function class_qvvendite(settings,missing){
             data["AMOUNT"]=tx_amount.value();
             data["MAGAZZINOID"]=txf_magazzino.value();
             data["BOWTIME"]=tx_data.text();
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -1037,7 +1037,7 @@ function class_qvvendite(settings,missing){
                 "TRANSID":transid
             }
         };
-        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+        $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,

@@ -49,7 +49,6 @@ $direnvirons=$path_databases."_environs/";
 .maestro-selected{font-weight:bold;}
 .maestro-list{width:150px;}
 .maestro-count{width:15px;}
-.maestro-result , td{white-space:nowrap}
 .maestro-nocollat{color:red;background-color:#EEE;}
 </style>
 
@@ -65,15 +64,34 @@ a.disabled{text-decoration:none;color:gray;cursor:default;}
 .sx{text-align:left;}
 </style>
 
+<link type='text/css' href='../ryque/ryque.css' rel='stylesheet' />
+<style>
+a{text-decoration:none;}
+.contextMenu{position:absolute;display:none;}
+.contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
+.contextMenu>ul>li>a{color:black;}
+.contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
+.contextDisabled>a{color:silver !important;}
+</style>
+
 <script type='text/javascript' src='../jquery/jquery.js'></script>
 <script type='text/javascript' src='../jquery/jquery.cookie.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.core.js'></script>
+<script type='text/javascript' src='../jquery/jquery.ui.widget.js'></script>
+<script type='text/javascript' src='../jquery/jquery.ui.mouse.js'></script>
+<script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
+<script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
+<script type='text/javascript' src='../jquery/jquery.ui.position.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js' ></script>
 <script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../ryego/ryego.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../ryque/ryunbound.js?ver=<?php print $cacheversion ?>' ></script>
 
 <script>
 _sessioninfo.sessionid="<?php  print $sessionid ?>";
 var envjson=false;
 var dbprovider="";
+var objresult;
 $(document).ready(function(){
     activation('dummy');
     resizebody();
@@ -89,6 +107,30 @@ $(document).ready(function(){
                 document.getElementById("list-json").selectedIndex=0;
                 makereport(false);
                 loadenvirons();
+                // GRID VUOTO DEI RISULTATI
+                objresult=$("#maestro-result").ryunbound({
+                    left:0,
+                    top:30,
+                    width:$("body").width()-50,
+                    height:350,
+                    maxwidth:-1,
+                    numbered:true,
+                    checkable:false,
+                    sortable:true,
+                    columns:[
+                        {id:"DUMMY", caption:"(empty)", width:120, type:""}
+                    ]
+                });
+                $("#explode-row")
+                .width(600)
+                .height(400)
+                .focusout(function(){
+                    $("#explode-row").hide();
+                })
+                .keypress(function(k){
+                    if(k.keyCode==27)
+                        $("#explode-row").hide();
+                });
             }
         }
     });
@@ -127,6 +169,7 @@ function makereport(collat,missing){
             var t="",i;
             for(var tablekey in infobase){
                 table=infobase[tablekey];
+                tablekey=tablekey.toUpperCase();
                 if(table.type=="database"){
                     t+="<div class='tabname'>"+tablekey+"</div>";
                     t+="<table border='1' cellpadding='0' cellspacing='0'>";
@@ -139,6 +182,7 @@ function makereport(collat,missing){
 
                     for(var fieldkey in table.fields){
                         var field=table.fields[fieldkey];
+                        fieldkey=fieldkey.toUpperCase();
                         t+="<tr>";
                         t+="<td>"+fieldkey+"</td>";
                         var k=false;
@@ -172,11 +216,7 @@ function makereport(collat,missing){
                         }
                         if(collat){
                             try{
-                                var actualtable=tablekey;
-                                if(dbprovider=="mysql"){
-                                    actualtable=actualtable.toLowerCase();
-                                }
-                                var fdb=envjson[actualtable].fields[fieldkey];
+                                var fdb=envjson[tablekey].fields[fieldkey];
 
                                 if(fdb==missing){
                                     t+="<td class='maestro-nocollat'>DOESN'T EXIST</td>";
@@ -242,6 +282,7 @@ function envanalyze(){
                     makereport(true);
                 }
                 catch(e){
+                    alert(e.message);
                     envjson=false;
                 }
                 $("#action-collation").removeClass('disabled');
@@ -291,37 +332,107 @@ function executesql(){
     var env=$("#list-sql").val();
     var sql=$("#maestro-sql").val();
     var res="";
-    $("#maestro-result").html("Caricamento in corso...");
-    
+    objresult.pulsating(true);
     $.post(
         "maestro_execute.php", 
         {"sessionid":_sessioninfo.sessionid, "env":env, "sql":sql},
         function(d){
+            objresult.pulsating(false);
+            objresult=null;
             try{
                 var v=$.parseJSON(d);
-                var t="<table>";
-                for(var r=0;r<v.length;r++){
-                    if(r==0){
-                        t+="<tr><th class='maestro-count'></th>";
-                        for(var i in v[r]){
-                            t+="<th>"+i+"</th>";
+                $("#maestro-result").html("");
+                if(v.length>0){
+                    var cols=[];
+                    for(var i in v[0]){
+                        cols.push({id:i, caption:i, width:120, type:""});
+                    }
+                    objresult=$("#maestro-result").ryunbound({
+                        left:0,
+                        top:30,
+                        width:$("body").width()-50,
+                        height:350,
+                        numbered:true,
+                        checkable:false,
+                        sortable:true,
+                        columns:cols,
+                        enter:function(){
+                            var r,c,h;
+                            $("#explode-row").val("");
+                            r=objresult.index();
+                            h="";
+                            for(c in v[r-1]){
+                                h+=c+" = "+v[r-1][c]+"\n";
+                            }
+                            $("#explode-row").val(h);
+                            $("#explode-row").show();
+                            $("#explode-row").focus();
                         }
-                        t+="</tr>";
-                    }
-                    t+="<tr>";
-                    t+="<td class='maestro-count'>"+(r+1)+"</td>";
-                    for(var i in v[r]){
-                        t+="<td>";
-                        t+=v[r][i];
-                        t+="</td>";
-                    }
-                    t+="</tr>";
+                    });
+                    objresult.setmatrix(v);
+                    objresult.autofit();
+                    $("#maestro-result").contextMenu("popup", {
+                        menuStyle:{
+                            width:"200px"
+                        },
+                        bindings: {
+                            'explode': function(t) {
+                                var r,c,h;
+                                $("#explode-row").val("");
+                                r=objresult.index();
+                                h="";
+                                for(c in v[r-1]){
+                                    h+=c+" = "+v[r-1][c]+"\n";
+                                }
+                                $("#explode-row").val(h);
+                                $("#explode-row").show();
+                                $("#explode-row").focus();
+                            }
+                        },
+                        onContextMenu:
+                            function(e) {
+                            
+                                return true;
+                            },
+                        onShowMenu: 
+                            function(e, menu) {
+                            
+                                return menu;
+                            }
+                    });
                 }
-                t+="</table>";
-                $("#maestro-result").html(t);
+                else{
+                    objresult=$("#maestro-result").ryunbound({
+                        left:0,
+                        top:30,
+                        width:$("body").width()-50,
+                        height:350,
+                        numbered:true,
+                        checkable:false,
+                        sortable:true,
+                        columns:[
+                            {id:"DUMMY", caption:"(empty)", width:120, type:""}
+                        ]
+                    });
+                }
             }
             catch(e){
-                $("#maestro-result").html(d);
+                if(window.console){console.log(d)}
+                objresult=$("#maestro-result").ryunbound({
+                    left:0,
+                    top:30,
+                    width:$("body").width()-50,
+                    height:350,
+                    numbered:true,
+                    checkable:false,
+                    sortable:true,
+                    columns:[
+                        {id:"MESSAGE", caption:"MESSAGE", width:120, type:""},
+                        {id:"RESULT", caption:"RESULT", width:120, type:""}
+                    ]
+                });
+                objresult.setmatrix([{"MESSAGE":e.message, "RESULT":d}]);
+                objresult.autofit();
             }
         }
     );
@@ -330,8 +441,9 @@ function resizebody(){
     w=$("body").width()-50;
     if(w<500)
         w=500;
-    $("#maestro-result").width(w);
     $("#maestro-sql").width(w);
+    if(objresult)
+        objresult.move({"width":w});
 }
 </script>
 
@@ -408,7 +520,7 @@ for($i=0;$i<count($m);$i++){
     $env_maestro="";
     $env_provider="";
     include($m[$i]);
-    if(strpos("|sqlite|access|mysql|oracle|sqlserver|db2odbc|", "|".$env_provider."|")!==false){
+    if(strpos("|sqlite|access|mysql|oracle|sqlserver|mssql|db2odbc|", "|".$env_provider."|")!==false){
         if($env_maestro!=""){
             $n+=1;
             if($n==0)
@@ -447,7 +559,7 @@ for($i=0;$i<count($m);$i++){
     $env_maestro="";
     $env_provider="";
     include($m[$i]);
-    if(strpos("|sqlite|access|mysql|oracle|sqlserver|db2odbc|", "|".$env_provider."|")!==false){
+    if(strpos("|sqlite|access|mysql|oracle|sqlserver|mssql|db2odbc|", "|".$env_provider."|")!==false){
         $n+=1;
         if($n==0)
             print "<option selected='selected'>$b</option>";
@@ -464,11 +576,21 @@ for($i=0;$i<count($m);$i++){
 <textarea id="maestro-sql" style="width:600;height:100;border:1px solid silver;"></textarea>
 <br/>
 <br/>
-<div id="maestro-result" style="height:250px;width:600;overflow:scroll;border:1px solid silver;"></div>
+<div style="position:relative;">
+<div id="maestro-result"></div>
+</div>
 </div>
 <!-- FINE SQL -->
 
 </div>
+
+<div id='popup' class='contextMenu'>
+    <ul>
+        <li id='explode'><a href='javascript:'>Explode</a></li>
+    </ul>
+</div>
+
+<textarea id="explode-row" style="position:absolute;width:600;height:400;border:1px solid silver;display:none;"></textarea>
 
 </body>
 </html>

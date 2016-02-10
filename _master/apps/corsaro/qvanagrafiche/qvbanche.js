@@ -122,7 +122,7 @@ function class_qvbanche(settings,missing){
             data["DESCRIPTION"]="(nuova banca)";
             data["TYPOLOGYID"]=currtypologyid;
             data["BANCA"]=1;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -256,7 +256,7 @@ function class_qvbanche(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

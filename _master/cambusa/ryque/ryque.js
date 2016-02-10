@@ -32,7 +32,7 @@
             var proplimit=500000;
             var propenabled=1;
         
-            var propfolderryque=_systeminfo.relative.cambusa+"ryque/";
+            var propfolderryque=_systeminfo.web.cambusa+"ryque/";
             
             var propcols=[];
             var proptits=[];
@@ -1665,7 +1665,7 @@
                                     var env=v["environ"];
                                     var f=v["export"];
                                     if(window.console&&_sessioninfo.debugmode){console.log("Percorso file: "+env+"/"+f)}
-                                    var h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+f;
+                                    var h=_systeminfo.web.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+f;
                                     $("#winz-iframe").prop("src", h);
                                     // GESTIONE FILE OBSOLETI
                                     RYQUIVER.ManageTemp();
@@ -2221,7 +2221,7 @@
 })(jQuery);
 		
 function ryQue(missing){
-    var propfolderryque=_systeminfo.relative.cambusa+"ryque/";
+    var propfolderryque=_systeminfo.web.cambusa+"ryque/";
     var propenviron="";
     var propprovider="";
     var proplenid=12;

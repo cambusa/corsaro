@@ -201,8 +201,13 @@ function egoinitialize(missing){
         function(){
             if(supportsCookies()&&_egocontext!="embed"){
                 if(!$.cookie("EGOCOOKIE")){
-                    var cp=RYBOX.babels("EGO_COOKIEPOLICY", ["<a href='ego_privacy.php' target='_blank'>", "</a>", "<span onclick='removePrivacyCookie()'>", "</span>"]);
+                    var cp=RYBOX.babels("EGO_COOKIEPOLICY", ["<a href='ego_privacy.php' target='_blank'>", "</a>", "<span>", "</span>"]);
                     $("body").append("<div id='filibuster-privacycookie'>"+cp+"</div>");
+                    $("#filibuster-privacycookie span").click(
+                        function(){
+                            removePrivacyCookie();
+                        }
+                    );
                 }
             }
             if(_egolanguage!="default"){

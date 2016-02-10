@@ -10,6 +10,8 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
+error_reporting(E_COMPILE_ERROR);
+
 $curdir=realpath(dirname(__FILE__));
 $curdir=str_replace("\\", "/", $curdir);
 include_once $curdir."/solveroot.php";

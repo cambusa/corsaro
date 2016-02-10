@@ -197,7 +197,7 @@ function class_qvaccrediti(settings,missing){
             data["TARGETTIME"]="";
             data["CORSOID"]="";
             data["STATUS"]="0";
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -361,7 +361,7 @@ function class_qvaccrediti(settings,missing){
                 data["STATUS"]=1;
             else
                 data["STATUS"]=0;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -508,7 +508,7 @@ function class_qvaccrediti(settings,missing){
     RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){ 
-            RYWINZ.loadmodule("corsi.js", _systeminfo.relative.apps+"corsaro/_javascript/corsi.js",
+            RYWINZ.loadmodule("corsi.js", _systeminfo.web.apps+"corsaro/_javascript/corsi.js",
                 function(){
                     // REPERSICO AL PERSONA
                     RYQUE.query({

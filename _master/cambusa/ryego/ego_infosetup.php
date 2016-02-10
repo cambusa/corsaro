@@ -146,8 +146,7 @@ $description=qv_babeltranslate($description);
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
-
+$j["description"]=$description;
 $j["userid"]=$userid;
 $j["lastenvironid"]=$lastenvironid;
 $j["lastroleid"]=$lastroleid;
@@ -159,6 +158,6 @@ $j["lstenviron"]=$lstenviron;
 $j["lstrole"]=$lstrole;
 $j["lstlanguage"]=$lstlanguage;
 $j["lstcc"]=$lstcc;
-
+array_walk_recursive($j, "ryqUTF8");
 print json_encode($j);
 ?>

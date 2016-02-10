@@ -222,7 +222,8 @@ input,select,a:focus{outline:none;border:none;}
 <script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../rybox/rybox.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../cryptojs/rollups/sha1.js' ></script>
-<script type='text/javascript' src='../jsencrypt/bin/jsencrypt.js' ></script>
+<!-- Moved here from cambusa\jsencrypt\bin to avoid the blocking IIS 7 policies -->
+<script type='text/javascript' src='../rygeneral/jsencrypt.js' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mouse.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
@@ -232,6 +233,10 @@ input,select,a:focus{outline:none;border:none;}
 
 <script>
 _sessioninfo.sessionid="<?php print $sessionid ?>";
+_systeminfo.web.root="<?php print $url_base ?>";
+_systeminfo.web.apps="<?php print $url_applications ?>";
+_systeminfo.web.cambusa="<?php print $url_cambusa ?>";
+_systeminfo.web.customize="<?php print $url_customize ?>";
 var htimer="";
 var _publickey="<?php print strtr($publickey, array("\n" => "[n]", "\r" => "[r]")); ?>";
 _publickey=_publickey.replace(/\[n\]/g, "\n").replace(/\[r\]/g, "\r");

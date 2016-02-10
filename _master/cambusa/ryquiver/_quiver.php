@@ -423,7 +423,6 @@ function _solveUTF8(&$value){
     }
 }
 function quiver_escapize(&$value){
-    //$value=htmlentities(utf8_decode($value));
     if($value!=""){
         if(!mb_check_encoding($value, "UTF-8")){
             // CI SONO CARATTERI NON UNICODE

@@ -176,7 +176,7 @@ function class_qvarticoli(settings,missing){
             if(currproduttoreid!=""){
                 data["PRODUTTOREID"]=currproduttoreid;
             }
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -316,7 +316,7 @@ function class_qvarticoli(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

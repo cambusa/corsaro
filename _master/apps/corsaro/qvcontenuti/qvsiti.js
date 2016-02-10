@@ -131,7 +131,7 @@ function class_qvsiti(settings,missing){
             data["TYPOLOGYID"]=typesiteid;
             data["NORMALWIDTH"]=1000;
             data["NARROWWIDTH"]=1;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -167,7 +167,7 @@ function class_qvsiti(settings,missing){
             winzProgress(formid);
             var data = new Object();
             data["SITEID"]=currsysid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -201,7 +201,7 @@ function class_qvsiti(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -236,7 +236,7 @@ function class_qvsiti(settings,missing){
         button:true,
         click:function(o){
             // La cartella base di default è "customize"
-            var h=_systeminfo.relative.cambusa+"rysource/source_download.php?file="+currexport;
+            var h=_systeminfo.web.cambusa+"rysource/source_download.php?file="+currexport;
             $("#winz-iframe").prop("src", h);
         }
     });
@@ -252,7 +252,7 @@ function class_qvsiti(settings,missing){
                 ok:"Elimina",
                 confirm:function(){
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -343,7 +343,7 @@ function class_qvsiti(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -376,7 +376,7 @@ function class_qvsiti(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -517,7 +517,7 @@ function class_qvsiti(settings,missing){
                 "function":"objects_insert",
                 "data":data
             };
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -559,7 +559,7 @@ function class_qvsiti(settings,missing){
                 confirm:function(){
                     winzProgress(formid);
                     RYWINZ.modified(formid, 0);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -597,7 +597,7 @@ function class_qvsiti(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "F", currcontainerid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -731,7 +731,7 @@ function class_qvsiti(settings,missing){
                 var p=dirattachments+d["SUBPATH"]+d["FILEID"]+"."+exten;
                 if(exten.toLowerCase().match(/(jpg|jpeg|gif|png|svg)/)){
                     oper_favicon.enabled(1);
-                    $(prefix+"PREVIEW").html("<img src='"+_systeminfo.relative.cambusa+"/phpthumb/phpThumb.php?h=80&src="+p+"' style='border:1px solid silver;'>");
+                    $(prefix+"PREVIEW").html("<img src='"+_systeminfo.web.cambusa+"/phpthumb/phpThumb.php?h=80&src="+p+"' style='border:1px solid silver;'>");
                     $(prefix+"PREVIEW").css({display:"block"});
                 }
             }
@@ -750,7 +750,7 @@ function class_qvsiti(settings,missing){
         formid:formid,
         button:true,
         click:function(o){
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -784,7 +784,7 @@ function class_qvsiti(settings,missing){
         formid:formid,
         button:true,
         click:function(o){
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -911,7 +911,7 @@ function class_qvsiti(settings,missing){
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
             bbl_context=RYBOX.babels("BABEL_CONTEXT");
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

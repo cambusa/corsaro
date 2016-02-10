@@ -48,6 +48,7 @@ catch(Exception $e){
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
+array_walk_recursive($r, "maestro_escapize");
 print json_encode($j);
 ?>

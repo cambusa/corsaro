@@ -102,7 +102,7 @@
                     var h=encodeURIComponent(path+nf);
                     h=h.replace(/[']/gi, "%27");
                     h=h.replace(/\%26(#|\%23)x([0-9A-F]{2})\%3B/gi, "%$2");
-                    h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+propenviron+"&sessionid="+_sessioninfo.sessionid+"&file="+h;
+                    h=_systeminfo.web.cambusa+"rysource/source_download.php?env="+propenviron+"&sessionid="+_sessioninfo.sessionid+"&file="+h;
                     objfamily.additem({parent:id, info:h, title:tl});
                 }
             }
@@ -110,7 +110,7 @@
                 objfamily.clear(parentid);
                 objfamily.loading(parentid, true);
                 TAIL.enqueue(function(arg_path){
-                    $.post(_systeminfo.relative.cambusa+"rysource/rysource.php", {"env":propenviron, "sub":arg_path, "sessionid":propsessionid, "dbenv":propdbenv},
+                    $.post(_systeminfo.web.cambusa+"rysource/rysource.php", {"env":propenviron, "sub":arg_path, "sessionid":propsessionid, "dbenv":propdbenv},
                         function(d){
                             try{
                                 objfamily.loading(parentid, false);

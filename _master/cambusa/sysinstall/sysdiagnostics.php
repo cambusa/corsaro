@@ -31,11 +31,17 @@ if(is_file($path_customize."_apps.php")){
     include $path_customize."_apps.php";
 }
 
-// SQLITE
-if(extension_loaded('pdo_sqlite'))
-    $sqlite="Enabled";
+// SQLITE 3
+if(extension_loaded('sqlite3'))
+    $sqlite3="Enabled";
 else
-    $sqlite="<span class=\"attention\"><b>SQLite</b> is not enabled</span>: add <b>php_pdo_sqlite.dll</b> extension in <b>php.ini</b>!";
+    $sqlite3="<span class=\"attention\"><b>SQLite 3</b> is not enabled</span>: add <b>php_sqlite3.dll</b> extension in <b>php.ini</b>!";
+
+// SQLITE PDO
+if(extension_loaded('pdo_sqlite'))
+    $sqlitepdo="Enabled";
+else
+    $sqlitepdo="<span class=\"attention\"><b>SQLite PDO</b> is not enabled</span>: add <b>php_pdo_sqlite.dll</b> extension in <b>php.ini</b>!";
 
 // MYSQL
 if(extension_loaded('pdo_mysql'))
@@ -48,6 +54,12 @@ if(extension_loaded('oci8'))
     $oracle="Enabled";
 else
     $oracle="<span class=\"attention\"><b>ORACLE</b> is not enabled</span>: add <b>php_oci8.dll</b> extension in <b>php.ini</b>!";
+
+// SQL Server
+if(extension_loaded('sqlsrv'))
+    $mssrv="Enabled";
+else
+    $mssrv="<span class=\"attention\"><b>SQL Server</b> is not enabled</span>: add <b>php_pdo_sqlsrv_XXXXXX.dll</b> extension in <b>php.ini</b>!";
 
 // LDAP
 if(extension_loaded('ldap'))
@@ -83,9 +95,11 @@ else
     <div class="section">Extensions</div>
     <div class="skip"></div>
     <table>
-        <tr><td class='item'>SQLite     </td><td class='value'><?php print $sqlite    ?></td></tr>
+        <tr><td class='item'>SQLite 3   </td><td class='value'><?php print $sqlite3   ?></td></tr>
+        <tr><td class='item'>SQLite PDO </td><td class='value'><?php print $sqlitepdo ?></td></tr>
         <tr><td class='item'>MySQL      </td><td class='value'><?php print $mysql     ?></td></tr>
         <tr><td class='item'>Oracle     </td><td class='value'><?php print $oracle    ?></td></tr>
+        <tr><td class='item'>SQL Server </td><td class='value'><?php print $mssrv     ?></td></tr>
         <tr><td class='item'>LDAP       </td><td class='value'><?php print $ldap      ?></td></tr>
         <tr><td class='item'>IMAP       </td><td class='value'><?php print $imap      ?></td></tr>
         <tr><td class='item'>Open SSL   </td><td class='value'><?php print $openssl   ?></td></tr>

@@ -373,12 +373,10 @@ function qv_escapizeUTF8(&$v){
 }
 function qv_inputUTF8($v){
     if($v!=""){
-        //if(htmlentities($v, ENT_NOQUOTES, "UTF-8", false)==""){
         if(!mb_check_encoding($v, "UTF-8")){
             // CI SONO CARATTERI NON UNICODE
             return utf8_encode($v);
         }
-        //return utf8_decode(utf8_encode($v));
     }
     return $v;
 }

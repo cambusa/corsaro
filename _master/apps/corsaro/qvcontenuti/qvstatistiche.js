@@ -114,7 +114,7 @@ function class_qvstatistiche(settings,missing){
                 message:RYBOX.babels("MSG_STATRESET"),
                 confirm:function(){
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,

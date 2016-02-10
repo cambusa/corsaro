@@ -51,6 +51,19 @@ function maestro_unbuffered($maestro, $sql, $raise=true){
                 log_write($sql.";\r\n--->" . $maestro->errdescr);
             }
             break;
+		case "mssql":
+			// mosca mssql
+            $res=@sqlsrv_query($maestro->conn, $sql);
+            if(!$res){
+                $maestro->errdescr="";
+                if( ($errors = sqlsrv_errors() ) != null){
+                    foreach($errors as $error){
+                        $maestro->errdescr.="; ".$error["message"];
+                    }
+                }
+                log_write($sql.";\r\n--->" . $maestro->errdescr);
+            }
+            break;
         default:
             $res=@odbc_exec($maestro->conn, $sql);
             if($res!==false){
@@ -110,6 +123,20 @@ function maestro_fetch($maestro, &$res){
                     }
                 }
                 break;
+			case "mssql":
+				// mosca mssql
+                if($row=sqlsrv_fetch_array($res, SQLSRV_FETCH_ASSOC)){
+                    // RISOLVO I NULL E LE DATE
+                    foreach($row as $k => $v){
+                        if($v===null)
+                            $row[$k]="";
+                        elseif($v instanceof DateTime)
+                            $row[$k]=date_format($v, "YmdHis");
+                        else
+                            $row[$k]=trim((string)$v);
+                    }
+                }
+                break;
             default:
                 if($row=odbc_fetch_array($res)){
                     // RISOLVO I NULL
@@ -141,6 +168,10 @@ function maestro_free($maestro, &$res){
                 break;
             case "oracle":
                 oci_free_statement($res);
+                break;
+			case "mssql":
+				// mosca mssql
+                sqlsrv_free_stmt($res);
                 break;
             default:
                 odbc_free_result($res);

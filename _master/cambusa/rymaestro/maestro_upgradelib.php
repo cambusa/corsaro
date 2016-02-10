@@ -76,7 +76,7 @@ function maestro_upgrade($maestro, $logonly=false){
                                    isset($table->keyvalue) &&
                                    isset($table->dataname)){
                                     $version_current=$table->current;
-                                    $version_table=$table->table;
+                                    $version_table=strtoupper($table->table);
                                     $version_keyname=$table->keyname;
                                     $version_keyvalue=$table->keyvalue;
                                     $version_dataname=$table->dataname;
@@ -85,6 +85,7 @@ function maestro_upgrade($maestro, $logonly=false){
                                     if(isset($table->dataothers))
                                         $version_dataothers=",".$table->dataothers;
                                     // REPERISCO LA VECCHIA VERSIONE DEL DATABASE
+                                    /*
                                     switch($maestro->provider){
                                     case "oracle":
                                     case "db2odbc":
@@ -94,6 +95,7 @@ function maestro_upgrade($maestro, $logonly=false){
                                         $version_table=strtolower($version_table);
                                         break;
                                     }
+                                    */
                                     if(isset($prevbase->{$version_table})){
                                         $sql="SELECT ".$version_dataname." FROM ".$version_table." WHERE ".$version_keyname."='".$version_keyvalue."'";
                                         maestro_query($maestro, $sql, $r, false);
@@ -119,7 +121,8 @@ function maestro_upgrade($maestro, $logonly=false){
                     if($enabled){
                         if(isset($table->type) && isset($table->fields)){
                             if($table->type=="database"){
-                                $tabname=key($infobase);
+                                $tabname=strtoupper(key($infobase));
+                                /*
                                 switch($maestro->provider){
                                 case "oracle":
                                 case "db2odbc":
@@ -129,6 +132,7 @@ function maestro_upgrade($maestro, $logonly=false){
                                     $tabname=strtolower($tabname);
                                     break;
                                 }
+                                */
                                 $fields=$table->fields;
                                 if(isset($prevbase->{$tabname})){
                                     // LA TABELLA ESISTE: CERCO CAMPI AGGIUNTIVI
@@ -137,7 +141,7 @@ function maestro_upgrade($maestro, $logonly=false){
                                     $oldcols="";    // Elenco colonne per la gestione "dura"
                                     
                                     for(reset($fields); $field=current($fields); next($fields)){
-                                        $fieldname=key($fields);
+                                        $fieldname=strtoupper(key($fields));
                                         if(!isset($prevbase->{$tabname}->fields->{$fieldname})){
                                             $sql="ALTER TABLE ".$tabname." ADD ";
                                             
@@ -159,6 +163,7 @@ function maestro_upgrade($maestro, $logonly=false){
                                             
                                             $dbtype=maestro_solvetype($maestro, $tp, $sz, $ky, $nn, $uq);
                                             
+                                            /*
                                             switch($maestro->provider){
                                             case "oracle":
                                             case "db2odbc":
@@ -167,6 +172,8 @@ function maestro_upgrade($maestro, $logonly=false){
                                             default:
                                                 $sql.=$fieldname." ".$dbtype;
                                             }
+                                            */
+                                            $sql.=$fieldname." ".$dbtype;
                                             if(!$hard)
                                                 maestro_execupgrade($maestro, $sql);
                                         }
@@ -281,7 +288,7 @@ function maestro_upgrade($maestro, $logonly=false){
                     if($enabled){
                         if(isset($table->type) && isset($table->script)){
                             if($table->type=="view"){
-                                $tabname=key($infobase);
+                                $tabname=strtoupper(key($infobase));
                                 $namefile=$table->script;
                                 $namefile=str_replace("@maestro/",$path_databases."_maestro/",$namefile);
                                 if(is_file($namefile))
@@ -353,6 +360,7 @@ function maestro_createtable($maestro, $tabname, $fields){
     // LA TABELLA NON ESISTE: LA CREO
     $init=false;
     
+    /*
     switch($maestro->provider){
     case "oracle":
     case "db2odbc":
@@ -364,9 +372,12 @@ function maestro_createtable($maestro, $tabname, $fields){
     default:
         $sql="CREATE TABLE ".$tabname."(";
     }
+    */
+    $tabname=strtoupper($tabname);
+    $sql="CREATE TABLE ".$tabname."(";
             
     for(reset($fields); $field=current($fields); next($fields)){
-        $fieldname=key($fields);
+        $fieldname=strtoupper(key($fields));
         if($init)
             $sql.=",";
         else
@@ -381,6 +392,7 @@ function maestro_createtable($maestro, $tabname, $fields){
         
         $dbtype=maestro_solvetype($maestro, $tp, $sz, $ky, $nn, $uq);
         
+        /*
         switch($maestro->provider){
         case "oracle":
         case "db2odbc":
@@ -389,6 +401,8 @@ function maestro_createtable($maestro, $tabname, $fields){
         default:
             $sql.=$fieldname." ".$dbtype;
         }
+        */
+        $sql.=$fieldname." ".$dbtype;
     }
     $sql.=")";
     maestro_execupgrade($maestro, $sql);

@@ -139,7 +139,7 @@ function class_qvprogetti(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuovo progetto)";
             data["TYPOLOGYID"]=currtypologyid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -216,7 +216,7 @@ function class_qvprogetti(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -258,7 +258,7 @@ function class_qvprogetti(settings,missing){
                 multiple:true,
                 onselect:function(d){
                     var ids=d["SYSID"];
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -299,7 +299,7 @@ function class_qvprogetti(settings,missing){
         click:function(o, done){
             gridpratiche.selengage(
                 function(o, s){
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -335,7 +335,7 @@ function class_qvprogetti(settings,missing){
         caption:"Svuota",
         button:true,
         click:function(o, done){
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

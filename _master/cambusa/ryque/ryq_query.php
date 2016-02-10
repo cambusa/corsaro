@@ -72,7 +72,7 @@ case "sqlite":
                 if($v===null)
                     $row[$k]="";
             }
-            $r[]=$row;
+            $r[]=array_change_key_case($row, CASE_UPPER);
         }
         x_sqlite_finalize($res);
     }
@@ -81,13 +81,13 @@ case "sqlite":
 case "mysql":
     $conn=mysqli_connect($env_host, $env_user, $env_password, $env_strconn);
     $res=mysqli_query($conn, $sql);
-    while($riga=mysqli_fetch_assoc($res)){
+    while($row=mysqli_fetch_assoc($res)){
         // RISOLVO I NULL
-        foreach($riga as $k => $v){
+        foreach($row as $k => $v){
             if($v===null)
-                $riga[$k]="";
+                $row[$k]="";
         }
-        $r[]=$riga;
+        $r[]=array_change_key_case($row, CASE_UPPER);
     }
     mysqli_free_result($res);
     mysqli_close($conn);
@@ -99,15 +99,15 @@ case "oracle":
     oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_NUMERIC_CHARACTERS='.,'"));
     $res=oci_parse($conn,$sql);
     oci_execute($res);
-    while ($riga=oci_fetch_array($res, OCI_ASSOC+OCI_RETURN_NULLS)){
+    while ($row=oci_fetch_array($res, OCI_ASSOC+OCI_RETURN_NULLS)){
         // RISOLVO I CLOB E I NULL
-        foreach($riga as $k => $v){
+        foreach($row as $k => $v){
             if(is_object($v))
-                $riga[$k]=$v->load();
+                $row[$k]=$v->load();
             elseif($v===null)
-                $riga[$k]="";
+                $row[$k]="";
         }
-        $r[]=$riga;
+        $r[]=$row;
     }
     oci_free_statement($res);
     oci_close($conn);
@@ -116,31 +116,51 @@ case "db2odbc":
     $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
     if(($res=odbc_exec($conn, $sql))){
         odbc_longreadlen($res, 100000000);
-        while($rows=odbc_fetch_array($res)){
+        while($row=odbc_fetch_array($res)){
             // SOSTITUISCO LA VIRGOLA DEI NUMERI E RISOLVO I NULL
-            foreach($rows as $k => $v){
+            foreach($row as $k => $v){
                 if($v===null)
-                    $rows[$k]="";
+                    $row[$k]="";
                 elseif(preg_match("/^\d*,\d+$/", $v))
-                    $rows[$k]=str_replace(",", ".", $v);
+                    $row[$k]=str_replace(",", ".", $v);
             }
-            $r[]=$rows;
+            $r[]=$row;
         }
     }
     odbc_free_result($res);
     odbc_close($conn);
     break;
+case "mssql":
+	// mosca mssql
+    $conn=@sqlsrv_connect($env_server, array("UID" => $env_user, "PWD" => $env_password, "Database" => $env_strconn));
+    if($res=@sqlsrv_query($conn, $sql)){
+        while($row=sqlsrv_fetch_array($res, SQLSRV_FETCH_ASSOC)){
+            // RISOLVO I NULL
+            foreach($row as $k => $v){
+                if($v===null)
+                    $row[$k]="";
+                elseif($v instanceof DateTime)
+                    $row[$k]=date_format($v, "Y-m-d H:i:s");
+                else
+                    $row[$k]=trim((string)$v);
+            }
+            $r[]=array_change_key_case($row, CASE_UPPER);
+        }
+        sqlsrv_free_stmt($res);
+    }
+    sqlsrv_close($conn);
+	break;
 default:
     $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
     if (($res=odbc_exec($conn, $sql))){
         odbc_longreadlen($res, 100000000);
-        while($rows=odbc_fetch_array($res)){
+        while($row=odbc_fetch_array($res)){
             // RISOLVO I NULL
-            foreach($rows as $k => $v){
+            foreach($row as $k => $v){
                 if($v===null)
-                    $rows[$k]="";
+                    $row[$k]="";
             }
-            $r[]=$rows;
+            $r[]=array_change_key_case($row, CASE_UPPER);
         }
     }
     odbc_free_result($res);

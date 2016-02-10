@@ -27,7 +27,7 @@ function MaestroAnalyze($maestro, &$success, &$description){
     case "sqlite":
         $arr=x_sqlite_array_query($conn, "SELECT name,sql FROM sqlite_master WHERE type='table' ORDER BY name;", SQLITE3_ASSOC);
         foreach($arr as $entry){
-            $tab=$entry['name'];
+            $tab=strtoupper($entry['name']);
             $create=$entry['sql'];
             $allcolumns[$tab]=array();
             $allcolumns[$tab]["type"]="database";
@@ -38,7 +38,7 @@ function MaestroAnalyze($maestro, &$success, &$description){
                 for($i=0; $i<count($v); $i++){
                     $buff=trim(substr($v[$i], 1));
                     $p=strpos($buff, " ");
-                    $f=substr($buff, 0, $p);
+                    $f=strtoupper(substr($buff, 0, $p));
                     $t=substr($buff, $p+1);
                     
                     // DETERMINO IL TIPO ASTRATTO
@@ -57,13 +57,13 @@ function MaestroAnalyze($maestro, &$success, &$description){
     case "mysql":
         $res=mysqli_query($conn, "SHOW TABLES FROM ".$maestro->strconn);
         while($row=mysqli_fetch_row($res)){
-            $tab=$row[0];
+            $tab=strtoupper($row[0]);
             $allcolumns[$tab]=array();
             $allcolumns[$tab]["type"]="database";
             $allcolumns[$tab]["fields"]=array();
             if($res2=mysqli_query($conn, "SHOW COLUMNS FROM $tab")){
                 while($row2=mysqli_fetch_row($res2)){
-                    $f=$row2[0];
+                    $f=strtoupper($row2[0]);
                     $t=$row2[1];
                     // DETERMINO IL TIPO ASTRATTO
                     $dbsize=-1;
@@ -89,7 +89,7 @@ function MaestroAnalyze($maestro, &$success, &$description){
         $res=oci_parse($conn, "SELECT TABLE_NAME FROM tabs where UPPER(tablespace_name)=UPPER('".$maestro->user."')");
         oci_execute($res);
         while($row=oci_fetch_array($res, OCI_ASSOC+OCI_RETURN_NULLS)){
-            $tab=$row["TABLE_NAME"];
+            $tab=strtoupper($row["TABLE_NAME"]);
             if(strpos($tab,"$")===false){
                 $allcolumns[$tab]=array();
                 $allcolumns[$tab]["type"]="database";
@@ -97,7 +97,7 @@ function MaestroAnalyze($maestro, &$success, &$description){
                 $res2=oci_parse($conn, "SELECT COLUMN_NAME, DATA_TYPE, DATA_LENGTH, DATA_PRECISION, DATA_SCALE, NULLABLE FROM all_tab_columns WHERE table_name = '$tab'");
                 oci_execute($res2);
                 while($row2=oci_fetch_array($res2, OCI_ASSOC+OCI_RETURN_NULLS)){
-                    $f=$row2["COLUMN_NAME"];
+                    $f=strtoupper($row2["COLUMN_NAME"]);
                     $t=$row2["DATA_TYPE"];
                     $s=$row2["DATA_LENGTH"];
                     // DETERMINO IL TIPO ASTRATTO
@@ -121,11 +121,48 @@ function MaestroAnalyze($maestro, &$success, &$description){
         }
         oci_free_statement($res);
         break;
+	case "mssql":
+		// mosca mssql
+        if($res=sqlsrv_query($conn, "SELECT * FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' ORDER BY TABLE_NAME")){
+            while($row=sqlsrv_fetch_array($res, SQLSRV_FETCH_ASSOC)){
+                $tab=strtoupper($row["TABLE_NAME"]);
+                $allcolumns[$tab]=array();
+                $allcolumns[$tab]["type"]="database";
+                $allcolumns[$tab]["fields"]=array();
+                if($res2=sqlsrv_query($conn, "SELECT * FROM information_schema.columns WHERE TABLE_NAME='$tab'")){
+                    while($row2=sqlsrv_fetch_array($res2, SQLSRV_FETCH_ASSOC)){
+                        $f=strtoupper(utf8_encode($row2["COLUMN_NAME"]));
+                        $t=strtoupper($row2["DATA_TYPE"]);
+                        $dbsize=-1;
+                        $dbprec=-1;
+                        $dbscale=-1;
+                        if($t=="CHAR" || $t=="VARCHAR"){
+                            $dbsize=$row2["CHARACTER_MAXIMUM_LENGTH"];
+                        }
+                        elseif($t!="DATE" && $t!="DATETIME"){
+                            $dbprec=$row2["NUMERIC_PRECISION"];
+                            $dbscale=$row2["NUMERIC_SCALE"];
+                        }
+                        // DETERMINO IL TIPO ASTRATTO
+                        maestro_abstract($f, $t, $dbsize, $dbprec, $dbscale, $abstract, $size);
+                        // CARICO IL VETTORE
+                        $allcolumns[$tab]["fields"][$f]["type"]=$abstract;
+                        if($size>0)
+                            $allcolumns[$tab]["fields"][$f]["size"]=$size;
+                        if($row2["IS_NULLABLE"]=="NO")
+                            $allcolumns[$tab]["fields"][$f]["notnull"]="1";
+                    }
+                    sqlsrv_free_stmt($res2);
+                }
+            }
+            sqlsrv_free_stmt($res);
+        }
+        break;
     default:
         $res=odbc_tables($conn);
         while(odbc_fetch_row($res)){
             if(odbc_result($res,"TABLE_TYPE")=="TABLE"){
-                $tab=odbc_result($res,"TABLE_NAME");
+                $tab=strtoupper(odbc_result($res,"TABLE_NAME"));
                 $allcolumns[$tab]=array();
                 $allcolumns[$tab]["type"]="database";
                 $allcolumns[$tab]["fields"]=array();
@@ -135,9 +172,9 @@ function MaestroAnalyze($maestro, &$success, &$description){
         
         $res=odbc_columns($conn);
         while ($rows=odbc_fetch_object($res)){
-            $tab=$rows->TABLE_NAME;
+            $tab=strtoupper($rows->TABLE_NAME);
             if(array_key_exists($tab,$allcolumns)){
-                $f=utf8_encode($rows->COLUMN_NAME);
+                $f=strtoupper(utf8_encode($rows->COLUMN_NAME));
                 $allcolumns[$tab]["fields"][$f]=array();
                 $t=$rows->TYPE_NAME;
                 $s=$rows->COLUMN_SIZE;
@@ -181,6 +218,8 @@ function MaestroAnalyze($maestro, &$success, &$description){
     
     $json=preg_replace("/\}\}\}(,?)/", "}\r\n        }\r\n    }$1", $json);
 
+    //writelog($json);
+    
     return $json;
 }
 ?>

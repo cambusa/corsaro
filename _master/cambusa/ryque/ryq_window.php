@@ -84,7 +84,7 @@ if(is_file($filereq)){
             while($row=x_sqlite_fetch_array($res)){
                 $i=array_search($row["RYQUEWINID"], $elenco);
                 if($i!==false){
-                    $r[$i]=$row;
+                    $r[$i]=array_change_key_case($row, CASE_UPPER);
                 }
             }
             x_sqlite_finalize($res);
@@ -97,7 +97,7 @@ if(is_file($filereq)){
             while($row=mysqli_fetch_assoc($res)){
                 $i=array_search($row["RYQUEWINID"], $elenco);
                 if($i!==false){
-                    $r[$i]=$row;
+                    $r[$i]=array_change_key_case($row, CASE_UPPER);
                 }
             }
             mysqli_free_result($res);
@@ -109,28 +109,29 @@ if(is_file($filereq)){
         oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD\"T\"HH24:MI:SS\".000Z\"'"));
         oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_TIMESTAMP_FORMAT='YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"'"));
         oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_NUMERIC_CHARACTERS='.,'"));
-        $res=oci_parse($conn, $winsql);
-        if(is_array($clause)){
-            foreach($clause as $key => $value)
-                oci_bind_by_name($res, ":$key", $value);
-        }
-        if(oci_execute($res)){
-            while($row=oci_fetch_array($res, OCI_ASSOC+OCI_RETURN_NULLS)){
-                // RISOLVO I CLOB E I NULL
-                foreach($row as $k => $v){
-                    if(is_object($v))
-                        $row[$k]=$v->load();
-                    elseif($v===null)
-                        $row[$k]="";
-                }
-                // TRAVASO
-                $i=array_search($row["RYQUEWINID"], $elenco);
-                if($i!==false){
-                    $r[$i]=$row;
+        if($res=oci_parse($conn, $winsql)){
+            if(is_array($clause)){
+                foreach($clause as $key => $value)
+                    oci_bind_by_name($res, ":$key", $value);
+            }
+            if(oci_execute($res)){
+                while($row=oci_fetch_array($res, OCI_ASSOC+OCI_RETURN_NULLS)){
+                    // RISOLVO I CLOB E I NULL
+                    foreach($row as $k => $v){
+                        if(is_object($v))
+                            $row[$k]=$v->load();
+                        elseif($v===null)
+                            $row[$k]="";
+                    }
+                    // TRAVASO
+                    $i=array_search($row["RYQUEWINID"], $elenco);
+                    if($i!==false){
+                        $r[$i]=$row;
+                    }
                 }
             }
+            oci_free_statement($res);
         }
-        oci_free_statement($res);
         oci_close($conn);
         break;
     case "db2odbc":
@@ -148,10 +149,29 @@ if(is_file($filereq)){
                     $r[$i]=$row;
                 }
             }
+            odbc_free_result($res);
         }
-        odbc_free_result($res);
         odbc_close($conn);
         break;
+	case "mssql":
+		// mosca mssql
+        $conn=@sqlsrv_connect($env_server, array("UID" => $env_user, "PWD" => $env_password, "Database" => $env_strconn));
+        if($res=@sqlsrv_query($conn, $winsql)){
+            while($row=sqlsrv_fetch_array($res, SQLSRV_FETCH_ASSOC)){
+                // RISOLVO LE DATE
+                foreach($row as $k => $v){
+                    if($v instanceof DateTime)
+                        $row[$k]=date_format($v, "YmdHis");
+                }
+                $i=array_search($row["RYQUEWINID"], $elenco);
+                if($i!==false){
+                    $r[$i]=array_change_key_case($row, CASE_UPPER);
+                }
+            }
+            sqlsrv_free_stmt($res);
+        }
+        sqlsrv_close($conn);
+		break;
     default:
         $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
         if($res=odbc_exec($conn, $winsql)){
@@ -159,11 +179,11 @@ if(is_file($filereq)){
             while($row=odbc_fetch_array($res)){
                 $i=array_search($row["RYQUEWINID"], $elenco);
                 if($i!==false){
-                    $r[$i]=$row;
+                    $r[$i]=array_change_key_case($row, CASE_UPPER);
                 }
             }
+            odbc_free_result($res);
         }
-        odbc_free_result($res);
         odbc_close($conn);
     }
 }

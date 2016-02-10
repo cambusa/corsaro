@@ -196,6 +196,7 @@ $description=qv_babeltranslate($description, $bpar);
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
+array_walk_recursive($j, "ryqUTF8");
 print json_encode($j);
 ?>

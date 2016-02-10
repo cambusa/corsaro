@@ -125,8 +125,9 @@ catch(Exception $e){
 
 $babelcode=$babel;
 $description=qv_babeltranslate($description);
+ryqUTF8($description);
 
 print "<html><head><meta charset='utf-8' /></head><body style='font-family:verdana,sans-serif;font-size:13px;'>";
-print htmlentities($description);
+print $description;
 print "</body><html>";
 ?>

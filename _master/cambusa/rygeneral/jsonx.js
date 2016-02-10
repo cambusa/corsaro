@@ -65,7 +65,14 @@ RYJAX={
             subjtox(objx, objx.firstChild, json);
             
             // RESTITUISCO IL DOCUMENTO XML
-            return objx.firstChild.outerHTML;
+            //return objx.firstChild.outerHTML;
+            if(window.XMLSerializer){
+                var serializer = new XMLSerializer();
+                return serializer.serializeToString(objx);
+            }
+            else{
+                return objx.firstChild.outerHTML;
+            }
         }
         catch(e){
             if(window.console){console.log(e.message)}

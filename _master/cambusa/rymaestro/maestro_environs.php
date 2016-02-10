@@ -25,7 +25,7 @@ for($i=0;$i<count($m);$i++){
     $env_maestro="";
     $env_provider="";
     include($m[$i]);
-    if(strpos("|sqlite|access|mysql|oracle|sqlserver|db2odbc|", "|".$env_provider."|")!==false){
+    if(strpos("|sqlite|access|mysql|oracle|sqlserver|mssql|db2odbc|", "|".$env_provider."|")!==false){
         if($maestro=="" || ($env_maestro!="" && $env_maestro==$maestro))
             $j[]=$b;
     }

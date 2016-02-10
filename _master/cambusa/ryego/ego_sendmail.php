@@ -101,7 +101,8 @@ function egomail($user, $object, $text, $solve=true){
     // USCITA ARRAY
     $j=array();
     $j["success"]=$success;
-    $j["description"]=htmlentities($description);
+    $j["description"]=$description;
+    array_walk_recursive($j, "ryqUTF8");
     return $j;
 }
 ?>

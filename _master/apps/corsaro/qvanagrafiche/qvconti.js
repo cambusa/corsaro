@@ -144,7 +144,7 @@ function class_qvconti(settings,missing){
             data["DESCRIPTION"]="(nuovo conto)";
             data["TYPOLOGYID"]=currtypologyid;
             data["REFGENREID"]=curreuroid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -317,7 +317,7 @@ function class_qvconti(settings,missing){
                     data["BBAN"]="";
                 }
             }
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

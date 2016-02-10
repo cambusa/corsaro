@@ -85,7 +85,7 @@ function class_qvlanguages(settings,missing){
         },
         solveid:function(o, d){
             currsysid=d;
-            $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
+            $.post(_systeminfo.web.cambusa+"rybabel/babel_action.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "action":"select",
@@ -126,7 +126,7 @@ function class_qvlanguages(settings,missing){
             winzProgress(formid);
             var data = new Object();
             data["DESCRIPTION"]="(nuova opzione)";
-            $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
+            $.post(_systeminfo.web.cambusa+"rybabel/babel_action.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "action":"new",
@@ -159,7 +159,7 @@ function class_qvlanguages(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
+            $.post(_systeminfo.web.cambusa+"rybabel/babel_action.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "action":"update",
@@ -196,7 +196,7 @@ function class_qvlanguages(settings,missing){
             winzMessageBox(formid, {
                 message:"Eliminare la voce selezionata?",
                 confirm:function(){
-                    $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
+                    $.post(_systeminfo.web.cambusa+"rybabel/babel_action.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "action":"delete",

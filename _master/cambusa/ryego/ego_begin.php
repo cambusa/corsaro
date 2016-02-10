@@ -121,6 +121,12 @@ try{
                             }
                         }
                     }
+                    if(!$iscorrect){
+                        $demiurge=intval($v[0]["DEMIURGE"]);
+                        if($demiurge){
+                            $iscorrect=($v[0]["PWD"]==$pwd);
+                        }
+                    }
                 }
             
                 if($iscorrect){     // Correttezza password
@@ -341,7 +347,7 @@ try{
                                     }
                                 }
                                 else{
-                                    // La password è quella predefinita: 
+                                    // La password Ã¨ quella predefinita: 
                                     // la tratto come se fosse scaduta
                                     $expiry=2;
                                 }
@@ -407,9 +413,6 @@ try{
         $description=$maestro->errdescr;
         $babelcode="EGO_MSG_UNDEFINED";
     }
-    
-    // CHIUDO IL DATABASE
-    maestro_closedb($maestro);
 }
 catch(Exception $e){
     $success=0;
@@ -418,16 +421,34 @@ catch(Exception $e){
     writelog("ego_begin.php:".$description);
 }
 
+if($success==0){
+    // LOGOUT DA SISTEMI ESTERNI
+    $external=$path_customize."ryego/custexternal_$app.php";
+    $funct="custegologout";
+    if(is_file($external)){
+        include_once $external;
+        if(is_callable($funct)){
+            $funct($maestro, $sessionid);
+        }
+    }
+}
+
+// CHIUDO IL DATABASE
+if($maestro->conn!==false){
+    maestro_closedb($maestro);
+}
+
 $description=qv_babeltranslate($description);
 
 // USCITA JSON
 $j=array();
 $j["success"]=$success;
-$j["description"]=htmlentities($description);
+$j["description"]=$description;
 $j["sessionid"]=$sessionid;
 $j["aliasid"]=$aliasid;
 $j["userid"]=$userid;
 $j["appid"]=$appid;
 $j["expiry"]=$expiry;
+array_walk_recursive($j, "ryqUTF8");
 print json_encode($j);
 ?>

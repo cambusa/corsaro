@@ -44,7 +44,7 @@ function ryEgo(missing){
         if(_sessioninfo.sessionid!=""){
             if(propcrossdomain==""){
                 var bs="\\";
-                $.post(_systeminfo.relative.cambusa+"ryego/ego_infosession.php",{sessionid:_sessioninfo.sessionid, app:propappname, backslash:bs},
+                $.post(_systeminfo.web.cambusa+"ryego/ego_infosession.php",{sessionid:_sessioninfo.sessionid, app:propappname, backslash:bs},
                     function(d){
                         try{
                             var v=$.parseJSON(d);
@@ -76,7 +76,7 @@ function ryEgo(missing){
         $.cookie("egosessionid", "");
         if(_sessioninfo.sessionid!=""){
             if(propcrossdomain==""){
-                $.post(_systeminfo.relative.cambusa+"ryego/ego_logout.php", {sessionid:_sessioninfo.sessionid}, function(){
+                $.post(_systeminfo.web.cambusa+"ryego/ego_logout.php", {sessionid:_sessioninfo.sessionid}, function(){
                     _sessioninfo.sessionid="";
                     location.replace(location.pathname);
                 });
@@ -119,7 +119,7 @@ function egoconfig(v){
         var xdom=RYEGO.crossdomain();
         $("body").html("<form id='egologon'><input type='hidden' id='app' name='app'><input type='hidden' id='title' name='title'><input type='hidden' id='url' name='url'><input type='hidden' id='env' name='env'></form>");
         if(xdom=="")
-            $("#egologon").attr({method:"POST", action:_systeminfo.relative.cambusa+"ryego/"+RYEGO.formlogin()});
+            $("#egologon").attr({method:"POST", action:_systeminfo.web.cambusa+"ryego/"+RYEGO.formlogin()});
         else
             $("#egologon").attr({method:"GET", action:xdom+"cambusa/ryego/"+RYEGO.formlogin()});
         $("#app").val(RYEGO.appname());

@@ -133,6 +133,21 @@ case "oracle":
     oci_close($conn);
 	preg_match_all("/([0-9A-Z]{".$lenkey."})/",serialize($c),$m);
     break;
+case "mssql":
+	// mosca mssql
+    $conn=sqlsrv_connect($env_server, array("UID" => $env_user, "PWD" => $env_password, "Database" => $env_strconn));
+    if(trim($where)!="")
+        $q="SELECT TOP $limit SYSID FROM ".$from." WHERE ".$where. " ORDER BY ".$orderby;
+    else
+        $q="SELECT TOP $limit SYSID FROM ".$from. " ORDER BY ".$orderby;
+    $res=sqlsrv_query($conn, $q);
+    $c=array();
+    while ($riga=sqlsrv_fetch_array($res, SQLSRV_FETCH_ASSOC))
+        $c[]=$riga;
+    sqlsrv_free_stmt($res);
+    sqlsrv_close($conn);
+    preg_match_all("/([0-9A-Z]{".$lenkey."})/",serialize($c),$m);
+	break;
 default:
 	$postdata = array(
 		'reqid' => $reqid,

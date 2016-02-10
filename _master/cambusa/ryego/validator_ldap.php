@@ -20,6 +20,7 @@ function egovalidator($user, $basepwd){
         // PARAMETRI DI CONFIGURAZIONE
         $ldap_host="";
         $ldap_port=0;
+        $ldapconn=false;
         $domainuser=$user;
         $fileconfig=$path_databases."_configs/ldap.php";
         if(file_exists($fileconfig)){

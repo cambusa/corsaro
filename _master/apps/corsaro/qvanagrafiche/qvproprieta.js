@@ -177,7 +177,7 @@ function class_qvproprieta(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuova azienda)";
             data["TYPOLOGYID"]=currtypologyid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -359,7 +359,7 @@ function class_qvproprieta(settings,missing){
                                 };
                             }
                         }
-                        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                        $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                             {
                                 "sessionid":_sessioninfo.sessionid,
                                 "env":_sessioninfo.environ,
@@ -666,7 +666,7 @@ function class_qvproprieta(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -766,7 +766,7 @@ function class_qvproprieta(settings,missing){
     RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
-            RYWINZ.loadmodule("ateco.js", _systeminfo.relative.apps+"corsaro/_javascript/ateco.js",
+            RYWINZ.loadmodule("ateco.js", _systeminfo.web.apps+"corsaro/_javascript/ateco.js",
                 function(){
                     RYQUE.query({
                         sql:"SELECT DESCRIPTION, AUXAMOUNT FROM QW_AZIENDEDIM ORDER BY AUXAMOUNT",

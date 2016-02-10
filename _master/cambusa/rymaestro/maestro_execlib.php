@@ -2,9 +2,9 @@
 /****************************************************************************
 * Name:            maestro_execlib.php                                      *
 * Project:         Cambusa/ryMaestro                                        *
-* Version:         1.69                                                     *
+* Version:         1.70                                                     *
 * Description:     Databases modeling and maintenance                       *
-* Copyright (C):   2015  Rodolfo Calzetti                                   *
+* Copyright (C):   2016  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
@@ -34,6 +34,8 @@ class Maestro{
     public $logonly;
     public $strconn;
     public $user;
+    // mosca mssql
+    public $server;
     function Maestro(){
         $this->conn=false;
         $this->provider="";
@@ -50,6 +52,8 @@ class Maestro{
         $this->logonly=false;
         $this->strconn="";
         $this->user="";
+        // mosca mssql
+        $this->server="";
     }
     public function loadinfo(){
         global $path_databases;
@@ -87,6 +91,8 @@ function maestro_opendb($env, $raise=true){
         $env_lenid=12;
         $env_strconn="";
         $env_user="";
+        // mosca mssql
+        $env_server="";
         $conn=false;
         $errdescr="";
         if(is_file($path_databases."_environs/".$env.".php")){
@@ -126,6 +132,24 @@ function maestro_opendb($env, $raise=true){
                     $conn=false;
                     $me=oci_error();
                     $errdescr=$me["message"];
+                    log_write("Connection\r\n--->".$errdescr);
+                }
+                break;
+			case "mssql":
+				// mosca mssql
+                if($conn=@sqlsrv_connect($env_server, array("UID" => $env_user, "PWD" => $env_password, "Database" => $env_strconn))){
+                    $stmt=sqlsrv_prepare($conn, "SET TEXTSIZE 2147483647");
+                    sqlsrv_execute($stmt);
+                    sqlsrv_free_stmt($stmt);
+                }
+                else{
+                    $conn=false;
+                    $errdescr="";
+                    if( ($errors = sqlsrv_errors() ) != null){
+                        foreach($errors as $error){
+                            $errdescr.="; ".$error["message"];
+                        }
+                    }
                     log_write("Connection\r\n--->".$errdescr);
                 }
                 break;
@@ -180,6 +204,10 @@ function maestro_closedb(&$maestro){
             case "oracle":
                 @oci_close($maestro->conn);
                 break;
+			case "mssql":
+				// mosca mssql
+                @sqlsrv_close($maestro->conn);
+                break;
             default:
                 @odbc_close($maestro->conn);
             }
@@ -225,7 +253,7 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
                             if($v===null)
                                 $row[$k]="";
                         }
-                        $r[]=$row;
+                        $r[]=array_change_key_case($row, CASE_UPPER);
                     }
                     x_sqlite_finalize($res);
                 }
@@ -237,14 +265,14 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
                 break;
             case "mysql":
                 if(@$resloc=mysqli_query($maestro->conn, $sql)){
-                    while($rows=mysqli_fetch_assoc($resloc)){
+                    while($row=mysqli_fetch_assoc($resloc)){
                         // RISOLVO I NULL
-                        foreach($rows as $k => $v){
+                        foreach($row as $k => $v){
                             if($v===null)
-                                $rows[$k]="";
+                                $row[$k]="";
                         }
                         // TRAVASO
-                        $r[]=$rows;
+                        $r[]=array_change_key_case($row, CASE_UPPER);
                     }
                     mysqli_free_result($resloc);
                 }
@@ -261,16 +289,16 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
                     $mode=OCI_COMMIT_ON_SUCCESS;
                 $resloc=oci_parse($maestro->conn,$sql);
                 if(@oci_execute($resloc, $mode)){
-                    while($rows=oci_fetch_array($resloc, OCI_ASSOC+OCI_RETURN_NULLS)){
+                    while($row=oci_fetch_array($resloc, OCI_ASSOC+OCI_RETURN_NULLS)){
                         // RISOLVO I CLOB E I NULL
-                        foreach($rows as $k => $v){
+                        foreach($row as $k => $v){
                             if(is_object($v))
-                                $rows[$k]=$v->load();
+                                $row[$k]=$v->load();
                             elseif($v===null)
-                                $rows[$k]="";
+                                $row[$k]="";
                         }
                         // TRAVASO
-                        $r[]=$rows;
+                        $r[]=$row;
                     }
                 }
                 else{
@@ -284,16 +312,16 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
             case "db2odbc":
                 if($resloc=@odbc_exec($maestro->conn, $sql)){
                     odbc_longreadlen($resloc, 100000000);
-                    while($rows=odbc_fetch_array($resloc)){
+                    while($row=odbc_fetch_array($resloc)){
                         // SOSTITUISCO LA VIRGOLA DEI NUMERI E RISOLVO I NULL
-                        foreach($rows as $k => $v){
+                        foreach($row as $k => $v){
                             if($v===null)
-                                $rows[$k]="";
+                                $row[$k]="";
                             elseif(preg_match("/^\d*,\d+$/", $v))
-                                $rows[$k]=str_replace(",", ".", $v);
+                                $row[$k]=str_replace(",", ".", $v);
                         }
                         // TRAVASO
-                        $r[]=$rows;
+                        $r[]=$row;
                     }
                     odbc_free_result($resloc);
                 }
@@ -303,17 +331,46 @@ function maestro_query($maestro, $sql, &$r, $raise=true){
                     log_write($sql.";\r\n--->" . $maestro->errdescr);
                 }
                 break;
+			case "mssql":
+				// mosca mssql
+                if($resloc=@sqlsrv_query($maestro->conn, $sql)){
+                    while($row=sqlsrv_fetch_array($resloc, SQLSRV_FETCH_ASSOC)){
+                        // RISOLVO I NULL E LE DATE
+                        foreach($row as $k => $v){
+                            if($v===null)
+                                $row[$k]="";
+                            elseif($v instanceof DateTime)
+                                $row[$k]=date_format($v, "Y-m-d H:i:s");
+                            else
+                                $row[$k]=trim((string)$v);
+                        }
+                        // TRAVASO
+                        $r[]=array_change_key_case($row, CASE_UPPER);
+                    }
+                    sqlsrv_free_stmt($resloc);
+                }
+                else{
+                    $ret=false;
+                    $maestro->errdescr="";
+                    if( ($errors = sqlsrv_errors() ) != null){
+                        foreach($errors as $error){
+                            $maestro->errdescr.="; ".$error["message"];
+                        }
+                    }
+                    log_write($sql.";\r\n--->" . $maestro->errdescr);
+                }
+                break;
             default:
                 if($resloc=@odbc_exec($maestro->conn, $sql)){
                     odbc_longreadlen($resloc, 100000000);
-                    while($rows=odbc_fetch_array($resloc)){
+                    while($row=odbc_fetch_array($resloc)){
                         // RISOLVO I NULL
-                        foreach($rows as $k => $v){
+                        foreach($row as $k => $v){
                             if($v===null)
-                                $rows[$k]="";
+                                $row[$k]="";
                         }
                         // TRAVASO
-                        $r[]=$rows;
+                        $r[]=array_change_key_case($row, CASE_UPPER);
                     }
                     odbc_free_result($resloc);
                 }
@@ -387,6 +444,39 @@ function maestro_execute($maestro, $sql, $raise=true, $clobs=false){
             }
             @oci_free_statement($resloc);
             break;
+		case "mssql":
+			// mosca mssql
+            if($clobs)
+                $resloc=@sqlsrv_prepare($maestro->conn, $sql, $clobs);
+            else
+                $resloc=@sqlsrv_prepare($maestro->conn, $sql);
+            if($resloc){
+                $retex=@sqlsrv_execute($resloc);
+                if($retex){
+                    $maestro->rows=sqlsrv_rows_affected($resloc);
+                }
+                else{
+                    $ret=false;
+                    $maestro->errdescr="";
+                    if( ($errors = sqlsrv_errors() ) != null){
+                        foreach($errors as $error){
+                            $maestro->errdescr.="; ".$error["message"];
+                        }
+                    }
+                    log_write($sql.";\r\n--->" . $maestro->errdescr);
+                }
+            }
+            else{
+                $ret=false;
+                $maestro->errdescr="";
+                if( ($errors = sqlsrv_errors() ) != null){
+                    foreach($errors as $error){
+                        $maestro->errdescr.="; ".$error["message"];
+                    }
+                }
+                log_write($sql.";\r\n--->" . $maestro->errdescr);
+            }
+            break;
         default:
             if($resloc=@odbc_prepare($maestro->conn, $sql)){
                 if($clobs)
@@ -442,6 +532,10 @@ function maestro_begin($maestro, $raise=true){
             }
             break;
         case "oracle":
+            break;
+		case "mssql":
+			// mosca mssql
+            sqlsrv_begin_transaction($conn);
             break;
         default:
             $ret=@odbc_autocommit($maestro->conn, false);
@@ -499,6 +593,10 @@ function maestro_commit($maestro, $raise=true){
                     log_write($sql.";\r\n--->".$d);
                 }            
                 break;
+			case "mssql":
+				// mosca mssql
+                sqlsrv_commit($conn);
+                break;
             default:
                 $ret=@odbc_commit($maestro->conn);
                 if(!$ret){
@@ -554,6 +652,10 @@ function maestro_rollback($maestro, $raise=true){
                     $maestro->errdescr=$d;
                     log_write($sql.";\r\n--->".$d);
                 }            
+                break;
+			case "mssql":
+				// mosca mssql
+                sqlsrv_rollback($conn);
                 break;
             default:
                 $ret=@odbc_rollback($maestro->conn);
@@ -845,7 +947,13 @@ function maestro_istable($maestro, $tabname){
     unset($r);
     return $ret;
 }
-function maestro_escapize(&$sql){
-    $sql=htmlentities(utf8Decode($sql));
+function maestro_escapize(&$value){
+    //$value=utf8_decode(utf8_encode($value));
+    if($value!=""){
+        if(!mb_check_encoding($value, "UTF-8")){
+            // CI SONO CARATTERI NON UNICODE
+            $value=utf8_encode($value);
+        }
+    }
 }
 ?>

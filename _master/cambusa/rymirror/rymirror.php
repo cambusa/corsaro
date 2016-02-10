@@ -97,8 +97,8 @@ input,select,a:focus{outline:none;border:none;}
 <link type='text/css' href='../jqtreeview/jquery.treeview.ry.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
 <script type='text/javascript' src='../jqtreeview/jquery.treeview.ry.js?ver=<?php print $cacheversion ?>' ></script>
 <script language='javascript'>
-    _systeminfo.relative.cambusa='<?php print $url_cambusa ?>';
-    _systeminfo.relative.customize='<?php print $url_customize ?>';
+    _systeminfo.web.cambusa='<?php print $url_cambusa ?>';
+    _systeminfo.web.customize='<?php print $url_customize ?>';
 </script>
 <script type='text/javascript' src='../ryfamily/ryfamily.js?ver=<?php print $cacheversion ?>' ></script>
 

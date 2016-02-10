@@ -385,6 +385,7 @@ function maestro_macro($maestro, $sql){
                 case "LENGTH":
                     switch($maestro->provider){
                     case "sqlserver":
+                    case "mssql":
                     case "access":
                         $value="LEN(".$params.")";
                         break;
@@ -395,6 +396,7 @@ function maestro_macro($maestro, $sql){
                 case "SUBSTR":
                     switch($maestro->provider){
                     case "sqlserver":
+                    case "mssql":
                         $value="SUBSTRING(".$params.")";
                         break;
                     case "access":

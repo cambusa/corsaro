@@ -22,7 +22,7 @@ else
 if(isset($_POST["env"]))
     $env=$_POST["env"];
 else
-    $env=="";
+    $env="";
 
 // INIZIALIZZO IL DOCUMENTO IN USCITA
 $json="";

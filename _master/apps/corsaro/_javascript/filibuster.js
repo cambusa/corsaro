@@ -1523,7 +1523,7 @@ function flb_forumComment(obj){
         var info=FLB.forum.getInfo(obj);
         setTimeout(
             function(){
-                if(flb_isset(info.iframe.contentWindow._globalforms)){
+                if(flb_isset(info.iframe.contentWindow._globalforms && info.iframe.contentWindow._globalforms[FLB.forum.formid])){
                     info.iframe.contentWindow._globalforms[FLB.forum.formid]._forumInsert(info.postid);
                 }
                 else{
