@@ -73,7 +73,7 @@
                 "line-height":"17px",
                 "cursor":"default"
             })
-            .html("<iframe id='"+propname+"_frame' src='"+_systeminfo.web.cambusa+"rybox/ryscript.php?mode="+propmode+"&indent="+propindent+"&name="+propname+"' width='"+(propwidth-2)+"px' height='"+(propheight-2)+"px' frameborder='0'></iframe>");
+            .html("<iframe id='"+propname+"_frame' src='"+_systeminfo.relative.cambusa+"rybox/ryscript.php?mode="+propmode+"&indent="+propindent+"&name="+propname+"' width='"+(propwidth-2)+"px' height='"+(propheight-2)+"px' frameborder='0'></iframe>");
             
             $("#"+propname+"_frame").css({position:"absolute", left:1, top:1});
             

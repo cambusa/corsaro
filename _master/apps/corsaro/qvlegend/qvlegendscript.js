@@ -106,7 +106,7 @@ function class_qvlegendscript(settings,missing){
             var data={};
             data["DESCRIPTION"]="(nuovo script)";
             data["TYPOLOGYID"]=typescript;
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -143,7 +143,7 @@ function class_qvlegendscript(settings,missing){
                 ok:"Elimina",
                 confirm:function(){
                     winzProgress(formid);
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -193,7 +193,7 @@ function class_qvlegendscript(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

@@ -113,7 +113,7 @@ function class_qvarrowtypes(settings,missing){
             data["MOTIVETYPEID"]=tx_motivetypeid.key(2);
             data["BOWTYPEID"]=tx_bowtypeid.key(2);
             data["TARGETTYPEID"]=tx_targettypeid.key(2);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -219,7 +219,7 @@ function class_qvarrowtypes(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -299,7 +299,7 @@ function class_qvarrowtypes(settings,missing){
             var data = new Object();
             data["TYPOLOGYID"]=currsysid;
             data["FIELDNAME"]="NomeCampo";
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -343,7 +343,7 @@ function class_qvarrowtypes(settings,missing){
         click:function(o){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "X", currdetailid);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

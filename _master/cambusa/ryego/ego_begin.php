@@ -431,6 +431,11 @@ if($success==0){
             $funct($maestro, $sessionid);
         }
     }
+    // TENTO COMUNQUE DI CANCELLARE LA SESSIONE CHE FOSSE STATA CREATA
+    if($maestro->conn!==false && $sessionid!=""){
+        $sql="DELETE FROM EGOSESSIONS WHERE SESSIONID='$sessionid'";
+        maestro_execute($maestro, $sql, false);
+    }
 }
 
 // CHIUDO IL DATABASE

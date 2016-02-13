@@ -174,7 +174,7 @@ function class_qvpersone(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuova persona)";
             data["TYPOLOGYID"]=currtypologyid;
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -310,7 +310,7 @@ function class_qvpersone(settings,missing){
                                 };
                             }
                         }
-                        $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                             {
                                 "sessionid":_sessioninfo.sessionid,
                                 "env":_sessioninfo.environ,
@@ -492,7 +492,7 @@ function class_qvpersone(settings,missing){
             }
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

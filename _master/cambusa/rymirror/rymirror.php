@@ -96,10 +96,6 @@ input,select,a:focus{outline:none;border:none;}
 
 <link type='text/css' href='../jqtreeview/jquery.treeview.ry.css?ver=<?php print $cacheversion ?>' rel='stylesheet' />
 <script type='text/javascript' src='../jqtreeview/jquery.treeview.ry.js?ver=<?php print $cacheversion ?>' ></script>
-<script language='javascript'>
-    _systeminfo.web.cambusa='<?php print $url_cambusa ?>';
-    _systeminfo.web.customize='<?php print $url_customize ?>';
-</script>
 <script type='text/javascript' src='../ryfamily/ryfamily.js?ver=<?php print $cacheversion ?>' ></script>
 
 <link rel="stylesheet" href="../codemirror/lib/codemirror.css">
@@ -136,6 +132,10 @@ input,select,a:focus{outline:none;border:none;}
 
 <script>
 _sessioninfo.sessionid="<?php  print $sessionid ?>";
+_systeminfo.relative.root="<?php print $relative_base ?>";
+_systeminfo.relative.apps=_systeminfo.relative.root+"apps/";
+_systeminfo.relative.cambusa=_systeminfo.relative.root+"cambusa/";
+_systeminfo.relative.customize=_systeminfo.relative.root+"customize/";
 
 var objfamily;
 var objmirror;

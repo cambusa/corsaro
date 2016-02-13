@@ -281,7 +281,7 @@ function class_qvinterazioni(settings,missing){
                     winzDialogClose(dlg);
                     // TENTO DI APRIRE UNA NUOVA PRATICA
                     winzProgress(formid);
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -564,7 +564,7 @@ function class_qvinterazioni(settings,missing){
                             "BOWID":currattoreid
                         }
                     };
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -610,7 +610,7 @@ function class_qvinterazioni(settings,missing){
                     "BOWID":currattoreid
                 }
             };
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -659,7 +659,7 @@ function class_qvinterazioni(settings,missing){
                     confirm:function(){
                         winzProgress(formid);
                         RYWINZ.modified(formid, 0);
-                        $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                             {
                                 "sessionid":_sessioninfo.sessionid,
                                 "env":_sessioninfo.environ,
@@ -747,7 +747,7 @@ function class_qvinterazioni(settings,missing){
             var data=RYWINZ.ToObject(formid, "D", currattivid);
             data["PRATICAID"]=currpraticaid;
             impostastatus(data);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "function":"attivita_update",
@@ -794,7 +794,7 @@ function class_qvinterazioni(settings,missing){
             data["PRATICAID"]=currpraticaid;
             data["CONSISTENCY"]=0;
             impostastatus(data);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "function":"attivita_update",
@@ -1079,7 +1079,7 @@ function class_qvinterazioni(settings,missing){
     }
     function caricaanteprima(flag, after){
         if(flag){
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

@@ -414,10 +414,10 @@ function qv_importODS(formid, settings, missing){
             var u=ret["url"];
             var p=u.indexOf("customize/");
             if(p>=0){
-                var path=_systeminfo.web.customize+u.substr(p+10);
+                var path=_systeminfo.relative.customize+u.substr(p+10);
                 $("#"+formid+"ods_grid").html("");
                 matrice=[];
-                $.post(_systeminfo.web.cambusa+"rygeneral/ods2array.php", 
+                $.post(_systeminfo.relative.cambusa+"rygeneral/ods2array.php", 
                     {
                         "ods":path
                     }, 

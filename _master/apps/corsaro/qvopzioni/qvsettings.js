@@ -93,7 +93,7 @@ function class_qvsettings(settings,missing){
             winzProgress(formid);
             var data = new Object();
             data["DESCRIPTION"]="(nuova opzione)";
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -154,7 +154,7 @@ function class_qvsettings(settings,missing){
         click:function(o){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -214,7 +214,7 @@ function class_qvsettings(settings,missing){
         environ:_sessioninfo.temporary,
         complete:function(id, name, ret){
             winzProgress(formid);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -300,7 +300,7 @@ function class_qvsettings(settings,missing){
                             return xhr;
                         },
                         type:"POST",
-                        url:_systeminfo.web.cambusa+"ryquiver/quiver.php",
+                        url:_systeminfo.relative.cambusa+"ryquiver/quiver.php",
                         data:{
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -375,7 +375,7 @@ function class_qvsettings(settings,missing){
             button:true,
             click:function(o){
                 winzProgress(formid);
-                $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
@@ -406,7 +406,7 @@ function class_qvsettings(settings,missing){
             button:true,
             click:function(o){
                 winzProgress(formid);
-                $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
@@ -432,7 +432,7 @@ function class_qvsettings(settings,missing){
         });
     }
     function listqbk(){
-        $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,
@@ -526,7 +526,7 @@ function class_qvsettings(settings,missing){
                         return xhr;
                     },
                     type:"POST",
-                    url:_systeminfo.web.cambusa+"ryquiver/quiver.php",
+                    url:_systeminfo.relative.cambusa+"ryquiver/quiver.php",
                     data:{
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,

@@ -353,7 +353,7 @@ function ryQuiver(missing){
         handletemp=setTimeout(function(){
             try{
                 handletemp=false;
-                $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
@@ -480,8 +480,8 @@ function ryQuiver(missing){
             .css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"})
             .html("<div id='"+propname+"_text'></div>");
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-23,"height":propheight-4,"overflow":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.web.cambusa+"ryquiver/images/helper.png)"});
-            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.web.cambusa+"ryquiver/images/clear.png)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"ryquiver/images/helper.png)"});
+            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"ryquiver/images/clear.png)"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -811,7 +811,7 @@ function ryQuiver(missing){
                         multiple:true,
                         onselect:function(d){
                             var ids=d["SYSID"];
-                            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
                                     "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,
@@ -856,7 +856,7 @@ function ryQuiver(missing){
                 click:function(o){
                     gridsel.selengage(
                         function(o, s){
-                            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
                                     "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,
@@ -895,7 +895,7 @@ function ryQuiver(missing){
                 formid:propformid,
                 button:true,
                 click:function(o){
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -1023,7 +1023,7 @@ function ryQuiver(missing){
 $(document).ready(function(){
     RYQUIVER=new ryQuiver();
     RYWINZ.logoutcalls.push(function(done){
-        $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,

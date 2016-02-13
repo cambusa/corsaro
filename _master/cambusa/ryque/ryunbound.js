@@ -1355,9 +1355,6 @@
             this.columns=function(){
                 return propcols.length;
             }
-            this.selection=function(){
-                return propselection;
-            }
             this.tipactivate=function(){
                 propscrolling=true;
                 $("#"+propname+"_tooltip").css({"visibility":"visible","left":-2,"top":4});
@@ -1492,6 +1489,14 @@
                     this.matrix[r-1][n]=v;
                 }
                 return v;
+            }
+            this.getrow=function(r){
+                return this.matrix.slice(r-1, r)[0];
+            }
+            this.relocate=function(from, to){
+                var f=this.getrow(from);
+                this.remove(from);
+                this.insert(f, to);
             }
             this.insert=function(d, r){
                 if(r==missing)

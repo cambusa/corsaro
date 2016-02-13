@@ -17,7 +17,7 @@ var _dialogcount=0;
 
 // Preload avanzamento
 var _preloadProgress=new Image();
-_preloadProgress.src=_systeminfo.web.cambusa+"rybox/images/progress.gif";
+_preloadProgress.src=_systeminfo.relative.cambusa+"rybox/images/progress.gif";
 
 function raiseLoad(n){
     try{
@@ -269,7 +269,7 @@ function winzProgress(formid){
         clearTimeout(f.timeid);
         f.timeid=false;
     }
-    $("#message_"+formid).html("<img style='margin:3px;' src='"+_systeminfo.web.cambusa+"rybox/images/progress.gif'>");
+    $("#message_"+formid).html("<img style='margin:3px;' src='"+_systeminfo.relative.cambusa+"rybox/images/progress.gif'>");
     winzDither(formid, true);
 }
 function winzTimeoutMess(formid, type, mess, data, milly, missing){
@@ -449,7 +449,7 @@ function winzMessageBox(formid, params, missing){
     winzDialogOpen(dlg);
     // GESTIONE MULTILINGUA
     if(babelcode!=""||codeOK!=""){
-        $.post(_systeminfo.web.cambusa+"rybabel/rybabel.php", {"lang":_sessioninfo.language,"codes":babelcode+"|"+codeOK},
+        $.post(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"lang":_sessioninfo.language,"codes":babelcode+"|"+codeOK},
             function(d){
                 try{
                     var v=$.parseJSON(d);
@@ -614,7 +614,7 @@ function winzPost(url, params, success, fail){
 function winzPostProgress(settings, missing){
     var proptotal=-1;
     var propblock=100;
-    var propurl=_systeminfo.web.cambusa+"ryquiver/quiver.php";
+    var propurl=_systeminfo.relative.cambusa+"ryquiver/quiver.php";
     var propenabled=1;
     var propdata={};
     var propofunction="";

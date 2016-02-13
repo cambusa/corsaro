@@ -16,6 +16,7 @@ $include_lib=Array();
 function CambusaLibrary($id){
     global $url_base, $url_cambusa, $url_applications, $url_customize;
     global $path_root, $path_cambusa, $path_applications, $path_customize;
+    global $relative_base;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
     global $cacheversion;
 
@@ -28,6 +29,10 @@ _systeminfo.web.apps="$url_applications";
 _systeminfo.web.cambusa="$url_cambusa";
 _systeminfo.web.customize="$url_customize";
 _systeminfo.web.temporary="$url_temporary";
+_systeminfo.relative.root="$relative_base";
+_systeminfo.relative.apps=_systeminfo.relative.root+"apps/";
+_systeminfo.relative.cambusa=_systeminfo.relative.root+"cambusa/";
+_systeminfo.relative.customize=_systeminfo.relative.root+"customize/";
 </script>
 CAMBUSA;
 

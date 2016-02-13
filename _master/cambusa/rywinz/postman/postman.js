@@ -36,7 +36,7 @@ function class_postman(settings,missing){
                     var data = new Object();
                     data["ACTION"]="RECEIVED";
                     data["EGOID"]=_sessioninfo.userid;
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -93,7 +93,7 @@ function class_postman(settings,missing){
                     var data = new Object();
                     data["ACTION"]="UNREAD";
                     data["LIST"]=s;
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -131,7 +131,7 @@ function class_postman(settings,missing){
                     var data = new Object();
                     data["ACTION"]="READ";
                     data["LIST"]=s;
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -173,7 +173,7 @@ function class_postman(settings,missing){
                             var data = new Object();
                             data["ACTION"]="DELETE";
                             data["LIST"]=s;
-                            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
                                     "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,

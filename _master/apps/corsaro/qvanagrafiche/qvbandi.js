@@ -181,7 +181,7 @@ function class_qvbandi(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -407,7 +407,7 @@ function class_qvbandi(settings,missing){
             }
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -553,7 +553,7 @@ function class_qvbandi(settings,missing){
     RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
-            RYWINZ.loadmodule("ateco.js", _systeminfo.web.apps+"corsaro/_javascript/ateco.js",
+            RYWINZ.loadmodule("ateco.js", _systeminfo.relative.apps+"corsaro/_javascript/ateco.js",
                 function(){
                     oper_refresh.engage(
                         function(){

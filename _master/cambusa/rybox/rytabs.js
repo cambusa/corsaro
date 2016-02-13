@@ -25,6 +25,7 @@
 			var propvisible=true;
             var propcollapsible=false;
             var propcollapsed=false;
+            var proplocked=false;
             var propposition="absolute";
             var propcolorsel="gray";
             var propformid="";
@@ -117,7 +118,8 @@
             if(propcollapsible){
                 $("#"+propname+"_ul").append("<li id='"+propname+"_collapse' style='position:absolute;width:30;height:25;right:"+r+"px;cursor:pointer;'>&#8593;&#8593;&#8593;</li>");
                 $("#"+propname+"_collapse").click(function(){
-                    propobj.collapsed(!propcollapsed);
+                    if(!proplocked)
+                        propobj.collapsed(!propcollapsed);
                 })
                 r+=50;
             }
@@ -261,7 +263,6 @@
 			this.closable=function(){
                 return propclosable;
 			}
-            propclosable
 			this.collapsed=function(v){
 				if(v==missing){
 					return propcollapsed;
@@ -280,6 +281,18 @@
                         settings.toggle(propcollapsed, propcollapsed ? "none" : "block");
 				}
 			}
+            this.locked=function(v){
+				if(v==missing){
+					return proplocked;
+				}
+				else{
+                    proplocked=v;
+                    if(proplocked)
+                        $("#"+propname+"_collapse").css({"color":"silver", "cursor":"default"});
+                    else
+                        $("#"+propname+"_collapse").css({"color":"black", "cursor":"pointer"});
+                }
+            }
 			this.keys=function(k){
                 for(var i=1; i<arguments.length; i++){
                     proptabs[arguments[i]-1].key=k;

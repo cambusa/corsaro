@@ -115,7 +115,7 @@
                         }
                         else if(!RYWINZ.busy(propformid)){
                             propobj.enabled("stop",1);
-                            $("#message_"+propformid).html("<img style='margin:3px;' src='"+_systeminfo.web.cambusa+"rybox/images/progress.gif'>");
+                            $("#message_"+propformid).html("<img style='margin:3px;' src='"+_systeminfo.relative.cambusa+"rybox/images/progress.gif'>");
                             // Salvo lo stato
                             for(var v in propenabled){
                                 if(v!="stop"){

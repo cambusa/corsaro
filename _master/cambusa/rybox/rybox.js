@@ -90,7 +90,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-23,"height":propheight-4,"overflow":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.web.cambusa+"rybox/images/calendar.jpg)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/calendar.jpg)"});
             $("#"+propname+"_calendar").css({"position":"absolute","visibility":"hidden","left":0,"top":propheight});
             
             $("#"+propname+"_anchor").focus(
@@ -850,7 +850,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-24,"height":propheight-4,"text-align":"right","padding-right":1,"overflow":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.web.cambusa+"rybox/images/calculator.jpg)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/calculator.jpg)"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -2714,9 +2714,9 @@ function ryBox(missing){
             globalcontainer=c;
     }
     this.createstandard=function(){
-        $(globalcontainer).append("<div id='rybox_popup' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li id='rybox_cut'><img src='"+_systeminfo.web.cambusa+"rybox/images/menu-cut.png'>Cut</li><li id='rybox_copy'><img src='"+_systeminfo.web.cambusa+"rybox/images/menu-copy.png'>Copy</li><li id='rybox_paste'><img src='"+_systeminfo.web.cambusa+"rybox/images/menu-paste.png'>Paste</li></ul></div>");
+        $(globalcontainer).append("<div id='rybox_popup' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li id='rybox_cut'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-cut.png'>Cut</li><li id='rybox_copy'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-copy.png'>Copy</li><li id='rybox_paste'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-paste.png'>Paste</li></ul></div>");
         $(globalcontainer).append("<div id='rybox_calculator' style='position:absolute;display:none;'></div>");
-        $(globalcontainer).append("<div id='ryque_popup' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li id='ryque_use'><img src='"+_systeminfo.web.cambusa+"rybox/images/menu-use.png'><a href='javascript:'>Use</a></li><li id='ryque_sheet'><img src='"+_systeminfo.web.cambusa+"rybox/images/menu-export.png'><a href='javascript:'>Export</a></li></ul></div>");
+        $(globalcontainer).append("<div id='ryque_popup' class='contextMenu' style='position:absolute;visibility:hidden;'><ul><li id='ryque_use'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-use.png'><a href='javascript:'>Use</a></li><li id='ryque_sheet'><img src='"+_systeminfo.relative.cambusa+"rybox/images/menu-export.png'><a href='javascript:'>Export</a></li></ul></div>");
         $(document).bind("contextmenu",function(e){ return globaledittext; });
         $(document).keydown(
             function(k){
@@ -2734,7 +2734,7 @@ function ryBox(missing){
     }
     this.localize=function(lang, parentid, action, missing){
         TAIL.enqueue(function(lang, parentid){
-            if(_systeminfo.web.cambusa!="" && lang!="default"){
+            if(_systeminfo.relative.cambusa!="" && lang!="default"){
                 var i,c,j,k="";
                 for(i in globalobjs){
                     var o=globalobjs[i];
@@ -2788,7 +2788,7 @@ function ryBox(missing){
                     }
                 }
                 if(k!=""){
-                    $.post(_systeminfo.web.cambusa+"rybabel/rybabel.php", {"lang":lang,"codes":k},
+                    $.post(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"lang":lang,"codes":k},
                         function(d){
                             try{
                                 var i,t,c,j;

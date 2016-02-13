@@ -194,7 +194,7 @@ function class_qvprezzario(settings,missing){
             data["EQTYPOLOGYID"]=typemov;
             data["EQGENREID"]=typeeuro;
             data["EQMOTIVEID"]=motivoeqid;
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -234,7 +234,7 @@ function class_qvprezzario(settings,missing){
                     objgridsel.selengage(   // Elenco dei SYSID selezionati
                         function(o, sel){
                             winzProgress(formid);
-                            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
                                     "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,
@@ -309,7 +309,7 @@ function class_qvprezzario(settings,missing){
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
             data["EQUIVALENCEID"]=currsysid;
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

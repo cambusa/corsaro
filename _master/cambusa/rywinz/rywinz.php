@@ -251,10 +251,10 @@ function winz_postman(missing){
         RYWINZ.newform({
             id:"postman",
             name:"postman",
-            path:_systeminfo.web.cambusa+"rywinz/postman/",
+            path:_systeminfo.relative.cambusa+"rywinz/postman/",
             title:POSTMAN.title,
             desk:true,
-            icon:_systeminfo.web.cambusa+"rywinz/postman/postman"
+            icon:_systeminfo.relative.cambusa+"rywinz/postman/postman"
         });
     }
     else{

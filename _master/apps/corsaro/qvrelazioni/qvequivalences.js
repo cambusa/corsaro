@@ -392,7 +392,7 @@ function class_qvequivalences(settings,missing){
                             }
                         };
                     }
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -438,7 +438,7 @@ function class_qvequivalences(settings,missing){
                                     }
                                 };
                             }
-                            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
                                     "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,

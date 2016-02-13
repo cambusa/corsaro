@@ -34,6 +34,12 @@ $url_base=installationURL();
 
 $path_root=installationPATH();
 
+/*********************************************************
+| BASE RELATIVA DA DEDURRE (O ASSEGNARE IN _cambusa.php) |
+/********************************************************/
+
+$relative_base="";
+
 /************************
 | PERCORSO APPLICATIONS |
 ************************/
@@ -107,6 +113,17 @@ if(floatval(phpversion())<5.3){
 
 if(is_file($path_customize."_cambusa.php")){
     include $path_customize."_cambusa.php";
+}
+
+/****************************************
+| EVENTUALE AGGIUSTAMENTO BASE RELATIVA |
+****************************************/
+
+if($relative_base==""){
+    $relative_base=preg_replace("@\w+://[^/]+@i", "", $url_base);
+    if($relative_base==""){
+        $relative_base="/";
+    }
 }
 
 /********************

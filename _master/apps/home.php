@@ -1,6 +1,10 @@
 <?php
     $language="english";
-    if(isset($_COOKIE['_egolanguage'])){
+    if(isset($_GET["lang"])){
+        $language=$_GET["lang"];
+        setcookie("_egolanguage", $language, time()+4000000);
+    }
+    elseif(isset($_COOKIE['_egolanguage'])){
         $language=$_COOKIE['_egolanguage'];
     }
     if($language=="english")

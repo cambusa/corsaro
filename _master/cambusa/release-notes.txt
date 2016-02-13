@@ -1,5 +1,5 @@
 ==================================
-Rilascio 1.70.16    del XX/02/2016
+Rilascio 1.70.16    del 14/02/2016
 ==================================
 
 Spostata la libreria jsencrypt.js da /jsencrypt/bin/ a /rygeneral/ per evitare le policies di IIS 7 che non vogliono directory di nome "bin" (sic!).
@@ -9,7 +9,7 @@ Aggiunto il test di abilitazione delle estensioni SQL Server in diagnostica.
 
 Gestito il provider mssql (usa le estensioni per SQL Server senza ODBC).
 
-Utilizzato _infosystem.web in luogo di _infosystem.relative.
+Perfezionato l'assegnmento degli _infosystem.relative.
 
 Maestro: utilizzata la lista ryUnbound per i risultati.
 

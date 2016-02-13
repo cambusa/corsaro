@@ -82,7 +82,11 @@ a{text-decoration:none;color:maroon;}
 
 <script>
 _sessioninfo.sessionid="<?php  print $sessionid ?>";
-var _sessioninfo;
+_systeminfo.relative.root="<?php print $relative_base ?>";
+_systeminfo.relative.apps=_systeminfo.relative.root+"apps/";
+_systeminfo.relative.cambusa=_systeminfo.relative.root+"cambusa/";
+_systeminfo.relative.customize=_systeminfo.relative.root+"customize/";
+
 var objpulseenabled;
 var objstatus;
 var objmonitor;

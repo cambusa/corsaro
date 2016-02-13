@@ -89,6 +89,11 @@ a{text-decoration:none;}
 
 <script>
 _sessioninfo.sessionid="<?php  print $sessionid ?>";
+_systeminfo.relative.root="<?php print $relative_base ?>";
+_systeminfo.relative.apps=_systeminfo.relative.root+"apps/";
+_systeminfo.relative.cambusa=_systeminfo.relative.root+"cambusa/";
+_systeminfo.relative.customize=_systeminfo.relative.root+"customize/";
+
 var envjson=false;
 var dbprovider="";
 var objresult;

@@ -49,7 +49,7 @@ function class_qvforum(settings,missing){
                 switch(curraction){
                 case "insert":
                     winzProgress(formid);
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -85,7 +85,7 @@ function class_qvforum(settings,missing){
                     break;
                 case "update":
                     winzProgress(formid);
-                    $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -173,7 +173,7 @@ function class_qvforum(settings,missing){
                 },
                 "return":{"PERSONAID":"#SYSID", "PERSONANOME":"#NOME", "PERSONACOGNOME":"#COGNOME", "UTENTEID":"#UTENTEID"}
             };
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -318,7 +318,7 @@ function class_qvforum(settings,missing){
 
     this._forumDelete=function(pageid, parentid){
         try{
-            $.post(_systeminfo.web.cambusa+"ryquiver/quiver.php", 
+            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

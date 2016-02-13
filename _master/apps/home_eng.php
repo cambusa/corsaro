@@ -8,8 +8,9 @@ else
 
 <html>
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="chrome=1" />    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Home Project <?php print $progetto ?></title>
 
@@ -20,26 +21,15 @@ else
     table{font-family:sans-serif;font-size:12px;}
     #title{position:absolute;left:50px;top:40px;font-size:24px;}
     #frame{position:absolute;left:50px;top:120px;font-size:18px;}
+    .changelang{padding:2px;border:1px solid silver;background:#F0F0F0;}
     </style>
-
-    <script>
-    function changelang(){
-        var l=document.getElementById("langs");
-        var v=l.options[l.selectedIndex].value;
-        document.cookie="_egolanguage="+v+"; expires=31 Dec 2099 12:00:00 UTC";
-        location.reload();
-    }
-    </script>
 
 </head>
 
 <body>
 
 <div style="position:absolute;left:700px;">
-<select id="langs">
-    <option onclick="changelang()" selected>english</option>
-    <option onclick="changelang()">italiano</option>
-</select>
+<a href="home.php?project=<?php print $progetto ?>&lang=italiano" class="changelang">Italiano</a>
 </div>
 
 <div id="title">

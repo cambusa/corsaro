@@ -128,6 +128,17 @@ else
         <tr><td class='item'>Customize  </td><td class='value'><?php print $url_customize    ?></td></tr>
     </table>
 
+    <div class="skip"></div>
+    <div class="skip"></div>
+    <div class="section">Relatives</div>
+    <div class="skip"></div>
+    <table>
+        <tr><td class='item'>Root       </td><td class='value'><?php print $relative_base               ?></td></tr>
+        <tr><td class='item'>Cambusa    </td><td class='value'><?php print $relative_base."cambusa/"    ?></td></tr>
+        <tr><td class='item'>Apps       </td><td class='value'><?php print $relative_base."apps/"       ?></td></tr>
+        <tr><td class='item'>Customize  </td><td class='value'><?php print $relative_base."customize/"  ?></td></tr>
+    </table>
+
 </div>
 
 </body>

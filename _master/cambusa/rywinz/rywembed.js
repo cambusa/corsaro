@@ -141,17 +141,17 @@ function ryWinz(missing){
         }
         if(settings.path!=missing){
             proppath=settings.path;
-            proppath=proppath.replace(/@cambusa\//gi, _systeminfo.web.cambusa);
-            proppath=proppath.replace(/@apps\//gi, _systeminfo.web.apps);
-            proppath=proppath.replace(/@customize\//gi, _systeminfo.web.customize);
+            proppath=proppath.replace(/@cambusa\//gi, _systeminfo.relative.cambusa);
+            proppath=proppath.replace(/@apps\//gi, _systeminfo.relative.apps);
+            proppath=proppath.replace(/@customize\//gi, _systeminfo.relative.customize);
         }
         if(settings.title!=missing){proptitle=settings.title}
         if(settings.desk!=missing){propdesk=settings.desk}
         if(settings.icon!=missing){
             propicon=settings.icon;
-            propicon=propicon.replace(/@cambusa\//gi, _systeminfo.web.cambusa);
-            propicon=propicon.replace(/@apps\//gi, _systeminfo.web.apps);
-            propicon=propicon.replace(/@customize\//gi, _systeminfo.web.customize);
+            propicon=propicon.replace(/@cambusa\//gi, _systeminfo.relative.cambusa);
+            propicon=propicon.replace(/@apps\//gi, _systeminfo.relative.apps);
+            propicon=propicon.replace(/@customize\//gi, _systeminfo.relative.customize);
         }
         
         proptitle=proptitle.replace(/[']/gi, "&acute;");

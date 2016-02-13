@@ -89,7 +89,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":2,"top":1,"height":propheight-4,"overflow":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.web.cambusa+"ryquiver/images/helper.png)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"ryquiver/images/helper.png)"});
             
             if(prophelper){
                 $("#"+propname+"_text").css({"width":propwidth-26});
