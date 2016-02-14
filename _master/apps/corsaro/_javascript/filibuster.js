@@ -1192,12 +1192,12 @@ function objVoice(obj){
                             }
                             else{
                                 if(window.console){console.log(d)}
-                                alert("Service not available or text too long");
+                                alert("Service not available");
                             }
                         }catch(e){
                             if(window.console){console.log(e.message)}
                             if(window.console){console.log(d)}
-                            alert("Service not available or text too long");
+                            alert("Service not available");
                         }
                         setTimeout(function(){jbutt.html(prevsymbol)}, 500);
                     }

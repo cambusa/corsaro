@@ -26,12 +26,14 @@ class ryDeveloper{
     public $dvsinc;
     public $dvdpag;
     public $dvspag;
+    public $anticipati;
     public $lasterrnumber;
     public $lasterrdescription;
     public $trdate;
     public $parametri;
     public $sviluppo;
     public $swap;
+    public $simulazione;
     
     public function ryDeveloper(){
         $this->maestro=false;
@@ -50,12 +52,14 @@ class ryDeveloper{
         $this->dvsinc=365;
         $this->dvdpag=365;
         $this->dvspag=365;
+        $this->anticipati=false;
         $this->lasterrnumber=0;
         $this->lasterrdescription="";
         $this->trdate=array("-", ":", "T", " ", "'", ".");
         $this->parametri=array();
         $this->sviluppo=array();
         $this->swap=false;
+        $this->simulazione=false;
     }
     public function datediff($d1, $d2){
         $d1=date_create(substr($d1,0,4)."-".substr($d1,4,2)."-".substr($d1,6,2));
@@ -236,6 +240,12 @@ class ryDeveloper{
                 }
             }
         }
+        // DETERMINAZIONE INTERESSI ANTICIPATI
+        if(!$this->simulazione){
+            reset($aggr);
+            $primo=current($aggr);
+            $this->anticipati=($primo["INTERESSI"]!=0 || $primo["INTINC"]!=0 || $primo["INTPAG"]!=0);
+        }
         // TRAVASO COME SVILUPPO NORMALIZZATO
         $this->sviluppo=$aggr;
     }
@@ -284,6 +294,20 @@ class ryDeveloper{
             }
             if($flusso["_CAPITALE"]){
                 $capres-=$flusso["CAPITALE"];
+            }
+        }
+        if($this->anticipati){
+            $prevkey=false;
+            $liq=0;
+            foreach($this->sviluppo as $key => &$flusso){
+                if($prevkey===false){
+                    $prevkey=$key;
+                }
+                elseif($flusso["_INTERESSI"]){
+                    $this->sviluppo[$prevkey]["INTERESSI"]=$flusso["INTERESSI"];
+                    $flusso["INTERESSI"]=0;
+                    $prevkey=$key;
+                }
             }
         }
     }
@@ -358,6 +382,30 @@ class ryDeveloper{
                 }
                 $liqpag=0;
                 $lastpag=$DATA;
+            }
+        }
+        if($this->anticipati){
+            $prevkeyi=false;
+            $liqi=0;
+            $prevkeyp=false;
+            $liqp=0;
+            foreach($this->sviluppo as $key => &$flusso){
+                if($prevkeyi===false){
+                    $prevkeyi=$key;
+                }
+                elseif($flusso["_INTINC"]){
+                    $this->sviluppo[$prevkeyi]["INTINC"]=$flusso["INTINC"];
+                    $flusso["INTINC"]=0;
+                    $prevkeyi=$key;
+                }
+                if($prevkeyp===false){
+                    $prevkeyp=$key;
+                }
+                elseif($flusso["_INTPAG"]){
+                    $this->sviluppo[$prevkeyp]["INTPAG"]=$flusso["INTPAG"];
+                    $flusso["INTPAG"]=0;
+                    $prevkeyp=$key;
+                }
             }
         }
     }
@@ -447,7 +495,9 @@ class ryDeveloper{
     public function caricafin($PRATICAID){
         // DETERMINO SE E' UNO SWAP
         maestro_query($this->maestro, "SELECT SYSID FROM QW_MOVIMENTI WHERE SYSID IN (SELECT ARROWID FROM QVQUIVERARROW WHERE QUIVERID='$PRATICAID') AND CONSISTENCY=2", $r);
+        
         $this->swap=(count($r)>0);
+        $this->anticipati=false;
 
         // LEGGO LE FRECCE DEL FINANZIAMENTO E CARICO IL DEVELOPER
         maestro_query($this->maestro, "SELECT * FROM QVARROWS WHERE SYSID IN (SELECT ARROWID FROM QVQUIVERARROW WHERE QUIVERID='$PRATICAID')", $r);

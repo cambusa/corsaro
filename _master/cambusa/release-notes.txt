@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.70.17    del XX/02/2016
+==================================
+
+Filibuster: informativa sulla privacy in Mailus.
+
+Pluto: gestito il tasso anticipato.
+
+==================================
 Rilascio 1.70.16    del 14/02/2016
 ==================================
 

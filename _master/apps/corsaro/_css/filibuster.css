@@ -172,8 +172,10 @@ a.filibuster-navigator-enabled:hover{color:#708090;text-decoration:none;}
           border-radius: 8px;
   outline:none;
   cursor:pointer;
+  float:left;
 }
 .filibuster-mailus-message{padding-top:10px;color:black;}
+.filibuster-mailus-privacy{text-align:right;float:right;font-size:80%;padding-right:10px;}
 
 /*  COPYRIGHT */
 .filibuster-copyright a{color:inherit;text-decoration:underline;}

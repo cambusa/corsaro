@@ -104,6 +104,7 @@ function qv_pluto_execute($maestro, $data){
         
         // ISTANZIO UN DEVELOPER
         $DEVELOPER=new ryDeveloper();
+        $DEVELOPER->simulazione=true;
         $DEVELOPER->plutoid=$PLUTOID;
         $DEVELOPER->processoid=$PROCESSOID;
         $DEVELOPER->statoid=$STATOID;

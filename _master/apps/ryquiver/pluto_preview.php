@@ -56,7 +56,21 @@ function pluto_preview($DEVELOPER){
                     $tassopag=$flusso["TASSOPAG"];
                 if($flusso["_SPREADPAG"])
                     $spreadpag=$flusso["SPREADPAG"];
+                $DEVELOPER->anticipati=($flusso["INTINC"]!=0 || $flusso["INTPAG"]!=0);
             }
+            
+            if($DEVELOPER->anticipati){
+                // DETERMINO I TASSI DEL PERIODO SUCCESSIVO
+                if($flusso["_TASSOINC"])
+                    $tassoinc=$flusso["TASSOINC"];
+                if($flusso["_SPREADINC"])
+                    $spreadinc=$flusso["SPREADINC"];
+                if($flusso["_TASSOPAG"])
+                    $tassopag=$flusso["TASSOPAG"];
+                if($flusso["_SPREADPAG"])
+                    $spreadpag=$flusso["SPREADPAG"];
+            }
+            
             $TOT=$flusso["INTINC"]+$flusso["COMMINC"]-$flusso["INTPAG"]-$flusso["COMMPAG"];
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($flusso["NOMINALE"], 2)."</div></td>";
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($flusso["INTINC"], 2)."</div></td>";
@@ -66,15 +80,18 @@ function pluto_preview($DEVELOPER){
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($tassopag+$spreadpag, 4)."</div></td>";
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($flusso["COMMPAG"], 2)."</div></td>";
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($TOT, 2)."</div></td>";
-            // DETERMINO I TASSI DEL PERIODO SUCCESSIVO
-            if($flusso["_TASSOINC"])
-                $tassoinc=$flusso["TASSOINC"];
-            if($flusso["_SPREADINC"])
-                $spreadinc=$flusso["SPREADINC"];
-            if($flusso["_TASSOPAG"])
-                $tassopag=$flusso["TASSOPAG"];
-            if($flusso["_SPREADPAG"])
-                $spreadpag=$flusso["SPREADPAG"];
+            
+            if(!$DEVELOPER->anticipati){
+                // DETERMINO I TASSI DEL PERIODO SUCCESSIVO
+                if($flusso["_TASSOINC"])
+                    $tassoinc=$flusso["TASSOINC"];
+                if($flusso["_SPREADINC"])
+                    $spreadinc=$flusso["SPREADINC"];
+                if($flusso["_TASSOPAG"])
+                    $tassopag=$flusso["TASSOPAG"];
+                if($flusso["_SPREADPAG"])
+                    $spreadpag=$flusso["SPREADPAG"];
+            }
         }
         else{
             if(!$init){
@@ -83,18 +100,31 @@ function pluto_preview($DEVELOPER){
                     $tasso=$flusso["TASSO"];
                 if($flusso["_SPREAD"])
                     $spread=$flusso["SPREAD"];
+                $DEVELOPER->anticipati=($flusso["INTERESSI"]!=0);
             }
+            
+            if($DEVELOPER->anticipati){
+                // DETERMINO IL TASSO DEL PERIODO SUCCESSIVO
+                if($flusso["_TASSO"])
+                    $tasso=$flusso["TASSO"];
+                if($flusso["_SPREAD"])
+                    $spread=$flusso["SPREAD"];
+            }
+
             $TOT=$flusso["CAPITALE"]+$flusso["INTERESSI"]+$flusso["COMMISSIONI"];
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($flusso["CAPITALE"], 2)."</div></td>";
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($flusso["INTERESSI"], 2)."</div></td>";
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($tasso+$spread, 4)."</div></td>";
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($flusso["COMMISSIONI"], 2)."</div></td>";
             $HTML.="<td><div class='winz-cell-right'>".pluto_numero($TOT, 2)."</div></td>";
-            // DETERMINO IL TASSO DEL PERIODO SUCCESSIVO
-            if($flusso["_TASSO"])
-                $tasso=$flusso["TASSO"];
-            if($flusso["_SPREAD"])
-                $spread=$flusso["SPREAD"];
+            
+            if(!$DEVELOPER->anticipati){
+                // DETERMINO IL TASSO DEL PERIODO SUCCESSIVO
+                if($flusso["_TASSO"])
+                    $tasso=$flusso["TASSO"];
+                if($flusso["_SPREAD"])
+                    $spread=$flusso["SPREAD"];
+            }
         }
         $HTML.="</tr>";
         $totale+=$TOT;

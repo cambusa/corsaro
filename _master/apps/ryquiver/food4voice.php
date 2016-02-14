@@ -53,6 +53,24 @@ if($env!="" && $site!=""){
     // DETERMINO IL CONTENUTO
     $SITEID="";
     if(solvecontents($env, $site, $id, $text, $lang, $gender)){
+        if(strlen($text)>$filibuster_sizeHQ){
+            $text=substr($text, 0, $filibuster_sizeHQ);
+            $text=preg_replace("@[.!?;:][^.!?;:]*$@", "", $text);
+            switch($lang){
+            case "it":
+                $text.=". . . Continua";
+                break;
+            case "en":
+                $text.=". . . Continue";
+                break;
+            case "es":
+                $text.=". . . Continúa";
+                break;
+            case "fr":
+                $text.=". . . Continue";
+                break;
+            }
+        }
         // PERCORSO MP3
         $pathname="../../customize/_voice/$env-$id.mp3";
         $urlvoice=food4voice()."$env-$id.mp3";
@@ -78,78 +96,71 @@ if($env!="" && $site!=""){
             $download=true;
         }
         if($download){
-            if(strlen($text)<=$filibuster_sizeHQ){
-                $speed="0";
-                $voice="";
-                switch($lang){
-                case "it":
-                    $lang="Italian";
-                    $speed="1";
-                    if($gender=="ml")
-                        $voice="IVONA Giorgio22 (Italian)";
-                    else
-                        $voice="IVONA Carla22 (Italian)";
-                    break;
-                case "en":
-                    $lang="British English";
-                    if($gender=="ml")
-                        $voice="IVONA Eric22";
-                    else
-                        $voice="IVONA Kimberly22";
-                    break;
-                case "es":
-                    $lang="Spanish";
-                    if($gender=="ml")
-                        $voice="IVONA Enrique22 (Spanish [Modern])";
-                    else
-                        $voice="IVONA Conchita22 (Spanish [Modern])";
-                    break;
-                case "fr":
-                    $lang="French";
-                    if($gender=="ml")
-                        $voice="IVONA Mathieu22 (French)";
-                    else
-                        $voice="IVONA Mathieu22 (French)";
-                    break;
-                }
-                $postdata = array(
-                    'input_text' => $text,
-                    'action' => "process_text",
-                    'language' => $lang,
-                    'voice' => $voice,
-                    'speed' => $speed
-                );
-                $c=do_post_request("http://www.fromtexttospeech.com/?v=".date("YmdHis"), $postdata);
-                if(preg_match("/<a href='(.+\.mp3)'/", $c, $m)){
-                    // SCRIVO MP3
-					$buff="";
-                    $path=$m[1];
-                    if(substr($path, 0 ,1)!="/")
-                        $path="/".$path;
-                    $buff=@file_get_contents("http://www.fromtexttospeech.com".$path);
-					if($buff!=""){
-						$fp=fopen($pathname, "wb");
-						fwrite($fp, $buff);
-						fclose($fp);
-						// SCRIVO CRC
-						$fp=fopen($pathcrc, "wb");
-						fwrite($fp, $crctext);
-						fclose($fp);
-						// ESITO POSITIVO
-						$jret["success"]=1;
-						$jret["url"]=$urlvoice;
-					}
-					else{
-						// ESITO POSITIVO
-						$jret["success"]=0;
-						$jret["url"]="";
-					}
-                }
+            $speed="0";
+            $voice="";
+            switch($lang){
+            case "it":
+                $lang="Italian";
+                $speed="1";
+                if($gender=="ml")
+                    $voice="IVONA Giorgio22 (Italian)";
+                else
+                    $voice="IVONA Carla22 (Italian)";
+                break;
+            case "en":
+                $lang="British English";
+                if($gender=="ml")
+                    $voice="IVONA Eric22";
+                else
+                    $voice="IVONA Kimberly22";
+                break;
+            case "es":
+                $lang="Spanish";
+                if($gender=="ml")
+                    $voice="IVONA Enrique22 (Spanish [Modern])";
+                else
+                    $voice="IVONA Conchita22 (Spanish [Modern])";
+                break;
+            case "fr":
+                $lang="French";
+                if($gender=="ml")
+                    $voice="IVONA Mathieu22 (French)";
+                else
+                    $voice="IVONA Mathieu22 (French)";
+                break;
             }
-            else{
-                // ESITO POSITIVO
-                $jret["success"]=0;
-                $jret["url"]="";
+            $postdata = array(
+                'input_text' => $text,
+                'action' => "process_text",
+                'language' => $lang,
+                'voice' => $voice,
+                'speed' => $speed
+            );
+            $c=do_post_request("http://www.fromtexttospeech.com/?v=".date("YmdHis"), $postdata);
+            if(preg_match("/<a href='(.+\.mp3)'/", $c, $m)){
+                // SCRIVO MP3
+                $buff="";
+                $path=$m[1];
+                if(substr($path, 0 ,1)!="/")
+                    $path="/".$path;
+                $buff=@file_get_contents("http://www.fromtexttospeech.com".$path);
+                if($buff!=""){
+                    $fp=fopen($pathname, "wb");
+                    fwrite($fp, $buff);
+                    fclose($fp);
+                    // SCRIVO CRC
+                    $fp=fopen($pathcrc, "wb");
+                    fwrite($fp, $crctext);
+                    fclose($fp);
+                    // ESITO POSITIVO
+                    $jret["success"]=1;
+                    $jret["url"]=$urlvoice;
+                }
+                else{
+                    // ESITO NEGATIVO
+                    $jret["success"]=0;
+                    $jret["url"]="";
+                }
             }
         }
     }

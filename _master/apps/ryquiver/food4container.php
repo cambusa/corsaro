@@ -693,6 +693,7 @@ function solvemailus($maestro, $CONTENTID, $DESCRIPTION, $ABSTRACT, $REGISTRY){
     $food.="</div>";
     
     $food.="<div class='filibuster-mailus-button'>Invia</div>";
+    $food.="<div class='filibuster-mailus-privacy'><a href='email_privacy.php' target='_blank'>Informativa sulla privacy</a></div>";
     $food.="<div class='filibuster-mailus-message'>&nbsp;</div>";
     
     $food.="</div>";
