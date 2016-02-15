@@ -28,10 +28,10 @@ border-radius: 5px;
 text-shadow:1px 1px 2px #B8B8B8;
 color:#333;
 background-color:transparent;
-background: -webkit-linear-gradient(white, #DDD); /* For Safari 5.1 to 6.0 */
-background: -o-linear-gradient(white, #DDD); /* For Opera 11.1 to 12.0 */
-background: -moz-linear-gradient(white, #DDD); /* For Firefox 3.6 to 15 */
-/* filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FFFFFF', endColorstr='#D0D0D0');*/ /* For IE */
+background: -webkit-linear-gradient(#FFFFFF, #D0D0D0); /* For Safari */
+background: -o-linear-gradient(#FFFFFF, #D0D0D0); /* For Opera */
+background: -moz-linear-gradient(#FFFFFF, #D0D0D0); /* For Firefox */
+background: -ms-linear-gradient(#FFFFFF, #D0D0D0); /* For IE */
 background: linear-gradient(#FFFFFF, #D0D0D0); /* Standard syntax */
 }
 

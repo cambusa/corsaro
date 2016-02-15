@@ -1,5 +1,5 @@
 ==================================
-Rilascio 1.70.17    del XX/02/2016
+Rilascio 1.70.17    del 15/02/2016
 ==================================
 
 Filibuster: informativa sulla privacy in Mailus.

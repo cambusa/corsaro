@@ -76,6 +76,7 @@ var globalcolorfocus="#FFF4E6";
                 "height":propheight,
                 "color":"transparent",
                 "background-color":"silver",
+                "border":"none",
                 "font-family":"verdana,sans-serif",
                 "font-size":"13px",
                 "line-height":"17px",
@@ -838,6 +839,7 @@ var globalcolorfocus="#FFF4E6";
                 "height":propheight,
                 "color":"transparent",
                 "background-color":"silver",
+                "border":"none",
                 "font-family":"verdana,sans-serif",
                 "font-size":"13px",
                 "line-height":"17px",
@@ -2321,7 +2323,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
             .addClass("rylist")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"silver"})
+            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"silver","border":"none"})
             .html("<select id='"+propname+"_anchor' size='1'></select>");
             $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
             $("#"+propname+"_anchor option").css({"background-color":"#FFFFFF"});
