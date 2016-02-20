@@ -73,32 +73,10 @@
                 "line-height":"17px",
                 "cursor":"default"
             })
-            .html("<iframe id='"+propname+"_frame' src='"+_systeminfo.relative.cambusa+"rybox/ryscript.php?mode="+propmode+"&indent="+propindent+"&name="+propname+"' width='"+(propwidth-2)+"px' height='"+(propheight-2)+"px' frameborder='0'></iframe>");
+            .html("<iframe id='"+propname+"_frame' src='' width='"+(propwidth-2)+"px' height='"+(propheight-2)+"px' frameborder='0'></iframe>");
             
             $("#"+propname+"_frame").css({position:"absolute", left:1, top:1});
             
-            $("#"+propname+"_frame").load(
-                function(){
-                    proploaded=true;
-                    if(pendingvalue!=""){
-                        propobj.value(pendingvalue);
-                    }
-                    if(pendingmode!=""){
-                        propobj.mode(pendingmode);
-                    }
-                    if(pendingindent>=0){
-                        propobj.indent(pendingindent);
-                    }
-                    if(pendingintellisense!=false){
-                        propobj.intellisense(pendingintellisense);
-                    }
-                    pendingvalue="";
-                    pendingmode="";
-                    pendingindent=-1;
-                    pendingintellisense=false;
-                }
-            );
-
 			this.value=function(v,a){
 				if(v==missing){
                     return document.getElementById(propname+"_frame").contentWindow.getvalue();
@@ -211,6 +189,33 @@
                 if(settings.assigned!=missing){settings.assigned(propobj)}
                 propchanged=false;
             }
+            this.raiseload=function(){
+                proploaded=true;
+                if(pendingvalue!=""){
+                    propobj.value(pendingvalue);
+                }
+                if(pendingmode!=""){
+                    propobj.mode(pendingmode);
+                }
+                if(pendingindent>=0){
+                    propobj.indent(pendingindent);
+                }
+                if(pendingintellisense!=false){
+                    propobj.intellisense(pendingintellisense);
+                }
+                pendingvalue="";
+                pendingmode="";
+                pendingindent=-1;
+                pendingintellisense=false;
+                TAIL.free();
+                if(settings.onload)
+                    settings.onload();
+            }
+            TAIL.enqueue(function(){
+                $("#"+propname+"_frame").attr("src", _systeminfo.relative.cambusa+"rybox/ryscript.php?mode="+propmode+"&indent="+propindent+"&name="+propname+"&var="+(new Date().getTime()));
+            });
+            TAIL.wriggle();
+            
 			return this;
 		}
 	});

@@ -343,7 +343,8 @@ function ryWinz(missing){
                         objform.options.controls=params.controls.actualBoolean();
                         if(!objform.options.controls){
                             $("#window_"+id+" div.window_top").css({"display":"none"});
-                            $("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px", "display":"none"});
+                            //$("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px", "display":"none"});
+                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden"});
                             $("#window_"+id+" div.window_content").css({"top":1});
                             $("#dither_"+id).css({"top":0});
                         }
@@ -353,7 +354,8 @@ function ryWinz(missing){
                         if(!params.statusbar){
                             if(!RYWINZ.busy(id))   // Se non è visibile perché alzato alla new del form lo nascondo
                                 $("#message_"+id).css({"display":"none"});
-                            $("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px", "display":"none"});
+                            //$("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px", "display":"none"});
+                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden"});
                             $("#window_"+id+" div.window_content").css({"bottom":0});
                         }
                     }

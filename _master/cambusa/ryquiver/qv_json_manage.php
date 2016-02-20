@@ -65,19 +65,18 @@ function qv_json_manage($maestro, $data){
         }
 
         // INDIVIDUAZIONE RECORD
-        maestro_query($maestro, "SELECT SYSID FROM QVJSON WHERE USERID='$USERID' AND ROLEID='$ROLEID' AND FUNCTNAME='$FUNCTNAME' AND DOCNAME='$DOCNAME'", $r);
+        maestro_query($maestro, "SELECT SYSID,REGISTRY FROM QVJSON WHERE USERID='$USERID' AND ROLEID='$ROLEID' AND FUNCTNAME='$FUNCTNAME' AND DOCNAME='$DOCNAME'", $r);
         if(count($r)==1){
             $SYSID=$r[0]["SYSID"];
+            $JSON=$r[0]["REGISTRY"];
             if($action=="write")
                 $action="update";
         }
         else{
+            $JSON=json_encode( array() );
             if($action=="write"){
                 $SYSID=qv_createsysid($maestro);
                 $action="insert";
-            }
-            else{
-                $action="";
             }
         }
         
@@ -99,6 +98,9 @@ function qv_json_manage($maestro, $data){
             break;
         case "delete":
             $sql="DELETE FROM QVJSON WHERE SYSID='$SYSID'";
+            break;
+        case "select":
+            $babelparams["REGISTRY"]=$JSON;
             break;
         default:
             $sql="";

@@ -401,6 +401,13 @@ function qv_setclob($maestro, $id, $value, &$set, &$clobs){
         $set="?";
         $clobs[$id]=ryqNormalize($value);
         break;
+    case "mssql":  // mosca mssql
+        if($clobs===false){
+            $clobs=array();
+        }
+        $set="?";
+        $clobs[]=ryqNormalize($value);
+        break;
     default:
         $set="'".ryqEscapize($value)."'";
     }

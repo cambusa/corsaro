@@ -1,4 +1,14 @@
 ==================================
+Rilascio 1.70.18    del 20/02/2016
+==================================
+
+Aggiustamenti nella gestione di QVJSON.
+
+Gestita correttamente la "setclob" per "mssql".
+
+ryQue: aggiunta la proprietà "rows".
+
+==================================
 Rilascio 1.70.17    del 15/02/2016
 ==================================
 

@@ -710,7 +710,7 @@
                         }
                     }
                     if(settings.before!=missing){
-                        settings.before(propobj, v);
+                        settings.before(propobj, v, proprows);
                     }
                     for(c=1; c<=propcols.length; c++){
                         if($.isNumeric(proptyps[c-1])){
@@ -1538,6 +1538,9 @@
                         sels[s+1]=true;
                 }
                 propobj.setmatrix(propobj.matrix, false, propindex, sels);
+            }
+            this.rows=function(){
+                return proprows;
             }
             // CHIAMATA ALLA GENERAZIONE EFFETTIVA
             try{this.create();}catch(e){}

@@ -117,6 +117,15 @@ else
     }
 ?>
 
+<?php 
+    if($mode=="sql"){
+?>
+<script src="../codemirror/mode/sql/sql.js"></script>
+<script src="../codemirror/addon/hint/sql-hint.js"></script>
+<?php 
+    }
+?>
+
 <style type="text/css">
 body{background-color:#272822; font-family:monospace; font-size:16px;}
 .CodeMirror {line-height: 1.3; height:100%}
@@ -174,6 +183,8 @@ function makeeditor(missing){
         $("body").click(function(){
             objmirror.focus();
         });
+        
+        window.parent.globalobjs[propname].raiseload();
     }
     catch(e){
         if(window.console){console.log(e.message)}

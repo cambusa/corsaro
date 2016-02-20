@@ -303,6 +303,10 @@ try{
                                 }while(true);
                             }
                             if($sessionid!=""){
+                                // EVENTUALE ELIMINAZIONE DELLA SESSIONE CON MEDESIMA SESSIONID
+                                // RESTITUITA DA UNA GESTIONE ESTERNA
+                                $sql="DELETE FROM EGOSESSIONS WHERE SESSIONID='$sessionid'";
+                                maestro_execute($maestro, $sql);
                                 // INSERISCO LA SESSIONE
                                 $ip=get_ip_address();
                                 $sysid=qv_createsysid($maestro);
