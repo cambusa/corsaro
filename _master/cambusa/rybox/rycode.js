@@ -22,7 +22,6 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             var propmode="free";
             var propuppercase=false;
             var proplock=0;
-            var prophelper=1;
             var propinsert=parseInt(_globalcodeinsert);
 			var propstart=0;
             var propcharleft=0;
@@ -33,8 +32,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             var propalt=false;
 			var propobj=this;
             var propchanged=false;
-			var propenabled=1;
+			var propenabled=true;
 			var propvisible=true;
+            var prophelper=true;
             var propmousedown=false;
 			
 			var propname=$(this).attr("id");
@@ -51,6 +51,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             if(settings.mode!=missing){propmode=settings.mode}
             if(settings.uppercase!=missing){propuppercase=settings.uppercase}
             if(settings.lock!=missing){proplock=settings.lock.booleanNumber()}
+            if(settings.enabled!=missing){propenabled=settings.enabled}
+            if(settings.visible!=missing){propvisible=settings.visible}
             if(settings.helper!=missing){prophelper=settings.helper.booleanNumber()}
 
             if(settings.formid!=missing){
@@ -92,11 +94,11 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"ryquiver/images/helper.png)"});
             
             if(prophelper){
-                $("#"+propname+"_text").css({"width":propwidth-26});
+                $("#"+propname+"_text").css({"width":propwidth-25});
                 $("#"+propname+"_button").css({"display":"block"});
             }
             else{
-                $("#"+propname+"_text").css({"width":propwidth-4});
+                $("#"+propname+"_text").css({"width":propwidth-5});
                 $("#"+propname+"_button").css({"display":"none"});
             }
 
@@ -448,6 +450,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 if(params.top!=missing){proptop=params.top}
                 if(params.width!=missing){propwidth=params.width}
                 $("#"+propname).css({"left":propleft,"top":proptop,"width":propwidth});
+                $("#"+propname+"_internal").css({"width":propwidth-2});
+                $("#"+propname+"_text").css({"width": (prophelper ? propwidth-25 : propwidth-5) });
+                $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
             }
 			this.maxlen=function(l){
 				if(l==missing)
@@ -594,11 +599,11 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 				else{
 					prophelper=v.booleanNumber();
                     if(prophelper){
-                        $("#"+propname+"_text").css({"width":propwidth-20});
+                        $("#"+propname+"_text").css({"width":propwidth-25});
                         $("#"+propname+"_button").css({"display":"block"});
                     }
                     else{
-                        $("#"+propname+"_text").css({"width":propwidth-2});
+                        $("#"+propname+"_text").css({"width":propwidth-5});
                         $("#"+propname+"_button").css({"display":"none"});
                     }
 				}
@@ -659,6 +664,10 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 if(settings.assigned!=missing){settings.assigned(propobj)}
                 propchanged=false;
             }
+            if(!propenabled)
+                propobj.enabled(0);
+            if(!propvisible)
+                propobj.visible(0);
 			return this;
 		}
 	});

@@ -37,6 +37,7 @@ var globalcolorfocus="#FFF4E6";
             var propchanged=false;
 			var propenabled=true;
 			var propvisible=true;
+            var prophelper=true;
             var proplink=null;
             var propdefault="";
             var prophelp=false;
@@ -53,6 +54,9 @@ var globalcolorfocus="#FFF4E6";
 			if(settings.top!=missing){proptop=settings.top}
             if(settings.width!=missing){propwidth=settings.width}
             if(settings.defaultvalue!=missing){propdefault=settings.defaultvalue}
+            if(settings.enabled!=missing){propenabled=settings.enabled}
+            if(settings.visible!=missing){propvisible=settings.visible}
+            if(settings.helper!=missing){prophelper=settings.helper}
 
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -278,11 +282,15 @@ var globalcolorfocus="#FFF4E6";
             					propobj.value(Date.stringToday());
             				propstart=0;
             				propobj.refreshcursor();
+                            if(settings.changed!=missing){settings.changed(propobj)}
                             propchanged=false;
                             propobj.raiseassigned();
                             if(settings.enter!=missing){
                                 settings.enter(propobj);
                             }
+            			}
+            			else if(k.which==27){ // ESCAPE
+                            if(settings.escape!=missing){settings.escape(propobj)}
             			}
             			if(k.which==8){
                             if(propselected){
@@ -514,6 +522,9 @@ var globalcolorfocus="#FFF4E6";
                 if(params.top!=missing){proptop=params.top}
                 if(params.width!=missing){propwidth=params.width}
                 $("#"+propname).css({"left":propleft,"top":proptop,"width":propwidth});
+                $("#"+propname+"_internal").css({"width":propwidth-2});
+                $("#"+propname+"_text").css({"width": (prophelper ? propwidth-25 : propwidth-5) });
+                $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
             }
 			this.showcalendar=function(r){
 				var p=$("#"+propname).offset();
@@ -666,6 +677,9 @@ var globalcolorfocus="#FFF4E6";
                         return def;
                 }
             }
+            this.isempty=function(){
+                return (propday=="__" && propmonth=="__" && propyear=="____");
+            }
 			this.name=function(){
 				return propname;
 			}
@@ -710,6 +724,20 @@ var globalcolorfocus="#FFF4E6";
                     }
 				}
 			}
+            this.helper=function(v){
+                if(v!=missing){
+                    prophelper=v.actualBoolean();
+                    if(prophelper){
+                        $("#"+propname+"_text").css({"width":propwidth-25});
+                        $("#"+propname+"_button").css({"display":"block"});
+                    }
+                    else{
+                        $("#"+propname+"_text").css({"width":propwidth-5});
+                        $("#"+propname+"_button").css({"display":"none"});
+                    }
+                }
+                return prophelper;
+            }
 			this.changed=function(v){
 				if(v==missing)
 					return propchanged;
@@ -775,6 +803,12 @@ var globalcolorfocus="#FFF4E6";
             this.raiseexception=function(){
                 if(settings.exception!=missing){settings.exception(propobj)}
             }
+            if(!propenabled)
+                propobj.enabled(0);
+            if(!propvisible)
+                propobj.visible(0);
+            if(!prophelper)
+                propobj.helper(0);
 			return this;
 		}
 	},{
@@ -790,7 +824,6 @@ var globalcolorfocus="#FFF4E6";
 			var propstart=0;
 			var propfocusout=true;
             var propselected=false;
-            var propenabled=true;
 			var propctrl=false;
 			var propshift=false;
             var propalt=false;
@@ -800,6 +833,7 @@ var globalcolorfocus="#FFF4E6";
 			var propchanged=false;
 			var propenabled=true;
 			var propvisible=true;
+            var prophelper=true;
             var prophelp=false;
             var propmousedown=false;
 			
@@ -816,6 +850,9 @@ var globalcolorfocus="#FFF4E6";
             if(settings.numdec!=missing){propnumdec=settings.numdec}
             if(settings.minvalue!=missing){propminvalue=settings.minvalue}
             if(settings.maxvalue!=missing){propmaxvalue=settings.maxvalue}
+            if(settings.enabled!=missing){propenabled=settings.enabled}
+            if(settings.visible!=missing){propvisible=settings.visible}
+            if(settings.helper!=missing){prophelper=settings.helper}
 			
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -847,6 +884,7 @@ var globalcolorfocus="#FFF4E6";
             })
             .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div>");
             
+            $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":1,"width":1,"height":1,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"});
             $("#"+propname+"_internal").css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"});
             $("#"+propname+"_internal").html("<div id='"+propname+"_text'></div><div id='"+propname+"_cursor'></div><span id='"+propname+"_span'></span>");
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
@@ -1060,6 +1098,9 @@ var globalcolorfocus="#FFF4E6";
                             propobj.raiseassigned();
                             propobj.raiseenter();
             			}
+            			else if(k.which==27){ // ESCAPE
+                            if(settings.escape!=missing){settings.escape(propobj)}
+            			}
             			else if(k.which==8){
                             if(propselected){
                                 propobj.clear();
@@ -1260,7 +1301,8 @@ var globalcolorfocus="#FFF4E6";
                 if(params.width!=missing){propwidth=params.width}
                 $("#"+propname).css({"left":propleft,"top":proptop,"width":propwidth});
                 $("#"+propname+"_internal").css({"width":propwidth-2});
-                $("#"+propname+"_text").css({"width":propwidth-8});
+                $("#"+propname+"_text").css({"width": (prophelper ? propwidth-25 : propwidth-5) });
+                $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
             }
 			this.showcalculator=function(r){
                 if($.browser.mobile){
@@ -1388,6 +1430,7 @@ var globalcolorfocus="#FFF4E6";
 			this.refreshcursor=function(){
 				var s;
                 var d="";
+                var r=(prophelper ? 25 : 5);
                 if(propstart<0){
                     for(var i=0; i<-propstart; i++){
                         d+=propinteger.substr(propinteger.length-i-1,1);
@@ -1401,7 +1444,7 @@ var globalcolorfocus="#FFF4E6";
 					s=d+","+propdecimal;
 				else
 					s=d;
-                $("#"+propname+"_cursor").css({"left":(propwidth-propobj.textwidth(s)-23)})
+                $("#"+propname+"_cursor").css({"left":(propwidth-propobj.textwidth(s)-r)})
 			}
 			this.refresh=function(){
 				$("#"+propname+"_text").html(propobj.formatted());
@@ -1444,7 +1487,8 @@ var globalcolorfocus="#FFF4E6";
 					var s=propsignum+propinteger;
 					if(propnumdec>0)
 						s+="."+propdecimal;
-                    return s;
+                    // mosca: prima era stringa
+                    return parseFloat(s);
 				}
 				else{
                     v=__(v).actualNumber();
@@ -1470,6 +1514,13 @@ var globalcolorfocus="#FFF4E6";
                     if(a){propobj.raiseassigned()}
 				}
 			}
+            this.text=function(){
+                propobj.completion();
+                var s=propsignum+propinteger;
+                if(propnumdec>0)
+                    s+="."+propdecimal;
+                return s;
+            }
 			this.name=function(){
 				return propname;
 			}
@@ -1508,6 +1559,20 @@ var globalcolorfocus="#FFF4E6";
 						$("#"+propname).css({"visibility":"hidden"});
 				}
 			}
+            this.helper=function(v){
+                if(v!=missing){
+                    prophelper=v.actualBoolean();
+                    if(prophelper){
+                        $("#"+propname+"_text").css({"width":propwidth-25});
+                        $("#"+propname+"_button").css({"display":"block"});
+                    }
+                    else{
+                        $("#"+propname+"_text").css({"width":propwidth-5});
+                        $("#"+propname+"_button").css({"display":"none"});
+                    }
+                }
+                return prophelper;
+            }
 			this.changed=function(v){
 				if(v==missing)
 					return propchanged;
@@ -1587,7 +1652,12 @@ var globalcolorfocus="#FFF4E6";
                 propobj.value(v, true);
                 objectFocus(propname);
             }
-            // ADEGUO I DECIMALI A NUMDEC
+            if(!propenabled)
+                propobj.enabled(0);
+            if(!propvisible)
+                propobj.visible(0);
+            if(!prophelper)
+                propobj.helper(0);
             if(propnumdec!=2)
                 propdecimal=propobj.zerofill();
 			return this;
@@ -1626,6 +1696,8 @@ var globalcolorfocus="#FFF4E6";
 			if(settings.width!=missing){propwidth=settings.width}
             if(settings.maxlen!=missing){propmaxlen=settings.maxlen}
             if(settings.password){propinput="password"}
+            if(settings.enabled!=missing){propenabled=settings.enabled}
+            if(settings.visible!=missing){propvisible=settings.visible}
 
             if(settings.filter!=missing){
                 propfilter=settings.filter.toUpperCase();
@@ -1695,6 +1767,9 @@ var globalcolorfocus="#FFF4E6";
                         propobj.raiseenter();
                         propchangedfalse=true;
             		}
+                    else if(k.which==27){ // ESCAPE
+                        if(settings.escape!=missing){settings.escape(propobj)}
+                    }
                     else if(k.which==46){ // delete
                         if(k.ctrlKey){
                             k.preventDefault();
@@ -1905,6 +1980,10 @@ var globalcolorfocus="#FFF4E6";
                 //$("#exception").trigger("exception",propname,propinput,0);
                 if(settings.exception!=missing){settings.exception(propobj)}
             }
+            if(!propenabled)
+                propobj.enabled(0);
+            if(!propvisible)
+                propobj.visible(0);
 		    return this;
 		}
 	},{
@@ -2129,6 +2208,8 @@ var globalcolorfocus="#FFF4E6";
 
 			if(settings.left!=missing){propleft=settings.left}
 			if(settings.top!=missing){proptop=settings.top}
+            if(settings.enabled!=missing){propenabled=settings.enabled}
+            if(settings.visible!=missing){propvisible=settings.visible}
 			
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -2171,6 +2252,13 @@ var globalcolorfocus="#FFF4E6";
             );
             $("#"+propname+"_anchor").keydown(
             	function(k){
+            		if(k.which==13){ // INVIO
+                        propobj.raiseassigned();
+                        propobj.raiseenter();
+            		}
+                    else if(k.which==27){ // ESCAPE
+                        if(settings.escape!=missing){settings.escape(propobj)}
+                    }
                     if(k.which==9){
                         return nextFocus(propname, k.shiftKey);
                     }
@@ -2225,6 +2313,9 @@ var globalcolorfocus="#FFF4E6";
                     if(a){propobj.raiseassigned()}
 				}
 			}
+            this.text=function(){
+                return (propvalue ? "1" : "0");
+            }
 			this.name=function(){
 				return propname;
 			}
@@ -2279,10 +2370,17 @@ var globalcolorfocus="#FFF4E6";
                 if(settings.assigned!=missing){settings.assigned(propobj)}
                 _modifiedState(propname,true);
             }
+            this.raiseenter=function(){
+                if(settings.enter!=missing){settings.enter(propobj)}
+            }
             this.raiseexception=function(){
                 //$("#exception").trigger("exception",propname,propinput,0);
                 if(settings.exception!=missing){settings.exception(propobj)}
             }
+            if(!propenabled)
+                propobj.enabled(0);
+            if(!propvisible)
+                propobj.visible(0);
 			return this;
 		}
 	},{
@@ -2308,6 +2406,8 @@ var globalcolorfocus="#FFF4E6";
 			if(settings.left!=missing){propleft=settings.left}
 			if(settings.top!=missing){proptop=settings.top}
 			if(settings.width!=missing){propwidth=settings.width}
+            if(settings.enabled!=missing){propenabled=settings.enabled}
+            if(settings.visible!=missing){propvisible=settings.visible}
 			
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -2357,6 +2457,10 @@ var globalcolorfocus="#FFF4E6";
                     else if(k.which==13){
                         k.preventDefault();
                         propobj.raiseassigned();
+                        propobj.raiseenter();
+                    }
+                    else if(k.which==27){ // ESCAPE
+                        if(settings.escape!=missing){settings.escape(propobj)}
                     }
             	}
             );
@@ -2508,10 +2612,17 @@ var globalcolorfocus="#FFF4E6";
                 if(settings.assigned!=missing){settings.assigned(propobj)}
                 propchanged=false;
             }
+            this.raiseenter=function(){
+                if(settings.enter!=missing){settings.enter(propobj)}
+            }
             this.raiseexception=function(){
                 //$("#exception").trigger("exception",propname,propinput,0);
                 if(settings.exception!=missing){settings.exception(propobj)}
             }
+            if(!propenabled)
+                propobj.enabled(0);
+            if(!propvisible)
+                propobj.visible(0);
 			return this;
 		}
 	},{

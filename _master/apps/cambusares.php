@@ -240,6 +240,7 @@ RYBOX;
             break;
         
         case "rycode":
+            CambusaLibraryAdd("jquery.cookie.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.cookie.js' ></script>");
             CambusaLibraryAdd("rycode.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rycode.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rycode.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rycode.js?ver=$cacheversion' ></script>");
             break;
@@ -255,6 +256,35 @@ RYBOX;
         case "ryscript":
             CambusaLibrary("rybox");
             CambusaLibraryAdd("ryscript.js", "<script type='text/javascript' src='".$url_cambusa."rybox/ryscript.js?ver=$cacheversion' ></script>");
+            
+            CambusaLibraryAdd("cm_codemirror.css", "<link rel='stylesheet' href='".$url_cambusa."codemirror/lib/codemirror.css' />");
+            CambusaLibraryAdd("cm_monokai.css", "<link rel='stylesheet' href='".$url_cambusa."codemirror/theme/monokai.css' />");
+            CambusaLibraryAdd("cm_show-hint.css", "<link rel='stylesheet' href='".$url_cambusa."codemirror/addon/hint/show-hint.css' />");
+            CambusaLibraryAdd("cm_dialog.css", "<link rel='stylesheet' href='".$url_cambusa."codemirror/addon/dialog/dialog.css' />");
+            
+            CambusaLibraryAdd("cm_codemirror.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/lib/codemirror.js' ></script>");
+            CambusaLibraryAdd("cm_show-hint.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/hint/show-hint.js' ></script>");
+            CambusaLibraryAdd("cm_searchcursor.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/search/searchcursor.js' ></script>");
+            CambusaLibraryAdd("cm_search.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/search/search.js' ></script>");
+            CambusaLibraryAdd("cm_dialog.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/dialog/dialog.js' ></script>");
+            CambusaLibraryAdd("cm_matchbrackets.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/edit/matchbrackets.js' ></script>");
+            CambusaLibraryAdd("cm_comment.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/comment/comment.js' ></script>");
+            CambusaLibraryAdd("cm_hardwrap.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/wrap/hardwrap.js' ></script>");
+            CambusaLibraryAdd("cm_foldcode.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/fold/foldcode.js' ></script>");
+            CambusaLibraryAdd("cm_brace-fold.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/fold/brace-fold.js' ></script>");
+            CambusaLibraryAdd("cm_show-hint.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/hint/show-hint.js' ></script>");
+            CambusaLibraryAdd("cm_anyword-hint.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/hint/anyword-hint.js' ></script>");
+            
+            CambusaLibraryAdd("cm_xml-hint.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/hint/xml-hint.js' ></script>");
+            CambusaLibraryAdd("cm_xml.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/mode/xml/xml.js' ></script>");
+            CambusaLibraryAdd("cm_javascript-hint.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/hint/javascript-hint.js' ></script>");
+            CambusaLibraryAdd("cm_javascript.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/mode/javascript/javascript.js' ></script>");
+            CambusaLibraryAdd("cm_php.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/mode/php/php.js' ></script>");
+            CambusaLibraryAdd("cm_vbscript.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/mode/vbscript/vbscript.js' ></script>");
+            CambusaLibraryAdd("cm_css.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/mode/css/css.js' ></script>");
+            CambusaLibraryAdd("cm_htmlmixed.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/mode/htmlmixed/htmlmixed.js' ></script>");
+            CambusaLibraryAdd("cm_sql.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/mode/sql/sql.js' ></script>");
+            CambusaLibraryAdd("cm_sql-hint.js", "<script type='text/javascript' src='".$url_cambusa."codemirror/addon/hint/sql-hint.js' ></script>");
             break;
     }
 }

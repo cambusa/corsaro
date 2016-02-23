@@ -56,12 +56,12 @@ class winz_pilota{
     public $statusbar;
     
     function winz_pilota(){
-        global $url_cambusa;
+        global $relative_base;
 
         $this->name="rudder";
-        $this->path=$url_cambusa."rywinz/rudder/";
+        $this->path=$relative_base."cambusa/rywinz/rudder/";
         $this->title="Pilota";
-        $this->icon=$url_cambusa."rywinz/rudder/rudder";
+        $this->icon=$relative_base."cambusa/rywinz/rudder/rudder";
         $this->maximize=false;
         $this->controls=true;
         $this->statusbar=true;
@@ -93,14 +93,14 @@ class winz_tools{
     public $items;
     
     function winz_tools(){
-        global $url_cambusa;
+        global $relative_base;
     
         $this->title="Cambusa";
         $this->items=array();
-        $this->items["EGO"]=array( "TITLE" => "Ego", "URL" => $url_cambusa."ryego/ryego.php" );
-        $this->items["MAESTRO"]=array( "TITLE" => "Maestro", "URL" => $url_cambusa."rymaestro/rymaestro.php" );
-        $this->items["MIRROR"]=array( "TITLE" => "Mirror", "URL" => $url_cambusa."rymirror/rymirror.php" );
-        $this->items["PULSE"]=array( "TITLE" => "Pulse", "URL" => $url_cambusa."rypulse/rypulse.php" );
+        $this->items["EGO"]=array( "TITLE" => "Ego", "URL" => $relative_base."cambusa/ryego/ryego.php" );
+        $this->items["MAESTRO"]=array( "TITLE" => "Maestro", "URL" => $relative_base."cambusa/rymaestro/rymaestro.php" );
+        $this->items["MIRROR"]=array( "TITLE" => "Mirror", "URL" => $relative_base."cambusa/rymirror/rymirror.php" );
+        $this->items["PULSE"]=array( "TITLE" => "Pulse", "URL" => $relative_base."cambusa/rypulse/rypulse.php" );
         
     }
 }

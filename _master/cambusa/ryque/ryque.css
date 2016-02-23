@@ -160,3 +160,8 @@ left:0px;
 color:#000000;
 background:transparent url(images/faded.gif) repeat-x;
 }
+
+.ryque-active-cell{
+background-color:#404040;
+color:#F0F0F0;
+}

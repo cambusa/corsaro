@@ -1,4 +1,14 @@
 ==================================
+Rilascio 1.70.19    del 23/02/2016
+==================================
+
+ryScript: utilizzato codemirror direttamente senza iframe.
+
+ryBox: nuova proprietà "helper".
+
+ryUnbound: predisposizione all'editing mediante proprietà "editmode".
+
+==================================
 Rilascio 1.70.18    del 20/02/2016
 ==================================
 

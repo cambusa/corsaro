@@ -20,7 +20,6 @@
 			var propenabled=1;
 			var propvisible=true;
             var propobj=this;
-            var proploaded=false;
             
             var propmode="javascript";
             var propindent=4;
@@ -31,11 +30,6 @@
 			this.tag=null;
 			this.type="script";
             
-            var pendingvalue="";
-            var pendingmode="";
-            var pendingindent=-1;
-            var pendingintellisense=false;
-
 			globalobjs[propname]=this;
 
 			if(settings.left!=missing){propleft=settings.left}
@@ -72,25 +66,40 @@
                 "font-size":"13px",
                 "line-height":"17px",
                 "cursor":"default"
-            })
-            .html("<iframe id='"+propname+"_frame' src='' width='"+(propwidth-2)+"px' height='"+(propheight-2)+"px' frameborder='0'></iframe>");
+            });
+
+            var objmirror=CodeMirror(document.getElementById(propname), {
+                lineNumbers: false,
+                indentUnit:propindent,
+                indentWithTabs:true,
+                tabSize:propindent,
+                autoCloseBrackets:true,
+                matchBrackets:true,
+                showCursorWhenSelecting:true,
+                theme:"monokai",
+                extraKeys: {
+                    "'.'": completeAfter,
+                    "'('": completeAfter,
+                    "Ctrl-Space": "autocomplete"
+                },
+                mode: {name: propmode, globalVars: true}
+            });
             
-            $("#"+propname+"_frame").css({position:"absolute", left:1, top:1});
-            
+            objmirror.on("change",
+                function(){
+                    propobj.raisechanged();
+                }
+            );
+
 			this.value=function(v,a){
 				if(v==missing){
-                    return document.getElementById(propname+"_frame").contentWindow.getvalue();
+                    return getvalue();
 				}
 				else{
-                    if(proploaded){
-                        propchanged=false;
-                        document.getElementById(propname+"_frame").contentWindow.setvalue(v);
-                        if(a==missing){a=false}
-                        if(a){propobj.raiseassigned()}
-                    }
-                    else{
-                        pendingvalue=v;
-                    }
+                    propchanged=false;
+                    setvalue(v);
+                    if(a==missing){a=false}
+                    if(a){propobj.raiseassigned()}
 				}
 			}
 			this.mode=function(v){
@@ -98,13 +107,8 @@
                     return propmode;
 				}
 				else{
-                    if(proploaded){
-                        propmode=v;
-                        document.getElementById(propname+"_frame").contentWindow.setmode(v);
-                    }
-                    else{
-                        pendingmode=v;
-                    }
+                    propmode=v;
+                    setmode(v);
 				}
 			}
 			this.indent=function(v){
@@ -112,23 +116,13 @@
                     return propindent;
 				}
 				else{
-                    if(proploaded){
-                        propindent=v;
-                        document.getElementById(propname+"_frame").contentWindow.setindent(v);
-                    }
-                    else{
-                        pendingindent=v;
-                    }
+                    propindent=v;
+                    setindent(v);
 				}
 			}
 			this.intellisense=function(v){
-                if(proploaded){
-                    propintellisense=v;
-                    document.getElementById(propname+"_frame").contentWindow.setintellisense(v);
-                }
-                else{
-                    pendingintellisense=v;
-                }
+                propintellisense=v;
+                setintellisense(v);
 			}
 			this.name=function(){
 				return propname;
@@ -139,7 +133,7 @@
 				}
 				else{
 					propenabled=v.booleanNumber();
-                    document.getElementById(propname+"_frame").contentWindow.setenabled(propenabled);
+                    setenabled(propenabled);
 				}
 			}
 			this.visible=function(v){
@@ -170,7 +164,7 @@
             
 			}
 			this.focus=function(){
-                document.getElementById(propname+"_frame").contentWindow.setfocus();
+                setfocus();
 			}
             this.raisegotfocus=function(){
                 if(settings.gotfocus!=missing){settings.gotfocus(propobj)}
@@ -189,33 +183,136 @@
                 if(settings.assigned!=missing){settings.assigned(propobj)}
                 propchanged=false;
             }
-            this.raiseload=function(){
-                proploaded=true;
-                if(pendingvalue!=""){
-                    propobj.value(pendingvalue);
-                }
-                if(pendingmode!=""){
-                    propobj.mode(pendingmode);
-                }
-                if(pendingindent>=0){
-                    propobj.indent(pendingindent);
-                }
-                if(pendingintellisense!=false){
-                    propobj.intellisense(pendingintellisense);
-                }
-                pendingvalue="";
-                pendingmode="";
-                pendingindent=-1;
-                pendingintellisense=false;
-                TAIL.free();
-                if(settings.onload)
-                    settings.onload();
+            function completeAfter(cm, pred) {
+                var cur=cm.getCursor();
+                if (!pred || pred()) setTimeout(function() {
+                  if (!cm.state.completionActive)
+                    cm.showHint({completeSingle: false});
+                }, 100);
+                return CodeMirror.Pass;
             }
-            TAIL.enqueue(function(){
-                $("#"+propname+"_frame").attr("src", _systeminfo.relative.cambusa+"rybox/ryscript.php?mode="+propmode+"&indent="+propindent+"&name="+propname+"&var="+(new Date().getTime()));
-            });
-            TAIL.wriggle();
-            
+            function getvalue(v){
+                return objmirror.getValue().replace(/\t/g, "          ".subright(propindent));
+            }
+            function setvalue(v){
+                objmirror.setValue(v);
+                objmirror.refresh();
+                objmirror.doc.clearHistory();
+            }
+            function setindent(v){
+                propindent=v;
+                objmirror.setOption("indentUnit", v);
+                objmirror.setOption("tabSize", v);
+                objmirror.refresh();
+            }
+            function setintellisense(v){
+                CodeMirror.registerHelper("hint", propmode, function(cm, options){
+                    var cur=cm.getCursor();
+                    var curLine=cm.getLine(cur.line);
+                    var end=cur.ch;
+                    var start=end;
+                    var line=cur.line;
+                    
+                    var ws=[];
+                    var e=true;
+                    var pos=end;
+                    var w="";
+                    var ok=true;
+                    
+                    do{
+                        if(pos<=0){
+                            e=false;
+                            if(w!="")
+                                ws.unshift([w, 0]);
+                        }
+                        else{
+                            var k=curLine.charAt(pos - 1);
+                            if(/\w/.test(k)){
+                                // Carattere alpanumerico
+                                w=k+w;
+                                if(pos>1){
+                                    // Controllo se il carettere che precede crea spazi
+                                    k=curLine.charAt(pos - 2);
+                                    if(/\s/.test(k)){
+                                        // Aggiungo al percorso
+                                        ws.unshift([w, pos-1]);
+                                        w="";
+                                    }
+                                }
+                            }
+                            else if(/[.(]/.test(k)){
+                                if(w!=""){
+                                    ws.unshift([w, pos]);
+                                    w="";
+                                }
+                            }
+                            else if(/[\s]/.test(k)){
+                                if(w!=""){
+                                    ws.unshift([w, pos]);
+                                    w="";
+                                }
+                                e=false;
+                                break;
+                            }
+                        }
+                        --pos;
+                    }while(e)
+                    
+                    var list = [];
+                    
+                    if(ok){
+                        var b=CopyLower(v);
+                        var curWord="";
+                        
+                        for(var i in ws){
+                            w=ws[i][0];
+                            if($.isset(b[ w.toLowerCase()])){
+                                b=b[w.toLowerCase()][0];
+                            }
+                            else{
+                                curWord=w;
+                                start=ws[i][1];
+                                break;
+                            }
+                        }
+                        if(typeof(b)=="object"){
+                            for(var n in b){
+                                if(!curWord || n.substr(0, curWord.length)==curWord.toLowerCase()){
+                                    list.push(b[n][1]);
+                                }
+                            }
+                        }
+                        else if(b!=""){
+                            list.push(b);
+                        }
+                    }
+
+                    return {
+                        list: list,
+                        from: CodeMirror.Pos(line, start),
+                        to: CodeMirror.Pos(line, end)
+                    }
+                });    
+            }
+            function CopyLower(v){
+                var c={};
+                for(var n in v){
+                    if(typeof(v[n])=="object")
+                        c[n.toLowerCase()]=[CopyLower(v[n]), n];
+                    else
+                        c[n.toLowerCase()]=[v[n], n];
+                }
+                return c;
+            }
+            function setenabled(v){
+                if(v)
+                    objmirror.setOption("readOnly", false);
+                else
+                    objmirror.setOption("readOnly", true);
+            }
+            function setfocus(v){
+                objmirror.focus();
+            }
 			return this;
 		}
 	});
