@@ -265,6 +265,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                                 settings.enter(propobj);
                             }
             			}
+            			else if(k.which==27){ // ESCAPE
+                            if(settings.escape!=missing){settings.escape(propobj)}
+            			}
             			if(k.which==8){
                             if(propselected){
                                 propobj.clear();
@@ -461,8 +464,10 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 					propmaxlen=l;
 			}
 			this.showdialog=function(r){
-                if(settings.dialog!=missing){
-                    settings.dialog(propobj);
+                if(prophelper){
+                    if(settings.dialog!=missing){
+                        settings.dialog(propobj);
+                    }
                 }
 			}
 			this.refreshcursor=function(){

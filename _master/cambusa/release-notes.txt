@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.70.20    del 26/02/2016
+==================================
+
+ryUnbound: editmode migliorato.
+
+ryBox e ryCode: enabled, visible e helper impostabili direttamente in definizione.
+
+==================================
 Rilascio 1.70.19    del 23/02/2016
 ==================================
 

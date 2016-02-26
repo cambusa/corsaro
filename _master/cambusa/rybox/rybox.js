@@ -40,14 +40,14 @@ var globalcolorfocus="#FFF4E6";
             var prophelper=true;
             var proplink=null;
             var propdefault="";
-            var prophelp=false;
             var propmousedown=false;
+            var flaghelp=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
 			this.tag=null;
 			this.type="date";
-			
+            
 			globalobjs[propname]=this;
 
 			if(settings.left!=missing){propleft=settings.left}
@@ -470,14 +470,14 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_button").click(
             	function(){
             		if(propenabled){
-                        if(!prophelp){
+                        if(!flaghelp){
                             propobj.showcalendar();
-                            prophelp=true;
+                            flaghelp=true;
                         }
                         else{
                             if($("#"+propname+"_text").html()=="__/__/____")
                                 propobj.value(Date.stringToday());
-                            prophelp=false;
+                            flaghelp=false;
                         }
             		}
             	}
@@ -527,23 +527,25 @@ var globalcolorfocus="#FFF4E6";
                 $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
             }
 			this.showcalendar=function(r){
-				var p=$("#"+propname).offset();
-				$("#"+propname+"_calendar").datepicker("dialog",propobj.value(),
-					function(dateText, inst){ 
-						propobj.value(new Date(dateText), true);
-						objectFocus(propname);
-					},
-					{
-                        onClose:function(){
-                            objectFocus(propname)
-                            prophelp=true;
-                            setTimeout(function(){
-                                prophelp=false;
-                            }, 500);
-                        }
-                    },
-					[p.left,p.top+propheight]
-				);
+                if(prophelper){
+                    var p=$("#"+propname).offset();
+                    $("#"+propname+"_calendar").datepicker("dialog",propobj.value(),
+                        function(dateText, inst){ 
+                            propobj.value(new Date(dateText), true);
+                            objectFocus(propname);
+                        },
+                        {
+                            onClose:function(){
+                                objectFocus(propname)
+                                flaghelp=true;
+                                setTimeout(function(){
+                                    flaghelp=false;
+                                }, 500);
+                            }
+                        },
+                        [p.left,p.top+propheight]
+                    );
+                }
 			}
 			this.refreshcursor=function(){
 				var t=propobj.formatted();
@@ -834,14 +836,14 @@ var globalcolorfocus="#FFF4E6";
 			var propenabled=true;
 			var propvisible=true;
             var prophelper=true;
-            var prophelp=false;
             var propmousedown=false;
+            var flaghelp=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
 			this.tag=null;
 			this.type="number";
-			
+            
 			globalobjs[propname]=this;
 
 			if(settings.left!=missing){propleft=settings.left}
@@ -1228,7 +1230,7 @@ var globalcolorfocus="#FFF4E6";
             	function(evt){
             		if(propenabled){
                         propmousedown=true;
-                        if(!propselected || prophelp)
+                        if(!propselected || flaghelp)
                             castFocus(propname);
             		}
             	}
@@ -1249,13 +1251,13 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_button").click(
             	function(){
             		if(propenabled){
-                        if(!prophelp){
+                        if(!flaghelp){
                             propobj.showcalculator();
-                            prophelp=true;
+                            flaghelp=true;
                         }
                         else{
                             acceptvalue();
-                            prophelp=false;
+                            flaghelp=false;
                         }
             		}
             	}
@@ -1305,82 +1307,84 @@ var globalcolorfocus="#FFF4E6";
                 $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
             }
 			this.showcalculator=function(r){
-                if($.browser.mobile){
-                    var v=prompt("Inserire un valore o una formula");
-                    prophelp=false;
-                    if(typeof(v)=="string"){
-                        v=v.replace(",", ".");
-                        v=v.replace(/[^0-9.+\-*\/\(\)]/g, "");
-                        v=eval( v );
-                        v=__(v).stringNumber();
-                        propobj.value(v, true);
+                if(prophelper){
+                    if($.browser.mobile){
+                        var v=prompt("Inserire un valore o una formula");
+                        flaghelp=false;
+                        if(typeof(v)=="string"){
+                            v=v.replace(",", ".");
+                            v=v.replace(/[^0-9.+\-*\/\(\)]/g, "");
+                            v=eval( v );
+                            v=__(v).stringNumber();
+                            propobj.value(v, true);
+                        }
                     }
-                }
-                else{
-                    var p=$("#"+propname).offset();
-                    var v=propobj.value();
-                    if(v==0)
-                        v="";
-                    var code=0;
-                    $("#rybox_calculator").html("<input id='rybox_calculator_input' type='text' value='"+v+"' placeholder='23*(42-7)'>");
-                    $("#rybox_calculator").css({border:"1px solid silver", left:p.left, top:p.top+propheight, width:200, "zIndex":10000});
-                    $("#rybox_calculator_input").css({width:196,"font-family":"verdana,sans-serif"});
-                    $("#rybox_calculator_input").focusin(
-                        function(){
-                            globaledittext=true;
-                        }
-                    );
-                    $("#rybox_calculator_input").focusout(
-                        function(){
-                            globaledittext=false;
-                            $("#rybox_calculator").hide();
-                            $("#rybox_calculator").empty();
-                            prophelp=true;
-                            setTimeout(function(){
-                                prophelp=false;
-                            }, 500);
-                        }
-                    );
-                    $("#rybox_calculator_input").keydown(
-                        function(k){
-                            code=k.which;
-                            propctrl=k.ctrlKey;
-                            var n=String.fromCharCode(k.which).toUpperCase();
-                            if(k.which==13){ // INVIO
-                                acceptvalue();
+                    else{
+                        var p=$("#"+propname).offset();
+                        var v=propobj.value();
+                        if(v==0)
+                            v="";
+                        var code=0;
+                        $("#rybox_calculator").html("<input id='rybox_calculator_input' type='text' value='"+v+"' placeholder='23*(42-7)'>");
+                        $("#rybox_calculator").css({border:"1px solid silver", left:p.left, top:p.top+propheight, width:200, "zIndex":10000});
+                        $("#rybox_calculator_input").css({width:196,"font-family":"verdana,sans-serif"});
+                        $("#rybox_calculator_input").focusin(
+                            function(){
+                                globaledittext=true;
                             }
-                            else if(k.which==27){ // ESC
-                                objectFocus(propname);
+                        );
+                        $("#rybox_calculator_input").focusout(
+                            function(){
+                                globaledittext=false;
+                                $("#rybox_calculator").hide();
+                                $("#rybox_calculator").empty();
+                                flaghelp=true;
+                                setTimeout(function(){
+                                    flaghelp=false;
+                                }, 500);
                             }
-                        }
-                    );
-                    $("#rybox_calculator_input").keypress(
-                        function(k){
-                            var n=String.fromCharCode(k.which).toUpperCase();
-                            switch(n){
-                            case "0":case "1":case "2":case "3":case "4":case "5":case "6":case "7":case "8":case "9":
-                            case ".":case "(":case ")":case "+":case "-":case "*":case "/":
-                                break;
-                            case "X":case "C":case "V":
-                                if(!propctrl)
-                                    return false;
-                                break;
-                            default:
-                                switch(code){
-                                case 35:case 36:case 37:case 39:case 45:case 46:case 8:
-                                    break;
-                                default:
-                                    return false;
+                        );
+                        $("#rybox_calculator_input").keydown(
+                            function(k){
+                                code=k.which;
+                                propctrl=k.ctrlKey;
+                                var n=String.fromCharCode(k.which).toUpperCase();
+                                if(k.which==13){ // INVIO
+                                    acceptvalue();
+                                }
+                                else if(k.which==27){ // ESC
+                                    objectFocus(propname);
                                 }
                             }
-                        }
-                    );
-                    $("#rybox_calculator").show();
-                    setTimeout(function(){ 
-                        var o=document.getElementById("rybox_calculator_input");
-                        o.focus();
-                        o.select(); 
-                    }, 100);                
+                        );
+                        $("#rybox_calculator_input").keypress(
+                            function(k){
+                                var n=String.fromCharCode(k.which).toUpperCase();
+                                switch(n){
+                                case "0":case "1":case "2":case "3":case "4":case "5":case "6":case "7":case "8":case "9":
+                                case ".":case "(":case ")":case "+":case "-":case "*":case "/":
+                                    break;
+                                case "X":case "C":case "V":
+                                    if(!propctrl)
+                                        return false;
+                                    break;
+                                default:
+                                    switch(code){
+                                    case 35:case 36:case 37:case 39:case 45:case 46:case 8:
+                                        break;
+                                    default:
+                                        return false;
+                                    }
+                                }
+                            }
+                        );
+                        $("#rybox_calculator").show();
+                        setTimeout(function(){ 
+                            var o=document.getElementById("rybox_calculator_input");
+                            o.focus();
+                            o.select(); 
+                        }, 100);                
+                    }
                 }
 			}
 			this.minvalue=function(v){

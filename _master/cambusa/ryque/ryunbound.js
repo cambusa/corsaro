@@ -245,7 +245,7 @@
                                     var p3=$( "#"+propname+"_outgrid" ).position();
                                     var id=propcols[propcolumn-1];
                                     var t=proptyps[propcolumn-1];
-                                    var w=propdims[propcolumn-1]+1;
+                                    var w=$( "#"+propname+"_"+(propindex-proptoprow+1)+"_"+propcolumn ).width()+12;
                                     var l=propleft+p0.left+p1.left+p2.left+p3.left;
                                     if(w<100)
                                         w=100;
@@ -259,41 +259,39 @@
                                         top:proptop+p0.top+p1.top+p2.top+p3.top, 
                                         type:t, 
                                         value:propobj.matrix[propindex-1][id],
-                                        editor:false,
-                                        back:function(x, v){
+                                        editor:false
+                                    };
+                                    settings.edit(propobj, info);
+                                    if(info.editor){
+                                        // Metodi in uscita
+                                        info.back=function(v){
                                             if(v==missing){
-                                                if(x){
-                                                    if(info.editor.type=="list")
-                                                        v=x.key();
-                                                    else
-                                                        v=x.value();
-                                                }
+                                                if(info.editor.type=="list")
+                                                    v=info.editor.key();
                                                 else
-                                                    v="";
+                                                    v=info.editor.value();
                                             }
                                             propobj.cells(propindex, id, v);
                                             propobj.refresh();
                                             propobj.focus();
-                                        },
-                                        abandon:function(x){
-                                            if(x!=missing){
-                                                x.visible(0);
-                                            }
+                                        };
+                                        info.abandon=function(){
+                                            info.editor.visible(0);
                                             propobj.focus();
-                                        }
-                                    };
-                                    settings.edit(propobj, info);
-                                    if(info.editor){
+                                        };
+                                        // Posizionamento dell'editor
                                         if(info.editor.type=="check")
-                                            info.left+=Math.floor(info.width/2)-7;
+                                            info.left+=Math.floor(info.width/2)-9;
                                         info.editor.move({"left":info.left, "top":info.top, "width":info.width});
-                                        info.editor.info=info;
+                                        // Valorizzazione dell'editor
                                         if(info.editor.type=="list")
                                             info.editor.setkey(info.value);
                                         else
                                             info.editor.value(info.value);
+                                        // Eventuale disabilitazione dell'helper
                                         if(info.editor.type.match(/^(date|number|code)$/))
                                             info.editor.helper(0);
+                                        // Show e focus
                                         info.editor.visible(1);
                                         info.editor.focus();
                                     }
