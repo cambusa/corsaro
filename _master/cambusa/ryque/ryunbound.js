@@ -270,6 +270,8 @@
                                                     v=info.editor.key();
                                                 else
                                                     v=info.editor.value();
+                                                if(v==null)
+                                                    v="";
                                             }
                                             propobj.cells(propindex, id, v);
                                             propobj.refresh();

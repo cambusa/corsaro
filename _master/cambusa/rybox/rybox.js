@@ -273,13 +273,14 @@ var globalcolorfocus="#FFF4E6";
             				else if(propshift){
             					propobj.value(clipdate);                    
             				}
+                            else{
+                                propobj.value(Date.stringToday());
+                            }
             			}
             			else if(k.which==113 || (propalt && k.which==50)){ // F2  Alt+2
             				propobj.showcalendar();
             			}
             			else if(k.which==13){ // INVIO
-            				if(!propobj.value())
-            					propobj.value(Date.stringToday());
             				propstart=0;
             				propobj.refreshcursor();
                             if(settings.changed!=missing){settings.changed(propobj)}
