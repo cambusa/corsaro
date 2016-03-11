@@ -403,7 +403,7 @@ function class_qvpratiche(settings,missing){
         caption:"Stampa selezione",
         button:true,
         click:function(o){
-            qv_printselected(formid, objgridsel, "rep_pratiche.php")
+            qv_printselected(formid, objgridsel, "@customize/corsaro/reporting/rep_pratiche.php")
         }
     });
 
@@ -2197,6 +2197,7 @@ function class_qvpratiche(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(tabselezione);
     objtabs.enabled(tabcontesto, false);
     objtabs.enabled(tabattivita, false);

@@ -123,8 +123,8 @@
                 })
                 r+=50;
             }
-            $("#"+propname+"_ul").append("<li style='position:absolute;right:"+r+"px;'><div id='"+propname+"_customright'></div></li>");
             $("#"+propname+"_ul").append("<li style='float:left;padding:0px 25px 0px;'><div id='"+propname+"_customleft'></div></li>");
+            $("#"+propname+"_ul").append("<li style='position:absolute;right:"+r+"px;'><div id='"+propname+"_customright'></div></li>");
 
             $("#"+propname+">div").each(
                 function(index){

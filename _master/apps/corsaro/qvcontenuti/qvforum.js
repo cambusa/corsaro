@@ -144,6 +144,7 @@ function class_qvforum(settings,missing){
             }
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
 
     RYWINZ.logoutcalls.push(function(done){

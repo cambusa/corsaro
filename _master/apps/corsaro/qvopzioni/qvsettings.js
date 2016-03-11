@@ -354,7 +354,7 @@ function class_qvsettings(settings,missing){
             }
         }
     });
-    
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     txf_search.focus();
     

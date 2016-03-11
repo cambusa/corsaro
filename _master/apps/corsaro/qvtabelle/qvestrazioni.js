@@ -143,6 +143,7 @@ function class_qvestrazioni(settings,missing){
             {title:"Selezione"}
         ]
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     
     // INIZIALIZZAZIONE FORM

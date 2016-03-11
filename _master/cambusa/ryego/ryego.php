@@ -23,6 +23,7 @@ else
     $appname="";
 
 // RISOLVO LE IMMAGINI DECORATIVE
+$egotitle="Servizio di autenticazione";
 $egoimage_header=$url_cambusa."ryego/images/classic-backheader.svg";
 $egoimage_logo=$url_cambusa."ryego/images/ego.gif";
 $egoimage_footer=$url_cambusa."ryego/images/classic-backfooter.svg";
@@ -176,7 +177,7 @@ prepareEncrypt($maestro, $publickey);
 <html>
 <head>
 <meta charset="utf-8" />
-<meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="ryEgo - Central Authentication Service" />
 <meta name="framework" content="Cambusa <?php print $cambusa_version ?>" />
@@ -358,7 +359,7 @@ elseif($msk=="setup"){
 <td colspan='8' valign='top'>
 
 <div class='classicSkip10'>&nbsp;</div>
-<div style='position:relative;font-size:16px;height:30px;text-align:center;white-space:nowrap;color:black;'>Ego - <span id="egotitle">Servizio di autenticazione</span></div>
+<div style='position:relative;font-size:16px;height:30px;text-align:center;white-space:nowrap;color:black;'><span id="egotitle"><?php print $egotitle ?></span></div>
 <div class='classicSkip10'>&nbsp;</div>
 <div class='classicHR'>&nbsp;</div>
 <div class='classicSkip20'>&nbsp;</div>

@@ -154,6 +154,7 @@ function class_qvstatistiche(settings,missing){
             {title:"Statistiche", code:"STATISTICS"}
         ]
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
 
     function tracciautenti(v, gg){

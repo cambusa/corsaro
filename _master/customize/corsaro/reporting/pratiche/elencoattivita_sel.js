@@ -185,7 +185,7 @@ function class_elencoattivita_sel(settings,missing){
         caption:"Stampa",
         button:true,
         click:function(o){
-            qv_printselected(formid, objgridsel, "pratiche/elencoattivita_rep.php", {checkall:true})
+            qv_printselected(formid, objgridsel, "@customize/corsaro/reporting/pratiche/elencoattivita_rep.php", {checkall:true})
         }
     });
 
@@ -196,6 +196,7 @@ function class_elencoattivita_sel(settings,missing){
             {title:"Selezione"}
         ]
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     
     // INIZIALIZZAZIONE FORM

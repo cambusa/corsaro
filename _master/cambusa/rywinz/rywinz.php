@@ -19,7 +19,7 @@ if(!isset($winz_appenviron)){
 <html>
 <head>
 <meta charset="utf-8" />
-<meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="ryWinz - Form Management" />
 <meta name="framework" content="Cambusa <?php print $cambusa_version ?>" />
@@ -286,28 +286,28 @@ function winz_postman(missing){
 			<li>
 				<a class="menu_trigger" href="#">File</a>
 				<ul class="menu">
-					<li><a class="rudyz" href="#icon_dock_rudder"><?php print $RYWINZ->pilota->title ?></a></li>
+					<li><a id="WINZ_PILOTA" class="rudyz" href="#icon_dock_rudder"><?php print $RYWINZ->pilota->title ?></a></li>
 <?php if($RYWINZ->postman->enabled){ ?>
-                    <li><a class="rudyz" href="javascript:" onclick="winz_postman()"><?php print $RYWINZ->postman->title ?></a></li>
+                    <li><a id="WINZ_POSTMAN" class="rudyz" href="javascript:" onclick="winz_postman()"><?php print $RYWINZ->postman->title ?></a></li>
 <?php } ?>
-					<li><a class="rudyz" href="javascript:" onclick="winz_logout(true)">Logout</a></li>
+					<li><a id="WINZ_LOGOUT" class="rudyz" href="javascript:" onclick="winz_logout(true)">Logout</a></li>
 				</ul>
 			</li>
 			<li>
-				<a class="menu_trigger" href="#"><?php print $RYWINZ->tools->title; ?></a>
+				<a id="WINZ_TOOLS" class="menu_trigger" href="#"><?php print $RYWINZ->tools->title; ?></a>
 				<ul class="menu">
 <?php
 // MENU CAMBUSA
 foreach($RYWINZ->tools->items as $k => $v){
-    print "					<li><a class=\"rudyz\" href=\"" . $v["URL"] . "\" target=\"_blank\">" . $v["TITLE"] . "</a></li>\n";
+    print "					<li><a id=\"WINZ_".$k."\" class=\"rudyz\" href=\"" . $v["URL"] . "\" target=\"_blank\">" . $v["TITLE"] . "</a></li>\n";
 }
 ?>
 				</ul>
 			</li>
 			<li>
-				<a class="menu_trigger" href="#">Info</a>
+				<a id="WINZ_INFO" class="menu_trigger" href="#">Info</a>
 				<ul class="menu">
-					<li><a class="rudyz" href="javascript:" onclick="winz_showabout()">About <?php print $RYWINZ->apptitle ?></a></li>
+					<li><a id="WINZ_ABOUT" class="rudyz" href="javascript:" onclick="winz_showabout()">About <?php print $RYWINZ->apptitle ?></a></li>
 				</ul>
 			</li>
 		</ul>
@@ -327,9 +327,14 @@ if($RYWINZ->desktop){
 		<ul id="dock">
 		</ul>
 <?php
-    $copy=$RYWINZ->apptitle." &copy; ".$RYWINZ->copyright;
-    if($RYWINZ->dealer!=""){
-        $copy.=" - Dealer ".$RYWINZ->dealer;
+    if($RYWINZ->logo!=""){
+        $copy=$RYWINZ->logo;
+    }
+    else{
+        $copy=$RYWINZ->apptitle." &copy; ".$RYWINZ->copyright;
+        if($RYWINZ->dealer!=""){
+            $copy.=" - Dealer ".$RYWINZ->dealer;
+        }
     }
 ?>
 		<span class="float_right" style="font-size:11px;">&nbsp;&nbsp;&nbsp;<?php  print $copy ?></span>

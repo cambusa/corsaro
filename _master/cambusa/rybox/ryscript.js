@@ -24,6 +24,8 @@
             var propmode="javascript";
             var propindent=4;
             var propintellisense=false;
+            
+            var objmirror;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -67,8 +69,7 @@
                 "line-height":"17px",
                 "cursor":"default"
             });
-
-            var objmirror=CodeMirror(document.getElementById(propname), {
+            objmirror=CodeMirror(document.getElementById(propname), {
                 lineNumbers: false,
                 indentUnit:propindent,
                 indentWithTabs:true,
@@ -84,13 +85,20 @@
                 },
                 mode: {name: propmode, globalVars: true}
             });
-            
+            objmirror.setSize(propwidth, propheight);
             objmirror.on("change",
                 function(){
                     propobj.raisechanged();
                 }
             );
-
+            this.move=function(params){
+                if(params.left!=missing){propleft=params.left}
+                if(params.top!=missing){proptop=params.top}
+                if(params.width!=missing){propwidth=params.width}
+                if(params.height!=missing){propheight=params.height}
+                $("#"+propname).css({"left":propleft, "top":proptop, "width":propwidth, "height":propheight});
+                objmirror.setSize(propwidth, propheight);
+            }
 			this.value=function(v,a){
 				if(v==missing){
                     return getvalue();

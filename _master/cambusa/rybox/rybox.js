@@ -2400,6 +2400,7 @@ var globalcolorfocus="#FFF4E6";
 			var propenabled=true;
 			var propvisible=true;
             var proplink=null;
+            var propautocoding=false;
 
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -2413,6 +2414,7 @@ var globalcolorfocus="#FFF4E6";
 			if(settings.width!=missing){propwidth=settings.width}
             if(settings.enabled!=missing){propenabled=settings.enabled}
             if(settings.visible!=missing){propvisible=settings.visible}
+            if(settings.autocoding!=missing){propautocoding=settings.autocoding}
 			
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -2534,7 +2536,10 @@ var globalcolorfocus="#FFF4E6";
 				var d="",k=i,b="",t="";
 				if(item.caption!=missing){d=item.caption}
 				if(item.key!=missing){k=item.key}
-				if(item.code!=missing){b=item.code}
+                if(item.code!=missing)
+                    b=item.code;
+                else if(propautocoding && d!="")
+                    b="LST_"+d.replace(/[^\w_]/ig, "").toUpperCase();
                 if(item.tag!=missing){t=item.tag}
                 $("#"+propname+"_anchor").append("<option value='"+i+"' key='"+k+"' babelcode='"+b+"' tag='"+t+"'>"+d+"</option>");
                 $("#"+propname+"_anchor option").css({"background-color":"#FFFFFF"});
@@ -2825,6 +2830,8 @@ var globalcolorfocus="#FFF4E6";
 		
 function ryBox(missing){
     var propbabelcodes={};
+    var propbabelcache={};
+    var proplanguage="";
     this.container=function(c){
         if(c==missing)
             return globalcontainer;
@@ -2853,49 +2860,89 @@ function ryBox(missing){
     this.localize=function(lang, parentid, action, missing){
         TAIL.enqueue(function(lang, parentid){
             if(_systeminfo.relative.cambusa!="" && lang!="default"){
-                var i,c,j,k="";
-                for(i in globalobjs){
+                var i,c,t,j,k="";
+                var collection=globalobjs;
+                var fields={};
+                if(proplanguage!=lang){
+                    proplanguage=lang;
+                    propbabelcache={};
+                    for(c in propbabelcodes)
+                        propbabelcodes[c].virgin=true;
+                }
+                if(parentid!=missing)
+                    collection=_globalforms[parentid].controls;
+                for(i in collection){
                     var o=globalobjs[i];
-                    switch(o.type){
-                        case "label":
-                        case "button":
-                            if(solveparent(o,parentid)){
+                    if(o){
+                        switch(o.type){
+                            case "label":
+                            case "button":
                                 if((c=o.babelcode())>""){
-                                    if(k!=""){k+="|"}
-                                    k+=c;
+                                    if($.isset(propbabelcache[c])){
+                                        t=propbabelcache[c];
+                                        if(t.length>0)
+                                            o.caption(t);
+                                    }
+                                    else{
+                                        if(k!=""){k+="|"}
+                                        k+=c;
+                                        fields[i]=o;
+                                        propbabelcache[c]="";
+                                    }
                                 }
-                            }
-                            break;
-                        case "list":
-                            if(solveparent(o,parentid)){
+                                break;
+                            case "list":
                                 for(j=1;j<=o.count();j++){
                                     if((c=o.babelcode(j))>""){
-                                        if(k!=""){k+="|"}
-                                        k+=c;
+                                        if($.isset(propbabelcache[c])){
+                                            t=propbabelcache[c];
+                                            if(t.length>0)
+                                                o.caption(j,t);
+                                        }
+                                        else{
+                                            if(k!=""){k+="|"}
+                                            k+=c;
+                                            fields[i]=o;
+                                            propbabelcache[c]="";
+                                        }
                                     }
                                 }
-                            }
-                            break;
-                        case "grid":
-                            if(solveparent(o,parentid)){
+                                break;
+                            case "grid":
                                 for(j=1;j<=o.columns();j++){
                                     if((c=o.babelcode(j))>""){
-                                        if(k!=""){k+="|"}
-                                        k+=c;
+                                        if($.isset(propbabelcache[c])){
+                                            t=propbabelcache[c];
+                                            if(t.length>0)
+                                                o.caption(j,t);
+                                        }
+                                        else{
+                                            if(k!=""){k+="|"}
+                                            k+=c;
+                                            fields[i]=o;
+                                            propbabelcache[c]="";
+                                        }
                                     }
                                 }
-                            }
-                            break;
-                        case "tabs":
-                            if(solveparent(o,parentid)){
+                                break;
+                            case "tabs":
                                 for(j=1;j<=o.tabs();j++){
                                     if((c=o.babelcode(j))>""){
-                                        if(k!=""){k+="|"}
-                                        k+=c;
+                                        if($.isset(propbabelcache[c])){
+                                            t=propbabelcache[c];
+                                            if(t.length>0)
+                                                o.caption(j,t);
+                                        }
+                                        else{
+                                            if(k!=""){k+="|"}
+                                            k+=c;
+                                            fields[i]=o;
+                                            propbabelcache[c]="";
+                                        }
                                     }
                                 }
-                            }
-                            break;
+                                break;
+                        }
                     }
                 }
                 for(c in propbabelcodes){
@@ -2905,55 +2952,51 @@ function ryBox(missing){
                             k+=c;
                     }
                 }
+                if(window.console&&_sessioninfo.debugmode){console.log("Babelcodes:"+k)}
                 if(k!=""){
                     $.post(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"lang":lang,"codes":k},
                         function(d){
                             try{
-                                var i,t,c,j;
                                 var v=$.parseJSON(d);
-                                for(i in globalobjs){
+                                for(i in fields){
                                     var o=globalobjs[i];
                                     switch(o.type){
                                         case "label":
                                         case "button":
-                                            if(solveparent(o,parentid)){
-                                                if((c=o.babelcode())>""){
-                                                    t=v[c];
-                                                    if(t.length>0)
-                                                        o.caption(t);
-                                                }
+                                            if((c=o.babelcode())>""){
+                                                t=v[c];
+                                                if(t.length>0)
+                                                    o.caption(t);
+                                                propbabelcache[c]=t;
                                             }
                                             break;
                                         case "list":
-                                            if(solveparent(o,parentid)){
-                                                for(j=1;j<=o.count();j++){
-                                                    if((c=o.babelcode(j))>""){
-                                                        t=v[c];
-                                                        if(t.length>0)
-                                                            o.caption(j,t);
-                                                    }
+                                            for(j=1;j<=o.count();j++){
+                                                if((c=o.babelcode(j))>""){
+                                                    t=v[c];
+                                                    if(t.length>0)
+                                                        o.caption(j,t);
+                                                    propbabelcache[c]=t;
                                                 }
                                             }
                                             break;
                                         case "grid":
-                                            if(solveparent(o,parentid)){
-                                                for(j=1;j<=o.columns();j++){
-                                                    if((c=o.babelcode(j))>""){
-                                                        t=v[c];
-                                                        if(t.length>0)
-                                                            o.caption(j,t);
-                                                    }
+                                            for(j=1;j<=o.columns();j++){
+                                                if((c=o.babelcode(j))>""){
+                                                    t=v[c];
+                                                    if(t.length>0)
+                                                        o.caption(j,t);
+                                                    propbabelcache[c]=t;
                                                 }
                                             }
                                             break;
                                         case "tabs":
-                                            if(solveparent(o,parentid)){
-                                                for(j=1;j<=o.tabs();j++){
-                                                    if((c=o.babelcode(j))>""){
-                                                        t=v[c];
-                                                        if(t.length>0)
-                                                            o.caption(j,t);
-                                                    }
+                                            for(j=1;j<=o.tabs();j++){
+                                                if((c=o.babelcode(j))>""){
+                                                    t=v[c];
+                                                    if(t.length>0)
+                                                        o.caption(j,t);
+                                                    propbabelcache[c]=t;
                                                 }
                                             }
                                             break;
@@ -2996,7 +3039,8 @@ function ryBox(missing){
     this.babels=function(codes, args, missing){
         if(typeof(codes)=="object"){
             for(var b in codes){
-                propbabelcodes[b]={caption:codes[b], virgin:true};
+                if(!$.isset(propbabelcodes[b]))
+                    propbabelcodes[b]={caption:codes[b], virgin:true};
             }
         }
         else{

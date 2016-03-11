@@ -137,7 +137,7 @@ function class_qvattivita(settings,missing){
         caption:"Stampa selezione",
         button:true,
         click:function(o){
-            qv_printselected(formid, objgridsel, "rep_attivita.php")
+            qv_printselected(formid, objgridsel, "@customize/corsaro/reporting/rep_attivita.php")
         }
     });
 
@@ -162,6 +162,7 @@ function class_qvattivita(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     
     // INIZIALIZZAZIONE FORM

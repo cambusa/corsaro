@@ -893,6 +893,7 @@ function class_qvvendite(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(tabselezione);
     objtabs.enabled(tabcontesto, false);
     objtabs.enabled(tabdettaglio, false);

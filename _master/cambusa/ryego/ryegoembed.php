@@ -1,6 +1,6 @@
 <?php 
 /****************************************************************************
-* Name:            ryego.php                                                *
+* Name:            ryegoembed.php                                           *
 * Project:         Cambusa/ryEgo                                            *
 * Version:         1.69                                                     *
 * Description:     Central Authentication Service (CAS)                     *
@@ -148,7 +148,7 @@ prepareEncrypt($maestro, $publickey);
 <html>
 <head>
 <meta charset="utf-8" />
-<meta http-equiv="x-ua-compatible" content="ie=EmulateIE9, chrome=1" />
+<meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="ryEgo - Central Authentication Service" />
 <meta name="framework" content="Cambusa <?php print $cambusa_version ?>" />

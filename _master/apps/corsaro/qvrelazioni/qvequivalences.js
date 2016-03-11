@@ -479,6 +479,7 @@ function class_qvequivalences(settings,missing){
             }
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     objtabs.enabled(2,false);
     txf_search.focus();

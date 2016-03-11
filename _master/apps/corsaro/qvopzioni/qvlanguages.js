@@ -242,7 +242,7 @@ function class_qvlanguages(settings,missing){
             {title:"Dizionario", code:"LANG_DICTIONARY"}
         ]
     });
-    
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     txf_search.focus();
     

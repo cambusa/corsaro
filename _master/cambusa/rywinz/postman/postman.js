@@ -302,6 +302,7 @@ function class_postman(settings,missing){
 
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     
     // INIZIALIZZAZIONE FORM

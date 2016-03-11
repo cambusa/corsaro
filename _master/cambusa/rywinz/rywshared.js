@@ -531,11 +531,11 @@ function winzDither(formid, bValue){
 function winzDialogGet(formid){
     var progrid=0;
     if(window.console&&_sessioninfo.debugmode)console.log("Objects before dialog: "+$.objectsize(globalobjs));
-    while($("#dialogout_"+formid+progrid).length>0){progrid+=1}
-    var r="dialogdither_"+formid+progrid;
-    var o="dialogout_"+formid+progrid;
-    var d="dialogframe_"+formid+progrid;
-    var h="dialog_"+formid+progrid;
+    while($("#"+formid+"dialogout_"+progrid).length>0){progrid+=1}
+    var r=formid+"dialogdither_"+progrid;
+    var o=formid+"dialogout_"+progrid;
+    var d=formid+"dialogframe_"+progrid;
+    var h=formid+"dialog_"+progrid;
     $("#window_"+formid+" .window_inner").append("<div id='"+r+"' class='winz_dither'></div><div id='"+o+"' class='winz_dialog_outer'><div id='"+d+"' class='winz_dialog'><div id='"+h+"'></div><div class='winz_close'>X</div></div></div>");
     if(!RYWINZ.Forms(formid).options.controls)
         $("#"+r).css({"top":0});

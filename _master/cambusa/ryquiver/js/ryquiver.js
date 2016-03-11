@@ -70,11 +70,15 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
             objgrid.checkall();
         }
     }
+    if(template.substr(0, 11)=="@customize/")
+        template=template.replace("@customize/", _systeminfo.relative.customize);
+    else
+        template=_systeminfo.relative.customize+_sessioninfo.app+"/reporting/"+template;
     objgrid.selengage(   // Elenco dei SYSID selezionati
         function(o,s){
             winzProgress(formid);
             s=s.split("|");
-            $.post(_systeminfo.relative.customize+_sessioninfo.app+"/reporting/"+template, 
+            $.post(template, 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -100,6 +104,16 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
             alert(RYBOX.babels("MSG_NOSELECTION"));
         }
     );
+}
+function qv_titlebar(objtabs, settings){
+    // SE NON E' VISIBILE LA BARRA DEI CONTROLLI, METTE IL TITOLO SULLA BARRA DEI TABS
+    if($.isset(settings.controls) && !settings.controls.actualBoolean() && $.isset(settings.title)){
+        var handler=objtabs.customleft();
+        $("#"+handler)
+        .css({"margin":"3px 25px"})
+        .html("<span id='"+handler+"__title' style='cursor:default;padding-right:50px;color:#006699;'></span>");
+        $("#"+handler+"__title").css({"font-size":"18px", "line-height":"18px"}).html(settings.title);
+    }
 }
 function qv_bulkdelete(formid, objgrid, prefix){
     winzMessageBox(formid, {

@@ -180,7 +180,7 @@ function class_qvobjects(settings,missing){
         caption:"Stampa selezione",
         button:true,
         click:function(o){
-            qv_printselected(formid, objgridsel, "rep_objects.php")
+            qv_printselected(formid, objgridsel, "@customize/corsaro/reporting/rep_objects.php")
         }
     });
     oper_print.enabled(0);
@@ -496,6 +496,7 @@ function class_qvobjects(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     objtabs.enabled(2,false);
     objtabs.enabled(3,false);

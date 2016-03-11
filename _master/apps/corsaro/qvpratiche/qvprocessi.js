@@ -282,7 +282,7 @@ function class_qvprocessi(settings,missing){
         caption:"Stampa selezione",
         button:true,
         click:function(o){
-            qv_printselected(formid, objgridsel, "rep_processi.php")
+            qv_printselected(formid, objgridsel, "@customize/corsaro/reporting/rep_processi.php")
         }
     });
 
@@ -2067,6 +2067,7 @@ function class_qvprocessi(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(tabselezione);
     objtabs.enabled(tabcontesto, false);
     objtabs.enabled(tabmotivi, false);

@@ -638,6 +638,7 @@ function class_qvlegend(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     objtabs.enabled(2,false);
     objtabs.enabled(3,false);

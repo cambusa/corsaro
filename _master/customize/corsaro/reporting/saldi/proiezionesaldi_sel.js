@@ -285,6 +285,7 @@ function class_proiezionesaldi_sel(settings,missing){
             {title:"Grafico"}
         ]
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     
     // INIZIALIZZAZIONE FORM

@@ -915,6 +915,7 @@ function class_qvinterazioni(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(tabselezione);
     objtabs.enabled(tabattivita, false);
     objtabs.enabled(tabdettaglio, false);

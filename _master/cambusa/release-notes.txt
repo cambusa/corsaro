@@ -1,4 +1,16 @@
 ==================================
+Rilascio 1.70.21    del 11/03/2016
+==================================
+
+Corsaro: adattato il percorso delle stampe in modo da essere condiviso da altre applicazioni.
+
+ryTabs: implementata una funzione qv_titlebar che mostra il titolo del form qualora la barra dei controlli sia nascosta.
+
+ryScript: corretto il dimensionamento e aggiunto il metodo "move".
+
+ryBox: implementato l'autocoding e ottimizzata la localizzazione.
+
+==================================
 Rilascio 1.70.20    del 26/02/2016
 ==================================
 

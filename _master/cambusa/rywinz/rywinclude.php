@@ -152,6 +152,7 @@ class winz_engine{
         $this->apptitle="ryWinz";
         $this->appdescr="Arrows-oriented application based on advanced web technologies";
         $this->appversion="1.00";
+        $this->logo="";
         $this->copyright="2015 RudyZ";
         $this->dealer="";
         $this->company="Anonymous";

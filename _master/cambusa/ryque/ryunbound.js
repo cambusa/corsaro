@@ -24,6 +24,7 @@
             var propinit=false;
             var propusedparams=false;
             var propenabled=true;
+            var propautocoding=false;
             
             var propcols=[];
             var proptits=[];
@@ -107,6 +108,7 @@
             if(settings.checkable!=missing){setcheckable(settings.checkable)}
             if(settings.sortable!=missing){propsortable=settings.sortable.actualBoolean()}
             if(settings.editmode!=missing){propeditmode=settings.editmode.actualBoolean()}
+            if(settings.autocoding!=missing){propautocoding=settings.autocoding.actualBoolean()}
             if(settings.columns!=missing){
                 var cols=settings.columns;
                 var w=propscrollsize+5;
@@ -258,7 +260,7 @@
                                         left:l, 
                                         top:proptop+p0.top+p1.top+p2.top+p3.top, 
                                         type:t, 
-                                        value:propobj.matrix[propindex-1][id],
+                                        value:__(propobj.matrix[propindex-1][id]),
                                         editor:false
                                     };
                                     settings.edit(propobj, info);
@@ -1663,7 +1665,7 @@
                     document.getElementById(propname+"_anchor").focus();
             }
             // CHIAMATA ALLA GENERAZIONE EFFETTIVA
-            try{this.create();}catch(e){}
+            try{ this.create() }catch(e){ if(window.console){console.log(e.message)} }
             try{if(RYBOX){RYBOX.addobject(propobj);}}catch(e){}  // Lo aggiungo a RYBOX per il multilingua
 
             // FUNZIONI PRIVATE
@@ -1920,7 +1922,10 @@
                 if(params.width!=missing){dim=params.width}
                 if(params.type!=missing){typ=params.type}
                 if(params.formula!=missing){form=params.formula}
-                if(params.code!=missing){code=params.code}
+                if(params.code!=missing)
+                    code=params.code;
+                else if(propautocoding && tit!="")
+                    code="COL_"+tit.replace(/[^\w_]/ig, "").toUpperCase();
                 if (0<dim && dim<10)
                     dim=10;
                 propcols[l]=colid;

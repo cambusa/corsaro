@@ -207,7 +207,7 @@ function class_qvarticoli(settings,missing){
         caption:"Stampa selezione",
         button:true,
         click:function(o){
-            qv_printselected(formid, objgridsel, "rep_genres.php")
+            qv_printselected(formid, objgridsel, "@customize/corsaro/reporting/rep_genres.php")
         }
     });
     var oper_delete=$(prefix+"oper_delete").rylabel({
@@ -412,6 +412,7 @@ function class_qvarticoli(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     objtabs.enabled(2,false);
     objtabs.enabled(3,false);

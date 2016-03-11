@@ -160,7 +160,7 @@ function class_primanota_sel(settings,missing){
         button:true,
         click:function(o){
             var riferimentiid=txf_riferimenti.value();
-            qv_printselected(formid, objgridsel, "movimenti/primanota_rep.php", 
+            qv_printselected(formid, objgridsel, "@customize/corsaro/reporting/movimenti/primanota_rep.php", 
                 {
                     checkall:true, 
                     params:{
@@ -179,6 +179,7 @@ function class_primanota_sel(settings,missing){
             {title:"Selezione"}
         ]
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     
     // INIZIALIZZAZIONE FORM

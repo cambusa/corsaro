@@ -150,7 +150,7 @@ function class_qvmotivetypes(settings,missing){
         caption:"Stampa selezione",
         button:true,
         click:function(o){
-            qv_printselected(formid, objgridsel, "rep_motivetypes.php")
+            qv_printselected(formid, objgridsel, "@customize/corsaro/reporting/rep_motivetypes.php")
         }
     });
 
@@ -440,6 +440,7 @@ function class_qvmotivetypes(settings,missing){
             flagsuspend=false;
         }
     });
+    qv_titlebar(objtabs, settings);
     objtabs.currtab(1);
     objtabs.enabled(2,false);
     objtabs.enabled(3,false);
