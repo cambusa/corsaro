@@ -156,7 +156,7 @@ function ryWinz(missing){
         if(propname!="" && propid!=""){
             var t,cn;
             if(propdesk){
-                t="<a id='icon_desk_"+propid+"' class='abs icon' style='left:30px;top:"+propicontop+"px;' href='#icon_dock_"+propid+"'><img src='"+propicon+"_32.png' />"+proptitle+"</a>";
+                t="<a id='icon_desk_"+propid+"' class='abs icon' style='left:30px;top:"+propicontop+"px;' href='#icon_dock_"+propid+"'><img src='"+propicon+"_32.png' /><span class='title_"+propid+"'>"+proptitle+"</span></a>";
                 $("#desktop").append(t);
                 propicontop+=80;
             }
@@ -164,7 +164,7 @@ function ryWinz(missing){
             t+="<div id='window_"+propid+"' class='abs window'>";
             t+="    <div class='abs window_inner'>";
             t+="        <div id='top:"+propid+"' class='window_top'>";
-            t+="            <span class='float_left'><img src='"+propicon+"_16.png' />"+proptitle+"</span>";
+            t+="            <span class='float_left'><img src='"+propicon+"_16.png' /><span class='title_"+propid+"'>"+proptitle+"</span></span>";
             t+="            <span class='float_right'><a href='#' class='window_min'></a><a id='resize:"+propid+"' href='#' class='window_resize'></a><a href='#icon_dock_"+propid+"' class='window_close'></a></span>";
             t+="        </div>";
             t+="        <div class='abs window_content'>";
@@ -184,7 +184,7 @@ function ryWinz(missing){
             t+="<li id='icon_dock_"+propid+"'>";
             t+="    <a href='#window_"+propid+"'>";
             t+="        <img src='"+propicon+"_22.png' />";
-            t+="        "+proptitle;
+            t+="        <span class='title_"+propid+"'>"+proptitle+"</span>";
             t+="    </a>";
             t+="</li>";
             $("#dock").append(t);
@@ -388,6 +388,7 @@ function ryWinz(missing){
     this.logoutcalls=[];
     this.AddForm=this.addform;
     this.AppendCtrl=winzAppendCtrl;
+    this.BarMessage=winzBarMessage;
     this.BringToFront=winzBringToFront;
     this.Busy=this.busy;
     this.ClearMess=winzClearMess;
@@ -413,6 +414,7 @@ function ryWinz(missing){
     this.Shell=this.shell;
     this.StatusMessage=winzMereMessage;
     this.TimeoutMess=winzTimeoutMess;
+    this.Title=winzTitle;
     this.ToMask=winzToMask;
     this.ToObject=winzToObject;
 }

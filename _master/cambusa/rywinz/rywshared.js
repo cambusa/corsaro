@@ -272,6 +272,12 @@ function winzProgress(formid){
     $("#message_"+formid).html("<img style='margin:3px;' src='"+_systeminfo.relative.cambusa+"rybox/images/progress.gif'>");
     winzDither(formid, true);
 }
+function winzTitle(formid, title){
+    $(".title_"+formid).html(title);
+}
+function winzBarMessage(formid, mess){
+    $("#message_"+formid).html(mess);
+}
 function winzTimeoutMess(formid, type, mess, data, milly, missing){
     var f=_globalforms[formid];
     f.jqxhr=false;
@@ -531,10 +537,10 @@ function winzDither(formid, bValue){
 function winzDialogGet(formid){
     var progrid=0;
     if(window.console&&_sessioninfo.debugmode)console.log("Objects before dialog: "+$.objectsize(globalobjs));
-    while($("#"+formid+"dialogout_"+progrid).length>0){progrid+=1}
-    var r=formid+"dialogdither_"+progrid;
-    var o=formid+"dialogout_"+progrid;
-    var d=formid+"dialogframe_"+progrid;
+    while($("#dialogout_"+formid+progrid).length>0){progrid+=1}
+    var r="dialogdither_"+formid+progrid;
+    var o="dialogout_"+formid+progrid;
+    var d="dialogframe_"+formid+progrid;
     var h=formid+"dialog_"+progrid;
     $("#window_"+formid+" .window_inner").append("<div id='"+r+"' class='winz_dither'></div><div id='"+o+"' class='winz_dialog_outer'><div id='"+d+"' class='winz_dialog'><div id='"+h+"'></div><div class='winz_close'>X</div></div></div>");
     if(!RYWINZ.Forms(formid).options.controls)

@@ -46,4 +46,25 @@ function class_rudder(settings, missing){
     });
 
     RYWINZ.KeyTools(formid);
+    RYBOX.babels({
+        "WINZ_PILOTA":$("#WINZ_PILOTA").html(),
+        "WINZ_POSTMAN":$("#WINZ_POSTMAN").html(),
+        "WINZ_LOGOUT":$("#WINZ_LOGOUT").html(),
+        "WINZ_TOOLS":$("#WINZ_TOOLS").html()
+    });
+    RYBOX.localize(_sessioninfo.language, formid,
+        function(){
+            // TRADUZIONE PILOTA
+            PILOTA.title=RYBOX.babels("WINZ_PILOTA");
+            RYWINZ.Title(formid, PILOTA.title);
+            $("#WINZ_PILOTA").html(PILOTA.title);
+            // TRADUZIONE POSTMAN
+            POSTMAN.title=RYBOX.babels("WINZ_POSTMAN");
+            $("#WINZ_POSTMAN").html(POSTMAN.title);
+            // TRADUZIONE LOGOUT
+            $("#WINZ_LOGOUT").html(RYBOX.babels("WINZ_LOGOUT"));
+            // TRADUZIONE STRUMENTI
+            $("#WINZ_TOOLS").html(RYBOX.babels("WINZ_TOOLS"));
+        }
+    );
 }

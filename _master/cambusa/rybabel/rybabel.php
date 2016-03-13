@@ -24,7 +24,13 @@ elseif(isset($_GET['codes']))
 else
     $codes="";
 
-include("../sysconfig.php");    
-include("babel_lib.php");
-print babeldecode($lang, $codes);
+include_once "../sysconfig.php";
+if(is_string($codes)){
+    include_once "babel_lib.php";
+    print babeldecode($lang, $codes);
+}
+else{
+    include_once "babel_self.php";
+    print babelself($codes);
+}
 ?>

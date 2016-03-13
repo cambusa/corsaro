@@ -16,7 +16,8 @@
         <div relid="oper_refresh" babelcode="REFRESH"></div>
         <div relid="gridsel"></div>
         <div relid="oper_new" babelcode="BUTTON_NEW"></div>
-        <div relid="oper_engage" babelcode="SAVE"></div>
+        <div relid="oper_save" babelcode="SAVE"></div>
+        <div relid="oper_unsaved"></div>
         <div relid="oper_delete" babelcode="DELETE"></div>
         <div relid="LB_NAME" babelcode="NAME"></div><div relid="NAME"></div>
         <div relid="LB_LANGFROM"></div><div relid="LANGFROM"></div>

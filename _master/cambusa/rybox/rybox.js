@@ -837,6 +837,7 @@ var globalcolorfocus="#FFF4E6";
 			var propenabled=true;
 			var propvisible=true;
             var prophelper=true;
+            var propincremental=true;
             var propmousedown=false;
             var flaghelp=false;
 			
@@ -856,6 +857,7 @@ var globalcolorfocus="#FFF4E6";
             if(settings.enabled!=missing){propenabled=settings.enabled}
             if(settings.visible!=missing){propvisible=settings.visible}
             if(settings.helper!=missing){prophelper=settings.helper}
+            if(settings.incremental!=missing){propincremental=settings.incremental}
 			
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -988,46 +990,50 @@ var globalcolorfocus="#FFF4E6";
                             }
             			}
                         else if(k.which==38){ // up
-                            if(propstart==0){
-                                var u=parseFloat(propobj.value());
-                                if(u+1<=propmaxvalue)
-                                    propobj.value(u+1);
-                            }
-                            else if(propstart>0){
-                                var u=parseInt(propdecimal.substr(propstart-1, 1));
-                                if(u<9){
-                                    propdecimal=propdecimal.substr(0,propstart-1)+(u+1)+propdecimal.substr(propstart);
+                            if(propincremental){
+                                if(propstart==0){
+                                    var u=parseFloat(propobj.value());
+                                    if(u+1<=propmaxvalue)
+                                        propobj.value(u+1);
                                 }
-                            }
-                            else{
-                                var u=parseInt(propinteger.substr(propinteger.length+propstart,1));
-                                if(u<9){
-                                    propinteger=propinteger.substr(0,propinteger.length+propstart)+(u+1)+propinteger.substr(propinteger.length+propstart+1);
+                                else if(propstart>0){
+                                    var u=parseInt(propdecimal.substr(propstart-1, 1));
+                                    if(u<9){
+                                        propdecimal=propdecimal.substr(0,propstart-1)+(u+1)+propdecimal.substr(propstart);
+                                    }
                                 }
+                                else{
+                                    var u=parseInt(propinteger.substr(propinteger.length+propstart,1));
+                                    if(u<9){
+                                        propinteger=propinteger.substr(0,propinteger.length+propstart)+(u+1)+propinteger.substr(propinteger.length+propstart+1);
+                                    }
+                                }
+                                propobj.refresh();
+                                propobj.raisechanged();
                             }
-                            propobj.refresh();
-                            propobj.raisechanged();
                         }
                         else if(k.which==40){ // down
-                            if(propstart==0){
-                                var u=parseFloat(propobj.value());
-                                if(u-1>=propminvalue)
-                                    propobj.value(u-1);
-                            }
-                            else if(propstart>0){
-                                var u=parseInt(propdecimal.substr(propstart-1, 1));
-                                if(u>0){
-                                    propdecimal=propdecimal.substr(0,propstart-1)+(u-1)+propdecimal.substr(propstart);
+                            if(propincremental){
+                                if(propstart==0){
+                                    var u=parseFloat(propobj.value());
+                                    if(u-1>=propminvalue)
+                                        propobj.value(u-1);
                                 }
-                            }
-                            else{
-                                var u=parseInt(propinteger.substr(propinteger.length+propstart,1));
-                                if( (u>0 && -propstart<propinteger.length) || (u>1) ){
-                                    propinteger=propinteger.substr(0,propinteger.length+propstart)+(u-1)+propinteger.substr(propinteger.length+propstart+1);
+                                else if(propstart>0){
+                                    var u=parseInt(propdecimal.substr(propstart-1, 1));
+                                    if(u>0){
+                                        propdecimal=propdecimal.substr(0,propstart-1)+(u-1)+propdecimal.substr(propstart);
+                                    }
                                 }
+                                else{
+                                    var u=parseInt(propinteger.substr(propinteger.length+propstart,1));
+                                    if( (u>0 && -propstart<propinteger.length) || (u>1) ){
+                                        propinteger=propinteger.substr(0,propinteger.length+propstart)+(u-1)+propinteger.substr(propinteger.length+propstart+1);
+                                    }
+                                }
+                                propobj.refresh();
+                                propobj.raisechanged();
                             }
-                            propobj.refresh();
-                            propobj.raisechanged();
                         }
             			else if(k.which==36){ // home
                              if(propshift){
@@ -1578,6 +1584,11 @@ var globalcolorfocus="#FFF4E6";
                 }
                 return prophelper;
             }
+			this.incremental=function(v){
+				if(v!=missing)
+					propincremental=v;
+                return propincremental;
+			}
 			this.changed=function(v){
 				if(v==missing)
 					return propchanged;
@@ -1998,12 +2009,13 @@ var globalcolorfocus="#FFF4E6";
             var propwidth=0;
 			var propcaption="";
             var proptitle="";
-			var propbabelcode=$(this).attr("babelcode");
+			var propbabelcode=__($(this).attr("babelcode"));
 			var propobj=this;
 			var propenabled=true;
 			var propvisible=true;
             var propbutton=false;
             var propflat=false;
+            var propautocoding=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -2020,7 +2032,11 @@ var globalcolorfocus="#FFF4E6";
 			if(settings.code!=missing){propbabelcode=settings.code}
             if(settings.button!=missing){propbutton=settings.button}
             if(settings.flat!=missing){propflat=settings.flat}
-            
+            if(settings.autocoding!=missing){propautocoding=settings.autocoding}
+            if(propautocoding){
+                if(propbabelcode=="")
+                    propbabelcode="LBL_"+propcaption.replace(/[^\w]/ig, "").toUpperCase();
+            }
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
                 $("#"+propname).prop("parentid", settings.formid);
@@ -2539,7 +2555,7 @@ var globalcolorfocus="#FFF4E6";
                 if(item.code!=missing)
                     b=item.code;
                 else if(propautocoding && d!="")
-                    b="LST_"+d.replace(/[^\w_]/ig, "").toUpperCase();
+                    b="LST_"+d.replace(/[^\w]/ig, "").toUpperCase();
                 if(item.tag!=missing){t=item.tag}
                 $("#"+propname+"_anchor").append("<option value='"+i+"' key='"+k+"' babelcode='"+b+"' tag='"+t+"'>"+d+"</option>");
                 $("#"+propname+"_anchor option").css({"background-color":"#FFFFFF"});
@@ -2858,6 +2874,7 @@ function ryBox(missing){
         globalobjs[o.name()]=o;
     }
     this.localize=function(lang, parentid, action, missing){
+        var selflearnig=false;
         TAIL.enqueue(function(lang, parentid){
             if(_systeminfo.relative.cambusa!="" && lang!="default"){
                 var i,c,t,j,k="";
@@ -3010,6 +3027,58 @@ function ryBox(missing){
                                             o.caption=t;
                                         o.virgin=false;
                                     }
+                                }
+                                selflearnig=$.isset(v["___SELFLEARNING"]);
+                                if(window.console&&_sessioninfo.debugmode){console.log("selflearnig:"+selflearnig)}
+                                if(selflearnig){
+                                    var l=v["___SELFLEARNING"].split("|");
+                                    var selfcodes=[];
+                                    for(i in fields){
+                                        var o=globalobjs[i];
+                                        switch(o.type){
+                                            case "label":
+                                            case "button":
+                                                if((c=o.babelcode())>""){
+                                                    if(l.indexOf(c)>=0)
+                                                        selfcodes.push({code:c,caption:o.caption()});
+                                                }
+                                                break;
+                                            case "list":
+                                                for(j=1;j<=o.count();j++){
+                                                    if((c=o.babelcode(j))>""){
+                                                        if(l.indexOf(c)>=0)
+                                                            selfcodes.push({code:c,caption:o.caption(j)});
+                                                    }
+                                                }
+                                                break;
+                                            case "grid":
+                                                for(j=1;j<=o.columns();j++){
+                                                    if((c=o.babelcode(j))>""){
+                                                        if(l.indexOf(c)>=0)
+                                                            selfcodes.push({code:c,caption:o.caption(j)});
+                                                    }
+                                                }
+                                                break;
+                                            case "tabs":
+                                                for(j=1;j<=o.tabs();j++){
+                                                    if((c=o.babelcode(j))>""){
+                                                        if(l.indexOf(c)>=0)
+                                                            selfcodes.push({code:c,caption:o.caption(j)});
+                                                    }
+                                                }
+                                                break;
+                                        }
+                                    }
+                                    for(c in propbabelcodes){
+                                        if(l.indexOf(c)>=0)
+                                            selfcodes.push({code:c,caption:propbabelcodes[c].caption});
+                                    }
+                                    if(window.console&&_sessioninfo.debugmode){console.log(selfcodes)}
+                                    setTimeout(function(){
+                                        $.post(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"env":_sessioninfo.environ, "sessionid":_sessioninfo.sessionid, "codes":selfcodes}, function(d){
+                                            if(window.console&&_sessioninfo.debugmode){console.log("selflearnig:"+d)}
+                                        });
+                                    }, 2000);
                                 }
                             }
                             catch(e){}

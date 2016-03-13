@@ -9,7 +9,6 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 function ryWinz(missing){
-    var propicontop=40;
     var objscripts={};
     var objmodules={};
     // La addform viene lanciata dopo la newform
@@ -131,7 +130,6 @@ function ryWinz(missing){
         var propname="";
         var proppath="";
         var proptitle="";
-        var propdesk=false;
         var propicon="_images/default";
         
         if(settings.name!=missing){propname=settings.name}
@@ -146,7 +144,6 @@ function ryWinz(missing){
             proppath=proppath.replace(/@customize\//gi, _systeminfo.relative.customize);
         }
         if(settings.title!=missing){proptitle=settings.title}
-        if(settings.desk!=missing){propdesk=settings.desk}
         if(settings.icon!=missing){
             propicon=settings.icon;
             propicon=propicon.replace(/@cambusa\//gi, _systeminfo.relative.cambusa);
@@ -158,11 +155,6 @@ function ryWinz(missing){
         
         if(propname!="" && propid!=""){
             var t,cn;
-            if(propdesk){
-                t="<a id='icon_desk_"+propid+"' class='abs icon' style='left:30px;top:"+propicontop+"px;' href='#icon_dock_"+propid+"'><img src='"+propicon+"_32.png' />"+proptitle+"</a>";
-                $("#desktop").append(t);
-                propicontop+=40;
-            }
             t="";
             t+="<div id='window_"+propid+"' class='abs window'>";
             t+="    <div class='abs window_inner'>";
@@ -289,6 +281,7 @@ function ryWinz(missing){
     this.logoutcalls=[];
     this.AddForm=this.addform;
     this.AppendCtrl=winzAppendCtrl;
+    this.BarMessage=winzBarMessage;
     this.BringToFront=function(){}
     this.Busy=this.busy;
     this.ClearMess=winzClearMess;
@@ -314,6 +307,7 @@ function ryWinz(missing){
     this.Shell=this.shell;
     this.StatusMessage=winzMereMessage;
     this.TimeoutMess=winzTimeoutMess;
+    this.Title=winzTitle;
     this.ToMask=winzToMask;
     this.ToObject=winzToObject;
 }

@@ -12,11 +12,11 @@
 ?>
 <div relid="tabs" >
     <div>
-        <div relid="oper_refresh"></div>
-        <div relid="oper_engage"></div>
-        <div relid="oper_unread"></div>
-        <div relid="oper_read"></div>
-        <div relid="oper_delete"></div>
+        <div relid="oper_refresh"   babelcode="POSTMAN_REFRESH"></div>
+        <div relid="oper_engage"    babelcode="POSTMAN_ENGAGE"></div>
+        <div relid="oper_unread"    babelcode="POSTMAN_UNREAD"></div>
+        <div relid="oper_read"      babelcode="POSTMAN_READ"></div>
+        <div relid="oper_delete"    babelcode="POSTMAN_DELETE"></div>
         <div relid="gridsel"></div>
         <div relid="REGISTRY"></div>
     </div>

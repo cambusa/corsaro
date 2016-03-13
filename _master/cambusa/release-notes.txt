@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.70.22    del 13/03/2016
+==================================
+
+ryLabel: introdotto l'autocoding anche per le etichette.
+
+ryBabel: implementato l'autoapprendimento ed evidenziate le righe non definite nella funzione linguaggi.
+
+==================================
 Rilascio 1.70.21    del 11/03/2016
 ==================================
 

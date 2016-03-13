@@ -16,6 +16,8 @@ function class_qvlanguages(settings,missing){
     var languageto="english";
     var Languagefrom="Italiano";
     var Languageto="English";
+    var checkingh=false;
+    var RYQUELANG=new ryQue();
     
     if($.isset(settings["languagefrom"])){
         languagefrom=settings["languagefrom"];
@@ -71,13 +73,15 @@ function class_qvlanguages(settings,missing){
         from:"BABELITEMS",
         orderby:"NAME",
         columns:[
+            {id:"DUMMY", caption:"", width:35, formula:"''"},
             {id:"NAME", caption:"Name", width:300},
             {id:"CAPTION", caption:"Caption", width:800}
         ],
         changerow:function(o, i){
             currsysid="";
             enabledata(0);
-            oper_engage.enabled(0);
+            oper_save.enabled(0);
+            oper_unsaved.visible(0);
             oper_delete.enabled(0);
             if(i>0){
                 o.solveid(i);
@@ -98,11 +102,12 @@ function class_qvlanguages(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){ 
                             enabledata(1);
-                            oper_engage.enabled(1);
-                            oper_delete.enabled(1);
                             txname.value(v["NAME"]);
                             txita.value(v[languagefrom]);
                             txeng.value(v[languageto]);
+                            oper_save.enabled(1);
+                            oper_unsaved.visible(0);
+                            oper_delete.enabled(1);
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -112,6 +117,48 @@ function class_qvlanguages(settings,missing){
                     }
                 }
             );
+        },
+        before:function(o, d, r){
+            var i;
+            for(i=0; i<r; i++){
+                $( o.screencell(i, 1) ).css({"background":"transparent", "color":"black"});
+            }
+            var checkingset="";
+            for(i in d){
+                if(checkingset!="")
+                    checkingset+=",";
+                checkingset+="'"+d[i]["NAME"].replace(/'/g, "''")+"'";
+            }
+            if(checkingh){
+                clearTimeout(checkingh);
+            }
+            if(checkingset!=""){
+                checkingh=setTimeout(function(){
+                    checkingh=false;
+                    RYQUELANG.query({
+                        sql:"SELECT NAME,CAPTION FROM BABELITEMS WHERE NAME IN ("+checkingset+")",
+                        ready:function(v){
+                            try{
+                                var index=[];
+                                for(i in v){
+                                    index[i]=v[i]["NAME"];
+                                }
+                                for(i in d){
+                                    var k=index.indexOf( d[i]["NAME"] );
+                                    if(k>=0){
+                                        if(v[k]["CAPTION"]==""){
+                                            $( o.screencell(i, 1) ).css({"background":"red", "color":"white"});
+                                        }
+                                    }
+                                    else{
+                                        $( o.screencell(i, 1) ).css({"background":"red", "color":"white"});
+                                    }
+                                }
+                            }catch(e){}
+                        } 
+                    });
+                }, 300);
+            }
         }
     });
 
@@ -124,40 +171,49 @@ function class_qvlanguages(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            var data = new Object();
-            data["DESCRIPTION"]="(nuova opzione)";
-            $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
-                {
-                    "sessionid":_sessioninfo.sessionid,
-                    "action":"new",
-                    "default":languagefrom,
-                    "languages":[languagefrom, languageto]
-                }, 
-                function(d){
-                    try{
-                        var v=$.parseJSON(d);
-                        if(v.success>0){
-                            var newid=v.SYSID;
-                            objgridsel.splice(0, 0, newid);
+            var functnew=function(){
+                var data = new Object();
+                data["DESCRIPTION"]="(nuova opzione)";
+                $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
+                    {
+                        "sessionid":_sessioninfo.sessionid,
+                        "action":"new",
+                        "default":languagefrom,
+                        "languages":[languagefrom, languageto]
+                    }, 
+                    function(d){
+                        try{
+                            var v=$.parseJSON(d);
+                            if(v.success>0){
+                                var newid=v.SYSID;
+                                objgridsel.splice(0, 0, newid);
+                                setTimeout(function(){
+                                    castFocus(formid+"NAME");
+                                }, 200);
+                            }
+                            winzTimeoutMess(formid, v.success, v.message);
                         }
-                        winzTimeoutMess(formid, v.success, v.message);
+                        catch(e){
+                            winzClearMess(formid);
+                            alert(d);
+                        }
                     }
-                    catch(e){
-                        winzClearMess(formid);
-                        alert(d);
-                    }
-                }
-            );
+                );
+            }
+            if(oper_unsaved.visible())
+                oper_save.engage(functnew);
+            else
+                functnew();
         }
     });
     
-    var oper_engage=$(prefix+"oper_engage").rylabel({
+    var oper_save=$(prefix+"oper_save").rylabel({
         left:180,
         top:offsety,
         width:100,
         caption:"Salva",
         button:true,
-        click:function(o){
+        click:function(o, done){
             winzProgress(formid);
             $.post(_systeminfo.relative.cambusa+"rybabel/babel_action.php", 
                 {
@@ -174,6 +230,9 @@ function class_qvlanguages(settings,missing){
                         var v=$.parseJSON(d);
                         if(v.success>0){ 
                             objgridsel.dataload();
+                            oper_unsaved.visible(0);
+                            if(done)
+                                done();
                         }
                         winzTimeoutMess(formid, v.success, v.message);
                     }
@@ -186,6 +245,9 @@ function class_qvlanguages(settings,missing){
         }
     });
     
+    var oper_unsaved=$(prefix+"oper_unsaved").rylabel({left:300, top:offsety, caption:"<span style='color:red;'>Modificato - Non salvato<span>"});
+    oper_unsaved.visible(0);
+   
     var oper_delete=$(prefix+"oper_delete").rylabel({
         left:600,
         top:offsety,
@@ -225,15 +287,27 @@ function class_qvlanguages(settings,missing){
     
     offsety+=50;
     $(prefix+"LB_NAME").rylabel({left:20, top:offsety, caption:"Nome"});
-    var txname=$(prefix+"NAME").rytext({left:100, top:offsety, width:300});
+    var txname=$(prefix+"NAME").rytext({left:100, top:offsety, width:300,
+        changed:function(){
+            oper_unsaved.visible(1);
+        }
+    });
     
     offsety+=30;
     $(prefix+"LB_LANGFROM").rylabel({left:20, top:offsety, caption:Languagefrom});
-    var txita=$(prefix+"LANGFROM").rytext({left:100, top:offsety, width:700, maxlen:1000});
+    var txita=$(prefix+"LANGFROM").rytext({left:100, top:offsety, width:700, maxlen:1000,
+        changed:function(){
+            oper_unsaved.visible(1);
+        }
+    });
     
     offsety+=30;
     $(prefix+"LB_LANGTO").rylabel({left:20, top:offsety, caption:Languageto});
-    var txeng=$(prefix+"LANGTO").rytext({left:100, top:offsety, width:700, maxlen:1000});
+    var txeng=$(prefix+"LANGTO").rytext({left:100, top:offsety, width:700, maxlen:1000,
+        changed:function(){
+            oper_unsaved.visible(1);
+        }
+    });
 
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
@@ -250,8 +324,13 @@ function class_qvlanguages(settings,missing){
     RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
-            objgridsel.where("");
-            objgridsel.query();
+            RYQUELANG.request({
+                environ:languageto,
+                ready:function(){
+                    objgridsel.where("");
+                    objgridsel.query();
+                }
+            });
         }
     );
     function enabledata(f){

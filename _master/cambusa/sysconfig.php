@@ -97,6 +97,7 @@ $check_sessionip=true;
 *********************/
 
 $config_defaultlang="default";
+$config_selflearning="";
 
 /******************
 | VERSIONE SQLITE |

@@ -42,149 +42,154 @@ if(is_file($filereq)){
     $buff=fread($fp,($lenkey+1)*$length-1);
     fclose($fp);
 
-    $elenco=explode("|",$buff);
-    
-    if(count($elenco)>0){
-        $elencoin="'".implode("','", $elenco)."'";
-        $r=array_fill(0, count($elenco), array());
-    }
-    else{
-        $elencoin="''";
-        $r=array();
-    }
-    if($select!="")
-        $select.=",";
-    $select.="SYSID AS RYQUEWINID";
-    
-    // SOSTITUZIONE DELLE MACRO
-    $maestro=new Maestro();
-    $maestro->provider=$env_provider;
-    $maestro->lenid=$lenkey;
-    $select=maestro_macro($maestro,$select);
-    unset($maestro);
-
-    if(is_array($clause)){
-        if($env_provider!="oracle"){
-            foreach($clause as $key => $value)
-                $more.=" AND $key='$value'";
+    if($buff!=""){
+        $elenco=explode("|",$buff);
+        
+        if(count($elenco)>0){
+            $elencoin="'".implode("','", $elenco)."'";
+            $r=array_fill(0, count($elenco), array());
         }
         else{
-            foreach($clause as $key => $value)
-                $more.=" AND $key=:$key";
+            $elencoin="''";
+            $r=array();
         }
-    }
-    
-    $winsql="SELECT $select FROM $from WHERE SYSID IN ($elencoin) $more";
+        if($select!="")
+            $select.=",";
+        $select.="SYSID AS RYQUEWINID";
+        
+        // SOSTITUZIONE DELLE MACRO
+        $maestro=new Maestro();
+        $maestro->provider=$env_provider;
+        $maestro->lenid=$lenkey;
+        $select=maestro_macro($maestro,$select);
+        unset($maestro);
 
-    switch($env_provider){
-    case "sqlite":
-        $conn=x_sqlite_open($env_strconn);
-        $res=x_sqlite_query($conn, $winsql);
-        if(!is_bool($res)){
-            while($row=x_sqlite_fetch_array($res)){
-                $i=array_search($row["RYQUEWINID"], $elenco);
-                if($i!==false){
-                    $r[$i]=array_change_key_case($row, CASE_UPPER);
-                }
-            }
-            x_sqlite_finalize($res);
-        }
-        x_sqlite_close($conn);
-        break;
-    case "mysql":
-        $conn=mysqli_connect($env_host, $env_user, $env_password, $env_strconn);
-        if($res=mysqli_query($conn, $winsql)){
-            while($row=mysqli_fetch_assoc($res)){
-                $i=array_search($row["RYQUEWINID"], $elenco);
-                if($i!==false){
-                    $r[$i]=array_change_key_case($row, CASE_UPPER);
-                }
-            }
-            mysqli_free_result($res);
-        }
-        mysqli_close($conn);
-        break;
-    case "oracle":
-        $conn = oci_connect($env_user, $env_password, $env_strconn);
-        oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD\"T\"HH24:MI:SS\".000Z\"'"));
-        oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_TIMESTAMP_FORMAT='YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"'"));
-        oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_NUMERIC_CHARACTERS='.,'"));
-        if($res=oci_parse($conn, $winsql)){
-            if(is_array($clause)){
+        if(is_array($clause)){
+            if($env_provider!="oracle"){
                 foreach($clause as $key => $value)
-                    oci_bind_by_name($res, ":$key", $value);
+                    $more.=" AND $key='$value'";
             }
-            if(oci_execute($res)){
-                while($row=oci_fetch_array($res, OCI_ASSOC+OCI_RETURN_NULLS)){
-                    // RISOLVO I CLOB E I NULL
-                    foreach($row as $k => $v){
-                        if(is_object($v))
-                            $row[$k]=$v->load();
-                        elseif($v===null)
-                            $row[$k]="";
+            else{
+                foreach($clause as $key => $value)
+                    $more.=" AND $key=:$key";
+            }
+        }
+        
+        $winsql="SELECT $select FROM $from WHERE SYSID IN ($elencoin) $more";
+
+        switch($env_provider){
+        case "sqlite":
+            $conn=x_sqlite_open($env_strconn);
+            $res=x_sqlite_query($conn, $winsql);
+            if(!is_bool($res)){
+                while($row=x_sqlite_fetch_array($res)){
+                    $i=array_search($row["RYQUEWINID"], $elenco);
+                    if($i!==false){
+                        $r[$i]=array_change_key_case($row, CASE_UPPER);
                     }
-                    // TRAVASO
+                }
+                x_sqlite_finalize($res);
+            }
+            x_sqlite_close($conn);
+            break;
+        case "mysql":
+            $conn=mysqli_connect($env_host, $env_user, $env_password, $env_strconn);
+            if($res=mysqli_query($conn, $winsql)){
+                while($row=mysqli_fetch_assoc($res)){
+                    $i=array_search($row["RYQUEWINID"], $elenco);
+                    if($i!==false){
+                        $r[$i]=array_change_key_case($row, CASE_UPPER);
+                    }
+                }
+                mysqli_free_result($res);
+            }
+            mysqli_close($conn);
+            break;
+        case "oracle":
+            $conn = oci_connect($env_user, $env_password, $env_strconn);
+            oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD\"T\"HH24:MI:SS\".000Z\"'"));
+            oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_TIMESTAMP_FORMAT='YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"'"));
+            oci_execute(oci_parse($conn, "ALTER SESSION SET NLS_NUMERIC_CHARACTERS='.,'"));
+            if($res=oci_parse($conn, $winsql)){
+                if(is_array($clause)){
+                    foreach($clause as $key => $value)
+                        oci_bind_by_name($res, ":$key", $value);
+                }
+                if(oci_execute($res)){
+                    while($row=oci_fetch_array($res, OCI_ASSOC+OCI_RETURN_NULLS)){
+                        // RISOLVO I CLOB E I NULL
+                        foreach($row as $k => $v){
+                            if(is_object($v))
+                                $row[$k]=$v->load();
+                            elseif($v===null)
+                                $row[$k]="";
+                        }
+                        // TRAVASO
+                        $i=array_search($row["RYQUEWINID"], $elenco);
+                        if($i!==false){
+                            $r[$i]=$row;
+                        }
+                    }
+                }
+                oci_free_statement($res);
+            }
+            oci_close($conn);
+            break;
+        case "db2odbc":
+            $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
+            if($res=odbc_exec($conn, $winsql)){
+                odbc_longreadlen($res, 100000000);
+                while($row=odbc_fetch_array($res)){
+                    // SOSTITUISCO LA VIRGOLA DEI NUMERI
+                    foreach($row as $k => $v){
+                        if(preg_match("/^\d*,\d+$/", $v))
+                            $row[$k]=str_replace(",", ".", $v);
+                    }
                     $i=array_search($row["RYQUEWINID"], $elenco);
                     if($i!==false){
                         $r[$i]=$row;
                     }
                 }
+                odbc_free_result($res);
             }
-            oci_free_statement($res);
-        }
-        oci_close($conn);
-        break;
-    case "db2odbc":
-        $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
-        if($res=odbc_exec($conn, $winsql)){
-            odbc_longreadlen($res, 100000000);
-            while($row=odbc_fetch_array($res)){
-                // SOSTITUISCO LA VIRGOLA DEI NUMERI
-                foreach($row as $k => $v){
-                    if(preg_match("/^\d*,\d+$/", $v))
-                        $row[$k]=str_replace(",", ".", $v);
+            odbc_close($conn);
+            break;
+        case "mssql":
+            // mosca mssql
+            $conn=@sqlsrv_connect($env_server, array("UID" => $env_user, "PWD" => $env_password, "Database" => $env_strconn));
+            if($res=@sqlsrv_query($conn, $winsql)){
+                while($row=sqlsrv_fetch_array($res, SQLSRV_FETCH_ASSOC)){
+                    // RISOLVO LE DATE
+                    foreach($row as $k => $v){
+                        if($v instanceof DateTime)
+                            $row[$k]=date_format($v, "YmdHis");
+                    }
+                    $i=array_search($row["RYQUEWINID"], $elenco);
+                    if($i!==false){
+                        $r[$i]=array_change_key_case($row, CASE_UPPER);
+                    }
                 }
-                $i=array_search($row["RYQUEWINID"], $elenco);
-                if($i!==false){
-                    $r[$i]=$row;
-                }
+                sqlsrv_free_stmt($res);
             }
-            odbc_free_result($res);
-        }
-        odbc_close($conn);
-        break;
-	case "mssql":
-		// mosca mssql
-        $conn=@sqlsrv_connect($env_server, array("UID" => $env_user, "PWD" => $env_password, "Database" => $env_strconn));
-        if($res=@sqlsrv_query($conn, $winsql)){
-            while($row=sqlsrv_fetch_array($res, SQLSRV_FETCH_ASSOC)){
-                // RISOLVO LE DATE
-                foreach($row as $k => $v){
-                    if($v instanceof DateTime)
-                        $row[$k]=date_format($v, "YmdHis");
+            sqlsrv_close($conn);
+            break;
+        default:
+            $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
+            if($res=odbc_exec($conn, $winsql)){
+                odbc_longreadlen($res, 100000000);
+                while($row=odbc_fetch_array($res)){
+                    $i=array_search($row["RYQUEWINID"], $elenco);
+                    if($i!==false){
+                        $r[$i]=array_change_key_case($row, CASE_UPPER);
+                    }
                 }
-                $i=array_search($row["RYQUEWINID"], $elenco);
-                if($i!==false){
-                    $r[$i]=array_change_key_case($row, CASE_UPPER);
-                }
+                odbc_free_result($res);
             }
-            sqlsrv_free_stmt($res);
+            odbc_close($conn);
         }
-        sqlsrv_close($conn);
-		break;
-    default:
-        $conn=odbc_connect($env_strconn, $env_user, $env_password, SQL_CUR_USE_DRIVER);
-        if($res=odbc_exec($conn, $winsql)){
-            odbc_longreadlen($res, 100000000);
-            while($row=odbc_fetch_array($res)){
-                $i=array_search($row["RYQUEWINID"], $elenco);
-                if($i!==false){
-                    $r[$i]=array_change_key_case($row, CASE_UPPER);
-                }
-            }
-            odbc_free_result($res);
-        }
-        odbc_close($conn);
+    }
+    else{
+        $r=array();
     }
 }
 else{

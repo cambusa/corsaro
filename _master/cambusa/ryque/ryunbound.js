@@ -295,6 +295,9 @@
                                         // Eventuale disabilitazione dell'helper
                                         if(info.editor.type.match(/^(date|number|code)$/))
                                             info.editor.helper(0);
+                                        // Se l'editor è numerico, disabilito l'incremento mediante frecce
+                                        if(info.editor.type=="number")
+                                            info.editor.incremental(0);
                                         // Show e focus
                                         info.editor.visible(1);
                                         info.editor.focus();
@@ -1925,7 +1928,7 @@
                 if(params.code!=missing)
                     code=params.code;
                 else if(propautocoding && tit!="")
-                    code="COL_"+tit.replace(/[^\w_]/ig, "").toUpperCase();
+                    code="COL_"+tit.replace(/[^\w]/ig, "").toUpperCase();
                 if (0<dim && dim<10)
                     dim=10;
                 propcols[l]=colid;

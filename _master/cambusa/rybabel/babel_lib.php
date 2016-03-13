@@ -14,6 +14,7 @@ if(!isset($tocambusa))
 include_once $tocambusa."rymaestro/maestro_execlib.php";
 
 function babeldecode($lang, $codes){
+    global $config_selflearning;
     $r=array();
     try{
         if($lang!="" && $codes!=""){
@@ -39,6 +40,18 @@ function babeldecode($lang, $codes){
             
             // CHIUSURA DATABASE
             maestro_closedb($maestro);
+            
+            if($config_selflearning!=""){
+                $self=array();
+                // ELENCO GLI INESISTENTI
+                foreach($elenco as $k){
+                    if(!isset($r[$k]))
+                        $self[]=$k;
+                }
+                if(count($self)>0){
+                    $r["___SELFLEARNING"]=implode("|", $self);
+                }
+            }
         }
     }
     catch(Exception $e){}

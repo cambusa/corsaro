@@ -216,8 +216,8 @@ function class_postman(settings,missing){
             {id:"PRIORITY", caption:"", width:25},
             {id:"ENGAGEPARAMS", caption:"", width:25},
             {id:"STATUS", caption:"", width:0},
-            {id:"SENDINGTIME", caption:"Invio", width:130, type:":"},
-            {id:"DESCRIPTION", caption:"Descrizione", width:700}
+            {id:"SENDINGTIME", caption:"Invio", width:130, type:":", code:"POSTMAN_SENDING"},
+            {id:"DESCRIPTION", caption:"Descrizione", width:700, code:"DESCRIPTION"}
         ],
         changerow:function(o,i){
             currsysid="";
@@ -296,7 +296,7 @@ function class_postman(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Notifiche"}
+            {title:"Notifiche", code:"POSTMAN_NOTIFICATIONS"}
         ],
         select:function(i,p){
 
