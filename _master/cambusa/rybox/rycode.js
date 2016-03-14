@@ -82,7 +82,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 "line-height":"17px",
                 "cursor":"default"
             })
-            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div>");
+            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div><div id='"+propname+"_clear'></div>");
 
             $("#"+propname+"_internal")
             .css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"})
@@ -91,7 +91,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":2,"top":1,"height":propheight-4,"overflow":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"ryquiver/images/helper.png)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/helper.png)"});
+            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
             
             if(prophelper){
                 $("#"+propname+"_text").css({"width":propwidth-25});
@@ -402,6 +403,23 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             $("#"+propname).mouseup(
             	function(evt){
                     propmousedown=false;
+            	}
+            );
+            $("#"+propname+"_button").mouseover(
+            	function(evt){
+                    if(propcode!="" && propenabled)
+                        $("#"+propname+"_clear").show();
+            	}
+            );
+            $("#"+propname+"_clear").click(
+            	function(evt){
+                    propobj.clear();
+                    $("#"+propname+"_clear").hide();
+            	}
+            );
+            $("#"+propname).mouseleave(
+            	function(evt){
+                    $("#"+propname+"_clear").hide();
             	}
             );
             $("#"+propname+"_button").click(

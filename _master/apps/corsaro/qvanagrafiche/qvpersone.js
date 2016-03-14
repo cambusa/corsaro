@@ -21,7 +21,6 @@ function class_qvpersone(settings,missing){
     var sospendirefresh=false;
     
     // DEFINIZIONE TAB SELEZIONE
-
     var offsety=80;
     var lbf_search=$(prefix+"lbf_search").rylabel({left:20, top:offsety, caption:"Ricerca"});
     var txf_search=$(prefix+"txf_search").rytext({left:100, top:offsety, width:450, 

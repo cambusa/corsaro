@@ -1735,6 +1735,7 @@
             }
             function setstyle(){
                 $("#"+propname)
+                    .addClass("ryobject")
                     .addClass("ryque")
                     .width(propwidth)
                     .height(proprowh*(proprows+1)+propscrollsize+2)

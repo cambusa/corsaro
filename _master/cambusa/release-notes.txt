@@ -1,4 +1,12 @@
 ==================================
+Rilascio 1.70.23    del XX/03/2016
+==================================
+
+DialogBox: possibilità di definirle in modo statico.
+
+Introdotta la cancellazione dei contenuti mediante crocetta per tutti i controlli.
+
+==================================
 Rilascio 1.70.22    del 13/03/2016
 ==================================
 

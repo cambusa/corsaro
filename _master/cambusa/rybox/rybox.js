@@ -86,7 +86,7 @@ var globalcolorfocus="#FFF4E6";
                 "line-height":"17px",
                 "cursor":"default"
             })
-            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div><div id='"+propname+"_calendar'></div>");
+            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div><div id='"+propname+"_calendar'></div><div id='"+propname+"_clear'></div>");
 
             $("#"+propname+"_internal")
             .css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"})
@@ -95,8 +95,9 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-23,"height":propheight-4,"overflow":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/calendar.jpg)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/helper.png)"});
             $("#"+propname+"_calendar").css({"position":"absolute","visibility":"hidden","left":0,"top":propheight});
+            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -468,6 +469,23 @@ var globalcolorfocus="#FFF4E6";
                     propmousedown=false;
             	}
             );
+            $("#"+propname+"_button").mouseover(
+            	function(evt){
+                    if(!propobj.isempty() && propenabled)
+                        $("#"+propname+"_clear").show();
+            	}
+            );
+            $("#"+propname+"_clear").click(
+            	function(evt){
+                    propobj.value("", true);
+                    $("#"+propname+"_clear").hide();
+            	}
+            );
+            $("#"+propname).mouseleave(
+            	function(evt){
+                    $("#"+propname+"_clear").hide();
+            	}
+            );
             $("#"+propname+"_button").click(
             	function(){
             		if(propenabled){
@@ -477,7 +495,7 @@ var globalcolorfocus="#FFF4E6";
                         }
                         else{
                             if($("#"+propname+"_text").html()=="__/__/____")
-                                propobj.value(Date.stringToday());
+                                propobj.value(Date.stringToday(), true);
                             flaghelp=false;
                         }
             		}
@@ -647,12 +665,12 @@ var globalcolorfocus="#FFF4E6";
                                     proplink.value(v);
                                 }
                             }
-                            if(a==missing){a=false}
-                            if(a){propobj.raiseassigned()}
 						}
 						else{
 							propobj.clear();
 						}
+                        if(a==missing){a=false}
+                        if(a){propobj.raiseassigned()}
 					}
 					catch(e){
 						propobj.clear();
@@ -887,7 +905,7 @@ var globalcolorfocus="#FFF4E6";
                 "line-height":"17px",
                 "cursor":"default"
             })
-            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div>");
+            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div><div id='"+propname+"_clear'></div>");
             
             $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":1,"width":1,"height":1,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"});
             $("#"+propname+"_internal").css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"});
@@ -895,7 +913,8 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-24,"height":propheight-4,"text-align":"right","padding-right":1,"overflow":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
-            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/calculator.jpg)"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/helper.png)"});
+            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -1255,6 +1274,23 @@ var globalcolorfocus="#FFF4E6";
                     propmousedown=false;
             	}
             );
+            $("#"+propname+"_button").mouseover(
+            	function(evt){
+                    if(!propobj.isempty() && propenabled)
+                        $("#"+propname+"_clear").show();
+            	}
+            );
+            $("#"+propname+"_clear").click(
+            	function(evt){
+                    propobj.value(0, true);
+                    $("#"+propname+"_clear").hide();
+            	}
+            );
+            $("#"+propname).mouseleave(
+            	function(evt){
+                    $("#"+propname+"_clear").hide();
+            	}
+            );
             $("#"+propname+"_button").click(
             	function(){
             		if(propenabled){
@@ -1531,6 +1567,9 @@ var globalcolorfocus="#FFF4E6";
                 if(propnumdec>0)
                     s+="."+propdecimal;
                 return s;
+            }
+            this.isempty=function(){
+                return (propinteger.actualInteger()==0 && propdecimal.actualInteger()==0);
             }
 			this.name=function(){
 				return propname;

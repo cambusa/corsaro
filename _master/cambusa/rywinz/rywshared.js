@@ -534,15 +534,25 @@ function winzDither(formid, bValue){
         }
     }
 }
-function winzDialogGet(formid){
+function winzDialogGet(formid, hangerid, missing){
     var progrid=0;
+    var saveh="";
+    if(hangerid!=missing){
+        if(hangerid.indexOf(formid)!=0)
+            hangerid=formid+hangerid;
+        saveh=$("#"+hangerid).html();
+        $("#"+hangerid).html("");
+    }
+    else{
+        hangerid="window_"+formid+" .window_inner";
+    }
     if(window.console&&_sessioninfo.debugmode)console.log("Objects before dialog: "+$.objectsize(globalobjs));
     while($("#dialogout_"+formid+progrid).length>0){progrid+=1}
     var r="dialogdither_"+formid+progrid;
     var o="dialogout_"+formid+progrid;
     var d="dialogframe_"+formid+progrid;
     var h=formid+"dialog_"+progrid;
-    $("#window_"+formid+" .window_inner").append("<div id='"+r+"' class='winz_dither'></div><div id='"+o+"' class='winz_dialog_outer'><div id='"+d+"' class='winz_dialog'><div id='"+h+"'></div><div class='winz_close'>X</div></div></div>");
+    $("#"+hangerid).append("<div id='"+r+"' class='winz_dither'></div><div id='"+o+"' class='winz_dialog_outer'><div id='"+d+"' class='winz_dialog'><div id='"+h+"'>"+saveh+"</div><div class='winz_close'>X</div></div></div>");
     if(!RYWINZ.Forms(formid).options.controls)
         $("#"+r).css({"top":0});
     var dlg={formid:formid, progrid:progrid, instanceid:"_"+progrid+"_", dither:r, outer:o, frame:d, hanger:h, width:600, height:500};
@@ -572,6 +582,7 @@ function winzDialogOpen(dlg){
     _globalforms[dlg.formid].opens+=1;
     _systeminfo.activities+=1;
     if(window.console&&_sessioninfo.debugmode){console.log("Open dialogs: "+_dialogcount)}
+    $("#"+dlg.outer+" .ryobject").attr("notab", 1);
     $("#"+dlg.dither).show();
     $("#"+dlg.outer).show();
     if(dlg.open){
