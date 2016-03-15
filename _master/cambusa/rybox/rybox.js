@@ -641,8 +641,6 @@ var globalcolorfocus="#FFF4E6";
                     }
 				}
 				else{
-                    propobj.raisechanged();
-                    propchanged=false;
 					try{
 						if(v!=""){
                             if(typeof v=="string"){
@@ -669,6 +667,8 @@ var globalcolorfocus="#FFF4E6";
 						else{
 							propobj.clear();
 						}
+                        propobj.raisechanged();
+                        propchanged=false;
                         if(a==missing){a=false}
                         if(a){propobj.raiseassigned()}
 					}
@@ -2074,7 +2074,7 @@ var globalcolorfocus="#FFF4E6";
             if(settings.autocoding!=missing){propautocoding=settings.autocoding}
             if(propautocoding){
                 if(propbabelcode=="")
-                    propbabelcode="LBL_"+propcaption.replace(/[^\w]/ig, "").toUpperCase();
+                    propbabelcode="LBL_"+propcaption.replace(/[^\w]/ig, "").toUpperCase().substr(0,50);
             }
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -2594,7 +2594,7 @@ var globalcolorfocus="#FFF4E6";
                 if(item.code!=missing)
                     b=item.code;
                 else if(propautocoding && d!="")
-                    b="LST_"+d.replace(/[^\w]/ig, "").toUpperCase();
+                    b="LST_"+d.replace(/[^\w]/ig, "").toUpperCase().substr(0,50);
                 if(item.tag!=missing){t=item.tag}
                 $("#"+propname+"_anchor").append("<option value='"+i+"' key='"+k+"' babelcode='"+b+"' tag='"+t+"'>"+d+"</option>");
                 $("#"+propname+"_anchor option").css({"background-color":"#FFFFFF"});
@@ -3020,39 +3020,47 @@ function ryBox(missing){
                                         case "label":
                                         case "button":
                                             if((c=o.babelcode())>""){
-                                                t=v[c];
-                                                if(t.length>0)
-                                                    o.caption(t);
-                                                propbabelcache[c]=t;
+                                                if($.isset(v[c])){
+                                                    t=v[c];
+                                                    if(t.length>0)
+                                                        o.caption(t);
+                                                    propbabelcache[c]=t;
+                                                }
                                             }
                                             break;
                                         case "list":
                                             for(j=1;j<=o.count();j++){
                                                 if((c=o.babelcode(j))>""){
-                                                    t=v[c];
-                                                    if(t.length>0)
-                                                        o.caption(j,t);
-                                                    propbabelcache[c]=t;
+                                                    if($.isset(v[c])){
+                                                        t=v[c];
+                                                        if(t.length>0)
+                                                            o.caption(j,t);
+                                                        propbabelcache[c]=t;
+                                                    }
                                                 }
                                             }
                                             break;
                                         case "grid":
                                             for(j=1;j<=o.columns();j++){
                                                 if((c=o.babelcode(j))>""){
-                                                    t=v[c];
-                                                    if(t.length>0)
-                                                        o.caption(j,t);
-                                                    propbabelcache[c]=t;
+                                                    if($.isset(v[c])){
+                                                        t=v[c];
+                                                        if(t.length>0)
+                                                            o.caption(j,t);
+                                                        propbabelcache[c]=t;
+                                                    }
                                                 }
                                             }
                                             break;
                                         case "tabs":
                                             for(j=1;j<=o.tabs();j++){
                                                 if((c=o.babelcode(j))>""){
-                                                    t=v[c];
-                                                    if(t.length>0)
-                                                        o.caption(j,t);
-                                                    propbabelcache[c]=t;
+                                                    if($.isset(v[c])){
+                                                        t=v[c];
+                                                        if(t.length>0)
+                                                            o.caption(j,t);
+                                                        propbabelcache[c]=t;
+                                                    }
                                                 }
                                             }
                                             break;
@@ -3061,14 +3069,16 @@ function ryBox(missing){
                                 for(c in propbabelcodes){
                                     var o=propbabelcodes[c];
                                     if(o.virgin){
-                                        t=v[c];
-                                        if(t.length>0)
-                                            o.caption=t;
+                                        if($.isset(v[c])){
+                                            t=v[c];
+                                            if(t.length>0)
+                                                o.caption=t;
+                                        }
                                         o.virgin=false;
                                     }
                                 }
                                 selflearnig=$.isset(v["___SELFLEARNING"]);
-                                if(window.console&&_sessioninfo.debugmode){console.log("selflearnig:"+selflearnig)}
+                                if(window.console&&_sessioninfo.debugmode){console.log("selflearnig (attivazione):"+selflearnig)}
                                 if(selflearnig){
                                     var l=v["___SELFLEARNING"].split("|");
                                     var selfcodes=[];
@@ -3115,12 +3125,14 @@ function ryBox(missing){
                                     if(window.console&&_sessioninfo.debugmode){console.log(selfcodes)}
                                     setTimeout(function(){
                                         $.post(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"env":_sessioninfo.environ, "sessionid":_sessioninfo.sessionid, "codes":selfcodes}, function(d){
-                                            if(window.console&&_sessioninfo.debugmode){console.log("selflearnig:"+d)}
+                                            if(window.console&&_sessioninfo.debugmode){console.log("selflearnig (esito):"+d)}
                                         });
                                     }, 2000);
                                 }
                             }
-                            catch(e){}
+                            catch(e){
+                                if(window.console&&_sessioninfo.debugmode){console.log(e.message)}
+                            }
                             TAIL.free();
                             if(action!=missing){
                                 setTimeout(action);
@@ -3203,6 +3215,47 @@ function ryBox(missing){
             return globalobjs[n];
         else
             return globalobjs;
+    }
+    this.menucontext=function(divid, m){
+        if( $("#"+divid).length==0 ){
+            var h="";
+            h+="<div id='"+divid+"' class='contextMenu'><ul>";
+            
+            for(var n in m){
+                var autocoding=false;
+                var id="";
+                var caption="";
+                var code="";
+                if(m[n].id!=missing){id=m[n].id}
+                if(m[n].caption!=missing){caption=m[n].caption}
+                if(m[n].autocoding!=missing){autocoding=m[n].autocoding}
+                
+                if(m[n].code!=missing){code=m[n].code}
+                if(code=="" && autocoding)
+                    code="POP_"+caption.replace(/[^\w]/ig, "").toUpperCase();
+                if(code!="")
+                    caption=RYBOX.babels(code);
+                
+                if(caption=="-"){
+                    if(id=="")
+                        h+="<li class='contextSeparator'></li>";
+                    else
+                        h+="<li class='contextSeparator' id='"+id+"'></li>";
+                }
+                else{
+                    h+="<li class='"+id+"' id='"+id+"'><a href='javascript:'>"+caption+"</a></li>";
+                }
+            }
+            
+            h+="</ul></div>";
+            $("body").append(h);    
+        }
+    }
+    this.menudisable=function(divid){
+        $("."+divid).addClass("contextDisabled");
+    }
+    this.menuhidden=function(menu, divid){
+        $("."+divid, menu).remove();
     }
     this.createstandard();
     // FUNZIONI PRIVATE

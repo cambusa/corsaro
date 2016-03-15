@@ -50,6 +50,7 @@ else
     
 // INIZIO GESTIONE LOCALIZZAZIONE
 $localize=false;
+$self=false;
 
 if(isset($_POST["sessionid"]))
     $sessionid=$_POST["sessionid"];
@@ -82,6 +83,15 @@ if($sessionid!="" && $dbenv){
                     $maestro_babel=maestro_opendb($global_lastlanguage);
                     if($maestro_babel->conn!==false){
                         $localize=true;
+                    }
+                }catch(Exception $e){}
+            }
+            if($config_selflearning!=""){
+                try{
+                    // APERTURA DATABASE SELFLEARNING
+                    $maestro_self=maestro_opendb($config_selflearning);
+                    if($maestro_self->conn!==false){
+                        $self=true;
                     }
                 }catch(Exception $e){}
             }
@@ -171,8 +181,14 @@ if($env_name!=""){
                     }
                     
                     // GESTIONE LOCALIZZAZIONE
-                    if($localize){
-                        if($babelcode!=""){
+                    if($babelcode!=""){
+                        if($self){
+                            maestro_query($maestro_self, "SELECT CAPTION FROM BABELITEMS WHERE [:UPPER(NAME)]='$babelcode'", $r);
+                            if(count($r)==0){
+                                maestro_execute($maestro_self, "INSERT INTO BABELITEMS (SYSID,NAME,CAPTION) VALUES([:SYSID],'" . str_replace("'", "''", $babelcode) . "','" . str_replace("'", "''", $title) . "')", false);
+                            }
+                        }
+                        if($localize){
                             maestro_query($maestro_babel, "SELECT CAPTION FROM BABELITEMS WHERE [:UPPER(NAME)]='$babelcode'", $r);
                             if(count($r)>0){
                                 $title=$r[0]["CAPTION"];
@@ -208,6 +224,10 @@ else{
 if($localize){
     // CHIUSURA DATABASE BABEL
     maestro_closedb($maestro_babel);
+}
+if($self){
+    // CHIUSURA DATABASE BABEL
+    maestro_closedb($maestro_self);
 }
 
 // USCITA JSON

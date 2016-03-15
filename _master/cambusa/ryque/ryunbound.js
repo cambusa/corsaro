@@ -1929,7 +1929,7 @@
                 if(params.code!=missing)
                     code=params.code;
                 else if(propautocoding && tit!="")
-                    code="COL_"+tit.replace(/[^\w]/ig, "").toUpperCase();
+                    code="COL_"+tit.replace(/[^\w]/ig, "").toUpperCase().substr(0,50);
                 if (0<dim && dim<10)
                     dim=10;
                 propcols[l]=colid;

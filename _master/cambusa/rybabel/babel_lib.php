@@ -22,13 +22,10 @@ function babeldecode($lang, $codes){
             // APERTURA DATABASE
             $maestro=maestro_opendb($lang);
             
+            // RICERCA TRADUZIONI
+            $elenco=explode("|",strtoupper($codes));
             if($maestro->conn!==false){
-                $elenco=explode("|",strtoupper($codes));
                 $elencoin="'".str_replace("|", "','", strtoupper($codes))."'";
-                // INIZIALIZZO LA RISPOSTA
-                foreach($elenco as $code){
-                    $r[$code]="";
-                }
                 $sql="SELECT NAME,CAPTION FROM BABELITEMS WHERE [:UPPER(NAME)] IN ($elencoin)";
                 maestro_query($maestro, $sql, $s);
                 foreach($s as $row){
@@ -41,6 +38,7 @@ function babeldecode($lang, $codes){
             // CHIUSURA DATABASE
             maestro_closedb($maestro);
             
+            // AUTOAPPRENDIMENTO
             if($config_selflearning!=""){
                 $self=array();
                 // ELENCO GLI INESISTENTI
@@ -52,9 +50,24 @@ function babeldecode($lang, $codes){
                     $r["___SELFLEARNING"]=implode("|", $self);
                 }
             }
+
+            // RESTITUISCO COMUNQUE QUALCOSA ANCHE PER LE MANCATE TRADUZIONI
+            foreach($elenco as $k){
+                if(!isset($r[$k]))
+                    $r[$k]="";
+            }
         }
     }
     catch(Exception $e){}
+    array_walk_recursive($r, "babel_escapize");
     return json_encode($r);
+}
+function babel_escapize(&$value){
+    if($value!=""){
+        if(!mb_check_encoding($value, "UTF-8")){
+            // CI SONO CARATTERI NON UNICODE
+            $value=utf8_encode($value);
+        }
+    }
 }
 ?>
