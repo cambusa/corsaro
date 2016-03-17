@@ -1,4 +1,10 @@
 ==================================
+Rilascio 1.70.24    del 17/03/2016
+==================================
+
+ryQue e ryUnbound: aggiunto un assistente per la paginazione mediante mouse.
+
+==================================
 Rilascio 1.70.23    del 15/03/2016
 ==================================
 

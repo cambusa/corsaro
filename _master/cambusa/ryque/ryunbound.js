@@ -144,6 +144,8 @@
                 t+="<div id='"+propname+"_rect' class='ryque-rect'><a style='cursor:default;line-height:20px;font-size:20px;'>&nbsp;&nbsp;</a></div>";  // prolungamento dell'header sopra vscroll
                 t+="<div id='"+propname+"_vscroll'>"; // Scroll verticale
                     t+="<div id='"+propname+"_tooltip'>0-0</div><div id='"+propname+"_vtrack' class='ryque-vtrack'></div>";
+                    t+="<div class='ryque-pageup'>&#9650;</div>";  // page up
+                    t+="<div class='ryque-pagedown'>&#9660;</div>";  // page down
                 t+="</div>";
                 if($.browser.mobile){
                     t+="<div id='"+propname+"_mobivertback'></div><div id='"+propname+"_mobivertfore'></div>";
@@ -412,20 +414,27 @@
                         propobj.dataload();
                 	}
                 });
-                $("#"+propname+"_vscroll").mousedown(
+                $("#"+propname+"_vscroll").mouseover(
                     function(evt){
-                        if(!propenabled){return}
-                        if(propcount>proprows){
-                            var h=$("#"+propname+"_vtrack").offset().top;
-                            if (evt.pageY>h+proptracksize){
-                                propobj.pagedown(1);
-                                propobj.dataload();
-                            }
-                            else if (evt.pageY<h){
-                                propobj.pageup(1);
-                                propobj.dataload();
-                            }
-                        }
+                        if(propcount>proprows)
+                            $("#"+propname+"_vscroll .ryque-pageup,.ryque-pagedown").show();
+                    }
+                );
+                $("#"+propname+"_vscroll").mouseout(
+                    function(evt){
+                        $("#"+propname+"_vscroll .ryque-pageup,.ryque-pagedown").hide();
+                    }
+                );
+                $("#"+propname+"_vscroll .ryque-pageup").click(
+                    function(evt){
+                        propobj.pageup(1);
+                        propobj.dataload();
+                    }
+                );
+                $("#"+propname+"_vscroll .ryque-pagedown").click(
+                    function(evt){
+                        propobj.pagedown(1);
+                        propobj.dataload();
                     }
                 );
                 $("#"+propname+"_htrack").draggable({
@@ -451,19 +460,7 @@
                 });
 
                 draggablecolumns();
-
-                $("#"+propname+"_hscroll").mousedown(
-                    function(evt){
-                        if(!propenabled){return}
-                        if(propgridwidth>propwinwidth){
-                            var w=$("#"+propname+"_htrack").offset().left;
-                            if (evt.pageX>w+proptracksize)
-                                propobj.rowright();
-                            else if (evt.pageX<w)
-                                propobj.rowleft();
-                        }
-                    }
-                );
+                
                 if($.browser.mobile){
                     $("#"+propname+"_mobivertback").mousedown(
                         function(evt){
@@ -1472,6 +1469,7 @@
             this.tipactivate=function(){
                 propscrolling=true;
                 $("#"+propname+"_tooltip").css({"visibility":"visible","left":-2,"top":4});
+                $("#"+propname+"_vscroll .ryque-pageup,.ryque-pagedown").hide();
             }
             this.tipmove=function(c){
                 var p=$("#"+propname+"_vtrack").position().top;

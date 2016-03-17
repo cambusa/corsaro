@@ -3182,9 +3182,16 @@ function ryBox(missing){
             }
             catch(er){
                 if(window.console)console.log("["+codes+"] not defined");
+                if(args!=missing){
+                    if(typeof(args)=="string")
+                        return args;
+                }
                 return codes;
             }
         }
+    }
+    this.babelexists=function(code){
+        return $.isset(propbabelcodes[code]);
     }
     this.getbabel=function(n, args, missing){
         var b=$("#"+n+" .rylabel-caption").html();

@@ -165,3 +165,23 @@ background:transparent url(images/faded.gif) repeat-x;
 background-color:#404040;
 color:#F0F0F0;
 }
+
+.ryque-pageup,.ryque-pagedown{
+position:absolute;
+right:15px;
+width:14px;
+height:14px;
+line-height:14px;
+font-size:14px;
+color:black;
+background-color:#F2F2F2;
+display:none;
+opacity: 1;
+cursor:pointer !important;
+}
+.ryque-pageup{
+top:0px;
+}
+.ryque-pagedown{
+top:14px;
+}
