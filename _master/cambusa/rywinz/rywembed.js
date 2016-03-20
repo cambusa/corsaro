@@ -306,6 +306,7 @@ function ryWinz(missing){
     this.RemoveForm=this.removeform;
     this.Shell=this.shell;
     this.StatusMessage=winzMereMessage;
+    this.Stoppable=winzStoppable;
     this.TimeoutMess=winzTimeoutMess;
     this.Title=winzTitle;
     this.ToMask=winzToMask;

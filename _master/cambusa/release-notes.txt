@@ -1,8 +1,14 @@
 ==================================
+Rilascio 1.70.25    del 20/03/2016
+==================================
+
+ryQue e ryUnbound: aggiunti pulsanti per lo scroll orizzontale mediante mouse.
+
+==================================
 Rilascio 1.70.24    del 17/03/2016
 ==================================
 
-ryQue e ryUnbound: aggiunto un assistente per la paginazione mediante mouse.
+ryQue e ryUnbound: aggiunti pulsanti per lo scroll verticale mediante mouse.
 
 ==================================
 Rilascio 1.70.23    del 15/03/2016

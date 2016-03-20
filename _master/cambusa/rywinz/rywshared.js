@@ -612,21 +612,24 @@ function winzDialogFree(dlg){
 }
 function winzPost(url, params, success, fail){
     _systeminfo.activities+=1;
-    $.post(url, params,
-        function(d){
-            _systeminfo.activities-=1;
-            success(d);
+    var jqxhr=$.post(url, params);
+    jqxhr.done(function(d){
+        _systeminfo.activities-=1;
+        success(d);
+    });
+    jqxhr.fail(function(d){
+        _systeminfo.activities-=1;
+        if(fail){
+            fail(d);
         }
-    )
-    .fail(
-        function(){
-            _systeminfo.activities-=1;
-            if(fail)
-                fail();
-            else
-                success({success:0, message:"Call failed!"});
+        else{
+            var m="Call failed!";
+            if($.isset(d.statusText))
+                m=d.statusText;
+            success({success:0, message:m, data:d});
         }
-    );
+    });
+    return jqxhr;
 }
 function winzPostProgress(settings, missing){
     var proptotal=-1;
@@ -673,23 +676,23 @@ function winzPostProgress(settings, missing){
         },
         success: function(d){
             try{
-                if(propenabled){
+                if(propenabled)
                     d=d.substr(d.indexOf("Y")+1);
-                }
-                if(settings.success!=missing){
+                if(settings.success!=missing)
                     settings.success(d);
-                }
             }
             catch(e){
-                if(settings.error!=missing){
+                if(settings.error!=missing)
                     settings.error(d);
-                }
+                else if(settings.success!=missing)
+                    settings.success({success:0, message:e.message});
             }
         },
         error: function(d){
-            if(settings.error!=missing){
+            if(settings.error!=missing)
                 settings.error(d);
-            }
+            else if(settings.success!=missing)
+                settings.success({success:0, message:d});
         }
     });
     manageprogress=function(xhr, evt){

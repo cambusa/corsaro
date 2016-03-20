@@ -491,7 +491,7 @@ function class_qvpersone(settings,missing){
             }
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -510,7 +510,8 @@ function class_qvpersone(settings,missing){
                     }
                     catch(e){
                         RYWINZ.ClearMess(formid);
-                        alert(d);
+                        if(window.console&&_sessioninfo.debugmode){console.log(d)}
+                        alert(e.message);
                     }
                 }
             );

@@ -37,6 +37,16 @@ color:#FFFFFF;
 background-color:#588EBC;
 }
 
+.ryque-row-checked-even {
+background-color: #F0F0F0;
+color:#000000;
+}
+
+.ryque-row-checked-odd {
+background-color: #E0E0E0;
+color:#000000;
+}
+
 .ryque-cell{
 top:0px;
 line-height:21px;
@@ -169,19 +179,39 @@ color:#F0F0F0;
 .ryque-pageup,.ryque-pagedown{
 position:absolute;
 right:15px;
-width:14px;
-height:14px;
-line-height:14px;
-font-size:14px;
-color:black;
-background-color:#F2F2F2;
+width:20px;
+height:20px;
 display:none;
-opacity: 1;
 cursor:pointer !important;
 }
 .ryque-pageup{
 top:0px;
+border-left:1px solid silver;
+background:#F2F2F2 url(images/page-up.png) no-repeat 2px 2px;
 }
 .ryque-pagedown{
-top:14px;
+top:18px;
+border-left:1px solid silver;
+border-bottom:1px solid silver;
+background:#F2F2F2 url(images/page-down.png) no-repeat 2px 2px;
+}
+
+.ryque-pageleft,.ryque-pageright{
+position:absolute;
+bottom:15px;
+width:20px;
+height:20px;
+display:none;
+cursor:pointer !important;
+}
+.ryque-pageleft{
+right:20px;
+border-top:1px solid silver;
+border-left:1px solid silver;
+background:#F2F2F2 url(images/page-left.png) no-repeat 2px 2px;
+}
+.ryque-pageright{
+right:0px;
+border-top:1px solid silver;
+background:#F2F2F2 url(images/page-right.png) no-repeat 2px 2px;
 }

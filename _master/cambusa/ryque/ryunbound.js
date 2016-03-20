@@ -144,14 +144,16 @@
                 t+="<div id='"+propname+"_rect' class='ryque-rect'><a style='cursor:default;line-height:20px;font-size:20px;'>&nbsp;&nbsp;</a></div>";  // prolungamento dell'header sopra vscroll
                 t+="<div id='"+propname+"_vscroll'>"; // Scroll verticale
                     t+="<div id='"+propname+"_tooltip'>0-0</div><div id='"+propname+"_vtrack' class='ryque-vtrack'></div>";
-                    t+="<div class='ryque-pageup'>&#9650;</div>";  // page up
-                    t+="<div class='ryque-pagedown'>&#9660;</div>";  // page down
+                    t+="<div class='ryque-pageup'></div>";  // page up
+                    t+="<div class='ryque-pagedown'></div>";  // page down
                 t+="</div>";
                 if($.browser.mobile){
                     t+="<div id='"+propname+"_mobivertback'></div><div id='"+propname+"_mobivertfore'></div>";
                 }
                 t+="<div id='"+propname+"_hscroll'>"; // Scroll orizzontale
                     t+="<div id='"+propname+"_htrack' class='ryque-htrack'></div>";
+                    t+="<div class='ryque-pageleft'></div>";  // page left
+                    t+="<div class='ryque-pageright'></div>";  // page right
                 t+="</div>";
                 if($.browser.mobile){
                     t+="<div id='"+propname+"_mobihoriback'></div><div id='"+propname+"_mobihorifore'></div>";
@@ -458,6 +460,27 @@
                         propscrolling=false;
                 	}
                 });
+                $("#"+propname+"_hscroll").mouseover(
+                    function(evt){
+                        if(propgridwidth>propwinwidth && !propeditmode)
+                            $("#"+propname+"_hscroll .ryque-pageleft,.ryque-pageright").show();
+                    }
+                );
+                $("#"+propname+"_hscroll").mouseout(
+                    function(evt){
+                        $("#"+propname+"_hscroll .ryque-pageleft,.ryque-pageright").hide();
+                    }
+                );
+                $("#"+propname+"_hscroll .ryque-pageleft").click(
+                    function(evt){
+                        propobj.rowleft();
+                    }
+                );
+                $("#"+propname+"_hscroll .ryque-pageright").click(
+                    function(evt){
+                        propobj.rowright();
+                    }
+                );
 
                 draggablecolumns();
                 
@@ -1232,9 +1255,10 @@
             }
             this.rowdecor=function(gr,f){
                 var reff=proptoprow+gr-1;
+                var fd;
                 if(propfirstcol){
-                    var fd="#"+propname+"_zr"+gr;
                     var s=false;
+                    fd="#"+propname+"_zr"+gr;
                     $(fd).removeClass("ryque-row-even ryque-row-odd ryque-row-selected ryque-row-checked");
                     if(propcheckable && reff<=propcount && f){
                         if((reff in propsels)!=propselinvert){
@@ -1256,16 +1280,27 @@
                 }
                 // Selettore
                 fd="#"+propname+"_tr"+gr;
-                $(fd).removeClass("ryque-row-even ryque-row-odd ryque-row-selected ryque-row-checked");
+                $(fd).removeClass("ryque-row-even ryque-row-odd ryque-row-selected ryque-row-checked-even ryque-row-checked-odd");
                 if(reff==propindex && f){
                     $(fd).addClass("ryque-row-selected");
-                    
                 }
                 else{
-                    if((gr%2)==0)
-                        $(fd).addClass("ryque-row-even");
-                    else
-                        $(fd).addClass("ryque-row-odd");
+                    var s=false;
+                    if(propcheckable && reff<=propcount && f){
+                        if((reff in propsels)!=propselinvert){
+                            s=true;
+                            if((gr%2)==0)
+                                $(fd).addClass("ryque-row-checked-even");
+                            else
+                                $(fd).addClass("ryque-row-checked-odd");
+                        }
+                    }
+                    if(!s){
+                        if((gr%2)==0)
+                            $(fd).addClass("ryque-row-even");
+                        else
+                            $(fd).addClass("ryque-row-odd");
+                    }
                 }
                 if(propeditmode){
                     var c="#"+propname+"_"+gr+"_"+propcolumn;
