@@ -367,7 +367,7 @@
                 });
                 $("#"+propname+"_vscroll").mouseover(
                     function(evt){
-                        if(propcount>proprows)
+                        if(propcount>proprows && propenabled)
                             $("#"+propname+"_vscroll .ryque-pageup,.ryque-pagedown").show();
                     }
                 );
@@ -388,6 +388,25 @@
                         propobj.dataload();
                     }
                 );
+                $("#"+propname+"_vscroll").mousedown(
+                    function(evt){
+                        if(!propenabled){return}
+                        if(propcount>proprows){
+                            var o=$("#"+propname+"_vtrack").offset();
+                            if(evt.pageX>o.left){
+                                if (evt.pageY>o.top+proptracksize){
+                                    propobj.pagedown(1);
+                                    propobj.dataload();
+                                }
+                                else if (evt.pageY<o.top){
+                                    propobj.pageup(1);
+                                    propobj.dataload();
+                                }
+                            }
+                        }
+                    }
+                );
+
                 $("#"+propname+"_htrack").draggable({
                     axis:"x",
                     containment:"parent",
@@ -411,7 +430,7 @@
                 });
                 $("#"+propname+"_hscroll").mouseover(
                     function(evt){
-                        if(propgridwidth>propwinwidth)
+                        if(propgridwidth>propwinwidth && propenabled)
                             $("#"+propname+"_hscroll .ryque-pageleft,.ryque-pageright").show();
                     }
                 );
@@ -433,6 +452,20 @@
 
                 draggablecolumns();
 
+                $("#"+propname+"_hscroll").mousedown(
+                    function(evt){
+                        if(!propenabled){return}
+                        if(propgridwidth>propwinwidth){
+                            var o=$("#"+propname+"_htrack").offset();
+                            if(evt.pageY>o.top){
+                                if (evt.pageX>o.left+proptracksize)
+                                    propobj.rowright();
+                                else if (evt.pageX<o.left)
+                                    propobj.rowleft();
+                            }
+                        }
+                    }
+                );
                 if($.browser.mobile){
                     $("#"+propname+"_mobivertback").mousedown(
                         function(evt){
