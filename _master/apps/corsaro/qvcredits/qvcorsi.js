@@ -130,7 +130,7 @@ function class_qvcorsi(settings,missing){
             data["DESCRIPTION"]="(nuovo corso)";
             data["TYPOLOGYID"]=currtypologyid;
             data["REFGENREID"]=currgenreid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -247,7 +247,7 @@ function class_qvcorsi(settings,missing){
                                 };
                             }
                         }
-                        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                             {
                                 "sessionid":_sessioninfo.sessionid,
                                 "env":_sessioninfo.environ,
@@ -319,7 +319,7 @@ function class_qvcorsi(settings,missing){
                     "function":"objects_update",
                     "data":data
                 };
-                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
@@ -395,7 +395,7 @@ function class_qvcorsi(settings,missing){
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
             data["REFGENREID"]=currgenreid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

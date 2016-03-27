@@ -123,7 +123,7 @@ function class_qvmagazzini(settings,missing){
             data["DESCRIPTION"]="(nuovo magazzino)";
             data["TYPOLOGYID"]=currtypologyid;
             data["MAGAZZINO"]="1";
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -247,7 +247,7 @@ function class_qvmagazzini(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -477,7 +477,7 @@ function class_qvmagazzini(settings,missing){
                 "function":"objects_insert",
                 "data":data
             };
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -541,7 +541,7 @@ function class_qvmagazzini(settings,missing){
                 descr+="/"+tx_collcoordinata.value();
             }
             data["DESCRIPTION"]=descr;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

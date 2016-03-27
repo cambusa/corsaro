@@ -197,7 +197,7 @@ function class_qvaccrediti(settings,missing){
             data["TARGETTIME"]="";
             data["CORSOID"]="";
             data["STATUS"]="0";
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -361,7 +361,7 @@ function class_qvaccrediti(settings,missing){
                 data["STATUS"]=1;
             else
                 data["STATUS"]=0;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

@@ -93,7 +93,7 @@ function class_qvsettings(settings,missing){
             winzProgress(formid);
             var data = new Object();
             data["DESCRIPTION"]="(nuova opzione)";
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -154,7 +154,7 @@ function class_qvsettings(settings,missing){
         click:function(o){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -214,7 +214,7 @@ function class_qvsettings(settings,missing){
         environ:_sessioninfo.temporary,
         complete:function(id, name, ret){
             winzProgress(formid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -255,62 +255,16 @@ function class_qvsettings(settings,missing){
                 message:"Eseguire il backup di dati e documenti?",
                 confirm:function(){
                     winzProgress(formid);
-                    var counter=0;
-                    var jqxhr=$.ajax({
-                        xhr: function(){
-                            var xhr=null;
-                            if(window.XMLHttpRequest){
-                                xhr=new window.XMLHttpRequest();
-                                //Download progress
-                                xhr.addEventListener("progress", function(evt){
-                                    if(counter>0){
-                                        var perc=Math.round(evt.loaded/counter);
-                                        if(perc>100){perc=100}
-                                        $("#message_"+formid).html(perc+"%");
-                                    }
-                                    else{
-                                        counter=xhr.responseText.substr(0,18).actualInteger();
-                                    }
-                                }, false);
-                            } 
-                            else{ 
-                                try{  
-                                    xhr=new ActiveXObject("MSXML2.XMLHTTP");
-                                    //Download progress
-                                    xhr.attachEvent("progress", function(evt) {
-                                        try{
-                                            if(counter>0){
-                                                var perc=Math.round(evt.loaded/counter);
-                                                if(perc>100){perc=100}
-                                                $("#message_"+formid).html(perc+"%");
-                                            }
-                                            else{
-                                                counter=xhr.responseText.substr(0,18).actualInteger();
-                                            }
-                                        } 
-                                        catch(e){
-                                            $("#message_"+formid).html(e.message);
-                                        } 
-                                    });
-                                } 
-                                catch(e){
-                                    $("#message_"+formid).html(e.message);
-                                } 
-                            }                        
-                            return xhr;
-                        },
-                        type:"POST",
-                        url:_systeminfo.relative.cambusa+"ryquiver/quiver.php",
-                        data:{
+                    var jqxhr=RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                        {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
                             "function":"system_backup",
                             "data":{}
-                        },
-                        success: function(d){
+                        }, 
+                        function(d){
                             winzClearMess(formid);
                             try{
-                                var d=d.substr(d.indexOf("Y")+1);
                                 var v=$.parseJSON(d);
                                 if(v.success>0)
                                     winzMessageBox(formid, "Creato il file di backup:<br>"+v.params["BACKUP"]);
@@ -318,16 +272,13 @@ function class_qvsettings(settings,missing){
                                     winzMessageBox(formid, "Backup fallito:<br>"+v.message);
                             }
                             catch(e){
-                                winzClearMess(formid);
-                                alert(d);
+                                if(window.console){console.log(d)}
+                                alert(e.message);
                             }
                         },
-                        error: function(d){
-                            winzClearMess(formid);
-                            winzMessageBox(formid, "Backup fallito");
-                        }
-                    });
-                    winzStoppable(formid, jqxhr);
+                        { "progress":function(d){RYWINZ.StatusMessage(formid, d)} }
+                    );
+                    RYWINZ.Stoppable(formid, jqxhr);
                 }
             });
         }
@@ -375,7 +326,7 @@ function class_qvsettings(settings,missing){
             button:true,
             click:function(o){
                 winzProgress(formid);
-                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
@@ -406,7 +357,7 @@ function class_qvsettings(settings,missing){
             button:true,
             click:function(o){
                 winzProgress(formid);
-                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
@@ -432,7 +383,7 @@ function class_qvsettings(settings,missing){
         });
     }
     function listqbk(){
-        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,
@@ -481,69 +432,32 @@ function class_qvsettings(settings,missing){
             message:"Effettuare il ripristino del database:<br>"+n+"?<br><br>I dati attuali verranno perduti!",
             confirm:function(){
                 winzProgress(formid);
-                var counter=0;
-                $.ajax({
-                    xhr: function(){
-                        var xhr=null;
-                        if(window.XMLHttpRequest){
-                            xhr=new window.XMLHttpRequest();
-                            //Download progress
-                            xhr.addEventListener("progress", function(evt){
-                                if(counter>0){
-                                    var perc=Math.round(evt.loaded/counter);
-                                    if(perc>100){perc=100}
-                                    $("#message_"+formid).html(perc+"%");
-                                }
-                                else{
-                                    counter=xhr.responseText.substr(0,18).actualInteger();
-                                }
-                            }, false);
-                        } 
-                        else{ 
-                            try{  
-                                xhr=new ActiveXObject("MSXML2.XMLHTTP");
-                                //Download progress
-                                xhr.attachEvent("progress", function(evt) {
-                                    try{
-                                        if(counter>0){
-                                            var perc=Math.round(evt.loaded/counter);
-                                            if(perc>100){perc=100}
-                                            $("#message_"+formid).html(perc+"%");
-                                        }
-                                        else{
-                                            counter=xhr.responseText.substr(0,18).actualInteger();
-                                        }
-                                    } 
-                                    catch(e){
-                                        $("#message_"+formid).html(e.message);
-                                    } 
-                                });
-                            } 
-                            catch(e){
-                                $("#message_"+formid).html(e.message);
-                            } 
-                        }                        
-                        return xhr;
-                    },
-                    type:"POST",
-                    url:_systeminfo.relative.cambusa+"ryquiver/quiver.php",
-                    data:{
+                var jqxhr=RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
                         "function":"system_restore",
                         "data":{
                             "BACKUP":n
                         }
-                    },
-                    success: function(d){
+                    }, 
+                    function(d){
                         winzClearMess(formid);
-                        winzMessageBox(formid, "I dati sono stati ripristinati");
+                        try{
+                            var v=$.parseJSON(d);
+                            if(v.success>0)
+                                winzMessageBox(formid, "I dati sono stati ripristinati");
+                            else
+                                winzMessageBox(formid, "Ripristino fallito");
+                        }
+                        catch(e){
+                            if(window.console){console.log(d)}
+                            alert(e.message);
+                        }
                     },
-                    error: function(d){
-                        winzClearMess(formid);
-                        winzMessageBox(formid, "Ripristino fallito");
-                    }
-                });
+                    { "progress":function(d){RYWINZ.StatusMessage(formid, d)} }
+                );
+                RYWINZ.Stoppable(formid, jqxhr);
             }
         });
     }

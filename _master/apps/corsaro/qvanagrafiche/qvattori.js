@@ -120,7 +120,7 @@ function class_qvattori(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuovo attore)";
             data["TYPOLOGYID"]=currtypologyid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -366,7 +366,7 @@ function class_qvattori(settings,missing){
             var data=RYWINZ.ToObject(formid, "C", currsysid);
             data["DESCRIPTION"]=txdescr.value();
             data["EMAIL"]=txemail.value();
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

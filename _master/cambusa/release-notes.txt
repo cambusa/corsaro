@@ -1,4 +1,14 @@
 ==================================
+Rilascio 1.70.26    del XX/03/2016
+==================================
+
+Perfezionato il comportamnto di RYWINZ.Abort().
+
+Utilizzato RYWINZ.Post() in tutto Cambusa / Corsaro.
+
+Nuova gestione dei messaggi d'avanzamento.
+
+==================================
 Rilascio 1.70.25    del 20/03/2016
 ==================================
 

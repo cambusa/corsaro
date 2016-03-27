@@ -147,7 +147,7 @@ function class_qvobjects(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuovo oggetto)";
             data["TYPOLOGYID"]=currtypologyid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -326,7 +326,7 @@ function class_qvobjects(settings,missing){
             lb_details_context.caption("Contesto: "+typedescr+" / "+context);
             // CREO UN CONTENITORE CON I DATI AGGIORNATI
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -362,7 +362,7 @@ function class_qvobjects(settings,missing){
         click:function(o, done){
             winzProgress(formid);
             var data=RYWINZ.ToObject(formid, "X", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

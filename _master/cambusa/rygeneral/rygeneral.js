@@ -40,6 +40,7 @@ var _systeminfo={
 }
 
 var _sessioninfo={
+    userid:"",
     sessionid:"",
     temporary:"temporary",
     debugmode:1,
@@ -343,6 +344,53 @@ $.extend({
                 return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
             }
         }
+    },
+    engage:function(url, data, issue, options){
+        _systeminfo.activities+=1;
+        var hprogress=false;
+        // LETTURA DELLE OPZIONI
+        if(typeof(options)=="object"){
+            if(typeof(options.progress)!="undefined"){
+                data.progressid=_sessioninfo.userid+Date.stringNow()
+            }
+        }
+        var jqxhr=$.post(url, data)
+        .done(function(d){
+            _systeminfo.activities-=1;
+            if(hprogress!==false){ clearInterval(hprogress) }
+            issue(d);
+        })
+        .fail(function(d){
+            _systeminfo.activities-=1;
+            if(hprogress!==false){ clearInterval(hprogress) }
+            var m, docfail;
+            if(typeof(d.statusText)!="undefined")
+                m=d.statusText;
+            else
+                m="Call failed!";
+            if(typeof(options)=="object"){
+                switch(typeof(options.failure)){
+                case "object":
+                    docfail=options.failure;
+                    docfail.message=m;
+                    break;
+                case "string":
+                    docfail=options.failure;
+                }
+            }
+            if(typeof(docfail)=="undefined")
+                docfail={success:0, message:m};
+            issue(docfail);
+        });
+        if(data.progressid!=""){
+            hprogress=setInterval(function(){
+                $.get(_systeminfo.web.customize+"temporary/"+data.progressid+".txt")
+                .done(function(d){
+                    options.progress(d);
+                });
+            }, 1000);
+        }
+        return jqxhr;
     }
 });
 

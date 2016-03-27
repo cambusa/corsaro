@@ -173,7 +173,7 @@ function class_qvpersone(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuova persona)";
             data["TYPOLOGYID"]=currtypologyid;
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -309,7 +309,7 @@ function class_qvpersone(settings,missing){
                                 };
                             }
                         }
-                        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                             {
                                 "sessionid":_sessioninfo.sessionid,
                                 "env":_sessioninfo.environ,

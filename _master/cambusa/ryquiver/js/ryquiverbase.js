@@ -353,7 +353,7 @@ function ryQuiver(missing){
         handletemp=setTimeout(function(){
             try{
                 handletemp=false;
-                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                $.engage(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
@@ -811,7 +811,7 @@ function ryQuiver(missing){
                         multiple:true,
                         onselect:function(d){
                             var ids=d["SYSID"];
-                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                            $.engage(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
                                     "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,
@@ -856,7 +856,7 @@ function ryQuiver(missing){
                 click:function(o){
                     gridsel.selengage(
                         function(o, s){
-                            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                            $.engage(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                                 {
                                     "sessionid":_sessioninfo.sessionid,
                                     "env":_sessioninfo.environ,
@@ -895,7 +895,7 @@ function ryQuiver(missing){
                 formid:propformid,
                 button:true,
                 click:function(o){
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    $.engage(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -1023,7 +1023,7 @@ function ryQuiver(missing){
 $(document).ready(function(){
     RYQUIVER=new ryQuiver();
     RYWINZ.logoutcalls.push(function(done){
-        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+        $.engage(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,

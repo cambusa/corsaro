@@ -196,7 +196,7 @@ function ryWinz(missing){
                 }
             );
             // CARICAMENTO SCHELETRO
-            $.post(proppath+propname+".php", {id:propid,name:propname},
+            $.engage(proppath+propname+".php", {id:propid,name:propname},
                 function(d){
                     try{
                         $("#hanger_"+propid).html(d);
@@ -301,7 +301,7 @@ function ryWinz(missing){
     this.MessageBox=winzMessageBox;
     this.Modified=this.modified;
     this.NewForm=this.newform;
-    this.Post=winzPost;
+    this.Post=$.engage;
     this.Progress=winzProgress;
     this.RemoveForm=this.removeform;
     this.Shell=this.shell;

@@ -60,25 +60,25 @@ function qv_system_restore($maestro, $data){
         $version=_readblock($fp, 15);
         fgetc($fp);
         
-        $counter=intval(_readblock($fp, 18));
+        $total=intval(_readblock($fp, 18));
         fgetc($fp);
         
-        // UTILE PER AVANZAMENTO DA CLIENT
-        print substr( ($counter+1) . str_repeat(" ", 100), 0, 100);
-        flush();
+        _qv_progress("Cancellazione tabelle...");
         
         // CANCELLO LE TABELLE
         foreach($maestro->infobase as $TABLENAME => $TABLE){
             if($TABLE->type=="database"){
-                $sql="DELETE FROM $TABLENAME";
-                maestro_execute($maestro, $sql, false);
+                maestro_truncate($maestro, $TABLENAME);
             }
         }
         
         // INIZALIZZO UN VETTORE PER MEMORIZZARE I MASSIMI SYSID DELLE VARIE SERIE
         $series=array();
         
-        for($i=1; $i<=$counter; $i++){
+        // INIZIALIZZO IL CONTATORE PER I MESSAGGI D'AVANZAMENTO
+        $counter=0;
+
+        for($i=1; $i<=$total; $i++){
             $blocklen=intval(_readblock($fp, 18));
             fgetc($fp);
             
@@ -201,9 +201,13 @@ function qv_system_restore($maestro, $data){
                     }
                 }
             }
-            // UTILE PER AVANZAMENTO DA CLIENT
-            print str_repeat("X", 100);
-            flush();
+            // AGGIORNO IL CONTATORE
+            $counter+=1;
+        
+            // STATO AVANZAMENTO PER CLIENT
+            $perc=floor(100*$counter/$total);
+            if($perc>100){$perc=100;}
+            _qv_progress("$perc%");
         }
         // CHIUSURA FILE
         fclose($fp);

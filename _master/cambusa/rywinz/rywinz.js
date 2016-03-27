@@ -252,7 +252,7 @@ function ryWinz(missing){
             );
             
             // CARICAMENTO SCHELETRO
-            $.post(proppath+propname+".php", {id:propid,name:propname},
+            $.engage(proppath+propname+".php", {id:propid,name:propname},
                 function(d){
                     try{
                         $("#hanger_"+propid).html(d);
@@ -343,8 +343,7 @@ function ryWinz(missing){
                         objform.options.controls=params.controls.actualBoolean();
                         if(!objform.options.controls){
                             $("#window_"+id+" div.window_top").css({"display":"none"});
-                            //$("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px", "display":"none"});
-                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden"});
+                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden", "display":"none"});
                             $("#window_"+id+" div.window_content").css({"top":1});
                             $("#dither_"+id).css({"top":0});
                         }
@@ -354,8 +353,7 @@ function ryWinz(missing){
                         if(!params.statusbar){
                             if(!RYWINZ.busy(id))   // Se non è visibile perché alzato alla new del form lo nascondo
                                 $("#message_"+id).css({"display":"none"});
-                            //$("#window_"+id+">span.ui-resizable-handle").css({"right":"-50px", "display":"none"});
-                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden"});
+                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden", "display":"none"});
                             $("#window_"+id+" div.window_content").css({"bottom":0});
                         }
                     }
@@ -408,7 +406,7 @@ function ryWinz(missing){
     this.MessageBox=winzMessageBox;
     this.Modified=this.modified;
     this.NewForm=this.newform;
-    this.Post=winzPost;
+    this.Post=$.engage;
     this.Progress=winzProgress;
     this.RemoveForm=this.removeform;
     this.Shell=this.shell;

@@ -29,6 +29,10 @@ define("LOWEST_DATE",  "19000101");
 define("HIGHEST_TIME", "99991231000000");
 define("HIGHEST_DATE", "99991231");
 
+// Gestione messaggi d'avanzamento
+$global_progressid="";
+$global_progresslast=false;
+
 function qv_appendcomma(&$sql,$chunk){
     if($sql=="")
         $sql=$chunk;
@@ -448,5 +452,41 @@ function _qv_cacheremove($maestro, $SYSID){
 function _qv_cacheempty($maestro){
     global $global_cacherecord;
     $global_cacherecord=array();
+}
+function _qv_progress($text){
+    global $global_progresslast, $global_progressid, $path_customize;
+    try{
+        $currtime=time();
+        if($global_progresslast===false){
+            $send=true;
+            $global_progresslast=$currtime;
+        }
+        elseif($currtime-$global_progresslast>0){
+            $send=true;
+            $global_progresslast=$currtime;
+        }
+        else{
+            $send=false;
+        }
+        if($send){
+            if($global_progressid!=""){
+                $fp=fopen($path_customize."temporary/".$global_progressid.".txt", "w");
+                fwrite($fp, $text);
+                fclose($fp);
+            }
+            // INVIO COMUNQUE SPAZI PER MANTENERE LA CONNESSIONE ATTIVA
+            print str_repeat(" ", 100);
+            flush();
+        }
+    }
+    catch(Exception $e){}
+}
+function _qv_clearprogress(){
+    global $global_progressid, $path_customize;
+    if($global_progressid!=""){
+        $pathfile=$path_customize."temporary/".$global_progressid.".txt";
+        if(is_file($pathfile))
+            @unlink($pathfile);
+    }
 }
 ?>

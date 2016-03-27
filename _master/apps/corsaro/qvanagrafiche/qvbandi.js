@@ -181,7 +181,7 @@ function class_qvbandi(settings,missing){
         button:true,
         click:function(o){
             winzProgress(formid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -407,7 +407,7 @@ function class_qvbandi(settings,missing){
             }
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

@@ -814,137 +814,134 @@
                 proploadon=true;
                 propobj.vscrefresh();
                 _systeminfo.activities+=1;
-                $.post(propfolderryque+"ryq_window.php", {"reqid":propreqid,"offset":proptoprow,"length":proprows,"clause":propclause},
-                    function(d){
-                        _systeminfo.activities-=1;
-                        try{
-                            var v=$.parseJSON(d);
-                            var r,c,fd,vl,reff;
-                            var dy,dm,dd,dh,dn;
-                            var nums=[];
-                            var decs=[];
-                            if(settings.before!=missing){
-                                settings.before(propobj, v, proprows);
+                $.post(propfolderryque+"ryq_window.php", {"reqid":propreqid,"offset":proptoprow,"length":proprows,"clause":propclause})
+                .done(function(d){
+                    _systeminfo.activities-=1;
+                    try{
+                        var v=$.parseJSON(d);
+                        var r,c,fd,vl,reff;
+                        var dy,dm,dd,dh,dn;
+                        var nums=[];
+                        var decs=[];
+                        if(settings.before!=missing){
+                            settings.before(propobj, v, proprows);
+                        }
+                        for(c=1; c<=propcols.length; c++){
+                            if($.isNumeric(proptyps[c-1])){
+                                nums[c]=true;
+                                decs[c]=parseInt(proptyps[c-1]);
                             }
-                            for(c=1; c<=propcols.length; c++){
-                                if($.isNumeric(proptyps[c-1])){
-                                    nums[c]=true;
-                                    decs[c]=parseInt(proptyps[c-1]);
-                                }
-                                else{
-                                    nums[c]=false;
-                                }
+                            else{
+                                nums[c]=false;
                             }
-                            for(r=1;r<=proprows;r++){
-                                reff=proptoprow+r-1;
-                                if (reff<=propcount){
-                                    if(propnumbered){
-                                        fd="#"+propname+"_"+r+"_0";
-                                        $(fd).html(reff);
+                        }
+                        for(r=1;r<=proprows;r++){
+                            reff=proptoprow+r-1;
+                            if (reff<=propcount){
+                                if(propnumbered){
+                                    fd="#"+propname+"_"+r+"_0";
+                                    $(fd).html(reff);
+                                }
+                                for(c=1;c<=propcols.length;c++){
+                                    fd="#"+propname+"_"+r+"_"+c;
+                                    vl=v[r-1][propcols[c-1]];
+                                    if(typeof vl!="string"){
+                                        vl="";
                                     }
-                                    for(c=1;c<=propcols.length;c++){
-                                        fd="#"+propname+"_"+r+"_"+c;
-                                        vl=v[r-1][propcols[c-1]];
-                                        if(typeof vl!="string"){
-                                            vl="";
-                                        }
-                                        else{
-                                            try{
-                                                switch(proptyps[c-1]){
-                                                case "?":
-                                                    if(vl.substr(0,1)!="'"){
-                                                        if(vl!=0)
-                                                            vl="&#x2714;";
-                                                        else
-                                                            vl="&#x0020;";
-                                                    }
+                                    else{
+                                        try{
+                                            switch(proptyps[c-1]){
+                                            case "?":
+                                                if(vl.substr(0,1)!="'"){
+                                                    if(vl!=0)
+                                                        vl="&#x2714;";
                                                     else
-                                                        vl=vl.substr(1);
-                                                    break;
-                                                case "/":
-                                                    if(vl.substr(0,1)!="'"){
-                                                        vl=vl.replace(/[^\d]/gi, "").substr(0,8);
-                                                        if(vl.length==8){
-                                                            dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);
-                                                            if(dy<="1900" || dy>="9999")
-                                                                vl="";
-                                                            else if(_sessioninfo.dateformat==1)
-                                                                vl=dm+"/"+dd+"/"+dy;
-                                                            else
-                                                                vl=dd+"/"+dm+"/"+dy;
-                                                        }
-                                                        else
+                                                        vl="&#x0020;";
+                                                }
+                                                else
+                                                    vl=vl.substr(1);
+                                                break;
+                                            case "/":
+                                                if(vl.substr(0,1)!="'"){
+                                                    vl=vl.replace(/[^\d]/gi, "").substr(0,8);
+                                                    if(vl.length==8){
+                                                        dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);
+                                                        if(dy<="1900" || dy>="9999")
                                                             vl="";
+                                                        else if(_sessioninfo.dateformat==1)
+                                                            vl=dm+"/"+dd+"/"+dy;
+                                                        else
+                                                            vl=dd+"/"+dm+"/"+dy;
                                                     }
                                                     else
-                                                        vl=vl.substr(1);
-                                                    break;
-                                                case ":":
-                                                    if(vl.substr(0,1)!="'"){
-                                                        vl=(vl+"000000").replace(/[^\d]/gi, "").substr(0,14);
-                                                        if(vl.length==14){
-                                                            dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);dh=vl.substr(8,2);dn=vl.substr(10,2);
-                                                            if(dy<="1900" || dy>="9999")
-                                                                vl="";
-                                                            else if(_sessioninfo.dateformat==1)
-                                                                vl=dm+"/"+dd+"/"+dy+" "+dh+":"+dn;
-                                                            else
-                                                                vl=dd+"/"+dm+"/"+dy+" "+dh+":"+dn;
-                                                        }
-                                                        else
+                                                        vl="";
+                                                }
+                                                else
+                                                    vl=vl.substr(1);
+                                                break;
+                                            case ":":
+                                                if(vl.substr(0,1)!="'"){
+                                                    vl=(vl+"000000").replace(/[^\d]/gi, "").substr(0,14);
+                                                    if(vl.length==14){
+                                                        dy=vl.substr(0,4);dm=vl.substr(4,2);dd=vl.substr(6,2);dh=vl.substr(8,2);dn=vl.substr(10,2);
+                                                        if(dy<="1900" || dy>="9999")
                                                             vl="";
+                                                        else if(_sessioninfo.dateformat==1)
+                                                            vl=dm+"/"+dd+"/"+dy+" "+dh+":"+dn;
+                                                        else
+                                                            vl=dd+"/"+dm+"/"+dy+" "+dh+":"+dn;
                                                     }
                                                     else
+                                                        vl="";
+                                                }
+                                                else
+                                                    vl=vl.substr(1);
+                                                break;
+                                            default:
+                                                if(nums[c]){
+                                                    if(vl.substr(0,1)!="'")
+                                                        vl=__formatNumber(vl, decs[c]);
+                                                    else
                                                         vl=vl.substr(1);
-                                                    break;
-                                                default:
-                                                    if(nums[c]){
-                                                        if(vl.substr(0,1)!="'")
-                                                            vl=__formatNumber(vl, decs[c]);
-                                                        else
-                                                            vl=vl.substr(1);
-                                                    }
-                                                    else{
-                                                        vl=vl.replace(/<[bh]r\/?>/gi," ").replace(/ +$/, "");
-                                                        if(vl.length>20 && vl.substr(0,5)!="<img ")
-                                                            $(fd).attr("title",vl);
-                                                        else
-                                                            $(fd).attr("title","");
-                                                    }
+                                                }
+                                                else{
+                                                    vl=vl.replace(/<[bh]r\/?>/gi," ").replace(/ +$/, "");
+                                                    if(vl.length>20 && vl.substr(0,5)!="<img ")
+                                                        $(fd).attr("title",vl);
+                                                    else
+                                                        $(fd).attr("title","");
                                                 }
                                             }
-                                            catch(e){
-                                                vl=e.message;
-                                            }
                                         }
-                                        $(fd).html(vl);
+                                        catch(e){
+                                            vl=e.message;
+                                        }
                                     }
+                                    $(fd).html(vl);
                                 }
-                                else{
-                                    for(c=0;c<=propcols.length;c++){
-                                        fd="#"+propname+"_"+r+"_"+c;
-                                        $(fd).html("&nbsp;");
-                                    }
+                            }
+                            else{
+                                for(c=0;c<=propcols.length;c++){
+                                    fd="#"+propname+"_"+r+"_"+c;
+                                    $(fd).html("&nbsp;");
                                 }
                             }
                         }
-                        catch(e){
-                            alert(d);
-                        }
-                        propobj.decrefresh(true);
-                        proploadon=false;
-                        if(chain!=missing){
-                            chain();
-                        }
                     }
-                )
-                .fail(
-                    function(){
-                        ryqueFail("dataload");
-                        proploadon=false;
-                        setTimeout(function(){propobj.dataload(chain)}, 100);
+                    catch(e){
+                        alert(d);
                     }
-                );
+                    propobj.decrefresh(true);
+                    proploadon=false;
+                    if(chain!=missing){
+                        chain();
+                    }
+                })
+                .fail(function(){
+                    ryqueFail("dataload");
+                    proploadon=false;
+                    setTimeout(function(){propobj.dataload(chain)}, 100);
+                });
            }
             this.screencell=function(r,c){
                 return "#"+propname+"_"+(parseInt(r)+1)+"_"+c;
@@ -1006,23 +1003,20 @@
                             }
                         }
                         _systeminfo.activities+=1;
-                        $.post(propfolderryque+"ryq_solve.php", {"reqid":propreqid,"index":ind,"invert":invert.booleanNumber()},
-                            function(d) {
-                                _systeminfo.activities-=1;
-                                if(back==missing){
-                                    if(settings.solveid!=missing){settings.solveid(propobj,d)}
-                                }
-                                else{
-                                    back(propobj,d);
-                                }
+                        $.post(propfolderryque+"ryq_solve.php", {"reqid":propreqid,"index":ind,"invert":invert.booleanNumber()})
+                        .done(function(d) {
+                            _systeminfo.activities-=1;
+                            if(back==missing){
+                                if(settings.solveid!=missing){settings.solveid(propobj,d)}
                             }
-                        )
-                        .fail(
-                            function(){
-                                ryqueFail("solveid");
-                                setTimeout(function(){propobj.solveid(ind, back, invert)}, 100);
+                            else{
+                                back(propobj,d);
                             }
-                        );
+                        })
+                        .fail(function(){
+                            ryqueFail("solveid");
+                            setTimeout(function(){propobj.solveid(ind, back, invert)}, 100);
+                        });
                     }
                     , 200
                 );
@@ -1031,37 +1025,34 @@
                 if(ids!=""){
                     if(raisebeforechange(0)){return}
                     _systeminfo.activities+=1;
-                    $.post(propfolderryque+"ryq_selbyid.php", {"reqid":propreqid,"listid":ids},
-                        function(d){
-                            _systeminfo.activities-=1;
-                            propindex=0;
-                            propselinvert=false;
-                            propsels={};
-                            if(d!=""){
-                                if(sing==missing)
-                                    sing=true;
-                                var u=d.split("|");
-                                if(u.length==1 && sing){
-                                    propobj.index(parseInt(u[0]));
-                                }
-                                else{
-                                    for(var i in u)
-                                        propsels[parseInt(u[i])]=true;
-                                }
+                    $.post(propfolderryque+"ryq_selbyid.php", {"reqid":propreqid,"listid":ids})
+                    .done(function(d){
+                        _systeminfo.activities-=1;
+                        propindex=0;
+                        propselinvert=false;
+                        propsels={};
+                        if(d!=""){
+                            if(sing==missing)
+                                sing=true;
+                            var u=d.split("|");
+                            if(u.length==1 && sing){
+                                propobj.index(parseInt(u[0]));
                             }
-                            propobj.decrefresh(true);
-                            propobj.selrefresh();
-                            if(done!=missing){
-                                done();
+                            else{
+                                for(var i in u)
+                                    propsels[parseInt(u[i])]=true;
                             }
                         }
-                    )
-                    .fail(
-                        function(){
-                            ryqueFail("selbyid");
-                            setTimeout(function(){propobj.selbyid(ids, sing, done)}, 100);
+                        propobj.decrefresh(true);
+                        propobj.selrefresh();
+                        if(done!=missing){
+                            done();
                         }
-                    );
+                    })
+                    .fail(function(){
+                        ryqueFail("selbyid");
+                        setTimeout(function(){propobj.selbyid(ids, sing, done)}, 100);
+                    });
                 }
                 else{
                     propselinvert=false;
@@ -1125,21 +1116,18 @@
             this.dispose=function(done){
                 if(propreqid!=""&&propreqprivate==true){
                     _systeminfo.activities+=1;
-                    $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid},
-                        function(d){
-                            _systeminfo.activities-=1;
-                            propreqid="";
-                            if(done!=missing){
-                                setTimeout(function(){done()});
-                            }
+                    $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid})
+                    .done(function(d){
+                        _systeminfo.activities-=1;
+                        propreqid="";
+                        if(done!=missing){
+                            setTimeout(function(){done()});
                         }
-                    )
-                    .fail(
-                        function(){
-                            ryqueFail("dispose");
-                            setTimeout(function(){propobj.dispose(done)}, 100);
-                        }
-                    );
+                    })
+                    .fail(function(){
+                        ryqueFail("dispose");
+                        setTimeout(function(){propobj.dispose(done)}, 100);
+                    });
                     if(done==missing){
                         $.pause(100);
                     }
@@ -1567,53 +1555,47 @@
 			}
 			this.search=function(criteria, action){
                 _systeminfo.activities+=1;
-                $.post(propfolderryque+"ryq_search.php", {"reqid":propreqid,"criteria":criteria},
-                    function(d) {
-                        _systeminfo.activities-=1;
-                        try{
-                            action(d);
-                        }
-                        catch(e){
-                            alert(d);
-                        }
+                $.post(propfolderryque+"ryq_search.php", {"reqid":propreqid,"criteria":criteria})
+                .done(function(d) {
+                    _systeminfo.activities-=1;
+                    try{
+                        action(d);
                     }
-                )
-                .fail(
-                    function(){
-                        ryqueFail("search");
-                        setTimeout(function(){propobj.search(criteria, action)}, 100);
+                    catch(e){
+                        alert(d);
                     }
-                );
+                })
+                .fail(function(){
+                    ryqueFail("search");
+                    setTimeout(function(){propobj.search(criteria, action)}, 100);
+                });
 			}
 			this.splice=function(start, length, adding, done){
                 if(start==0)
                     start=propcount+1;
                 _systeminfo.activities+=1;
-                $.post(propfolderryque+"ryq_splice.php", {"reqid":propreqid, "start":start, "length":length, "adding":adding},
-                    function(d){
-                        _systeminfo.activities-=1;
-                        propcount+=(adding.split("|").length-length);
-                        propmaxtoprow=propcount-proprows+1;
-                        if(propmaxtoprow<1)
-                            propmaxtoprow=1;
-                        propsels={};
-                        propselinvert=false;
-                        propobj.index(start);
-                        if(proptoprow<=propindex && propindex<=proptoprow+proprows-1){
-                            propobj.selrefresh();
-                            propobj.dataload(done);
-                        }
-                        else if(done!=missing){
-                            done();
-                        }
+                $.post(propfolderryque+"ryq_splice.php", {"reqid":propreqid, "start":start, "length":length, "adding":adding})
+                .done(function(d){
+                    _systeminfo.activities-=1;
+                    propcount+=(adding.split("|").length-length);
+                    propmaxtoprow=propcount-proprows+1;
+                    if(propmaxtoprow<1)
+                        propmaxtoprow=1;
+                    propsels={};
+                    propselinvert=false;
+                    propobj.index(start);
+                    if(proptoprow<=propindex && propindex<=proptoprow+proprows-1){
+                        propobj.selrefresh();
+                        propobj.dataload(done);
                     }
-                )
-                .fail(
-                    function(){
-                        ryqueFail("splice");
-                        setTimeout(function(){propobj.splice(start, length, adding, done)}, 100);
+                    else if(done!=missing){
+                        done();
                     }
-                );
+                })
+                .fail(function(){
+                    ryqueFail("splice");
+                    setTimeout(function(){propobj.splice(start, length, adding, done)}, 100);
+                });
 			}
 			this.visible=function(v){
 				if(v==missing){
@@ -1636,38 +1618,35 @@
             this.getprotocol=function(){
                 if(propreqid==""){
                     _systeminfo.activities+=1;
-                    $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessioninfo.sessionid},
-                        function(d) {
-                            _systeminfo.activities-=1;
-                            try{
-                                if(window.console&&_sessioninfo.debugmode){console.log(d)}
-                                var v=$.parseJSON(d);
-                                if(v["success"]){
-                                    propreqid=v["reqid"];
-                                    propprovider=v["provider"];
-                                    // Gestione eventi e callback
-                                    if(settings.initialized!=missing){settings.initialized(propobj)}
-                                    if(propwhere!="#")
-                                        TAIL.enqueue(propobj.query, {free:true});
-                                    else
-                                        if(settings.ready!=missing){settings.ready(propobj, false)}
-                                }
-                                else{
-                                    alert(v["description"]);
-                                }
+                    $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessioninfo.sessionid})
+                    .done(function(d) {
+                        _systeminfo.activities-=1;
+                        try{
+                            if(window.console&&_sessioninfo.debugmode){console.log(d)}
+                            var v=$.parseJSON(d);
+                            if(v["success"]){
+                                propreqid=v["reqid"];
+                                propprovider=v["provider"];
+                                // Gestione eventi e callback
+                                if(settings.initialized!=missing){settings.initialized(propobj)}
+                                if(propwhere!="#")
+                                    TAIL.enqueue(propobj.query, {free:true});
+                                else
+                                    if(settings.ready!=missing){settings.ready(propobj, false)}
                             }
-                            catch(e){
-                                alert(d);
+                            else{
+                                alert(v["description"]);
                             }
-                            TAIL.free();
                         }
-                    )
-                    .fail(
-                        function(){
-                            ryqueFail("getprotocol");
-                            setTimeout(function(){propobj.getprotocol()}, 100);   
+                        catch(e){
+                            alert(d);
                         }
-                    );
+                        TAIL.free();
+                    })
+                    .fail(function(){
+                        ryqueFail("getprotocol");
+                        setTimeout(function(){propobj.getprotocol()}, 100);   
+                    });
                 }
                 else{
                     // Gestione eventi e callback
@@ -1684,8 +1663,8 @@
                 if(params.args!=missing){args=params.args}
                 if(params.sql!=missing){
                     _systeminfo.activities+=1;
-                    $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args},
-                        function(d){
+                    $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args})
+                    .done(function(d){
                             _systeminfo.activities-=1;
                             try{
                                 var v=$.parseJSON(d);
@@ -1696,13 +1675,11 @@
                             catch(e){
                                 alert(d);
                             }
-                        }
-                    ).fail(
-                        function(){
-                            ryqueFail("extract");
-                            setTimeout(function(){propobj.extract(params)}, 100);   
-                        }
-                    );
+                    })
+                    .fail(function(){
+                        ryqueFail("extract");
+                        setTimeout(function(){propobj.extract(params)}, 100);   
+                    });
                 }
             }
             this.sheet=function(params){
@@ -1722,36 +1699,33 @@
                             "clause":propclause,
                             "checked":propobj.checked(false),
                             "invert":propobj.selinvert().booleanNumber()
-                        }, 
-                        function(d){
-                            _systeminfo.activities-=1;
-                            try{
-                                var v=$.parseJSON(d);
-                                if(v.success>0){
-                                    var env=v["environ"];
-                                    var f=v["export"];
-                                    if(window.console&&_sessioninfo.debugmode){console.log("Percorso file: "+env+"/"+f)}
-                                    var h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+f;
-                                    $("#winz-iframe").prop("src", h);
-                                    // GESTIONE FILE OBSOLETI
-                                    RYQUIVER.ManageTemp();
-                                }
-                                else{
-                                    alert(v.message);
-                                }
+                        })
+                    .done(function(d){
+                        _systeminfo.activities-=1;
+                        try{
+                            var v=$.parseJSON(d);
+                            if(v.success>0){
+                                var env=v["environ"];
+                                var f=v["export"];
+                                if(window.console&&_sessioninfo.debugmode){console.log("Percorso file: "+env+"/"+f)}
+                                var h=_systeminfo.relative.cambusa+"rysource/source_download.php?env="+env+"&sessionid="+_sessioninfo.sessionid+"&file="+f;
+                                $("#winz-iframe").prop("src", h);
+                                // GESTIONE FILE OBSOLETI
+                                RYQUIVER.ManageTemp();
                             }
-                            catch(e){
-                                alert(d);
+                            else{
+                                alert(v.message);
                             }
-                            stoploading();
                         }
-                    )
-                    .fail(
-                        function(){
-                            ryqueFail("sheet");
-                            setTimeout(function(){propobj.sheet(params)}, 100);
+                        catch(e){
+                            alert(d);
                         }
-                    );
+                        stoploading();
+                    })
+                    .fail(function(){
+                        ryqueFail("sheet");
+                        setTimeout(function(){propobj.sheet(params)}, 100);
+                    });
                 }
             }
             this.rows=function(){
@@ -2127,69 +2101,66 @@
                 propusedparams={"reqid":propreqid,"select":propselection,"from":propfrom,"where":whe,"orderby":ord,"index":prei,"sels":pres,"args":args,"limit":lim};
                 if(window.console&&_sessioninfo.debugmode){console.log(propusedparams)}
                 _systeminfo.activities+=1;
-                $.post(propfolderryque+"ryq_index.php", propusedparams,
-                    function(d) {
-                        _systeminfo.activities-=1;
-                        try{
-                            var v=$.parseJSON(d);
-                            var sels=v.sels;
-                            var ind=parseInt(v.index);
-                            
-                            propcount=v.count;
-                            propmaxtoprow=propcount-proprows+1;
-                            if(propmaxtoprow<1)
-                                propmaxtoprow=1;
-                            if(ind>0){ // Gestione nuovo index
-                                propindex=ind;
-                                proptoprow=propindex-Math.floor(proprows/2)+2;
-                                propobj.fittoprow();
-                            }
-                            if(propindex>propcount){ // Controllo di sicurezza qualora righe vengano cancellate
-                                propindex=propcount;
-                                proptoprow=propindex-Math.floor(proprows/2)+2;
-                                propobj.fittoprow();
-                            }
-                            if(sels!=""){ // Gestione nuove righe selezionate
-                                var u=sels.split("|");
-                                var i;
-                                for(i in u)
-                                    propsels[u[i]]=true;
-                            }
-                            propobj.selrefresh();
-                            propready=true;
-                            propobj.dataload();
-                            stoploading();
-                            statistics();
-                            // Gestione eventi e callback
-                            if(settings.ready!=missing){settings.ready(propobj,true)}
-                            if(params!=missing){
-                                if(params.ready!=missing){
-                                    params.ready(propobj,true)
-                                }
-                            }
-                            if(ind==0){
-                                propobj.raisechangerow();
-                            }
-                            if(!selpreserve){
-                                propobj.raisechangesel();
+                $.post(propfolderryque+"ryq_index.php", propusedparams)
+                .done(function(d) {
+                    _systeminfo.activities-=1;
+                    try{
+                        var v=$.parseJSON(d);
+                        var sels=v.sels;
+                        var ind=parseInt(v.index);
+                        
+                        propcount=v.count;
+                        propmaxtoprow=propcount-proprows+1;
+                        if(propmaxtoprow<1)
+                            propmaxtoprow=1;
+                        if(ind>0){ // Gestione nuovo index
+                            propindex=ind;
+                            proptoprow=propindex-Math.floor(proprows/2)+2;
+                            propobj.fittoprow();
+                        }
+                        if(propindex>propcount){ // Controllo di sicurezza qualora righe vengano cancellate
+                            propindex=propcount;
+                            proptoprow=propindex-Math.floor(proprows/2)+2;
+                            propobj.fittoprow();
+                        }
+                        if(sels!=""){ // Gestione nuove righe selezionate
+                            var u=sels.split("|");
+                            var i;
+                            for(i in u)
+                                propsels[u[i]]=true;
+                        }
+                        propobj.selrefresh();
+                        propready=true;
+                        propobj.dataload();
+                        stoploading();
+                        statistics();
+                        // Gestione eventi e callback
+                        if(settings.ready!=missing){settings.ready(propobj,true)}
+                        if(params!=missing){
+                            if(params.ready!=missing){
+                                params.ready(propobj,true)
                             }
                         }
-                        catch(e){
-                            if(window.console){console.log(e.message)}
-                            stoploading();
-                            alert( __(d).stripTags() );
+                        if(ind==0){
+                            propobj.raisechangerow();
                         }
-                        if(params.free===true){
-                            TAIL.free();
+                        if(!selpreserve){
+                            propobj.raisechangesel();
                         }
                     }
-                )
-                .fail(
-                    function(){
-                        ryqueFail("callquery");
-                        setTimeout(function(){callquery(params)}, 100);
+                    catch(e){
+                        if(window.console){console.log(e.message)}
+                        stoploading();
+                        alert( __(d).stripTags() );
                     }
-                );
+                    if(params.free===true){
+                        TAIL.free();
+                    }
+                })
+                .fail(function(){
+                    ryqueFail("callquery");
+                    setTimeout(function(){callquery(params)}, 100);
+                });
             }
             function setheight(h){
                 proprows=Math.floor(((h-propscrollsize-2)/proprowh)-1);
@@ -2301,72 +2272,64 @@ function ryQue(missing){
         var env=propenviron;
         if(params.environ!=missing){env=params.environ}
         _systeminfo.activities+=1;
-        $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessioninfo.sessionid},
-            function(d){
-                _systeminfo.activities-=1;
-                try{
-                    if(window.console&&_sessioninfo.debugmode){console.log(d)}
-                    var v=$.parseJSON(d);
-                    propreqid=v["reqid"];
-                    propprovider=v["provider"];
-                    proplenid=v["lenid"];
-                    if(params.ready!=missing){params.ready(propreqid,propprovider,proplenid)}
-                }
-                catch(e){
-                    alert(d);
-                }
+        $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessioninfo.sessionid})
+        .done(function(d){
+            _systeminfo.activities-=1;
+            try{
+                if(window.console&&_sessioninfo.debugmode){console.log(d)}
+                var v=$.parseJSON(d);
+                propreqid=v["reqid"];
+                propprovider=v["provider"];
+                proplenid=v["lenid"];
+                if(params.ready!=missing){params.ready(propreqid,propprovider,proplenid)}
             }
-        )
-        .fail(
-            function(){
-                ryqueFail("request");
-                setTimeout(function(){propobj.request(params)}, 100);
+            catch(e){
+                alert(d);
             }
-        );
+        })
+        .fail(function(){
+            ryqueFail("request");
+            setTimeout(function(){propobj.request(params)}, 100);
+        });
     }
     this.query=function(params){
         var args="";
         if(params.args!=missing){args=params.args}
         if(params.sql!=missing){
             _systeminfo.activities+=1;
-            $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args},
-                function(d){
-                    _systeminfo.activities-=1;
-                    try{
-                        var v=$.parseJSON(d);
-                        if(params.ready!=missing){
-                            params.ready(v);
-                        }
-                    }
-                    catch(e){
-                        alert( __(d).stripTags() );
+            $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args})
+            .done(function(d){
+                _systeminfo.activities-=1;
+                try{
+                    var v=$.parseJSON(d);
+                    if(params.ready!=missing){
+                        params.ready(v);
                     }
                 }
-            ).fail(
-                function(){
-                    ryqueFail("query");
-                    setTimeout(function(){propobj.query(params)}, 100);   
+                catch(e){
+                    alert( __(d).stripTags() );
                 }
-            );
+            })
+            .fail(function(){
+                ryqueFail("query");
+                setTimeout(function(){propobj.query(params)}, 100);   
+            });
         }
     }
     this.dispose=function(done){
         if(propreqid!=""){
             _systeminfo.activities+=1;
-            $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid}, 
-                function(d){
-                    _systeminfo.activities-=1;
-                    if(done!=missing){
-                        setTimeout(function(){done()});
-                    }
+            $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid})
+            .done(function(d){
+                _systeminfo.activities-=1;
+                if(done!=missing){
+                    setTimeout(function(){done()});
                 }
-            )
-            .fail(
-                function(){
-                    ryqueFail("dispose");
-                    setTimeout(function(){propobj.dispose(done)}, 100);
-                }
-            );
+            })
+            .fail(function(){
+                ryqueFail("dispose");
+                setTimeout(function(){propobj.dispose(done)}, 100);
+            });
             if(done==missing){$.pause(100)}
         }
         else{
@@ -2391,18 +2354,15 @@ function ryQue(missing){
     }
     this.clean=function(done){
         _systeminfo.activities+=1;
-        $.post(propfolderryque+"ryq_clean.php", {},
-            function(d){
-                _systeminfo.activities-=1;
-                if(done!=missing){done()}
-            }
-        )
-        .fail(
-            function(){
-                ryqueFail("clean");
-                setTimeout(function(){propobj.clean(done)}, 100);
-            }
-        );
+        $.post(propfolderryque+"ryq_clean.php", {})
+        .done(function(d){
+            _systeminfo.activities-=1;
+            if(done!=missing){done()}
+        })
+        .fail(function(){
+            ryqueFail("clean");
+            setTimeout(function(){propobj.clean(done)}, 100);
+        });
     }
     this.actualheight=function(h){
         var propscrollsize=15;

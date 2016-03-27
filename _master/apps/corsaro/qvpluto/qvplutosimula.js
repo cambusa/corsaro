@@ -285,7 +285,7 @@ function class_qvplutosimula(settings,missing){
             confirm:function(opt){
                 winzProgress(formid);
                 cacheoptions=opt;
-                $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                     {
                         "sessionid":_sessioninfo.sessionid,
                         "env":_sessioninfo.environ,
@@ -320,7 +320,7 @@ function class_qvplutosimula(settings,missing){
     function generafin(richid){
         opera_create.enabled(0);
         winzProgress(formid);
-        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,

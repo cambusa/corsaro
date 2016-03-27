@@ -3010,7 +3010,7 @@ function ryBox(missing){
                 }
                 if(window.console&&_sessioninfo.debugmode){console.log("Babelcodes:"+k)}
                 if(k!=""){
-                    $.post(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"lang":lang,"codes":k},
+                    $.engage(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"lang":lang,"codes":k},
                         function(d){
                             try{
                                 var v=$.parseJSON(d);
@@ -3123,10 +3123,10 @@ function ryBox(missing){
                                             selfcodes.push({code:c,caption:propbabelcodes[c].caption});
                                     }
                                     if(window.console&&_sessioninfo.debugmode){console.log(selfcodes)}
-                                    setTimeout(function(){
-                                        $.post(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"env":_sessioninfo.environ, "sessionid":_sessioninfo.sessionid, "codes":selfcodes}, function(d){
+                                    setTimeout(function(){$.engage(_systeminfo.relative.cambusa+"rybabel/rybabel.php", {"env":_sessioninfo.environ, "sessionid":_sessioninfo.sessionid, "codes":selfcodes}, 
+                                        function(d){
                                             if(window.console&&_sessioninfo.debugmode){console.log("selflearnig (esito):"+d)}
-                                        });
+                                        }, {failure:"0"});
                                     }, 2000);
                                 }
                             }

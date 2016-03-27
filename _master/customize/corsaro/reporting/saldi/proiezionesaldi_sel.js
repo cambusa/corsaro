@@ -204,7 +204,7 @@ function class_proiezionesaldi_sel(settings,missing){
             preparazioneparametri(
                 function(params){
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"rygeneral/customize.php", 
+                    RYWINZ.Post(_systeminfo.relative.cambusa+"rygeneral/customize.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -246,7 +246,7 @@ function class_proiezionesaldi_sel(settings,missing){
             preparazioneparametri(
                 function(params){
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,

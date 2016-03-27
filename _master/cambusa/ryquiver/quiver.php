@@ -28,6 +28,9 @@ try{
     if(isset($_POST["env"]))
         $params["environ"]=$_POST["env"];
 
+    if(isset($_POST["progressid"]))
+        $params["progressid"]=$_POST["progressid"];
+
     if(isset($_POST["bulk"]))
         $params["bulk"]=intval($_POST["bulk"]);
 

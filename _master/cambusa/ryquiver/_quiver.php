@@ -20,6 +20,7 @@ function quiver_execute($params){
     global $maestro, $global_spacename;
     global $babelcode, $babelparams;
     global $global_lastenvname, $public_sessionid;
+    global $global_progressid;
     try{
         // IMPOSTO UN TEMPO DI RISPOSTA ILLIMITATO
         set_time_limit(0);
@@ -33,6 +34,11 @@ function quiver_execute($params){
             $env=$params["environ"];
         else
             $env="";
+            
+        if(isset($params["progressid"]))
+            $global_progressid=$params["progressid"];
+        else
+            $global_progressid="";
 
         if(isset($params["bulk"]))
             $bulk=($params["bulk"]!=false);
@@ -373,7 +379,10 @@ function quiver_execute($params){
         // CHIUSURA FILE DI LOG
         log_close();
 
-        // RESTITUISCO IL RISULTATO
+          // CANCELLAZIONE FILE CON I MESSAGGI DI AVANZAMENTO
+        _qv_clearprogress();
+
+      // RESTITUISCO IL RISULTATO
         return $json;
     }
     catch(Exception $e){
@@ -384,6 +393,13 @@ function quiver_execute($params){
             // CHIUDO IL DATABASE
             @maestro_closedb($maestro);
         }
+
+        // CHIUSURA FILE DI LOG
+        log_close();
+
+        // CANCELLAZIONE FILE CON I MESSAGGI DI AVANZAMENTO
+        _qv_clearprogress();
+
         $jret=array();
         $jret["success"]=0;
         $jret["code"]=$babelcode;

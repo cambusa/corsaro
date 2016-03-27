@@ -214,7 +214,7 @@ function class_qvaziende(settings,missing){
             var data = new Object();
             data["DESCRIPTION"]="(nuova azienda)";
             data["TYPOLOGYID"]=currtypologyid;
-            winzPost(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -395,7 +395,7 @@ function class_qvaziende(settings,missing){
                                 };
                             }
                         }
-                        winzPost(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                             {
                                 "sessionid":_sessioninfo.sessionid,
                                 "env":_sessioninfo.environ,
@@ -712,7 +712,7 @@ function class_qvaziende(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            winzPost(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,

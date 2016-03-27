@@ -11,16 +11,22 @@
 ****************************************************************************/
 if(!isset($tocambusa))
     $tocambusa="../";
-include_once "$tocambusa/rygeneral/ods2array_lib.php";
+include_once $tocambusa."/sysconfig.php";    
+include_once $tocambusa."/rygeneral/ods2array_lib.php";
 
-if(isset($_GET["ods"]))
-    $ods=$_GET["ods"];
-elseif(isset($_POST["ods"]))
+$arr=array();
+
+if(isset($_POST["env"]) && isset($_POST["ods"])){
+
+    $env=$_POST["env"];
     $ods=$_POST["ods"];
-else
-    $ods="";
 
-ods2array($arr, $ods);
+    include($path_databases."_environs/".$env.".php");
+    $dirtemp=$env_strconn;
+    $ods=$dirtemp.$ods;
+    
+    ods2array($arr, $ods);
+}
 
 array_walk_recursive($arr, "ods_escapize");
 print json_encode($arr);

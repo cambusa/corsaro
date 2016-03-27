@@ -156,6 +156,7 @@ a.filibuster-navigator-enabled:hover{color:#708090;text-decoration:none;}
 .filibuster-print-button .filibuster-surrogate{height:0.85em;}
 
 /* MAILUS */
+.filibuster-mailus{margin-bottom:40px;}
 .filibuster-mailus-caption{padding-bottom:5px;}
 .filibuster-mailus-email{padding-bottom:10px;}
 .filibuster-mailus-email input{width:98%;font-size:100%;}
@@ -174,7 +175,7 @@ a.filibuster-navigator-enabled:hover{color:#708090;text-decoration:none;}
   cursor:pointer;
   float:left;
 }
-.filibuster-mailus-message{padding-top:10px;color:black;}
+.filibuster-mailus-message{padding-left:10px;padding-top:8px;color:black;float:left;}
 .filibuster-mailus-privacy{text-align:right;float:right;font-size:80%;padding-right:10px;}
 
 /*  COPYRIGHT */

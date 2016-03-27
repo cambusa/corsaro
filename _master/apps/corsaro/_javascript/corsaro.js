@@ -412,14 +412,15 @@ function qv_importODS(formid, settings, missing){
         environ:_sessioninfo.temporary,
         complete:function(id, name, ret){
             var u=ret["url"];
-            var p=u.indexOf("customize/");
+            var p=u.lastIndexOf("/");
             if(p>=0){
-                var path=_systeminfo.relative.customize+u.substr(p+10);
+                var ods=u.substr(p+1);
                 $("#"+formid+"ods_grid").html("");
                 matrice=[];
-                $.post(_systeminfo.relative.cambusa+"rygeneral/ods2array.php", 
+                RYWINZ.Post(_systeminfo.relative.cambusa+"rygeneral/ods2array.php", 
                     {
-                        "ods":path
+                        "env":_sessioninfo.temporary,
+                        "ods":ods
                     }, 
                     function(d){
                         try{

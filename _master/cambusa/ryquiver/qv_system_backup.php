@@ -50,70 +50,72 @@ function qv_system_backup($maestro, $data){
         fwrite($fp, $rec);  // Posizione 15+1
         fwrite($fp, "\n");
         
+        _qv_progress("Conteggio record...");
+        
         // CALCOLO IL TOTALE DEI RECORD PER L'AVANZAMENTO
         $total=0;
         foreach($maestro->infobase as $TABLENAME => $TABLE){
-            if($TABLE->type=="database"){
-                $sql="SELECT COUNT(*) AS TOT FROM $TABLENAME";
-                maestro_query($maestro, $sql, $r);
-                if(count($r)==1){
-                    $total+=intval($r[0]["TOT"]);
-                }
-            }
-        }
-        
-        // UTILE PER AVANZAMENTO DA CLIENT
-        print substr( ($total+1) . str_repeat(" ", 100), 0, 100);
-        flush();
-        
-        $counter=0;
-        foreach($maestro->infobase as $TABLENAME => $TABLE){
-            if($TABLE->type=="database"){
-                $res=maestro_unbuffered($maestro, "SELECT * FROM $TABLENAME ORDER BY SYSID");
-                while( $row=maestro_fetch($maestro, $res) ){
-                    $row["_TABLENAME"]=$TABLENAME;
-                    if($TABLENAME=="QVFILES"){
-                        // INCORPORAZIONE DEL DOCUMENTO
-                        $SYSID=$row["SYSID"];
-                        $SUBPATH=$row["SUBPATH"];
-                        $IMPORTNAME=$row["IMPORTNAME"];
-                        $path_parts=pathinfo($IMPORTNAME);
-                        if(isset($path_parts["extension"]))
-                            $ext="." . $path_parts["extension"];
-                        else
-                            $ext="";
-                        $filedoc=$dirattach.$SUBPATH.$SYSID.$ext;
-                        $contents="";
-                        if(file_exists($filedoc)){
-                            $contents=file_get_contents($filedoc);
-                            $contents=base64_encode($contents);
-                        }
-                        $row["_CONTENTS"]=$contents;
+            if(isset($TABLE->type)){
+                if($TABLE->type=="database"){
+                    $sql="SELECT COUNT(*) AS TOT FROM $TABLENAME";
+                    maestro_query($maestro, $sql, $r);
+                    if(count($r)==1){
+                        $total+=intval($r[0]["TOT"]);
                     }
-                    
-                    // SERIALIZZAZIONE
-                    $buff=serialize($row);
-                    $head=substr( str_repeat("0", 18) . strlen($buff), -18 );
-        
-                    // SCRITTURA
-                    fwrite($fp, $head);
-                    fwrite($fp, "\n");
-                    fwrite($fp, $buff);
-                    fwrite($fp, "\n");
-                    
-                    // AGGIORNO IL CONTATORE
-                    $counter+=1;
-                    
-                    // UTILE PER AVANZAMENTO DA CLIENT
-                    print str_repeat("X", 100);
-                    flush();
                 }
-                maestro_free($maestro, $res);
             }
         }
-        // UTILE PER AVANZAMENTO DA CLIENT
-        print "Y";
-        
+
+        // INIZIALIZZO IL CONTATORE PER I MESSAGGI D'AVANZAMENTO
+        $counter=0;
+
+        foreach($maestro->infobase as $TABLENAME => $TABLE){
+            if(isset($TABLE->type)){
+                if($TABLE->type=="database"){
+                    $res=maestro_unbuffered($maestro, "SELECT * FROM $TABLENAME ORDER BY SYSID");
+                    while( $row=maestro_fetch($maestro, $res) ){
+                        $row["_TABLENAME"]=$TABLENAME;
+                        if($TABLENAME=="QVFILES"){
+                            // INCORPORAZIONE DEL DOCUMENTO
+                            $SYSID=$row["SYSID"];
+                            $SUBPATH=$row["SUBPATH"];
+                            $IMPORTNAME=$row["IMPORTNAME"];
+                            $path_parts=pathinfo($IMPORTNAME);
+                            if(isset($path_parts["extension"]))
+                                $ext="." . $path_parts["extension"];
+                            else
+                                $ext="";
+                            $filedoc=$dirattach.$SUBPATH.$SYSID.$ext;
+                            $contents="";
+                            if(file_exists($filedoc)){
+                                $contents=file_get_contents($filedoc);
+                                $contents=base64_encode($contents);
+                            }
+                            $row["_CONTENTS"]=$contents;
+                        }
+                        
+                        // SERIALIZZAZIONE
+                        $buff=serialize($row);
+                        $head=substr( str_repeat("0", 18) . strlen($buff), -18 );
+            
+                        // SCRITTURA
+                        fwrite($fp, $head);
+                        fwrite($fp, "\n");
+                        fwrite($fp, $buff);
+                        fwrite($fp, "\n");
+
+                        // AGGIORNO IL CONTATORE
+                        $counter+=1;
+                    
+                        // STATO AVANZAMENTO PER CLIENT
+                        $perc=floor(100*$counter/$total);
+                        if($perc>100){$perc=100;}
+                        _qv_progress("$perc%");
+                    }
+                    maestro_free($maestro, $res);
+                }
+            }
+        }
         // AGGIORNAMENTO DEL NUMERO DI RECORD
         fseek($fp, 16);
         $buff=substr( str_repeat("0", 18) . $counter, -18 );
@@ -131,8 +133,6 @@ function qv_system_backup($maestro, $data){
     catch(Exception $e){
         $success=0;
         $message=$e->getMessage();
-        // UTILE PER AVANZAMENTO DA CLIENT
-        print "Y";
     }
     // USCITA JSON
     $j=array();

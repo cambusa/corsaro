@@ -110,7 +110,7 @@
                 objfamily.clear(parentid);
                 objfamily.loading(parentid, true);
                 TAIL.enqueue(function(arg_path){
-                    $.post(_systeminfo.relative.cambusa+"rysource/rysource.php", {"env":propenviron, "sub":arg_path, "sessionid":propsessionid, "dbenv":propdbenv},
+                    $.engage(_systeminfo.relative.cambusa+"rysource/rysource.php", {"env":propenviron, "sub":arg_path, "sessionid":propsessionid, "dbenv":propdbenv},
                         function(d){
                             try{
                                 objfamily.loading(parentid, false);

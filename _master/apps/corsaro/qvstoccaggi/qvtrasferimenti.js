@@ -347,7 +347,7 @@ function class_qvtrasferimenti(settings,missing){
             if(currcollocazioneid!=""){
                 data["REFERENCEID"]=currcollocazioneid;
             }
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -555,7 +555,7 @@ function class_qvtrasferimenti(settings,missing){
             winzProgress(formid);
             context=txdescr.value();
             var data=RYWINZ.ToObject(formid, "C", currsysid);
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -698,7 +698,7 @@ function class_qvtrasferimenti(settings,missing){
         var targetid=txtarget.value();
         var ids=bowid+"|"+targetid;
         var evs=tempolasco( txbowtime.text() )+"|"+tempolasco( txtargettime.text() );
-        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,

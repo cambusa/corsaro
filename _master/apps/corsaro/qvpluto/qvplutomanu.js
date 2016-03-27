@@ -324,7 +324,7 @@ function class_qvplutomanu(settings,missing){
                     operd_unsaved.visible(0);
                     RYWINZ.modified(formid, 0);
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -389,7 +389,7 @@ function class_qvplutomanu(settings,missing){
             impostaupdate(data, chk_spreadpag, txd_spreadpag, "SPREADPAG")
             impostaupdate(data, chk_comminc, txd_comminc, "COMMINC")
             impostaupdate(data, chk_commpag, txd_commpag, "COMMPAG")
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -608,7 +608,7 @@ function class_qvplutomanu(settings,missing){
                     lb_dettaglio_context.caption("Contesto: "+context);
                     RYWINZ.modified(formid, 0);
                     gridflussi.clear();
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -709,7 +709,7 @@ function class_qvplutomanu(settings,missing){
     }
     function generaanteprima(){
         $(prefix+"arrowhandle").html("<i>(generazione in corso...)</i>");
-        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,
@@ -763,7 +763,7 @@ function class_qvplutomanu(settings,missing){
         RYWINZ.modified(formid, 0);
     }
     function flussocarica(){
-        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,

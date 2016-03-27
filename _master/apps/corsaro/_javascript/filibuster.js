@@ -651,267 +651,267 @@ function solvecontent(){
                 "pageid":_pageid,
                 "width":w
             },
-            success:function(d){
-                try{
-                    var typefood=d.substr(0,3);
-                    var buff=d.substr(3);
-                    if(typefood=="[C]"){
-                        $("#"+id+"_inner").html(buff);
-                        // RISOLUZIONE LINK INTERNI
-                        $("#"+id+"_inner a").each(
-                            function(index){
-                                var href=$(this).attr("href");
-                                if(flb_isset(href)){
-                                    if(href.length==_lenid){
-                                        if(href.substr!="h"){
-                                            $(this).attr("href", "filibuster.php?env="+_environ+"&site="+_site+"&id="+href);
-                                        }
+        })
+        .done(function(d){
+            try{
+                var typefood=d.substr(0,3);
+                var buff=d.substr(3);
+                if(typefood=="[C]"){
+                    $("#"+id+"_inner").html(buff);
+                    // RISOLUZIONE LINK INTERNI
+                    $("#"+id+"_inner a").each(
+                        function(index){
+                            var href=$(this).attr("href");
+                            if(flb_isset(href)){
+                                if(href.length==_lenid){
+                                    if(href.substr!="h"){
+                                        $(this).attr("href", "filibuster.php?env="+_environ+"&site="+_site+"&id="+href);
                                     }
                                 }
                             }
+                        }
+                    );
+                    // AGGIUSTAMENTO OGGETTI A TUTTA LARGHEZZA
+                    $("#"+id+"_inner .filibuster-resizable").each(
+                        function(index){
+                            try{
+                                var old_w=$(this).width();
+                                var old_h=$(this).height();
+                                var ratio=old_h/old_w;
+                                var new_w=Math.round($("#"+id+"_inner").width()*0.96);
+                                $(this).width(new_w);
+                                $(this).height(Math.round(new_w*ratio));
+                            }catch(e){
+                                if(window.console){console.log(buff)}
+                            }
+                        }
+                    );
+                    // AGGIUSTAMENTO IFRAME A TUTTA LUNGHEZZA
+                    $("#"+id+"_inner .filibuster-fittable").each(
+                        function(index){
+                            try{
+                                var objframe=$(this);
+                                objframe.load(
+                                    function(){
+                                        try{
+                                            objframe.height(objframe.contents().height()+20);
+                                        }catch(e){}
+                                    }
+                                );
+                            }catch(e){
+                                if(window.console){console.log(buff)}
+                            }
+                        }
+                    );
+                    // AGGIUSTAMENTO EMBED A TUTTA LARGHEZZA
+                    $("#"+id+"_inner .filibuster-stretchable").each(
+                        function(index){
+                            try{
+                                var new_w=Math.round($("#"+id+"_inner").width()*0.96);
+                                $(this).width(new_w);
+                            }catch(e){
+                                if(window.console){console.log(buff)}
+                            }
+                        }
+                    );
+                    // ATTIVAZIONE MARQUEE
+                    $("#"+id+"_inner .filibuster-marquee").each(
+                        function(index){
+                            new objMarqee(this);
+                        }
+                    );
+                    // ATTIVAZIONE RICERCA
+                    $("#"+id+"_inner .filibuster-search").each(
+                        function(index){
+                            if(!FLB.supports.unicode){
+                                $("#"+id+"_inner .filibuster-search-button a").html("<img class='filibuster-surrogate' src='_images/search.png' border='0'/>");
+                                $("#"+id+"_inner .filibuster-voice-button a").html("<img class='filibuster-surrogate' src='_images/voice.png' border='0'/>");
+                                $("#"+id+"_inner .filibuster-print-button a").html("<img class='filibuster-surrogate' src='_images/print.png' border='0'/>");
+                            }
+                            this.contentid=contentid;
+                            new objSearch(this);
+                        }
+                    );
+                    // ATTIVAZIONE VOCE
+                    if(_voicelang!=""){
+                        $("#"+id+"_inner .filibuster-voice").each(
+                            function(index){
+                                _currVoice=new objVoice(this);
+                            }
                         );
-                        // AGGIUSTAMENTO OGGETTI A TUTTA LARGHEZZA
-                        $("#"+id+"_inner .filibuster-resizable").each(
+                    }
+                    else{
+                        $("#"+id+"_inner .filibuster-voice").css("display","none");
+                    }
+                    // ATTIVAZIONE STAMPA
+                    $("#"+id+"_inner .filibuster-print").each(
+                        function(index){
+                            new objPrint(this);
+                        }
+                    );
+                    // ATTIVAZIONE MAIL
+                    $("#"+id+"_inner .filibuster-mailus").each(
+                        function(index){
+                            this.contentid=contentid;
+                            new objMailus(this);
+                        }
+                    );
+                    // ATTIVAZIONE SOCIAL
+                    $("#"+id+"_inner .filibuster-social").each(
+                        function(index){
+                            $(this).share({
+                              networks:[
+                                'facebook', 
+                                'twitter',
+                                'googleplus', 
+                                'pinterest', 
+                                'linkedin',
+                                'tumblr'
+                              ]
+                            });                            
+                        }
+                    );
+                    // LOGOUT FORUM
+                    $("#"+id+"_inner .filibuster-forum").each(
+                        function(index){
+                            FLB.forum.header=$(this).find(".filibuster-forum-header")[0];
+                            $("#"+id+"_inner .filibuster-forum-iframe").draggable({
+                                "start":function(){
+                                    $("#"+id+"_inner .filibuster-forum-iframe").css({"background":"silver"});
+                                    $("#"+id+"_inner .filibuster-forum-iframe iframe").css({"visibility":"hidden"});
+                                },
+                                "stop":function(){
+                                    $("#"+id+"_inner .filibuster-forum-iframe").css({"background":"#315B7E"});
+                                    $("#"+id+"_inner .filibuster-forum-iframe iframe").css({"visibility":"visible"});
+                                }
+                            });
+                        }
+                    );
+                    // ATTIVAZIONE NAVIGAZIONE
+                    $("#"+id+"_inner .filibuster-navigator-tool").each(
+                        function(index){
+                            $("body").keydown(
+                                function(k){
+                                    if(k.ctrlKey){
+                                        try{
+                                            var href;
+                                            switch(k.which){ // left
+                                            case 37:    // left
+                                                flb_navigator_back();
+                                                break;
+                                            case 39:    // right
+                                                flb_navigator_forward();
+                                                break;
+                                            case 36:    // first
+                                                href=$(".filibuster-navigator-first").attr("href");
+                                                if(flb_isset(href))
+                                                    window.location.href=href;
+                                                break;
+                                            case 35:    // last
+                                                href=$(".filibuster-navigator-last").attr("href");
+                                                if(flb_isset(href))
+                                                    window.location.href=href;
+                                                break;
+                                            case 60:    // <
+                                                // Gestione Voice
+                                                if(_currVoice!==false){_currVoice.click()}
+                                                break;
+                                            }
+                                        }catch(e){}
+                                    }
+                                }
+                            );
+                            if(!FLB.supports.unicode){
+                                $("#"+id+"_inner .filibuster-navigator-back").html("&nbsp;<img class='filibuster-surrogate' src='_images/left.png' border='0'/>&nbsp;");
+                                $("#"+id+"_inner .filibuster-navigator-forward").html("&nbsp;<img class='filibuster-surrogate' src='_images/right.png' border='0'/>&nbsp;");
+                            }
+                            if(FLB.detected.mobile){
+                                if($(".filibuster-changepage").length==0){
+                                    $("body").append("<div class='filibuster-changepage filibuster-prevpage' style='left:-1.5em' onclick='flb_navigator_back()'>&nbsp;</div>");
+                                    $("body").append("<div class='filibuster-changepage filibuster-nextpage' style='right:-1.5em' onclick='flb_navigator_forward()'>&nbsp;</div>");
+                                }
+                            }
+                        }
+                    );
+                    if(FLB.detected.mobile){
+                        // FITTING IMMAGINI
+                        $("#"+id+"_inner img").each(
                             function(index){
                                 try{
                                     var old_w=$(this).width();
-                                    var old_h=$(this).height();
-                                    var ratio=old_h/old_w;
-                                    var new_w=Math.round($("#"+id+"_inner").width()*0.96);
-                                    $(this).width(new_w);
-                                    $(this).height(Math.round(new_w*ratio));
+                                    if(old_w>FLB.metrics.width){
+                                        var old_h=$(this).height();
+                                        var ratio=old_h/old_w;
+                                        var new_w=Math.round($("#"+id+"_inner").width()*0.96);
+                                        $(this).width(new_w);
+                                        $(this).height(Math.round(new_w*ratio));
+                                    }
                                 }catch(e){
                                     if(window.console){console.log(buff)}
                                 }
                             }
                         );
-                        // AGGIUSTAMENTO IFRAME A TUTTA LUNGHEZZA
-                        $("#"+id+"_inner .filibuster-fittable").each(
-                            function(index){
-                                try{
-                                    var objframe=$(this);
-                                    objframe.load(
-                                        function(){
-                                            try{
-                                                objframe.height(objframe.contents().height()+20);
-                                            }catch(e){}
-                                        }
-                                    );
-                                }catch(e){
-                                    if(window.console){console.log(buff)}
-                                }
-                            }
-                        );
-                        // AGGIUSTAMENTO EMBED A TUTTA LARGHEZZA
-                        $("#"+id+"_inner .filibuster-stretchable").each(
-                            function(index){
-                                try{
-                                    var new_w=Math.round($("#"+id+"_inner").width()*0.96);
-                                    $(this).width(new_w);
-                                }catch(e){
-                                    if(window.console){console.log(buff)}
-                                }
-                            }
-                        );
-                        // ATTIVAZIONE MARQUEE
-                        $("#"+id+"_inner .filibuster-marquee").each(
-                            function(index){
-                                new objMarqee(this);
-                            }
-                        );
-                        // ATTIVAZIONE RICERCA
-                        $("#"+id+"_inner .filibuster-search").each(
-                            function(index){
-                                if(!FLB.supports.unicode){
-                                    $("#"+id+"_inner .filibuster-search-button a").html("<img class='filibuster-surrogate' src='_images/search.png' border='0'/>");
-                                    $("#"+id+"_inner .filibuster-voice-button a").html("<img class='filibuster-surrogate' src='_images/voice.png' border='0'/>");
-                                    $("#"+id+"_inner .filibuster-print-button a").html("<img class='filibuster-surrogate' src='_images/print.png' border='0'/>");
-                                }
-                                this.contentid=contentid;
-                                new objSearch(this);
-                            }
-                        );
-                        // ATTIVAZIONE VOCE
-                        if(_voicelang!=""){
-                            $("#"+id+"_inner .filibuster-voice").each(
-                                function(index){
-                                    _currVoice=new objVoice(this);
-                                }
-                            );
-                        }
-                        else{
-                            $("#"+id+"_inner .filibuster-voice").css("display","none");
-                        }
-                        // ATTIVAZIONE STAMPA
-                        $("#"+id+"_inner .filibuster-print").each(
-                            function(index){
-                                new objPrint(this);
-                            }
-                        );
-                        // ATTIVAZIONE MAIL
-                        $("#"+id+"_inner .filibuster-mailus").each(
-                            function(index){
-                                this.contentid=contentid;
-                                new objMailus(this);
-                            }
-                        );
-                        // ATTIVAZIONE SOCIAL
-                        $("#"+id+"_inner .filibuster-social").each(
-                            function(index){
-                                $(this).share({
-                                  networks:[
-                                    'facebook', 
-                                    'twitter',
-                                    'googleplus', 
-                                    'pinterest', 
-                                    'linkedin',
-                                    'tumblr'
-                                  ]
-                                });                            
-                            }
-                        );
-                        // LOGOUT FORUM
-                        $("#"+id+"_inner .filibuster-forum").each(
-                            function(index){
-                                FLB.forum.header=$(this).find(".filibuster-forum-header")[0];
-                                $("#"+id+"_inner .filibuster-forum-iframe").draggable({
-                                    "start":function(){
-                                        $("#"+id+"_inner .filibuster-forum-iframe").css({"background":"silver"});
-                                        $("#"+id+"_inner .filibuster-forum-iframe iframe").css({"visibility":"hidden"});
-                                    },
-                                    "stop":function(){
-                                        $("#"+id+"_inner .filibuster-forum-iframe").css({"background":"#315B7E"});
-                                        $("#"+id+"_inner .filibuster-forum-iframe iframe").css({"visibility":"visible"});
-                                    }
-                                });
-                            }
-                        );
-                        // ATTIVAZIONE NAVIGAZIONE
-                        $("#"+id+"_inner .filibuster-navigator-tool").each(
-                            function(index){
-                                $("body").keydown(
-                                    function(k){
-                                        if(k.ctrlKey){
-                                            try{
-                                                var href;
-                                                switch(k.which){ // left
-                                                case 37:    // left
-                                                    flb_navigator_back();
-                                                    break;
-                                                case 39:    // right
-                                                    flb_navigator_forward();
-                                                    break;
-                                                case 36:    // first
-                                                    href=$(".filibuster-navigator-first").attr("href");
-                                                    if(flb_isset(href))
-                                                        window.location.href=href;
-                                                    break;
-                                                case 35:    // last
-                                                    href=$(".filibuster-navigator-last").attr("href");
-                                                    if(flb_isset(href))
-                                                        window.location.href=href;
-                                                    break;
-                                                case 60:    // <
-                                                    // Gestione Voice
-                                                    if(_currVoice!==false){_currVoice.click()}
-                                                    break;
-                                                }
-                                            }catch(e){}
-                                        }
-                                    }
-                                );
-                                if(!FLB.supports.unicode){
-                                    $("#"+id+"_inner .filibuster-navigator-back").html("&nbsp;<img class='filibuster-surrogate' src='_images/left.png' border='0'/>&nbsp;");
-                                    $("#"+id+"_inner .filibuster-navigator-forward").html("&nbsp;<img class='filibuster-surrogate' src='_images/right.png' border='0'/>&nbsp;");
-                                }
-                                if(FLB.detected.mobile){
-                                    if($(".filibuster-changepage").length==0){
-                                        $("body").append("<div class='filibuster-changepage filibuster-prevpage' style='left:-1.5em' onclick='flb_navigator_back()'>&nbsp;</div>");
-                                        $("body").append("<div class='filibuster-changepage filibuster-nextpage' style='right:-1.5em' onclick='flb_navigator_forward()'>&nbsp;</div>");
-                                    }
-                                }
-                            }
-                        );
-                        if(FLB.detected.mobile){
-                            // FITTING IMMAGINI
-                            $("#"+id+"_inner img").each(
-                                function(index){
-                                    try{
-                                        var old_w=$(this).width();
-                                        if(old_w>FLB.metrics.width){
-                                            var old_h=$(this).height();
-                                            var ratio=old_h/old_w;
-                                            var new_w=Math.round($("#"+id+"_inner").width()*0.96);
-                                            $(this).width(new_w);
-                                            $(this).height(Math.round(new_w*ratio));
-                                        }
-                                    }catch(e){
-                                        if(window.console){console.log(buff)}
-                                    }
-                                }
-                            );
-                        }
-                        var bMathjax=false;
-                        // CONTENUTI SPECIALI: MATEMATICA
-                        if($("#"+id+"_inner .filibuster-specials-math").length>0){
-                            if(_mathurl!=""){
-                                bMathjax=true;
-                            }
-                        }
-                        containers_locate({"mathjax":bMathjax});
                     }
-                    else{
-                        try{
-                            // Elimino il messaggio di avanzamento
-                            $("#"+id+"_inner").html("");
-                            // Interpreto il documento JSON e lo scandisco
-                            v=$.parseJSON(buff);
-                            for(var i in v){
-                                var sty=v[i]["style"];
-                                sty=sty.replace(/&quot;/g, "\"");
-                                try{
-                                    sty=$.parseJSON(sty);
-                                }catch(e){
-                                    if(window.console){console.log(sty)}
-                                    sty={};
-                                }
-                                var scrpt=v[i]["script"];
-                                scrpt=scrpt.replace(/&quot;/g, "\"");
-                                create_container(v[i]["containerid"], id, v[i]["contentid"], v[i]["classes"], sty, scrpt);
-                            }
-                            solvehierarchy();
-                        }catch(e){
-                            if(window.console){console.log(buff)}
+                    var bMathjax=false;
+                    // CONTENUTI SPECIALI: MATEMATICA
+                    if($("#"+id+"_inner .filibuster-specials-math").length>0){
+                        if(_mathurl!=""){
+                            bMathjax=true;
                         }
                     }
-                    if(scripting!=""){
-                        try{eval(scripting)}catch(e){if(window.console){console.log(scripting)}}
-                    }
-                    if(objectcount(_loading)){
-                        solvecontent();
-                    }
-                    else{
-                        $("#filibuster-food4bot").remove();
-                        setTimeout(
-                            function(){
-                                containers_locate();
-                                var p=location.href.indexOf("#");
-                                if(p>0){
-                                    try{
-                                        if($.browser.chrome || $.browser.safari)
-                                            $(document.body).scrollTop($(location.href.substr(p)).offset().top);
-                                        else
-                                            location.hash=location.href.substr(p);
-                                    }catch(e){}
-                                }
-                                flb_statistics();
-                            }, 1000
-                        );
+                    containers_locate({"mathjax":bMathjax});
+                }
+                else{
+                    try{
+                        // Elimino il messaggio di avanzamento
+                        $("#"+id+"_inner").html("");
+                        // Interpreto il documento JSON e lo scandisco
+                        v=$.parseJSON(buff);
+                        for(var i in v){
+                            var sty=v[i]["style"];
+                            sty=sty.replace(/&quot;/g, "\"");
+                            try{
+                                sty=$.parseJSON(sty);
+                            }catch(e){
+                                if(window.console){console.log(sty)}
+                                sty={};
+                            }
+                            var scrpt=v[i]["script"];
+                            scrpt=scrpt.replace(/&quot;/g, "\"");
+                            create_container(v[i]["containerid"], id, v[i]["contentid"], v[i]["classes"], sty, scrpt);
+                        }
+                        solvehierarchy();
+                    }catch(e){
+                        if(window.console){console.log(buff)}
                     }
                 }
-                catch(e){
-                    if(window.console){console.log(buff)}
+                if(scripting!=""){
+                    try{eval(scripting)}catch(e){if(window.console){console.log(scripting)}}
                 }
+                if(objectcount(_loading)){
+                    solvecontent();
+                }
+                else{
+                    $("#filibuster-food4bot").remove();
+                    setTimeout(
+                        function(){
+                            containers_locate();
+                            var p=location.href.indexOf("#");
+                            if(p>0){
+                                try{
+                                    if($.browser.chrome || $.browser.safari)
+                                        $(document.body).scrollTop($(location.href.substr(p)).offset().top);
+                                    else
+                                        location.hash=location.href.substr(p);
+                                }catch(e){}
+                            }
+                            flb_statistics();
+                        }, 1000
+                    );
+                }
+            }
+            catch(e){
+                if(window.console){console.log(buff)}
             }
         });
         break;
@@ -1110,31 +1110,31 @@ function flb_search(toolid, t){
                 "pageid":_pageid,
                 "width":w,
                 "search":t
-            },
-            success:function(d){
-                try{
-                    var inn=$("#"+_currentpage+"_inner");
-                    var sty=inn.attr("style");
-                    sty=sty.replace(/height *:[^;]*(;|$)/, "");
-                    inn.attr("style", sty);
-                    inn.html(d);
-                    setTimeout(
-                        function(){
-                            containers_locate();
-                            // GESTIONE CONTENUTO INVISIBILE
-                            if($("#"+_currentpage).css("display")=="none"){
-                                $("#"+_currentpage).css("display", "block");
-                            }
-                            setTimeout(
-                                function(){
-                                    $(window).scrollTop(0);
-                                }, 1000
-                            );
-                        }, 1
-                    );
-                }
-                catch(e){}
             }
+        })
+        .done(function(d){
+            try{
+                var inn=$("#"+_currentpage+"_inner");
+                var sty=inn.attr("style");
+                sty=sty.replace(/height *:[^;]*(;|$)/, "");
+                inn.attr("style", sty);
+                inn.html(d);
+                setTimeout(
+                    function(){
+                        containers_locate();
+                        // GESTIONE CONTENUTO INVISIBILE
+                        if($("#"+_currentpage).css("display")=="none"){
+                            $("#"+_currentpage).css("display", "block");
+                        }
+                        setTimeout(
+                            function(){
+                                $(window).scrollTop(0);
+                            }, 1000
+                        );
+                    }, 1
+                );
+            }
+            catch(e){}
         });
     }
 }
@@ -1174,33 +1174,33 @@ function objVoice(obj){
                         "env":_environ,
                         "site":_site,
                         "id":_actualid
-                    },
-                    success:function(d){
-                        try{
-                            v=$.parseJSON(d);
-                            if(parseInt(v.success)){
-                                var h="";
-                                h+="<audio id='filibuster-player'>";
-                                h+="<source id='filibuster-player-source' src='"+v.url+"?v="+(new Date).valueOf()+"' type='audio/mpeg' >";
-                                h+="</audio>";
-                                $("body").append(h);
-                                var objplayer=$("#filibuster-player").get(0);
-                                if(flb_isset(objplayer.play))
-                                    propobj.tryplay(objplayer);
-                                else
-                                    alert("Audio not supported");
-                            }
-                            else{
-                                if(window.console){console.log(d)}
-                                alert("Service not available");
-                            }
-                        }catch(e){
-                            if(window.console){console.log(e.message)}
+                    }
+                })
+                .done(function(d){
+                    try{
+                        v=$.parseJSON(d);
+                        if(parseInt(v.success)){
+                            var h="";
+                            h+="<audio id='filibuster-player'>";
+                            h+="<source id='filibuster-player-source' src='"+v.url+"?v="+(new Date).valueOf()+"' type='audio/mpeg' >";
+                            h+="</audio>";
+                            $("body").append(h);
+                            var objplayer=$("#filibuster-player").get(0);
+                            if(flb_isset(objplayer.play))
+                                propobj.tryplay(objplayer);
+                            else
+                                alert("Audio not supported");
+                        }
+                        else{
                             if(window.console){console.log(d)}
                             alert("Service not available");
                         }
-                        setTimeout(function(){jbutt.html(prevsymbol)}, 500);
+                    }catch(e){
+                        if(window.console){console.log(e.message)}
+                        if(window.console){console.log(d)}
+                        alert("Service not available");
                     }
+                    setTimeout(function(){jbutt.html(prevsymbol)}, 500);
                 });
             }
         }
@@ -1254,22 +1254,22 @@ function objMailus(obj){
                         "toolid":contentid,
                         "email":email,
                         "text":text
-                    },
-                    success:function(d){
-                        try{
-                            objmess.html(d.substr(3));
-                            if(d.substr(0,3)=="[1]"){
-                                objmess.css({"color":"green"});
-                                $("#"+refid+" input").val("");
-                                $("#"+refid+" textarea").val("");
-                            }
-                            else{
-                                objmess.css({"color":"red"});
-                            }
-                            setTimeout(function(){objmess.html("&nbsp;");}, 3000);
-                        }
-                        catch(e){}
                     }
+                })
+                .done(function(d){
+                    try{
+                        objmess.html(d.substr(3));
+                        if(d.substr(0,3)=="[1]"){
+                            objmess.css({"color":"green"});
+                            $("#"+refid+" input").val("");
+                            $("#"+refid+" textarea").val("");
+                        }
+                        else{
+                            objmess.css({"color":"red"});
+                        }
+                        setTimeout(function(){objmess.html("&nbsp;");}, 3000);
+                    }
+                    catch(e){}
                 });
             }
             else{
@@ -1308,10 +1308,10 @@ function flb_statistics(){
                     "id":_pageid,
                     "user":userid,
                     "browser":browser
-                },
-                success:function(d){
-                    $.cookie("FLBUSER", d, { expires : 10000 });
                 }
+            })
+            .done(function(d){
+                $.cookie("FLBUSER", d, { expires : 10000 });
             });
         }
     }

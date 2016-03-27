@@ -67,7 +67,8 @@
                 "font-family":"verdana,sans-serif",
                 "font-size":"13px",
                 "line-height":"17px",
-                "cursor":"default"
+                "cursor":"default",
+                "z-index":0
             });
             objmirror=CodeMirror(document.getElementById(propname), {
                 lineNumbers: false,

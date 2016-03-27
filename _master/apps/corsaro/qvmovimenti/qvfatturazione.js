@@ -223,7 +223,7 @@ function class_qvfatturazione(settings,missing){
         click:function(o){
             winzProgress(formid);
             var richiedenteid=txf_richiedente.value();
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -265,7 +265,7 @@ function class_qvfatturazione(settings,missing){
                 message:"Eliminare la pratica selezionata?",
                 confirm:function(){
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -380,7 +380,7 @@ function class_qvfatturazione(settings,missing){
             data["FATTURAID"]=currfatturaid;
             data["DATASCADENZA"]=tx_datafine.text();
             data["STATUS"]=tx_status.key();
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -423,7 +423,7 @@ function class_qvfatturazione(settings,missing){
                 message:"Stampare la fattura?",
                 confirm:function(){
                     winzProgress(formid);
-                    $.post(_systeminfo.relative.cambusa+"rygeneral/customize.php", 
+                    RYWINZ.Post(_systeminfo.relative.cambusa+"rygeneral/customize.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -627,7 +627,7 @@ function class_qvfatturazione(settings,missing){
                 "data":data,
                 "return":{"ARROWID":"#FLUSSOID"}
             };
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -669,7 +669,7 @@ function class_qvfatturazione(settings,missing){
                 confirm:function(){
                     winzProgress(formid);
                     RYWINZ.modified(formid, 0);
-                    $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                    RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
                             "sessionid":_sessioninfo.sessionid,
                             "env":_sessioninfo.environ,
@@ -722,7 +722,7 @@ function class_qvfatturazione(settings,missing){
                 data["CONTROID"]=tx_contro.value();
             else
                 data["CONTROID"]=tx_controdefault.value();
-            $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                 {
                     "sessionid":_sessioninfo.sessionid,
                     "env":_sessioninfo.environ,
@@ -1075,7 +1075,7 @@ function class_qvfatturazione(settings,missing){
                 "TRANSID":transid
             }
         };
-        $.post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+        RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
             {
                 "sessionid":_sessioninfo.sessionid,
                 "env":_sessioninfo.environ,

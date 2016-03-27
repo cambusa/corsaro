@@ -44,7 +44,7 @@ function ryEgo(missing){
         if(_sessioninfo.sessionid!=""){
             if(propcrossdomain==""){
                 var bs="\\";
-                $.post(_systeminfo.relative.cambusa+"ryego/ego_infosession.php",{sessionid:_sessioninfo.sessionid, app:propappname, backslash:bs},
+                $.engage(_systeminfo.relative.cambusa+"ryego/ego_infosession.php",{sessionid:_sessioninfo.sessionid, app:propappname, backslash:bs},
                     function(d){
                         try{
                             var v=$.parseJSON(d);
@@ -76,7 +76,7 @@ function ryEgo(missing){
         $.cookie("egosessionid", "");
         if(_sessioninfo.sessionid!=""){
             if(propcrossdomain==""){
-                $.post(_systeminfo.relative.cambusa+"ryego/ego_logout.php", {sessionid:_sessioninfo.sessionid}, function(){
+                $.engage(_systeminfo.relative.cambusa+"ryego/ego_logout.php", {sessionid:_sessioninfo.sessionid}, function(){
                     _sessioninfo.sessionid="";
                     location.replace(location.pathname);
                 });

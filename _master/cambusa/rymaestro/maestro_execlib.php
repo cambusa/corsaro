@@ -947,6 +947,25 @@ function maestro_istable($maestro, $tabname){
     unset($r);
     return $ret;
 }
+function maestro_truncate($maestro, $tabname){
+    $ret=false;
+    switch($maestro->provider){
+    case "sqlite":
+        $ret=maestro_execute($maestro, "DELETE FROM $tabname");
+        if($sqlite3_enabled)
+            maestro_execute($maestro, "VACUUM");
+        break;
+    case "db2odbc":
+        $ret=maestro_execute($maestro, "TRUNCATE TABLE $tabname IMMEDIATE");
+        break;
+    case "access":
+        $ret=maestro_execute($maestro, "DELETE FROM $tabname");
+        break;
+    default:
+        $ret=maestro_execute($maestro, "TRUNCATE TABLE $tabname");
+    }
+    return $ret;
+}
 function maestro_escapize(&$value){
     //$value=utf8_decode(utf8_encode($value));
     if($value!=""){
