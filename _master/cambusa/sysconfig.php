@@ -10,7 +10,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_COMPILE_ERROR);
 
 $curdir=realpath(dirname(__FILE__));
 $curdir=str_replace("\\", "/", $curdir);
