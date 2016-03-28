@@ -16,6 +16,11 @@ function xcopy($src, $trg, $oper){
         }
         @closedir($direc);
     }
+    
+    $pathroot=realpath(dirname(__FILE__));
+    $pathroot=str_replace("\\", "/", $pathroot);
+    $pathprogress=$pathroot."/progress.txt";
+    
     if($direc=@opendir($src)){
         while(($file=readdir($direc))!==false){
             if($file!="." && $file!=".."){
@@ -35,6 +40,7 @@ function xcopy($src, $trg, $oper){
                         if($oper!="counter"){
                             print str_repeat("X", 1000);
                             flush();
+                            file_put_contents($pathprogress, strval($__counter));
                             copy($src."/".$file, $trg."/".$file);
                             chmod ($trg."/".$file, 0755);
                             touch($trg."/".$file,filemtime($src."/".$file));
@@ -48,6 +54,7 @@ function xcopy($src, $trg, $oper){
         }
     }
     @closedir($direc);
+    @unlink($pathprogress);
     return $__counter;
 }
 ?>

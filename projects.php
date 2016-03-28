@@ -25,6 +25,8 @@ table{font-family:sans-serif;font-size:12px;}
 
 <script>
 
+var avanzamento;
+
 function cloneproject(){
     var counter=0;
     var prjname=$("#prjname").val();
@@ -39,36 +41,11 @@ function cloneproject(){
                 counter=parseInt(d);
                 if(counter>0){
                     $.ajax({
-                        xhr: function(){
-                            var xhr=null;
-                            if(window.XMLHttpRequest){
-                                xhr=new window.XMLHttpRequest();
-                                //Download progress
-                                xhr.addEventListener("progress", function(evt){
-                                    $("#progresspercent").html("");
-                                    $("#progresspercent").width(300*( evt.loaded/1000/counter ));
-                                }, false);
-                            } 
-                            else{ 
-                                try{  
-                                    xhr=new ActiveXObject("MSXML2.XMLHTTP");
-                                    //Download progress
-                                    xhr.attachEvent("progress", function(evt) {
-                                        try{  
-                                            $("#progresspercent").html("");
-                                            $("#progresspercent").width(300*( evt.loaded/1000/counter ));
-                                        } 
-                                        catch(e){} 
-                                    });
-                                } 
-                                catch(e){} 
-                            }                        
-                            return xhr;
-                        },
                         type:"POST",
                         url:"xclone.php",
                         data:{"project":prjname, "password":prjpwd},
                         success: function(data){
+                            clearInterval(avanzamento);
                             projectlist();
                             $("#progressbar").hide();
                         }
@@ -78,6 +55,7 @@ function cloneproject(){
                     $("#progresspercent").width(300);
                     setTimeout(
                         function(){
+                            clearInterval(avanzamento);
                             projectlist();
                             $("#progressbar").hide();
                             if(counter==-1){
@@ -89,6 +67,13 @@ function cloneproject(){
                 }
             }
         );
+        avanzamento=setInterval(function(){
+            $.get("progress.txt")
+            .done(function(d){
+                $("#progresspercent").html("");
+                $("#progresspercent").width(300*( parseFloat(d)/counter ));
+            });
+        }, 1000);
     }
     else{
         alert("Specify a valid project name!");
