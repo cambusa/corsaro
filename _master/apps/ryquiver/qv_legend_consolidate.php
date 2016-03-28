@@ -24,13 +24,6 @@ function qv_legend_consolidate($maestro, $data){
         $message="Operazione riuscita";
         $SYSID="";
 
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if(isset($data["PROGRESS"]))
-            $PROGRESS=intval($data["PROGRESS"]);
-        else
-            $PROGRESS=0;
-        $BLOCKSIZE=1000;
-
         // INIZIALIZZO LA CREZIONE SI SYSID DI MASSA
         qv_bulkinitialize($maestro);
 
@@ -127,20 +120,17 @@ function qv_legend_consolidate($maestro, $data){
                 maestro_free($maestro, $res);
             }
         }
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if($PROGRESS){
-            print substr( count($PRATICHE) . str_repeat(" ", $BLOCKSIZE), 0, $BLOCKSIZE);
-            flush();
-        }
+        // INIZIALIZZAZIONE D'AVANZAMENTO
+        $counter=0;
+        $total=count($PRATICHE);
+        
         // GENERAZIONE PRATICHE
         $DATAINIZIO=date("Ymd");
         foreach($PRATICHE as $CLUSTERID => $PRATICA){
         
-            // UTILE PER AVANZAMENTO DA CLIENT
-            if($PROGRESS){
-                print str_repeat("X", $BLOCKSIZE);
-                flush();
-            }
+            // MESSAGGIO D'AVANZAMENTO
+            $counter+=1;
+            _qv_progress("Pratiche generate " . $counter . " di " . $total);
         
             // INSERIMENTO QUIVER
             $datax=array();
@@ -184,18 +174,10 @@ function qv_legend_consolidate($maestro, $data){
             // RIAPRO UNA TRANSAZIONE
             maestro_begin($maestro);
         }
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if($PROGRESS){
-            print "Y";
-        }
     }
     catch(Exception $e){
         $success=0;
         $message=$e->getMessage();
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if($PROGRESS){
-            print "Y";
-        }
     }
     // USCITA JSON
     $j=array();

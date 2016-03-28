@@ -21,6 +21,9 @@ function qv_system_restore($maestro, $data){
         $message="Operazione riuscita";
         $SYSID="";
         
+        //CHIUDO LA TRANSAZIONE IN CORSO
+        maestro_commit($maestro);
+        
         // GESTIONE AMMINISTRATORE
         if($global_lastadmin==0){
             $babelcode="QVERR_FORBIDDEN";
@@ -211,6 +214,9 @@ function qv_system_restore($maestro, $data){
         }
         // CHIUSURA FILE
         fclose($fp);
+        
+        // APRO UNA NUOVA TRANSAZIONE
+        maestro_begin($maestro);
         
         // ADEGUO MONAD PER POTER GESTIRE CORRETTAMENTE I NUOVI SYSID
         foreach($series as $serie => $id){

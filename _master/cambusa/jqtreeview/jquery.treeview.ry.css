@@ -34,7 +34,8 @@
 
 #treecontrol { margin: 1em 0; display: none; }
 
-.treeview .hover { color: red; cursor: pointer; }
+.treeview .hover{background-color:#006699 !important;color:white;cursor:pointer;}
+.treeview span{cursor:pointer;}
 
 .treeview li { background: url(images/treeview-default-line.gif) 0 0 no-repeat; }
 .treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px; }
@@ -69,11 +70,17 @@
 
 .filetree li { padding: 0 0 2px 16px; }
 .filetree span.folder, .filetree span.file { padding: 0px 0px 0px 18px; display: block; }
-.filetree span.folder { background: url(images/folder.gif) 0px 2px no-repeat; }
-.filetree li.expandable span.folder { background: url(images/folder-closed.gif) 0px 2px no-repeat; }
-.filetree span.file { background: url(images/file.gif) 0px 2px no-repeat; }
+.filetree span.folder { background: url(images/folder.png) 0px 2px no-repeat; }
+.filetree li.expandable span.folder { background: url(images/folder-closed.png) 0px 2px no-repeat; }
+.filetree span.file { background: url(images/file.png) 0px 2px no-repeat; }
 
 .folder,.file{border:1px solid transparent;white-space:nowrap;}
 .ryfamily-current{border:1px dashed silver;white-space:nowrap;}
-.file:hover{color: red; cursor: pointer;}
+.file:hover{background-color:#006699 !important;color:white;cursor:pointer;}
 .nodeloading {background:url(images/ajax-loader.gif) 0 0 no-repeat !important; display: block;}
+
+.treeview-insensitive  .treeview .hover{background-color:transparent !important; color:black !important;}
+.treeview-insensitive .file:hover{background-color:transparent !important; color:black !important;}
+
+.treeview-transparent  .treeview .hover{background-color:transparent !important; color:#006699 !important;}
+.treeview-transparent .file:hover{background-color:transparent !important; color:#006699 !important;}

@@ -174,7 +174,8 @@ function ryWinz(missing){
             t+="        </div>";
             t+="        <div id='dither_"+propid+"' class='winz_dither'></div>";
             t+="        <div id='message_"+propid+"' class='abs window_bottom'></div>";
-            t+="        <a id='stop_"+propid+"' class='winz_stop' title='Stop'></a>";
+            t+="        <div id='status_"+propid+"' class='winz-info'>"+proppath+propname+"</div>";
+            t+="        <a id='stop_"+propid+"' class='winz_stop' title='Stop'>&nbsp;&nbsp;&nbsp;Stop</a>";
             t+="    </div>";
             t+="    <span class='abs ui-resizable-handle ui-resizable-se'></span>";
             t+="</div>";
@@ -343,7 +344,7 @@ function ryWinz(missing){
                         objform.options.controls=params.controls.actualBoolean();
                         if(!objform.options.controls){
                             $("#window_"+id+" div.window_top").css({"display":"none"});
-                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden", "display":"none"});
+                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden"});
                             $("#window_"+id+" div.window_content").css({"top":1});
                             $("#dither_"+id).css({"top":0});
                         }
@@ -353,7 +354,7 @@ function ryWinz(missing){
                         if(!params.statusbar){
                             if(!RYWINZ.busy(id))   // Se non è visibile perché alzato alla new del form lo nascondo
                                 $("#message_"+id).css({"display":"none"});
-                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden", "display":"none"});
+                            $("#window_"+id+">span.ui-resizable-handle").css({"visibility":"hidden"});
                             $("#window_"+id+" div.window_content").css({"bottom":0});
                         }
                     }
@@ -399,6 +400,7 @@ function ryWinz(missing){
     this.DisposeCtrl=winzDisposeCtrl;
     this.FormClose=this.formclose;
     this.Forms=this.forms;
+    this.HideInfo=winzHideInfo;
     this.KeyTools=winzKeyTools;
     this.LoadModule=this.loadmodule;
     this.MaskClear=winzMaskClear;
@@ -406,10 +408,12 @@ function ryWinz(missing){
     this.MessageBox=winzMessageBox;
     this.Modified=this.modified;
     this.NewForm=this.newform;
+    this.PathName=winzPathName;
     this.Post=$.engage;
     this.Progress=winzProgress;
     this.RemoveForm=this.removeform;
     this.Shell=this.shell;
+    this.ShowInfo=winzShowInfo;
     this.StatusMessage=winzMereMessage;
     this.Stoppable=winzStoppable;
     this.TimeoutMess=winzTimeoutMess;

@@ -20,13 +20,6 @@ function qv_legend_dispose($maestro, $data){
         $message="Operazione riuscita";
         $SYSID="";
         
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if(isset($data["PROGRESS"]))
-            $PROGRESS=intval($data["PROGRESS"]);
-        else
-            $PROGRESS=0;
-        $BLOCKSIZE=1000;
-
         if(isset($data["PRATICHE"])){
             $PRATICHE=$data["PRATICHE"];
         }
@@ -38,18 +31,15 @@ function qv_legend_dispose($maestro, $data){
         }
         $p=explode("|", $PRATICHE);
 
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if($PROGRESS){
-            print substr( count($p) . str_repeat(" ", $BLOCKSIZE), 0, $BLOCKSIZE);
-            flush();
-        }
+        // INIZIALIZZAZIONE D'AVANZAMENTO
+        $counter=0;
+        $total=count($p);
+        
         foreach($p as $PRATICAID){
+            // MESSAGGIO D'AVANZAMENTO
+            $counter+=1;
+            _qv_progress("Pratiche rimosse " . $counter . " di " . $total);
 
-            // UTILE PER AVANZAMENTO DA CLIENT
-            if($PROGRESS){
-                print str_repeat("X", $BLOCKSIZE);
-                flush();
-            }
             $MONEYTYPE=qv_actualid($maestro, "0MONEY000000");
             $altrefrecce=false;
             // SCANDISCO TUTTI I MOVIMENTI DELLA PRATICA
@@ -95,18 +85,10 @@ function qv_legend_dispose($maestro, $data){
                 }
             }
         }
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if($PROGRESS){
-            print "Y";
-        }
     }
     catch(Exception $e){
         $success=0;
         $message=$e->getMessage();
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if($PROGRESS){
-            print "Y";
-        }
     }
     // USCITA JSON
     $j=array();

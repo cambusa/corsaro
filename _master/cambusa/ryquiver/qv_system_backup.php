@@ -22,6 +22,9 @@ function qv_system_backup($maestro, $data){
         $message="Operazione riuscita";
         $SYSID="";
         
+        //CHIUDO LA TRANSAZIONE IN CORSO
+        maestro_commit($maestro);
+        
         // GESTIONE AMMINISTRATORE
         if($global_lastadmin==0){
             $babelcode="QVERR_FORBIDDEN";
@@ -126,6 +129,9 @@ function qv_system_backup($maestro, $data){
         
         // RINOMINO IL FILE
         @rename($pathnametemp, $pathname);
+        
+        // APRO UNA NUOVA TRANSAZIONE
+        maestro_begin($maestro);
         
         // VARIABILI DI RITORNO
         $babelparams["BACKUP"]="_backup/$BACKUPNAME.QBK";

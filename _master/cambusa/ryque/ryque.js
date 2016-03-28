@@ -368,12 +368,12 @@
                 $("#"+propname+"_vscroll").mouseover(
                     function(evt){
                         if(propcount>proprows && propenabled)
-                            $("#"+propname+"_vscroll .ryque-pageup,.ryque-pagedown").show();
+                            $("#"+propname+"_vscroll .ryque-pageup,#"+propname+"_vscroll .ryque-pagedown").show();
                     }
                 );
                 $("#"+propname+"_vscroll").mouseout(
                     function(evt){
-                        $("#"+propname+"_vscroll .ryque-pageup,.ryque-pagedown").hide();
+                        $("#"+propname+"_vscroll .ryque-pageup,#"+propname+"_vscroll .ryque-pagedown").hide();
                     }
                 );
                 $("#"+propname+"_vscroll .ryque-pageup").click(
@@ -431,12 +431,12 @@
                 $("#"+propname+"_hscroll").mouseover(
                     function(evt){
                         if(propgridwidth>propwinwidth && propenabled)
-                            $("#"+propname+"_hscroll .ryque-pageleft,.ryque-pageright").show();
+                            $("#"+propname+"_hscroll .ryque-pageleft,#"+propname+"_hscroll .ryque-pageright").show();
                     }
                 );
                 $("#"+propname+"_hscroll").mouseout(
                     function(evt){
-                        $("#"+propname+"_hscroll .ryque-pageleft,.ryque-pageright").hide();
+                        $("#"+propname+"_hscroll .ryque-pageleft,#"+propname+"_hscroll .ryque-pageright").hide();
                     }
                 );
                 $("#"+propname+"_hscroll .ryque-pageleft").click(
@@ -1478,7 +1478,7 @@
             this.tipactivate=function(){
                 propscrolling=true;
                 $("#"+propname+"_tooltip").css({"visibility":"visible","left":-2,"top":4});
-                $("#"+propname+"_vscroll .ryque-pageup,.ryque-pagedown").hide();
+                $("#"+propname+"_vscroll .ryque-pageup, #"+propname+"_vscroll .ryque-pagedown").hide();
             }
             this.tipmove=function(c){
                 var p=$("#"+propname+"_vtrack").position().top;

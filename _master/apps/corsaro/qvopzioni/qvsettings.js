@@ -448,7 +448,7 @@ function class_qvsettings(settings,missing){
                             if(v.success>0)
                                 winzMessageBox(formid, "I dati sono stati ripristinati");
                             else
-                                winzMessageBox(formid, "Ripristino fallito");
+                                winzMessageBox(formid, "Ripristino fallito.\n\n"+v.message);
                         }
                         catch(e){
                             if(window.console){console.log(d)}

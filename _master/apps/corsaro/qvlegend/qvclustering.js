@@ -625,17 +625,17 @@ function class_qvclustering(settings,missing){
                     winzProgress(formid);
                     gridpratiche.selengage(
                         function(o, s){
-                            winzPostProgress({
-                                "function":"legend_dispose",
-                                "data":{
-                                    "PRATICHE":s,
-                                    "PROGRESS":1
-                                },
-                                "block":1000,
-                                "progress":function(l, c, p){
-                                    $("#message_"+formid).html("Pratiche rimosse "+l+" di "+c);
-                                },
-                                "success":function(d){
+                            var jqxhr=RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                                {
+                                    "sessionid":_sessioninfo.sessionid,
+                                    "env":_sessioninfo.environ,
+                                    "function":"legend_dispose",
+                                    "data":{
+                                        "PRATICHE":s,
+                                        "PROGRESS":1
+                                    },
+                                }, 
+                                function(d){
                                     try{
                                         var v=$.parseJSON(d);
                                         if(v.success>0){ 
@@ -648,15 +648,14 @@ function class_qvclustering(settings,missing){
                                         winzTimeoutMess(formid, v.success, v.message);
                                     }
                                     catch(e){
+                                        if(window.console){console.log(d)}
                                         winzClearMess(formid);
-                                        alert(d);
+                                        RYWINZ.MessageBox(formid, e.message);
                                     }
                                 },
-                                "error":function(){
-                                    winzClearMess(formid);
-                                    alert("Rimozione fallita");
-                                }
-                            });
+                                { "progress":function(d){RYWINZ.StatusMessage(formid, d)} }
+                            );
+                            RYWINZ.Stoppable(formid, jqxhr);
                         }
                     );
                 }
@@ -1564,19 +1563,18 @@ function class_qvclustering(settings,missing){
                 "QUERYID":cachequeries[i]
             });
         }
-        winzPostProgress({
-            "function":"legend_consolidate",
-            "data":{
-                "LEGENDID":currconfigid,
-                "PROGRESS":1,
-                "QUERIES":data
-            },
-            "enabled":1,
-            "block":1000,
-            "progress":function(l, c, p){
-                $("#message_"+formid).html("Pratiche generate "+l+" di "+c);
-            },
-            "success":function(d){
+        var jqxhr=RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            {
+                "sessionid":_sessioninfo.sessionid,
+                "env":_sessioninfo.environ,
+                "function":"legend_consolidate",
+                "data":{
+                    "LEGENDID":currconfigid,
+                    "PROGRESS":1,
+                    "QUERIES":data
+                }
+            }, 
+            function(d){
                 try{
                     var v=$.parseJSON(d);
                     if(v.success>0){ 
@@ -1593,15 +1591,14 @@ function class_qvclustering(settings,missing){
                     winzTimeoutMess(formid, v.success, v.message);
                 }
                 catch(e){
+                    if(window.console){console.log(d)}
                     winzClearMess(formid);
-                    alert(d);
+                    RYWINZ.MessageBox(formid, e.message);
                 }
             },
-            "error":function(){
-                winzClearMess(formid);
-                alert("Generazione fallita");
-            }
-        });
+            { "progress":function(d){RYWINZ.StatusMessage(formid, d)} }
+        );
+        RYWINZ.Stoppable(formid, jqxhr);
     }
     function aggiornastatistiche(synchroid){
         if(!sospendistatistiche){
@@ -1768,22 +1765,19 @@ function class_qvclustering(settings,missing){
                 "QUERYID":cachequeries[i]
             });
         }
-        var jqxhr=winzPostProgress({
-            "function":"legend_execute",
-            "data":{
-                "LEGENDID":currconfigid,
-                "SCRIPTID":engid,
-                "PRATICAID":currpraticaid,
-                "QUERIES":data
-            },
-            "block":1000,
-            "progress":function(l, c, p){
-                if(c>0)
-                    $("#message_"+formid).html("Cicli "+l+" di "+c);
-                else
-                    $("#message_"+formid).html("Cicli "+l);
-            },
-            "success":function(d){
+        var jqxhr=RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+            {
+                "sessionid":_sessioninfo.sessionid,
+                "env":_sessioninfo.environ,
+                "function":"legend_execute",
+                "data":{
+                    "LEGENDID":currconfigid,
+                    "SCRIPTID":engid,
+                    "PRATICAID":currpraticaid,
+                    "QUERIES":data
+                }
+            }, 
+            function(d){
                 try{
                     var v=$.parseJSON(d);
                     if(v.success>0){ 
@@ -1800,15 +1794,13 @@ function class_qvclustering(settings,missing){
                     winzTimeoutMess(formid, v.success, v.message);
                 }
                 catch(e){
+                    if(window.console){console.log(d)}
                     winzClearMess(formid);
-                    alert(d);
+                    RYWINZ.MessageBox(formid, e.message);
                 }
             },
-            "error":function(){
-                winzClearMess(formid);
-                alert("Esecuzione fallita");
-            }
-        });
+            { "progress":function(d){RYWINZ.StatusMessage(formid, d)} }
+        );
         winzStoppable(formid, jqxhr);
     }
     function qualcheselezionato(){

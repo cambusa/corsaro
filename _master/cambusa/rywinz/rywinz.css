@@ -132,13 +132,39 @@ overflow-y:auto;
 
 .winz_stop{
 position:absolute;
-left:5px;
-bottom:3px;
-width:16px;
+border:1px solid gray;
+right:20px;
+bottom:1px;
 height:16px;
+padding:0px 3px;
+font-size:11px;
+line-height:16px;
+background:white url(images/stop.png) no-repeat;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+-khtml-border-radius: 3px;
+border-radius: 3px;
+color:maroon;
 cursor:pointer;
 display:none;
-background: url(../jquery/css/images/ui-icons_cd0a0a_256x240.png) no-repeat 0px -128px;
+}
+
+.winz-info{
+position:absolute;
+border:1px solid gray;
+left:1px;
+bottom:1px;
+height:16px;
+padding:0px 3px;
+font-size:11px;
+line-height:16px;
+background:white;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+-khtml-border-radius: 3px;
+border-radius: 3px;
+color:#006699;
+display:none;
 }
 
 .winz-babel{

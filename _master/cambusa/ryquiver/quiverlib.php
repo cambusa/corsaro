@@ -395,7 +395,7 @@ function qv_setclob($maestro, $id, $value, &$set, &$clobs){
         if($clobs===false){
             $clobs=array();
         }
-        $set=":REGISTRY";
+        $set=":$id";
         $clobs[$id]=ryqNormalize($value);
         break;
     case "db2odbc":

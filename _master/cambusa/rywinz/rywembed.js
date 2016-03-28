@@ -165,7 +165,8 @@ function ryWinz(missing){
             t+="        </div>";
             t+="        <div id='dither_"+propid+"' class='winz_dither' style='top:0px;'></div>";
             t+="        <div id='message_"+propid+"' class='abs window_bottom'></div>";
-            t+="        <a id='stop_"+propid+"' class='winz_stop' title='Stop'></a>";
+            t+="        <div id='status_"+propid+"' class='winz-info'>"+proppath+propname+"</div>";
+            t+="        <a id='stop_"+propid+"' class='winz_stop' title='Stop'>&nbsp;&nbsp;&nbsp;Stop</a>";
             t+="    </div>";
             t+="</div>";
             $("#desktop").append(t);
@@ -294,6 +295,7 @@ function ryWinz(missing){
     this.DisposeCtrl=winzDisposeCtrl;
     this.FormClose=this.formclose;
     this.Forms=this.forms;
+    this.HideInfo=winzHideInfo;
     this.KeyTools=winzKeyTools;
     this.LoadModule=this.loadmodule;
     this.MaskClear=winzMaskClear;
@@ -301,10 +303,12 @@ function ryWinz(missing){
     this.MessageBox=winzMessageBox;
     this.Modified=this.modified;
     this.NewForm=this.newform;
+    this.PathName=winzPathName;
     this.Post=$.engage;
     this.Progress=winzProgress;
     this.RemoveForm=this.removeform;
     this.Shell=this.shell;
+    this.ShowInfo=winzShowInfo;
     this.StatusMessage=winzMereMessage;
     this.Stoppable=winzStoppable;
     this.TimeoutMess=winzTimeoutMess;

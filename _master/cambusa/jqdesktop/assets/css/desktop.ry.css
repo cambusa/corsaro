@@ -172,7 +172,7 @@ div.ui-resizable-handle {
 }
 
 .window_full .ui-resizable-se {
-  display: none;
+  display: none !important;
 }
 
 .window_top {
@@ -329,7 +329,7 @@ div.ui-resizable-handle {
 
 /* rudyz */
 .treeview li {
-  background-color: #f9f9f9;
+  background-color: transparent;
 }
 
 /* `Table >> Data

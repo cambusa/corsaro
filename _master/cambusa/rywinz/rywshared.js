@@ -610,99 +610,6 @@ function winzDialogFree(dlg){
     $("#"+dlg.dither).remove();
     if(window.console&&_sessioninfo.debugmode)console.log("Objects after dialog: "+$.objectsize(globalobjs));
 }
-function winzPostProgress(settings, missing){
-    var proptotal=-1;
-    var propblock=100;
-    var propurl=_systeminfo.relative.cambusa+"ryquiver/quiver.php";
-    var propenabled=1;
-    var propdata={};
-    var propofunction="";
-    if(settings.url!=missing){propurl=settings.url}
-    if(settings.enabled!=missing){propenabled=settings.enabled}
-    if(settings["function"]!=missing){propofunction=settings["function"]}
-    if(settings.block!=missing){propblock=settings.block}
-    if(settings.data!=missing){propdata=settings.data}
-    propdata["PROGRESS"]=propenabled;
-    var jqxhr=$.ajax({
-        xhr: function(){
-            var xhr=null;
-            if(window.XMLHttpRequest){
-                xhr=new window.XMLHttpRequest();
-                //Download progress
-                xhr.addEventListener("progress", function(evt){
-                    manageprogress(xhr, evt);
-                }, false);
-            } 
-            else{ 
-                try{  
-                    xhr=new ActiveXObject("MSXML2.XMLHTTP");
-                    //Download progress
-                    xhr.attachEvent("progress", function(evt){
-                        manageprogress(xhr, evt);
-                    });
-                } 
-                catch(e){} 
-            }                        
-            return xhr;
-        },
-        type:"POST",
-        url:propurl,
-        data:{
-            "sessionid":_sessioninfo.sessionid,
-            "env":_sessioninfo.environ,
-            "function":propofunction,
-            "data":propdata
-        },
-        success: function(d){
-            try{
-                if(propenabled)
-                    d=d.substr(d.indexOf("Y")+1);
-                if(settings.success!=missing)
-                    settings.success(d);
-            }
-            catch(e){
-                if(settings.error!=missing)
-                    settings.error(d);
-                else if(settings.success!=missing)
-                    settings.success( $.stringify({success:0, message:e.message}) );
-            }
-        },
-        error: function(d){
-            if(settings.error!=missing)
-                settings.error(d);
-            else if(settings.success!=missing)
-                settings.success( $.stringify({success:0, message:d}) );
-        }
-    });
-    manageprogress=function(xhr, evt){
-        try{
-            var perc=0;
-            var loaded=-1;
-            if(proptotal>=0){
-                loaded=Math.round(evt.loaded/propblock)-1;
-                if(proptotal>0){
-                    if(loaded>proptotal){loaded=proptotal}
-                    perc=Math.round(loaded/proptotal);
-                }
-                xhr.responseText="";
-            }
-            else{
-                if(window.console&&_sessioninfo.debugmode){console.log(xhr.responseText)}
-                if(xhr.responseText.length>=propblock){
-                    proptotal=xhr.responseText.substr(0,18).actualInteger();
-                    loaded=0;
-                    xhr.responseText="";
-                }
-            }
-            if(propenabled && loaded>=0){
-                if(settings.progress!=missing){
-                    settings.progress(loaded, proptotal, perc);
-                }
-            }
-        }catch(e){}
-    }
-    return jqxhr;
-}
 function winzBringToFront(formid){
     if(!$("#window_"+formid).hasClass('window_stack')){     // Rudyz
         JQD.util.window_flat();
@@ -712,6 +619,17 @@ function winzBringToFront(formid){
 function winzMereMessage(formid, mess, col, missing){
     if(col==missing){col="black"}
     $("#message_"+formid).html(mess).css({"color":col});
+}
+function winzShowInfo(formid, infos, missing){
+    if(infos!=missing)
+        $("#status_"+formid).html(infos);
+    $("#status_"+formid).show();
+}
+function winzHideInfo(formid, infos, missing){
+    $("#status_"+formid).hide();
+}
+function winzPathName(formid){
+    return _globalforms[formid].pathname;
 }
 function winzConfirmAbandon(formid, options, missing){
     var ok=true;

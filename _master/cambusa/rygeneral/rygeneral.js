@@ -364,10 +364,14 @@ $.extend({
             _systeminfo.activities-=1;
             if(hprogress!==false){ clearInterval(hprogress) }
             var m, docfail;
-            if(typeof(d.statusText)!="undefined")
+            if(typeof(d.statusText)!="undefined"){
                 m=d.statusText;
-            else
-                m="Call failed!";
+                if(m=="abort")
+                    m="Procedure aborted!";
+            }
+            else{
+                m="Procedure failed!";
+            }
             if(typeof(options)=="object"){
                 switch(typeof(options.failure)){
                 case "object":
@@ -380,7 +384,7 @@ $.extend({
             }
             if(typeof(docfail)=="undefined")
                 docfail={success:0, message:m};
-            issue(docfail);
+            issue($.stringify(docfail));
         });
         if(data.progressid!=""){
             hprogress=setInterval(function(){

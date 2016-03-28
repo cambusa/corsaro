@@ -379,7 +379,7 @@ function quiver_execute($params){
         // CHIUSURA FILE DI LOG
         log_close();
 
-          // CANCELLAZIONE FILE CON I MESSAGGI DI AVANZAMENTO
+        // CANCELLAZIONE FILE CON I MESSAGGI DI AVANZAMENTO
         _qv_clearprogress();
 
       // RESTITUISCO IL RISULTATO

@@ -16,10 +16,8 @@ function legendMain(){
     }
     
     // SECONDO METODO
-    /*
-    $SEEKER->column2table($est, "AMOUNT", $estamount);
-    $SEEKER->index($estamount, "AMOUNT", $index);
-    */
+    //$SEEKER->column2table($est, "AMOUNT", $estamount);
+    //$SEEKER->index($estamount, "AMOUNT", $index);
     
     /*
     $SEEKER->markov_initialize();
@@ -27,9 +25,12 @@ function legendMain(){
     $SEEKER->markov_terminate();
     */
     
-    $SEEKER->progressinit(count($estamount));
+    $total=count($estamount);
+    $counter=0;
+    
     foreach($int as $mov){
-        $SEEKER->progress();
+        $counter+=1;
+        $SEEKER->progress("Cicli " . $counter . " di " . $total);
         // PRIMO METODO
         $i=array_search(-$intsignum*$mov["AMOUNT"], $estamount);
         // SECONDO METODO

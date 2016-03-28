@@ -31,10 +31,11 @@ function class_rudder(settings, missing){
         root:proproot,
         left:10,
         top:offset,
-        width:"98%",
-        height:"90%",
+        width:600,
+        bottom:20,
         scroll:false,
         border:false,
+        classname:"treeview-transparent",
         startup:function(par){
             try{
                 RYWINZ.Shell(par);

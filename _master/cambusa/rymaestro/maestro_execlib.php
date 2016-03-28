@@ -956,8 +956,6 @@ function maestro_truncate($maestro, $tabname){
             maestro_execute($maestro, "VACUUM");
         break;
     case "db2odbc":
-        $ret=maestro_execute($maestro, "TRUNCATE TABLE $tabname IMMEDIATE");
-        break;
     case "access":
         $ret=maestro_execute($maestro, "DELETE FROM $tabname");
         break;

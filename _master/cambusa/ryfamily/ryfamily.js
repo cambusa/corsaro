@@ -14,9 +14,13 @@
             var propleft=20;
             var proptop=20;
             var propwidth=200;
-            var propheight=400;
+            var propheight=false;
+            var propright=false;
+            var propbottom=false;
             var propscroll=true;
             var propborder=false;
+            var propbackground="";
+            var propclassname=false;
             var propobj=this;
             var propselectedid="";
             var propselectiontype="all";
@@ -34,8 +38,12 @@
             if(settings.top!=missing){proptop=settings.top}
             if(settings.width!=missing){propwidth=settings.width}
             if(settings.height!=missing){propheight=settings.height}
+            if(settings.right!=missing){propright=settings.right}
+            if(settings.bottom!=missing){propbottom=settings.bottom}
             if(settings.scroll!=missing){propscroll=settings.scroll}
             if(settings.border!=missing){propborder=settings.border}
+            if(settings.background!=missing){propbackground=settings.background}
+            if(settings.classname!=missing){propclassname=settings.classname}
             if(settings.selectiontype!=missing){propselectiontype=settings.selectiontype}
             
             if(settings.formid!=missing){
@@ -57,13 +65,25 @@
                     sc="auto";
                 bd="1px solid silver";
             }
+            if(propbackground!="" && sc=="visible" && propheight!==false)
+                sc="auto";
             
             $("#"+propname)
             .addClass("ryobject")
             .addClass("ryfamily")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px","overflow":sc,"border":bd});
+            .css({"position":"absolute","font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px","overflow":sc,"border":bd});
             $("#"+propname).html("<div style='position:absolute;border:none;left:0px;top:0px;width:1px;height:1px;overflow:hidden;'><input type='textbox' id='"+propname+"_anchor' style='position:absolute;left:-100px;width:10px;'></div><ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
-    
+            refreshattr();
+            
+            if(propbackground!=""){
+                $("#"+propname).css({"background-color":propbackground});
+                $("#"+propname+" .treeview li").css({"background-color":propbackground});
+                $("#"+propname+" .treeview a.selected").css({"background-color":propbackground});
+            }
+            if(propclassname!==false){
+                $("#"+propname).addClass(propclassname);
+            }
+            
             $("#"+propname+"_root").treeview();
             
             $("#"+propname+"_anchor").focus(function(){
@@ -211,32 +231,46 @@
                     }
                 }
             });
-            this.left=function(l){
-                if(l==missing)
+            this.left=function(v){
+                if(v==missing)
                     return propleft;
                 else
-                    propleft=l;
+                    propleft=v;
                 propobj.refreshattr();
             }
-            this.top=function(t){
-                if(t==missing)
+            this.top=function(v){
+                if(v==missing)
                     return proptop;
                 else
-                    proptop=t;
+                    proptop=v;
                 propobj.refreshattr();
             }
-            this.width=function(w){
-                if(w==missing)
+            this.width=function(v){
+                if(v==missing)
                     return propwidth;
                 else
-                    propwidth=w;
+                    propwidth=v;
                 propobj.refreshattr();
             }
-            this.height=function(h){
-                if(h==missing)
+            this.height=function(v){
+                if(v==missing)
                     return propheight;
                 else
-                    propheight=h;
+                    propheight=v;
+                propobj.refreshattr();
+            }
+            this.right=function(v){
+                if(v==missing)
+                    return propright;
+                else
+                    propright=v;
+                propobj.refreshattr();
+            }
+            this.bottom=function(v){
+                if(v==missing)
+                    return propbottom;
+                else
+                    propbottom=v;
                 propobj.refreshattr();
             }
             this.move=function(params){
@@ -244,10 +278,9 @@
                 if(params.top!=missing){proptop=params.top}
                 if(params.width!=missing){propwidth=params.width}
                 if(params.height!=missing){propheight=params.height}
+                if(params.right!=missing){propright=params.right}
+                if(params.bottom!=missing){propbottom=params.bottom}
                 propobj.refreshattr();
-            }
-            this.refreshattr=function(){
-                $("#"+propname).css({"left":propleft,"top":proptop,"width":propwidth,"height":propheight});
             }
             this.addfolder=function(params){
                 var c="closed";
@@ -505,6 +538,17 @@
             }
             this.rootid=function(){
                 return "k1";
+            }
+            function refreshattr(){
+                $("#"+propname).css({"left":propleft,"top":proptop});
+                if(propright!==false)
+                    $("#"+propname).css({"right":propright});
+                else
+                    $("#"+propname).css({"width":propwidth});
+                if(propbottom!==false)
+                    $("#"+propname).css({"bottom":propbottom});
+                else if(propheight!==false)
+                    $("#"+propname).css({"height":propheight});
             }
             function createtrigger(evt, name){
                 var id,open,info,type,text,parent,selector;

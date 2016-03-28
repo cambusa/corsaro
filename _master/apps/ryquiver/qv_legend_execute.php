@@ -27,13 +27,6 @@ function qv_legend_execute($maestro, $data){
         $message="Operazione riuscita";
         $SYSID="";
 
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if(isset($data["PROGRESS"]))
-            $PROGRESS=intval($data["PROGRESS"]);
-        else
-            $PROGRESS=0;
-        $BLOCKSIZE=1000;
-        
         // INIZIALIZZO LA CREZIONE SI SYSID DI MASSA
         qv_bulkinitialize($maestro);
         
@@ -105,9 +98,6 @@ function qv_legend_execute($maestro, $data){
         $SEEKER->praticaid=$PRATICAID;
         
         $SEEKER->maestro=&$maestro;
-        
-        $SEEKER->progressenabled=$PROGRESS;
-        $SEEKER->progressblock=$BLOCKSIZE;
         
         // DETERMINO LA TOTALITA' DELLE FRECCE COINVOLTE 
         $QUERIES=$data["QUERIES"];
@@ -204,19 +194,10 @@ function qv_legend_execute($maestro, $data){
         }
         // RIAPRO UNA TRANSAZIONE
         maestro_begin($maestro);
-        
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if($PROGRESS){
-            print "Y";
-        }
     }
     catch(Exception $e){
         $success=0;
         $message=$e->getMessage();
-        // UTILE PER AVANZAMENTO DA CLIENT
-        if($PROGRESS){
-            print "Y";
-        }
     }
     // USCITA JSON
     $j=array();

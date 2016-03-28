@@ -14,9 +14,14 @@
             var propleft=20;
             var proptop=20;
             var propwidth=200;
-            var propheight=400;
-            var propenviron="admin";
+            var propheight=false;
+            var propright=false;
+            var propbottom=false;
+            var propbackground="";
+            var propclassname=false;
+            var propborder=false;
             var propscroll=1;
+            var propenviron="admin";
             var propstartup="";
             var propsessionid="";
             var propdbenv="";
@@ -30,6 +35,11 @@
             if(settings.top!=missing){proptop=settings.top}
             if(settings.width!=missing){propwidth=settings.width}
             if(settings.height!=missing){propheight=settings.height}
+            if(settings.right!=missing){propright=settings.right}
+            if(settings.bottom!=missing){propbottom=settings.bottom}
+            if(settings.border!=missing){propborder=settings.border}
+            if(settings.background!=missing){propbackground=settings.background}
+            if(settings.classname!=missing){propclassname=settings.classname}
             if(settings.environ!=missing){propenviron=settings.environ}
             if(settings.scroll!=missing){propscroll=settings.scroll}
             if(settings.startup!=missing){propstartup=settings.startup}
@@ -46,6 +56,11 @@
                 top:proptop,
                 width:propwidth,
                 height:propheight,
+                right:propright,
+                bottom:propbottom,
+                border:propborder,
+                background:propbackground,
+                classname:propclassname,
                 scroll:propscroll,
                 expand:function(o, trig){
                     var path=o.getpath(trig.id).join("/");
@@ -82,7 +97,9 @@
                 if(params.top!=missing){proptop=params.top}
                 if(params.width!=missing){propwidth=params.width}
                 if(params.height!=missing){propheight=params.height}
-                objfamily.move({left:propleft,top:proptop,width:propwidth,height:propheight});
+                if(params.right!=missing){propright=params.right}
+                if(params.bottom!=missing){propbottom=params.bottom}
+                objfamily.move({left:propleft,top:proptop,width:propwidth,height:propheight,right:propright,bottom:propbottom});
             }
             this.name=function(){
                 return propname;

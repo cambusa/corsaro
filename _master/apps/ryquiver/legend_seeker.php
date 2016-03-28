@@ -28,8 +28,6 @@ class rySeeker{
     public $gaugeid;
     public $lasterrnumber;
     public $lasterrdescription;
-    public $progressenabled;
-    public $progressblock;
     public $trdate;
     
     public function rySeeker(){
@@ -48,8 +46,6 @@ class rySeeker{
         $this->gaugeid="";
         $this->lasterrnumber=0;
         $this->lasterrdescription="";
-        $this->progressenabled=0;
-        $this->progressblock=1000;
         $this->trdate=array("-", ":", "T", " ", "'", ".");
     }
     public function dataload($NAME=""){
@@ -528,21 +524,8 @@ class rySeeker{
         $d=date_create(substr($d,0,4)."-".substr($d,4,2)."-".substr($d,6,2));
         return date_format(ry_dateadd($d, $days), "Ymd");
     }
-    public function progressenabled($size=1000){
-        $this->progressenabled=false;
-        $this->progressblock=1000;
-    }
-    public function progressinit($total){
-        if($this->progressenabled){
-            print substr( $total . str_repeat(" ", $this->progressblock), 0, $this->progressblock);
-            flush();
-        }
-    }
-    public function progress(){
-        if($this->progressenabled){
-            print str_repeat("X", $this->progressblock);
-            flush();
-        }
+    public function progress($mess){
+        _qv_progress($mess);
     }
 }
 ?>
