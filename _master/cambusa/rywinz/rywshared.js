@@ -10,6 +10,7 @@
 ****************************************************************************/
 var _openingid="";
 var _openingname="";
+var _openingpath="";
 var _openingparams="({})";
 var _winzprogrid=0;
 var _globalforms=new Object();

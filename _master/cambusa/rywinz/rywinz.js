@@ -21,6 +21,7 @@ function ryWinz(missing){
         o.id=formid;
         o.controls=new Object();
         o.classform=name;
+        o.pathname=_openingpath;
         o.jqxhr=false;
         o.timeid=false;
         o.opens=0;
@@ -261,6 +262,7 @@ function ryWinz(missing){
                         if(objscripts[propname]==missing){
                             _openingid=propid;
                             _openingname=propname;
+                            _openingpath=proppath+propname;
                             $.getScript(proppath+propname+".js")
                                 .done(function(){
                                     if(window.console&&_sessioninfo.debugmode)console.log(_openingparams);
@@ -274,11 +276,13 @@ function ryWinz(missing){
                                     setTimeout(function(){raiseResize(propid)});
                                     _openingid="";
                                     _openingname="";
+                                    _openingpath="";
                                     _openingparams="({})";
                                 })
                                 .fail(function(jqxhr, settings, exception){
                                     _openingid="";
                                     _openingname="";
+                                    _openingpath="";
                                     alert(exception);
                                 });
                         }
@@ -286,6 +290,7 @@ function ryWinz(missing){
                             if(window.console&&_sessioninfo.debugmode)console.log(propname+".js already loaded.");
                             _openingid=propid;
                             _openingname=propname;
+                            _openingpath=proppath+propname;
                             if(window.console&&_sessioninfo.debugmode)console.log(_openingparams);
                             var objform=eval("new class_"+propname+"("+_openingparams+")");
                             if(settings.initialize!=missing){
@@ -297,6 +302,7 @@ function ryWinz(missing){
                             setTimeout(function(){raiseResize(propid)});
                             _openingid="";
                             _openingname="";
+                            _openingpath="";
                             _openingparams="({})";
                         }
                     }

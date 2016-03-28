@@ -1,5 +1,5 @@
 ==================================
-Rilascio 1.70.26    del XX/03/2016
+Rilascio 1.70.26    del 28/03/2016
 ==================================
 
 Perfezionato il comportamnto di RYWINZ.Abort().
