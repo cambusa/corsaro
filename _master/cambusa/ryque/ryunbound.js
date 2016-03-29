@@ -481,7 +481,7 @@
                 });
                 $("#"+propname+"_hscroll").mouseover(
                     function(evt){
-                        if(propgridwidth>propwinwidth && !propeditmode && propenabled)
+                        if(propgridwidth>propwinwidth && propenabled)
                             $("#"+propname+"_hscroll .ryque-pageleft,#"+propname+"_hscroll .ryque-pageright").show();
                     }
                 );
@@ -492,12 +492,12 @@
                 );
                 $("#"+propname+"_hscroll .ryque-pageleft").click(
                     function(evt){
-                        propobj.rowleft();
+                        scrollLeft();
                     }
                 );
                 $("#"+propname+"_hscroll .ryque-pageright").click(
                     function(evt){
-                        propobj.rowright();
+                        scrollRight();
                     }
                 );
 
@@ -510,9 +510,9 @@
                             var o=$("#"+propname+"_htrack").offset();
                             if(evt.pageY>o.top){
                                 if (evt.pageX>o.left+proptracksize)
-                                    propobj.rowright();
+                                    scrollRight();
                                 else if (evt.pageX<o.left)
-                                    propobj.rowleft();
+                                    scrollLeft();
                             }
                         }
                     }
@@ -535,13 +535,13 @@
                     $("#"+propname+"_mobihoriback").mousedown(
                         function(evt){
                             if(!propenabled){return}
-                            propobj.rowleft();
+                            scrollLeft();
                         }
                     );
                     $("#"+propname+"_mobihorifore").mousedown(
                         function(evt){
                             if(!propenabled){return}
-                            propobj.rowright();
+                            scrollRight();
                         }
                     );
                 }
@@ -1152,12 +1152,15 @@
                     }
                 }
                 else{
-                    propleftcol+=50;
-                    if(propleftcol>propgridwidth-propwinwidth)
-                        propleftcol=propgridwidth-propwinwidth;
-                    $("#"+propname+"_grid").css({"left":-propleftcol});
-                    propobj.hscrefresh();
+                    scrollRight();
                 }
+            }
+            function scrollRight(){
+                propleftcol+=50;
+                if(propleftcol>propgridwidth-propwinwidth)
+                    propleftcol=propgridwidth-propwinwidth;
+                $("#"+propname+"_grid").css({"left":-propleftcol});
+                propobj.hscrefresh();
             }
             this.rowleft=function(){
                 if(propeditmode){
@@ -1168,12 +1171,15 @@
                     }
                 }
                 else{
-                    propleftcol-=50;
-                    if(propleftcol<0)
-                        propleftcol=0;
-                    $("#"+propname+"_grid").css({"left":-propleftcol});
-                    propobj.hscrefresh();
+                    scrollLeft();
                 }
+            }
+            function scrollLeft(){
+                propleftcol-=50;
+                if(propleftcol<0)
+                    propleftcol=0;
+                $("#"+propname+"_grid").css({"left":-propleftcol});
+                propobj.hscrefresh();
             }
             this.rowhome=function(){
                 if(propeditmode){

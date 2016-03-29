@@ -386,7 +386,7 @@ $.extend({
                 docfail={success:0, message:m};
             issue($.stringify(docfail));
         });
-        if(data.progressid!=""){
+        if($.isset(data.progressid)){
             hprogress=setInterval(function(){
                 $.get(_systeminfo.web.customize+"temporary/"+data.progressid+".txt")
                 .done(function(d){
