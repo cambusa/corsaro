@@ -32,6 +32,9 @@ function ryWinz(missing){
         o.options.statusbar=(s.statusbar!=missing ? s.statusbar : true);
         o.options.desk=(s.desk!=missing ? s.desk : false);
         o.options.mono=(s.id!=missing);
+        // mosca
+        o.options.title=(s.title!=missing ? s.title : "");
+        o.options.title=o.options.title.replace(/[']/gi, "&acute;");
         // EVENTO DI STOP DELLE RICHIESTE
         $("#stop_"+formid).click(
             function(){
@@ -56,6 +59,10 @@ function ryWinz(missing){
                 }
             }
         });
+        // mosca
+        JQD.util.window_title(formid);
+        if(o.options.statusbar)
+            winzShowInfo(formid);
         return formid;
     }
     this.removeform=function(id, done){
@@ -371,12 +378,30 @@ function ryWinz(missing){
         catch(e){}
     }
     this.formclose=function(id){
-        if(id!="rudder"){
+        //if(id!="rudder"){
             var h="#icon_dock_"+id;
             var ret=raiseUnload(id);
             if(ret!==false){
                 $("#window_"+id).hide();
                 $(h).hide('fast');
+                
+                // mosca
+                var nextid="";
+                $(".window").each(function(index){
+                    var currid=this.id.substr(7);
+                    if(currid!=id){
+                        nextid=currid;
+                    }
+                });
+                if(nextid!=""){
+                    JQD.util.window_flat();
+                    $("#window_"+nextid).addClass('window_stack').show();
+                    JQD.util.window_title(nextid);
+                }
+                else{
+                    $("#WINZ_TITLE").html("");
+                }
+                
                 if($("#icon_desk_"+id).length == 0){ // Se non ha icona sul desktop, lo rimuovo totalmente
                     if(window.console&&_sessioninfo.debugmode)console.log("Rimozione "+id);
                     $("#window_"+id).remove();
@@ -384,7 +409,7 @@ function ryWinz(missing){
                     RYWINZ.removeform(id);
                 }
             }
-        }
+        //}
     }
     function createid(){
         _winzprogrid++;

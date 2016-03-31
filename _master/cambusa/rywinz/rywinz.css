@@ -207,3 +207,15 @@ color:navy;
 #winz-about a:hover{
 color:navy;
 }
+
+.winz-no-shadow{
+text-shadow:none;
+}
+
+.winz-maintitle{
+text-shadow:none;
+text-align:center;
+font-size:18px;
+font-family:verdana,sans-serif;
+color:black;
+}

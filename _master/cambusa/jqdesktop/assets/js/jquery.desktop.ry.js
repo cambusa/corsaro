@@ -104,6 +104,9 @@ var JQD = (function($, window, document, undefined) {
           // Bring window to front.
           JQD.util.window_flat();
           $(y).addClass('window_stack').show();
+          
+          // mosca
+          JQD.util.window_title(y.substr(8));
         });
 
 		// Respond to RUDYZ click.
@@ -121,6 +124,18 @@ var JQD = (function($, window, document, undefined) {
           // Bring window to front.
           JQD.util.window_flat();
           $(y).addClass('window_stack').show();
+          
+          // mosca
+          switch(this.id){
+          case "WINZ_POSTMAN":
+            if($.isset(_globalforms["postman"]))
+              JQD.util.window_title("postman");
+            break;
+          case "WINZ_PILOTA":
+            if($.isset(_globalforms["rudder"]))
+              JQD.util.window_title("rudder");
+            break;
+          }
           
 		  //JQD.util.window_resize(y);  // Massimizzo
 		  JQD.util.clear_active();
@@ -149,6 +164,10 @@ var JQD = (function($, window, document, undefined) {
             // Bring window to front.
             JQD.util.window_flat();
             x.show().addClass('window_stack');
+
+            // mosca
+            var h=$(this).attr('href');
+            JQD.util.window_title(h.substr(8));
           //}
         });
 
@@ -158,6 +177,9 @@ var JQD = (function($, window, document, undefined) {
           if(!$(this).hasClass('window_stack')){     // Rudyz
               JQD.util.window_flat();
               $(this).addClass('window_stack');
+              
+              // mosca
+              JQD.util.window_title(this.id.substr(7));
           }
         });
 
@@ -214,6 +236,10 @@ var JQD = (function($, window, document, undefined) {
           //$($(this).attr('href')).hide('fast');
           var h=$(this).attr('href');
           var id=h.substr(11);
+          // mosca
+          if(window.console&&_sessioninfo.debugmode)console.log("Chiusura "+id);
+          RYWINZ.FormClose(id);
+          /*
           var ret=raiseUnload(id);
           if(ret!==false){
             $(this).closest('div.window').hide();
@@ -225,6 +251,7 @@ var JQD = (function($, window, document, undefined) {
                 RYWINZ.removeform(id);
             }
           }
+          */
         });
 
         // Show desktop button, ala Windows OS.
@@ -279,6 +306,17 @@ var JQD = (function($, window, document, undefined) {
       //
       // Resize modal window.
       //
+      // mosca
+      // Title.
+      //
+      window_title: function(id){
+        var o=_globalforms[id].options;
+        var t=o.title;
+        if(o.controls || id=="rudder")
+          $("#WINZ_TITLE").html("");
+        else
+          $("#WINZ_TITLE").html(t);
+      },
       window_resize: function(el) {
         // Nearest parent window.
         var win = $(el).closest('div.window');

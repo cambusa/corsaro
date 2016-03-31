@@ -107,6 +107,9 @@ function qv_printcall(formid, objgrid, template, pdf, options, missing){
 }
 function qv_titlebar(objtabs, settings){
     // SE NON E' VISIBILE LA BARRA DEI CONTROLLI, METTE IL TITOLO SULLA BARRA DEI TABS
+    // mosca
+    // RESO INUTILE DAL MECCANISMO CHE PORTA IL TITOLO SULL'MDI
+    /*
     if($.isset(settings.controls) && !settings.controls.actualBoolean() && $.isset(settings.title)){
         var handler=objtabs.customleft();
         $("#"+handler)
@@ -114,6 +117,7 @@ function qv_titlebar(objtabs, settings){
         .html("<span id='"+handler+"__title' style='cursor:default;padding-right:50px;color:#006699;'></span>");
         $("#"+handler+"__title").css({"font-size":"18px", "line-height":"18px"}).html(settings.title);
     }
+    */
 }
 function qv_bulkdelete(formid, objgrid, prefix){
     winzMessageBox(formid, {

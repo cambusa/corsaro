@@ -311,6 +311,7 @@ foreach($RYWINZ->tools->items as $k => $v){
 				</ul>
 			</li>
 		</ul>
+        <div id="WINZ_TITLE" class="winz-maintitle"></div>
 	</div>
     
     <div class="abs" id="bar_bottom">
