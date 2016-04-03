@@ -21,9 +21,9 @@
             var proptitleheight=40;
             var propcapwidth=15;
             var propstrokewidth=1;
-            var propstyle="default";
-            var propvalues=[100, 200, -150, 170,80];
+            var propvalues=[];
             var propcaptions=false;
+            var propitems=false;
             var proptitle="";
             var propcaptionx="";
             var propcaptiony="";
@@ -35,18 +35,31 @@
 			var propobj=this;
 			var propname=$(this).attr("id");
 			
-			if(settings.left!=missing){propleft=settings.left;}
-			if(settings.top!=missing){proptop=settings.top;}
-			if(settings.width!=missing){propwidth=settings.width;}
-            if(settings.height!=missing){propheight=settings.height;}
-            if(settings.values!=missing){propvalues=settings.values;}
-            if(settings.captions!=missing){propcaptions=settings.captions;}
-            if(settings.captionrate!=missing){propcaptionrate=settings.captionrate;}
-            if(settings.title!=missing){proptitle=settings.title;}
-            if(settings.captionx!=missing){propcaptionx=settings.captionx;}
-            if(settings.captiony!=missing){propcaptiony=settings.captiony;}
-            if(settings.barwidth!=missing){propbarwidth=settings.barwidth;}
-            if(settings.barskip!=missing){propbarskip=settings.barskip;}
+			if(settings.left!=missing){propleft=settings.left}
+			if(settings.top!=missing){proptop=settings.top}
+			if(settings.width!=missing){propwidth=settings.width}
+            if(settings.height!=missing){propheight=settings.height}
+            if(settings.values!=missing){propvalues=settings.values}
+            if(settings.captions!=missing){propcaptions=settings.captions}
+            if(settings.items!=missing){propitems=settings.items}
+            if(settings.captionrate!=missing){propcaptionrate=settings.captionrate}
+            if(settings.title!=missing){proptitle=settings.title}
+            if(settings.captionx!=missing){propcaptionx=settings.captionx}
+            if(settings.captiony!=missing){propcaptiony=settings.captiony}
+            if(settings.barwidth!=missing){propbarwidth=settings.barwidth}
+            if(settings.barskip!=missing){propbarskip=settings.barskip}
+            
+            if(propitems){
+                propvalues=[];
+                propcaptions=[];
+                for(var i in propitems){
+                    propvalues.push(propitems[i].value);
+                    if(propitems[i].caption)
+                        propcaptions.push(propitems[i].caption);
+                    else
+                        propcaptions.push( (i+1).toString() );
+                }
+            }
             
             // Determino minimo e massimo dei valori
             for(var i in propvalues){
@@ -57,7 +70,7 @@
             }
             
             if(propcaptions===false){
-                propcaptions=new Array();
+                propcaptions=[];
                 for(var i=0;i<propvalues.length;i++){
                     propcaptions[i]=(i+1);
                 }
@@ -227,6 +240,235 @@
 			this.name=function(){
 				return propname;
 			}
+			return this;
+		},
+		rypie:function(settings){
+			var propleft=20;
+			var proptop=20;
+			var propwidth=0;
+			var propheight=500;
+            var propradius=500;
+            var propmargin=50;
+            var propitems=[];
+            var propnormalization=100;
+            var propprecision=0;
+            var proptitle="";
+            var propbackground="transparent";
+			var propobj=this;
+			var propname=$(this).attr("id");
+			
+			if(settings.left!=missing){propleft=settings.left}
+			if(settings.top!=missing){proptop=settings.top}
+			if(settings.width!=missing){propwidth=settings.width}
+            if(settings.height!=missing){propheight=settings.height}
+            if(settings.items!=missing){propitems=settings.items}
+            if(settings.normalization!=missing){propnormalization=settings.normalization}
+            if(settings.precision!=missing){propprecision=settings.precision}
+            if(settings.title!=missing){proptitle=settings.title}
+            if(settings.background!=missing){propbackground=settings.background}
+            
+            var colorvalues=[
+                "#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff", 
+                "#cc8822", "#2288cc", "#8822cc", "#22cc88", "#cc2288", "#00aaff",
+                "#aa4400", "#44aa00", "#4400aa", "#aa0044", "#00aa44", "#0044aa"
+            ];
+            
+            // Normalizzo i valori e li memorizzo in un nuovo oggetto
+            var objitems=[];
+            
+            // Totalizzazione
+            var tot=0;
+            for(var i in propitems){
+                if(propitems[i].value>=0){
+                    // Totalizzazione
+                    tot+=propitems[i].value;
+                    objitems.push(propitems[i]);
+                }
+            }
+
+            // Risoluzione valori di default
+            for(var i in objitems){
+                // Gestione etichetta
+                if(!$.isset(objitems[i].caption))
+                    objitems[i].caption="<VALUE>";
+                var vl=(propnormalization*objitems[i].value/tot).toFixed(propprecision).toString();
+                if(propnormalization==100)
+                    vl+="%";
+                objitems[i].caption=objitems[i].caption.replace(/<VALUE>/g, vl);
+                
+                // Gestione colore
+                if(!$.isset(objitems[i].color)){
+                    if(i<colorvalues.length)
+                        objitems[i].color=colorvalues[i];
+                    else
+                        objitems[i].color="rgb(" + Math.floor(255*(i%3==0 ? 1 : 0)) + "," + Math.floor(255*(i%3==1 ? 1 : 0)) + "," + Math.floor(255*(i%3==2 ? 1 : 0)) + ")";
+                }
+            }
+            
+            var cx=propmargin+propradius;
+            var cy=propmargin+Math.round((propheight-2*propmargin)/2);
+            var rad = Math.PI / 180;
+            var startAngle=0;
+            var endAngle,capangle,x1,x2,y1,y2,tx,prevy=false,prevs=1;
+            var minleft=cx, maxright=cx;
+            var mintop=cy, maxbottom=cy;
+            
+            $("#"+propname).addClass("rypie");
+            $("#"+propname).css({position:"absolute",left:propleft,top:proptop,"background":propbackground});
+
+            $("#"+propname).html("");
+
+            // Calcolo la larghezza delle etichette
+            // Creo uno span temporaneo
+            $("body").append("<span id='__rydraw' style='visibility:hidden;font-family:sans-serif;font-size:18px;'><span>");
+            for(var i in objitems){
+                $("#__rydraw").html( objitems[i].caption );
+                // Memorizzo nella struttura la larghezza dell'etichetta
+                objitems[i].width=$("#__rydraw").width();
+            }
+            // Distruggo lo span temporaneo
+            $("#__rydraw").remove();
+            
+            // Traccio il diagramma in prova con un raggio pivot
+            var limits=drawing(true);
+            minleft=limits.left;
+            maxright=limits.right;
+            mintop=limits.top;
+            maxbottom=limits.bottom;
+            
+            if(propwidth>0){
+                while(maxright-minleft>propwidth-propmargin || maxbottom-mintop>propheight-2*propmargin){
+                    propradius-=25;
+                    if(propradius>50){
+                        limits=drawing(true);
+                        minleft=limits.left;
+                        maxright=limits.right;
+                        mintop=limits.top;
+                        maxbottom=limits.bottom;
+                    }
+                    else
+                        break;
+                }
+            }
+            else{
+                while(maxbottom-mintop>propheight-2*propmargin){
+                    propradius-=25;
+                    if(propradius>50){
+                        limits=drawing(true);
+                        minleft=limits.left;
+                        maxright=limits.right;
+                        mintop=limits.top;
+                        maxbottom=limits.bottom;
+                    }
+                    else
+                        break;
+                }
+                propwidth=maxright-minleft+2*propmargin;
+            }
+            
+            // Riposiziono il centro
+            cx=propmargin/2+limits.size+propradius*1.1;
+
+            // Istanzio paper
+            var paper=Raphael(propname, propwidth, propheight);
+            
+            // Traccio il cerchio
+            paper.circle(cx, cy, propradius);
+            
+            if(tot>0.0001){
+                drawing(false);
+            }
+            if(proptitle!=""){
+                var tx=paper.text(10, 15, proptitle);
+                tx.attr({"font-size":"18px", "font-family":"sans-serif", "fill":"gray"});
+                $("tspan", tx.node).attr({"dy":7,"text-anchor":"start"});
+            }
+            
+			this.name=function(){
+				return propname;
+			}
+            
+            function drawing(test){
+                startAngle=90;
+                var minleft=cx, maxright=cx;
+                var mintop=cy, maxbottom=cy;
+                var size=0;
+                for(var i in objitems){
+                    endAngle=startAngle+360*objitems[i].value/tot;
+                    x1 = cx + propradius * Math.cos(-startAngle * rad);
+                    y1 = cy + propradius * Math.sin(-startAngle * rad);
+                    x2 = cx + propradius * Math.cos(-endAngle * rad);
+                    y2 = cy + propradius * Math.sin(-endAngle * rad);
+                    
+                    if(!test)
+                        paper.path(["M", cx, cy, "L", x1, y1, "A", propradius, propradius, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr({"stroke-width":0, "fill": objitems[i].color})
+
+                    capangle=startAngle+360*objitems[i].value/tot/2;
+                    x1 = cx + propradius * Math.cos(-capangle * rad) / 2;
+                    y1 = cy + propradius * Math.sin(-capangle * rad) / 2;
+                    x2 = cx + propradius * Math.cos(-capangle * rad) * 1.1;
+                    y2 = cy + propradius * Math.sin(-capangle * rad) * 1.1;
+                    
+                    var deltay=0;
+                    if(prevy!==false && Math.sign(x2-x1)==prevs){
+                        if(Math.cos(-capangle * rad)>0){
+                            // dx
+                            if(prevy-y2<24){
+                                deltay=prevy-y2-24;
+                            }
+                        }
+                        else{
+                            // sx
+                            if(y2-prevy<24){
+                                deltay=24-y2+prevy;
+                            }
+                        }
+                    }
+                    prevy=y2+deltay;
+                    prevs=Math.sign(x2-x1);
+                    
+                    if(!test){
+                        // linea obliqua
+                        paper.path("M"+x1+","+y1+" L"+x2+","+y2).attr({"stroke-width":1, "stroke":"silver"});
+                        
+                        // lineetta orizzontale ed etichetta
+                        if(x1<x2){
+                            paper.path("M"+x2+","+y2+" L"+(x2+30)+","+(y2+deltay)).attr({"stroke-width":1, "stroke":"silver"});
+                        
+                            tx=paper.text(x2+33, (y2+deltay), objitems[i].caption);
+                            tx.attr({"font-size":"18px", "font-family":"sans-serif", "fill":"navy"});
+                            $("tspan", tx.node).attr({"dy":7, "text-anchor":"start"});
+                        }
+                        else{
+                            paper.path("M"+x2+","+y2+" L"+(x2-30)+","+(y2+deltay)).attr({"stroke-width":1, "stroke":"silver"});
+
+                            tx=paper.text(x2-33, (y2+deltay), objitems[i].caption);
+                            tx.attr({"font-size":"18px", "font-family":"sans-serif", "fill":"navy"});
+                            $("tspan", tx.node).attr({"dy":7, "text-anchor":"end"});
+                        }
+                    }
+                    if(x1<x2)
+                        x2=x2+33+objitems[i].width;
+                    else
+                        x2=x2-33-objitems[i].width;
+                    if(minleft>x2){
+                        minleft=x2;
+                        size=33+objitems[i].width;
+                    }
+
+                    if(maxright<x2)
+                        maxright=x2;
+
+                    if(mintop>y2)
+                        mintop=y2;
+
+                    if(maxbottom<y2)
+                        maxbottom=y2;
+
+                    startAngle=endAngle
+                }
+                return {left:minleft, right:maxright, top:mintop , bottom:maxbottom, size:size};
+            }
 			return this;
 		}
 	});

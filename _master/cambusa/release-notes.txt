@@ -1,10 +1,12 @@
 ==================================
-Rilascio 1.70.27    del XX/03/2016
+Rilascio 1.70.27    del 04/04/2016
 ==================================
 
 ryUnbound: corretto lo scroll orizzontale con editmode abilitato.
 
 ryWinz: riportato il titolo sull'MDI per i form senza barra (top) dei controlli.
+
+ryDraw: implementato il grafico a torta.
 
 ==================================
 Rilascio 1.70.26    del 28/03/2016
