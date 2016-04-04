@@ -284,7 +284,7 @@
             // Generazione colori
             var colorvalues=[];
             var l=objitems.length;
-            for(var i=0; i<360; i++){
+            for(var i=0; i<l; i++){
                 colorvalues.push("hsl(" + 360*i/l + "," + 90 + "," + 50 + ")")
             }
             
