@@ -261,17 +261,12 @@
 			if(settings.top!=missing){proptop=settings.top}
 			if(settings.width!=missing){propwidth=settings.width}
             if(settings.height!=missing){propheight=settings.height}
+            if(settings.radius!=missing){propradius=settings.radius}
             if(settings.items!=missing){propitems=settings.items}
             if(settings.normalization!=missing){propnormalization=settings.normalization}
             if(settings.precision!=missing){propprecision=settings.precision}
             if(settings.title!=missing){proptitle=settings.title}
             if(settings.background!=missing){propbackground=settings.background}
-            
-            var colorvalues=[
-                "#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff", 
-                "#cc8822", "#2288cc", "#8822cc", "#22cc88", "#cc2288", "#00aaff",
-                "#aa4400", "#44aa00", "#4400aa", "#aa0044", "#00aa44", "#0044aa"
-            ];
             
             // Normalizzo i valori e li memorizzo in un nuovo oggetto
             var objitems=[];
@@ -286,7 +281,13 @@
                 }
             }
 
-            // Risoluzione valori di default
+            // Generazione colori
+            var colorvalues=[];
+            var l=objitems.length;
+            for(var i=0; i<360; i++){
+                colorvalues.push("hsl(" + 360*i/l + "," + 90 + "," + 50 + ")")
+            }
+            
             for(var i in objitems){
                 // Gestione etichetta
                 if(!$.isset(objitems[i].caption))
@@ -298,18 +299,14 @@
                 
                 // Gestione colore
                 if(!$.isset(objitems[i].color)){
-                    if(i<colorvalues.length)
-                        objitems[i].color=colorvalues[i];
-                    else
-                        objitems[i].color="rgb(" + Math.floor(255*(i%3==0 ? 1 : 0)) + "," + Math.floor(255*(i%3==1 ? 1 : 0)) + "," + Math.floor(255*(i%3==2 ? 1 : 0)) + ")";
+                    objitems[i].color=colorvalues[i];
                 }
             }
             
             var cx=propmargin+propradius;
-            var cy=propmargin+Math.round((propheight-2*propmargin)/2);
+            var cy=propmargin+propradius;
             var rad = Math.PI / 180;
             var startAngle=0;
-            var endAngle,capangle,x1,x2,y1,y2,tx,prevy=false,prevs=1;
             var minleft=cx, maxright=cx;
             var mintop=cy, maxbottom=cy;
             
@@ -350,7 +347,7 @@
                         break;
                 }
             }
-            else{
+            else if(propheight>0){
                 while(maxbottom-mintop>propheight-2*propmargin){
                     propradius-=25;
                     if(propradius>50){
@@ -365,9 +362,14 @@
                 }
                 propwidth=maxright-minleft+2*propmargin;
             }
+            else{
+                propwidth=maxright-minleft+2*propmargin;
+                propheight=maxbottom-mintop+4*propmargin;
+            }
             
             // Riposiziono il centro
             cx=propmargin/2+limits.size+propradius*1.1;
+            cy=propmargin+(maxbottom-mintop)/2;
 
             // Istanzio paper
             var paper=Raphael(propname, propwidth, propheight);
@@ -389,43 +391,72 @@
 			}
             
             function drawing(test){
-                startAngle=90;
-                var minleft=cx, maxright=cx;
-                var mintop=cy, maxbottom=cy;
+                var endAngle,capangle,x1,x2,y1,y2,tx,prevy=false,prevs=1;
+                var minleft=cx-propradius-propmargin/2, maxright=cx+propradius+propmargin;
+                var mintop=cy-propradius-propmargin/2, maxbottom=cy+propradius+propmargin;
                 var size=0;
+                startAngle=90;
                 for(var i in objitems){
-                    endAngle=startAngle+360*objitems[i].value/tot;
-                    x1 = cx + propradius * Math.cos(-startAngle * rad);
-                    y1 = cy + propradius * Math.sin(-startAngle * rad);
-                    x2 = cx + propradius * Math.cos(-endAngle * rad);
-                    y2 = cy + propradius * Math.sin(-endAngle * rad);
-                    
-                    if(!test)
-                        paper.path(["M", cx, cy, "L", x1, y1, "A", propradius, propradius, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr({"stroke-width":0, "fill": objitems[i].color})
+                    if(objitems.length>1){
+                        endAngle=startAngle+360*objitems[i].value/tot;
+                        x1 = cx + propradius * Math.cos(-startAngle * rad);
+                        y1 = cy + propradius * Math.sin(-startAngle * rad);
+                        x2 = cx + propradius * Math.cos(-endAngle * rad);
+                        y2 = cy + propradius * Math.sin(-endAngle * rad);
+                        if(!test)
+                            paper.path(["M", cx, cy, "L", x1, y1, "A", propradius, propradius, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr({"stroke-width":0, "fill": objitems[i].color})
+                    }
+                    else{
+                        endAngle=450;
+                        if(!test)
+                            paper.circle(cx, cy, propradius).attr({"stroke-width":0, "fill":objitems[i].color});
+                    }
+                    startAngle=endAngle
+                }
+                startAngle=90;
+                for(var i in objitems){
+                    if(objitems.length>1){
+                        endAngle=startAngle+360*objitems[i].value/tot;
+                        capangle=startAngle+360*objitems[i].value/tot/2;
+                    }
+                    else{
+                        endAngle=450;
+                        capangle=430;
+                    }
 
-                    capangle=startAngle+360*objitems[i].value/tot/2;
                     x1 = cx + propradius * Math.cos(-capangle * rad) / 2;
                     y1 = cy + propradius * Math.sin(-capangle * rad) / 2;
                     x2 = cx + propradius * Math.cos(-capangle * rad) * 1.1;
                     y2 = cy + propradius * Math.sin(-capangle * rad) * 1.1;
                     
                     var deltay=0;
-                    if(prevy!==false && Math.sign(x2-x1)==prevs){
+                    var deltax=0;
+                    if(prevy!==false && signum(x2-x1)==prevs){
                         if(Math.cos(-capangle * rad)>0){
-                            // dx
-                            if(prevy-y2<24){
+                            if(prevy-y2<24) // dx
                                 deltay=prevy-y2-24;
-                            }
                         }
                         else{
-                            // sx
-                            if(y2-prevy<24){
+                            if(y2-prevy<24) // sx
                                 deltay=24-y2+prevy;
-                            }
                         }
                     }
                     prevy=y2+deltay;
-                    prevs=Math.sign(x2-x1);
+                    prevs=signum(x2-x1);
+                    if(prevs==0)
+                        prevs=-1;
+                    
+                    var d=Math.pow(x2-cx, 2) + Math.pow(y2+deltay-cy, 2) - Math.pow(propradius, 2);
+                    if(x1<x2){
+                        deltax=30; // dx
+                        if(d<0)
+                            deltax+=Math.floor(propradius/4);
+                    }
+                    else{
+                        deltax=-30; // sx
+                        if(d<0)
+                            deltax-=Math.floor(propradius/4);
+                    }
                     
                     if(!test){
                         // linea obliqua
@@ -433,41 +464,45 @@
                         
                         // lineetta orizzontale ed etichetta
                         if(x1<x2){
-                            paper.path("M"+x2+","+y2+" L"+(x2+30)+","+(y2+deltay)).attr({"stroke-width":1, "stroke":"silver"});
+                            paper.path("M"+x2+","+y2+" L"+(x2+deltax)+","+(y2+deltay)).attr({"stroke-width":1, "stroke":"silver"});
                         
-                            tx=paper.text(x2+33, (y2+deltay), objitems[i].caption);
+                            tx=paper.text(x2+deltax+3, (y2+deltay), objitems[i].caption);
                             tx.attr({"font-size":"18px", "font-family":"sans-serif", "fill":"navy"});
                             $("tspan", tx.node).attr({"dy":7, "text-anchor":"start"});
                         }
                         else{
-                            paper.path("M"+x2+","+y2+" L"+(x2-30)+","+(y2+deltay)).attr({"stroke-width":1, "stroke":"silver"});
+                            paper.path("M"+x2+","+y2+" L"+(x2+deltax)+","+(y2+deltay)).attr({"stroke-width":1, "stroke":"silver"});
 
-                            tx=paper.text(x2-33, (y2+deltay), objitems[i].caption);
+                            tx=paper.text(x2+deltax-3, (y2+deltay), objitems[i].caption);
                             tx.attr({"font-size":"18px", "font-family":"sans-serif", "fill":"navy"});
                             $("tspan", tx.node).attr({"dy":7, "text-anchor":"end"});
                         }
                     }
                     if(x1<x2)
-                        x2=x2+33+objitems[i].width;
+                        x2=x2+deltax+3+objitems[i].width;
                     else
-                        x2=x2-33-objitems[i].width;
+                        x2=x2+deltax-3-objitems[i].width;
                     if(minleft>x2){
                         minleft=x2;
-                        size=33+objitems[i].width;
+                        size=Math.abs(deltax)+3+objitems[i].width;
                     }
 
                     if(maxright<x2)
                         maxright=x2;
 
-                    if(mintop>y2)
-                        mintop=y2;
+                    y2=y2+deltay;
+                    if(mintop>y2-24)
+                        mintop=y2-24;
 
-                    if(maxbottom<y2)
-                        maxbottom=y2;
-
+                    if(maxbottom<y2+24)
+                        maxbottom=y2+24;
+                    
                     startAngle=endAngle
                 }
                 return {left:minleft, right:maxright, top:mintop , bottom:maxbottom, size:size};
+            }
+            function signum(x){
+                return (x<=0) ? -1 : 1;
             }
 			return this;
 		}
