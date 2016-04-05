@@ -1,5 +1,5 @@
 ==================================
-Rilascio 1.70.28    del XX/04/2016
+Rilascio 1.70.28    del 06/04/2016
 ==================================
 
 ryDraw: generazione dei colori per tonalità nei grafici a torta.

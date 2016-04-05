@@ -32,7 +32,6 @@ function ryWinz(missing){
         o.options.statusbar=(s.statusbar!=missing ? s.statusbar : true);
         o.options.desk=(s.desk!=missing ? s.desk : false);
         o.options.mono=(s.id!=missing);
-        // mosca
         o.options.title=(s.title!=missing ? s.title : "");
         o.options.title=o.options.title.replace(/[']/gi, "&acute;");
         // EVENTO DI STOP DELLE RICHIESTE
@@ -59,7 +58,6 @@ function ryWinz(missing){
                 }
             }
         });
-        // mosca
         JQD.util.window_title(formid);
         if(o.options.statusbar)
             winzShowInfo(formid);
@@ -384,7 +382,6 @@ function ryWinz(missing){
             $("#window_"+id).hide();
             $(h).hide('fast');
             
-            // mosca
             var nextid="";
             $(".window:visible").each(function(index){
                 var currid=this.id.substr(7);

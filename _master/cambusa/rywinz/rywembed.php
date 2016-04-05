@@ -74,6 +74,7 @@ _sessioninfo.sessionid="<?php  print $sessionid ?>";
 var _appname="<?php  print $winz_appname ?>";
 var _apptitle="<?php  print $winz_apptitle ?>";
 var _appenviron="<?php  print $winz_appenviron ?>";
+var _companyname="<?php  print $RYWINZ->company ?>";
 $(document).ready(function(){
     RYEGO.go({
         crossdomain:"",

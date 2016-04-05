@@ -140,6 +140,7 @@ class winz_engine{
     public $dealer;
     public $company;
     public $desktop;
+    public $wallpaper;
     public $customize;
     
     function winz_engine(){
@@ -157,6 +158,7 @@ class winz_engine{
         $this->dealer="";
         $this->company="Anonymous";
         $this->desktop=true;
+        $this->wallpaper=true;
         $this->customize="default";
     }
 }

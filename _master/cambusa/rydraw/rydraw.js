@@ -285,7 +285,7 @@
             var colorvalues=[];
             var l=objitems.length;
             for(var i=0; i<l; i++){
-                colorvalues.push("hsl(" + 360*i/l + "," + 90 + "," + 50 + ")")
+                colorvalues.push("hsl(" + 360*i/l + "," + 90 + "," + (40+20*(i%2)) + ")")
             }
             
             for(var i in objitems){
@@ -368,8 +368,8 @@
             }
             
             // Riposiziono il centro
-            cx=propmargin/2+limits.size+propradius*1.1;
-            cy=propmargin+(maxbottom-mintop)/2;
+            cx=propmargin/2+limits.sizex+propradius*1.1;
+            cy=propmargin+limits.sizey+propradius*1.1;
 
             // Istanzio paper
             var paper=Raphael(propname, propwidth, propheight);
@@ -394,7 +394,7 @@
                 var endAngle,capangle,x1,x2,y1,y2,tx,prevy=false,prevs=1;
                 var minleft=cx-propradius-propmargin/2, maxright=cx+propradius+propmargin;
                 var mintop=cy-propradius-propmargin/2, maxbottom=cy+propradius+propmargin;
-                var size=0;
+                var sizex=0, sizey=0;
                 startAngle=90;
                 for(var i in objitems){
                     if(objitems.length>1){
@@ -450,12 +450,12 @@
                     if(x1<x2){
                         deltax=30; // dx
                         if(d<0)
-                            deltax+=Math.floor(propradius/4);
+                            deltax+=Math.floor(propradius/3);
                     }
                     else{
                         deltax=-30; // sx
                         if(d<0)
-                            deltax-=Math.floor(propradius/4);
+                            deltax-=Math.floor(propradius/3);
                     }
                     
                     if(!test){
@@ -484,22 +484,24 @@
                         x2=x2+deltax-3-objitems[i].width;
                     if(minleft>x2){
                         minleft=x2;
-                        size=Math.abs(deltax)+3+objitems[i].width;
+                        sizex=Math.abs(deltax)+3+objitems[i].width;
                     }
 
                     if(maxright<x2)
                         maxright=x2;
 
                     y2=y2+deltay;
-                    if(mintop>y2-24)
+                    if(mintop>y2-24){
                         mintop=y2-24;
+                        sizey=Math.abs(deltay)+24;
+                    }
 
                     if(maxbottom<y2+24)
                         maxbottom=y2+24;
                     
                     startAngle=endAngle
                 }
-                return {left:minleft, right:maxright, top:mintop , bottom:maxbottom, size:size};
+                return {left:minleft, right:maxright, top:mintop , bottom:maxbottom, sizex:sizex, sizey:sizey};
             }
             function signum(x){
                 return (x<=0) ? -1 : 1;

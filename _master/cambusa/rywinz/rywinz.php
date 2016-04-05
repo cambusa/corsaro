@@ -55,6 +55,7 @@ var _appname="<?php  print $RYWINZ->appname ?>";
 var _apptitle="<?php  print $RYWINZ->apptitle ?>";
 var _appenviron="<?php  print $winz_appenviron ?>";
 var _companyname="<?php  print $RYWINZ->company ?>";
+var _wallpaper=<?php  print ($RYWINZ->wallpaper ? "true" : "false") ?>;
 var _timerPostman=false;
 var POSTMAN={
     title:"<?php  print $RYWINZ->postman->title ?>",

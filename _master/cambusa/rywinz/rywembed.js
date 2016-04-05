@@ -34,6 +34,8 @@ function ryWinz(missing){
         o.options.statusbar=true;
         o.options.desk=false;
         o.options.mono=true;
+        o.options.title=(s.title!=missing ? s.title : "");
+        o.options.title=o.options.title.replace(/[']/gi, "&acute;");
         // EVENTO DI STOP DELLE RICHIESTE
         $("#stop_"+formid).click(
             function(){
@@ -58,6 +60,8 @@ function ryWinz(missing){
                 }
             }
         });
+        if(o.options.statusbar)
+            winzShowInfo(formid);
         return formid;
     }
     this.removeform=function(id, done){

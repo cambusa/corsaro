@@ -285,7 +285,8 @@ var JQD = (function($, window, document, undefined) {
         // Add wallpaper last, to prevent blocking.
         // Rudyz
         if ($('#desktop').length) {
-          $('body').prepend('<img id="wallpaper" class="abs" src="_images/wallpaper.jpg" />');
+          if(_wallpaper)
+            $('body').prepend('<img id="wallpaper" class="abs" src="_images/wallpaper.jpg" />');
         }
       }
     },
