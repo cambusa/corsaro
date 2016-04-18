@@ -2054,6 +2054,8 @@ var globalcolorfocus="#FFF4E6";
 			var propvisible=true;
             var propbutton=false;
             var propflat=false;
+            var propalign="left";
+            var propcolor="black";
             var propautocoding=false;
 			
 			var propname=$(this).attr("id");
@@ -2071,6 +2073,8 @@ var globalcolorfocus="#FFF4E6";
 			if(settings.code!=missing){propbabelcode=settings.code}
             if(settings.button!=missing){propbutton=settings.button}
             if(settings.flat!=missing){propflat=settings.flat}
+            if(settings.align!=missing){propalign=settings.align}
+            if(settings.color!=missing){propcolor=settings.color}
             if(settings.autocoding!=missing){propautocoding=settings.autocoding}
             if(propautocoding){
                 if(propbabelcode=="")
@@ -2106,6 +2110,12 @@ var globalcolorfocus="#FFF4E6";
             else{
                 $("#"+propname).html("<div id='"+propname+"_caption'>"+propcaption+"</div>");
                 $("#"+propname+"_caption").addClass("rylabel-caption");
+                if(propalign=="right"){
+                    $("#"+propname).css({"width":propwidth});
+                    $("#"+propname+"_caption").css({"position":"absolute", "left":"auto", "right":0, "min-width":0});
+                }
+                if(propcolor!="black")
+                    $("#"+propname+"_caption").css({"color":propcolor});
             }
 
             if(settings.enabled!=missing){setenabled(settings.enabled)}
@@ -2222,6 +2232,13 @@ var globalcolorfocus="#FFF4E6";
 					return propvisible;
 				else
                     setvisible(v);
+			}
+			this.color=function(v){
+				if(v!=missing){
+                    propcolor=v;
+                    $("#"+propname+"_caption").css({"color":propcolor});
+                }
+                return propcolor;
 			}
 			this.name=function(){
 				return propname;

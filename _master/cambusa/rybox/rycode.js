@@ -322,7 +322,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                                         n=u;
                                         break;
                                     case "free":
-                                        ok=true;
+                                        ok=(n>=" ");
                                         break;
                                     default:
                                         ok=("0"<=u && u<="9") || ("A"<=u && u<="Z") || n=="_";
