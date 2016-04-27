@@ -2110,9 +2110,11 @@ var globalcolorfocus="#FFF4E6";
             else{
                 $("#"+propname).html("<div id='"+propname+"_caption'>"+propcaption+"</div>");
                 $("#"+propname+"_caption").addClass("rylabel-caption");
+                if(propwidth>0){
+                    $("#"+propname).css({"width":propwidth, "height":24, "overflow-x":"hidden"});
+                }
                 if(propalign=="right"){
-                    $("#"+propname).css({"width":propwidth});
-                    $("#"+propname+"_caption").css({"position":"absolute", "left":"auto", "right":0, "min-width":0});
+                    $("#"+propname+"_caption").css({"position":"absolute", "left":"auto", "right":0});
                 }
                 if(propcolor!="black")
                     $("#"+propname+"_caption").css({"color":propcolor});
