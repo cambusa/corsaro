@@ -25,6 +25,7 @@
             var propcaptions=false;
             var propitems=false;
             var proptitle="";
+            var propbackground="transparent";
             var propcaptionx="";
             var propcaptiony="";
             var propcaptionrate=1;
@@ -44,6 +45,7 @@
             if(settings.items!=missing){propitems=settings.items}
             if(settings.captionrate!=missing){propcaptionrate=settings.captionrate}
             if(settings.title!=missing){proptitle=settings.title}
+            if(settings.background!=missing){propbackground=settings.background}
             if(settings.captionx!=missing){propcaptionx=settings.captionx}
             if(settings.captiony!=missing){propcaptiony=settings.captiony}
             if(settings.barwidth!=missing){propbarwidth=settings.barwidth}
@@ -112,7 +114,7 @@
             var deltax=propbarwidth+propbarskip;
             
             $("#"+propname).addClass("rygram");
-            $("#"+propname).css({position:"absolute",left:propleft,top:proptop,"background-color":"#F2F9FF","border":"1px solid silver"});
+            $("#"+propname).css({position:"absolute",left:propleft,top:proptop, "background-color":propbackground, "border":"1px solid silver"});
             
             var titw=0;
             var capxw=0;
@@ -311,7 +313,7 @@
             var mintop=cy, maxbottom=cy;
             
             $("#"+propname).addClass("rypie");
-            $("#"+propname).css({position:"absolute",left:propleft,top:proptop,"background":propbackground});
+            $("#"+propname).css({position:"absolute",left:propleft,top:proptop,"background-color":propbackground, "border":"1px solid silver"});
 
             $("#"+propname).html("");
 

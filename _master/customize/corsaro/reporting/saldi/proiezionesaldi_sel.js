@@ -363,6 +363,7 @@ function class_proiezionesaldi_sel(settings,missing){
                 barskip:5,
                 values:saldi,
                 captions:days,
+                background:"white",
                 title:contodescr,
                 captionx:"Tempo",
                 captionrate:5,

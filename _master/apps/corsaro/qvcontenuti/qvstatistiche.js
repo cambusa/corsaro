@@ -178,6 +178,7 @@ function class_qvstatistiche(settings,missing){
                 barwidth:20,
                 values:users,
                 captions:days,
+                background:"white",
                 title:RYBOX.babels("STAT_VISITORS"),
                 captionx:RYBOX.babels("STAT_TIME"),
                 captiony:RYBOX.babels("STAT_EVALUATION")
