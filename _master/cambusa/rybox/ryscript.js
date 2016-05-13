@@ -175,6 +175,9 @@
 			this.focus=function(){
                 setfocus();
 			}
+			this.refresh=function(){
+                objmirror.refresh();
+			}
             this.raisegotfocus=function(){
                 if(settings.gotfocus!=missing){settings.gotfocus(propobj)}
             }
