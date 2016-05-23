@@ -251,10 +251,9 @@
                                     var p3=$( "#"+propname+"_outgrid" ).position();
                                     var id=propcols[propcolumn-1];
                                     var t=proptyps[propcolumn-1];
-                                    var w=$( "#"+propname+"_"+(propindex-proptoprow+1)+"_"+propcolumn ).width()+12;
+                                    var worig=$( "#"+propname+"_"+(propindex-proptoprow+1)+"_"+propcolumn ).width();
+                                    var w=worig+12;
                                     var l=propleft+p0.left+p1.left+p2.left+p3.left;
-                                    if(w<100)
-                                        w=100;
                                     var info={
                                         id:id, 
                                         row:propindex, 
@@ -289,7 +288,7 @@
                                         };
                                         // Posizionamento dell'editor
                                         if(info.editor.type=="check")
-                                            info.left+=Math.floor(info.width/2)-9;
+                                            info.left+=Math.floor(worig/2);
                                         info.editor.move({"left":info.left, "top":info.top, "width":info.width});
                                         // Valorizzazione dell'editor
                                         if(info.editor.type=="list")
@@ -304,7 +303,7 @@
                                             info.editor.incremental(0);
                                         // Show e focus
                                         info.editor.visible(1);
-                                        info.editor.focus();
+                                        RYBOX.setfocus(info.editor.name());
                                     }
                                 }
                             }
@@ -2417,7 +2416,7 @@
                 }
             }
             function activecell(){
-                if(propcolumn>0)
+                if(propcolumn>0 && propindex>0)
                     $( c="#"+propname+"_"+(propindex-proptoprow+1)+"_"+propcolumn ).addClass("ryque-active-cell");
                 // Gestione scroll orizzontale
                 var cng=false;

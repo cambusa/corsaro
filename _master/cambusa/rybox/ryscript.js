@@ -92,6 +92,12 @@
                     propobj.raisechanged();
                 }
             );
+            objmirror.on("focus",
+                function(){
+                    if(propintellisense)
+                        setintellisense(propintellisense);
+                }
+            );
             this.move=function(params){
                 if(params.left!=missing){propleft=params.left}
                 if(params.top!=missing){proptop=params.top}
@@ -131,7 +137,6 @@
 			}
 			this.intellisense=function(v){
                 propintellisense=v;
-                setintellisense(v);
 			}
 			this.name=function(){
 				return propname;
