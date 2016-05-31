@@ -489,4 +489,29 @@ function _qv_clearprogress(){
             @unlink($pathfile);
     }
 }
+function _qv_checkdate($dt, $raise=true){
+    global $babelcode, $babelparams;
+    $ret=false;
+    if(preg_match("/^\d{8}$/", $dt)==1){
+        $y=intval(substr($dt,0,4));
+        $m=intval(substr($dt,4,2));
+        $d=intval(substr($dt,6,2));
+        if(date("Ymd", mktime(0, 0, 0, $m, $d, $y))==$dt){
+            $ret=true;
+        }
+        elseif($raise){
+            $babelcode="QVERR_INVALIDDATE";
+            $b_params=array("DATE" => $dt);
+            $b_pattern="Data non valida";
+            throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+        }
+    }
+    elseif($raise){
+        $babelcode="QVERR_INVALIDDATE";
+        $b_params=array("DATE" => $dt);
+        $b_pattern="Data non valida";
+        throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+    }
+    return $ret;
+}
 ?>
