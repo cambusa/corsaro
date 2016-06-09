@@ -1,5 +1,5 @@
 ==================================
-Rilascio 1.70.29    del XX/04/2016
+Rilascio 1.70.29    del XX/06/2016
 ==================================
 
 ryLabel: aggiunte le proprietà "align" e "color".
@@ -9,6 +9,8 @@ ryDraw: aggiunto border a ryPie e gestito background in ryGram.
 ryScript: aggiunto il metodo "refresh"; corretto il funzionamento dell'intellisense.
 
 ryUnbound: migliorato il comportamento dell'editmode.
+
+QVUSERS, QVROLES: aggiunto il campo REGISTRY.
 
 ==================================
 Rilascio 1.70.28    del 06/04/2016

@@ -11,22 +11,27 @@
 ****************************************************************************/
 $global_backslash=0;
 function ryqNormalize($var){
-    global $global_backslash;
-    if($global_backslash==2){
-        $var=str_replace("\\\\", "\\", $var);
+    global $path_databases,$global_backslash;
+    if($global_backslash==0){
+        $global_backslash=intval(@file_get_contents($path_databases."_configs/backslash.par"));
     }
-    return strtr(trim($var), array("\'" => "'", "\\\"" => "\"", "\\\\" => "\\"));
+    if($global_backslash==2){
+        $var=strtr($var, array("\\'" => "'", "\\\"" => "\"", "\\\\" => "\\"));
+    }
+    return trim($var);
 }
 function ryqEscapize($var, $size=0){
-    global $global_backslash;
-    $var=trim($var);
+    global $path_databases,$global_backslash;
+    if($global_backslash==0){
+        $global_backslash=intval(@file_get_contents($path_databases."_configs/backslash.par"));
+    }
     if($global_backslash==2){
-        $var=str_replace("\\\\", "\\", $var);
+        $var=strtr($var, array("\\'" => "'", "\\\"" => "\"", "\\\\" => "\\"));
     }
     if($size>0){
         $var=substr($var, 0, $size);
     }
-    return str_replace("'", "''", strtr($var, array("\'" => "'", "\\\"" => "\"", "\\\\" => "\\")));
+    return str_replace("'", "''", trim($var));
 }
 function ryqUTF8(&$value){
     if($value!=""){

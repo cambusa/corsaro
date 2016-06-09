@@ -67,12 +67,26 @@ try{
         }
 
         if($success){
-            $sql="SELECT EGOENVIRONUSER.USERID AS SYSID, EGOALIASES.NAME AS NAME, EGOALIASES.ADMINISTRATOR AS ADMINISTRATOR, EGOALIASES.EMAIL AS EMAIL FROM EGOENVIRONUSER INNER JOIN EGOALIASES ON EGOALIASES.USERID=EGOENVIRONUSER.USERID AND EGOALIASES.MAIN=1 WHERE EGOENVIRONUSER.ENVIRONID='$envid'";
+            $sql="";
+            $sql.="SELECT ";
+            $sql.="  EGOENVIRONUSER.USERID AS SYSID, ";
+            $sql.="  EGOALIASES.NAME AS NAME, ";
+            $sql.="  EGOUSERS.REGISTRY AS REGISTRY, ";
+            $sql.="  EGOALIASES.ADMINISTRATOR AS ADMINISTRATOR, ";
+            $sql.="  EGOALIASES.EMAIL AS EMAIL ";
+            $sql.="FROM EGOENVIRONUSER ";
+            $sql.="INNER JOIN EGOALIASES ON ";
+            $sql.="  EGOALIASES.USERID=EGOENVIRONUSER.USERID AND ";
+            $sql.="  EGOALIASES.MAIN=1 ";
+            $sql.="INNER JOIN EGOUSERS ON ";
+            $sql.="  EGOUSERS.SYSID=EGOALIASES.USERID ";
+            $sql.="WHERE EGOENVIRONUSER.ENVIRONID='$envid'";
             maestro_query($maestro, $sql, $r);
             for($i=0;$i<count($r);$i++){
                 $infos["USERS"][$i]=array( 
                     "SYSID" => $r[$i]["SYSID"], 
                     "NAME" => $r[$i]["NAME"],
+                    "REGISTRY" => $r[$i]["REGISTRY"],
                     "ADMINISTRATOR" => $r[$i]["ADMINISTRATOR"],
                     "EMAIL" => $r[$i]["EMAIL"]
                 );

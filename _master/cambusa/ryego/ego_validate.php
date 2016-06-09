@@ -13,6 +13,7 @@
 // Variabili utili al cliente del servizio
 $global_lastuserid="";
 $global_lastusername="";
+$global_lastuserregistry="";
 $global_lastadmin=0;
 $global_lastemail="";
 $global_lastroleid="";
@@ -29,6 +30,7 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
            $check_sessionip,
            $global_lastuserid,
            $global_lastusername,
+           $global_lastuserregistry,
            $global_lastadmin,
            $global_lastemail,
            $global_lastroleid,
@@ -42,10 +44,44 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
            $path_databases,
            $global_backslash;
     if($public_sessionid=="" || $ses!=$public_sessionid){
-        if($info)
-            $sql="SELECT EGOSESSIONS.SYSID AS SYSID, EGOSESSIONS.ENVIRONID AS ENVID, EGOALIASES.USERID AS USERID, EGOALIASES.NAME AS USERNAME, EGOALIASES.DEMIURGE AS DEMIURGE, EGOALIASES.ADMINISTRATOR AS ADMINISTRATOR, EGOALIASES.EMAIL AS EMAIL, EGOSESSIONS.ROLEID AS ROLEID, EGOSESSIONS.LANGUAGEID AS LANGUAGEID, EGOSESSIONS.COUNTRYCODE AS COUNTRYCODE, EGOSESSIONS.DEBUGMODE AS DEBUGMODE, EGOSESSIONS.CLIENTIP AS CLIENTIP FROM EGOSESSIONS INNER JOIN EGOALIASES ON EGOALIASES.SYSID=EGOSESSIONS.ALIASID WHERE EGOSESSIONS.SESSIONID='$ses' AND EGOSESSIONS.ENDTIME IS NULL AND [:DATE(EGOSESSIONS.RENEWALTIME, 1DAYS)]>[:TODAY()]";
-        else
-            $sql="SELECT SYSID,DEMIURGE,ADMINISTRATOR,LANGUAGEID,COUNTRYCODE,DEBUGMODE,CLIENTIP FROM EGOSESSIONS WHERE SESSIONID='$ses' AND ENDTIME IS NULL AND [:DATE(RENEWALTIME, 1DAYS)]>[:TODAY()]";
+        if($info){
+            $sql="";
+            $sql.="SELECT ";
+            $sql.="  EGOSESSIONS.SYSID AS SYSID, ";
+            $sql.="  EGOSESSIONS.ENVIRONID AS ENVID, ";
+            $sql.="  EGOALIASES.USERID AS USERID, ";
+            $sql.="  EGOALIASES.NAME AS USERNAME, ";
+            $sql.="  EGOALIASES.DEMIURGE AS DEMIURGE, ";
+            $sql.="  EGOALIASES.ADMINISTRATOR AS ADMINISTRATOR, ";
+            $sql.="  EGOALIASES.EMAIL AS EMAIL, ";
+            $sql.="  EGOUSERS.REGISTRY AS USERREGISTRY, ";
+            $sql.="  EGOROLES.NAME AS ROLENAME, ";
+            $sql.="  EGOENVIRONS.NAME AS ENVNAME, ";
+            $sql.="  (CASE WHEN EGOLANGUAGES.NAME IS NULL THEN 'dafault' ELSE EGOLANGUAGES.NAME END) AS LANGNAME, ";
+            $sql.="  EGOSESSIONS.ROLEID AS ROLEID, ";
+            $sql.="  EGOSESSIONS.LANGUAGEID AS LANGUAGEID, ";
+            $sql.="  EGOSESSIONS.COUNTRYCODE AS COUNTRYCODE, ";
+            $sql.="  EGOSESSIONS.DEBUGMODE AS DEBUGMODE, ";
+            $sql.="  EGOSESSIONS.CLIENTIP AS CLIENTIP ";
+            $sql.="FROM EGOSESSIONS ";
+            $sql.="INNER JOIN EGOALIASES ON ";
+            $sql.="  EGOALIASES.SYSID=EGOSESSIONS.ALIASID ";
+            $sql.="INNER JOIN EGOUSERS ON ";
+            $sql.="  EGOUSERS.SYSID=EGOALIASES.USERID ";
+            $sql.="INNER JOIN EGOROLES ON ";
+            $sql.="  EGOROLES.SYSID=EGOSESSIONS.ROLEID ";
+            $sql.="INNER JOIN EGOENVIRONS ON ";
+            $sql.="  EGOENVIRONS.SYSID=EGOSESSIONS.ENVIRONID ";
+            $sql.="LEFT JOIN EGOLANGUAGES ON ";
+            $sql.="  EGOLANGUAGES.SYSID=EGOSESSIONS.LANGUAGEID ";
+            $sql.="WHERE ";
+            $sql.="  EGOSESSIONS.SESSIONID='$ses' AND ";
+            $sql.="  EGOSESSIONS.ENDTIME IS NULL AND ";
+            $sql.="  [:DATE(EGOSESSIONS.RENEWALTIME, 1DAYS)]>[:TODAY()]";
+        }
+        else{
+            $sql="SELECT SYSID,DEMIURGE,ADMINISTRATOR,CLIENTIP FROM EGOSESSIONS WHERE SESSIONID='$ses' AND ENDTIME IS NULL AND [:DATE(RENEWALTIME, 1DAYS)]>[:TODAY()]";
+        }
         maestro_query($maestro, $sql, $r);
         if(count($r)==1){
             $sysid=$r[0]["SYSID"];
@@ -66,30 +102,17 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
                     if($info){
                         $global_lastuserid=$r[0]["USERID"];
                         $global_lastusername=$r[0]["USERNAME"];
+                        $global_lastuserregistry=$r[0]["USERREGISTRY"];
                         $global_lastadmin=$administrator;
                         $global_lastemail=$r[0]["EMAIL"];
                         $global_lastroleid=$r[0]["ROLEID"];
                         $global_lastenvid=$r[0]["ENVID"];
-                        $languageid=$r[0]["LANGUAGEID"];
-                        $global_lastlanguage="";
                         $global_lastcountrycode=$r[0]["COUNTRYCODE"];
                         $global_lastdebugmode=intval($r[0]["DEBUGMODE"]);
                         $global_lastclientip=$r[0]["CLIENTIP"];
-                        
-                        // REPERISCO IL NOME DEL RUOLO E DELL'AMBIENTE
-                        $sql="SELECT EGOROLES.NAME AS ROLENAME, EGOENVIRONS.NAME AS ENVNAME FROM EGOROLES INNER JOIN EGOENVIRONS ON EGOENVIRONS.SYSID='$global_lastenvid' AND EGOENVIRONS.APPID=EGOROLES.APPID WHERE EGOROLES.SYSID='$global_lastroleid'";
-                        maestro_query($maestro, $sql, $s);
-                        if(count($s)==1){
-                            $global_lastrolename=$s[0]["ROLENAME"];
-                            $global_lastenvname=$s[0]["ENVNAME"];
-                        }
-
-                        // REPERISCO IL NOME DELLA LINGUA
-                        $sql="SELECT NAME FROM EGOLANGUAGES WHERE SYSID='$languageid'";
-                        maestro_query($maestro, $sql, $s);
-                        if(count($s)==1)
-                            $global_lastlanguage=$s[0]["NAME"];
-                            
+                        $global_lastrolename=$r[0]["ROLENAME"];
+                        $global_lastenvname=$r[0]["ENVNAME"];
+                        $global_lastlanguage=$r[0]["LANGNAME"];
                     }
                     // AGGIORNAMENTO EGOSESSIONS
                     $sql="UPDATE EGOSESSIONS SET RENEWALTIME=[:NOW()] WHERE SYSID='$sysid'";
@@ -111,6 +134,7 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
     else{
         $global_lastuserid="__GUESTID";
         $global_lastusername="GUEST";
+        $global_lastuserregistry="";
         $global_lastadmin=0;
         $global_lastemail="";
         $global_lastroleid="_ROLEID";

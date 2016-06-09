@@ -741,6 +741,7 @@
             "SYSID":{"type":"SYSID", "key":1},
             "EGOID":{"type":"VARCHAR", "size":30},
             "USERNAME":{"type":"VARCHAR", "size":50},
+            "REGISTRY":{"type":"TEXT"},
             "EMAIL":{"type":"VARCHAR", "size":50},
             "ADMINISTRATOR":{"type":"BOOLEAN"},
             "ARCHIVED":{"type":"BOOLEAN"}
@@ -752,6 +753,7 @@
             "SYSID":{"type":"SYSID", "key":1},
             "EGOID":{"type":"VARCHAR", "size":30},
             "ROLENAME":{"type":"VARCHAR", "size":50},
+            "REGISTRY":{"type":"TEXT"},
             "ARCHIVED":{"type":"BOOLEAN"}
         }
     },
@@ -788,10 +790,12 @@
             "SESSIONID":{"type":"VARCHAR", "size":100},
             "USERID":{"type":"VARCHAR", "size":30},
             "USERNAME":{"type":"VARCHAR", "size":100},
+            "USERREGISTRY":{"type":"TEXT"},
             "ADMINISTRATOR":{"type":"BOOLEAN"},
             "EMAIL":{"type":"VARCHAR", "size":100},
             "ROLEID":{"type":"VARCHAR", "size":30},
             "ROLENAME":{"type":"VARCHAR", "size":100},
+            "ROLEREGISTRY":{"type":"TEXT"},
             "ENVID":{"type":"VARCHAR", "size":30},
             "ENVNAME":{"type":"VARCHAR", "size":100},
             "LANGUAGENAME":{"type":"VARCHAR", "size":50},

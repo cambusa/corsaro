@@ -13,6 +13,7 @@
 function qv_infosession($maestro){
     global $global_lastuserid,
            $global_lastusername,
+           $global_lastuserregistry,
            $global_lastadmin,
            $global_lastemail,
            $global_lastroleid,
@@ -25,11 +26,12 @@ function qv_infosession($maestro){
         if(count($r)==1){
             $global_quiveruserid=$r[0]["SYSID"];
             $qvname=$r[0]["USERNAME"];
+            $qvregistry=$r[0]["REGISTRY"];
             $qvadmin=intval($r[0]["ADMINISTRATOR"]);
             $qvemail=$r[0]["EMAIL"];
-            if($qvname!=$global_lastusername || $qvadmin!=$global_lastadmin || $qvemail!=$global_lastemail){
+            if($qvname!=$global_lastusername || $qvregistry!=$global_lastuserregistry || $qvadmin!=$global_lastadmin || $qvemail!=$global_lastemail){
                 // ALLINEO LA TABELLA INTERNA CON IL DATO EGO MODIFICATO
-                maestro_execute($maestro, "UPDATE QVUSERS SET USERNAME='".ryqEscapize($global_lastusername)."',ADMINISTRATOR=".$global_lastadmin.",EMAIL='".ryqEscapize($global_lastemail)."' WHERE SYSID='$global_quiveruserid'");
+                maestro_execute($maestro, "UPDATE QVUSERS SET USERNAME='".ryqEscapize($global_lastusername)."',REGISTRY='".ryqEscapize($global_lastuserregistry)."',ADMINISTRATOR=".$global_lastadmin.",EMAIL='".ryqEscapize($global_lastemail)."' WHERE SYSID='$global_quiveruserid'");
             }
         }
         else{
@@ -37,7 +39,7 @@ function qv_infosession($maestro){
             maestro_execute($maestro, "UPDATE QVUSERS SET ARCHIVED=1 WHERE [:UPPER(USERNAME)]='" . strtoupper( ryqEscapize($global_lastusername) ) . "'");
             // INSERISCO UNA COPIA DEI DATI EGO NELLA TABELLA INTERNA
             $global_quiveruserid=qv_createsysid($maestro);
-            maestro_execute($maestro, "INSERT INTO QVUSERS(SYSID,EGOID,USERNAME,ADMINISTRATOR,EMAIL,ARCHIVED) VALUES('$global_quiveruserid','$global_lastuserid','".ryqEscapize($global_lastusername)."',".$global_lastadmin.",'".ryqEscapize($global_lastemail)."',0)");
+            maestro_execute($maestro, "INSERT INTO QVUSERS(SYSID,EGOID,USERNAME,REGISTRY,ADMINISTRATOR,EMAIL,ARCHIVED) VALUES('$global_quiveruserid','$global_lastuserid','".ryqEscapize($global_lastusername)."','".ryqEscapize($global_lastuserregistry)."',".$global_lastadmin.",'".ryqEscapize($global_lastemail)."',0)");
         }
 
         maestro_query($maestro, "SELECT * FROM QVROLES WHERE EGOID='$global_lastroleid' AND ARCHIVED=0", $r);

@@ -234,6 +234,7 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
            $check_sessionip,
            $global_lastuserid,
            $global_lastusername,
+           $global_lastuserregistry,
            $global_lastadmin,
            $global_lastemail,
            $global_lastroleid,
@@ -253,6 +254,7 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
         if($SESSIONID==$public_sessionid || ($SESSIONID==$ryque_sessionid && $context=="ryque")){
             $global_lastuserid=qv_actualid($maestro, "0SERVERID000");
             $global_lastusername="SERVER";
+            $global_lastuserregistry="";
             $global_lastadmin=0;
             $global_lastemail="";
             $global_lastroleid=qv_actualid($maestro, "0NOROLEID000");
@@ -288,6 +290,7 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
                     if($ip==$currip || $serverip==$currip || $check_sessionip==false){
                         $global_lastuserid=$r[0]["USERID"];
                         $global_lastusername=$r[0]["USERNAME"];
+                        $global_lastuserregistry=$r[0]["USERREGISTRY"];
                         $global_lastadmin=intval($r[0]["ADMINISTRATOR"]);
                         $global_lastemail=$r[0]["EMAIL"];
                         $global_lastroleid=$r[0]["ROLEID"];
@@ -307,6 +310,7 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
                         $SYSID=qv_createsysid($maestro);
                         $USERID=$global_lastuserid;
                         $USERNAME=ryqEscapize($global_lastusername);
+                        $USERREGISTRY=ryqEscapize($global_lastuserregistry);
                         if($global_lastadmin)
                             $ADMINISTRATOR="1";
                         else
@@ -322,7 +326,7 @@ function qv_validatesession($maestro, $SESSIONID, $context=""){
                         $CLIENTIP=$global_lastclientip;
                         $RENEWALTIME="[:NOW()]";
 
-                        $sql="INSERT INTO QVSESSIONS(SYSID,SESSIONID,USERID,USERNAME,ADMINISTRATOR,EMAIL,ROLEID,ROLENAME,ENVID,ENVNAME,LANGUAGENAME,COUNTRYCODE,DEBUGMODE,CLIENTIP,RENEWALTIME) VALUES('$SYSID','$SESSIONID','$USERID','$USERNAME','$ADMINISTRATOR','$EMAIL','$ROLEID','$ROLENAME','$ENVID','$ENVNAME','$LANGUAGENAME','$COUNTRYCODE','$DEBUGMODE','$CLIENTIP',$RENEWALTIME)";
+                        $sql="INSERT INTO QVSESSIONS(SYSID,SESSIONID,USERID,USERNAME,USERREGISTRY,ADMINISTRATOR,EMAIL,ROLEID,ROLENAME,ENVID,ENVNAME,LANGUAGENAME,COUNTRYCODE,DEBUGMODE,CLIENTIP,RENEWALTIME) VALUES('$SYSID','$SESSIONID','$USERID','$USERNAME','$USERREGISTRY','$ADMINISTRATOR','$EMAIL','$ROLEID','$ROLENAME','$ENVID','$ENVNAME','$LANGUAGENAME','$COUNTRYCODE','$DEBUGMODE','$CLIENTIP',$RENEWALTIME)";
                         maestro_execute($maestro, $sql, false);
                         $ret=true;
                     }

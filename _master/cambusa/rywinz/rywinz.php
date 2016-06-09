@@ -80,7 +80,7 @@ $(document).ready(function(){
         appenv:_appenviron,
         config:function(d){
             _sessioninfo=d;
-            if(window.console)console.log(_sessioninfo);
+            if(window.console&&_sessioninfo.debugmode){console.log(_sessioninfo)};
             $("body").css("display", "block");
             RYQUE.request({
                 environ:_sessioninfo.environ,

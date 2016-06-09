@@ -49,17 +49,22 @@ function qv_importego($maestro, $data){
         for($i=0; $i<count($users); $i++){
             $egoid=$users[$i]->SYSID;
             $egoname=html_entity_decode($users[$i]->NAME);
+            $egoreg=html_entity_decode($users[$i]->REGISTRY);
             $egoadmin=intval($users[$i]->ADMINISTRATOR);
             $egoemail=html_entity_decode($users[$i]->EMAIL);
             maestro_query($maestro, "SELECT * FROM QVUSERS WHERE EGOID='$egoid' AND ARCHIVED=0", $r);
             if(count($r)==1){
                 $quiverid=$r[0]["SYSID"];
                 $qvname=$r[0]["USERNAME"];
+                $qvreg=$r[0]["REGISTRY"];
                 $qvadmin=intval($r[0]["ADMINISTRATOR"]);
                 $qvemail=$r[0]["EMAIL"];
-                if($qvname!=$egoname || $qvadmin!=$egoadmin || $qvemail!=$egoemail){
+                if($qvname!=$egoname || $qvreg!=$egoreg || $qvadmin!=$egoadmin || $qvemail!=$egoemail){
                     // ALLINEO LA TABELLA INTERNA CON IL DATO EGO MODIFICATO
-                    maestro_execute($maestro, "UPDATE QVUSERS SET USERNAME='".ryqEscapize($egoname)."', ADMINISTRATOR=".$egoadmin.", EMAIL='".ryqEscapize($egoemail)."' WHERE SYSID='$quiverid'");
+                    $egoname=ryqEscapize($egoname);
+                    $egoreg=ryqEscapize($egoreg);
+                    $egoemail=ryqEscapize($egoemail);
+                    maestro_execute($maestro, "UPDATE QVUSERS SET USERNAME='$egoname',REGISTRY='$egoreg', ADMINISTRATOR=$egoadmin, EMAIL='$egoemail' WHERE SYSID='$quiverid'");
                 }
             }
             else{
@@ -67,7 +72,10 @@ function qv_importego($maestro, $data){
                 maestro_execute($maestro, "UPDATE QVUSERS SET ARCHIVED=1 WHERE [:UPPER(USERNAME)]='" . strtoupper( ryqEscapize($egoname) ) . "'");
                 // INSERISCO UNA COPIA DEI DATI EGO NELLA TABELLA INTERNA
                 $quiverid=qv_createsysid($maestro);
-                maestro_execute($maestro, "INSERT INTO QVUSERS(SYSID,EGOID,USERNAME,ADMINISTRATOR,EMAIL,ARCHIVED) VALUES('$quiverid','$egoid','".ryqEscapize($egoname)."',".$egoadmin.",'".ryqEscapize($egoemail)."',0)");
+                $egoname=ryqEscapize($egoname);
+                $egoreg=ryqEscapize($egoreg);
+                $egoemail=ryqEscapize($egoemail);
+                maestro_execute($maestro, "INSERT INTO QVUSERS(SYSID,EGOID,USERNAME,REGISTRY,ADMINISTRATOR,EMAIL,ARCHIVED) VALUES('$quiverid','$egoid','$egoname','$egoreg',$egoadmin,'$egoemail',0)");
             }
             
         }
@@ -81,7 +89,8 @@ function qv_importego($maestro, $data){
                 $qvname=$r[0]["ROLENAME"];
                 if($qvname!=$egoname){
                     // ALLINEO LA TABELLA INTERNA CON IL DATO EGO MODIFICATO
-                    maestro_execute($maestro, "UPDATE QVROLES SET ROLENAME='" . ryqEscapize($egoname) . "' WHERE SYSID='$quiverid'");
+                    $egoname=ryqEscapize($egoname);
+                    maestro_execute($maestro, "UPDATE QVROLES SET ROLENAME='$egoname' WHERE SYSID='$quiverid'");
                 }
             }
             else{
@@ -89,7 +98,8 @@ function qv_importego($maestro, $data){
                 maestro_execute($maestro, "UPDATE QVROLES SET ARCHIVED=1 WHERE [:UPPER(ROLENAME)]='".strtoupper( ryqEscapize($egoname) )."'");
                 // INSERISCO UNA COPIA DEI DATI EGO NELLA TABELLA INTERNA
                 $quiverid=qv_createsysid($maestro);
-                maestro_execute($maestro, "INSERT INTO QVROLES(SYSID,EGOID,ROLENAME,ARCHIVED) VALUES('$quiverid','$egoid','" . ryqEscapize($egoname) . "',0)");
+                $egoname=ryqEscapize($egoname);
+                maestro_execute($maestro, "INSERT INTO QVROLES(SYSID,EGOID,ROLENAME,ARCHIVED) VALUES('$quiverid','$egoid','$egoname',0)");
             }
         }
     }
