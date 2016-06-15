@@ -1,4 +1,4 @@
-Cambusa / Corsaro v1.70
+Cambusa / Corsaro v2.0
 =======================
 
 ### © 2016 Rodolfo Calzetti
