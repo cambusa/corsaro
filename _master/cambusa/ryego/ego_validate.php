@@ -68,9 +68,9 @@ function ego_validatesession($maestro, $ses, $info=false, $context="ego"){
             $sql.="  EGOALIASES.SYSID=EGOSESSIONS.ALIASID ";
             $sql.="INNER JOIN EGOUSERS ON ";
             $sql.="  EGOUSERS.SYSID=EGOALIASES.USERID ";
-            $sql.="INNER JOIN EGOROLES ON ";
+            $sql.="LEFT JOIN EGOROLES ON ";
             $sql.="  EGOROLES.SYSID=EGOSESSIONS.ROLEID ";
-            $sql.="INNER JOIN EGOENVIRONS ON ";
+            $sql.="LEFT JOIN EGOENVIRONS ON ";
             $sql.="  EGOENVIRONS.SYSID=EGOSESSIONS.ENVIRONID ";
             $sql.="LEFT JOIN EGOLANGUAGES ON ";
             $sql.="  EGOLANGUAGES.SYSID=EGOSESSIONS.LANGUAGEID ";

@@ -1,5 +1,5 @@
 ==================================
-Rilascio 1.70.29    del XX/06/2016
+Rilascio v2.0.0    del 15/06/2016
 ==================================
 
 ryLabel: aggiunte le proprietà "align" e "color".
@@ -11,6 +11,8 @@ ryScript: aggiunto il metodo "refresh"; corretto il funzionamento dell'intellise
 ryUnbound: migliorato il comportamento dell'editmode.
 
 QVUSERS, QVROLES: aggiunto il campo REGISTRY.
+
+ryFamily: corretto il comportamento alla focus.
 
 ==================================
 Rilascio 1.70.28    del 06/04/2016

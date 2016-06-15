@@ -233,8 +233,6 @@ class ryVlad{
             $matchexists=false;
             if(isset($livello->match)){
                 if($livello->match!=""){
-                    if(substr($livello->match,0,1)!="ç")
-                        $livello->match="ç".$livello->match."çmi";
                     $matchexists=true;
                 }
             }
@@ -243,21 +241,21 @@ class ryVlad{
                 $maxtrovati=false;
                 $strlivello="";
                 if($livello->matchtype=="A")
-                    $maxtrovati=@preg_match_all($livello->match, $strcurr, $macthcurr, PREG_OFFSET_CAPTURE);
+                    $maxtrovati=preg_match_all("/".$livello->match."/mi", $strcurr, $matchcurr, PREG_OFFSET_CAPTURE);
                 else
-                    $maxtrovati=@preg_match($livello->match, $strcurr, $macthcurr, PREG_OFFSET_CAPTURE);
+                    $maxtrovati=preg_match("/".$livello->match."/mi", $strcurr, $matchcurr, PREG_OFFSET_CAPTURE);
                 if($maxtrovati!==false){
                     if($maxtrovati>0){
                         if($livello->matchtype=="A"){
-                            $strlivello=$macthcurr[0][0][0];
-                            $fine=$macthcurr[0][$maxtrovati-1][1]+strlen($macthcurr[0][$maxtrovati-1][0]);
+                            $strlivello=$matchcurr[0][0][0];
+                            $fine=$matchcurr[0][$maxtrovati-1][1]+strlen($matchcurr[0][$maxtrovati-1][0]);
                             $strcurr=substr($strcurr,$fine);
                             $trovato=true;
                         }
                         else{
                             // DETERMINO L'INIZIO E LUNGHEZZA DELL'OCCORRENZA
-                            $inizio=$macthcurr[0][1];
-                            $lenbegin=strlen($macthcurr[0][0]);
+                            $inizio=$matchcurr[0][1];
+                            $lenbegin=strlen($matchcurr[0][0]);
                             // ESTRAGGO L'INIZIO BLOCCO
                             $strcurr=substr($strcurr,$inizio);
                             // CERCO LA PROSSIMA OCCORRENZA...
@@ -303,7 +301,7 @@ class ryVlad{
                     for($t=0;$t<$maxtrovati;$t++){
                         // PER CIASCUNA OCCORRENZA DETERMINO IL BLOCCO E IL RESIDUO
                         if($t>0){
-                            $strlivello=$macthcurr[0][$t][0];
+                            $strlivello=$matchcurr[0][$t][0];
                         }
                         if($t==$maxtrovati-1){
                             if(substr($strlivello,-1)=="\r" && substr($strcurr,0,1)=="\n"){
@@ -335,9 +333,9 @@ class ryVlad{
                                 $attrval="";
                                 if($index>0){
                                     if($livello->matchtype=="A")
-                                        @$attrval=$macthcurr[$index][$t][0];
+                                        @$attrval=$matchcurr[$index][$t][0];
                                     else
-                                        @$attrval=$macthcurr[$index][0];
+                                        @$attrval=$matchcurr[$index][0];
                                 }
                                 elseif(isset($params->default))
                                     @$attrval=$params->default;

@@ -21,6 +21,7 @@ function quiver_execute($params){
     global $babelcode, $babelparams;
     global $global_lastenvname, $public_sessionid;
     global $global_progressid;
+    global $VLAD, $BLOOD;
     try{
         // IMPOSTO UN TEMPO DI RISPOSTA ILLIMITATO
         set_time_limit(0);
