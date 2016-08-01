@@ -12,7 +12,7 @@
 $path_cambusa=realpath(dirname(__FILE__)."/..");
 $path_cambusa=str_replace("\\", "/", $path_cambusa);
 $path_cambusa.="/";
-include_once $path_cambusa."/sysconfig.php";
+include_once $path_cambusa."sysconfig.php";
 include_once $path_cambusa."ryquiver/quiverlib.php";
 
 function quiver_execute($params){

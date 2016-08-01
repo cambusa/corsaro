@@ -295,9 +295,11 @@
                                             info.editor.setkey(info.value);
                                         else
                                             info.editor.value(info.value);
+                                        
                                         // Eventuale disabilitazione dell'helper
-                                        if(info.editor.type.match(/^(date|number|code)$/))
-                                            info.editor.helper(0);
+                                        //if(info.editor.type.match(/^(date|number|code)$/))
+                                        //    info.editor.helper(0);
+                                        
                                         // Se l'editor è numerico, disabilito l'incremento mediante frecce
                                         if(info.editor.type=="number")
                                             info.editor.incremental(0);

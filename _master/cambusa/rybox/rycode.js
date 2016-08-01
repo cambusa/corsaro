@@ -474,6 +474,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 $("#"+propname+"_internal").css({"width":propwidth-2});
                 $("#"+propname+"_text").css({"width": (prophelper ? propwidth-25 : propwidth-5) });
                 $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
+                $("#"+propname+"_clear").css({"left":propwidth});
             }
 			this.maxlen=function(l){
 				if(l==missing)

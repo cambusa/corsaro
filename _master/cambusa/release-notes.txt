@@ -1,4 +1,12 @@
 ==================================
+Rilascio v2.0.1    del 04/07/2016
+==================================
+
+rycode: coretto il posizionamento dell'icona "clear" alla move.
+
+ryunbound: tolta la disabilitazione dell'helper in caso di editmode attivo.
+
+==================================
 Rilascio v2.0.0    del 15/06/2016
 ==================================
 
