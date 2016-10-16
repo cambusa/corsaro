@@ -173,10 +173,15 @@
             });
             // Nascondo tutti i menu aperti
             $('div.contextMenu').hide();
-            
-            menu.css({'left':e[cur.eventPosX],'top':e[cur.eventPosY]}).show();
+            // Correttore per menù fuori bordo
+            var d=0;
+            var b=$('body').height();
+            var t=e[cur.eventPosY]+menu.height();
+            if(b<t+5)
+                d=t-b+5;
+            menu.css({'left':e[cur.eventPosX],'top':e[cur.eventPosY]-d}).show();
             if(cur.shadow){
-                shadow.css({width:menu.width(), height:menu.height(), left:e.pageX+2, top:e.pageY+2}).show();
+                shadow.css({width:menu.width(), height:menu.height(), left:e.pageX+2, top:e.pageY+2-d}).show();
             }
             $(document).one('click', hide);
         }

@@ -167,7 +167,7 @@
                                 var bg="transparent";
                                 var fg="black";
                                 if(!proptabs[i].enabled)
-                                    fg="silver";
+                                    fg="gray";
                                 if(i==t-1){
                                     bg=propcolorsel;
                                     fg="white";
@@ -226,7 +226,7 @@
 				}
 				else{
                     proptabs[t-1].enabled=v.booleanNumber();
-                    $("#"+propname+"_caption_"+t).css({"color":(v ? (propcurrtab==t-1 ? "white" : "black" ) : "silver"), "cursor":(v ? "pointer" : "default")});
+                    $("#"+propname+"_caption_"+t).css({"color":(v ? (propcurrtab==t-1 ? "white" : "black" ) : "gray"), "cursor":(v ? "pointer" : "default")});
 
                     // Gestisco il caso di tab corrente che viene disabilitato
                     if(propcurrtab==t){
@@ -288,7 +288,7 @@
 				else{
                     proplocked=v;
                     if(proplocked)
-                        $("#"+propname+"_collapse").css({"color":"silver", "cursor":"default"});
+                        $("#"+propname+"_collapse").css({"color":"gray", "cursor":"default"});
                     else
                         $("#"+propname+"_collapse").css({"color":"black", "cursor":"pointer"});
                 }

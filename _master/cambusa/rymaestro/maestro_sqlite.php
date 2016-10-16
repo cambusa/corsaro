@@ -28,6 +28,7 @@ function x_sqlite_open($strconn, $errdescr=""){
     else{
         $conn=sqlite_open($strconn, 0666, $errdescr);
     }
+    usleep(10000);
     return $conn;
 }
 function x_sqlite_close($conn){

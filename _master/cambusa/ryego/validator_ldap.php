@@ -9,7 +9,7 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
-function egovalidator($user, $basepwd){
+function egovalidator($user, $barepwd){
     global $path_databases;
     
     $ret=false;
@@ -45,7 +45,7 @@ function egovalidator($user, $basepwd){
         if($ldapconn){
             // AUTENTICAZIONE LDAP
             ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
-            $ldapbind=ldap_bind($ldapconn, $domainuser, $basepwd);
+            $ldapbind=ldap_bind($ldapconn, $domainuser, $barepwd);
             
             if($ldapbind){
                 $ret=true;

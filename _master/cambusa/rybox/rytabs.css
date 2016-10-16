@@ -23,12 +23,7 @@ height:25px;
 overflow-x:auto;
 overflow-y:hidden;
 border-bottom:1px solid gray;
-background-color:transparent;
-background: -webkit-linear-gradient(white, #CCC); /* For Safari 5.1 to 6.0 */
-background: -o-linear-gradient(white, #CCC); /* For Opera 11.1 to 12.0 */
-background: -moz-linear-gradient(white, #CCC); /* For Firefox 3.6 to 15 */
-filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FFFFFF', endColorstr='#C0C0C0'); /* For IE */
-background: linear-gradient(white, #CCC); /* Standard syntax */
+background-color:#C8DAE8;
 }
 
 .rytabs-selected{

@@ -1779,9 +1779,11 @@ function class_qvpagine(settings,missing){
         }
     );
     this._resize=function(metrics){
-        var h=metrics.window.height-210;
-        objtreesel.height(h>300 ? h : 300);
-    
+        try{
+            var h=metrics.window.height-210;
+            objtreesel.height(h>300 ? h : 300);
+        }
+        catch(e){}
     }
     function abilitaspostaf(f){
         operf_first.enabled(f);

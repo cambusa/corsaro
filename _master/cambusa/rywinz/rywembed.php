@@ -169,7 +169,7 @@ function winz_logout(){
 if($winz_applogout){
 ?>
 <div id="winz_draggable" style="position:absolute;top:0px;left:0px;right:0px;height:12px;padding-right:5px;font-size:10px;text-align:right;background:black;">
-<a href="javascript:" style="color:#F9F9F9;cursor:pointer;" onclick="winz_logout()">Logout</a>
+<a href="javascript:" style="color:#F0F5F5;cursor:pointer;" onclick="winz_logout()">Logout</a>
 </div>
 <?php
 }
