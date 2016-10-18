@@ -175,7 +175,7 @@
             $('div.contextMenu').hide();
             // Correttore per menù fuori bordo
             var d=0;
-            var b=$('body').height();
+            var b=$(window).height();
             var t=e[cur.eventPosY]+menu.height();
             if(b<t+5)
                 d=t-b+5;
