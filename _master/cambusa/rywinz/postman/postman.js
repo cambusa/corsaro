@@ -290,7 +290,7 @@ function class_postman(settings,missing){
     });
 
     offsety=300;
-    $(prefix+"REGISTRY").css({position:"absolute", left:20, top:offsety, width:695, height:400, scroll:"auto", background:"white", border:"1px solid silver", "padding":3, "display":"none"});
+    $(prefix+"REGISTRY").css({position:"absolute", left:20, top:offsety, "min-width":695, "min-height":200, "margin-right":20, background:"white", border:"1px solid silver", "padding":3, "display":"none"});
     
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({

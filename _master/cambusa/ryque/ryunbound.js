@@ -2076,7 +2076,8 @@
                         else if(m>700 && cols.length>1)
                             m=700;
                         m+=8;
-                        propdims[c]=m;
+                        if(propdims[c]>0)
+                            propdims[c]=m;
                     }
                     fitcolumns();
                 }

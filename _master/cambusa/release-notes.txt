@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.4    del 15/03/2017
+==================================
+
+ryunbound: con autofit vengono preservate le colonne di larghezza zero.
+
+==================================
 Rilascio v2.0.3    del 18/10/2016
 ==================================
 
