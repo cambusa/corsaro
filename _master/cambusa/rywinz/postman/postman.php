@@ -18,6 +18,8 @@
         <div relid="oper_read"      babelcode="POSTMAN_READ"></div>
         <div relid="oper_delete"    babelcode="POSTMAN_DELETE"></div>
         <div relid="gridsel"></div>
+		<div relid="oper_html" babelcode="POSTMAN_HTML"></div>
+		<div relid="oper_pdf" babelcode="POSTMAN_PDF"></div>
         <div relid="REGISTRY"></div>
     </div>
 </div>

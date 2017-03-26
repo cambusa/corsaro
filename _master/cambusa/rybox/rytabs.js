@@ -128,9 +128,19 @@
 
             $("#"+propname+">div").each(
                 function(index){
-                    $(this).css({"position":"absolute", "left":0, "top":0, "width":"100%", "overflow":"visible", "display":(index==0?"block":"none")});
+                    $(this).css({"position":"absolute", "left":0, "top":0, "right":0, "overflow":"visible", "display":(index==0?"block":"none")});
                 }
             );
+			
+            var ht=false;
+            $("#window_"+propformid).on("formresize", (function(evt){
+                if(ht){
+                    clearTimeout(ht);
+                }
+                ht=setTimeout(function(){
+					propobj.centering();
+                }, 100);
+            }));
             
             // FUNZIONI PUBBLICHE
             this.move=function(params){
@@ -336,7 +346,20 @@
                 }while(!proptabs[t-1].enabled);
                 propobj.currtab(t);
             }
+			this.centering=function(){
+				var w=$("#"+propname).width();
+				$("#"+propname+">div").each(
+					function(index){
+						if(proptabs[index].csize){
+							var l=(w-proptabs[index].csize)/2;
+							if(l<0){l=0}
+							$(this).css({"left":l});
+						}
+					}
+				);
+			}
             propobj.currtab(1);
+			propobj.centering();
             if(settings.toggle){
                 setTimeout(function(){
                     settings.toggle(propcollapsed, propcollapsed ? "none" : "block");

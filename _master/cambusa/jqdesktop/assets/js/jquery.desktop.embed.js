@@ -86,7 +86,7 @@ var JQD = (function($, window, document, undefined) {
           else {
             // Otherwise, reveal hidden windows that are open.
             $('#dock li:visible a').each(function() {
-              $($(this).attr('href')).show();
+              $($(this).attr('hrefx')).show();
             });
           }
         });

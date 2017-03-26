@@ -154,7 +154,7 @@ var JQD = (function($, window, document, undefined) {
         //d.on('click', '#dock a', function() { // Rudyz
         d.on('mousedown', '#dock a', function() {
           // Get the link's target.
-          var x = $($(this).attr('href'));
+          var x = $($(this).attr('hrefx'));
 
           // Hide, if visible.
           //if (x.is(':visible')) {   // Rudyz
@@ -166,7 +166,7 @@ var JQD = (function($, window, document, undefined) {
             x.show().addClass('window_stack');
 
             // mosca
-            var h=$(this).attr('href');
+            var h=$(this).attr('hrefx');
             JQD.util.window_title(h.substr(8));
           //}
         });
@@ -263,7 +263,7 @@ var JQD = (function($, window, document, undefined) {
           else {
             // Otherwise, reveal hidden windows that are open.
             $('#dock li:visible a').each(function() {
-              $($(this).attr('href')).show();
+              $($(this).attr('hrefx')).show();
             });
           }
         });

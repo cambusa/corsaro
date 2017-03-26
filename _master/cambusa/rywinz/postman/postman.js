@@ -199,6 +199,7 @@ function class_postman(settings,missing){
             });
         }
     });
+	
     offsety+=35;
     
     // GRID DI SELEZIONE
@@ -209,6 +210,7 @@ function class_postman(settings,missing){
         height:200,
         numbered:false,
         checkable:true,
+		contextmenu:false,
         environ:_sessioninfo.environ,
         from:"QVMESSAGES",
         orderby:"SENDINGTIME DESC",
@@ -222,7 +224,9 @@ function class_postman(settings,missing){
         changerow:function(o,i){
             currsysid="";
             curraction="";
-            $(prefix+"REGISTRY").hide();
+            oper_pdf.visible(0);
+			oper_html.visible(0);
+			$(prefix+"REGISTRY").hide();
             oper_engage.enabled(0);
             oper_unread.enabled(o.isselected());
             oper_read.enabled(o.isselected());
@@ -249,7 +253,9 @@ function class_postman(settings,missing){
                         oper_unread.enabled(1);
                         oper_read.enabled(1);
                         oper_delete.enabled(1);
-                        $(prefix+"REGISTRY").html(v[0]["REGISTRY"]);
+                        $(prefix+"CONTENTS").html(v[0]["REGISTRY"]);
+						oper_pdf.visible(1);
+						oper_html.visible(1);
                         $(prefix+"REGISTRY").show();
                     }
                 }
@@ -290,8 +296,89 @@ function class_postman(settings,missing){
     });
 
     offsety=300;
+
+    var oper_html=$(prefix+"oper_html").rylabel({
+        left:20,
+        top:offsety,
+        width:110,
+        caption:"HTML",
+        button:true,
+        click:function(o){
+            winzMessageBox(formid, {
+                message:"Esportare la notifica in formato HTML?",
+				code:"POSTMAN_EXPORT_HTML",
+                confirm:function(){
+					winzProgress(formid);
+					$.engage(_systeminfo.relative.customize+"corsaro/reporting/rep_postman.php", 
+						{
+							"sessionid":_sessioninfo.sessionid,
+							"env":_sessioninfo.environ,
+							"format":"html",
+							"contents":$(prefix+"CONTENTS").html()
+						}, 
+						function(d){
+							try{
+								if(window.console&&_sessioninfo.debugmode){console.log("Risposta da reporting: "+d)}
+								var h=_systeminfo.relative.cambusa+"rysource/source_download.php?file="+d;
+								$("#winz-iframe").prop("src", h);
+								winzClearMess(formid);
+							}
+							catch(e){
+								winzClearMess(formid);
+								alert(d);
+							}
+						}
+					);
+                }
+            });
+        }
+    });	
+	oper_html.visible(0);
+	
+    var oper_pdf=$(prefix+"oper_pdf").rylabel({
+        left:160,
+        top:offsety,
+        width:110,
+        caption:"PDF",
+        button:true,
+        click:function(o){
+            winzMessageBox(formid, {
+                message:"Esportare la notifica in formato PDF?",
+				code:"POSTMAN_EXPORT_PDF",
+                confirm:function(){
+					winzProgress(formid);
+					$.engage(_systeminfo.relative.customize+"corsaro/reporting/rep_postman.php", 
+						{
+							"sessionid":_sessioninfo.sessionid,
+							"env":_sessioninfo.environ,
+							"format":"pdf",
+							"contents":$(prefix+"CONTENTS").html()
+						}, 
+						function(d){
+							try{
+								if(window.console&&_sessioninfo.debugmode){console.log("Risposta da reporting: "+d)}
+								var h=_systeminfo.relative.cambusa+"rysource/source_download.php?file="+d;
+								$("#winz-iframe").prop("src", h);
+								winzClearMess(formid);
+							}
+							catch(e){
+								winzClearMess(formid);
+								alert(d);
+							}
+						}
+					);
+                }
+            });
+        }
+    });	
+	oper_pdf.visible(0);
+	
+	offsety+=30;
+	
     $(prefix+"REGISTRY").css({position:"absolute", left:20, top:offsety, "min-width":695, "min-height":200, "margin-right":20, background:"white", border:"1px solid silver", "padding":3, "display":"none"});
-    
+	$(prefix+"REGISTRY").addClass("ryselectable");
+	$(prefix+"REGISTRY").html("<table><tr><td id='"+formid+"CONTENTS'></td></tr></table>");
+	
     // INIZIALIZZO I TABS
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,

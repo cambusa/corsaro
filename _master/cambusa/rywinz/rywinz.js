@@ -189,7 +189,7 @@ function ryWinz(missing){
 
             t="";
             t+="<li id='icon_dock_"+propid+"'>";
-            t+="    <a href='#window_"+propid+"'>";
+            t+="    <a hrefx='#window_"+propid+"'>";
             t+="        <img src='"+propicon+"_22.png' />";
             t+="        <span class='title_"+propid+"'>"+proptitle+"</span>";
             t+="    </a>";

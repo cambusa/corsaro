@@ -474,7 +474,7 @@ function ryQuiver(missing){
             })
             .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_internal'></div><div id='"+propname+"_button'></div><div id='"+propname+"_clear'></div>");
             
-            $("#"+propname+"_anchor").css({"position":"absolute","font-size":"2px","left":"6px","top":"6px","width":"1px","height":"1px","border":"none","text-indent":"-10px","overflow":"hidden"});
+            $("#"+propname+"_anchor").css({"position":"absolute","font-size":"2px","left":"6px","top":"6px","width":"1px","height":"1px","border":"none","text-indent":"0px","overflow":"hidden"});
 
             $("#"+propname+"_internal")
             .css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"})

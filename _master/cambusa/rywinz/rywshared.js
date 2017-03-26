@@ -55,6 +55,7 @@ function raiseUnload(n){
 function raiseResize(n){
     try{
         var m=$("#window_"+n);
+		$("#window_"+n).trigger( "formresize" );
         var metrics={
             window:{
                 width:m.width(),

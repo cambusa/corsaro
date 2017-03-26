@@ -46,6 +46,7 @@
             
             var propnumbered=false;
             var propcheckable=false;
+			var propcontextmenu=true;
             var propfirstcol=false;
             
             var propscrollsize=15;
@@ -113,6 +114,7 @@
             if(settings.height!=missing){setheight(settings.height)}
             if(settings.numbered!=missing){setnumbered(settings.numbered)}
             if(settings.checkable!=missing){setcheckable(settings.checkable)}
+			if(settings.contextmenu!=missing){propcontextmenu=settings.contextmenu.actualBoolean()}
             if(settings.environ!=missing){propenviron=settings.environ}
             if(settings.requestid!=missing && settings.provider!=missing){
                 if(settings.requestid!="" && settings.provider!=""){
@@ -278,7 +280,7 @@
                                 return nextFocus(propname, k.shiftKey);
                             break;
                         case 50:    // ALT-2: apro il menù contestuale
-                            if(k.altKey)
+                            if(k.altKey && propcontextmenu)
                                 $("#"+propname).contextmenu();
                             break;
                         }
@@ -717,32 +719,34 @@
                             propobj.dataload();
                     }
                 });
-                $("#"+propname).contextMenu("ryque_popup", {
-                    bindings: {
-                        'ryque_use': function(t) {
-                            if(settings.enter!=missing && propindex>0){
-                                settings.enter(propobj, propindex);
-                            }
-                        },
-                        'ryque_sheet': function(t) {
-                            propobj.sheet({});
-                        }
-                    },
-                    onContextMenu:
-                        function(e) {
-                            if(propcount==0 || $("#winz-iframe").length==0)
-                                return false;
-                            else 
-                                return true;
-                        },
-                    onShowMenu: 
-                        function(e, menu) {
-                            if(settings.enter==missing || propindex==0){
-                                $('#ryque_use', menu).remove();
-                            }
-                            return menu;
-                        }
-                });
+				if(propcontextmenu){
+					$("#"+propname).contextMenu("ryque_popup", {
+						bindings: {
+							'ryque_use': function(t) {
+								if(settings.enter!=missing && propindex>0){
+									settings.enter(propobj, propindex);
+								}
+							},
+							'ryque_sheet': function(t) {
+								propobj.sheet({});
+							}
+						},
+						onContextMenu:
+							function(e) {
+								if(propcount==0 || $("#winz-iframe").length==0)
+									return false;
+								else 
+									return true;
+							},
+						onShowMenu: 
+							function(e, menu) {
+								if(settings.enter==missing || propindex==0){
+									$('#ryque_use', menu).remove();
+								}
+								return menu;
+							}
+					});
+				}
                 if(propmaxwidth>propminwidth){
                     var par=$("#"+propname).parents(".window_main");
                     if(par.length>0){

@@ -213,7 +213,8 @@ RYBOX;
             CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js' ></script>");
             if($google_maps){
                 CambusaLibraryAdd("script-google", $script_gmaps);
-                CambusaLibraryAdd("googleapis.js", "<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=it'></script>");
+                //CambusaLibraryAdd("googleapis.js", "<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=it'></script>");
+				CambusaLibraryAdd("googlekey.js", "<script async defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBwsoPEPXLjtfQo2fcEJQV4Fg3kLCAIL50&language=it' type='text/javascript'></script>");
                 CambusaLibraryAdd("googlemaps.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/googlemaps.js' ></script>");
             }
             break;

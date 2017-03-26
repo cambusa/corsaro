@@ -1,4 +1,16 @@
 ==================================
+Rilascio v2.0.5     del 26/03/2017
+==================================
+
+rytabs: possibilità di centrare il contenuto;
+
+Aggiunto un gradiente come sfondo dei form.
+
+Aggiunta la chiave per l'utilizzo delle mappe di Google.
+
+Migliorato Postman.
+
+==================================
 Rilascio v2.0.4    del 15/03/2017
 ==================================
 
