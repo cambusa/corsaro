@@ -229,8 +229,8 @@ function class_qvplutoscript(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"},
-            {title:"Contesto"}
+            {title:"Selezione", csize:800},
+            {title:"Contesto", csize:800}
         ],
         select:function(i,p){
             if(p==2){

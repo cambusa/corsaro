@@ -814,10 +814,10 @@ function class_qvsiti(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione", code:"SELECTION"},
-            {title:"Contesto", code:"CONTEXT"},
-            {title:"Contenitori", code:"CONTAINERS"},
-            {title:"Documenti", code:"DOCUMENTS"}
+            {title:"Selezione", code:"SELECTION", csize:800},
+            {title:"Contesto", code:"CONTEXT", csize:800},
+            {title:"Contenitori", code:"CONTAINERS", csize:800},
+            {title:"Documenti", code:"DOCUMENTS", csize:800}
         ],
         select:function(i,p){
             if(p==2){

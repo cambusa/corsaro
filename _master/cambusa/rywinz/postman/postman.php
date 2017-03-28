@@ -20,6 +20,7 @@
         <div relid="gridsel"></div>
 		<div relid="oper_html" babelcode="POSTMAN_HTML"></div>
 		<div relid="oper_pdf" babelcode="POSTMAN_PDF"></div>
+        <div relid="oper_link" babelcode="POSTMAN_LINK"></div>
         <div relid="REGISTRY"></div>
     </div>
 </div>

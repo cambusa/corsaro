@@ -837,10 +837,10 @@ function class_qvinterazioni(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:50,
         tabs:[
-            {title:"Selezione"},
-            {title:"Attivit&agrave;"},
-            {title:"Dettaglio"},
-            {title:"Allegati"}
+            {title:"Selezione", csize:800},
+            {title:"Attività"},
+            {title:"Dettaglio", csize:800},
+            {title:"Allegati", csize:800}
         ],
         select:function(i,p){
             if(p==tabdettaglio){

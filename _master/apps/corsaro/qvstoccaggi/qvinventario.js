@@ -321,8 +321,8 @@ function class_qvinventario(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"},
-            {title:"Collocazioni"}
+            {title:"Selezione", csize:800},
+            {title:"Collocazioni", csize:800}
         ],
         select:function(i,p){
             if(i==1){

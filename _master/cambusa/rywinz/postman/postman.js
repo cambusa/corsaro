@@ -226,6 +226,7 @@ function class_postman(settings,missing){
             curraction="";
             oper_pdf.visible(0);
 			oper_html.visible(0);
+            $(prefix+"oper_link").hide();
 			$(prefix+"REGISTRY").hide();
             oper_engage.enabled(0);
             oper_unread.enabled(o.isselected());
@@ -319,8 +320,11 @@ function class_postman(settings,missing){
 						function(d){
 							try{
 								if(window.console&&_sessioninfo.debugmode){console.log("Risposta da reporting: "+d)}
-								var h=_systeminfo.relative.cambusa+"rysource/source_download.php?file="+d;
-								$("#winz-iframe").prop("src", h);
+								//var h=_systeminfo.relative.cambusa+"rysource/source_download.php?file="+d;
+								//$("#winz-iframe").prop("src", h);
+                                var h=_systeminfo.web.temporary+d;
+                                $(prefix+"oper_link>a").attr("href", h);
+                                $(prefix+"oper_link").show();
 								winzClearMess(formid);
 							}
 							catch(e){
@@ -357,8 +361,11 @@ function class_postman(settings,missing){
 						function(d){
 							try{
 								if(window.console&&_sessioninfo.debugmode){console.log("Risposta da reporting: "+d)}
-								var h=_systeminfo.relative.cambusa+"rysource/source_download.php?file="+d;
-								$("#winz-iframe").prop("src", h);
+								//var h=_systeminfo.relative.cambusa+"rysource/source_download.php?file="+d;
+								//$("#winz-iframe").prop("src", h);
+                                var h=_systeminfo.web.temporary+d;
+                                $(prefix+"oper_link>a").attr("href", h);
+                                $(prefix+"oper_link").show();
 								winzClearMess(formid);
 							}
 							catch(e){
@@ -372,6 +379,9 @@ function class_postman(settings,missing){
         }
     });	
 	oper_pdf.visible(0);
+    
+    $(prefix+"oper_link").html("<a href='' target='_blank'>Apri</a>");
+    $(prefix+"oper_link").css({position:"absolute", "left":320, "top":offsety, display:"none", "font-size":14});
 	
 	offsety+=30;
 	

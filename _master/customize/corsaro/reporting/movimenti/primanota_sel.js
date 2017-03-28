@@ -176,7 +176,7 @@ function class_primanota_sel(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"}
+            {title:"Selezione", csize:800}
         ]
     });
     qv_titlebar(objtabs, settings);

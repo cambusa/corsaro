@@ -619,10 +619,10 @@ function class_qvmagazzini(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"},
-            {title:"Contesto"},
-            {title:"Documenti"},
-            {title:"Collocazioni"}
+            {title:"Selezione", csize:800},
+            {title:"Contesto", csize:800},
+            {title:"Documenti", csize:800},
+            {title:"Collocazioni", csize:800}
         ],
         select:function(i,p){
             if(p==2){

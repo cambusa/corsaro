@@ -2048,11 +2048,11 @@ function class_qvpratiche(settings,missing){
         collapsible:false,
         tabs:[
             {title:"Selezione"},
-            {title:"Contesto"},
-            {title:"Attivit&agrave;"},
-            {title:"Dettaglio"},
-            {title:"Allegati"},
-            {title:"Movimenti"}
+            {title:"Contesto", csize:800},
+            {title:"Attività"},
+            {title:"Dettaglio", csize:800},
+            {title:"Allegati", csize:800},
+            {title:"Movimenti", csize:800}
         ],
         select:function(i,p){
             if(p==tabcontesto){

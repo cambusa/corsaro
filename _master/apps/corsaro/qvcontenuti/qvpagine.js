@@ -1479,10 +1479,10 @@ function class_qvpagine(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione", code:"SELECTION"},
-            {title:"Contesto", code:"CONTEXT"},
-            {title:"Documenti", code:"DOCUMENTS"},
-            {title:"Correlazioni", code:"PAGE_RELATIONS"}
+            {title:"Selezione", code:"SELECTION", csize:1400},
+            {title:"Contesto", code:"CONTEXT", csize:800},
+            {title:"Documenti", code:"DOCUMENTS", csize:800},
+            {title:"Correlazioni", code:"PAGE_RELATIONS", csize:800}
         ],
         before:function(i,n){
             if(n==1){

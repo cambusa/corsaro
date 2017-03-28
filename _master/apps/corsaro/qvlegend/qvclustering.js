@@ -822,10 +822,10 @@ function class_qvclustering(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"},
-            {title:"Parametri"},
-            {title:"Dettagli"},
-            {title:"Pratiche"}
+            {title:"Selezione", csize:800},
+            {title:"Parametri", csize:800},
+            {title:"Dettagli", csize:1200},
+            {title:"Pratiche", csize:1400}
         ],
         select:function(i,p){
             if(i==1){

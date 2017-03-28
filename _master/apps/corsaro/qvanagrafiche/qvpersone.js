@@ -525,9 +525,9 @@ function class_qvpersone(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"},
-            {title:"Contesto"},
-            {title:"Documenti"}
+            {title:"Selezione", csize:800},
+            {title:"Contesto", csize:800},
+            {title:"Documenti", csize:800}
         ],
         before:function(i,n){
             if(i==2){

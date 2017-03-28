@@ -819,10 +819,10 @@ function class_qvfatturazione(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:50,
         tabs:[
-            {title:"Selezione"},
-            {title:"Contesto"},
-            {title:"Dettaglio"},
-            {title:"Allegati"}
+            {title:"Selezione", csize:800},
+            {title:"Contesto", csize:800},
+            {title:"Dettaglio", csize:800},
+            {title:"Allegati", csize:800}
         ],
         select:function(i,p){
             if(p==tabcontesto){

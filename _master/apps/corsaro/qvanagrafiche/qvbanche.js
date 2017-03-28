@@ -289,7 +289,7 @@ function class_qvbanche(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione", csize:800, msize:300},
+            {title:"Selezione", csize:800},
             {title:"Contesto", csize:800},
             {title:"Documenti", csize:800}
         ],

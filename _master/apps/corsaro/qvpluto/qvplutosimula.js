@@ -207,8 +207,8 @@ function class_qvplutosimula(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"},
-            {title:"Simulazione"}
+            {title:"Selezione", csize:800},
+            {title:"Simulazione", csize:1000}
         ],
         select:function(i,p){
             if(i==1){

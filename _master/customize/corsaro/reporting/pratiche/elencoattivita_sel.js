@@ -193,7 +193,7 @@ function class_elencoattivita_sel(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,position:"relative",
         tabs:[
-            {title:"Selezione"}
+            {title:"Selezione", csize:800}
         ]
     });
     qv_titlebar(objtabs, settings);

@@ -519,9 +519,9 @@ function class_qvmovimenti(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:50,
         tabs:[
-            {title:"Selezione"},
-            {title:"Contesto"},
-            {title:"Documenti"}
+            {title:"Selezione", csize:800},
+            {title:"Contesto", csize:800},
+            {title:"Documenti", csize:800}
         ],
         toggle:function(s, display){
             $(prefix+"lbf_titolare").css("display", display);

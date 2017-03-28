@@ -281,8 +281,8 @@ function class_proiezionesaldi_sel(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:10,position:"relative",
         tabs:[
-            {title:"Selezione"},
-            {title:"Grafico"}
+            {title:"Selezione", csize:800},
+            {title:"Grafico", csize:800}
         ]
     });
     qv_titlebar(objtabs, settings);

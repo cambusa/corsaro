@@ -145,7 +145,7 @@ function class_qvattivita(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"}
+            {title:"Selezione", csize:800}
         ],
         select:function(i,p){
             if(!flagsuspend){

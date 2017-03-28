@@ -46,7 +46,8 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
 	$tempid=qv_createsysid($maestro);
 	
 	if($format=="pdf"){
-		$pathfile=$temporary . "postman$tempid.pdf";
+        $namefile="postman$tempid.pdf";
+		$pathfile=$temporary . $namefile;
 		try{
 			require_once $path_cambusa."html2pdf/html2pdf.class.php";
 			$objpdf=new HTML2PDF( 
@@ -68,12 +69,13 @@ if(qv_validatesession($maestro, $sessionid, "quiver")){
 		}
 	}
 	else{
-		$pathfile=$temporary . "postman$tempid.htm";
+        $namefile="postman$tempid.htm";
+		$pathfile=$temporary . $namefile;
 		file_put_contents($pathfile, $contents);
 	}
 
     // RESTITUISCO IL PERCORSO DEL DOCUMENTO
-    print $pathfile;
+    print $namefile;
 }
 
 // CHIUDO IL DATABASE

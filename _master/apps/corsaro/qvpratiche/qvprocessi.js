@@ -1882,14 +1882,14 @@ function class_qvprocessi(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:0,
         tabs:[
-            {title:"Selezione"},
-            {title:"Contesto"},
-            {title:"Attori"},
-            {title:"Motivi"},
-            {title:"Stati"},
-            {title:"Documenti"},
-            {title:"Vincoli"},
-            {title:"Transizioni"},
+            {title:"Selezione", csize:800},
+            {title:"Contesto", csize:800},
+            {title:"Attori", csize:800},
+            {title:"Motivi", csize:800},
+            {title:"Stati", csize:800},
+            {title:"Documenti", csize:800},
+            {title:"Vincoli", csize:800},
+            {title:"Transizioni", csize:800},
             {title:"Grafo"}
         ],
         select:function(i,p){

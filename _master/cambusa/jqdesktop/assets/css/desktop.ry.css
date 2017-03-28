@@ -13,7 +13,7 @@
   cursor: default;
 }
 */
-:not(.ryselectable) > table{cursor: default;}
+:not(.ryselectable)>table{cursor: default;}
 
 html,
 body {
@@ -542,6 +542,13 @@ th.shrink {
 #bar_bottom .float_right img {
   display: block;
   padding: 4px 0px 0px;
+}
+
+/* `Dock
+----------------------------------------------------------------------------------------------------*/
+
+#dock li{
+  cursor:pointer;
 }
 
 /* `Wrapper + Wallpaper + Desktop

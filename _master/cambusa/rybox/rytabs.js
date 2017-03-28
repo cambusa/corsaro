@@ -351,7 +351,7 @@
 				$("#"+propname+">div").each(
 					function(index){
 						if(proptabs[index].csize){
-							var l=(w-proptabs[index].csize)/2;
+							var l=Math.floor((w-proptabs[index].csize)/3);
 							if(l<0){l=0}
 							$(this).css({"left":l});
 						}

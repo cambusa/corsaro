@@ -89,6 +89,7 @@ border-radius: 7px;
 
 .winz_close {
 position: absolute;
+cursor:pointer;
 background: #606060;
 color: #FFFFFF;
 line-height: 20px;

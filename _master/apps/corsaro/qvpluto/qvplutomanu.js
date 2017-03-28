@@ -581,9 +581,9 @@ function class_qvplutomanu(settings,missing){
     var objtabs=$( prefix+"tabs" ).rytabs({
         top:50,
         tabs:[
-            {title:"Selezione"},
-            {title:"Flussi"},
-            {title:"Anteprima"}
+            {title:"Selezione", csize:800},
+            {title:"Flussi", csize:800},
+            {title:"Anteprima", csize:800}
         ],
         select:function(i,p){
             if(p==2){
