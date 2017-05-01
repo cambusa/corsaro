@@ -735,6 +735,25 @@
             "INDIVIDUATION":{"type":"VARCHAR", "size":100}
         }
     },
+    "QVTRANSCODING":{
+        "type":"database",
+        "fields":{
+            "SYSID":{"type":"SYSID", "key":1},
+            "TYPOLOGY":{"type":"VARCHAR", "size":50},
+            "CONTEXT":{"type":"VARCHAR", "size":50},
+            "ORIGINALVALUE":{"type":"VARCHAR", "size":255},
+            "TRANSCODEDVALUE":{"type":"VARCHAR", "size":255},
+            "DESCRIPTION":{"type":"VARCHAR", "size":255}
+        },
+        "versions":[
+            {
+                "version":2,
+                "sql":[
+                    "CREATE INDEX QVTRANSCODINGTCO ON QVTRANSCODING(TYPOLOGY,CONTEXT,ORIGINALVALUE)"
+                ]
+            }
+        ]
+    },
     "QVUSERS":{
         "type":"database",
         "fields":{

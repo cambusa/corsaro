@@ -1781,6 +1781,9 @@ function class_qvclustering(settings,missing){
                 try{
                     var v=$.parseJSON(d);
                     if(v.success>0){ 
+						// RESETTO IL RIFERIMENTO DEL TAB PRATICHE IN QUESTO
+						// MODO ANDANDOCI ESEUE IL REFRESH DELLE PRATICHE
+						loadedsysidK="";
                         gridarrows_refresh(
                             function(){
                                 for(var g in cachegrids){

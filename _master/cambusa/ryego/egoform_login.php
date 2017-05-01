@@ -30,6 +30,7 @@ $(document).ready(function(){
         password:true,
         maxlen:16,
         enter:function(o){
+			syswaiting();
             var u=user.value();
             var m=encryptString( pwd.value() );
             var b="";

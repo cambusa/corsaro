@@ -124,7 +124,14 @@ try{
                     if(!$iscorrect){
                         $demiurge=intval($v[0]["DEMIURGE"]);
                         if($demiurge){
-                            $iscorrect=($v[0]["PWD"]==$pwd);
+                            // LETTURA PASSWORD DI DEFAULT
+                            $sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME='default'";
+                            maestro_query($maestro, $sql, $r);
+                            if(count($r)==1)
+                                $defaultpwd=sha1($r[0]["VALUE"]);
+                            else
+                                $defaultpwd="";
+                            $iscorrect=($v[0]["PWD"]==$pwd && $pwd!=$defaultpwd);
                         }
                     }
                 }

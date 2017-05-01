@@ -10,7 +10,7 @@
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
 ?>
-<div style="height:300px;">
+<div style="height:320px;">
 
 <div id="lbalias" babelcode="EGO_LOGIN_USER"></div>
 <div id="txalias"></div>

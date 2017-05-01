@@ -168,6 +168,20 @@ try{
                                         // AGGIORNO LA PASSWORD
                                         $sql="UPDATE EGOUSERS SET PASSWORD='$newpwd',LASTCHANGE=[:TODAY()] WHERE SYSID='$userid'";
                                         maestro_execute($maestro, $sql);
+                                        
+                                        // SCATENO, SE DEFINITO, UN EVENTO PER LA GESTIONE ESTERNA DEGLI UTENTI
+                                        if(is_file($path_customize."ryego/custtriggerusers.php")){
+                                            include_once($path_customize."ryego/custtriggerusers.php");
+                                            $custegousers="custegousers";
+                                            if(function_exists($custegousers)){
+                                                if($custegousers($maestro, "changepwd", $userid, $aliasid, $newpwd, $errdescr, $errcode)==false){
+                                                    $success=0;
+                                                    $field=0;
+                                                    $description=$errdescr;
+                                                    $babelcode=$errcode;
+                                                }
+                                            }
+                                        }
                                     }
                                     else{
                                         $success=0;

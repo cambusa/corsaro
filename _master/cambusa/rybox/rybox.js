@@ -1836,8 +1836,9 @@ var globalcolorfocus="#FFF4E6";
                         }
                         propobj.raisetimerize(false);
                     }
-                    else if(k.which==8 || (k.shiftKey && k.which==45)){
-                        propobj.raisechanged();
+                    else if(k.which==8 || (k.shiftKey && k.which==45 || k.ctrlKey && String.fromCharCode(k.which).toUpperCase()=="V")){ // mosca
+                        // La changed la faccio nella up per avere il dato aggiornato
+                        //propobj.raisechanged();
                         propobj.raisetimerize(false);
             		}
                     else if(k.which==9){
@@ -1871,6 +1872,10 @@ var globalcolorfocus="#FFF4E6";
             	function(k){
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
                         return true;
+                    else if(k.which==8 || (k.shiftKey && k.which==45 || k.ctrlKey && String.fromCharCode(k.which).toUpperCase()=="V")){ // mosca
+                        propobj.raisechanged();
+                        //propobj.raisetimerize(false);
+            		}
                     if(propchangedfalse){
                         // COMANDO DOPO INVIO: ABBASSO IL FLAG CHANGED
                         propchanged=false;
@@ -3448,7 +3453,8 @@ function _navigateKeys(k){
     }
     else{
     */
-        return (k.altKey && k.which!=50);
+        //return (k.altKey && k.which!=50 && k.which!=64 && k.which!=35);	//  ? @ #
+		return (k.altKey && (k.which>=48 && k.which<=57));
     //}
 }
 function _visibleobject(id){

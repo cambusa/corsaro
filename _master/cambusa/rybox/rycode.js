@@ -300,8 +300,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             	function(k){
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
                         return true;
-                    if(propalt)
-                        return true;
+                    //if(propalt)
+                    //    return true;
             		if(propenabled && !proplock){
                         if(k.which>0){
                             var n=String.fromCharCode(k.which);

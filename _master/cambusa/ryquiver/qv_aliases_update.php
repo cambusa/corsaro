@@ -18,6 +18,7 @@ function qv_aliases_update($maestro, $data){
         $SYSID="";
         
         // INDIVIDUAZIONE RECORD
+        $sets="";
         $record=qv_solverecord($maestro, $data, "QVALIASES", "SYSID", "NAME", $SYSID, "*");
         if($SYSID==""){
             $babelcode="QVERR_SYSID";

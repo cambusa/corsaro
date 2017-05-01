@@ -527,5 +527,13 @@ class rySeeker{
     public function progress($mess){
         _qv_progress($mess);
     }
+	public function kanagawa($script, $options=false){
+		if($options)
+			$data=$options;
+		else
+			$data=array();
+		$data["SCRIPT"]=$script;
+		qv_wave_execute($this->maestro, $data);
+	}
 }
 ?>

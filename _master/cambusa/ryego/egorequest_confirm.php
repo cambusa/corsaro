@@ -77,7 +77,21 @@ try{
                     $m=egomail($user, $object, $text);
                     if($m["success"]==1){
                         $sql="UPDATE EGOUSERS SET PASSWORD='".sha1($pwd)."',LASTCHANGE=NULL,REQUESTID=NULL,REQUESTIP=NULL,REQUESTTIME=NULL WHERE SYSID='$userid'";
-                        if(!maestro_execute($maestro, $sql, false)){
+                        if(maestro_execute($maestro, $sql, false)){
+                            // SCATENO, SE DEFINITO, UN EVENTO PER LA GESTIONE ESTERNA DEGLI UTENTI
+                            if(is_file($path_customize."ryego/custtriggerusers.php")){
+                                include_once($path_customize."ryego/custtriggerusers.php");
+                                $custegousers="custegousers";
+                                if(function_exists($custegousers)){
+                                    if($custegousers($maestro, "changepwd", $userid, $aliasid, sha1($pwd), $errdescr, $errcode)==false){
+                                        $success=0;
+                                        $description=$errdescr;
+                                        $babel=$errcode;
+                                    }
+                                }
+                            }
+                        }
+                        else{
                             $success=0;
                             $description=$maestro->errdescr;
                             $babel="EGO_MSG_UNDEFINED";

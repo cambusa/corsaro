@@ -865,9 +865,9 @@
                                 fd="#"+propname+"_"+r+"_"+c;
                                 vl=v[r-1][propcols[c-1]];
                                 if(typeof vl!="string"){
-                                    vl="";
+                                    vl=$.actualString(vl);
                                 }
-                                else{
+                                //else{
                                     try{
                                         switch(proptyps[c-1]){
                                         case "?":
@@ -935,7 +935,7 @@
                                     catch(e){
                                         vl=e.message;
                                     }
-                                }
+                                //}
                                 $(fd).html(vl);
                             }
                         }

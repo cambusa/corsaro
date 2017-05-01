@@ -53,6 +53,12 @@ try{
     else
         $email="";
 
+    // DETERMINO REGISTRY
+    if(isset($_POST["registry"]))
+        $registry=ryqEscapize($_POST["registry"]);
+    else
+        $registry="";
+
     // DETERMINO DEMIURGE
     if(isset($_POST["demiurge"]))
         $demiurge=ryqEscapize($_POST["demiurge"]);
@@ -155,12 +161,16 @@ try{
                     // Controllo che alias sia passato
                     if($alias!=""){
                         // Determino aliasid
-                        $sql="SELECT SYSID FROM EGOALIASES WHERE [:UPPER(NAME)]='".strtoupper($alias)."'";
+                        $sql="SELECT SYSID,USERID FROM EGOALIASES WHERE [:UPPER(NAME)]='".strtoupper($alias)."'";
                         maestro_query($maestro, $sql, $r);
-                        if(count($r)==1)
+                        if(count($r)==1){
                             $aliasid=$r[0]["SYSID"];
-                        else
+							$userid=$r[0]["USERID"];
+						}
+                        else{
                             $aliasid="";
+							$userid="";
+						}
                     }
                     else{
                         $success=0;
@@ -322,6 +332,8 @@ try{
             // BEGIN TRANSACTION
             maestro_begin($maestro);
 
+            $pwd="######";
+            
             switch($action){
                 case "newuser":
                     if($userid==""){
@@ -330,7 +342,7 @@ try{
                         maestro_query($maestro, $sql, $r);
                         $pwd=sha1($r[0]["VALUE"]);
                         $userid=qv_createsysid($maestro);
-                        $sql="INSERT INTO EGOUSERS(SYSID,PASSWORD,ACTIVE) VALUES('$userid','$pwd','1')";
+                        $sql="INSERT INTO EGOUSERS(SYSID,PASSWORD,REGISTRY,ACTIVE) VALUES('$userid','$pwd','$registry','1')";
                         maestro_execute($maestro, $sql);
                         if($success){
                             $aliasid=qv_createsysid($maestro);
@@ -350,6 +362,8 @@ try{
                             $aliasid=qv_createsysid($maestro);
                             $sql="INSERT INTO EGOALIASES(SYSID,USERID,NAME,EMAIL,MAIN,DEMIURGE,ADMINISTRATOR) VALUES('$aliasid','$userid','$alias','$email','0','$demiurge','$admin')";
                             maestro_execute($maestro, $sql);
+							$sql="UPDATE EGOUSERS SET REGISTRY='$registry' WHERE SYSID='$userid'";
+							maestro_execute($maestro, $sql);
                         }
                         else{
                             $success=0;
@@ -368,6 +382,8 @@ try{
                         if($aliasid!=""){
                             $sql="UPDATE EGOALIASES SET NAME='$aliasnew',EMAIL='$email',DEMIURGE=$demiurge,ADMINISTRATOR=$admin WHERE SYSID='$aliasid'";
                             maestro_execute($maestro, $sql);
+							$sql="UPDATE EGOUSERS SET REGISTRY='$registry' WHERE SYSID='$userid'";
+							maestro_execute($maestro, $sql);
                         }
                         else{
                             $success=0;
@@ -432,6 +448,19 @@ try{
             if($success){
                 // COMMIT TRANSACTION
                 maestro_commit($maestro);
+                
+                // SCATENO, SE DEFINITO, UN EVENTO PER LA GESTIONE ESTERNA DEGLI UTENTI
+                if(is_file($path_customize."ryego/custtriggerusers.php")){
+                    include_once($path_customize."ryego/custtriggerusers.php");
+                    $custegousers="custegousers";
+                    if(function_exists($custegousers)){
+                        if($custegousers($maestro, $action, $userid, $aliasid, $pwd, $errdescr, $errcode)==false){
+                            $success=0;
+                            $description=$errdescr;
+                            $babelcode=$errcode;
+                        }
+                    }
+                }
             }
             else{
                 // ROLLBACK TRANSACTION

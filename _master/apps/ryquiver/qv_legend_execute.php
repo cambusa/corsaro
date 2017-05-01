@@ -16,6 +16,10 @@ include_once $path_cambusa."ryquiver/qv_quivers_add.php";
 include_once $path_cambusa."rymaestro/maestro_querylib.php";
 include_once $path_applications."ryquiver/qv_legend_infoconfig.php";
 include_once $path_applications."ryquiver/legend_seeker.php";
+
+if(is_file($path_applications."ryquiver/kanagawa/qv_wave_execute.php"))
+	include_once $path_applications."ryquiver/kanagawa/qv_wave_execute.php";
+
 function qv_legend_execute($maestro, $data){
     global $global_quiveruserid, $global_quiverroleid;
     global $babelcode, $babelparams;

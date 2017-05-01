@@ -1,0 +1,11 @@
+<?php
+function custegousers($maestro, $oper, $userid, $aliasid, $pwd, &$errdescr, &$errcode){
+    global $url_base;
+    
+    $errdescr="";
+    $errcode="";
+    $url=preg_replace("@[^/]+/?$@", "", $url_base);
+
+	return true;
+}
+?>

@@ -42,6 +42,7 @@ var objusr_refresh;
 var objusr_user;
 var objusr_alias;
 var objusr_email;
+var objusr_registry;
 var objusr_demiurge;
 var objusr_admin;
 
@@ -399,12 +400,14 @@ function config(missing){
         columns:[
             {id:"ALIASNAME", caption:"Alias", width:180, code:"EGO_GRID_ALIAS"},
             {id:"USERNAME", caption:"Utente", width:180, code:"EGO_GRID_USER"},
-            {id:"ACTIVE", caption:"", width:20, type:"?"}
+            {id:"ACTIVE", caption:"", width:20, type:"?"},
+            {id:"REGISTRY", caption:"Custom", width:200, code:"EGO_GRID_REGISTRY"}
         ],
         changerow:function(o,i){
             objusr_user.caption("");
             objusr_alias.clear();
             objusr_email.clear();
+            objusr_registry.clear();
             objusr_demiurge.value(false);
             objusr_admin.value(false);
             curralias="";
@@ -413,12 +416,13 @@ function config(missing){
         },
         solveid:function(o,d){
             RYQUE.query({
-                sql:"SELECT ALIASNAME,USERNAME,EMAIL,DEMIURGE,ADMINISTRATOR FROM EGOVIEWUSERS WHERE SYSID='"+d+"'",
+                sql:"SELECT ALIASNAME,USERNAME,EMAIL,REGISTRY,DEMIURGE,ADMINISTRATOR FROM EGOVIEWUSERS WHERE SYSID='"+d+"'",
                 ready:function(v){
                     curralias=v[0].ALIASNAME;
                     objusr_user.caption(v[0].USERNAME);
                     objusr_alias.value(v[0].ALIASNAME);
                     objusr_email.value(v[0].EMAIL);
+                    objusr_registry.value(v[0].REGISTRY);
                     objusr_demiurge.value(v[0].DEMIURGE);
                     objusr_admin.value(v[0].ADMINISTRATOR);
                 }
@@ -477,22 +481,32 @@ function config(missing){
     $("#lbusr_use").rylabel({left:420,top:90,caption:"Usa:"});
     objusr_user=$("#lbusr_user").rylabel({left:490,top:90,caption:""});
     
-    $("#lbusr_alias").rylabel({left:420,top:118,caption:"Alias"});
-    objusr_alias=$("#txusr_alias").rytext({left:490,top:118,width:160,maxlen:30});
+    var offsety=118;
+    $("#lbusr_alias").rylabel({left:420,top:offsety,caption:"Alias"});
+    objusr_alias=$("#txusr_alias").rytext({left:490,top:offsety,width:160,maxlen:30});
     
-    $("#lbusr_email").rylabel({left:420,top:142,caption:"Email"});
-    objusr_email=$("#txusr_email").rytext({left:490,top:142,width:160,maxlen:50});
+    offsety+=24;
+    $("#lbusr_email").rylabel({left:420,top:offsety,caption:"Email"});
+    objusr_email=$("#txusr_email").rytext({left:490,top:offsety,width:160,maxlen:50});
     
-    $("#lbusr_demiurge").rylabel({left:420,top:166,caption:"Demiurgo"});
-    objusr_demiurge=$("#chkusr_demiurge").rycheck({left:490,top:166});
+    offsety+=24;
+    $("#lbusr_registry").rylabel({left:420,top:offsety,caption:"Custom"});
+    objusr_registry=$("#txusr_registry").rytext({left:490,top:offsety,width:160,maxlen:50});
     
-    $("#lbusr_admin").rylabel({left:550,top:166,caption:"Amministr."});
-    objusr_admin=$("#chkusr_admin").rycheck({left:630,top:166});
+    offsety+=24;
+    $("#lbusr_demiurge").rylabel({left:420,top:offsety,caption:"Demiurgo"});
+    objusr_demiurge=$("#chkusr_demiurge").rycheck({left:490,top:offsety});
     
-    $("#lbusr_as").rylabel({left:420,top:196,caption:"Come:"});
+    $("#lbusr_admin").rylabel({left:550,top:offsety,caption:"Amministr."});
+    objusr_admin=$("#chkusr_admin").rycheck({left:630,top:offsety});
+    
+    offsety+=30;
+    $("#lbusr_as").rylabel({left:420,top:offsety,caption:"Come:"});
+    
+    offsety+=20;
     $("#lbusr_action_newuser").rylabel({
         left:420,
-        top:216,
+        top:offsety,
         caption:"Nuovo utente",
         button:true,
         flat:true,
@@ -504,6 +518,7 @@ function config(missing){
                     sessionid:_sessioninfo.sessionid,
                     user:objusr_alias.value(), 
                     email:objusr_email.value(),
+                    registry:objusr_registry.value(),
                     demiurge:objusr_demiurge.value(),
                     admin:objusr_admin.value()
                 }, 
@@ -522,9 +537,10 @@ function config(missing){
             );
         }
     });
+    offsety+=20;
     $("#lbusr_action_newalias").rylabel({
         left:420,
-        top:236,
+        top:offsety,
         caption:"Nuovo alias",
         button:true,
         flat:true,
@@ -537,6 +553,7 @@ function config(missing){
                     user:objusr_user.caption(),
                     alias:objusr_alias.value(), 
                     email:objusr_email.value(),
+                    registry:objusr_registry.value(),
                     demiurge:objusr_demiurge.value(),
                     admin:objusr_admin.value()
                 }, 
@@ -555,9 +572,10 @@ function config(missing){
             );
         }
     });
+    offsety+=20;
     $("#lbusr_action_updateuser").rylabel({
         left:420,
-        top:256,
+        top:offsety,
         caption:"Modifica selezionato",
         button:true,
         flat:true,
@@ -570,6 +588,7 @@ function config(missing){
                     alias:curralias, 
                     aliasnew:objusr_alias.value(),
                     email:objusr_email.value(),
+                    registry:objusr_registry.value(),
                     demiurge:objusr_demiurge.value(),
                     admin:objusr_admin.value()
                 }, 
@@ -588,10 +607,14 @@ function config(missing){
             );
         }
     });
-    $("#lbusr_or").rylabel({left:420,top:286,caption:"Oppure:"});
+    
+    offsety+=30;
+    $("#lbusr_or").rylabel({left:420,top:offsety,caption:"Oppure:"});
+    
+    offsety+=20;
     $("#lbusr_action_reset").rylabel({
         left:420,
-        top:306,
+        top:offsety,
         caption:"Resetta password",
         button:true,
         flat:true,
@@ -620,9 +643,11 @@ function config(missing){
             }
         }
     });
+    
+    offsety+=20;
     $("#lbusr_action_activate").rylabel({
         left:420,
-        top:326,
+        top:offsety,
         caption:"Attiva/Disattiva utente",
         button:true,
         flat:true,
@@ -649,9 +674,11 @@ function config(missing){
             );
         }
     });
+    
+    offsety+=20;
     $("#lbusr_action_deletealias").rylabel({
         left:420,
-        top:346,
+        top:offsety,
         caption:"Elimina alias",
         button:true,
         flat:true,
@@ -680,9 +707,11 @@ function config(missing){
             }
         }
     });
+    
+    offsety+=20;
     $("#lbusr_action_deleteuser").rylabel({
         left:420,
-        top:366,
+        top:offsety,
         caption:"Elimina utente",
         button:true,
         flat:true,
@@ -711,9 +740,11 @@ function config(missing){
             }
         }
     });
+    
+    offsety+=20;
     $("#lbusr_action_deleteall").rylabel({
         left:420,
-        top:386,
+        top:offsety,
         caption:"Elimina tutti i disattivati",
         button:true,
         flat:true,

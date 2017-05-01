@@ -14,6 +14,7 @@ CambusaLibrary("ryQuiver");
 CambusaLibrary("GoogleMaps");
 CambusaLibrary("CKEditor");
 CambusaLibrary("ryScript");
+CambusaLibrary("ryCode");
 CambusaLibrary("Geography");
 CambusaLibraryAdd("corsaro.js", "<script type='text/javascript' src='".$url_applications."corsaro/_javascript/corsaro.js?ver=$cacheversion' ></script>");
 ?>

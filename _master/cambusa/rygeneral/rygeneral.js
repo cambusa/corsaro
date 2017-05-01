@@ -395,7 +395,33 @@ $.extend({
             }, 1000);
         }
         return jqxhr;
-    }
+    },
+	actualString:function(x){
+		try{
+			switch(typeof x){
+				case "string":
+					break;
+				case "object":
+					x=x.toString();
+					break;
+				case "undefined":
+					x="";
+					break;
+				default:
+					x=""+x;
+			}
+			return x;
+		}
+		catch(e){
+			return ""+x;
+		}
+	},
+	console:function(m){
+		if(window.console){console.log(m)}
+	},
+	debug:function(m){
+		if(window.console&&_sessioninfo.debugmode){console.log(m)}
+	}
 });
 
 /***************************

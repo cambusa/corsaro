@@ -1,9 +1,9 @@
 /****************************************************************************
 * Name:            ryque.js                                                 *
 * Project:         Cambusa/ryQue                                            *
-* Version:         1.69                                                     *
+* Version:         2.00                                                     *
 * Description:     Lightweight access to databases                          *
-* Copyright (C):   2015  Rodolfo Calzetti                                   *
+* Copyright (C):   2017  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
@@ -818,6 +818,7 @@
                 proploadon=true;
                 propobj.vscrefresh();
                 _systeminfo.activities+=1;
+				var attempts=0;
                 $.post(propfolderryque+"ryq_window.php", {"reqid":propreqid,"offset":proptoprow,"length":proprows,"clause":propclause})
                 .done(function(d){
                     _systeminfo.activities-=1;
@@ -850,9 +851,9 @@
                                     fd="#"+propname+"_"+r+"_"+c;
                                     vl=v[r-1][propcols[c-1]];
                                     if(typeof vl!="string"){
-                                        vl="";
+                                        vl=$.actualString(vl);
                                     }
-                                    else{
+                                    //else{
                                         try{
                                             switch(proptyps[c-1]){
                                             case "?":
@@ -920,7 +921,7 @@
                                         catch(e){
                                             vl=e.message;
                                         }
-                                    }
+                                    //}
                                     $(fd).html(vl);
                                 }
                             }
@@ -942,9 +943,11 @@
                     }
                 })
                 .fail(function(){
+					_systeminfo.activities-=1;
                     ryqueFail("dataload");
                     proploadon=false;
-                    setTimeout(function(){propobj.dataload(chain)}, 100);
+					if(attempts++<10)
+						setTimeout(function(){propobj.dataload(chain)}, 200);
                 });
            }
             this.screencell=function(r,c){
@@ -1007,6 +1010,7 @@
                             }
                         }
                         _systeminfo.activities+=1;
+						var attempts=0;
                         $.post(propfolderryque+"ryq_solve.php", {"reqid":propreqid,"index":ind,"invert":invert.booleanNumber()})
                         .done(function(d) {
                             _systeminfo.activities-=1;
@@ -1018,8 +1022,10 @@
                             }
                         })
                         .fail(function(){
+							_systeminfo.activities-=1;
                             ryqueFail("solveid");
-                            setTimeout(function(){propobj.solveid(ind, back, invert)}, 100);
+							if(attempts++<10)
+								setTimeout(function(){propobj.solveid(ind, back, invert)}, 200);
                         });
                     }
                     , 200
@@ -1029,6 +1035,7 @@
                 if(ids!=""){
                     if(raisebeforechange(0)){return}
                     _systeminfo.activities+=1;
+					var attempts=0;
                     $.post(propfolderryque+"ryq_selbyid.php", {"reqid":propreqid,"listid":ids})
                     .done(function(d){
                         _systeminfo.activities-=1;
@@ -1054,8 +1061,10 @@
                         }
                     })
                     .fail(function(){
+						_systeminfo.activities-=1;
                         ryqueFail("selbyid");
-                        setTimeout(function(){propobj.selbyid(ids, sing, done)}, 100);
+						if(attempts++<10)
+							setTimeout(function(){propobj.selbyid(ids, sing, done)}, 200);
                     });
                 }
                 else{
@@ -1120,6 +1129,7 @@
             this.dispose=function(done){
                 if(propreqid!=""&&propreqprivate==true){
                     _systeminfo.activities+=1;
+					var attempts=0;
                     $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid})
                     .done(function(d){
                         _systeminfo.activities-=1;
@@ -1129,8 +1139,10 @@
                         }
                     })
                     .fail(function(){
+						_systeminfo.activities-=1;
                         ryqueFail("dispose");
-                        setTimeout(function(){propobj.dispose(done)}, 100);
+						if(attempts++<10)
+							setTimeout(function(){propobj.dispose(done)}, 200);
                     });
                     if(done==missing){
                         $.pause(100);
@@ -1559,6 +1571,7 @@
 			}
 			this.search=function(criteria, action){
                 _systeminfo.activities+=1;
+				var attempts=0;
                 $.post(propfolderryque+"ryq_search.php", {"reqid":propreqid,"criteria":criteria})
                 .done(function(d) {
                     _systeminfo.activities-=1;
@@ -1570,14 +1583,17 @@
                     }
                 })
                 .fail(function(){
+					_systeminfo.activities-=1;
                     ryqueFail("search");
-                    setTimeout(function(){propobj.search(criteria, action)}, 100);
+					if(attempts++<10)
+						setTimeout(function(){propobj.search(criteria, action)}, 200);
                 });
 			}
 			this.splice=function(start, length, adding, done){
                 if(start==0)
                     start=propcount+1;
                 _systeminfo.activities+=1;
+				var attempts=0;
                 $.post(propfolderryque+"ryq_splice.php", {"reqid":propreqid, "start":start, "length":length, "adding":adding})
                 .done(function(d){
                     _systeminfo.activities-=1;
@@ -1597,8 +1613,10 @@
                     }
                 })
                 .fail(function(){
+					_systeminfo.activities-=1;
                     ryqueFail("splice");
-                    setTimeout(function(){propobj.splice(start, length, adding, done)}, 100);
+					if(attempts++<10)
+						setTimeout(function(){propobj.splice(start, length, adding, done)}, 200);
                 });
 			}
 			this.visible=function(v){
@@ -1622,6 +1640,7 @@
             this.getprotocol=function(){
                 if(propreqid==""){
                     _systeminfo.activities+=1;
+					var attempts=0;
                     $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessioninfo.sessionid})
                     .done(function(d) {
                         _systeminfo.activities-=1;
@@ -1648,8 +1667,10 @@
                         TAIL.free();
                     })
                     .fail(function(){
+						_systeminfo.activities-=1;
                         ryqueFail("getprotocol");
-                        setTimeout(function(){propobj.getprotocol()}, 100);   
+						if(attempts++<10)
+							setTimeout(function(){propobj.getprotocol()}, 200);   
                     });
                 }
                 else{
@@ -1667,6 +1688,7 @@
                 if(params.args!=missing){args=params.args}
                 if(params.sql!=missing){
                     _systeminfo.activities+=1;
+					var attempts=0;
                     $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args})
                     .done(function(d){
                             _systeminfo.activities-=1;
@@ -1681,8 +1703,10 @@
                             }
                     })
                     .fail(function(){
+						_systeminfo.activities-=1;
                         ryqueFail("extract");
-                        setTimeout(function(){propobj.extract(params)}, 100);   
+                        if(attempts++<10)
+							setTimeout(function(){propobj.extract(params)}, 200);   
                     });
                 }
             }
@@ -1696,6 +1720,7 @@
                         "type":proptyps
                     };
                     _systeminfo.activities+=1;
+					var attempts=0;
                     $.post(propfolderryque+"ryq_export.php", 
                         {
                             "reqid":propreqid,
@@ -1727,8 +1752,10 @@
                         stoploading();
                     })
                     .fail(function(){
+						_systeminfo.activities-=1;
                         ryqueFail("sheet");
-                        setTimeout(function(){propobj.sheet(params)}, 100);
+                        if(attempts++<10)
+							setTimeout(function(){propobj.sheet(params)}, 200);
                     });
                 }
             }
@@ -2105,6 +2132,7 @@
                 propusedparams={"reqid":propreqid,"select":propselection,"from":propfrom,"where":whe,"orderby":ord,"index":prei,"sels":pres,"args":args,"limit":lim};
                 if(window.console&&_sessioninfo.debugmode){console.log(propusedparams)}
                 _systeminfo.activities+=1;
+				var attempts=0;
                 $.post(propfolderryque+"ryq_index.php", propusedparams)
                 .done(function(d) {
                     _systeminfo.activities-=1;
@@ -2162,8 +2190,10 @@
                     }
                 })
                 .fail(function(){
+					_systeminfo.activities-=1;
                     ryqueFail("callquery");
-                    setTimeout(function(){callquery(params)}, 100);
+					if(attempts++<10)
+						setTimeout(function(){callquery(params)}, 200);
                 });
             }
             function setheight(h){
@@ -2276,6 +2306,7 @@ function ryQue(missing){
         var env=propenviron;
         if(params.environ!=missing){env=params.environ}
         _systeminfo.activities+=1;
+		var attempts=0;
         $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessioninfo.sessionid})
         .done(function(d){
             _systeminfo.activities-=1;
@@ -2292,8 +2323,10 @@ function ryQue(missing){
             }
         })
         .fail(function(){
+			_systeminfo.activities-=1;
             ryqueFail("request");
-            setTimeout(function(){propobj.request(params)}, 100);
+			if(attempts++<10)
+				setTimeout(function(){propobj.request(params)}, 200);
         });
     }
     this.query=function(params){
@@ -2301,6 +2334,7 @@ function ryQue(missing){
         if(params.args!=missing){args=params.args}
         if(params.sql!=missing){
             _systeminfo.activities+=1;
+			var attempts=0;
             $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args})
             .done(function(d){
                 _systeminfo.activities-=1;
@@ -2315,14 +2349,17 @@ function ryQue(missing){
                 }
             })
             .fail(function(){
-                ryqueFail("query");
-                setTimeout(function(){propobj.query(params)}, 100);   
+                _systeminfo.activities-=1;
+				ryqueFail("query");
+				if(attempts++<10)
+					setTimeout(function(){propobj.query(params)}, 200);   
             });
         }
     }
     this.dispose=function(done){
         if(propreqid!=""){
             _systeminfo.activities+=1;
+			var attempts=0;
             $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid})
             .done(function(d){
                 _systeminfo.activities-=1;
@@ -2331,8 +2368,10 @@ function ryQue(missing){
                 }
             })
             .fail(function(){
+				_systeminfo.activities-=1;
                 ryqueFail("dispose");
-                setTimeout(function(){propobj.dispose(done)}, 100);
+				if(attempts++<10)
+					setTimeout(function(){propobj.dispose(done)}, 200);
             });
             if(done==missing){$.pause(100)}
         }
@@ -2358,14 +2397,17 @@ function ryQue(missing){
     }
     this.clean=function(done){
         _systeminfo.activities+=1;
+		var attempts=0;
         $.post(propfolderryque+"ryq_clean.php", {})
         .done(function(d){
             _systeminfo.activities-=1;
             if(done!=missing){done()}
         })
         .fail(function(){
+			_systeminfo.activities-=1;
             ryqueFail("clean");
-            setTimeout(function(){propobj.clean(done)}, 100);
+			if(attempts++<10)
+				setTimeout(function(){propobj.clean(done)}, 200);
         });
     }
     this.actualheight=function(h){

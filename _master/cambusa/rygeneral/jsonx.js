@@ -17,6 +17,12 @@ RYJAX={
             if(options.tags==missing)options.tags=[];
             if(options.doublequote==missing)options.doublequote=true;
             var exb=/ *$/gm;
+            var exa=/&#x26;/gm;
+            var exlt=/&#x3c;/gmi;
+            var exgt=/&#x3e;/gmi;
+            var exdq=/&#x22;/gm;
+            var exsq=/&#x27;/gm;
+
             var exc;
             if(options.doublequote)
                 exc=/(\w+)="([^"]*)"/gm;
@@ -43,7 +49,7 @@ RYJAX={
             while(t=exr[level].exec(subxml)){
                 subarr[row]={};
                 while(s=exc.exec(t[1])){
-                    subarr[row][s[1].toUpperCase()]=s[2].replace(exb, "");
+                    subarr[row][s[1].toUpperCase()]=s[2].replace(exb, "").replace(exlt, "<").replace(exgt, ">").replace(exdq, "\"").replace(exsq, "'").replace(exa, "&");
                 }
                 if(level<options.tags.length-1){
                     subarr[row]["__DATA__"]=[];
@@ -182,13 +188,18 @@ RYJAX={
         var v={};
         var s;
         var exb=/ *$/gm;
+        var exa=/&#x26;/gm;
+        var exlt=/&#x3c;/gmi;
+        var exgt=/&#x3e;/gmi;
+        var exdq=/&#x22;/gm;
+        var exsq=/&#x27;/gm;
         var exc;
         if(options.doublequote)
             exc=/(\w+)="([^"]*)"/gm;
         else
             exc=/(\w+)='([^']*)'/gm;
         while(s=exc.exec(tag)){
-            v[s[1].toUpperCase()]=s[2].replace(exb, "");
+            v[s[1].toUpperCase()]=s[2].replace(exb, "").replace(exlt, "<").replace(exgt, ">").replace(exdq, "\"").replace(exsq, "'").replace(exa, "&");
         }
         return v;
     },

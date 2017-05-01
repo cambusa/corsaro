@@ -34,6 +34,7 @@
 <div id="lbusr_use" babelcode="EGO_USR_USE"></div><div id="lbusr_user"></div>
 <div id="lbusr_alias" babelcode="EGO_USR_ALIAS"></div><div id="txusr_alias"></div>
 <div id="lbusr_email" babelcode="EGO_USR_EMAIL"></div><div id="txusr_email"></div>
+<div id="lbusr_registry" babelcode="EGO_USR_REGISTRY"></div><div id="txusr_registry"></div>
 <div id="lbusr_demiurge" babelcode="EGO_USR_DEMIURGE"></div><div id="chkusr_demiurge"></div>
 <div id="lbusr_admin" babelcode="EGO_USR_ADMIN"></div><div id="chkusr_admin"></div>
 <div id="lbusr_as" babelcode="EGO_USR_AS"></div>

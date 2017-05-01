@@ -57,6 +57,7 @@ var _appenviron="<?php  print $winz_appenviron ?>";
 var _companyname="<?php  print $RYWINZ->company ?>";
 var _wallpaper=<?php  print ($RYWINZ->wallpaper ? "true" : "false") ?>;
 var _timerPostman=false;
+var _arrowcount=0;
 var POSTMAN={
     title:"<?php  print $RYWINZ->postman->title ?>",
     enabled:<?php  print ($RYWINZ->postman->enabled ? 1 : 0) ?>
@@ -109,7 +110,21 @@ function mdiconfig(){
     }
     setTimeout(
         function(){
-            RYQUE.clean();
+            RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+                {
+                    "sessionid":_sessioninfo.sessionid,
+                    "env":_sessioninfo.environ,
+                    "function":"importegouser",
+                    "data":{}
+                }, 
+                function(d){
+                    try{
+                        RYQUE.clean();
+                    }
+                    catch(e){}
+                }
+            );
+            
         }, 5000
     )
     _timerPostman=setInterval(
@@ -139,9 +154,17 @@ function mdiconfig(){
                                     if(n>0){
                                         $("#winz-notifications").html(n).show();
                                         try{ $("head>title").html(_apptitle+" ( "+n+" )") }catch(e){}
+                                        if(n!=_arrowcount){
+                                            _arrowcount=n;
+                                            $("#winz-arrownotify").show();
+                                            setTimeout(function(){
+                                                $("#winz-arrownotify").hide();
+                                            }, 3000);
+                                        }
                                     }
                                     else{
                                         $("#winz-notifications").html("").hide();
+                                        $("#winz-arrownotify").hide();
                                         try{ $("head>title").html(_apptitle) }catch(e){}
                                     }
                                 }
@@ -315,7 +338,7 @@ foreach($RYWINZ->tools->items as $k => $v){
         <div id="WINZ_TITLE" class="winz-maintitle"></div>
 	</div>
     
-    <div class="abs" id="bar_bottom">
+    <div class="abs" id="bar_bottom" style="overflow:visible;z-index:1000000;">
 <?php
 // ABILITAZIONE "MOSTRA DESKTOP"
 if($RYWINZ->desktop){
@@ -339,8 +362,17 @@ if($RYWINZ->desktop){
         }
     }
 ?>
-		<span class="float_right" style="font-size:11px;">&nbsp;&nbsp;&nbsp;<?php  print $copy ?></span>
+		<span class="float_right" style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php  print $copy ?>&nbsp;&nbsp;&nbsp;</span>
         <a id="winz-notifications" class="float_right" style="background:red;color:white;cursor:pointer;display:none;" href="javascript:" onclick="winz_postman()"></a>
+
+        <div class="float_right" id="winz-arrownotify" style="position:relative;display:none;">
+            <div style="position:absolute;left:-290px;top:-350px;">
+            <svg width="350" height="320" xmlns="http://www.w3.org/2000/svg">
+                <g><path opacity="0.75" fill="#ff0000" stroke="#000000" stroke-width="1" d="m95.92621,99.74677l62.08005,-117.57325l63.17157,139.38086l-40.95511,-8.53909l17.62482,239.13361l-63.83554,-20.72906l-1.51442,-224.01896l-36.57133,-7.65408l-0.00002,-0.00002l-0.00002,0z" transform="rotate(142.021, 158.553, 167.16)"/></g>
+            </svg>
+            </div>
+        </div>
+
     </div>
 
     <div id="winz-about-dither" class="winz_dither" style="top:0px;background:#1E90FF;height:120%;"></div>

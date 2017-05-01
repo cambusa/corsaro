@@ -56,6 +56,12 @@ function qv_pratiche_insert($maestro, $data){
             $PRATICADESCR=str_replace("[!RICHIEDENTE]", $RICHIEDENTEDESCR, $PRATICADESCR);
         }
         
+        // DETERMINO AUXAMOUNT
+        if(isset($data["AUXAMOUNT"]))
+            $AUXAMOUNT=floatval($data["AUXAMOUNT"]);
+        else
+            $AUXAMOUNT=0;
+
         // DETERMINO IL PRIMO STATO VALIDO DEL PROCESSO
         $sql=buildfirst($maestro, $PROCESSOID, true);
         maestro_query($maestro, $sql, $r);
@@ -88,6 +94,7 @@ function qv_pratiche_insert($maestro, $data){
         $datax["STATOID"]=$STATOID;
         $datax["DATAINIZIO"]=$DATAINIZIO;
         $datax["DATAFINE"]=$DATAFINE;
+		$datax["AUXAMOUNT"]=$AUXAMOUNT;
         $datax["RICHIEDENTEID"]=$RICHIEDENTEID;
         $datax["GANTT"]=$GANTT;
         $datax["INVIOEMAIL"]=$INVIOEMAIL;

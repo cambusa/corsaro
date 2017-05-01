@@ -48,6 +48,7 @@ function class_postman(settings,missing){
                                 var v=$.parseJSON(d);
                                 if(v.success>0){
                                     $("#winz-notifications").html("").hide();
+                                    $("#winz-arrownotify").hide();
                                     $("head>title").html(_apptitle);
                                 }
                                 else{
