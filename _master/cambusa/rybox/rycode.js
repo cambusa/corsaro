@@ -119,16 +119,14 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             );
             $("#"+propname+"_anchor").focusout(
             	function(){
-            		if(propenabled){
-            			$("#"+propname+"_cursor").css({"visibility":"hidden"});
-            			$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
-            			propobj.completion();
-                        propobj.selected(false);
-            			if(propchanged)
-                            propobj.raiseassigned();
-                        propobj.raiselostfocus();
-                        propfocusout=true;
-            		}
+					$("#"+propname+"_cursor").css({"visibility":"hidden"});
+					$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					propobj.completion();
+					propobj.selected(false);
+					if(propchanged)
+						propobj.raiseassigned();
+					propobj.raiselostfocus();
+					propfocusout=true;
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -585,6 +583,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 						$("#"+propname+"_text").css({"color":"gray","cursor":"default"});
 						$("#"+propname+"_button").css({"cursor":"default"});
 						$("#"+propname+"_cursor").css({"visibility":"hidden"});
+						if(propfocusout==false)
+							$("#"+propname+"_anchor").trigger("focusout");
 					}
 				}
 			}

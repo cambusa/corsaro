@@ -117,18 +117,16 @@ var globalcolorfocus="#FFF4E6";
             );
             $("#"+propname+"_anchor").focusout(
             	function(){
-            		if(propenabled){
-            			$("#"+propname+"_cursor").css({"visibility":"hidden"});
-            			$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
-            			propobj.completion();
-            			if($("#"+propname+"_text").html()=="__/__/____")
-            				$("#"+propname+"_text").html("");
-                        propobj.selected(false);
-            			if(propchanged)
-                            propobj.raiseassigned();
-                        propobj.raiselostfocus();
-                        propfocusout=true;
-            		}
+					$("#"+propname+"_cursor").css({"visibility":"hidden"});
+					$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					propobj.completion();
+					if($("#"+propname+"_text").html()=="__/__/____")
+						$("#"+propname+"_text").html("");
+					propobj.selected(false);
+					if(propchanged)
+						propobj.raiseassigned();
+					propobj.raiselostfocus();
+					propfocusout=true;
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -724,6 +722,8 @@ var globalcolorfocus="#FFF4E6";
 						$("#"+propname+"_text").css({"color":"gray","cursor":"default"});
 						$("#"+propname+"_button").css({"cursor":"default"});
 						$("#"+propname+"_cursor").css({"visibility":"hidden"});
+						if(propfocusout==false)
+							$("#"+propname+"_anchor").trigger("focusout");
 					}
                     if(proplink){
                         proplink.enabled(v);
@@ -934,18 +934,16 @@ var globalcolorfocus="#FFF4E6";
             );
             $("#"+propname+"_anchor").focusout(
             	function(){
-            		if(propenabled){
-            			$("#"+propname+"_cursor").css({"visibility":"hidden"});
-            			$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
-            			propobj.completion();
-            			if(propobj.value()==0)
-            				$("#"+propname+"_text").html("");
-                        propobj.selected(false);
-            			if(propchanged)
-                            propobj.raiseassigned();
-                        propobj.raiselostfocus();
-                        propfocusout=true;
-            		}
+					$("#"+propname+"_cursor").css({"visibility":"hidden"});
+					$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					propobj.completion();
+					if(propobj.value()==0)
+						$("#"+propname+"_text").html("");
+					propobj.selected(false);
+					if(propchanged)
+						propobj.raiseassigned();
+					propobj.raiselostfocus();
+					propfocusout=true;
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -1594,6 +1592,8 @@ var globalcolorfocus="#FFF4E6";
 						$("#"+propname+"_text").css({"color":"gray","cursor":"default"});
                         $("#"+propname+"_button").css({"cursor":"default"});
 						$("#"+propname+"_cursor").css({"visibility":"hidden"});
+						if(propfocusout==false)
+							$("#"+propname+"_anchor").trigger("focusout");
 					}
 				}
 			}
@@ -1930,10 +1930,14 @@ var globalcolorfocus="#FFF4E6";
 				}
 				else{
 					propenabled=v;
-					if(v)
+					if(v){
 						$("#"+propname+"_anchor").removeAttr("disabled");
-					else
+					}
+					else{
 						$("#"+propname+"_anchor").attr("disabled",true);
+						if(propfocusout==false)
+							$("#"+propname+"_anchor").trigger("focusout");
+					}
 				}
 			}
 			this.readonly=function(v){
@@ -2062,6 +2066,7 @@ var globalcolorfocus="#FFF4E6";
             var propalign="left";
             var propcolor="black";
             var propautocoding=false;
+			var propfocusout=true;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -2135,6 +2140,7 @@ var globalcolorfocus="#FFF4E6";
                             $("#"+propname+"_caption").addClass("rybutton-flat-focus");
                         else
                             $("#"+propname+"_caption").addClass("rybutton-focus");
+						propfocusout=false;
             		}
             	}
             );
@@ -2144,6 +2150,7 @@ var globalcolorfocus="#FFF4E6";
                         $("#"+propname+"_caption").removeClass("rybutton-flat-focus");
                     else
                         $("#"+propname+"_caption").removeClass("rybutton-focus");
+					propfocusout=true;
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -2259,10 +2266,14 @@ var globalcolorfocus="#FFF4E6";
             // FUNZIONI PRIVATE
             function setenabled(v){
                 propenabled=v.booleanNumber();
-                if(propenabled)
+                if(propenabled){
                     $("#"+propname+"_caption").removeClass("rybutton-disabled");
-                else
+				}
+				else{
                     $("#"+propname+"_caption").addClass("rybutton-disabled");
+					if(propfocusout==false)
+						$("#"+propname+"_anchor").trigger("focusout");
+				}
             }
             function setvisible(v){
                 if(propvisible=v.booleanNumber())
@@ -2328,10 +2339,10 @@ var globalcolorfocus="#FFF4E6";
             
             $("#"+propname+"_anchor").focusout(
             	function(){
-            		if(propenabled){
+            		//if(propenabled){
             			$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
                         propobj.raiselostfocus();
-            		}
+            		//}
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -2475,6 +2486,7 @@ var globalcolorfocus="#FFF4E6";
 			var propheight=22;
 			var propmaxopt=0;
             var propchanged=false;
+			var propfocusout=true;
 			var propobj=this;
 			var propenabled=true;
 			var propvisible=true;
@@ -2520,17 +2532,17 @@ var globalcolorfocus="#FFF4E6";
             			$("#"+propname+"_anchor").css({"background-color":globalcolorfocus});
                         propobj.raisegotfocus();
                         propchanged=false;
+						propfocusout=false;
             		}
             	}
             );
             $("#"+propname+"_anchor").focusout(
             	function(){
-            		if(propenabled){
-            			$("#"+propname+"_anchor").css({"background-color":"#FFFFFF"});
-            			if(propchanged)
-                            propobj.raiseassigned();
-                        propobj.raiselostfocus();
-            		}
+					$("#"+propname+"_anchor").css({"background-color":"#FFFFFF"});
+					if(propchanged)
+						propobj.raiseassigned();
+					propobj.raiselostfocus();
+					propfocusout=true;
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -2656,6 +2668,8 @@ var globalcolorfocus="#FFF4E6";
 					else{
 						$("#"+propname+"_anchor").attr("disabled",true);
 						$("#"+propname+"_anchor").css({"color":"gray"});
+						if(propfocusout==false)
+							$("#"+propname+"_anchor").trigger("focusout");
 					}
 				}
 			}

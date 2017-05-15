@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.8     del 15/05/2017
+==================================
+
+rybox, rycode: corretto l'errore nel caso di disabilitazione con focus.
+
+==================================
 Rilascio v2.0.7     del 01/05/2017
 ==================================
 
