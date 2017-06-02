@@ -204,6 +204,10 @@ input,select,a:focus{outline:none;border:none;}
 
 <script>
 _sessioninfo.sessionid="<?php print $sessionid ?>";
+_systeminfo.relative.root="<?php print $relative_base ?>";
+_systeminfo.relative.apps=_systeminfo.relative.root+"apps/";
+_systeminfo.relative.cambusa=_systeminfo.relative.root+"cambusa/";
+_systeminfo.relative.customize=_systeminfo.relative.root+"customize/";
 var htimer="";
 var _publickey="<?php print strtr($publickey, array("\n" => "[n]", "\r" => "[r]")); ?>";
 _publickey=_publickey.replace(/\[n\]/g, "\n").replace(/\[r\]/g, "\r");
@@ -226,6 +230,13 @@ function bareString(s){
     e.setPublicKey(_publickey);
     var r=e.encrypt( s.toString() );
     return r;
+}
+function syswaitinglogin(){
+    if(htimer!=""){
+        clearInterval(htimer);
+        htimer="";
+    }
+	$("#progressmask").show();
 }
 function syswaiting(){
     if(htimer!=""){
@@ -274,10 +285,12 @@ $appname="";
 include_once "egoform_loginbody.php";
 ?>
 
-<div id="messbar" style="display:none;position:absolute;left:120px;top:210px;"></div>
+<div id="messbar" style="display:none;position:absolute;left:120px;top:250px;"></div>
 
-<div style="position:absolute;left:120px;top:260px;">
+<div style="position:absolute;left:120px;top:300px;">
 <a href="ryego.php?app=<?php print $copyappname ?>&setuponly=1" target="_blank">Setup, password e disattivazione</a><br/>
+<br/>
+<br/>
 <br/>
 <?php
 $trigger_login=$path_customize."ryego/custtriggerlogin.php";

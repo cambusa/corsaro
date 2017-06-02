@@ -24,6 +24,7 @@ else
 
 // RISOLVO LE IMMAGINI DECORATIVE
 $egotitle="Servizio di autenticazione";
+$egospec="Framework Cambusa";
 $egoimage_header=$url_cambusa."ryego/images/classic-backheader.svg";
 $egoimage_logo=$url_cambusa."ryego/images/ego.gif";
 $egoimage_footer=$url_cambusa."ryego/images/classic-backfooter.svg";
@@ -261,6 +262,13 @@ function bareString(s){
     var r=e.encrypt( s.toString() );
     return r;
 }
+function syswaitinglogin(){
+    if(htimer!=""){
+        clearInterval(htimer);
+        htimer="";
+    }
+	$("#progressmask").show();
+}
 function syswaiting(){
     if(htimer!=""){
         clearInterval(htimer);
@@ -279,6 +287,7 @@ function sysmessage(t,s){
 		c="green";
         m=4000;
     }
+	$("#progressmask").hide();
 	$("#messbar").html(t).css({color:c}).show();
 	htimer=setTimeout(sysmessagehide, m);
 }
@@ -288,7 +297,7 @@ function sysmessagehide(){
 }
 function logout(){
     if(_sessioninfo.sessionid!=""){
-        $("body").html("<br/><br/><br/><br/><br/><br/><img src='images/waiting.gif' style='border:1px solid black;'>");
+        $("body").html("<br/><br/><br/><br/><br/><br/><img src='images/waiting-login.gif'>");
         setTimeout(
             function(){
                 $.post("ego_logout.php", {sessionid:_sessioninfo.sessionid}, function(){
@@ -329,6 +338,30 @@ elseif($msk=="setup"){
 ?>
 
 </head>
+
+<?php
+if($msk=="login"){
+?>
+
+<body style='overflow:hidden;margin:0px;background-color:#F0F0F0;' spellcheck='false'>
+
+<?php
+	print "<div class='ego-body'>";
+	print "<div style='position:relative;width:320px;height:280px;margin:0% auto;'>";
+	print "<div style='position:absolute;left:0px;top:40px;width:100%;height:20px;overflow:hidden;font-size:16px;border-bottom:1px solid silver;'>$apptitle</div>";
+	print "<div style='position:absolute;left:0px;top:60px;width:100%;font-size:8px;text-align:right;'>$egospec</div>";
+	print "<div style='position:absolute;left:-100px;top:20px;'>";
+	
+	include("egoform_loginbody.php");
+	
+	print "</div>";
+	print "<div id='messbar' style='display:none;position:absolute;left:5px;top:280px;'></div>";
+	print "<div id='progressmask'></div>";
+	print "</div>";
+	print "</div>";
+}
+else{
+?>
 
 <body class='classicBody' style='overflow:hidden;' spellcheck='false'>
 
@@ -514,7 +547,12 @@ if($msk=="setup"){
 
 <!-- FINE AREA FOGLIO CENTRATA -->
 </div>
+
+<?php
+}
+?>
 <img src='images/waiting.gif' style='display:none;'>
+<img src='images/waiting-login.gif' style='display:none;'>
 </body>
 </html>
 <?php 

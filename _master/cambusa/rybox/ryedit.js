@@ -62,10 +62,12 @@
             .css({"position":"absolute", "left":propleft, "top":proptop, "width":propwidth, "height":propheight});
             
             if(propflat){
-                $("#"+propname).html("<textarea id='"+propname+"_anchor' style='resize:none;'></textarea>");
+                $("#"+propname).html("<textarea id='"+propname+"_anchor' style='resize:none;border:none;'></textarea>")
+				.addClass("rybox-border");
                 $("#"+propname+"_anchor").css({"position":"absolute", "left":0, "top":0, "width":propwidth, "height":propheight});
                 $("#"+propname+"_anchor").focus(
                     function(){
+						$("#"+propname).addClass("rybox-focus");
                         globaledittext=true;
                         propchanged=false;
                         propfocusout=false;
@@ -74,6 +76,7 @@
                 );
                 $("#"+propname+"_anchor").focusout(
                     function(){
+						$("#"+propname).removeClass("rybox-focus");
                         globaledittext=false;
                         if(propchanged)
                             propobj.raiseassigned();

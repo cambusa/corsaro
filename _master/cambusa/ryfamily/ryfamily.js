@@ -72,9 +72,13 @@
             .addClass("ryobject")
             .addClass("ryfamily")
             .css({"position":"absolute","font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px","overflow":sc,"border":bd});
-            $("#"+propname).html("<div style='position:absolute;border:none;left:0px;top:0px;width:1px;height:1px;overflow:hidden;'><input type='textbox' id='"+propname+"_anchor' style='position:absolute;left:-100px;width:10px;'></div><ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
+            $("#"+propname).html("<div style='position:absolute;border:none;left:0px;top:0px;width:1px;height:1px;overflow:hidden;'><input type='button' id='"+propname+"_anchor' style='position:absolute;left:-100px;width:10px;'></div><ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
             refreshattr();
             
+			if(propborder){
+				$("#"+propname).addClass("rybox-border");
+			}
+			
             if(propbackground!=""){
                 $("#"+propname).css({"background-color":propbackground});
                 $("#"+propname+" .treeview li").css({"background-color":propbackground});
@@ -88,11 +92,13 @@
             
             $("#"+propname+"_anchor").focus(function(){
                 if(propborder)
-                    $("#"+propname).css({"border-left":"1px solid #3F75A2"});
+					$("#"+propname).addClass("rybox-focus");
+                    //$("#"+propname).css({"border-left":"1px solid #3F75A2"});
             });
             $("#"+propname+"_anchor").focusout(function(){
                 if(propborder)
-                    $("#"+propname).css({"border-left":bd});
+					$("#"+propname).removeClass("rybox-focus");
+                    //$("#"+propname).css({"border-left":bd});
             });
             $("#"+propname+"_anchor").keydown(
             	function(k){

@@ -325,7 +325,7 @@ div.ui-resizable-handle {
   background: transparent;
   height: 100%;
 }
-.window_content{
+.window_content_xxx{
   /* background: #F0F5F5; */
   background-color:transparent;
   background: -webkit-linear-gradient(#FFFFFF, #E6F2FF); /* For Safari */
@@ -335,6 +335,14 @@ div.ui-resizable-handle {
   background: linear-gradient(#FFFFFF, #E6F2FF); /* Standard syntax */
 }
 
+.window_content{
+  background-color:transparent;
+  background: -webkit-linear-gradient(#FFFFFF, #F0F0F0); /* For Safari */
+  background: -o-linear-gradient(#FFFFFF, #F0F0F0); /* For Opera */
+  background: -moz-linear-gradient(#FFFFFF, #F0F0F0); /* For Firefox */
+  background: -ms-linear-gradient(#FFFFFF, #F0F0F0); /* For IE */
+  background: linear-gradient(#FFFFFF, #F0F0F0); /* Standard syntax */
+}
 
 /* rudyz */
 .treeview li {

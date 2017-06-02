@@ -52,12 +52,12 @@ white-space:nowrap;
 -webkit-border-radius: 5px;
 -khtml-border-radius: 5px;
 border-radius: 5px;
-color:#AA2222;
+color:navy;
 background-color:transparent;
 }
 
 .rybutton-caption-flat:not(.rybutton-disabled):hover{
-color:#D04444 !important;
+color:#44F !important;
 }
 
 .rybutton-disabled {
@@ -233,4 +233,17 @@ border:6px solid silver;
 .rybutton-rounded:hover{
 opacity:0.5;
 }
+
+.rybox-border{
+-moz-box-shadow: 1px 1px 4px rgba(160, 160, 160, 0.5);
+-webkit-box-shadow: 1px 1px 4px rgba(160, 160, 160, 0.5);
+box-shadow: 1px 1px 4px rgba(160, 160, 160, 0.5);
+}
+
+.rybox-focus{
+-moz-box-shadow: 1px 1px 6px #3366FF !important;
+-webkit-box-shadow: 1px 1px 6px #3366FF !important;
+box-shadow: 1px 1px 6px #3366FF !important;
+}
+
 

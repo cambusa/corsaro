@@ -68,6 +68,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
+			.addClass("rybox-border")
             .addClass("rycode")
             .css({
                 "position":"absolute",
@@ -76,7 +77,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 "width":propwidth,
                 "height":propheight,
                 "color":"transparent",
-                "background-color":"silver",
+                "background-color":"white",
                 "font-family":"verdana,sans-serif",
                 "font-size":"13px",
                 "line-height":"17px",
@@ -107,7 +108,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             	function(){
             		if(propenabled){
             			$("#"+propname+"_cursor").css({"visibility":"visible"});
-            			$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+            			//$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+						$("#"+propname).addClass("rybox-focus");
                         propfocusout=false;
                         propchanged=false;
                         propobj.selected(true);
@@ -120,7 +122,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             $("#"+propname+"_anchor").focusout(
             	function(){
 					$("#"+propname+"_cursor").css({"visibility":"hidden"});
-					$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					//$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					$("#"+propname).removeClass("rybox-focus");
 					propobj.completion();
 					propobj.selected(false);
 					if(propchanged)

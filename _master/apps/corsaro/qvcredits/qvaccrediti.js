@@ -188,7 +188,7 @@ function class_qvaccrediti(settings,missing){
         click:function(o){
             winzProgress(formid);
             var data = new Object();
-            data["DESCRIPTION"]="(nuovo accredito)";
+            data["DESCRIPTION"]="(nuovo credito)";
             data["TYPOLOGYID"]=currtypologyid;
             data["GENREID"]=currgenreid;
             data["MOTIVEID"]=currmotiveid;

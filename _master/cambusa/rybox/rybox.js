@@ -71,6 +71,7 @@ var globalcolorfocus="#FFF4E6";
 
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
+			.addClass("rybox-border")
             .addClass("rydate")
             .css({
                 "position":"absolute",
@@ -79,7 +80,7 @@ var globalcolorfocus="#FFF4E6";
                 "width":propwidth,
                 "height":propheight,
                 "color":"transparent",
-                "background-color":"silver",
+                "background-color":"white",
                 "border":"none",
                 "font-family":"verdana,sans-serif",
                 "font-size":"13px",
@@ -103,7 +104,8 @@ var globalcolorfocus="#FFF4E6";
             	function(){
             		if(propenabled){
             			$("#"+propname+"_cursor").css({"visibility":"visible"});
-            			$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+            			//$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+						$("#"+propname).addClass("rybox-focus");
             			if($("#"+propname+"_text").html()=="")
             				$("#"+propname+"_text").html("__/__/____");
                         propfocusout=false;
@@ -118,7 +120,8 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_anchor").focusout(
             	function(){
 					$("#"+propname+"_cursor").css({"visibility":"hidden"});
-					$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					//$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					$("#"+propname).removeClass("rybox-focus");
 					propobj.completion();
 					if($("#"+propname+"_text").html()=="__/__/____")
 						$("#"+propname+"_text").html("");
@@ -541,7 +544,8 @@ var globalcolorfocus="#FFF4E6";
                 $("#"+propname).css({"left":propleft,"top":proptop,"width":propwidth});
                 $("#"+propname+"_internal").css({"width":propwidth-2});
                 $("#"+propname+"_text").css({"width": (prophelper ? propwidth-25 : propwidth-5) });
-                $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
+                $("#"+propname+"_button").css({"left":propwidth-20});
+				$("#"+propname+"_clear").css({"left":propwidth});
             }
 			this.showcalendar=function(r){
                 if(prophelper){
@@ -890,6 +894,7 @@ var globalcolorfocus="#FFF4E6";
             
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
+			.addClass("rybox-border")
             .addClass("rynumber")
             .css({
                 "position":"absolute",
@@ -898,7 +903,7 @@ var globalcolorfocus="#FFF4E6";
                 "width":propwidth,
                 "height":propheight,
                 "color":"transparent",
-                "background-color":"silver",
+                "background-color":"white",
                 "border":"none",
                 "font-family":"verdana,sans-serif",
                 "font-size":"13px",
@@ -911,7 +916,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_internal").css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"});
             $("#"+propname+"_internal").html("<div id='"+propname+"_text'></div><div id='"+propname+"_cursor'></div><span id='"+propname+"_span'></span>");
             $("#"+propname+"_cursor").css({"position":"absolute","left":1,"top":1,"width":1,"height":propheight-4,"background-color":"#000000","visibility":"hidden"});
-            $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"width":propwidth-24,"height":propheight-4,"text-align":"right","padding-right":1,"overflow":"hidden"});
+            $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"height":propheight-4,"text-align":"right","padding-right":1,"overflow":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
             $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/helper.png)"});
             $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
@@ -920,7 +925,8 @@ var globalcolorfocus="#FFF4E6";
             	function(){
             		if(propenabled){
             			$("#"+propname+"_cursor").css({"visibility":"visible"});
-            			$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+            			//$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+						$("#"+propname+"_internal").addClass("rybox-focus");
             			if($("#"+propname+"_text").html()=="")
             				$("#"+propname+"_text").html(propobj.formatted());
                         propfocusout=false;
@@ -935,7 +941,8 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_anchor").focusout(
             	function(){
 					$("#"+propname+"_cursor").css({"visibility":"hidden"});
-					$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					//$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					$("#"+propname+"_internal").removeClass("rybox-focus");
 					propobj.completion();
 					if(propobj.value()==0)
 						$("#"+propname+"_text").html("");
@@ -1303,6 +1310,25 @@ var globalcolorfocus="#FFF4E6";
             		}
             	}
             );
+			$("#"+propname).mousewheel(function(event,delta){
+				if(propincremental && propenabled && !propfocusout){
+					event.preventDefault();
+					var incr=($.browser.opera ? incr=delta>0 : incr=delta<0);
+					var u=parseFloat(propobj.value());
+					if(incr){
+						if(u-1>=propminvalue)
+							propobj.value(u-1);
+					}
+					else{
+						if(u+1<=propmaxvalue)
+							propobj.value(u+1);
+					}
+					propchanged=true;
+					if(propselected){
+						propobj.selected(false);
+					}
+				}
+			});
             $("#"+propname+"_text").contextMenu("rybox_popup", {
             	bindings: {
             		'rybox_cut': function(t) {
@@ -1339,13 +1365,22 @@ var globalcolorfocus="#FFF4E6";
             });
             // FUNZIONI PUBBLICHE
             this.move=function(params){
+				if(params==missing){params={}}
                 if(params.left!=missing){propleft=params.left}
                 if(params.top!=missing){proptop=params.top}
                 if(params.width!=missing){propwidth=params.width}
                 $("#"+propname).css({"left":propleft,"top":proptop,"width":propwidth});
                 $("#"+propname+"_internal").css({"width":propwidth-2});
-                $("#"+propname+"_text").css({"width": (prophelper ? propwidth-25 : propwidth-5) });
-                $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
+				if(prophelper){
+					$("#"+propname+"_text").css({"width":propwidth-26});
+					$("#"+propname+"_button").css({"display":"block"});
+				}
+				else{
+					$("#"+propname+"_text").css({"width":propwidth-7});
+					$("#"+propname+"_button").css({"display":"none"});
+				}
+                $("#"+propname+"_button").css({"left":propwidth-20});
+				$("#"+propname+"_clear").css({"left":propwidth});
             }
 			this.showcalculator=function(r){
                 if(prophelper){
@@ -1475,7 +1510,7 @@ var globalcolorfocus="#FFF4E6";
 			this.refreshcursor=function(){
 				var s;
                 var d="";
-                var r=(prophelper ? 25 : 5);
+                var r=(prophelper ? 25 : 6);
                 if(propstart<0){
                     for(var i=0; i<-propstart; i++){
                         d+=propinteger.substr(propinteger.length-i-1,1);
@@ -1612,14 +1647,7 @@ var globalcolorfocus="#FFF4E6";
             this.helper=function(v){
                 if(v!=missing){
                     prophelper=v.actualBoolean();
-                    if(prophelper){
-                        $("#"+propname+"_text").css({"width":propwidth-25});
-                        $("#"+propname+"_button").css({"display":"block"});
-                    }
-                    else{
-                        $("#"+propname+"_text").css({"width":propwidth-5});
-                        $("#"+propname+"_button").css({"display":"none"});
-                    }
+					propobj.move();
                 }
                 return prophelper;
             }
@@ -1711,10 +1739,9 @@ var globalcolorfocus="#FFF4E6";
                 propobj.enabled(0);
             if(!propvisible)
                 propobj.visible(0);
-            if(!prophelper)
-                propobj.helper(0);
             if(propnumdec!=2)
                 propdecimal=propobj.zerofill();
+			propobj.move();
 			return this;
 		}
 	},{
@@ -1773,20 +1800,22 @@ var globalcolorfocus="#FFF4E6";
 
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
+			.addClass("rybox-border")
             .addClass("rytext")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth-2,"height":propheight-2,"background-color":"white","border":"1px solid silver","overflow":"hidden"})
+            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth-2,"height":propheight-2,"background-color":"white","border":"none","overflow":"hidden"})
             .html("<input id='"+propname+"_anchor' type='"+propinput+"' maxlength='"+propmaxlen+"'>");
             $("#"+propname+"_anchor").css({"cursor":"text"});
             
-            var t=0;
-            if($.browser.HTML5)
-                t=-1;
-            $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":t,"width":propwidth-4,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
+            //var t=0;
+            //if($.browser.HTML5)
+            //    t=-1;
+            $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":-2,"width":propwidth-8,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
             		globaledittext=true;
-            		$("#"+propname+"_anchor").css({"background-color":globalcolorfocus});
+            		//$("#"+propname+"_anchor").css({"background-color":globalcolorfocus});
+					$("#"+propname).addClass("rybox-focus");
                     $("#"+propname+"_anchor").select();
                     propchanged=false;
                     propfocusout=false;
@@ -1805,7 +1834,8 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_anchor").focusout(
             	function(){
             		globaledittext=false;
-            		$("#"+propname+"_anchor").css({"background-color":"#FFFFFF"});
+            		//$("#"+propname+"_anchor").css({"background-color":"#FFFFFF"});
+					$("#"+propname).removeClass("rybox-focus");
                     if(propchanged)
                         propobj.raiseassigned();
                     propobj.raiselostfocus();
@@ -2107,7 +2137,7 @@ var globalcolorfocus="#FFF4E6";
             }
             if(propbutton){
                 $("#"+propname).addClass("rybutton");
-                $("#"+propname).html("<input type='textbox' id='"+propname+"_anchor'><span id='"+propname+"_caption'>"+propcaption+"</span>");
+                $("#"+propname).html("<input type='button' id='"+propname+"_anchor'><span id='"+propname+"_caption'>"+propcaption+"</span>");
                 $("#"+propname+"_anchor").css({"position":"absolute","font-size":"2px","left":"6px","top":"6px","width":"1px","height":"1px","border":"none","text-indent":"-10px","overflow":"hidden"});
                 if(propflat)
                     $("#"+propname+"_caption").addClass("rybutton-caption-flat");
@@ -2287,7 +2317,7 @@ var globalcolorfocus="#FFF4E6";
 		rycheck:function(settings){
 			var propleft=20;
 			var proptop=20;
-			var propwidth=22;
+			var propwidth=20;
 			var propheight=22;
 			var propvalue=0;
 			var propobj=this;
@@ -2319,19 +2349,21 @@ var globalcolorfocus="#FFF4E6";
 
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
+			.addClass("rybox-border")
             .addClass("rycheck")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"transparent","font-family":"verdana,sans-serif","font-size":"13px","overflow":"hidden"})
-            .html("<input type='text' id='"+propname+"_anchor'><div id='"+propname+"_border'></div>");
-            $("#"+propname+"_border").css({"position":"absolute","left":0,"top":2,"width":propwidth-4,"height":propheight-4,"background-color":"silver"});
+            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"white","font-family":"verdana,sans-serif","font-size":"13px","overflow":"hidden"})
+            .html("<input type='button' id='"+propname+"_anchor'><div id='"+propname+"_border'></div>");
+            $("#"+propname+"_border").css({"position":"absolute","left":0,"top":2,"width":propwidth-4,"height":propheight-4,"background-color":"white"});
             $("#"+propname+"_border").html("<div id='"+propname+"_internal'></div>");
             $("#"+propname+"_internal").css({"position":"absolute","left":1,"top":1,"width":propwidth-6,"height":propheight-6,"color":"#000000","background-color":"#FFFFFF","overflow":"hidden"});
             $("#"+propname+"_internal").html("<div id='"+propname+"_text'></div>");
-            $("#"+propname+"_text").css({"position":"absolute","left":3,"top":-1,"line-height":"19px","cursor":"default"});
+            $("#"+propname+"_text").css({"position":"absolute","left":4,"top":-2,"line-height":"19px","cursor":"default"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
             		if(propenabled){
-            			$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+            			//$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+						$("#"+propname).addClass("rybox-focus");
                         propobj.raisegotfocus();
             		}
             	}
@@ -2339,10 +2371,9 @@ var globalcolorfocus="#FFF4E6";
             
             $("#"+propname+"_anchor").focusout(
             	function(){
-            		//if(propenabled){
-            			$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
-                        propobj.raiselostfocus();
-            		//}
+					//$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+					$("#"+propname).removeClass("rybox-focus");
+					propobj.raiselostfocus();
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -2520,8 +2551,9 @@ var globalcolorfocus="#FFF4E6";
 
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
+			.addClass("rybox-border")
             .addClass("rylist")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"silver","border":"none"})
+            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"white","border":"none"})
             .html("<select id='"+propname+"_anchor' size='1'></select>");
             $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":1,"width":propwidth-2,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
             $("#"+propname+"_anchor option").css({"background-color":"#FFFFFF"});
@@ -2529,7 +2561,8 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_anchor").focus(
             	function(){
             		if(propenabled){
-            			$("#"+propname+"_anchor").css({"background-color":globalcolorfocus});
+            			//$("#"+propname+"_anchor").css({"background-color":globalcolorfocus});
+						$("#"+propname).addClass("rybox-focus");
                         propobj.raisegotfocus();
                         propchanged=false;
 						propfocusout=false;
@@ -2538,7 +2571,8 @@ var globalcolorfocus="#FFF4E6";
             );
             $("#"+propname+"_anchor").focusout(
             	function(){
-					$("#"+propname+"_anchor").css({"background-color":"#FFFFFF"});
+					//$("#"+propname+"_anchor").css({"background-color":"#FFFFFF"});
+					$("#"+propname).removeClass("rybox-focus");
 					if(propchanged)
 						propobj.raiseassigned();
 					propobj.raiselostfocus();
@@ -2764,6 +2798,7 @@ var globalcolorfocus="#FFF4E6";
 
             $("#"+propname)
             .addClass("ryobject")
+			.addClass("rybox-border")
             .addClass("rytime")
             .css({"position":"absolute","left":propleft,"top":proptop})
             .html("<div id='"+propnameh+"' class='rytime'></div><div id='"+propname+"_separator'>:</div><div id='"+propnamem+"' class='rytime'></div>");

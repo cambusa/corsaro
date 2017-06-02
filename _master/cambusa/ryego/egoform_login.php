@@ -15,22 +15,24 @@ var _egolanguage="<?php print $egolanguage ?>";
 var _egouser="<?php print $egouser ?>";
 var user;
 var pwd;
-var chksetup;
+//var chksetup=false;
+var flagsetup=false;
+var nosetup=false;
 $(document).ready(function(){
     var offsety=100;
-    $("#lbalias").rylabel({left:120,top:offsety,caption:"Utente"});
-    user=$("#txalias").rytext({left:200,top:offsety,maxlen:30});
+    $("#lbalias").rylabel({left:60,top:offsety,caption:"Utente",width:120,align:"right"});
+    user=$("#txalias").rytext({left:190,top:offsety,width:200,maxlen:30});
     user.value(_egouser);
     
     offsety+=30;
-    $("#lbpwd").rylabel({left:120,top:offsety,caption:"Password"});
+    $("#lbpwd").rylabel({left:60,top:offsety,caption:"Password",width:120,align:"right"});
     pwd=$("#txpwd").rytext({ 
-        left:200,
+        left:190,
         top:offsety, 
         password:true,
         maxlen:16,
         enter:function(o){
-			syswaiting();
+			syswaitinglogin();
             var u=user.value();
             var m=encryptString( pwd.value() );
             var b="";
@@ -46,14 +48,17 @@ $(document).ready(function(){
     if($appname!=""){
 ?>
                             if(v.expiry==2){
-                                if(chksetup.tag=="nosetup"){
+                                //if(chksetup.tag=="nosetup"){
+								if(nosetup){
                                     sysmessage(RYBOX.babels("EGO_MSG_SETCHANGEPWD"), 0);
                                     return;
                                 }
                             }
                             if(v.expiry>0)
-                                chksetup.value(1);
-                            if(chksetup.value()){   // Applicazione esterna con setup
+								flagsetup=true;
+                            //    chksetup.value(1);
+                            //if(chksetup.value()){   // Applicazione esterna con setup
+							if(flagsetup){			// Applicazione esterna con setup
                                 $("body").html("<form id='nextaction' method='POST' action=''></form>");
                                 $("#nextaction").append("<input type='hidden' id='app' name='app'>");
                                 $("#nextaction").append("<input type='hidden' id='url' name='url'>");
@@ -115,12 +120,13 @@ $(document).ready(function(){
             );
         }
     });
+    offsety+=50;
     $("#lblogin").rylabel({
-        left:420,
-        top:offsety+2,
+        left:190,
+        top:offsety,
+		width:60,
         caption:"Login",
         button:true,
-        flat:true,
         click:function(o){
             pwd.engage();
         }
@@ -130,10 +136,20 @@ $(document).ready(function(){
 ?>
     if($("#lbsetup").length>0){
         // POTREBBE NON ESISTERE IL DIV IN CASO DI EGOEMBED
-        offsety+=30;
-        $("#lbsetup").rylabel({left:120,top:offsety,caption:"Setup"});
+        $("#lbsetup").rylabel({
+			left:270,
+			top:offsety,caption:"Setup",
+			width:60,
+			button:true,
+			//flat:true,
+			click:function(o){
+				flagsetup=true;
+				pwd.engage();
+			}
+		});
+		/*
         chksetup=$("#chksetup").rycheck({
-            left:200,
+            left:190,
             top:offsety,
             assigned:function(o){
                 if(o.value()){
@@ -141,12 +157,16 @@ $(document).ready(function(){
                 }
             }
         });
+		*/
         if(_setuponly){
-            chksetup.value(1);
-            chksetup.enabled(0);
+            //chksetup.value(1);
+            //chksetup.enabled(0);
+			flagsetup=true;
         }
     }
     else{
+		nosetup=true;
+		/*
         // CREO UN OGGETTO FAKE CON FUNZIONE VALUE
         chksetup={
             "value":function(v){
@@ -154,13 +174,14 @@ $(document).ready(function(){
             },
             "tag":"nosetup"
         };
+		*/
     }
 <?php 
     }
 ?>
-    offsety+=30;
+    offsety+=40;
     $("#lbreset").rylabel({
-        left:200,
+        left:190,
         top:offsety,
         caption:"Password dimenticata?",
         button:true,

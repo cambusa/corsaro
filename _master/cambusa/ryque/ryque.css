@@ -62,6 +62,18 @@ background-color:#3F75A2;
 background-color:#E0E0E0;
 }
 
+.ryque-border{
+-moz-box-shadow: 1px 1px 4px rgba(160, 160, 160, 0.8);
+-webkit-box-shadow: 1px 1px 4px rgba(160, 160, 160, 0.8);
+box-shadow: 1px 1px 4px rgba(160, 160, 160, 0.8);
+}
+
+.ryque-focus{
+-moz-box-shadow: 1px 1px 6px #3366FF !important;
+-webkit-box-shadow: 1px 1px 6px #3366FF !important;
+box-shadow: 1x 1px 6px #3366FF !important;
+}
+
 .ryque div{
 cursor:default;
 }

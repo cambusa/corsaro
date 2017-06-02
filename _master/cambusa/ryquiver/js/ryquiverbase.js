@@ -458,6 +458,7 @@ function ryQuiver(missing){
 
             $("#"+propname).prop("modified", 0 )
             .addClass("ryobject")
+			.addClass("rybox-border")
             .addClass("ryhelper")
             .css({
                 "position":"absolute",
@@ -466,7 +467,7 @@ function ryQuiver(missing){
                 "width":propwidth,
                 "height":propheight,
                 "color":"transparent",
-                "background-color":"silver",
+                "background-color":"white",
                 "font-family":"verdana,sans-serif",
                 "font-size":"13px",
                 "line-height":"17px",
@@ -486,7 +487,8 @@ function ryQuiver(missing){
             $("#"+propname+"_anchor").focus(
             	function(){
             		if(propenabled){
-            			$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+            			//$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
+						$("#"+propname).addClass("rybox-focus");
             			if(propfocusout){
             				propfocusout=false;
             			}
@@ -496,11 +498,12 @@ function ryQuiver(missing){
             );
             $("#"+propname+"_anchor").focusout(
             	function(){
-            		if(propenabled){
+            		//if(propenabled){
             			$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
+						$("#"+propname).removeClass("rybox-focus");
                         propobj.raiselostfocus();
                         propfocusout=true;
-            		}
+            		//}
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -570,6 +573,9 @@ function ryQuiver(missing){
                 if(params.top!=missing){proptop=params.top}
                 if(params.width!=missing){propwidth=params.width}
                 $("#"+propname).css({"left":propleft,"top":proptop,"width":propwidth});
+                $("#"+propname+"_button").css({"left":propwidth-20});
+				$("#"+propname+"_clear").css({"left":propwidth});
+				
             }
 			this.showhelper=function(){
                 if(settings.open!=missing){

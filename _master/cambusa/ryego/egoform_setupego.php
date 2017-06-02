@@ -498,7 +498,7 @@ function config(missing){
     objusr_demiurge=$("#chkusr_demiurge").rycheck({left:490,top:offsety});
     
     $("#lbusr_admin").rylabel({left:550,top:offsety,caption:"Amministr."});
-    objusr_admin=$("#chkusr_admin").rycheck({left:630,top:offsety});
+    objusr_admin=$("#chkusr_admin").rycheck({left:627,top:offsety});
     
     offsety+=30;
     $("#lbusr_as").rylabel({left:420,top:offsety,caption:"Come:"});

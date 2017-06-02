@@ -21,7 +21,6 @@
     if($appname!=""){ 
 ?>
 <div id="lbsetup" babelcode="EGO_LOGIN_SETUP"></div>
-<div id="chksetup"></div>
 <?php 
     }
     try{
