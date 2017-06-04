@@ -221,6 +221,7 @@ function egoinitialize(missing){
     });
     RYBOX.localize(_egolanguage, missing,
         function(){
+			/*
             if(supportsCookies()&&_egocontext!="embed"){
                 if(!$.cookie("EGOCOOKIE")){
                     var cp=RYBOX.babels("EGO_COOKIEPOLICY", ["<a href='ego_privacy.php' target='_blank'>", "</a>", "<span>", "</span>"]);
@@ -232,6 +233,7 @@ function egoinitialize(missing){
                     );
                 }
             }
+			*/
             if(_egolanguage!="default"){
                 try{
                     var t=RYBOX.getbabel("lbauthenticationservice");
@@ -246,5 +248,30 @@ function egoinitialize(missing){
 }
 function egoterminate(lout){
     //
+}
+function egoautomatic(u, p){
+
+    /* UTILIZZO DA VISUAL STUDIO
+    Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
+
+        Dim args() As String = New String() {"demiurge", "bustro"}
+
+        WebBrowser1.Document.InvokeScript("egoautomatic", args)
+
+
+    End Sub
+	*/
+
+	try{
+		$("#progressmask").addClass("progressmaskopaque");
+		user.value(u);
+		pwd.value(p);
+		setTimeout(function(){
+			pwd.engage();
+		});
+	}
+	catch(e){
+		sysmessage(e.message); 
+	}
 }
 </script>
