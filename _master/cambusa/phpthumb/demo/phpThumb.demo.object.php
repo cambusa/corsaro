@@ -1,7 +1,8 @@
 <?php
 //////////////////////////////////////////////////////////////
-///  phpThumb() by James Heinrich <info@silisoftware.com>   //
-//        available at http://phpthumb.sourceforge.net     ///
+//   phpThumb() by James Heinrich <info@silisoftware.com>   //
+//        available at http://phpthumb.sourceforge.net      //
+//         and/or https://github.com/JamesHeinrich/phpThumb //
 //////////////////////////////////////////////////////////////
 ///                                                         //
 // phpThumb.demo.object.php                                 //
@@ -57,12 +58,12 @@ foreach ($thumbnail_widths as $thumbnail_width) {
 	// generate & output thumbnail
 	$output_filename = './thumbnails/'.basename($_FILES['userfile']['name']).'_'.$thumbnail_width.'.'.$phpThumb->config_output_format;
 	if ($phpThumb->GenerateThumbnail()) { // this line is VERY important, do not remove it!
-		$output_size_x = ImageSX($phpThumb->gdimg_output);
-		$output_size_y = ImageSY($phpThumb->gdimg_output);
+		$output_size_x = imagesx($phpThumb->gdimg_output);
+		$output_size_y = imagesy($phpThumb->gdimg_output);
 		if ($output_filename || $capture_raw_data) {
 			if ($capture_raw_data && $phpThumb->RenderOutput()) {
 				// RenderOutput renders the thumbnail data to $phpThumb->outputImageData, not to a file or the browser
-				mysql_query("INSERT INTO `table` (`thumbnail`) VALUES ('".mysql_escape_string($phpThumb->outputImageData)."') WHERE (`id` = '".$id."')");
+				$mysqli->query("INSERT INTO `table` (`thumbnail`) VALUES ('".mysqli_real_escape_string($phpThumb->outputImageData)."') WHERE (`id` = '".mysqli_real_escape_string($id)."')");
 			} elseif ($phpThumb->RenderToFile($output_filename)) {
 				// do something on success
 				echo 'Successfully rendered:<br><img src="'.$output_filename.'">';
@@ -82,5 +83,3 @@ foreach ($thumbnail_widths as $thumbnail_width) {
 	}
 
 }
-
-?>

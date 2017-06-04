@@ -1,7 +1,8 @@
 <?php
 //////////////////////////////////////////////////////////////
-///  phpThumb() by James Heinrich <info@silisoftware.com>   //
-//        available at http://phpthumb.sourceforge.net     ///
+//   phpThumb() by James Heinrich <info@silisoftware.com>   //
+//        available at http://phpthumb.sourceforge.net      //
+//         and/or https://github.com/JamesHeinrich/phpThumb //
 //////////////////////////////////////////////////////////////
 ///                                                         //
 // phpThumb.demo.random.php                                 //
@@ -22,7 +23,7 @@ function SelectRandomImage($dirname='.', $portrait=true, $landscape=true, $squar
 	if ($dh = opendir($dirname)) {
 		while ($file = readdir($dh)) {
 			if (is_file($dirname.'/'.$file) && preg_match('#\\.(jpg|jpeg|gif|png|tiff|bmp)$#i', $file)) {
-				if ($gis = @GetImageSize($dirname.'/'.$file)) {
+				if ($gis = @getimagesize($dirname.'/'.$file)) {
 					if ($portrait && ($gis[0] < $gis[1])) {
 						// portrait
 						$possibleimages[] = $file;
@@ -82,7 +83,8 @@ if (@$_REQUEST['dir']) {
 		exit;
 
 	} else {
-		die($_REQUEST['dir'].' is not a directory');
+		echo htmlentities($_REQUEST['dir']).' is not a directory';
+		exit;
 	}
 
 } else {
@@ -93,5 +95,3 @@ if (@$_REQUEST['dir']) {
 	echo '</ul></body></html>';
 
 }
-
-?>

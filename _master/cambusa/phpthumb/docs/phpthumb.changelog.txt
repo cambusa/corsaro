@@ -1,10 +1,65 @@
-//////////////////////////////////////////////////////////////
-///  phpThumb() by James Heinrich <info@silisoftware.com>   //
-//        available at http://phpthumb.sourceforge.net     ///
-//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+//   phpThumb() by James Heinrich <info@silisoftware.com>       //
+//        available at http://phpthumb.sourceforge.net          //
+//             and/or https://github.com/JamesHeinrich/phpThumb //
+//////////////////////////////////////////////////////////////////
 
 ¤ = structure change or important new feature
 * = less important new feature or change
+
+v1.7.14-201608101311
+  ¤ improved PHP7 compatability
+  * [bugfix: #1021] demo.gallery updates for phpThumbURL
+  * [bugfix: G65] PNG transparency
+  * [bugfix: G70] set a default timezone if one is not set
+  * [bugfix: G69] overlay margins
+  * [bugfix: G66] lowercase all PHP function names
+  * [bugfix: G64] Can't put thumbnail into a frame
+  * [bugfix: #1014] PDF thumbnail not rendered correctly
+  * [bugfix: #1008] phpThumbURL accept array parameters
+  * [bugfix: #988] mysqli support in demo
+  * [bugfix: G41] fail when memory_limit = -1
+  * [bugfix: G35] no temp directory set
+  * [bugfix: G33] realpath not working on some systems
+  * [bugfix: #991] ImprovedImageRotate not static
+  * set Last-Modified header on all requests
+  * [bugfix: G19] phpThumbURL() rawurlencode
+  * [bugfix: G26] ImageInterlace in RenderOutput()
+  * [bugfix: #775] file_exists_ignoreopenbasedir
+  * escapeshellarg disabled workaround
+  * [bugfix: #977] $PHPTHUMB_DEFAULTS not working
+  * [bugfix: G24] enable ImagePNG quality
+  * [bugfix: G25] escapeshellarg may exist but be disabled
+
+v1.7.13-201406261000 - June 26, 2014
+  * Bugfix: incorrect variable name in phpThumb.php could prevent
+    all hash values from matching
+
+
+v1.7.12-201406260900 - June 26, 2014
+  ¤ high_security_mode enabled by default and strongly recommended
+  ¤ debug mode must be disabled to allow thumbnail generation
+    Thanks to Rafay Baloch (www.rafayhackingarticles.net) for
+    recommending some security configuration changes
+  * default config_cache_directory_depth is now 2 (was 4)
+  * Bugfix: temp files used with ImageMagick might not get deleted
+    from cache directory
+  * Bugfix (G:17): 'far' parameter not working as intended
+  * Bugfix (G:16): $PHPTHUMB_DEFAULTS configuration ignored
+  * Bugfix (G:15): $PHPTHUMB_DEFAULTS_GETSTRINGOVERRIDE logic wrong
+  * Bugfix (G:11): config_cache_maxsize does not count wasted space
+  * Bugfix (G:10): error images ignored relevant config options
+  * Bugfix (#962): support symlinked subfolders for image source
+  * Bugfix (#934): source image region (sx/sy/sw/sh) did not work
+    when using ImageMagick
+  * Bugfix (#925): add configurable URL separator
+  * Bugfix (#921): non-static phpUnsharpMask::applyUnsharpMask()
+  * Bugfix (#920): $PHPTHUMB_DEFAULTS with array value gives
+    array-to-string PHP error
+  * Bugfix (#909): unnecessary calls of shell commands when cached
+  * Bugfix (#618): cached files inside subdirs won't be deleted
+  * Bugfix (#594): ImageMagick variants not detected (e.g. OpenMP)
+
 
 v1.7.11-201108081344 - August 8, 2011
   ¤ Added even more explicit escaping of command line parameters
