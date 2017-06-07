@@ -22,10 +22,13 @@ function qv_files_info($maestro, $data){
         
         // RISOLVO DIRECTORY TEMPORANEA E DIRECTORY ALLEGATI
         $infoenv=qv_environs($maestro);
+		$envattach=$infoenv["envattach"];
         $dirtemp=$infoenv["dirtemp"];
         $dirattach=$infoenv["dirattach"];
         $urltemp=$infoenv["urltemp"];
         $urlattach=$infoenv["urlattach"];
+		
+		$babelparams["ENVATTACH"]=$envattach;
         
         $babelparams["DIRTEMP"]=$dirtemp;
         $babelparams["DIRATTACH"]=$dirattach;

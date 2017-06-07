@@ -284,6 +284,10 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     var paramsolveid=missing;
     var paramupdate=missing;
     var propenabled=true;
+	var curr_importname="";
+	var curr_subpath="";
+	var curr_ext="";
+	var envattachments="";
     var bufferdetails="";
     if(params!=missing){
         if(typeof(params)==="string"){
@@ -312,6 +316,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     h+='<div id="'+formid+'oper_fileupdate" babelcode="FILE_UPDATE"></div>';
     h+='<div id="'+formid+'oper_filedetails" babelcode="FILE_DETAILS"></div>';
     h+='<div id="'+formid+'oper_filedownload" babelcode="FILE_DOWNLOAD"></div>';
+	h+='<div id="'+formid+'oper_filepreview" babelcode="FILE_PREVIEW"></div>';
     h+='<div id="'+formid+'oper_filedelete" babelcode="BUTTON_SELDELETE"></div>';
     if($("#"+formid+"filemanager").html(h).length>0){
         var offsety=180;
@@ -342,10 +347,14 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                 tx_filedescription.enabled(0);
                 tx_filedate.enabled(0);
                 tx_filesorter.enabled(0);
+				curr_importname="";
+				curr_subpath="";
+				curr_ext="";
                 bufferdetails="";
                 oper_fileupdate.enabled(0);
                 oper_filedetails.enabled(0);
                 oper_filedownload.enabled(0);
+				oper_filepreview.enabled(0);
                 oper_filedelete.enabled(0);
                 oper_fileunsaved.visible(0);
                 if(paramchangerow!=missing){
@@ -376,11 +385,17 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                             tx_filedate.value(v[0]["AUXTIME"]);
                             tx_filesorter.value(v[0]["SORTER"]);
                             bufferdetails=v[0]["REGISTRY"];
+							curr_importname=__(v[0]["IMPORTNAME"]);
+							curr_subpath=__(v[0]["SUBPATH"]);
+							//curr_ext=__(v[0]["EXTENSION"]);
+							curr_ext=curr_importname.match(/[^\.]+$/)[0];
                             oper_filedetails.title(bufferdetails);
                             oper_fileupdate.enabled(1);
                             oper_filedetails.enabled(1);
-                            if(v[0]["IMPORTNAME"]!="")
+                            if(curr_importname!=""){
                                 oper_filedownload.enabled(1);
+								oper_filepreview.enabled(1);
+							}
                             oper_fileunsaved.visible(0);
                             if(propenabled){
                                 oper_filedelete.enabled(1);
@@ -393,7 +408,8 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                 });
             },
             enter:function(o, r){
-                qv_filedownload(formid, o, {"mergetable":merge, "mergeid":currsysid});
+                //qv_filedownload(formid, o, {"mergetable":merge, "mergeid":currsysid});
+				oper_filepreview.engage();
             }
         });
         
@@ -594,9 +610,9 @@ function qv_filemanager(objform, formid, tablename, params, missing){
         });
         
         var oper_filedetails=$(prefix+"oper_filedetails").rylabel({
-            left:670,
+            left:650,
             top:300,
-            width:70,
+            width:90,
             caption:"Dettagli",
             formid:formid,
             button:true,
@@ -693,6 +709,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
         var oper_filedownload=$(prefix+"oper_filedownload").rylabel({
             left:430,
             top:300,
+			width:90,
             caption:"Download",
             formid:formid,
             button:true,
@@ -701,10 +718,75 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             }
         });
 
+        var oper_filepreview=$(prefix+"oper_filepreview").rylabel({
+            left:540,
+            top:300,
+			width:90,
+            caption:"Anteprima",
+            formid:formid,
+            button:true,
+            click:function(o){
+				if(envattachments==""){
+					TAIL.enqueue(function(){
+						RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+							{
+								"sessionid":_sessioninfo.sessionid,
+								"env":_sessioninfo.environ,
+								"function":"files_info",
+								"data":{}
+							}, 
+							function(d){
+								TAIL.free();
+								try{
+									var v=$.parseJSON(d);
+									envattachments=v.params["ENVATTACH"];
+								}catch(e){}
+							}
+						);
+					}, 1);
+				}
+				TAIL.enqueue(function(){
+					var n=curr_subpath+filesysid+"."+curr_ext;
+					RYWINZ.Post(_systeminfo.relative.cambusa+"rysource/source_temporary.php", 
+						{
+							"sessionid":_sessioninfo.sessionid,
+							"envdb":_sessioninfo.environ,
+							"envfs":envattachments,
+							"file":n
+						}, 
+						function(d){
+							TAIL.free();
+							var v=$.parseJSON(d);
+							if(v.success>0){
+								$("#winz-preview>iframe").prop("src", "");
+								$("#winz-preview>iframe").prop("src", v.path);
+								$("#winz-preview").show();
+								// ELIMINO IL FILE TEMPORANEO
+								setTimeout(function(){
+									var f=v.path;
+									RYWINZ.Post(_systeminfo.relative.cambusa+"rysource/source_deletetemp.php", 
+										{
+											"file":f
+										}, 
+										function(d){}
+									);
+								}, 10000);
+							}
+							else{
+								RYWINZ.MessageBox(formid, v.message);
+							}
+						}
+					);
+				}, 1);
+				TAIL.wriggle();
+            }
+        });
+
         var oper_filedelete=$(prefix+"oper_filedelete").rylabel({
             left:430,
             top:340,
-            caption:"Elimina selezione",
+			width:120,
+            caption:"Elimina selezionati",
             formid:formid,
             button:true,
             click:function(o){

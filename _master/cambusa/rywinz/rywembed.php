@@ -108,6 +108,10 @@ function mdiconfig(){
         path:"<?php  print $winz_functionpath ?>",
         title:"<?php  print $winz_functiontitle ?>",
     });
+	$("#winz-preview span").click(function(evt){
+		$("#winz-preview").hide();
+		$("#winz-preview>iframe").prop("src", "");
+	});
 }
 function winz_logout(){
     var ok=true;
@@ -182,6 +186,11 @@ if($winz_applogout){
 <div id="winz-dialog"></div>
 <div id="winz-printing"></div>
 <iframe id="winz-iframe"></iframe>
-    
+
+<div id="winz-preview" style="position:absolute;left:0px;top:0px;right:0px;bottom:0px;display:none;margin-top:20px;">
+    <iframe style="position:absolute;left:0px;top:0px;width:100%;height:100%;border:1px solid black;background:white;z-index:1000000;"></iframe>
+    <div style="position:absolute;left:0px;top:-20px;right:0px;height:20px;border:1px solid black;background:white;text-align:right;padding-right:5px;z-index:1000001;"><span style="cursor:pointer;line-height:18px;">&nbsp;X&nbsp;</span></div>
+</div>
+
 </body>
 </html>

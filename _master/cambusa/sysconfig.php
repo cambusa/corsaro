@@ -84,7 +84,7 @@ $postmaster_mail="";
 | ESTENSIONI CONSENTITE |
 ************************/
 
-$safe_extensions="pdf|zip|jpg|jpeg|gif|png|svg|ico|htm|html|pht|txt|mp3|mp4|wav|avi|mid|odf|ods|odt|odp|doc|docx|xls|xlsx|p7m|qvr|xml";
+$safe_extensions="pdf|zip|jpg|jpeg|gif|png|svg|ico|htm|html|pht|txt|mp3|mp4|wav|avi|mid|odf|ods|odt|odp|doc|docx|xls|xlsx|p7m|qvr|xml|json";
 
 /********************************************
 | CONTROLLO DELL'IP IN VALIDAZIONE SESSIONI |
