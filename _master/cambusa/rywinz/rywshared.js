@@ -15,6 +15,7 @@ var _openingparams="({})";
 var _winzprogrid=0;
 var _globalforms=new Object();
 var _dialogcount=0;
+var _envattachment="";
 
 // Preload avanzamento
 var _preloadProgress=new Image();
@@ -801,6 +802,61 @@ function winzMaskEnabled(formid, datalot, flag){
             }
         }
     }
+}
+function winzAttachPreview(formid, pathfile, env, missing){
+	if(_envattachment==""){
+		TAIL.enqueue(function(){
+			RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
+				{
+					"sessionid":_sessioninfo.sessionid,
+					"env":_sessioninfo.environ,
+					"function":"files_info",
+					"data":{}
+				}, 
+				function(d){
+					try{
+						var v=$.parseJSON(d);
+						_envattachment=v.params["ENVATTACH"];
+					}catch(e){}
+					TAIL.free();
+				}
+			);
+		}, 1);
+	}
+	TAIL.enqueue(function(){
+		if(env==missing)
+			env=_envattachment;
+		RYWINZ.Post(_systeminfo.relative.cambusa+"rysource/source_temporary.php", 
+			{
+				"sessionid":_sessioninfo.sessionid,
+				"envdb":_sessioninfo.environ,
+				"envfs":env,
+				"file":pathfile
+			}, 
+			function(d){
+				var v=$.parseJSON(d);
+				if(v.success>0){
+					$("#winz-preview>iframe").prop("src", "");
+					$("#winz-preview>iframe").prop("src", v.path);
+					$("#winz-preview").show();
+					// ELIMINO IL FILE TEMPORANEO
+					setTimeout(function(){
+						RYWINZ.Post(_systeminfo.relative.cambusa+"rysource/source_deletetemp.php", 
+							{
+								"file":v.path
+							}, 
+							function(d){}
+						);
+					}, 10000);
+				}
+				else{
+					RYWINZ.MessageBox(formid, v.message);
+				}
+				TAIL.free();
+			}
+		);
+	}, 1);
+	TAIL.wriggle();
 }
 $(document).ready(function(){
     $("body").keydown(

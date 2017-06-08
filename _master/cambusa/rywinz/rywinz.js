@@ -445,4 +445,5 @@ function ryWinz(missing){
     this.Title=winzTitle;
     this.ToMask=winzToMask;
     this.ToObject=winzToObject;
+	this.AttachPreview=winzAttachPreview;
 }

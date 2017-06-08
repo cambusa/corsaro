@@ -387,8 +387,13 @@ function qv_filemanager(objform, formid, tablename, params, missing){
                             bufferdetails=v[0]["REGISTRY"];
 							curr_importname=__(v[0]["IMPORTNAME"]);
 							curr_subpath=__(v[0]["SUBPATH"]);
+
 							//curr_ext=__(v[0]["EXTENSION"]);
-							curr_ext=curr_importname.match(/[^\.]+$/)[0];
+							if(curr_importname.match(/[^\.]+$/))
+								curr_ext=curr_importname.match(/[^\.]+$/)[0];
+							else
+								curr_ext="";
+
                             oper_filedetails.title(bufferdetails);
                             oper_fileupdate.enabled(1);
                             oper_filedetails.enabled(1);
@@ -726,59 +731,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             formid:formid,
             button:true,
             click:function(o){
-				if(envattachments==""){
-					TAIL.enqueue(function(){
-						RYWINZ.Post(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
-							{
-								"sessionid":_sessioninfo.sessionid,
-								"env":_sessioninfo.environ,
-								"function":"files_info",
-								"data":{}
-							}, 
-							function(d){
-								TAIL.free();
-								try{
-									var v=$.parseJSON(d);
-									envattachments=v.params["ENVATTACH"];
-								}catch(e){}
-							}
-						);
-					}, 1);
-				}
-				TAIL.enqueue(function(){
-					var n=curr_subpath+filesysid+"."+curr_ext;
-					RYWINZ.Post(_systeminfo.relative.cambusa+"rysource/source_temporary.php", 
-						{
-							"sessionid":_sessioninfo.sessionid,
-							"envdb":_sessioninfo.environ,
-							"envfs":envattachments,
-							"file":n
-						}, 
-						function(d){
-							TAIL.free();
-							var v=$.parseJSON(d);
-							if(v.success>0){
-								$("#winz-preview>iframe").prop("src", "");
-								$("#winz-preview>iframe").prop("src", v.path);
-								$("#winz-preview").show();
-								// ELIMINO IL FILE TEMPORANEO
-								setTimeout(function(){
-									var f=v.path;
-									RYWINZ.Post(_systeminfo.relative.cambusa+"rysource/source_deletetemp.php", 
-										{
-											"file":f
-										}, 
-										function(d){}
-									);
-								}, 10000);
-							}
-							else{
-								RYWINZ.MessageBox(formid, v.message);
-							}
-						}
-					);
-				}, 1);
-				TAIL.wriggle();
+				RYWINZ.AttachPreview(formid, curr_subpath+filesysid+"."+curr_ext);
             }
         });
 
