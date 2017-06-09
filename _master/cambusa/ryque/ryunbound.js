@@ -1642,8 +1642,13 @@
             }
             this.sort=function(){
                 var args=[];
-                for(var a=0; a<arguments.length; a++)
-                    args[a]=arguments[a];
+				if(arguments[0] instanceof Array){
+					args=arguments[0];
+				}
+				else{
+					for(var a=0; a<arguments.length; a++)
+						args[a]=arguments[a];
+				}
                 sorting(args);
             }
             this.autofit=function(){
@@ -2093,14 +2098,14 @@
                 try{
                     startloading();
                     if(propobj.matrix.length>0 && arguments.length>0){
-                        var args;
+                        var args=[];
                         var nams=[];
                         var cols=[];
                         var typs=[];    // 0 (string) - 1 (number) - 2 (boolean)
                         var ords=[];
                         var i=0;
                         if(arguments[0] instanceof Array){
-                            args=arguments[0][0];
+                            args=arguments[0];
                         }
                         else{
                             args=[];

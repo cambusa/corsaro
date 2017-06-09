@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.14    del 09/06/2017
+==================================
+
+ryUnbound: corretto l'errore di interpretazione degli argomenti della funzione "sort".
+
+==================================
 Rilascio v2.0.13    del 08/06/2017
 ==================================
 
