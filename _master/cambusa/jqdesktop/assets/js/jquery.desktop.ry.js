@@ -93,7 +93,7 @@ var JQD = (function($, window, document, undefined) {
         d.on('dblclick', 'a.icon', function() {
           // Get the link's target.
           var x = $(this).attr('href');
-          var y = $(x).find('a').attr('href');
+		  var y="#window_"+x.substr(11);
 
           // Show the taskbar button.
           if ($(x).is(':hidden')) {
@@ -105,39 +105,12 @@ var JQD = (function($, window, document, undefined) {
           JQD.util.window_flat();
           $(y).addClass('window_stack').show();
           
-          // mosca
+          // Title management
           JQD.util.window_title(y.substr(8));
         });
 
-		// Respond to RUDYZ click.
-        d.on('click', 'a.rudyz', function() {
-          // Get the link's target.
-          var x = $(this).attr('href');
-          var y = $(x).find('a').attr('href');
-          
-          // Show the taskbar button.
-          if ($(x).is(':hidden')) {
-            $(x).remove().appendTo('#dock');
-            $(x).show('fast');
-          }
-		  
-          // Bring window to front.
-          JQD.util.window_flat();
-          $(y).addClass('window_stack').show();
-          
-          // mosca
-          switch(this.id){
-          case "WINZ_POSTMAN":
-            if($.isset(_globalforms["postman"]))
-              JQD.util.window_title("postman");
-            break;
-          case "WINZ_PILOTA":
-            if($.isset(_globalforms["rudder"]))
-              JQD.util.window_title("rudder");
-            break;
-          }
-          
-		  //JQD.util.window_resize(y);  // Massimizzo
+        // Hide menù on tools click
+		d.on('click', 'a.winz-menu', function() {
 		  JQD.util.clear_active();
         });
 
@@ -313,7 +286,7 @@ var JQD = (function($, window, document, undefined) {
       window_title: function(id){
         var o=_globalforms[id].options;
         var t=o.title;
-        if(o.controls || id=="rudder")
+        if(o.controls.actualBoolean() || id=="rudder")
           $("#WINZ_TITLE").html("");
         else
           $("#WINZ_TITLE").html(t);

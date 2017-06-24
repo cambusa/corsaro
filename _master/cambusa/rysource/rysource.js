@@ -21,6 +21,7 @@
             var propclassname=false;
             var propborder=false;
             var propscroll=1;
+			var propzoom="";
             var propenviron="admin";
             var propstartup="";
             var propsessionid="";
@@ -42,6 +43,7 @@
             if(settings.classname!=missing){propclassname=settings.classname}
             if(settings.environ!=missing){propenviron=settings.environ}
             if(settings.scroll!=missing){propscroll=settings.scroll}
+			if(settings.zoom!=missing){propzoom=settings.zoom}
             if(settings.startup!=missing){propstartup=settings.startup}
             if(settings.sessionid!=missing){propsessionid=settings.sessionid}
             if(settings.dbenv!=missing){propdbenv=settings.dbenv}
@@ -62,6 +64,7 @@
                 background:propbackground,
                 classname:propclassname,
                 scroll:propscroll,
+				zoom:propzoom,
                 expand:function(o, trig){
                     var path=o.getpath(trig.id).join("/");
                     path+="/";

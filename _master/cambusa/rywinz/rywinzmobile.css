@@ -1,0 +1,226 @@
+/****************************************************************************
+* Name:            rywinz.css                                               *
+* Project:         Cambusa/ryWinz                                           *
+* Version:         1.69                                                     *
+* Description:     Multiple Document Interface                              *
+* Copyright (C):   2015  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
+* Contact:         https://github.com/cambusa                               *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+.winz-linkabout{
+cursor:pointer;
+text-decoration:underline;
+}
+#winz-dialog{
+display:none;
+}
+#winz-iframe{
+position:absolute;
+visibility:hidden;
+}
+#winz-printing{
+position:absolute;
+visibility:hidden;
+}
+.winz-rounded{
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-khtml-border-radius: 5px;
+border-radius: 5px;
+}
+.winz-header-left{
+text-align:left;
+padding:0px 5px;
+font-weight:bold;
+border-right:1px solid silver;
+}
+.winz-header-right{
+text-align:right;
+padding:0px 5px;
+font-weight:bold;
+border-right:1px solid silver;
+}
+.winz-cell-first{
+border-left:1px solid silver;
+}
+.winz-cell-left{
+text-align:left;
+padding:0px 5px;
+border-right:1px solid silver;
+}
+.winz-cell-right{
+text-align:right;
+padding:0px 5px;
+border-right:1px solid silver;
+}
+
+.winz_dither{
+position:absolute;
+background:#FFFFFF;
+display:none;
+opacity:0.50;
+filter:alpha(opacity=50); /* For IE8 and earlier */
+top:32px;
+right:0px;
+bottom:22px;
+left:0px;
+}
+
+.winz_dialog_outer{
+position:absolute;
+display:none;
+top:32px;
+right:0px;
+bottom:22px;
+left:0px;
+}
+
+.winz_dialog{
+position:relative;
+margin:5% auto;
+background:#F8F8F8;
+border:5px solid gray;
+-moz-border-radius: 7px;
+-webkit-border-radius: 7px;
+-khtml-border-radius: 7px;
+border-radius: 7px;
+-moz-box-shadow: 2px 2px 14px rgba(40, 40, 40, 0.5);
+-webkit-box-shadow: 2px 2px 14px rgba(40, 40, 40, 0.5);
+box-shadow: 2px 2px 14px rgba(40, 40, 40, 0.5);
+}
+
+.winz_close {
+position: absolute;
+cursor:pointer;
+background: #606060;
+color: #FFFFFF;
+line-height: 20px;
+right: 6px;
+text-align: center;
+top: 6px;
+width: 18px;
+text-decoration: none;
+font-weight: bold;
+-webkit-border-radius: 9px;
+-moz-border-radius: 9px;
+border-radius: 9px;
+-moz-box-shadow: 1px 1px 3px #888;
+-webkit-box-shadow: 1px 1px 3px #888;
+box-shadow: 1px 1px 3px #888;
+}
+
+.winz_close:hover { 
+background: #808080; 
+}
+
+.winz_dialog_title{
+position:absolute;
+top:15px;
+height:30px;
+padding:0px 20px 0px;
+font-size:16px;
+line-height:22px;
+overflow:hidden;
+}
+
+.winz_msgbox{
+position:absolute;
+top:60px;
+height:180px;
+padding:0px 20px 0px;
+font-size:16px;
+line-height:22px;
+overflow-y:auto;
+}
+
+.winz_stop{
+position:absolute;
+border:1px solid gray;
+right:20px;
+bottom:1px;
+height:16px;
+padding:0px 3px;
+font-size:11px;
+line-height:16px;
+background:white url(images/stop.png) no-repeat;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+-khtml-border-radius: 3px;
+border-radius: 3px;
+color:maroon;
+cursor:pointer;
+display:none;
+}
+
+.winz-info{
+position:absolute;
+border:1px solid gray;
+left:1px;
+bottom:1px;
+height:16px;
+padding:0px 3px;
+font-size:11px;
+line-height:16px;
+background:white;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+-khtml-border-radius: 3px;
+border-radius: 3px;
+color:#006699;
+display:none;
+}
+
+.winz-babel{
+position:absolute;
+display:none;
+}
+
+.winz-zoom50{
+-ms-transform: scale(0.5); /* IE 9 */
+-ms-transform-origin: 0 0;
+-moz-transform: scale(0.5); /* Firefox */
+-moz-transform-origin: 0 0;
+-o-transform: scale(0.5); /* Opera */
+-o-transform-origin: 0 0;
+-webkit-transform: scale(0.5); /* Safari And Chrome */
+-webkit-transform-origin: 0 0;
+transform: scale(0.5); /* Standard Property */
+transform-origin: 0 0;
+zoom:0.5; /* IE 8 */
+}
+
+.winz-zoom75{
+-ms-transform: scale(0.75); /* IE 9 */
+-ms-transform-origin: 0 0;
+-moz-transform: scale(0.75); /* Firefox */
+-moz-transform-origin: 0 0;
+-o-transform: scale(0.75); /* Opera */
+-o-transform-origin: 0 0;
+-webkit-transform: scale(0.75); /* Safari And Chrome */
+-webkit-transform-origin: 0 0;
+transform: scale(0.75); /* Standard Property */
+transform-origin: 0 0;
+zoom:0.75; /* IE 8 */
+}
+
+#winz-about a{
+color:navy;
+}
+
+#winz-about a:hover{
+color:navy;
+}
+
+.winz-no-shadow{
+text-shadow:none;
+}
+
+.winz-maintitle{
+text-shadow:none;
+text-align:center;
+font-size:18px;
+font-family:verdana,sans-serif;
+color:black;
+visibility:hidden;
+}

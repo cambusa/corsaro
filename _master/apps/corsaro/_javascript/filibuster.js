@@ -403,7 +403,7 @@ function containers_locate(options, missing){
         }
         if(FLB.detected.mobile){
             flb_radius=false;
-            flb_padding=0;
+            flb_padding=3;
             flb_thick=0;
             flb_height=0;
         }

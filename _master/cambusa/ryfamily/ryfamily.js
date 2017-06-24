@@ -26,6 +26,7 @@
             var propselectiontype="all";
             var propenabled=true;
             var propvisible=true;
+			var propzoom="";
 
             var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -45,6 +46,7 @@
             if(settings.background!=missing){propbackground=settings.background}
             if(settings.classname!=missing){propclassname=settings.classname}
             if(settings.selectiontype!=missing){propselectiontype=settings.selectiontype}
+			if(settings.zoom!=missing && settings.zoom!=""){propzoom="transform:scale("+settings.zoom+");transform-origin:0 0;"}
             
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -52,6 +54,7 @@
                 _globalforms[settings.formid].controls[propname]=propname.substr(settings.formid.length);
             }
             if(settings.tag!=missing){this.tag=settings.tag}
+			
             
             var sc="visible";
             var bd="none";
@@ -72,7 +75,7 @@
             .addClass("ryobject")
             .addClass("ryfamily")
             .css({"position":"absolute","font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px","overflow":sc,"border":bd});
-            $("#"+propname).html("<div style='position:absolute;border:none;left:0px;top:0px;width:1px;height:1px;overflow:hidden;'><input type='button' id='"+propname+"_anchor' style='position:absolute;left:-100px;width:10px;'></div><ul id='"+propname+"_root' class='filetree treeview-famfamfam'></ul>");
+            $("#"+propname).html("<div style='position:absolute;border:none;left:0px;top:0px;width:1px;height:1px;overflow:hidden;'><input type='button' id='"+propname+"_anchor' style='position:absolute;left:-100px;width:10px;'></div><ul id='"+propname+"_root' class='filetree treeview-famfamfam' style='"+propzoom+"'></ul>");
             refreshattr();
             
 			if(propborder){

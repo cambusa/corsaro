@@ -1,4 +1,14 @@
 ==================================
+Rilascio v2.0.15    del 24/06/2017
+==================================
+
+Filibuster: aggiunto un padding nella versione mobile.
+
+Aggiunte funzionalità per una futura versione adatta a dispositivi mobili.
+
+WINZ: corrette anomalie sul richiamo di Pilota e Postman.
+
+==================================
 Rilascio v2.0.14    del 09/06/2017
 ==================================
 

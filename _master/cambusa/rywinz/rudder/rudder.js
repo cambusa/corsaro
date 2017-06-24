@@ -31,9 +31,10 @@ function class_rudder(settings, missing){
         root:proproot,
         left:10,
         top:offset,
-        width:600,
+        width:$.browser.mobile ? 200 : 400,
         bottom:20,
         scroll:false,
+		zoom:$.browser.mobile ? 1.50 : "",
         border:false,
         classname:"treeview-transparent",
         startup:function(par){
