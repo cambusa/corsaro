@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Test",
+    "babelcode":"MN_TEST",
+    "params":{
+        "name":"qvtest",
+        "path":"qvtest/",
+        "title":"Test"
+    }
+}

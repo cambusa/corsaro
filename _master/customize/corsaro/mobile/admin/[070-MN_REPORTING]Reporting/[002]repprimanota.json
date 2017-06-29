@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Prima nota",
+    "babelcode":"MN_REP_CASHBOOK",
+    "params":{
+        "name":"primanota_sel",
+        "path":"@customize/corsaro/reporting/movimenti/",
+        "title":"Prima nota"
+    }
+}

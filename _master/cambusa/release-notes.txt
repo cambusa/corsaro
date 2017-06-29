@@ -1,4 +1,11 @@
 ==================================
+Rilascio v2.0.16    del 29/06/2017
+==================================
+
+ryTable: elenco per dispositivi mobili.
+Postman: iniziata la versione per dispositivi mobili.
+
+==================================
 Rilascio v2.0.15    del 24/06/2017
 ==================================
 

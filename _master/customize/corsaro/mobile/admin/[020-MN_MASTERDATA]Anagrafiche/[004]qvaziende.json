@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Aziende",
+    "babelcode":"MN_FIRMS",
+    "params":{
+        "name":"qvaziende",
+        "path":"qvanagrafiche/",
+        "title":"Aziende"
+    }
+}

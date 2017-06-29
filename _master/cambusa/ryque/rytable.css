@@ -1,0 +1,77 @@
+/****************************************************************************
+* Name:            rytable.css                                                *
+* Project:         Cambusa/ryQue                                            *
+* Version:         v2.0                                                     *
+* Description:     Lightweight access to databases                          *
+* Copyright (C):   2017  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
+* Contact:         https://github.com/cambusa                               *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+.rytable{
+position:absolute;
+overflow:hidden;
+background:white;
+}
+
+.rytable table{
+border-collapse: collapse;
+}
+
+.rytable table tr{
+white-space:nowrap;
+border-bottom:1px solid #F8F8F8;
+}
+
+.rytable table div{
+padding:5px 15px;
+font-size:16px;
+line-height:24px;
+overflow:hidden;
+height:24px;
+}
+
+.rytable thead tr{
+color:white;
+background-color:transparent;
+background: -webkit-linear-gradient(gray, #333); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(gray, #333); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(gray, #333); /* For Firefox 3.6 to 15 */
+filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#808080', endColorstr='#303030'); /* For IE */
+background: linear-gradient(gray, #333); /* Standard syntax */
+}
+
+.rytable tbody tr:nth-child(even){
+background-color: #DDD;
+}
+
+.rytable th{
+border-left: 1px solid #fff;
+}
+
+.rytable-right{
+	text-align:right;
+}
+
+.rytable-order{
+	text-align:right;
+	width:30px;
+}
+
+.rytable-checked{
+	text-align:center;
+	width:15px;
+}
+
+/* Esperimenti */
+
+.rytable thead{
+position:absolute;
+height:50px;
+overflow:hidden;
+}
+.rytable tbody{
+position:absolute;
+top:36px;
+overflow:auto;
+}

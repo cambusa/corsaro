@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Inventario",
+    "babelcode":"MN_INVENTORY",
+    "params":{
+        "name":"qvinventario",
+        "path":"qvstoccaggi/",
+        "title":"Inventario"
+    }
+}

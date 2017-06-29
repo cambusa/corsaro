@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Movimenti",
+    "babelcode":"MN_FLOWS",
+    "params":{
+        "name":"qvmovimenti",
+        "path":"qvmovimenti/",
+        "title":"Movimenti"
+    }
+}

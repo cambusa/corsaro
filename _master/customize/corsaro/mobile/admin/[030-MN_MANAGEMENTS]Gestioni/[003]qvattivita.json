@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Attivit&agrave;",
+    "babelcode":"MN_ACTIVITIES",
+    "params":{
+        "name":"qvattivita",
+        "path":"qvpratiche/",
+        "title":"Attivit&agrave;"
+    }
+}

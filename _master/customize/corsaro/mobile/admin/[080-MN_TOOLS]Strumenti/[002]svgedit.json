@@ -1,0 +1,11 @@
+{
+    "type":"form",
+    "title":"Disegno",
+    "babelcode":"MN_DRAWING",
+    "params":{
+        "name":"svgedit",
+        "path":"@cambusa/rywinz/svgedit/",
+        "icon":"@cambusa/rywinz/svgedit/svgedit",
+        "title":"Disegno"
+    }
+}

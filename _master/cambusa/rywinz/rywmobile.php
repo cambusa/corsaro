@@ -100,10 +100,9 @@ $(document).ready(function(){
 });
 function mdiconfig(){
     $("#sessioninfo").html(_companyname+" / "+_apptitle+" / "+_sessioninfo.envdescr+" / "+_sessioninfo.alias);
-    var params=PILOTA;
-    params.environ=_appname+"_"+_sessioninfo.role;
-    params.root=_sessioninfo.roledescr;
-    RYWINZ.shell(params);
+    PILOTA.environ=_appname+"_m_"+_sessioninfo.role;
+    PILOTA.root=_sessioninfo.roledescr;
+    RYWINZ.shell(PILOTA);
     
 	$("#winz-preview span").click(function(evt){
 		$("#winz-preview").hide();
@@ -270,12 +269,28 @@ function winz_logout(promptmess){
     }
     return msg;
 }
+function winz_rudder(missing){
+    if(_globalforms["rudder"]==missing){
+		RYWINZ.shell(PILOTA);
+    }
+    else{
+        // Show the taskbar button.
+        if($("#icon_dock_rudder").is(':hidden')){
+            $("#icon_dock_rudder").remove().appendTo('#dock');
+            $("#icon_dock_rudder").show('fast');
+        }
+        setTimeout(function(){
+            JQD.util.window_flat();
+            $("#window_rudder").addClass('window_stack').show();
+        });
+    }
+}
 function winz_postman(missing){
     if(_globalforms["postman"]==missing){
         _openingparams="({})";
         RYWINZ.shell({
             id:"postman",
-            name:"postman",
+            name:"postman_mobile",
             path:_systeminfo.relative.cambusa+"rywinz/postman/",
             title:POSTMAN.title,
             //desk:true,
@@ -314,17 +329,20 @@ function winz_postman(missing){
 			<li>
 				<a class="menu_trigger" href="#">File</a>
 				<ul class="menu">
-					<li style="display:none;"><a id="WINZ_PILOTA" class="rudyz" hrefx="#window_rudder"><?php print $RYWINZ->pilota->title ?></a></li>
+					<li><a id="WINZ_PILOTA" class="winz-menu" href="javascript:" onclick="winz_rudder()"><?php print $RYWINZ->pilota->title ?></a></li>
 <?php if($RYWINZ->postman->enabled){ ?>
-                    <li><a id="WINZ_POSTMAN" class="rudyz" href="javascript:" onclick="winz_postman()"><?php print $RYWINZ->postman->title ?></a></li>
+                    <li><a id="WINZ_POSTMAN" class="winz-menu" href="javascript:" onclick="winz_postman()"><?php print $RYWINZ->postman->title ?></a></li>
 <?php } ?>
-					<li><a id="WINZ_LOGOUT" class="rudyz" href="javascript:" onclick="winz_logout(true)">Logout</a></li>
+					<li><a id="WINZ_LOGOUT" class="winz-menu" href="javascript:" onclick="winz_logout(true)">Logout</a></li>
 				</ul>
 			</li>
 			<li>
 				<a id="WINZ_WINDOWS" class="menu_trigger" href="#">Windows</a>
 				<ul id="dock" class="menu">
 				</ul>
+			</li>
+			<li>
+				<a id="winz-notifications" class="menu_trigger" style="background:red;color:white;cursor:pointer;display:none;margin-left:20px;" href="javascript:" onclick="winz_postman()"></a>
 			</li>
 		</ul>
         <div id="WINZ_TITLE" class="winz-maintitle"></div>

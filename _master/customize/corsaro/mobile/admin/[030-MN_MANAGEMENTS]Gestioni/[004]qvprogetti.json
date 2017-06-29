@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Progetti",
+    "babelcode":"MN_PROJECTS",
+    "params":{
+        "name":"qvprogetti",
+        "path":"qvpratiche/",
+        "title":"Progetti"
+    }
+}

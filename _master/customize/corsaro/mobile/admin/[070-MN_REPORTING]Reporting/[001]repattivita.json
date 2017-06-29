@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Elenco attivit&agrave;",
+    "babelcode":"MN_REP_ACTIVITIES_LIST",
+    "params":{
+        "name":"elencoattivita_sel",
+        "path":"@customize/corsaro/reporting/pratiche/",
+        "title":"Elenco attivit&agrave;"
+    }
+}

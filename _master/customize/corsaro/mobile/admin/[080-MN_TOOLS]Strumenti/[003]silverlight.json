@@ -1,0 +1,13 @@
+{
+    "type":"form",
+    "title":"Esperimenti",
+    "babelcode":"",
+    "params":{
+        "name":"qvsilverlight",
+        "path":"qvsilverlight/",
+        "title":"Esperimenti",
+        "source":"/silverlight/qvsl/qvsl/Bin/Release/qvsl.xap",
+        "width":730,
+        "height":400
+    }
+}

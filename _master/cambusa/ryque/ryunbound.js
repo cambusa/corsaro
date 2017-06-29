@@ -30,7 +30,6 @@
             var proptits=[];
             var propdims=[];
             var proptyps=[];
-            var propfrms=[];
             var propcodes=[];
             
             var propsels={};
@@ -2002,12 +2001,11 @@
             }
             function addcolumn(params){
                 var l=propcols.length;
-                var colid="",tit="",dim=100,typ="",form="",code="";
+                var colid="",tit="",dim=100,typ="",code="";
                 if(params.id!=missing){colid=params.id}
                 if(params.caption!=missing){tit=params.caption}
                 if(params.width!=missing){dim=params.width}
                 if(params.type!=missing){typ=params.type}
-                if(params.formula!=missing){form=params.formula}
                 if(params.code!=missing)
                     code=params.code;
                 else if(propautocoding && tit!="")
@@ -2018,7 +2016,6 @@
                 proptits[l]=tit;
                 proptyps[l]=typ;
                 propdims[l]=dim;
-                propfrms[l]=form;
                 propcodes[l]=code;
                 return dim;
             }
@@ -2165,7 +2162,7 @@
                                 if(cols[b]>0){
                                     vl=propobj.matrix[i][ nams[b] ];
                                     if(typeof vl!="string")
-                                        vl="";
+                                        vl=$.actualString(vl);
                                     switch(typs[b]){
                                     case 1:
                                         vl=parseFloat(vl);

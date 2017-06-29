@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Pratiche",
+    "babelcode":"MN_DOSSIERS",
+    "params":{
+        "name":"qvpratiche",
+        "path":"qvpratiche/",
+        "title":"Pratiche"
+    }
+}

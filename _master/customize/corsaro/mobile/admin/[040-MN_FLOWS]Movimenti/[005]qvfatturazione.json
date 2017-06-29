@@ -1,0 +1,11 @@
+{
+    "type":"form",
+    "title":"Fatturazione",
+    "babelcode":"MN_INVOICES",
+    "params":{
+        "name":"qvfatturazione",
+        "path":"qvmovimenti/",
+        "title":"Fatturazione",
+        "processo":"_PROCVENDITE"
+    }
+}

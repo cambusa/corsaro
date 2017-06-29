@@ -1918,6 +1918,13 @@ var globalcolorfocus="#FFF4E6";
                     propobj.raisechanged();
                 }
             );
+            $("#"+propname).mousedown(
+            	function(evt){
+            		if(propenabled){
+                        castFocus(propname);
+            		}
+            	}
+            );
             // FUNZIONI PUBBLICHE
             this.engage=function(){
                 if(propenabled)

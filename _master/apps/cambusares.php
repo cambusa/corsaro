@@ -102,6 +102,11 @@ RYBOX;
             CambusaLibraryAdd("ryunbound.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryunbound.js?ver=$cacheversion' ></script>");
             break;
     
+        case "rytable":
+            CambusaLibraryAdd("rytable.css", "<link rel='stylesheet' href='".$url_cambusa."ryque/rytable.css?ver=$cacheversion' />");
+            CambusaLibraryAdd("rytable.js", "<script type='text/javascript' src='".$url_cambusa."ryque/rytable.js?ver=$cacheversion' ></script>");
+            break;
+    
         case "rybox":
 			CambusaLibraryAdd("jquery.ui.core.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.core.css' rel='stylesheet' />");
             CambusaLibraryAdd("jquery.ui.theme.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.theme.css' rel='stylesheet' />");
@@ -128,7 +133,6 @@ RYBOX;
             break;
             
         case "rywinz":
-            //CambusaLibraryAdd("jquery.ui.dialog.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.dialog.css' rel='stylesheet' />");
 			CambusaLibraryAdd("reset.css", "<link rel='stylesheet' href='".$url_cambusa."jqdesktop/assets/css/reset.css' />");
 			CambusaLibraryAdd("desktop.ry.css", "<link rel='stylesheet' href='".$url_cambusa."jqdesktop/assets/css/desktop.ry.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rywinz.css", "<link rel='stylesheet' href='".$url_cambusa."rywinz/rywinz.css?ver=$cacheversion' />");
@@ -141,20 +145,18 @@ RYBOX;
 			CambusaLibraryAdd("jquery.ui.draggable.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.draggable.js' ></script>");
 			CambusaLibraryAdd("jquery.ui.resizable.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.resizable.js' ></script>");
             CambusaLibraryAdd("jquery.cookie.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.cookie.js' ></script>");
-            //CambusaLibraryAdd("jquery.ui.dialog.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.dialog.js' ></script>");
 			CambusaLibraryAdd("jquery.desktop.ry.js", "<script type='text/javascript' src='".$url_cambusa."jqdesktop/assets/js/jquery.desktop.ry.js?ver=$cacheversion' ></script>");
             
             CambusaLibraryAdd("ryego.js", "<script type='text/javascript' src='".$url_cambusa."ryego/ryego.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("rywshared.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/rywshared.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("rywinz.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/rywinz.js?ver=$cacheversion' ></script>");
-			CambusaLibraryAdd("rytable.js", "<script type='text/javascript' src='".$url_cambusa."ryque/rytable.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("printthis.js", "<script type='text/javascript' src='".$url_cambusa."printthis/printThis.js' ></script>");
             break;
     
-        // mosca mobile
 		case "rywinzmobile":
 			CambusaLibraryAdd("reset.css", "<link rel='stylesheet' href='".$url_cambusa."jqdesktop/assets/css/reset.css' />");
 			CambusaLibraryAdd("desktop-mobile.css", "<link rel='stylesheet' href='".$url_cambusa."jqdesktop/assets/css/desktop-mobile.css?ver=$cacheversion' />");
+			CambusaLibraryAdd("rywinz.css", "<link rel='stylesheet' href='".$url_cambusa."rywinz/rywinz.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rywinzmobile.css", "<link rel='stylesheet' href='".$url_cambusa."rywinz/rywinzmobile.css?ver=$cacheversion' />");
 
 			CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js'></script>");
@@ -170,12 +172,11 @@ RYBOX;
             CambusaLibraryAdd("ryego.js", "<script type='text/javascript' src='".$url_cambusa."ryego/ryego.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("rywshared.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/rywshared.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("rywmobile.js", "<script type='text/javascript' src='".$url_cambusa."rywinz/rywmobile.js?ver=$cacheversion' ></script>");
-			CambusaLibraryAdd("rytable.js", "<script type='text/javascript' src='".$url_cambusa."ryque/rytable.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("printthis.js", "<script type='text/javascript' src='".$url_cambusa."printthis/printThis.js' ></script>");
+			CambusaLibrary("rytable");
             break;
     
         case "rywembed":
-            //CambusaLibraryAdd("jquery.ui.dialog.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.dialog.css' rel='stylesheet' />");
 			CambusaLibraryAdd("reset.css", "<link rel='stylesheet' href='".$url_cambusa."jqdesktop/assets/css/reset.css' />");
 			CambusaLibraryAdd("desktop.ry.css", "<link rel='stylesheet' href='".$url_cambusa."jqdesktop/assets/css/desktop.ry.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rywinz.css", "<link rel='stylesheet' href='".$url_cambusa."rywinz/rywinz.css?ver=$cacheversion' />");
@@ -188,7 +189,6 @@ RYBOX;
 			CambusaLibraryAdd("jquery.ui.draggable.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.draggable.js' ></script>");
 			CambusaLibraryAdd("jquery.ui.resizable.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.resizable.js' ></script>");
             CambusaLibraryAdd("jquery.cookie.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.cookie.js' ></script>");
-            //CambusaLibraryAdd("jquery.ui.dialog.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.dialog.js' ></script>");
 			CambusaLibraryAdd("jquery.desktop.ry.js", "<script type='text/javascript' src='".$url_cambusa."jqdesktop/assets/js/jquery.desktop.embed.js?ver=$cacheversion' ></script>");
             
             CambusaLibraryAdd("ryego.js", "<script type='text/javascript' src='".$url_cambusa."ryego/ryego.js?ver=$cacheversion' ></script>");

@@ -161,11 +161,11 @@ function ryWinz(missing){
         
         if(propname!="" && propid!=""){
             var t,cn;
-            if(propdesk){
-                t="<a id='icon_desk_"+propid+"' class='abs icon' style='left:30px;top:"+propicontop+"px;' href='#icon_dock_"+propid+"'><img src='"+propicon+"_32.png' /><span class='title_"+propid+"'>"+proptitle+"</span></a>";
-                $("#desktop").append(t);
-                propicontop+=80;
-            }
+            //if(propdesk){
+            //    t="<a id='icon_desk_"+propid+"' class='abs icon' style='left:30px;top:"+propicontop+"px;' href='#icon_dock_"+propid+"'><img src='"+propicon+"_32.png' /><span class='title_"+propid+"'>"+proptitle+"</span></a>";
+            //    $("#desktop").append(t);
+            //    propicontop+=80;
+            //}
             t="";
             t+="<div id='window_"+propid+"' class='abs window'>";
             t+="    <div class='abs window_inner'>";
@@ -189,7 +189,7 @@ function ryWinz(missing){
 
             t="";
             t+="<li id='icon_dock_"+propid+"'>";
-            t+="    <a hrefx='#window_"+propid+"'>";
+            t+="    <a class='winz-menu' hrefx='#window_"+propid+"'>";
             t+="        <img src='"+propicon+"_22.png' />";
             t+="        <span class='title_"+propid+"'>"+proptitle+"</span>";
             t+="    </a>";

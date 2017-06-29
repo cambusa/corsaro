@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Persone",
+    "babelcode":"MN_PEOPLE",
+    "params":{
+        "name":"qvpersone",
+        "path":"qvanagrafiche/",
+        "title":"Persone"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Uffici",
+    "babelcode":"MN_OFFICES",
+    "params":{
+        "name":"qvuffici",
+        "path":"qvanagrafiche/",
+        "title":"Uffici"
+    }
+}

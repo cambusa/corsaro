@@ -1,0 +1,11 @@
+{
+    "type":"form",
+    "title":"Richieste",
+    "babelcode":"MN_REQUESTS",
+    "params":{
+        "name":"qvinterazioni",
+        "path":"qvpratiche/",
+        "title":"Richieste",
+        "processo":"_PROCRICHIESTE"
+    }
+}

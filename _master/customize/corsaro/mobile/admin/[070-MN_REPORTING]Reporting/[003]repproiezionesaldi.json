@@ -1,0 +1,10 @@
+{
+    "type":"form",
+    "title":"Proiezione saldi",
+    "babelcode":"MN_REP_PROJECTION_BALANCES",
+    "params":{
+        "name":"proiezionesaldi_sel",
+        "path":"@customize/corsaro/reporting/saldi/",
+        "title":"Proiezione saldi"
+    }
+}
