@@ -2090,6 +2090,7 @@ var globalcolorfocus="#FFF4E6";
 	},{
 		rylabel:function(settings){
 			var propleft=20;
+			var propright=0;
 			var proptop=20;
             var propwidth=0;
 			var propcaption="";
@@ -2113,6 +2114,7 @@ var globalcolorfocus="#FFF4E6";
 			globalobjs[propname]=this;
 
 			if(settings.left!=missing){propleft=settings.left}
+			if(settings.right!=missing){propright=settings.right}
 			if(settings.top!=missing){proptop=settings.top}
 			if(settings.width!=missing){propwidth=settings.width}
 			if(settings.caption!=missing){propcaption=settings.caption}else{propcaption=propname}
@@ -2153,6 +2155,10 @@ var globalcolorfocus="#FFF4E6";
                 if(propwidth>0){
                     $("#"+propname+"_caption").css({"width":propwidth, "text-align":"center"});
                 }
+				if(propright>0){
+					$("#"+propname).css({"right":propright});
+					$("#"+propname+"_caption").css({"right":0, "text-align":"center", "font-size":"16px", "padding":"5px"});
+				}
             }
             else{
                 $("#"+propname).html("<div id='"+propname+"_caption'>"+propcaption+"</div>");

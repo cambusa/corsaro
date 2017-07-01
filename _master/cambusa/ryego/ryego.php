@@ -43,6 +43,15 @@ include_once $tocambusa."phpseclib/Crypt/RSA.php";
 // APRO IL DATABASE
 $maestro=maestro_opendb("ryego");
 
+if($maestro->conn===false){
+	print "<html>";
+	print "<body>";
+	print "Connection to Ego database failed!";
+	print "</body>";
+	print "</html>";
+	die;
+}
+
 // URL
 if(isset($_GET["url"])){
     $returnurl=$_GET["url"];
@@ -82,13 +91,22 @@ else
     
 // VALIDATORE
 $validator="ego";
-if($maestro->conn!==false){
-    $sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME='validator'";
-    maestro_query($maestro, $sql, $r);
-    if(count($r)==1){
-        if($r[0]["VALUE"]!="")
-            $validator=$r[0]["VALUE"];
-    }
+$sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME='validator'";
+maestro_query($maestro, $sql, $r);
+if(count($r)==1){
+	if($r[0]["VALUE"]!="")
+		$validator=$r[0]["VALUE"];
+}
+
+// RESET BY MAIL
+$emailreset=0;
+try{
+	$sql="SELECT VALUE FROM EGOSETTINGS WHERE NAME='emailreset'";
+	maestro_query($maestro, $sql, $v);
+	if(count($v)==1)
+		$emailreset=intval($v[0]["VALUE"]);
+}
+catch(Exception $e){
 }
 
 // METODO    
@@ -113,16 +131,10 @@ else
 
 if(isset($_POST["sessionid"])){
     $sessionid=ryqEscapize($_POST["sessionid"]);
-    if($maestro->conn!==false){
-        if(!ext_validatesession($sessionid)){
-            $sessionid="";
-            $msk="login";
-        }
-    }
-    else{
-        $sessionid="";
-        $msk="login";
-    }
+	if(!ext_validatesession($sessionid)){
+		$sessionid="";
+		$msk="login";
+	}
 }
 else{
     $sessionid="";
@@ -217,8 +229,8 @@ input,select,a:focus{outline:none;border:none;}
             
 <script type='text/javascript' src='../jquery/jquery.js' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.core.js'></script>
-<script type='text/javascript' src='../jquery/jquery.ui.datepicker.js' ></script>
-<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.datepicker.ry.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.ry.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.widget.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.button.js'></script>
 <script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
@@ -249,6 +261,10 @@ var _appname="<?php  print $appname ?>";
 var _castenv="<?php  print $castenv ?>";
 var _validator="<?php  print $validator ?>";
 var _egocontext="default";
+
+(new Image()).src="images/waiting.gif";
+(new Image()).src="images/waiting-login.gif";
+
 function encryptString(s){
     var e=new JSEncrypt();
     s=CryptoJS.SHA1(s);
@@ -297,7 +313,7 @@ function sysmessagehide(){
 }
 function logout(){
     if(_sessioninfo.sessionid!=""){
-        $("body").html("<br/><br/><br/><br/><br/><br/><img src='images/waiting-login.gif'>");
+        $("body").html("<div style='position:relative;top:120px;width:128px;height:128px;margin:0% auto;'><img src='images/waiting-login.gif'></div>");
         setTimeout(
             function(){
                 $.post("ego_logout.php", {sessionid:_sessioninfo.sessionid}, function(){
@@ -323,46 +339,157 @@ function removePrivacyCookie(){
 }
 </script>
 
-<?php 
-if($msk=="login"){
-    include("egoform_login.php"); 
-} 
-elseif($msk=="setup"){ 
-    if($appname==""){ // Setup Ego
-        include("egoform_setupego.php"); 
-    }
-    else{   // Setup Applicazione
-        include("egoform_setupapp.php"); 
-    }
-} 
-?>
-
 </head>
 
 <?php
 if($msk=="login"){
+
+	//---------------------------
+	// LOGIN (EGO OR APPLICATION)
+	//---------------------------
+	
+	include("egoform_login.php");
+
 ?>
 
 <body style='overflow:hidden;margin:0px;background-color:#F0F0F0;' spellcheck='false'>
 
+<div class='ego-body'>
+<div style='position:relative;width:320px;height:280px;margin:0% auto;'>
+<div style='position:absolute;left:0px;top:40px;width:100%;height:20px;overflow:hidden;font-size:16px;border-bottom:1px solid silver;'><?php print $apptitle ?></div>
+<div style='position:absolute;left:0px;top:60px;width:100%;font-size:8px;text-align:right;'><?php print $egospec ?></div>
+<div style='position:absolute;left:-100px;top:20px;'>
+	
+<!-- loginbody inizio -->
+	
+<div style="height:320px;">
+
+<div id="lbalias" babelcode="EGO_LOGIN_USER"></div>
+<div id="txalias"></div>
+<div id="lbpwd" babelcode="EGO_LOGIN_PWD"></div>
+<div id="txpwd"></div>
+<div id="lblogin" babelcode="EGO_LOGIN_LOGIN"></div>
+<?php 
+	if($appname!=""){ 
+?>
+<div id="lbsetup" babelcode="EGO_LOGIN_SETUP"></div>
+<?php 
+    }
+    if($emailreset){
+?>
+<div id="lbreset" babelcode="EGO_LOGIN_RESET"></div>
+<?php 
+    }
+?>
+<!-- MESSAGES FOR BABEL -->
+<div style="position:absolute;display:none;">
+<div id="lbauthenticationservice" babelcode="EGO_AUTHENTICATION_SERVICE"></div>
+<div id="lbsendpwd" babelcode="EGO_CONFIRMSENDPWD"></div>
+<div id="lbmandatoryuser" babelcode="EGO_MSG_MANDATORYUSERALIAS"></div>
+</div>
+
+</div>
+
+<!-- loginbody fine -->
+	
+</div>
+<div class="ego-messbar" id="messbar" style="left:5px;top:280px;"></div>
+<div id="progressmask"></div>
+</div>
+</div>
+
 <?php
-	print "<div class='ego-body'>";
-	print "<div style='position:relative;width:320px;height:280px;margin:0% auto;'>";
-	print "<div style='position:absolute;left:0px;top:40px;width:100%;height:20px;overflow:hidden;font-size:16px;border-bottom:1px solid silver;'>$apptitle</div>";
-	print "<div style='position:absolute;left:0px;top:60px;width:100%;font-size:8px;text-align:right;'>$egospec</div>";
-	print "<div style='position:absolute;left:-100px;top:20px;'>";
+}
+elseif($msk=="setup" && $appname!=""){
 	
-	include("egoform_loginbody.php");
+	//----------------------------
+	// SETUP APPLICATION (NOT EGO)
+	//----------------------------
 	
-	print "</div>";
-	print "<div id='messbar' style='display:none;position:absolute;left:5px;top:280px;'></div>";
-	print "<div id='progressmask'></div>";
-	print "</div>";
-	print "</div>";
+	include("egoform_setupapp.php"); 
+
+?>
+<body style='overflow:hidden;margin:0px;background-color:#F0F0F0;' spellcheck='false'>
+
+<div class='ego-body'>
+<div style='position:relative;width:320px;height:280px;margin:0% auto;'>
+
+<div style='position:absolute;left:0px;top:40px;width:100%;height:20px;overflow:hidden;font-size:16px;border-bottom:1px solid silver;'><?php print $apptitle ?></div>
+<div style='position:absolute;left:0px;top:60px;width:100%;font-size:8px;text-align:right;'><?php print $egospec ?></div>
+<div style='position:absolute;left:0px;top:70px;'>
+
+<div style="height:370px;">
+
+<ul>
+<li class="ego-menu" style="top:0px;"><a id="side_settings" href="#" onclick="activation('settings')">Opzioni</a></li>
+<li class="ego-menu" style="top:35px;"><a id="side_changepassword" href="#" onclick="activation('changepassword')">Cambio password</a></li>
+<li class="ego-menu" style="top:70px;"><a id="side_deactivation" href="#" onclick="activation('deactivation')">Disattivazione</a></li>
+</ul>
+
+<div class="ego-toolfunction" id="settings">
+<span class="form-title"></span>
+<div id="lbenviron" babelcode="EGO_SET_ENVIRON"></div><div id="lstenviron"></div>
+<div id="lbrole" babelcode="EGO_SET_ROLE"></div><div id="lstrole"></div>
+<div id="lblanguage" babelcode="EGO_SET_LANGUAGE"></div><div id="lstlanguage"></div>
+<div id="lbcountry" babelcode="EGO_SET_COUNTRY"></div><div id="lstcountry"></div>
+<div id="lbdebugmode" babelcode="EGO_SET_MODE"></div><div id="lstdebugmode"></div>
+<div id="lbemail" babelcode="EGO_SET_EMAIL"></div><div id="txemail"></div>
+</div>
+
+<div class="ego-toolfunction" id="changepassword">
+<span class="form-title"></span>
+<div id="lbcurrpwd" babelcode="EGO_PWD_CURRENT"></div><div id="txcurrpwd"></div>
+<div id="lbnewpwd" babelcode="EGO_PWD_NEW"></div><div id="txnewpwd"></div>
+<div id="lbrepeatpwd" babelcode="EGO_PWD_REPEAT"></div><div id="txrepeatpwd"></div>
+<div id="actionPassword" babelcode="EGO_PWD_CONFIRM"></div>
+</div>
+
+<div class="ego-toolfunction" id="deactivation">
+<span class="form-title"></span>
+<div id="actionDeactivation" babelcode="EGO_DEACTIVATION"></div>
+<div id="lbdeactivation" style="width:320px;">
+La disattivazione dell'account comporta l'immediata uscita dal sistema 
+e l'impossibilità a rientrarvi senza l'intervento di un amministratore.<br/>
+I dati relativi all'utente saranno conservati, ma non sarà più possibile accedervi
+e usarli per una nuova registrazione.
+</div>
+</div>
+
+<div id="lbgo2app" babelcode="EGO_GOTOAPP"></div>
+
+<div id="lbgo2log" babelcode="EGO_GOTOLOG"></div>
+
+<!-- MESSAGES FOR BABEL -->
+<div style="position:absolute;display:none;">
+<div id="lbexpiredpwd" babelcode="EGO_MSG_EXPIREDPWD"></div>
+<div id="lbexpiringpwd" babelcode="EGO_MSG_EXPIRINGPWD"></div>
+<div id="lbside_settings" babelcode="EGO_TITLE_SETTINGS"></div>
+<div id="lbside_changepassword" babelcode="EGO_TITLE_CHANGEPASSWORD"></div>
+<div id="lbside_deactivation" babelcode="EGO_TITLE_DEACTIVATION"></div>
+<div id="lbauthenticationservice" babelcode="EGO_AUTHENTICATION_SERVICE"></div>
+<div id="lbconfirmdeactivate" babelcode="EGO_CONFIRMDEACTIVATE"></div>
+</div>
+
+</div>
+
+<div class="ego-messbar" id="messbar" style="left:10px;top:300px;width:300px;"></div>
+<div id='progressmask'></div>
+
+</div>
+</div>
+</div>
+
+<?php
 }
 else{
-?>
+	
+	//-------------------
+	// SETUP FOR EGO ONLY
+	//-------------------
+	
+	include("egoform_setupego.php"); 
 
+?>
 <body class='classicBody' style='overflow:hidden;' spellcheck='false'>
 
 <!-- MARGINE SUPERIORE -->
@@ -434,23 +561,12 @@ else{
 <div class='classicContainerInner'>
 
 <?php 
-if($msk=="login"){ 
-    $posx=245;
-    include("egoform_loginbody.php"); 
-}
-elseif($msk=="setup"){ 
-    if($appname==""){ // Setup Ego
-        $posx=395;
-        include("egoform_setupbodyego.php"); 
-    }
-    else{ // Setup Applicazione
-        $posx=295;
-        include("egoform_setupbodyapp.php"); 
-    }
-} 
+
+	include("egoform_setupbodyego.php"); 
+	
 ?>
 
-<div id="messbar" style="display:none;position:absolute;left:10px;top:<?php print $posx ?>px;"></div>
+<div class="ego-messbar" id="messbar" style="left:10px;top:395px;"></div>
 
 <!-- FINE CONTENUTI -->
 </div>
@@ -551,8 +667,6 @@ if($msk=="setup"){
 <?php
 }
 ?>
-<img src='images/waiting.gif' style='display:none;'>
-<img src='images/waiting-login.gif' style='display:none;'>
 </body>
 </html>
 <?php 

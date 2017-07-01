@@ -35,11 +35,19 @@ function activation(n){
     $("#settings").hide();
     $("#changepassword").hide();
     $("#deactivation").hide();
+	$("li.ego-menu a").removeClass("ego-menu-selected");
     $("#"+n).show();
     switch(n){
+	case "settings":
+		$("#side_settings").addClass("ego-menu-selected");
+		break;
     case "changepassword":
+		$("#side_changepassword").addClass("ego-menu-selected");
         setTimeout(function(){$("#txcurrpwd_anchor").focus()}, 100);
-        break
+        break;
+	case "deactivation":
+		$("#side_deactivation").addClass("ego-menu-selected");
+		break;
     }
 }
 
@@ -87,10 +95,11 @@ function config(missing){
     activation('settings');
     
     // INIZIO FORM OPZIONI
-    var offsety=70;
-    $("#lbenviron").rylabel({left:20, top:offsety, caption:"Ambiente"});
+    var offsety=20;
+    $("#lbenviron").rylabel({left:-50, top:offsety, width:120, caption:"Ambiente", align:"right"});
     lstenviron=$("#lstenviron").rylist({
-        left:180,
+        left:80,
+		width:200,
         top:offsety,
 		assigned:function(obj){
             syswaiting();
@@ -111,9 +120,10 @@ function config(missing){
     });
 
     offsety+=25;
-    $("#lbrole").rylabel({left:20, top:offsety, caption:"Ruolo"});
+    $("#lbrole").rylabel({left:-50, top:offsety, width:120, caption:"Ruolo", align:"right"});
     lstrole=$("#lstrole").rylist({
-        left:180,
+        left:80,
+		width:200,
         top:offsety,
 		assigned:function(obj){
             syswaiting();
@@ -134,9 +144,10 @@ function config(missing){
     });
     
     offsety+=25;
-    $("#lblanguage").rylabel({left:20, top:offsety, caption:"Lingua"});
+    $("#lblanguage").rylabel({left:-50, top:offsety, width:120, caption:"Lingua", align:"right"});
     lstlanguage=$("#lstlanguage").rylist({
-        left:180,
+        left:80,
+		width:200,
         top:offsety,
 		assigned:function(obj){
             syswaiting();
@@ -165,9 +176,10 @@ function config(missing){
     });
     
     offsety+=25;
-    $("#lbcountry").rylabel({left:20, top:offsety, caption:"Paese"});
+    $("#lbcountry").rylabel({left:-50, top:offsety, width:120, caption:"Paese", align:"right"});
     lstcountry=$("#lstcountry").rylist({
-        left:180,
+        left:80,
+		width:200,
         top:offsety,
 		assigned:function(obj){
             syswaiting();
@@ -188,9 +200,10 @@ function config(missing){
     });
     
     offsety+=25;
-    $("#lbdebugmode").rylabel({left:20, top:offsety, caption:"Modalità"});
+    $("#lbdebugmode").rylabel({left:-50, top:offsety, width:120, caption:"Modalità", align:"right"});
     lstdebugmode=$("#lstdebugmode").rylist({
-        left:180,
+        left:80,
+		width:200,
         top:offsety,
 		assigned:function(obj){
             syswaiting();
@@ -211,9 +224,10 @@ function config(missing){
     });
     
     offsety+=25;
-    $("#lbemail").rylabel({left:20, top:offsety, caption:"Email"});
+    $("#lbemail").rylabel({left:-50, top:offsety, width:120, caption:"Email", align:"right"});
     txemail=$("#txemail").rytext({
-        left:180,
+        left:80,
+		width:200,
         top:offsety,
 		assigned:function(obj){
             syswaiting();
@@ -234,24 +248,32 @@ function config(missing){
     });
     // FINE FORM OPZIONI
 
-    $("#lbcurrpwd").rylabel({left:20, top:70, caption:"Password attuale"});
+	offsety=20;
+    $("#lbcurrpwd").rylabel({left:0, top:offsety, width:120, caption:"Password attuale", align:"right"});
     objcurrpwd=$("#txcurrpwd").rytext({ 
-        left:180,
-        top:70, 
+        left:130,
+		width:180,
+        top:offsety, 
         password:true,
         maxlen:16
     });
-    $("#lbnewpwd").rylabel({left:20, top:100, caption:"Nuova password"});
+	
+	offsety+=30;
+    $("#lbnewpwd").rylabel({left:0, top:offsety, width:120, caption:"Nuova password", align:"right"});
     objnewpwd=$("#txnewpwd").rytext({ 
-        left:180,
-        top:100, 
+        left:130,
+		width:180,
+        top:offsety, 
         password:true,
         maxlen:16
     });
-    $("#lbrepeatpwd").rylabel({left:20, top:130, caption:"Ripeti password"});
+	
+	offsety+=30;
+    $("#lbrepeatpwd").rylabel({left:0, top:offsety, width:120, caption:"Ripeti password", align:"right"});
     objrepeatpwd=$("#txrepeatpwd").rytext({ 
-        left:180,
-        top:130, 
+        left:130,
+		width:180,
+        top:offsety, 
         password:true,
         maxlen:16
     });
@@ -259,12 +281,14 @@ function config(missing){
     // INIZIO AZIONI
     
     // Registra nuova password
+	offsety+=40;
     $("#actionPassword").rylabel({
-        left:400,
-        top:130,
+        left:130,
+        top:offsety,
+		width:170,
         caption:"Conferma",
         button:true,
-        flat:true,
+        flat:false,
         click:function(o){
             var n=objnewpwd.value();
             var ld=0,ul=0;
@@ -311,12 +335,10 @@ function config(missing){
         }
     });
     
-    $("#lbdeactivation").css({position:"absolute", left:20, top:70, width:580, "font-size":"16px"});
-
     // Disattivazione
     $("#actionDeactivation").rylabel({
-        left:20,
-        top:160,
+        left:0,
+        top:20,
         caption:"Disattivazione utente",
         button:true,
         flat:true,
@@ -347,10 +369,13 @@ function config(missing){
         }
     });
 
+	offsety=50;
+    $("#lbdeactivation").css({position:"absolute", left:0, top:offsety, "font-size":"14px"});
+
 	// Vai all'applicazione
 	objgo=$("#lbgo2app").rylabel({
-        left:20,
-        top:250,
+        left:10,
+        top:350,
         caption:"Vai all'applicazione",
         button:true,
         flat:true,
@@ -367,6 +392,18 @@ function config(missing){
         objgo.visible(0);
     }
 	
+	// Torna alla login
+	objlog=$("#lbgo2log").rylabel({
+        left:10,
+        top:390,
+        caption:"Torna alla login",
+        button:true,
+        flat:true,
+        click:function(o){
+			egoterminate(true)
+        }
+    });
+	
 	// FINE AZIONI
     // FINE FORM PASSWORD
     // CARICAMENTO DATI
@@ -379,15 +416,15 @@ function postlocalize(){
     
     t=RYBOX.getbabel("lbside_settings");
     $("#side_settings").html(t);
-    $("#settings .form-title").html(t.toUpperCase());
+    //$("#settings .form-title").html(t.toUpperCase());
     
     t=RYBOX.getbabel("lbside_changepassword");
     $("#side_changepassword").html(t);
-    $("#changepassword .form-title").html(t.toUpperCase());
+    //$("#changepassword .form-title").html(t.toUpperCase());
 
     t=RYBOX.getbabel("lbside_deactivation");
     $("#side_deactivation").html(t);
-    $("#deactivation .form-title").html(t.toUpperCase());
+    //$("#deactivation .form-title").html(t.toUpperCase());
 
     t=RYBOX.getbabel("lbauthenticationservice");
     $("title").html(t);

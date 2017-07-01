@@ -82,7 +82,7 @@ a{text-decoration:none;}
 <script type='text/javascript' src='../jquery/jquery.ui.draggable.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mousewheel.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.position.js' ></script>
-<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.ry.js' ></script>
 <script type='text/javascript' src='../rygeneral/rygeneral.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../ryego/ryego.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../ryque/ryunbound.js?ver=<?php print $cacheversion ?>' ></script>

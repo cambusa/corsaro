@@ -48,7 +48,7 @@ $style_rybox=<<<RYBOX
 <style>
 input,select,a:focus{outline:none;border:none;}
 .contextMenu{position:absolute;display:none;white-space:nowrap;}
-.contextMenu>ul>li{font-family:verdana;font-size:12px;text-align:left;}
+.contextMenu>ul>li{text-align:left;}
 .contextMenu>ul>li>a{color:black;}
 .contextMenu>ul>li>a:focus{outline:1px dotted;color:black;}
 .contextDisabled>a{color:silver !important;}
@@ -111,24 +111,20 @@ RYBOX;
 			CambusaLibraryAdd("jquery.ui.core.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.core.css' rel='stylesheet' />");
             CambusaLibraryAdd("jquery.ui.theme.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.theme.css' rel='stylesheet' />");
             CambusaLibraryAdd("jquery.ui.datepicker.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.datepicker.css' rel='stylesheet' />");
-            //CambusaLibraryAdd("jquery.ui.tabs.css", "<link type='text/css' href='".$url_cambusa."jquery/css/jquery.ui.tabs.css' rel='stylesheet' />");
             CambusaLibraryAdd("css-datepicker", "<style>div.ui-datepicker{font-size:11px;}</style>");
             CambusaLibraryAdd("css-contextmenu", $style_rybox);
             CambusaLibraryAdd("rybox.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rybox.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rytabs.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytabs.css?ver=$cacheversion' />");
-            //CambusaLibraryAdd("rytools.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytools.css' />");
             
             CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js' ></script>");
             CambusaLibraryAdd("jquery.ui.core.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.core.js'></script>");
             CambusaLibraryAdd("jquery.ui.widget.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.widget.js'></script>");
-            CambusaLibraryAdd("jquery.ui.datepicker.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.datepicker.js' ></script>");
-            CambusaLibraryAdd("jquery.ui.contextmenu.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.contextmenu.js?ver=$cacheversion' ></script>");
-            //CambusaLibraryAdd("jquery.ui.tabs.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.tabs.js' ></script>");
+            CambusaLibraryAdd("jquery.ui.datepicker.ry.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.datepicker.ry.js' ></script>");
+            CambusaLibraryAdd("jquery.ui.contextmenu.ry.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.contextmenu.ry.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("script-cambusa", $script_cambusa);
             CambusaLibraryAdd("rybox.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rybox.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("rytabs.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rytabs.js?ver=$cacheversion' ></script>");
-            //CambusaLibraryAdd("rytools.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rytools.js' ></script>");
             CambusaLibraryAdd("ryedit.js", "<script type='text/javascript' src='".$url_cambusa."rybox/ryedit.js?ver=$cacheversion' ></script>");
             break;
             

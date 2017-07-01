@@ -42,7 +42,7 @@ background: linear-gradient(gray, #333); /* Standard syntax */
 }
 
 .rytable tbody tr:nth-child(even){
-background-color: #DDD;
+background-color: #EEE;
 }
 
 .rytable th{
@@ -56,9 +56,25 @@ border-left: 1px solid #fff;
 .rytable-order{
 	text-align:right;
 	width:30px;
+	color:black !important;
+}
+
+.rytable-selected{
+	background-color: #C8DAE8 !important;
 }
 
 .rytable-checked{
+	text-align:center;
+	width:15px;
+	color:black !important;
+}
+
+.rytable-order-head{
+	text-align:right;
+	width:30px;
+}
+
+.rytable-checked-head{
 	text-align:center;
 	width:15px;
 }

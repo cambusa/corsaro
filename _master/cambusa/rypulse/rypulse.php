@@ -67,8 +67,8 @@ a{text-decoration:none;color:maroon;}
 
 <script type='text/javascript' src="../jquery/jquery.js"></script>
 <script type='text/javascript' src='../jquery/jquery.ui.core.js'></script>
-<script type='text/javascript' src='../jquery/jquery.ui.datepicker.js' ></script>
-<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.js?ver=<?php print $cacheversion ?>' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.datepicker.ry.js' ></script>
+<script type='text/javascript' src='../jquery/jquery.ui.contextmenu.ry.js?ver=<?php print $cacheversion ?>' ></script>
 <script type='text/javascript' src='../jquery/jquery.ui.widget.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.button.js'></script>
 <script type='text/javascript' src='../jquery/jquery.ui.mouse.js'></script>

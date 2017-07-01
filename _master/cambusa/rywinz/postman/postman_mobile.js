@@ -61,7 +61,7 @@ function class_postman_mobile(settings,missing){
             );
         }
     });
-	oper_read.enabled(0);
+	oper_read.visible(0);
 
 	offsety+=30;
     var oper_unread=$(prefix+"oper_unread").rylabel({
@@ -105,7 +105,7 @@ function class_postman_mobile(settings,missing){
             );
         }
     });
-	oper_unread.enabled(0);
+	oper_unread.visible(0);
 
 	offsety+=30;
     var oper_delete=$(prefix+"oper_delete").rylabel({
@@ -118,6 +118,7 @@ function class_postman_mobile(settings,missing){
             winzMessageBox(formid, {
                 message:"Eliminare i messaggi selezionati?",
                 ok:"Elimina",
+				width:300,
                 confirm:function(){
                     objgridsel.selengage(   // Elenco dei SYSID selezionati
                         function(o,s){        
@@ -155,12 +156,13 @@ function class_postman_mobile(settings,missing){
             });
         }
     });
-	oper_delete.enabled(0);
+	oper_delete.visible(0);
 
-    var oper_refresh=$(prefix+"oper_refresh").rylabel({
-        left:150,
+    offsety=60;
+	var oper_refresh=$(prefix+"oper_refresh").rylabel({
+        left:10,
+		right:10,
         top:offsety,
-        width:110,
         caption:"Aggiorna",
         button:true,
         click:function(o, done){
@@ -201,7 +203,7 @@ function class_postman_mobile(settings,missing){
         }
     });
     
-    offsety+=35;
+    offsety+=45;
     
     // GRID DI SELEZIONE
     var objgridsel=$(prefix+"gridsel").rytable({
@@ -213,9 +215,9 @@ function class_postman_mobile(settings,missing){
             {id:"SENDINGTIME", caption:"Invio", width:150, type:":", code:"POSTMAN_SENDING"}
         ],
         changesel:function(o){
-            oper_unread.enabled(o.ischecked());
-            oper_read.enabled(o.ischecked());
-            oper_delete.enabled(o.ischecked());
+            //oper_unread.enabled(o.ischecked());
+            //oper_read.enabled(o.ischecked());
+            //oper_delete.enabled(o.ischecked());
         },
         enter:function(o,i){
             if(i>0){
@@ -224,9 +226,9 @@ function class_postman_mobile(settings,missing){
 					sql:"SELECT DESCRIPTION,REGISTRY FROM QVMESSAGES WHERE SYSID='"+currsysid+"'",
 					ready:function(v){
 						if(v.length>0){
-							oper_unread.enabled(1);
-							oper_read.enabled(1);
-							oper_delete.enabled(1);
+							//oper_unread.enabled(1);
+							//oper_read.enabled(1);
+							//oper_delete.enabled(1);
 							lb_context.caption("<b>"+v[0]["DESCRIPTION"]+"</b>");
 							$(prefix+"CONTENTS").html(v[0]["REGISTRY"]);
 							objtabs.enabled(2, true);
@@ -253,14 +255,24 @@ function class_postman_mobile(settings,missing){
 					}
 				}	
                 else{
-                    $(fd).css({"color":"gray"});
+                    $(fd).css({"color":"silver"});
 				}
             }
         }
     });
 	
-    $(prefix+"gridsel").contextMenu("mnpostman_popup", {
+    $(prefix+"gridsel").contextMenu("postman_popup", {
+        menuStyle:{
+            "width":"200px",
+			"font-size":"18px",
+			"line-height":"30px"
+        },
+		eventPosX:"customX",
+		eventPosY:"customY",
         bindings: {
+            'mnpostman_open': function(t){
+				objgridsel.enter();
+            },
             'mnpostman_read': function(t){
 				oper_read.engage();
             },
@@ -273,10 +285,30 @@ function class_postman_mobile(settings,missing){
         },
         onContextMenu:
             function(e) {
-                return true;
+				var e=false;
+				
+				if(objgridsel.index()>0){
+					e=true;
+				}
+				else{
+					RYBOX.menudisable("mnpostman_open");
+				}
+				
+				if(objgridsel.ischecked()){
+					e=true;
+				}
+				else{
+					RYBOX.menudisable("mnpostman_read");
+					RYBOX.menudisable("mnpostman_unread");
+					RYBOX.menudisable("mnpostman_delete");
+				}
+				
+                return e;
             },
         onShowMenu: 
             function(e, menu) {
+				e["customX"]=20;
+				e["customY"]=150;
                 return menu;
             }
     });
@@ -321,21 +353,25 @@ function class_postman_mobile(settings,missing){
     
     // INIZIALIZZAZIONE FORM
     RYWINZ.KeyTools(formid);
+
+    RYBOX.babels({
+		"POP_POSTMAN_OPEN":"Visualizza messaggio",
+        "POP_POSTMAN_READ":"Smarca selezionati",
+        "POP_POSTMAN_UNREAD":"Ripristina selezionati",
+        "POP_POSTMAN_DELETE":"Elimina selezionati..."
+    });
+
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
 			TAIL.enqueue(function(){
-				if( $("#postman_popup").length==0 ){
-					var h="";
-					h+="<div id='mnpostman_popup' class='contextMenu'>";
-					h+="   <ul>";
-					h+="       <li id='mnpostman_read'><a href='javascript:'>Letto</a></li>";
-					h+="       <li id='mnpostman_unread'><a href='javascript:'>Ripristina</a></li>";
-					h+="       <li class='contextSeparator'></li>";
-					h+="       <li id='mnpostman_delete'><a href='javascript:'>Elimina</a></li>";
-					h+="   </ul>";
-					h+="</div>";
-					$("body").append(h);    
-				}
+				RYBOX.menucontext("postman_popup", [
+					{id:"mnpostman_open", code:"POP_POSTMAN_OPEN"},
+					{caption:"-"},
+					{id:"mnpostman_read", code:"POP_POSTMAN_READ"},
+					{id:"mnpostman_unread", code:"POP_POSTMAN_UNREAD"},
+					{caption:"-"},
+					{id:"mnpostman_delete", code:"POP_POSTMAN_DELETE"}
+				]);
                 TAIL.free();
             });
             TAIL.enqueue(function(){

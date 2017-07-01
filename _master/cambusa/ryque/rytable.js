@@ -100,13 +100,13 @@
 
 				if(propnumbered){
 					fd=propname+"_0_ORDER";
-					$("#"+propname+"_0").append("<td><div class='rytable-order' id='"+fd+"'></div></td>");
+					$("#"+propname+"_0").append("<td><div class='rytable-order-head' id='"+fd+"'></div></td>");
 					$("#"+fd).html("&#x2116;");
 				}
 
 				if(propcheckable){
 					fd=propname+"_0_CHECKED";
-					$("#"+propname+"_0").append("<td><div class='rytable-checked' id='"+fd+"'></div></td>");
+					$("#"+propname+"_0").append("<td><div class='rytable-checked-head' id='"+fd+"'></div></td>");
 					$("#"+fd).html("&#x2714;");
 				}
 
@@ -264,6 +264,30 @@
                         }
                     }
                 );
+				$("#"+propname).bind('contextmenu', 
+					function(evt) {
+                        evt.preventDefault();
+                        evt.stopPropagation();
+                        if(!propenabled){return}
+
+                        var tid=evt.target.id;
+                        var r,c;
+						
+						if(tid.match(/_(\d+)_(\d+)$/)){
+							var c=tid.match(/_(\d+)_(\d+)$/);
+							r=parseInt(c[1]);
+							c=parseInt(c[2]);
+							propobj.index(r);
+							
+						}
+						
+                        if(RYBOX)
+                            castFocus(propname);
+                        else
+                            document.getElementById(propname+"_anchor").focus();
+						return false;
+					}
+				);
                 $("#"+propname).dblclick(
                     function(evt){
                         if(!propenabled){return}
@@ -700,18 +724,13 @@
                         return 0;
                     }
                     if(1<=i && i<=propcount){
-                        propindex=0;
                         propindex=i;
                         propobj.raisechangerow();
                     }
                     else{
                         propindex=i;
 						setfocusable();
-                        propobj.dataload(
-                            function(){
-                                propobj.raisechangerow();
-                            }
-                        );
+						propobj.raisechangerow();
                     }
                 }
                 return propindex;
@@ -744,6 +763,8 @@
                 }
 			}
             this.raisechangerow=function(){
+				$("#"+propname+" tbody tr").removeClass("rytable-selected");
+				$("#"+propname+"_"+propindex).addClass("rytable-selected");
                 setfocusable();
                 if(!propsuspendchange){
 					if(settings.changerow!=missing){
@@ -889,6 +910,11 @@
             this.rows=function(){
                 return propcount;
             }
+			this.enter=function(){
+				if(settings.enter){
+					setTimeout(function(){settings.enter(propobj, propindex)}, 200);
+				}
+			}
             this.focus=function(){
                 if(RYBOX)
                     castFocus(propname);

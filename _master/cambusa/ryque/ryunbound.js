@@ -927,7 +927,7 @@
                                                     vl=vl.substr(1);
                                             }
                                             else{
-                                                vl=vl.replace(/<[bh]r\/?>/gi," ").replace(/ +$/, "");
+                                                vl=vl.replace(/<[bh]r\/?>/gi," ").replace(/<\/?p>/gi, " ").replace(/ +$/, "");
                                                 if(vl.length>20 && vl.substr(0,5)!="<img ")
                                                     $(fd).attr("title",vl);
                                                 else

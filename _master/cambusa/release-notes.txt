@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.17    del 01/07/2017
+==================================
+
+Ego setup per applicazioni: reso compatibile con dispositivi mobili.
+
+==================================
 Rilascio v2.0.16    del 29/06/2017
 ==================================
 
