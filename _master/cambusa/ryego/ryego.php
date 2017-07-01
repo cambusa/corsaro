@@ -352,7 +352,7 @@ if($msk=="login"){
 
 ?>
 
-<body style='overflow:hidden;margin:0px;background-color:#F0F0F0;' spellcheck='false'>
+<body style='margin:0px;background-color:#F0F0F0;' spellcheck='false'>
 
 <div class='ego-body'>
 <div style='position:relative;width:320px;height:280px;margin:0% auto;'>
@@ -409,7 +409,7 @@ elseif($msk=="setup" && $appname!=""){
 	include("egoform_setupapp.php"); 
 
 ?>
-<body style='overflow:hidden;margin:0px;background-color:#F0F0F0;' spellcheck='false'>
+<body style='margin:0px;background-color:#F0F0F0;' spellcheck='false'>
 
 <div class='ego-body'>
 <div style='position:relative;width:320px;height:280px;margin:0% auto;'>
@@ -428,12 +428,12 @@ elseif($msk=="setup" && $appname!=""){
 
 <div class="ego-toolfunction" id="settings">
 <span class="form-title"></span>
+<div id="lbemail" babelcode="EGO_SET_EMAIL"></div><div id="txemail"></div>
 <div id="lbenviron" babelcode="EGO_SET_ENVIRON"></div><div id="lstenviron"></div>
 <div id="lbrole" babelcode="EGO_SET_ROLE"></div><div id="lstrole"></div>
 <div id="lblanguage" babelcode="EGO_SET_LANGUAGE"></div><div id="lstlanguage"></div>
 <div id="lbcountry" babelcode="EGO_SET_COUNTRY"></div><div id="lstcountry"></div>
 <div id="lbdebugmode" babelcode="EGO_SET_MODE"></div><div id="lstdebugmode"></div>
-<div id="lbemail" babelcode="EGO_SET_EMAIL"></div><div id="txemail"></div>
 </div>
 
 <div class="ego-toolfunction" id="changepassword">

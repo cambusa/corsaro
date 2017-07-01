@@ -1,4 +1,14 @@
 ==================================
+Rilascio v2.0.19    del 01/07/2017
+==================================
+
+ryList: corretto il fuoco al click.
+
+ryText: corretta l'altezza.
+
+Focus: diminuito il ritardo.
+
+==================================
 Rilascio v2.0.18    del 01/07/2017
 ==================================
 

@@ -1802,14 +1802,14 @@ var globalcolorfocus="#FFF4E6";
             .addClass("ryobject")
 			.addClass("rybox-border")
             .addClass("rytext")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth-2,"height":propheight-2,"background-color":"white","border":"none","overflow":"hidden"})
+            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"white","border":"none","overflow":"hidden"})
             .html("<input id='"+propname+"_anchor' type='"+propinput+"' maxlength='"+propmaxlen+"'>");
             $("#"+propname+"_anchor").css({"cursor":"text"});
             
             //var t=0;
             //if($.browser.HTML5)
             //    t=-1;
-            $("#"+propname+"_anchor").css({"position":"absolute","left":1,"top":-2,"width":propwidth-8,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
+            $("#"+propname+"_anchor").css({"position":"absolute","left":3,"top":-1,"width":propwidth-10,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -2610,6 +2610,13 @@ var globalcolorfocus="#FFF4E6";
                     }
             	}
             );
+            $("#"+propname).mousedown(
+            	function(evt){
+            		if(propenabled){
+                        castFocus(propname);
+            		}
+            	}
+            );
             $("#"+propname+"_anchor").change(
             	function(){
                     propobj.raisechanged();
@@ -3402,7 +3409,7 @@ function castFocus(n){
     globalcastfocus=setTimeout(
         function(){
             objectFocus(n);
-        }, 200
+        }, 10
     );
 }
 function nextFocus(nm,sh,k,missing){

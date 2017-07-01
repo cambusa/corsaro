@@ -96,6 +96,31 @@ function config(missing){
     
     // INIZIO FORM OPZIONI
     var offsety=20;
+
+    $("#lbemail").rylabel({left:-50, top:offsety, width:120, caption:"Email", align:"right"});
+    txemail=$("#txemail").rytext({
+        left:80,
+		width:200,
+        top:offsety,
+		assigned:function(obj){
+            syswaiting();
+            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
+                {"sessionid":_sessioninfo.sessionid,"appid":_appid,"aliasid":_aliasid,"email":obj.value()}, 
+                function(d){
+                    try{
+                        var v=$.parseJSON(d);
+                        sysmessage(v.description, v.success);
+                    }
+                    catch(e){
+                        sysmessagehide();
+                        alert(d);
+                    }
+                }
+            );
+		}
+    });
+
+    offsety+=25;
     $("#lbenviron").rylabel({left:-50, top:offsety, width:120, caption:"Ambiente", align:"right"});
     lstenviron=$("#lstenviron").rylist({
         left:80,
@@ -223,29 +248,6 @@ function config(missing){
 		}
     });
     
-    offsety+=25;
-    $("#lbemail").rylabel({left:-50, top:offsety, width:120, caption:"Email", align:"right"});
-    txemail=$("#txemail").rytext({
-        left:80,
-		width:200,
-        top:offsety,
-		assigned:function(obj){
-            syswaiting();
-            $.post(_systeminfo.relative.cambusa+"ryego/egoaction_last.php", 
-                {"sessionid":_sessioninfo.sessionid,"appid":_appid,"aliasid":_aliasid,"email":obj.value()}, 
-                function(d){
-                    try{
-                        var v=$.parseJSON(d);
-                        sysmessage(v.description, v.success);
-                    }
-                    catch(e){
-                        sysmessagehide();
-                        alert(d);
-                    }
-                }
-            );
-		}
-    });
     // FINE FORM OPZIONI
 
 	offsety=20;
