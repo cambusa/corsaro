@@ -2199,8 +2199,9 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_anchor").keydown(
             	function(k){
             		if(k.which==13){ // INVIO
-                        if(propbutton)
-                            $("#"+propname).click();
+                        // Evento click da non scatenare da quando l'anchor e un vero input button e non un tag <a> 
+						//if(propbutton)
+                        //    $("#"+propname).click();
             		}
                     else if(k.which==9){
                         if(propbutton)
