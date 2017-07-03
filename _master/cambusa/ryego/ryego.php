@@ -667,6 +667,8 @@ if($msk=="setup"){
 <?php
 }
 ?>
+<img src='images/waiting.gif' style='display:none;'>
+<img src='images/waiting-login.gif' style='display:none;'>
 </body>
 </html>
 <?php 

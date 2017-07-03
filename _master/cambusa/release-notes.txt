@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.20    del 03/07/2017
+==================================
+
+Aggiunto una visualizzazione selezionabile e copiabile dei dati di maschera (ALT-W).
+
+==================================
 Rilascio v2.0.19    del 01/07/2017
 ==================================
 

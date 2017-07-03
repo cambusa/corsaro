@@ -410,8 +410,10 @@ function ryWinz(missing){
         return "_form"+_winzprogrid+"_";
     }
     this.logoutcalls=[];
+	this.ActiveForm=winzActiveForm;
     this.AddForm=this.addform;
     this.AppendCtrl=winzAppendCtrl;
+	this.AttachPreview=winzAttachPreview;
     this.BarMessage=winzBarMessage;
     this.BringToFront=winzBringToFront;
     this.Busy=this.busy;
@@ -445,5 +447,4 @@ function ryWinz(missing){
     this.Title=winzTitle;
     this.ToMask=winzToMask;
     this.ToObject=winzToObject;
-	this.AttachPreview=winzAttachPreview;
 }
