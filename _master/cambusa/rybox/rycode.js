@@ -43,6 +43,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 			this.type="code";
 			
 			globalobjs[propname]=this;
+			
+			var shiftclear=($.browser.mobile ? 10 : 0);
 
 			if(settings.left!=missing){propleft=settings.left}
 			if(settings.top!=missing){proptop=settings.top}
@@ -93,7 +95,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":2,"top":1,"height":propheight-4,"overflow":"hidden"});
             $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/helper.png)"});
-            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
+            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth+shiftclear,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
             
             if(prophelper){
                 $("#"+propname+"_text").css({"width":propwidth-25});
@@ -128,8 +130,8 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 					propobj.selected(false);
 					if(propchanged)
 						propobj.raiseassigned();
-					propobj.raiselostfocus();
 					propfocusout=true;
+					propobj.raiselostfocus();
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -266,6 +268,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                             if(settings.enter!=missing){
                                 settings.enter(propobj);
                             }
+							if($.browser.mobile){
+								nextFocus(propname, propshift);
+							}
             			}
             			else if(k.which==27){ // ESCAPE
                             if(settings.escape!=missing){settings.escape(propobj)}
@@ -408,19 +413,17 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             );
             $("#"+propname+"_button").mouseover(
             	function(evt){
-                    if(propcode!="" && propenabled)
-                        $("#"+propname+"_clear").show();
+					manageclear(true);
+            	}
+            );
+            $("#"+propname).mouseleave(
+            	function(evt){
+					manageclear();
             	}
             );
             $("#"+propname+"_clear").click(
             	function(evt){
                     propobj.clear();
-                    $("#"+propname+"_clear").hide();
-            	}
-            );
-            $("#"+propname).mouseleave(
-            	function(evt){
-                    $("#"+propname+"_clear").hide();
             	}
             );
             $("#"+propname+"_button").click(
@@ -475,7 +478,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 $("#"+propname+"_internal").css({"width":propwidth-2});
                 $("#"+propname+"_text").css({"width": (prophelper ? propwidth-25 : propwidth-5) });
                 $("#"+propname+"_button").css({"position":"absolute","left":propwidth-20,"top":2});
-                $("#"+propname+"_clear").css({"left":propwidth});
+                $("#"+propname+"_clear").css({"left":propwidth+shiftclear});
             }
 			this.maxlen=function(l){
 				if(l==missing)
@@ -483,7 +486,7 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 				else
 					propmaxlen=l;
 			}
-			this.showdialog=function(r){
+			this.showdialog=function(){
                 if(prophelper){
                     if(settings.dialog!=missing){
                         settings.dialog(propobj);
@@ -675,22 +678,33 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 				objectFocus(propname);
 			}
             this.raisegotfocus=function(){
+				manageclear();
                 if(settings.gotfocus!=missing){settings.gotfocus(propobj)}
             }
             this.raiselostfocus=function(){
+				manageclear();
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)}
             }
             this.raisechanged=function(){
-                propchanged=true;
-                propobj.modified(1);
-                if(settings.changed!=missing){settings.changed(propobj)}
-                _modifiedState(propname,true);
+				propobj.modified(1);
+				_modifiedState(propname,true);
+				setTimeout(function(){
+					propchanged=true;
+					manageclear();
+					if(settings.changed!=missing){settings.changed(propobj)}
+				});
             }
             this.raiseassigned=function(){
                 propobj.modified(1);
                 if(settings.assigned!=missing){settings.assigned(propobj)}
                 propchanged=false;
             }
+			function manageclear(cast){
+				if(propcode!="" && (cast || !propfocusout))
+					$("#"+propname+"_clear").show();
+				else
+					$("#"+propname+"_clear").hide();
+			}
             if(!propenabled)
                 propobj.enabled(0);
             if(!propvisible)

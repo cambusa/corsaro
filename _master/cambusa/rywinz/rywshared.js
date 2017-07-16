@@ -21,6 +21,20 @@ var _envattachment="";
 var _preloadProgress=new Image();
 _preloadProgress.src=_systeminfo.relative.cambusa+"rybox/images/progress.gif";
 
+function raiseCloseDialogs(){
+	$("#winz-preview").hide();
+	$("#winz-preview>iframe").prop("src", "");
+	
+	// Elimino l'eventuale documento iniettato nell'iframe
+	var d=function(x){
+		return x.contentDocument || x.contentWindow.document;
+	}( $("#winz-preview>iframe").get()[0] );
+	
+	$(d).find("body").html("");
+	
+	$("#winz-about-dither").hide();
+	$("#winz-about").hide();
+}
 function raiseLoad(n){
     try{
         if(RYWINZ.forms(n)._load){
@@ -75,9 +89,10 @@ function raiseResize(n){
 }
 function raiseControlKey(k){
     var n="",fn="";
+	//$.debug("raiseControlKey:"+k.which);
     //if($.browser.opera || $.browser.chrome ? k.ctrlKey : k.altKey){
     if(k.altKey){
-        n=winzActiveForm();
+        n=RYWINZ.ActiveForm();
         if(n!=""){
             switch(k.which){
                 case 220:    // Alt-Backslash
@@ -112,6 +127,9 @@ function raiseControlKey(k){
                 case 48:    // Alt-0
                     fn="_tool_engage";
                     break;
+                case 87:    // Alt-W
+                    fn="_tool_dump";
+                    break;
             }
             if(fn!=""){
                 var f=RYWINZ.forms(n);
@@ -124,8 +142,11 @@ function raiseControlKey(k){
         }
         return (fn=="");
     }
-    else
-        return true;
+	if(k.which==27){
+		// Chiudo eventuli dialogbox globali aperte
+		raiseCloseDialogs();
+	}
+	return true;
 }
 function winzKeyTools(formid, tabs, settings, missing){
     var frm=RYWINZ.forms(formid);
@@ -191,6 +212,18 @@ function winzKeyTools(formid, tabs, settings, missing){
     frm._tool_gotorudder=function(){
         RYWINZ.BringToFront("rudder");
     }
+    frm._tool_dump=function(){
+		// Reperisco il documento dell'iframe
+		var d=function(x){
+			return x.contentDocument || x.contentWindow.document;
+		}( $("#winz-preview>iframe").get()[0] );
+		
+		// Costruisco il contenuto
+		var h=winzFormDump(formid);
+		
+		$(d).find("body").html(h);
+		$("#winz-preview").show();
+    }
     if(tabs!=missing){
         if(tabselection>0){
             frm._tool_selection=function(){
@@ -254,6 +287,66 @@ function winzKeyTools(formid, tabs, settings, missing){
             }
         }
     }
+}
+function winzFormDump(formid){
+	var h="", v="";
+	var left=0;
+	var top=0;
+	var width=0;
+	var height=0;
+	h+="<style>.ryque-head .ryque-cell{position:absolute;top:0px;left:0px;font-weight:bold;} .ryque-cell{top:0px;line-height:21px;padding:0px 6px;box-sizing:border-box;overflow:hidden;}</style>";
+	try{
+		var collection=_globalforms[formid].controls;
+		for(var i in collection){
+			var o=globalobjs[i];
+			if(o && _visibleobject(i)){
+				left=$(o).css("left");
+				top=$(o).css("top");
+				width=$(o).width();
+				if(width==0)
+					width=150;
+				height=$(o).height();
+				if(height==0)
+					height=50;
+				v="";
+				switch(o.type){
+					case "label":
+						v="<b>"+o.caption()+"</b>";
+						break;
+					case "grid":
+						v=$("#"+o.name()+"_outgrid").html();
+						v=v.replace(/(\d{2})\/(\d{2})\/(\d{4})/g, "$3$2$1");
+						v=v.replace(/˙/g, "").replace(/(\d+),(\d+)/g, "$1.$2");
+						break;
+					case "tabs":
+						break;
+					case "text":
+					case "number":
+					case "check":
+						v=o.value();
+						break;
+					case "date":
+						v=o.text();
+						break;
+					case "list":
+						v="["+o.value()+"] "+o.caption(o.value());
+						break;
+					case "helper":
+					case "area":
+					case "edit":
+					case "code":
+					case "script":
+						v=o.value();
+						break;
+				}
+				h+="<div style='position:absolute;left:"+left+";top:"+top+";width:"+width+";height:"+height+";overflow:hidden;white-space:nowrap;'>"+v+"</div>";
+			}
+		}
+	}
+	catch(e){
+		h+="<b>"+e.message+"</b>";
+	}
+	return h;
 }
 function winzActiveForm(){
     var m=-1,i=-1,n="";

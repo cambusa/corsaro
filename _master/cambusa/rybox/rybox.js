@@ -49,6 +49,8 @@ var globalcolorfocus="#FFF4E6";
 			this.type="date";
             
 			globalobjs[propname]=this;
+			
+			var shiftclear=($.browser.mobile ? 10 : 0);
 
 			if(settings.left!=missing){propleft=settings.left}
 			if(settings.top!=missing){proptop=settings.top}
@@ -98,7 +100,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
             $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/helper.png)"});
             $("#"+propname+"_calendar").css({"position":"absolute","visibility":"hidden","left":0,"top":propheight});
-            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
+            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth+shiftclear,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -128,8 +130,8 @@ var globalcolorfocus="#FFF4E6";
 					propobj.selected(false);
 					if(propchanged)
 						propobj.raiseassigned();
-					propobj.raiselostfocus();
 					propfocusout=true;
+					propobj.raiselostfocus();
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -291,6 +293,9 @@ var globalcolorfocus="#FFF4E6";
                             if(settings.enter!=missing){
                                 settings.enter(propobj);
                             }
+							if($.browser.mobile){
+								nextFocus(propname, propshift);
+							}
             			}
             			else if(k.which==27){ // ESCAPE
                             if(settings.escape!=missing){settings.escape(propobj)}
@@ -428,7 +433,7 @@ var globalcolorfocus="#FFF4E6";
                         propobj.selected(false);
                     }
             		if(propenabled){
-            			var p=evt.pageX-propleft;
+            			var p=evt.pageX-$("#"+propname+"_text").offset().left;
             			var l,i;
             			var t=propobj.formatted();
             			propstart=8;
@@ -472,19 +477,17 @@ var globalcolorfocus="#FFF4E6";
             );
             $("#"+propname+"_button").mouseover(
             	function(evt){
-                    if(!propobj.isempty() && propenabled)
-                        $("#"+propname+"_clear").show();
+					manageclear(true);
+            	}
+            );
+            $("#"+propname).mouseleave(
+            	function(evt){
+					manageclear();
             	}
             );
             $("#"+propname+"_clear").click(
             	function(evt){
                     propobj.value("", true);
-                    $("#"+propname+"_clear").hide();
-            	}
-            );
-            $("#"+propname).mouseleave(
-            	function(evt){
-                    $("#"+propname+"_clear").hide();
             	}
             );
             $("#"+propname+"_button").click(
@@ -545,7 +548,7 @@ var globalcolorfocus="#FFF4E6";
                 $("#"+propname+"_internal").css({"width":propwidth-2});
                 $("#"+propname+"_text").css({"width": (prophelper ? propwidth-25 : propwidth-5) });
                 $("#"+propname+"_button").css({"left":propwidth-20});
-				$("#"+propname+"_clear").css({"left":propwidth});
+				$("#"+propname+"_clear").css({"left":propwidth+shiftclear});
             }
 			this.showcalendar=function(r){
                 if(prophelper){
@@ -809,16 +812,21 @@ var globalcolorfocus="#FFF4E6";
                 proplink.link(propobj);
             }
             this.raisegotfocus=function(){
+				manageclear();
                 if(settings.gotfocus!=missing){settings.gotfocus(propobj)}
             }
             this.raiselostfocus=function(){
+				manageclear();
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)}
             }
             this.raisechanged=function(){
-                propchanged=true;
-                propobj.modified(1);
-                if(settings.changed!=missing){settings.changed(propobj)}
-                _modifiedState(propname,true);
+				manageclear();
+				_modifiedState(propname,true);
+				setTimeout(function(){
+					propchanged=true;
+					propobj.modified(1);
+					if(settings.changed!=missing){settings.changed(propobj)}
+				});
             }
             this.raiseassigned=function(){
                 propobj.modified(1);
@@ -828,6 +836,12 @@ var globalcolorfocus="#FFF4E6";
             this.raiseexception=function(){
                 if(settings.exception!=missing){settings.exception(propobj)}
             }
+			function manageclear(cast){
+				if(!propobj.isempty() && (cast || !propfocusout))
+					$("#"+propname+"_clear").show();
+				else
+					$("#"+propname+"_clear").hide();
+			}
             if(!propenabled)
                 propobj.enabled(0);
             if(!propvisible)
@@ -869,6 +883,8 @@ var globalcolorfocus="#FFF4E6";
 			this.type="number";
             
 			globalobjs[propname]=this;
+			
+			var shiftclear=($.browser.mobile ? 10 : 0);
 
 			if(settings.left!=missing){propleft=settings.left}
 			if(settings.top!=missing){proptop=settings.top}
@@ -919,7 +935,7 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_text").css({"position":"absolute","cursor":"text","left":1,"top":1,"height":propheight-4,"text-align":"right","padding-right":1,"overflow":"hidden"});
             $("#"+propname+"_span").css({"position":"absolute","visibility":"hidden"});
             $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","left":propwidth-20,"top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/helper.png)"});
-            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
+            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth+shiftclear,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
             
             $("#"+propname+"_anchor").focus(
             	function(){
@@ -949,8 +965,8 @@ var globalcolorfocus="#FFF4E6";
 					propobj.selected(false);
 					if(propchanged)
 						propobj.raiseassigned();
-					propobj.raiselostfocus();
 					propfocusout=true;
+					propobj.raiselostfocus();
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -1130,6 +1146,9 @@ var globalcolorfocus="#FFF4E6";
             				propobj.completion();
                             propobj.raiseassigned();
                             propobj.raiseenter();
+							if($.browser.mobile){
+								nextFocus(propname, propshift);
+							}
             			}
             			else if(k.which==27){ // ESCAPE
                             if(settings.escape!=missing){settings.escape(propobj)}
@@ -1234,20 +1253,20 @@ var globalcolorfocus="#FFF4E6";
                     }
             		if(propenabled){
             			propstart=0;
-            			var p=evt.pageX-propleft;
+            			var p=evt.pageX-$("#"+propname+"_text").offset().left;
             			var l,i;
                         var t=propobj.formatted();
-                        t=t.replace(/&#x02D9;/g, ".");
+                        t=t.replace(/&#x02D9;/g, "_");
                         var x=propwidth-propobj.textwidth(t)-23;
                         var j=-propinteger.length;
                         for(i=1;i<=t.length;i++){
                             l=propobj.textwidth(t.substr(0,i));
-                            if(l+x>p+3){
+                            if(l+x>p+5){
                                 propstart=j;
                                 break;
                             }
                             switch(t.substr(i,1)){
-                            case ".":case "-":
+                            case "_":case "-":
                                 break;
                             default:
                                 j+=1;
@@ -1281,19 +1300,17 @@ var globalcolorfocus="#FFF4E6";
             );
             $("#"+propname+"_button").mouseover(
             	function(evt){
-                    if(!propobj.isempty() && propenabled)
-                        $("#"+propname+"_clear").show();
+					manageclear(true);
+            	}
+            );
+            $("#"+propname).mouseleave(
+            	function(evt){
+					manageclear();
             	}
             );
             $("#"+propname+"_clear").click(
             	function(evt){
                     propobj.value(0, true);
-                    $("#"+propname+"_clear").hide();
-            	}
-            );
-            $("#"+propname).mouseleave(
-            	function(evt){
-                    $("#"+propname+"_clear").hide();
             	}
             );
             $("#"+propname+"_button").click(
@@ -1380,7 +1397,7 @@ var globalcolorfocus="#FFF4E6";
 					$("#"+propname+"_button").css({"display":"none"});
 				}
                 $("#"+propname+"_button").css({"left":propwidth-20});
-				$("#"+propname+"_clear").css({"left":propwidth});
+				$("#"+propname+"_clear").css({"left":propwidth+shiftclear});
             }
 			this.showcalculator=function(r){
                 if(prophelper){
@@ -1696,16 +1713,21 @@ var globalcolorfocus="#FFF4E6";
 			}
             this.raisegotfocus=function(){
                 propchanged=false;
+				manageclear();
                 if(settings.gotfocus!=missing){settings.gotfocus(propobj)}
             }
             this.raiselostfocus=function(){
+				manageclear();
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)}
             }
             this.raisechanged=function(){
-                propchanged=true;
-                propobj.modified(1);
-                if(settings.changed!=missing){settings.changed(propobj)}
-                _modifiedState(propname,true);
+				propobj.modified(1);
+				_modifiedState(propname,true);
+				setTimeout(function(){
+					propchanged=true;
+					manageclear();
+					if(settings.changed!=missing){settings.changed(propobj)}
+				});
             }
             this.raiseassigned=function(){
                 propobj.modified(1);
@@ -1735,6 +1757,12 @@ var globalcolorfocus="#FFF4E6";
                 propobj.value(v, true);
                 objectFocus(propname);
             }
+			function manageclear(cast){
+				if(!propobj.isempty() && (cast || !propfocusout))
+					$("#"+propname+"_clear").show();
+				else
+					$("#"+propname+"_clear").hide();
+			}
             if(!propenabled)
                 propobj.enabled(0);
             if(!propvisible)
@@ -1756,15 +1784,17 @@ var globalcolorfocus="#FFF4E6";
             var propfocusout=true;
 			var propobj=this;
 			var propchanged=false;
-            var propchangedfalse=false; // Comando per abbassare changed dopo INVIO
 			var propenabled=true;
 			var propvisible=true;
+			var prophelper=false;
+			
+			// Gestione changed
+			var htimeout=false;
+			var lastval="";
             
             var firstup=true;
             
             var timerhandle=false;
-            var timerbusy=false;
-            var timertry=false;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -1772,6 +1802,8 @@ var globalcolorfocus="#FFF4E6";
 			this.type="text";
 			
 			globalobjs[propname]=this;
+			
+			var shiftclear=($.browser.mobile ? 10 : 0);
 
 			if(settings.left!=missing){propleft=settings.left}
 			if(settings.top!=missing){proptop=settings.top}
@@ -1780,6 +1812,7 @@ var globalcolorfocus="#FFF4E6";
             if(settings.password){propinput="password"}
             if(settings.enabled!=missing){propenabled=settings.enabled}
             if(settings.visible!=missing){propvisible=settings.visible}
+			if(settings.helper!=missing){prophelper=settings.helper.booleanNumber()}
 
             if(settings.filter!=missing){
                 propfilter=settings.filter.toUpperCase();
@@ -1802,26 +1835,24 @@ var globalcolorfocus="#FFF4E6";
             .addClass("ryobject")
 			.addClass("rybox-border")
             .addClass("rytext")
-            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"white","border":"none","overflow":"hidden"})
-            .html("<input id='"+propname+"_anchor' type='"+propinput+"' maxlength='"+propmaxlen+"'>");
-            $("#"+propname+"_anchor").css({"cursor":"text"});
+            .css({"position":"absolute","left":propleft,"top":proptop,"width":propwidth,"height":propheight,"background-color":"white","border":"none"})
+            .html("<input id='"+propname+"_anchor' type='"+propinput+"' maxlength='"+propmaxlen+"'><div id='"+propname+"_button'></div><div id='"+propname+"_clear'></div>");
+
+            $("#"+propname+"_anchor").css({"position":"absolute","left":3,"top":0,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","cursor":"text","outline":"none"});
+            $("#"+propname+"_button").css({"position":"absolute","cursor":"pointer","top":2,"width":18,"height":18,"background":"url("+_systeminfo.relative.cambusa+"rybox/images/helper.png)"});
+            $("#"+propname+"_clear").css({"position":"absolute","z-index":10000,"cursor":"pointer","left":propwidth+shiftclear,"top":2,"width":18,"height":18,"display":"none","background":"url("+_systeminfo.relative.cambusa+"rybox/images/clear.png)"});
             
-            //var t=0;
-            //if($.browser.HTML5)
-            //    t=-1;
-            $("#"+propname+"_anchor").css({"position":"absolute","left":3,"top":-1,"width":propwidth-10,"height":propheight-2,"border":"none","background-color":"#FFFFFF","font-family":"verdana,sans-serif","font-size":"13px","outline":"none"});
+			managehelper();
             
             $("#"+propname+"_anchor").focus(
             	function(){
             		globaledittext=true;
-            		//$("#"+propname+"_anchor").css({"background-color":globalcolorfocus});
 					$("#"+propname).addClass("rybox-focus");
                     $("#"+propname+"_anchor").select();
                     propchanged=false;
                     propfocusout=false;
-                    timerbusy=false;
-                    timertry=false;
                     firstup=true;
+					lastval=propobj.value();
                     propobj.raisegotfocus();
             	}
             );
@@ -1834,13 +1865,11 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname+"_anchor").focusout(
             	function(){
             		globaledittext=false;
-            		//$("#"+propname+"_anchor").css({"background-color":"#FFFFFF"});
 					$("#"+propname).removeClass("rybox-focus");
                     if(propchanged)
                         propobj.raiseassigned();
-                    propobj.raiselostfocus();
-                    propobj.raisetimerize(true);
                     propfocusout=true;
+                    propobj.raiselostfocus();
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -1850,7 +1879,10 @@ var globalcolorfocus="#FFF4E6";
             		if(k.which==13){ // INVIO
                         propobj.raiseassigned();
                         propobj.raiseenter();
-                        propchangedfalse=true;
+						lastval=propobj.value();
+						if($.browser.mobile){
+							nextFocus(propname, k.shiftKey);
+						}
             		}
                     else if(k.which==27){ // ESCAPE
                         if(settings.escape!=missing){settings.escape(propobj)}
@@ -1861,16 +1893,7 @@ var globalcolorfocus="#FFF4E6";
                             propobj.clear();
                             return false;
                         }
-                        else{
-                            propobj.raisechanged();
-                        }
-                        propobj.raisetimerize(false);
                     }
-                    else if(k.which==8 || (k.shiftKey && k.which==45 || k.ctrlKey && String.fromCharCode(k.which).toUpperCase()=="V")){ // mosca
-                        // La changed la faccio nella up per avere il dato aggiornato
-                        //propobj.raisechanged();
-                        propobj.raisetimerize(false);
-            		}
                     else if(k.which==9){
                         return nextFocus(propname, k.shiftKey, k);
                     }
@@ -1880,21 +1903,11 @@ var globalcolorfocus="#FFF4E6";
             	function(k){
                     if(_navigateKeys(k))
                         return true;
-                    var n=String.fromCharCode(k.which).toUpperCase();
-                    if(propfilter==""){
-                        if(n>=" " && !(k.ctrlKey && n=="C")){
-                            propobj.raisechanged();
-                            propobj.raisetimerize(false);
-                        }
-                    }
-                    else{
+                    if(propfilter!=""){
+						var n=String.fromCharCode(k.which).toUpperCase();
                         var e=true;
                         if(n>=" " && !(k.ctrlKey && n=="C")){e=(propfilter.indexOf(n)>=0)}
-                        if(e){
-    						propobj.raisechanged();
-                            propobj.raisetimerize(false);
-                        }
-                        else{return false}
+                        if(!e){return false}
                     }
             	}
             );
@@ -1902,26 +1915,38 @@ var globalcolorfocus="#FFF4E6";
             	function(k){
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
                         return true;
-                    else if(k.which==8 || (k.shiftKey && k.which==45 || k.ctrlKey && String.fromCharCode(k.which).toUpperCase()=="V")){ // mosca
-                        propobj.raisechanged();
-                        //propobj.raisetimerize(false);
-            		}
-                    if(propchangedfalse){
-                        // COMANDO DOPO INVIO: ABBASSO IL FLAG CHANGED
-                        propchanged=false;
-                        propchangedfalse=false;
-                    }
+					propobj.raisechanged();
             	}
             );
-            $("#"+propname+"_anchor").change(
-                function(){
-                    propobj.raisechanged();
-                }
-            );
+            $("#"+propname+"_anchor").on("paste", function(){
+				propobj.raisechanged();
+            });
             $("#"+propname).mousedown(
             	function(evt){
             		if(propenabled){
                         castFocus(propname);
+            		}
+            	}
+            );
+            $("#"+propname+"_button").mouseover(
+            	function(evt){
+					manageclear(true);
+            	}
+            );
+            $("#"+propname).mouseleave(
+            	function(evt){
+					manageclear();
+            	}
+            );
+            $("#"+propname+"_clear").click(
+            	function(evt){
+                    propobj.clear();
+            	}
+            );
+            $("#"+propname+"_button").click(
+            	function(){
+            		if(propenabled){
+            			propobj.showdialog();
             		}
             	}
             );
@@ -1942,8 +1967,25 @@ var globalcolorfocus="#FFF4E6";
                 if(params.top!=missing){proptop=params.top}
                 if(params.width!=missing){propwidth=params.width}
                 $("#"+propname).css({"left":propleft,"top":proptop,"width":propwidth});
-                $("#"+propname+"_anchor").css({"width":propwidth-2});
+				managehelper();
+				$("#"+propname+"_clear").css({"left":propwidth+shiftclear});
             }
+			this.showdialog=function(){
+                if(prophelper){
+                    if(settings.dialog!=missing){
+                        settings.dialog(propobj);
+                    }
+                }
+			}
+			this.helper=function(v){
+				if(v==missing){
+					return prophelper;
+				}
+				else{
+					prophelper=v.booleanNumber();
+					managehelper();
+				}
+			}
 			this.value=function(v,a){
 				if(v==missing){
 					return $("#"+propname+"_anchor").val();
@@ -2023,16 +2065,39 @@ var globalcolorfocus="#FFF4E6";
 				objectFocus(propname);
 			}
             this.raisegotfocus=function(){
+				manageclear();
                 if(settings.gotfocus!=missing){settings.gotfocus(propobj)}
             }
             this.raiselostfocus=function(){
+				manageclear();
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)}
             }
             this.raisechanged=function(){
-                propchanged=true;
-                propobj.modified(1);
-                if(settings.changed!=missing){settings.changed(propobj)}
-                _modifiedState(propname,true);
+				propobj.modified(1);
+				_modifiedState(propname,true);
+				if(htimeout!==false){
+					clearTimeout(htimeout);
+				}
+				htimeout=setTimeout(function(){
+					if( lastval!=propobj.value() ){
+						lastval=propobj.value();
+						htimeout=false;
+						propchanged=true;
+						manageclear();
+						if(settings.changed!=missing){settings.changed(propobj)}
+						if(settings.timerize!=missing){
+							if(timerhandle!==false){
+								clearTimeout(timerhandle);
+							}
+							timerhandle=setTimeout(
+								function(){
+									timerhandle=false;
+									settings.timerize(propobj);
+								}, 300
+							);
+						}
+					}
+				}, 100);
             }
             this.raiseassigned=function(){
                 propobj.modified(1);
@@ -2042,45 +2107,26 @@ var globalcolorfocus="#FFF4E6";
             this.raiseenter=function(){
                 if(settings.enter!=missing){settings.enter(propobj)}
             }
-            this.raisetimerize=function(f){
-                if(settings.timerize!=missing){
-                    if(f){
-                        if(timerhandle!==false){
-                            clearTimeout(timerhandle);
-                            timerhandle=false;
-                        }
-                    }
-                    else{
-                        if(timerbusy||(timerhandle!==false)){
-                            if(!timertry){
-                                timertry=true;
-                                setTimeout(
-                                    function(){
-                                        propobj.raisetimerize(false)
-                                    }, 300
-                                );
-                            }
-                        }
-                        else{
-                            timertry=false;
-                            timerhandle=setTimeout(
-                                function(){
-                                    timerhandle=false;
-                                    timerbusy=true;
-                                    settings.timerize(propobj)
-                                }, 300
-                            );
-                        }
-                    }
-                }
-            }
-            this.timerizefree=function(){
-                timerbusy=false;
-            }
             this.raiseexception=function(){
                 //$("#exception").trigger("exception",propname,propinput,0);
                 if(settings.exception!=missing){settings.exception(propobj)}
             }
+			function managehelper(){
+				if(prophelper){
+					$("#"+propname+"_anchor").css({"width":propwidth-30});
+					$("#"+propname+"_button").css({"left":propwidth-20,"display":"block"});
+				}
+				else{
+					$("#"+propname+"_anchor").css({"width":propwidth-10});
+					$("#"+propname+"_button").css({"left":propwidth-20,"display":"none"});
+				}
+			}
+			function manageclear(cast){
+				if($("#"+propname+"_anchor").val()!="" && (cast || !propfocusout))
+					$("#"+propname+"_clear").show();
+				else
+					$("#"+propname+"_clear").hide();
+			}
             if(!propenabled)
                 propobj.enabled(0);
             if(!propvisible)
@@ -2105,6 +2151,7 @@ var globalcolorfocus="#FFF4E6";
             var propcolor="black";
             var propautocoding=false;
 			var propfocusout=true;
+			var proplatency=500;
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -2218,6 +2265,8 @@ var globalcolorfocus="#FFF4E6";
             $("#"+propname).click(
                 function(evt){
                     if(propenabled){
+						if(propbutton && settings.click!=missing) // Gestione periodo di latenza del bottone
+							propenabled=false;
                         if(propbutton)
                             objectFocus(propname);
                         if(settings.click!=missing){
@@ -2226,13 +2275,15 @@ var globalcolorfocus="#FFF4E6";
                                     $("#"+propname+"_caption").addClass("rybutton-flat-click");
                                     setTimeout(function(){
                                         $("#"+propname+"_caption").removeClass("rybutton-flat-click");
-                                    }, 500);
+										propenabled=true;
+                                    }, proplatency);
                                 }
                                 else{
                                     $("#"+propname+"_caption").addClass("rybutton-click");
                                     setTimeout(function(){
                                         $("#"+propname+"_caption").removeClass("rybutton-click");
-                                    }, 500);
+										propenabled=true;
+                                    }, proplatency);
                                 }
                             }
                             setTimeout(function(){

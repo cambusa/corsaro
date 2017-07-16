@@ -180,6 +180,15 @@ text-indent:0px;
 overflow:hidden;
 }
 
+.rytext{
+overflow:visible;
+line-height:13px;
+}
+
+.rytext input::-ms-clear{
+display:none;
+}
+
 .rynumber input{
 position:absolute;
 font-size:2px;

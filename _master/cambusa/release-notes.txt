@@ -1,4 +1,14 @@
 ==================================
+Rilascio v2.0.21    del 16/07/2017
+==================================
+
+Rinnovata la gestione del pulsante Clear dei controlli: visibili sempre alla gotfocus.
+
+Introdotto un periodo di latenza dei bottoni per evitare doppi invii.
+
+ryText: migliorata la gestione di changed e temporize.
+
+==================================
 Rilascio v2.0.20    del 03/07/2017
 ==================================
 
