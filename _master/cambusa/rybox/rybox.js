@@ -1795,6 +1795,7 @@ var globalcolorfocus="#FFF4E6";
             var firstup=true;
             
             var timerhandle=false;
+			var timerbusy=false
 			
 			var propname=$(this).attr("id");
 			this.id="#"+propname;
@@ -1852,6 +1853,7 @@ var globalcolorfocus="#FFF4E6";
                     propchanged=false;
                     propfocusout=false;
                     firstup=true;
+					timerbusy=false;
 					lastval=propobj.value();
                     propobj.raisegotfocus();
             	}
@@ -2085,17 +2087,7 @@ var globalcolorfocus="#FFF4E6";
 						propchanged=true;
 						manageclear();
 						if(settings.changed!=missing){settings.changed(propobj)}
-						if(settings.timerize!=missing){
-							if(timerhandle!==false){
-								clearTimeout(timerhandle);
-							}
-							timerhandle=setTimeout(
-								function(){
-									timerhandle=false;
-									settings.timerize(propobj);
-								}, 300
-							);
-						}
+						propobj.raisetimerize();
 					}
 				}, 100);
             }
@@ -2111,6 +2103,28 @@ var globalcolorfocus="#FFF4E6";
                 //$("#exception").trigger("exception",propname,propinput,0);
                 if(settings.exception!=missing){settings.exception(propobj)}
             }
+			this.raisetimerize=function(){
+				if(settings.timerize!=missing){
+					if(timerhandle!==false){
+						clearTimeout(timerhandle);
+					}
+					timerhandle=setTimeout(
+						function(){
+							timerhandle=false;
+							if(!timerbusy){
+								timerbusy=true;
+								settings.timerize(propobj);
+							}
+							else{
+								propobj.raisetimerize();
+							}
+						}, 300
+					);
+				}
+			}
+			this.timerizefree=function(){
+				timerbusy=false;
+			}
 			function managehelper(){
 				if(prophelper){
 					$("#"+propname+"_anchor").css({"width":propwidth-30});
