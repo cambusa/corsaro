@@ -581,7 +581,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 						$("#"+propname+"_button").css({"cursor":"pointer"});
 						if(propfocusout==false){
 							$("#"+propname+"_cursor").css({"visibility":"visible"});
+							$("#"+propname).addClass("rybox-focus");
 							propobj.refreshcursor();
+							manageclear();
 						}
 					}
 					else{
@@ -589,8 +591,13 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
 						$("#"+propname+"_text").css({"color":"gray","cursor":"default"});
 						$("#"+propname+"_button").css({"cursor":"default"});
 						$("#"+propname+"_cursor").css({"visibility":"hidden"});
-						if(propfocusout==false)
-							$("#"+propname+"_anchor").trigger("focusout");
+						if(propfocusout==false){
+							$("#"+propname+"_cursor").css({"visibility":"hidden"});
+							$("#"+propname).removeClass("rybox-focus");
+							propobj.completion();
+							propobj.selected(false);
+							$("#"+propname+"_clear").hide();
+						}
 					}
 				}
 			}
@@ -688,11 +695,9 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
             this.raisechanged=function(){
 				propobj.modified(1);
 				_modifiedState(propname,true);
-				setTimeout(function(){
-					propchanged=true;
-					manageclear();
-					if(settings.changed!=missing){settings.changed(propobj)}
-				});
+				propchanged=true;
+				if(settings.changed!=missing){settings.changed(propobj)}
+				setTimeout(function(){manageclear()});
             }
             this.raiseassigned=function(){
                 propobj.modified(1);

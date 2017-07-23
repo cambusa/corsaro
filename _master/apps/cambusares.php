@@ -115,6 +115,7 @@ RYBOX;
             CambusaLibraryAdd("css-contextmenu", $style_rybox);
             CambusaLibraryAdd("rybox.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rybox.css?ver=$cacheversion' />");
             CambusaLibraryAdd("rytabs.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/rytabs.css?ver=$cacheversion' />");
+			CambusaLibraryAdd("ryframe.css", "<link rel='stylesheet' href='".$url_cambusa."rybox/ryframe.css?ver=$cacheversion' />");
             
             CambusaLibraryAdd("jquery.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.js' ></script>");
             CambusaLibraryAdd("jquery.ui.core.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.core.js'></script>");
@@ -126,6 +127,7 @@ RYBOX;
             CambusaLibraryAdd("rybox.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rybox.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("rytabs.js", "<script type='text/javascript' src='".$url_cambusa."rybox/rytabs.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("ryedit.js", "<script type='text/javascript' src='".$url_cambusa."rybox/ryedit.js?ver=$cacheversion' ></script>");
+			CambusaLibraryAdd("ryframe.js", "<script type='text/javascript' src='".$url_cambusa."rybox/ryframe.js?ver=$cacheversion' ></script>");
             break;
             
         case "rywinz":

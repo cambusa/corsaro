@@ -1,0 +1,33 @@
+/****************************************************************************
+* Name:            ryframe.css                                              *
+* Project:         Cambusa/ryBox                                            *
+* Version:         v2.0                                                     *
+* Description:     Masked input and other form controls                     *
+* Copyright (C):   2017  Rodolfo Calzetti                                   *
+*                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
+* Contact:         https://github.com/cambusa                               *
+*                  postmaster@rudyz.net                                     *
+****************************************************************************/
+
+.ryframe{
+position:absolute;
+border:1px solid silver;
+color:black;
+background-color:#FEFEFE;
+}
+
+.ryframe-caption{
+position:absolute;
+left:10px;
+top:-12px;
+height:7px;
+font-family:verdana,sans-serif;
+font-size:14px;
+line-height:14px;
+border-top:1px solid silver;
+border-left:1px solid silver;
+border-right:1px solid silver;
+background-color:#FEFEFE;
+padding:2px 7px;
+overflow:visible;
+}

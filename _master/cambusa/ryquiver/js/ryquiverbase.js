@@ -684,11 +684,19 @@ function ryQuiver(missing){
 						$("#"+propname+"_anchor").removeAttr("disabled");
 						$("#"+propname+"_text").css({"color":"#000000","cursor":"text"});
 						$("#"+propname+"_button").css({"cursor":"pointer"});
+						if(propfocusout==false){
+							$("#"+propname).addClass("rybox-focus");
+							manageclear();
+						}
 					}
 					else{
 						$("#"+propname+"_anchor").attr("disabled",true);
 						$("#"+propname+"_text").css({"color":"gray","cursor":"default"});
 						$("#"+propname+"_button").css({"cursor":"default"});
+						if(propfocusout==false){
+							$("#"+propname).removeClass("rybox-focus");
+							$("#"+propname+"_clear").hide();
+						}
 					}
 				}
 			}
@@ -731,10 +739,8 @@ function ryQuiver(missing){
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)};
             }
             this.raisechanged=function(){
-				setTimeout(function(){
-					manageclear();
-					if(settings.changed!=missing){settings.changed(propobj)};
-				});
+				if(settings.changed!=missing){settings.changed(propobj)};
+				setTimeout(function(){manageclear()});
             }
             this.raiseassigned=function(){
                 if(settings.assigned!=missing){settings.assigned(propobj)};

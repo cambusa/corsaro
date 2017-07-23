@@ -721,7 +721,9 @@ var globalcolorfocus="#FFF4E6";
 						$("#"+propname+"_button").css({"cursor":"pointer"});
 						if(propfocusout==false){
 							$("#"+propname+"_cursor").css({"visibility":"visible"});
+							$("#"+propname).addClass("rybox-focus");
 							propobj.refreshcursor();
+							manageclear();
 						}
 					}
 					else{
@@ -729,8 +731,13 @@ var globalcolorfocus="#FFF4E6";
 						$("#"+propname+"_text").css({"color":"gray","cursor":"default"});
 						$("#"+propname+"_button").css({"cursor":"default"});
 						$("#"+propname+"_cursor").css({"visibility":"hidden"});
-						if(propfocusout==false)
-							$("#"+propname+"_anchor").trigger("focusout");
+						if(propfocusout==false){
+							$("#"+propname+"_cursor").css({"visibility":"hidden"});
+							$("#"+propname).removeClass("rybox-focus");
+							propobj.completion();
+							propobj.selected(false);
+							$("#"+propname+"_clear").hide();
+						}
 					}
                     if(proplink){
                         proplink.enabled(v);
@@ -820,13 +827,11 @@ var globalcolorfocus="#FFF4E6";
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)}
             }
             this.raisechanged=function(){
-				manageclear();
-				_modifiedState(propname,true);
-				setTimeout(function(){
-					propchanged=true;
-					propobj.modified(1);
-					if(settings.changed!=missing){settings.changed(propobj)}
-				});
+                propchanged=true;
+                propobj.modified(1);
+                if(settings.changed!=missing){settings.changed(propobj)}
+                _modifiedState(propname,true);
+				setTimeout(function(){manageclear()});
             }
             this.raiseassigned=function(){
                 propobj.modified(1);
@@ -942,7 +947,7 @@ var globalcolorfocus="#FFF4E6";
             		if(propenabled){
             			$("#"+propname+"_cursor").css({"visibility":"visible"});
             			//$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
-						$("#"+propname+"_internal").addClass("rybox-focus");
+						$("#"+propname).addClass("rybox-focus");
             			if($("#"+propname+"_text").html()=="")
             				$("#"+propname+"_text").html(propobj.formatted());
                         propfocusout=false;
@@ -958,7 +963,7 @@ var globalcolorfocus="#FFF4E6";
             	function(){
 					$("#"+propname+"_cursor").css({"visibility":"hidden"});
 					//$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
-					$("#"+propname+"_internal").removeClass("rybox-focus");
+					$("#"+propname).removeClass("rybox-focus");
 					propobj.completion();
 					if(propobj.value()==0)
 						$("#"+propname+"_text").html("");
@@ -1636,7 +1641,9 @@ var globalcolorfocus="#FFF4E6";
                         $("#"+propname+"_button").css({"cursor":"pointer"});
 						if(propfocusout==false){
 							$("#"+propname+"_cursor").css({"visibility":"visible"});
+							$("#"+propname).addClass("rybox-focus");
 							propobj.refreshcursor();
+							manageclear();
 						}
 					}
 					else{
@@ -1644,8 +1651,12 @@ var globalcolorfocus="#FFF4E6";
 						$("#"+propname+"_text").css({"color":"gray","cursor":"default"});
                         $("#"+propname+"_button").css({"cursor":"default"});
 						$("#"+propname+"_cursor").css({"visibility":"hidden"});
-						if(propfocusout==false)
-							$("#"+propname+"_anchor").trigger("focusout");
+						if(propfocusout==false){
+							$("#"+propname+"_cursor").css({"visibility":"hidden"});
+							$("#"+propname).removeClass("rybox-focus");
+							propobj.selected(false);
+							$("#"+propname+"_clear").hide();
+						}
 					}
 				}
 			}
@@ -1721,13 +1732,11 @@ var globalcolorfocus="#FFF4E6";
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)}
             }
             this.raisechanged=function(){
-				propobj.modified(1);
-				_modifiedState(propname,true);
-				setTimeout(function(){
-					propchanged=true;
-					manageclear();
-					if(settings.changed!=missing){settings.changed(propobj)}
-				});
+                propchanged=true;
+                propobj.modified(1);
+                if(settings.changed!=missing){settings.changed(propobj)}
+                _modifiedState(propname,true);
+				setTimeout(function(){manageclear()});
             }
             this.raiseassigned=function(){
                 propobj.modified(1);
@@ -1788,12 +1797,10 @@ var globalcolorfocus="#FFF4E6";
 			var propvisible=true;
 			var prophelper=false;
 			
-			// Gestione changed
-			var htimeout=false;
 			var lastval="";
-            
             var firstup=true;
             
+			// Gestione timerize
             var timerhandle=false;
 			var timerbusy=false
 			
@@ -1917,7 +1924,10 @@ var globalcolorfocus="#FFF4E6";
             	function(k){
                     if(_navigateKeys(k))  // Tasti usati in navigazione tabs
                         return true;
-					propobj.raisechanged();
+					if( lastval!=propobj.value() ){
+						lastval=propobj.value();
+						propobj.raisechanged();
+					}
             	}
             );
             $("#"+propname+"_anchor").on("paste", function(){
@@ -2013,11 +2023,17 @@ var globalcolorfocus="#FFF4E6";
 					propenabled=v;
 					if(v){
 						$("#"+propname+"_anchor").removeAttr("disabled");
+						if(propfocusout==false){
+							$("#"+propname).addClass("rybox-focus");
+							manageclear();
+						}
 					}
 					else{
 						$("#"+propname+"_anchor").attr("disabled",true);
-						if(propfocusout==false)
-							$("#"+propname+"_anchor").trigger("focusout");
+						if(propfocusout==false){
+							$("#"+propname).removeClass("rybox-focus");
+							$("#"+propname+"_clear").hide();
+						}
 					}
 				}
 			}
@@ -2075,21 +2091,12 @@ var globalcolorfocus="#FFF4E6";
                 if(settings.lostfocus!=missing){settings.lostfocus(propobj)}
             }
             this.raisechanged=function(){
-				propobj.modified(1);
-				_modifiedState(propname,true);
-				if(htimeout!==false){
-					clearTimeout(htimeout);
-				}
-				htimeout=setTimeout(function(){
-					if( lastval!=propobj.value() ){
-						lastval=propobj.value();
-						htimeout=false;
-						propchanged=true;
-						manageclear();
-						if(settings.changed!=missing){settings.changed(propobj)}
-						propobj.raisetimerize();
-					}
-				}, 100);
+                propchanged=true;
+                propobj.modified(1);
+                if(settings.changed!=missing){settings.changed(propobj)}
+                _modifiedState(propname,true);
+				setTimeout(function(){manageclear()});
+				propobj.raisetimerize();
             }
             this.raiseassigned=function(){
                 propobj.modified(1);
@@ -2400,6 +2407,7 @@ var globalcolorfocus="#FFF4E6";
 			var propheight=22;
 			var propvalue=0;
 			var propobj=this;
+			var propfocusout=true;
 			var propenabled=true;
 			var propvisible=true;
 			
@@ -2444,6 +2452,7 @@ var globalcolorfocus="#FFF4E6";
             			//$("#"+propname+"_internal").css({"background-color":globalcolorfocus});
 						$("#"+propname).addClass("rybox-focus");
                         propobj.raisegotfocus();
+						propfocusout=false;
             		}
             	}
             );
@@ -2453,6 +2462,7 @@ var globalcolorfocus="#FFF4E6";
 					//$("#"+propname+"_internal").css({"background-color":"#FFFFFF"});
 					$("#"+propname).removeClass("rybox-focus");
 					propobj.raiselostfocus();
+					propfocusout=true;
             	}
             );
             $("#"+propname+"_anchor").keydown(
@@ -2532,11 +2542,21 @@ var globalcolorfocus="#FFF4E6";
 					propenabled=v;
 					if(v){
 						$("#"+propname+"_anchor").removeAttr("disabled");
+						$("#"+propname).css({"background-color":"#FFFFFF"});
+						$("#"+propname+"_border").css({"background-color":"#FFFFFF"});
 						$("#"+propname+"_internal").css({"color":"#000000","background-color":"#FFFFFF"});
+						if(propfocusout==false){
+							$("#"+propname).addClass("rybox-focus");
+						}
 					}
 					else{
 						$("#"+propname+"_anchor").attr("disabled",true);
+						$("#"+propname).css({"background-color":"#F0F0F0"});
+						$("#"+propname+"_border").css({"background-color":"#F0F0F0"});
 						$("#"+propname+"_internal").css({"color":"gray","background-color":"#F0F0F0"});
+						if(propfocusout==false){
+							$("#"+propname).removeClass("rybox-focus");
+						}
 					}
 				}
 			}
@@ -2784,12 +2804,16 @@ var globalcolorfocus="#FFF4E6";
 					if(v){
 						$("#"+propname+"_anchor").removeAttr("disabled");
 						$("#"+propname+"_anchor").css({"color":"#000000"});
+						if(propfocusout==false){
+							$("#"+propname).addClass("rybox-focus");
+						}
 					}
 					else{
 						$("#"+propname+"_anchor").attr("disabled",true);
 						$("#"+propname+"_anchor").css({"color":"gray"});
-						if(propfocusout==false)
-							$("#"+propname+"_anchor").trigger("focusout");
+						if(propfocusout==false){
+							$("#"+propname).removeClass("rybox-focus");
+						}
 					}
 				}
 			}
@@ -3092,6 +3116,7 @@ function ryBox(missing){
                         switch(o.type){
                             case "label":
                             case "button":
+							case "frame":
                                 if((c=o.babelcode())>""){
                                     if($.isset(propbabelcache[c])){
                                         t=propbabelcache[c];
@@ -3178,6 +3203,7 @@ function ryBox(missing){
                                     switch(o.type){
                                         case "label":
                                         case "button":
+										case "frame":
                                             if((c=o.babelcode())>""){
                                                 if($.isset(v[c])){
                                                     t=v[c];
@@ -3246,6 +3272,7 @@ function ryBox(missing){
                                         switch(o.type){
                                             case "label":
                                             case "button":
+											case "frame":
                                                 if((c=o.babelcode())>""){
                                                     if(l.indexOf(c)>=0)
                                                         selfcodes.push({code:c,caption:o.caption()});

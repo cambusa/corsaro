@@ -1,4 +1,12 @@
 ==================================
+Rilascio v2.0.23    del 23/07/2017
+==================================
+
+Aggiunta la nuova libreria ryframe che contiene cornici e quadranti.
+
+Migliorata la gestione dell'evento changed.
+
+==================================
 Rilascio v2.0.22    del 16/07/2017
 ==================================
 
