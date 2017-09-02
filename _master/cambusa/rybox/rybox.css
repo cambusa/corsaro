@@ -120,6 +120,10 @@ white-space:nowrap;
 background-color:transparent;
 }
 
+.rylabel-disabled{
+color:gray;
+}
+
 .ryobject a{
 outline-style:none;
 }

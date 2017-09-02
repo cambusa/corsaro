@@ -63,7 +63,8 @@
             })
 			.append("<div class='ryframe-caption'>"+propcaption+"</div>");
 			
-			//if(propcaption!="")
+			if(propcaption=="")
+				$("#"+propname+" .ryframe-caption").hide();
 			
             // FUNZIONI PUBBLICHE
             this.move=function(params){
@@ -141,6 +142,8 @@
 								if(o){
 									switch(o.type){
 										case "button":
+										case "label":
+										case "frame":
 										case "list":
 										case "grid":
 										case "text":
@@ -163,6 +166,83 @@
                 propobj.enabled(0);
             if(!propvisible)
                 propobj.visible(0);
+			return this;
+		},
+        ryquadrants:function(settings){
+			var propleft=5;
+			var proptop=31;
+			var propright=5;
+			var propbottom=5;
+			var propratiox=0.5;
+			var propratioy=0.5;
+			var proporientation=0;
+			var propformid="";
+
+			var propobj=this;
+			var propname=$(this).attr("id");
+			this.id="#"+propname;
+			this.tag=null;
+			this.type="quadrants";
+			
+			globalobjs[propname]=this;
+			
+			if(settings.left!=missing){propleft=settings.left}
+			if(settings.top!=missing){proptop=settings.top}
+			if(settings.right!=missing){propright=settings.right}
+			if(settings.bottom!=missing){propbottom=settings.bottom}
+			if(settings.ratiox!=missing){propratiox=settings.ratiox}
+			if(settings.ratioy!=missing){propratioy=settings.ratioy}
+			if(settings.orientation!=missing){proporientation=settings.orientation}
+			
+            if(settings.formid!=missing){
+				propformid=settings.formid;
+                // Aggancio alla maschera per quando i campi sono dinamici
+                $("#"+propname).prop("parentid", settings.formid);
+                _globalforms[settings.formid].controls[propname]=propname.substr(settings.formid.length);
+            }
+            if(settings.tag!=missing){this.tag=settings.tag}
+			
+			var m=$("#window_"+propformid);
+			var height=m.height()-56-proptop-propbottom;
+			
+			
+			$("#"+propname)
+            .addClass("ryquadrants")
+            .css({
+                "left":propleft,
+                "top":proptop,
+                "right":propright,
+                "height":height
+            })
+			.append("<div class='ryquadrants-hbar'></div>")
+			.append("<div class='ryquadrants-vbar'></div>")
+			.append("<div class='ryquadrants-windrose'></div>");
+			
+            $("#"+propname+" > div").each(
+                function(i){
+					var suffix="";
+					switch(i){
+						case 0:
+							$(this).attr({id:(propname+"-II")}).css({});
+							break;
+						case 1:
+							$(this).attr({id:(propname+"-I")});
+							break;
+						case 2:
+							$(this).attr({id:(propname+"-III")});
+							break;
+						case 3:
+							$(this).attr({id:(propname+"-IV")});
+							break;
+					}
+                }
+            );
+			
+			
+            // FUNZIONI PUBBLICHE
+			this.name=function(){
+				return propname;
+			}
 			return this;
 		}
 	});

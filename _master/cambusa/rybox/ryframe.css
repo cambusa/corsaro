@@ -19,15 +19,25 @@ background-color:#FEFEFE;
 .ryframe-caption{
 position:absolute;
 left:10px;
-top:-12px;
-height:7px;
+top:-11px;
+height:8px;
 font-family:verdana,sans-serif;
 font-size:14px;
 line-height:14px;
-border-top:1px solid silver;
-border-left:1px solid silver;
-border-right:1px solid silver;
+/* border-top:1px solid silver; */
 background-color:#FEFEFE;
 padding:2px 7px;
 overflow:visible;
+}
+
+.ryquadrants{
+position:absolute;
+border:1px solid silver;
+}
+
+.ryquadrants>div{
+position:absolute;
+border:1px solid silver;
+top:0;
+left:0;
 }

@@ -8,6 +8,8 @@
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
 ****************************************************************************/
+var globalryqueattempts=0;
+
 (function($,missing) {
     $.extend(true,$.fn, {
         ryque:function(settings){
@@ -822,7 +824,6 @@
                 proploadon=true;
                 propobj.vscrefresh();
                 _systeminfo.activities+=1;
-				var attempts=0;
                 $.post(propfolderryque+"ryq_window.php", {"reqid":propreqid,"offset":proptoprow,"length":proprows,"clause":propclause})
                 .done(function(d){
                     _systeminfo.activities-=1;
@@ -950,9 +951,11 @@
 					_systeminfo.activities-=1;
                     ryqueFail("dataload");
                     proploadon=false;
-					if(attempts++<10)
+					if(globalryqueattempts++<10)
 						setTimeout(function(){propobj.dataload(chain)}, 200);
-                });
+					else
+						globalryqueattempts=0;
+				});
            }
             this.screencell=function(r,c){
                 return "#"+propname+"_"+(parseInt(r)+1)+"_"+c;
@@ -1014,7 +1017,6 @@
                             }
                         }
                         _systeminfo.activities+=1;
-						var attempts=0;
                         $.post(propfolderryque+"ryq_solve.php", {"reqid":propreqid,"index":ind,"invert":invert.booleanNumber()})
                         .done(function(d) {
                             _systeminfo.activities-=1;
@@ -1028,8 +1030,10 @@
                         .fail(function(){
 							_systeminfo.activities-=1;
                             ryqueFail("solveid");
-							if(attempts++<10)
+							if(globalryqueattempts++<10)
 								setTimeout(function(){propobj.solveid(ind, back, invert)}, 200);
+							else
+								globalryqueattempts=0;
                         });
                     }
                     , 200
@@ -1039,7 +1043,6 @@
                 if(ids!=""){
                     if(raisebeforechange(0)){return}
                     _systeminfo.activities+=1;
-					var attempts=0;
                     $.post(propfolderryque+"ryq_selbyid.php", {"reqid":propreqid,"listid":ids})
                     .done(function(d){
                         _systeminfo.activities-=1;
@@ -1067,8 +1070,10 @@
                     .fail(function(){
 						_systeminfo.activities-=1;
                         ryqueFail("selbyid");
-						if(attempts++<10)
+						if(globalryqueattempts++<10)
 							setTimeout(function(){propobj.selbyid(ids, sing, done)}, 200);
+						else
+							globalryqueattempts=0;
                     });
                 }
                 else{
@@ -1133,7 +1138,6 @@
             this.dispose=function(done){
                 if(propreqid!=""&&propreqprivate==true){
                     _systeminfo.activities+=1;
-					var attempts=0;
                     $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid})
                     .done(function(d){
                         _systeminfo.activities-=1;
@@ -1145,8 +1149,10 @@
                     .fail(function(){
 						_systeminfo.activities-=1;
                         ryqueFail("dispose");
-						if(attempts++<10)
+						if(globalryqueattempts++<10)
 							setTimeout(function(){propobj.dispose(done)}, 200);
+						else
+							globalryqueattempts=0;
                     });
                     if(done==missing){
                         $.pause(100);
@@ -1575,7 +1581,6 @@
 			}
 			this.search=function(criteria, action){
                 _systeminfo.activities+=1;
-				var attempts=0;
                 $.post(propfolderryque+"ryq_search.php", {"reqid":propreqid,"criteria":criteria})
                 .done(function(d) {
                     _systeminfo.activities-=1;
@@ -1589,15 +1594,16 @@
                 .fail(function(){
 					_systeminfo.activities-=1;
                     ryqueFail("search");
-					if(attempts++<10)
+					if(globalryqueattempts++<10)
 						setTimeout(function(){propobj.search(criteria, action)}, 200);
+					else
+						globalryqueattempts=0;
                 });
 			}
 			this.splice=function(start, length, adding, done){
                 if(start==0)
                     start=propcount+1;
                 _systeminfo.activities+=1;
-				var attempts=0;
                 $.post(propfolderryque+"ryq_splice.php", {"reqid":propreqid, "start":start, "length":length, "adding":adding})
                 .done(function(d){
                     _systeminfo.activities-=1;
@@ -1619,8 +1625,10 @@
                 .fail(function(){
 					_systeminfo.activities-=1;
                     ryqueFail("splice");
-					if(attempts++<10)
+					if(globalryqueattempts++<10)
 						setTimeout(function(){propobj.splice(start, length, adding, done)}, 200);
+					else
+						globalryqueattempts=0;
                 });
 			}
 			this.visible=function(v){
@@ -1644,7 +1652,6 @@
             this.getprotocol=function(){
                 if(propreqid==""){
                     _systeminfo.activities+=1;
-					var attempts=0;
                     $.post(propfolderryque+"ryq_request.php", {"env":propenviron,"sessionid":_sessioninfo.sessionid})
                     .done(function(d) {
                         _systeminfo.activities-=1;
@@ -1673,8 +1680,10 @@
                     .fail(function(){
 						_systeminfo.activities-=1;
                         ryqueFail("getprotocol");
-						if(attempts++<10)
+						if(globalryqueattempts++<10)
 							setTimeout(function(){propobj.getprotocol()}, 200);   
+						else
+							globalryqueattempts=0;
                     });
                 }
                 else{
@@ -1692,7 +1701,6 @@
                 if(params.args!=missing){args=params.args}
                 if(params.sql!=missing){
                     _systeminfo.activities+=1;
-					var attempts=0;
                     $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args})
                     .done(function(d){
                             _systeminfo.activities-=1;
@@ -1709,8 +1717,10 @@
                     .fail(function(){
 						_systeminfo.activities-=1;
                         ryqueFail("extract");
-                        if(attempts++<10)
+                        if(globalryqueattempts++<10)
 							setTimeout(function(){propobj.extract(params)}, 200);   
+						else
+							globalryqueattempts=0;
                     });
                 }
             }
@@ -1724,7 +1734,6 @@
                         "type":proptyps
                     };
                     _systeminfo.activities+=1;
-					var attempts=0;
                     $.post(propfolderryque+"ryq_export.php", 
                         {
                             "reqid":propreqid,
@@ -1758,8 +1767,10 @@
                     .fail(function(){
 						_systeminfo.activities-=1;
                         ryqueFail("sheet");
-                        if(attempts++<10)
+                        if(globalryqueattempts++<10)
 							setTimeout(function(){propobj.sheet(params)}, 200);
+						else
+							globalryqueattempts=0;
                     });
                 }
             }
@@ -2136,7 +2147,6 @@
                 propusedparams={"reqid":propreqid,"select":propselection,"from":propfrom,"where":whe,"orderby":ord,"index":prei,"sels":pres,"args":args,"limit":lim};
                 if(window.console&&_sessioninfo.debugmode){console.log(propusedparams)}
                 _systeminfo.activities+=1;
-				var attempts=0;
                 $.post(propfolderryque+"ryq_index.php", propusedparams)
                 .done(function(d) {
                     _systeminfo.activities-=1;
@@ -2196,8 +2206,10 @@
                 .fail(function(){
 					_systeminfo.activities-=1;
                     ryqueFail("callquery");
-					if(attempts++<10)
+					if(globalryqueattempts++<10)
 						setTimeout(function(){callquery(params)}, 200);
+					else
+						globalryqueattempts=0;
                 });
             }
             function setheight(h){
@@ -2310,7 +2322,6 @@ function ryQue(missing){
         var env=propenviron;
         if(params.environ!=missing){env=params.environ}
         _systeminfo.activities+=1;
-		var attempts=0;
         $.post(propfolderryque+"ryq_request.php", {"env":env,"sessionid":_sessioninfo.sessionid})
         .done(function(d){
             _systeminfo.activities-=1;
@@ -2329,8 +2340,10 @@ function ryQue(missing){
         .fail(function(){
 			_systeminfo.activities-=1;
             ryqueFail("request");
-			if(attempts++<10)
+			if(globalryqueattempts++<10)
 				setTimeout(function(){propobj.request(params)}, 200);
+			else
+				globalryqueattempts=0;
         });
     }
     this.query=function(params){
@@ -2338,7 +2351,6 @@ function ryQue(missing){
         if(params.args!=missing){args=params.args}
         if(params.sql!=missing){
             _systeminfo.activities+=1;
-			var attempts=0;
             $.post(propfolderryque+"ryq_query.php", {"reqid":propreqid,"sql":params.sql,"args":args})
             .done(function(d){
                 _systeminfo.activities-=1;
@@ -2355,15 +2367,16 @@ function ryQue(missing){
             .fail(function(){
                 _systeminfo.activities-=1;
 				ryqueFail("query");
-				if(attempts++<10)
+				if(globalryqueattempts++<10)
 					setTimeout(function(){propobj.query(params)}, 200);   
+				else
+					globalryqueattempts=0;
             });
         }
     }
     this.dispose=function(done){
         if(propreqid!=""){
             _systeminfo.activities+=1;
-			var attempts=0;
             $.post(propfolderryque+"ryq_close.php", {"reqid":propreqid})
             .done(function(d){
                 _systeminfo.activities-=1;
@@ -2374,8 +2387,10 @@ function ryQue(missing){
             .fail(function(){
 				_systeminfo.activities-=1;
                 ryqueFail("dispose");
-				if(attempts++<10)
+				if(globalryqueattempts++<10)
 					setTimeout(function(){propobj.dispose(done)}, 200);
+				else
+					globalryqueattempts=0;
             });
             if(done==missing){$.pause(100)}
         }
@@ -2401,7 +2416,6 @@ function ryQue(missing){
     }
     this.clean=function(done){
         _systeminfo.activities+=1;
-		var attempts=0;
         $.post(propfolderryque+"ryq_clean.php", {})
         .done(function(d){
             _systeminfo.activities-=1;
@@ -2410,8 +2424,10 @@ function ryQue(missing){
         .fail(function(){
 			_systeminfo.activities-=1;
             ryqueFail("clean");
-			if(attempts++<10)
+			if(globalryqueattempts++<10)
 				setTimeout(function(){propobj.clean(done)}, 200);
+			else
+				globalryqueattempts=0;
         });
     }
     this.actualheight=function(h){
@@ -2422,10 +2438,10 @@ function ryQue(missing){
     }
 }
 function ryqueFail(nomefunct){
-    if(window.console&&_sessioninfo.debugmode){console.log("Fallita "+nomefunct+": verrà effettuato un nuovo tentativo...")}
+    if(window.console&&_sessioninfo.debugmode){console.log("Function "+nomefunct+" failure")}
 }
 function ryqueUnready(status){
-    if(window.console&&_sessioninfo.debugmode){console.log("Grid "+status+": verrà effettuato un nuovo tentativo...")}
+    if(window.console&&_sessioninfo.debugmode){console.log("Grid "+status)}
 }
 $(document).ready(function(){
     RYQUE=new ryQue();

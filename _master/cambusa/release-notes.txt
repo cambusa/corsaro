@@ -1,4 +1,14 @@
 ==================================
+Rilascio v2.0.24    del 02/09/2017
+==================================
+
+ryFrame: effettuati miglioramenti grafici.
+
+ryQue: corretta la gestione dei tentativi.
+
+ryFamily: corretto il refresh di posizionamento e ridimensionamento.
+
+==================================
 Rilascio v2.0.23    del 23/07/2017
 ==================================
 

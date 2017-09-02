@@ -2383,12 +2383,32 @@ var globalcolorfocus="#FFF4E6";
             function setenabled(v){
                 propenabled=v.booleanNumber();
                 if(propenabled){
-                    $("#"+propname+"_caption").removeClass("rybutton-disabled");
+					if(propbutton){
+						$("#"+propname+"_caption").removeClass("rybutton-disabled");
+						if(propfocusout==false){
+							if(propflat)
+								$("#"+propname+"_caption").addClass("rybutton-flat-focus");
+							else
+								$("#"+propname+"_caption").addClass("rybutton-focus");
+						}
+					}
+					else{
+						$("#"+propname+"_caption").removeClass("rylabel-disabled");
+					}
 				}
 				else{
-                    $("#"+propname+"_caption").addClass("rybutton-disabled");
-					if(propfocusout==false)
-						$("#"+propname+"_anchor").trigger("focusout");
+					if(propbutton){
+						$("#"+propname+"_caption").addClass("rybutton-disabled");
+						if(propfocusout==false){
+							if(propflat)
+								$("#"+propname+"_caption").removeClass("rybutton-flat-focus");
+							else
+								$("#"+propname+"_caption").removeClass("rybutton-focus");
+						}
+					}
+					else{
+						$("#"+propname+"_caption").addClass("rylabel-disabled");
+					}
 				}
             }
             function setvisible(v){

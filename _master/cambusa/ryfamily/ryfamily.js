@@ -26,14 +26,14 @@
             var propselectiontype="all";
             var propenabled=true;
             var propvisible=true;
-			var propzoom="";
+            var propzoom="";
 
             var propname=$(this).attr("id");
-			this.id="#"+propname;
-			this.tag=null;
-			this.type="tree";
+            this.id="#"+propname;
+            this.tag=null;
+            this.type="tree";
 
-			globalobjs[propname]=this;
+            globalobjs[propname]=this;
             
             if(settings.left!=missing){propleft=settings.left}
             if(settings.top!=missing){proptop=settings.top}
@@ -46,7 +46,7 @@
             if(settings.background!=missing){propbackground=settings.background}
             if(settings.classname!=missing){propclassname=settings.classname}
             if(settings.selectiontype!=missing){propselectiontype=settings.selectiontype}
-			if(settings.zoom!=missing && settings.zoom!=""){propzoom="transform:scale("+settings.zoom+");transform-origin:0 0;"}
+            if(settings.zoom!=missing && settings.zoom!=""){propzoom="transform:scale("+settings.zoom+");transform-origin:0 0;"}
             
             if(settings.formid!=missing){
                 // Aggancio alla maschera per quando i campi sono dinamici
@@ -54,7 +54,7 @@
                 _globalforms[settings.formid].controls[propname]=propname.substr(settings.formid.length);
             }
             if(settings.tag!=missing){this.tag=settings.tag}
-			
+            
             
             var sc="visible";
             var bd="none";
@@ -78,10 +78,10 @@
             $("#"+propname).html("<div style='position:absolute;border:none;left:0px;top:0px;width:1px;height:1px;overflow:hidden;'><input type='button' id='"+propname+"_anchor' style='position:absolute;left:-100px;width:10px;'></div><ul id='"+propname+"_root' class='filetree treeview-famfamfam' style='"+propzoom+"'></ul>");
             refreshattr();
             
-			if(propborder){
-				$("#"+propname).addClass("rybox-border");
-			}
-			
+            if(propborder){
+                $("#"+propname).addClass("rybox-border");
+            }
+            
             if(propbackground!=""){
                 $("#"+propname).css({"background-color":propbackground});
                 $("#"+propname+" .treeview li").css({"background-color":propbackground});
@@ -95,19 +95,19 @@
             
             $("#"+propname+"_anchor").focus(function(){
                 if(propborder)
-					$("#"+propname).addClass("rybox-focus");
+                    $("#"+propname).addClass("rybox-focus");
                     //$("#"+propname).css({"border-left":"1px solid #3F75A2"});
             });
             $("#"+propname+"_anchor").focusout(function(){
                 if(propborder)
-					$("#"+propname).removeClass("rybox-focus");
+                    $("#"+propname).removeClass("rybox-focus");
                     //$("#"+propname).css({"border-left":bd});
             });
             $("#"+propname+"_anchor").keydown(
-            	function(k){
-            		if(propenabled){
+                function(k){
+                    if(propenabled){
                         // GESTIONE ALTRI TASTI
-            			switch(k.which){
+                        switch(k.which){
                         case 40:    // DOWN (sibling inferiore)
                             if(propselectedid==""){
                                 propobj.selectedid("k1");
@@ -128,7 +128,7 @@
                                 }
                             }
                             break;
-            			case 38:    // UP (sibling superiore)
+                        case 38:    // UP (sibling superiore)
                             if(propselectedid==""){
                                 propobj.selectedid("k1");
                             }
@@ -148,7 +148,7 @@
                                 }
                             }
                             break;
-            			case 39:    // RIGHT (figlio)
+                        case 39:    // RIGHT (figlio)
                             if(propselectedid==""){
                                 propobj.selectedid("k1");
                             }
@@ -164,7 +164,7 @@
                                 }
                             }
                             break;
-            			case 37:    // LEFT (padre)
+                        case 37:    // LEFT (padre)
                             if(propselectedid==""){
                                 propobj.selectedid("k1");
                             }
@@ -174,7 +174,7 @@
                                 k.preventDefault();
                             }
                             break;
-            			case 13:    // INVIO
+                        case 13:    // INVIO
                             if(propselectedid!=""){
                                 var trig=propobj.getinfo(propselectedid);
                                 if(settings.click){
@@ -188,18 +188,18 @@
                                 }
                             }
                             break;
-            			}
-            		}
-            		if(k.which==8){
-            			return false;
-            		}
+                        }
+                    }
+                    if(k.which==8){
+                        return false;
+                    }
                     else if(k.which==9){
                         return nextFocus(propname, k.shiftKey);
                     }
-            	}
+                }
             );
             $("#"+propname+"_anchor").keyup(
-            	function(k){
+                function(k){
                     // MANTENGO PULITO INPUT
                     $("#"+propname+"_anchor").val("");
                 }
@@ -247,6 +247,9 @@
                     }
                 }
             });
+            this.refreshattr=function(){
+                refreshattr();
+            }
             this.left=function(v){
                 if(v==missing)
                     return propleft;
@@ -509,22 +512,22 @@
                     }
                 }
             }
-			this.enabled=function(v){
-				if(v!=missing){
-					propenabled=v;
-				}
+            this.enabled=function(v){
+                if(v!=missing){
+                    propenabled=v;
+                }
                 return propenabled;
-			}
-			this.visible=function(v){
-				if(v!=missing){
-					propvisible=v;
-					if(v)
-						$("#"+propname).css({"visibility":"visible"});
-					else
-						$("#"+propname).css({"visibility":"hidden"});
-				}
+            }
+            this.visible=function(v){
+                if(v!=missing){
+                    propvisible=v;
+                    if(v)
+                        $("#"+propname).css({"visibility":"visible"});
+                    else
+                        $("#"+propname).css({"visibility":"hidden"});
+                }
                 return propvisible;
-			}
+            }
             this.loading=function(nodeid, b){
                 if(b)
                     $("#"+propname+"_"+nodeid).addClass("nodeloading");
@@ -607,7 +610,7 @@
                 }
                 return trig;
             }
-			return this;
-		}
-	});
+            return this;
+        }
+    });
 })(jQuery);
