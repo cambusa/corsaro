@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.25    del 02/09/2017
+==================================
+
+ryCheck: cambio di font per ovviare alle scelte non standard di Microsoft Edge per quanto riguarda i caratteri utf8 grafici.
+
+==================================
 Rilascio v2.0.24    del 02/09/2017
 ==================================
 

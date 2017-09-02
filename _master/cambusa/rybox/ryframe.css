@@ -13,7 +13,7 @@
 position:absolute;
 border:1px solid silver;
 color:black;
-background-color:#FEFEFE;
+/* background-color:#FEFEFE; */
 }
 
 .ryframe-caption{
@@ -25,7 +25,7 @@ font-family:verdana,sans-serif;
 font-size:14px;
 line-height:14px;
 /* border-top:1px solid silver; */
-background-color:#FEFEFE;
+/* background-color:#FEFEFE; */
 padding:2px 7px;
 overflow:visible;
 }

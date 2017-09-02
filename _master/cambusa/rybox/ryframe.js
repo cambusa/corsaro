@@ -21,6 +21,7 @@
 			var propobj=this;
 			var propenabled=true;
 			var propvisible=true;
+            var propbackground="#FEFEFE";
 			var propautocoding=false;
 			var propcontrols=false;
 			
@@ -39,6 +40,7 @@
 			if(settings.code!=missing){propbabelcode=settings.code}
             if(settings.enabled!=missing){propenabled=settings.enabled}
             if(settings.visible!=missing){propvisible=settings.visible}
+            if(settings.background!=missing){propbackground=settings.background}
             if(settings.autocoding!=missing){propautocoding=settings.autocoding}
             if(propautocoding){
                 if(propbabelcode=="")
@@ -59,10 +61,12 @@
                 "left":propleft,
                 "top":proptop,
                 "width":propwidth,
-                "height":propheight
+                "height":propheight,
+                "background-color":propbackground
             })
 			.append("<div class='ryframe-caption'>"+propcaption+"</div>");
-			
+            
+            $("#"+propname+" .ryframe-caption").css({"background-color":propbackground});
 			if(propcaption=="")
 				$("#"+propname+" .ryframe-caption").hide();
 			
