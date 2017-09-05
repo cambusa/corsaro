@@ -656,7 +656,7 @@ var globalcolorfocus="#FFF4E6";
                                 if(proplink){
                                     proplink.value(v);
                                 }
-                                if( (propday=="01" && propmonth=="01" && propyear=="1900") || (propday=="31" && propmonth=="12" && propyear=="9999") ){
+                                if( propyear<"1900" || (propday=="01" && propmonth=="01" && propyear=="1900") || (propday=="31" && propmonth=="12" && propyear=="9999") ){
                                     propobj.clear();
                                 }
                             }

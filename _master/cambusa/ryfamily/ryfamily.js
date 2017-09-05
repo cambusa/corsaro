@@ -346,6 +346,7 @@
                         settings.expand(propobj, trig);
                     }
                 }
+                $("#"+propname).find("li").css({"font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px"});
                 return params.id;
             }
             this.additem=function(params){
@@ -376,6 +377,7 @@
                     add: branches,
                     rif:params.id
                 });
+                $("#"+propname).find("li").css({"font-family":"verdana,sans-serif","font-size":"13px","line-height":"18px"});
                 return params.id;
             }
             this.remove=function(id){
