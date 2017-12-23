@@ -132,7 +132,7 @@ class Net_SFTP_Stream {
      *
      * @access public
      */
-    function Net_SFTP_Stream()
+    function __construct()
     {
         if (!class_exists('Net_SFTP')) {
             require_once('Net/SFTP.php');

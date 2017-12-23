@@ -2,9 +2,9 @@
 /****************************************************************************
 * Name:            rypaper.php                                              *
 * Project:         Cambusa/ryPaper                                          *
-* Version:         1.69                                                     *
+* Version:         2.00                                                     *
 * Description:     Reporting Utilities                                      *
-* Copyright (C):   2015  Rodolfo Calzetti                                   *
+* Copyright (C):   2018  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
@@ -43,7 +43,8 @@ class rypaper{
     private $filept;
     private $buffer;
     private $nextformat;
-    function rypaper(){
+
+    function __construct(){
         $this->headerheight=0;
         $this->footerheight=0;
         $this->pagewidth=0;

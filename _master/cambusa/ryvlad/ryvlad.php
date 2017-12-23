@@ -28,9 +28,7 @@ class ryVlad{
     private $trace;
     private $buffer;
     
-    // Funzionerebbe solo da PHP 5.3
-    //public function __construct(){
-    public function ryVlad(){
+    function __construct(){
         $this->config="";
         $this->remaining=0;
         $this->loadedbytes=0;
@@ -718,9 +716,7 @@ class ryBlood{
     public $conflict="";
     private $repository;
     
-    // Funzionerebbe solo da PHP 5.3
-    //public function __construct(){
-    public function ryBlood(){
+    function __construct(){
         $this->repository=array();
         $this->repository["__COUNTER"]=0;
         $this->default="";

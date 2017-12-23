@@ -45,7 +45,7 @@ class StructStatus{
      public $LastLevel;
      public $LastIndici;
      
-     function StructStatus(){
+     function __construct(){
         $this->LastIndici=array_fill(1, MAX_LEVEL, 0);
         $this->Timeout=10;
         $this->Gauge=0;

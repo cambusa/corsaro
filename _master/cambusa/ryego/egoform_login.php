@@ -30,7 +30,7 @@ $(document).ready(function(){
         left:190,
         top:offsety, 
         password:true,
-        maxlen:16,
+        maxlen:64,
         enter:function(o){
 			syswaitinglogin();
             var u=user.value();

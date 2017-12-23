@@ -467,7 +467,7 @@ class Crypt_Blowfish {
      * @param optional Integer $mode
      * @access public
      */
-    function Crypt_Blowfish($mode = CRYPT_BLOWFISH_MODE_CBC)
+    function __construct($mode = CRYPT_BLOWFISH_MODE_CBC)
     {
         if ( !defined('CRYPT_BLOWFISH_MODE') ) {
             switch (true) {

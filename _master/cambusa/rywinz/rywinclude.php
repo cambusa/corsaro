@@ -55,7 +55,7 @@ class winz_pilota{
     public $controls;
     public $statusbar;
     
-    function winz_pilota(){
+    function __construct(){
         global $relative_base;
 
         $this->name="rudder";
@@ -77,7 +77,7 @@ class winz_postman{
     public $title;
     public $enabled;
     
-    function winz_postman(){
+    function __construct(){
         $this->title="Postman";
         $this->enabled=true;
     }
@@ -92,7 +92,7 @@ class winz_tools{
     public $title;
     public $items;
     
-    function winz_tools(){
+    function __construct(){
         global $relative_base;
     
         $this->title="Cambusa";
@@ -115,7 +115,7 @@ class winz_about{
     public $height;
     public $content;
     
-    function winz_about(){
+    function __construct(){
         $this->width=550;
         $this->height=320;
         $this->content="";
@@ -143,7 +143,7 @@ class winz_engine{
     public $wallpaper;
     public $customize;
     
-    function winz_engine(){
+    function __construct(){
     
         $this->pilota=new winz_pilota();
         $this->postman=new winz_postman();

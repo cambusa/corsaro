@@ -207,12 +207,14 @@
             $("#"+propname).click(function(evt){
                 var trig=createtrigger(evt, "ryclick");
                 
-                // sposto il focusable per evitare lo scroll all'inizio dandogli il fuoco
-                if(propborder)
-                    $("#"+propname+"_anchor").parent().css({"top":$("#"+propname).scrollTop()});
-                else
-                    $("#"+propname+"_anchor").parent().css({"top":$("#"+propname+"_"+trig.id).position().top});
-                
+                if($.isset(trig.id)){
+                    // sposto il focusable per evitare lo scroll all'inizio dandogli il fuoco
+                    if(propborder)
+                        $("#"+propname+"_anchor").parent().css({"top":$("#"+propname).scrollTop()});
+                    else
+                        $("#"+propname+"_anchor").parent().css({"top":$("#"+propname+"_"+trig.id).position().top});
+                }
+
                 $("#"+propname+"_anchor").focus();
                 if(trig){
                     propobj.selectedid(trig.id);

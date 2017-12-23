@@ -35,7 +35,7 @@ class ryDeveloper{
     public $swap;
     public $simulazione;
     
-    public function ryDeveloper(){
+    function __construct(){
         $this->maestro=false;
         $this->plutoid="";
         $this->processoid="";

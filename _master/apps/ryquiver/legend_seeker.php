@@ -30,7 +30,7 @@ class rySeeker{
     public $lasterrdescription;
     public $trdate;
     
-    public function rySeeker(){
+    function __construct(){
         $this->bags=array();
         $this->bagnames=array();
         $this->indexes=array();

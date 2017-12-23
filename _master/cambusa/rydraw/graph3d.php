@@ -12,7 +12,7 @@
 class StructPuntoSchermoDouble{
     var $x;
     var $y;
-    function StructPuntoSchermoDouble(){
+    function __construct(){
         $this->x=0;
         $this->y=0;
     }

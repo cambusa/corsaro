@@ -565,7 +565,7 @@ class Crypt_Twofish {
      * @param optional Integer $mode
      * @access public
      */
-    function Crypt_Twofish($mode = CRYPT_TWOFISH_MODE_CBC)
+    function __construct($mode = CRYPT_TWOFISH_MODE_CBC)
     {
         if ( !defined('CRYPT_TWOFISH_MODE') ) {
             switch (true) {

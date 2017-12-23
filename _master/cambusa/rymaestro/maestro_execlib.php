@@ -2,9 +2,9 @@
 /****************************************************************************
 * Name:            maestro_execlib.php                                      *
 * Project:         Cambusa/ryMaestro                                        *
-* Version:         1.70                                                     *
+* Version:         2.00                                                     *
 * Description:     Databases modeling and maintenance                       *
-* Copyright (C):   2016  Rodolfo Calzetti                                   *
+* Copyright (C):   2018  Rodolfo Calzetti                                   *
 *                  License GNU LESSER GENERAL PUBLIC LICENSE Version 3      *
 * Contact:         https://github.com/cambusa                               *
 *                  postmaster@rudyz.net                                     *
@@ -36,7 +36,8 @@ class Maestro{
     public $user;
     // mosca mssql
     public $server;
-    function Maestro(){
+	
+    function __construct(){
         $this->conn=false;
         $this->provider="";
         $this->environ="";
