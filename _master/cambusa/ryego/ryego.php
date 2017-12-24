@@ -339,8 +339,6 @@ function removePrivacyCookie(){
 }
 </script>
 
-</head>
-
 <?php
 if($msk=="login"){
 
@@ -351,6 +349,8 @@ if($msk=="login"){
 	include("egoform_login.php");
 
 ?>
+
+</head>
 
 <body style='margin:0px;background-color:#F0F0F0;' spellcheck='false'>
 

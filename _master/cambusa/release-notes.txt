@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.28    del 24/12/2017
+==================================
+
+ryFamily: corretto il malfuzionamento nell'espandere/collassare un nodo in caso di zoom inferiore al 100%.
+
+==================================
 Rilascio v2.0.27    del 23/12/2017
 ==================================
 

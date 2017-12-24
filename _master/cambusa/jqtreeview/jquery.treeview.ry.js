@@ -15,7 +15,8 @@
  */
 
 ;(function($) {
-
+	var ena=true;
+	var tid=false;
 	// TODO rewrite as a widget, removing all the extra plugins
 	$.extend($.fn, {
 		swapClass: function(c1, c2) {
@@ -137,32 +138,42 @@
 		
 			// handle toggle event
 			function toggler() {
-				$(this)
-					.parent()
-					// swap classes for hitarea
-					.find(">.hitarea")
-						.swapClass( CLASSES.collapsableHitarea, CLASSES.expandableHitarea )
-						.swapClass( CLASSES.lastCollapsableHitarea, CLASSES.lastExpandableHitarea )
-					.end()
-					// swap classes for parent li
-					.swapClass( CLASSES.collapsable, CLASSES.expandable )
-					.swapClass( CLASSES.lastCollapsable, CLASSES.lastExpandable )
-					// find child lists
-					.find( ">ul" )
-					// toggle them
-					.heightToggle( settings.animated, settings.toggle );
-				if ( settings.unique ) {
-					$(this).parent()
-						.siblings()
+				// Meccanismo per evitare un rimpallo con zoom < 100%
+				if(tid===false){
+					tid=setTimeout(function(){
+						ena=true;
+						tid=false;
+					}, 100);
+				}
+				if(ena){
+					ena=false;
+					$(this)
+						.parent()
 						// swap classes for hitarea
 						.find(">.hitarea")
-							.replaceClass( CLASSES.collapsableHitarea, CLASSES.expandableHitarea )
-							.replaceClass( CLASSES.lastCollapsableHitarea, CLASSES.lastExpandableHitarea )
+							.swapClass( CLASSES.collapsableHitarea, CLASSES.expandableHitarea )
+							.swapClass( CLASSES.lastCollapsableHitarea, CLASSES.lastExpandableHitarea )
 						.end()
-						.replaceClass( CLASSES.collapsable, CLASSES.expandable )
-						.replaceClass( CLASSES.lastCollapsable, CLASSES.lastExpandable )
+						// swap classes for parent li
+						.swapClass( CLASSES.collapsable, CLASSES.expandable )
+						.swapClass( CLASSES.lastCollapsable, CLASSES.lastExpandable )
+						// find child lists
 						.find( ">ul" )
-						.heightHide( settings.animated, settings.toggle );
+						// toggle them
+						.heightToggle( settings.animated, settings.toggle );
+					if ( settings.unique ) {
+						$(this).parent()
+							.siblings()
+							// swap classes for hitarea
+							.find(">.hitarea")
+								.replaceClass( CLASSES.collapsableHitarea, CLASSES.expandableHitarea )
+								.replaceClass( CLASSES.lastCollapsableHitarea, CLASSES.lastExpandableHitarea )
+							.end()
+							.replaceClass( CLASSES.collapsable, CLASSES.expandable )
+							.replaceClass( CLASSES.lastCollapsable, CLASSES.lastExpandable )
+							.find( ">ul" )
+							.heightHide( settings.animated, settings.toggle );
+					}
 				}
 			}
 			this.data("toggler", toggler);

@@ -205,34 +205,22 @@
                 }
             );
             $("#"+propname).click(function(evt){
-                var trig=createtrigger(evt, "ryclick");
+				$("#"+propname+"_anchor").focus();
                 
-                if($.isset(trig.id)){
-                    // sposto il focusable per evitare lo scroll all'inizio dandogli il fuoco
-                    if(propborder)
-                        $("#"+propname+"_anchor").parent().css({"top":$("#"+propname).scrollTop()});
-                    else
-                        $("#"+propname+"_anchor").parent().css({"top":$("#"+propname+"_"+trig.id).position().top});
-                }
-
-                $("#"+propname+"_anchor").focus();
+				var trig=createtrigger(evt, "ryclick");
+                
                 if(trig){
-                    propobj.selectedid(trig.id);
-                    if(settings.click){
-                        settings.click(propobj, trig);
-                    }
-                    if(trig.folder && !(trig.hitfolder && trig.hitnode)){
-                        if(trig.open){
-                            if(settings.expand){
-                                settings.expand(propobj, trig);
-                            }
-                        }
-                        else{
-                            if(settings.collapse){
-                                settings.collapse(propobj, trig);
-                            }
-                        }
-                    }
+					if($.isset(trig.id)){
+						// sposto il focusable per evitare lo scroll all'inizio dandogli il fuoco
+						if(propborder)
+							$("#"+propname+"_anchor").parent().css({"top":$("#"+propname).scrollTop()});
+						else
+							$("#"+propname+"_anchor").parent().css({"top":$("#"+propname+"_"+trig.id).position().top});
+						propobj.selectedid(trig.id);
+						if(settings.click){
+							settings.click(propobj, trig);
+						}
+					}
                 }
             });
             $("#"+propname).contextmenu(function(evt){
@@ -334,7 +322,24 @@
                 .appendTo("#"+parid);
                 $("#"+parid).treeview({
                     add: branches,
-                    rif:params.id
+                    rif:params.id,
+					toggle:function(){
+						setTimeout(function(){
+							var trig=propobj.getinfo(propselectedid);
+							if(trig.folder){
+								if(trig.open){
+									if(settings.expand){
+										settings.expand(propobj, trig);
+									}
+								}
+								else{
+									if(settings.collapse){
+										settings.collapse(propobj, trig);
+									}
+								}
+							}
+						}, 50);
+					}
                 });
                 $("#"+propname+"_"+params.id).click(function(evt){
                     if(evt.screenX-$(this).offset().left<30){
