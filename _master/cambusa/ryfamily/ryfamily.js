@@ -205,8 +205,6 @@
                 }
             );
             $("#"+propname).click(function(evt){
-				$("#"+propname+"_anchor").focus();
-                
 				var trig=createtrigger(evt, "ryclick");
                 
                 if(trig){
@@ -220,8 +218,21 @@
 						if(settings.click){
 							settings.click(propobj, trig);
 						}
+                        if(trig.folder){
+                            if(trig.open){
+                                if(settings.expand){
+                                    settings.expand(propobj, trig);
+                                }
+                            }
+                            else{
+                                if(settings.collapse){
+                                    settings.collapse(propobj, trig);
+                                }
+                            }
+                        }
 					}
                 }
+				$("#"+propname+"_anchor").focus();
             });
             $("#"+propname).contextmenu(function(evt){
                 var trig=createtrigger(evt, "rycontext");
@@ -324,6 +335,7 @@
                     add: branches,
                     rif:params.id,
 					toggle:function(){
+                        /*
 						setTimeout(function(){
 							var trig=propobj.getinfo(propselectedid);
 							if(trig.folder){
@@ -339,6 +351,7 @@
 								}
 							}
 						}, 50);
+                        */
 					}
                 });
                 $("#"+propname+"_"+params.id).click(function(evt){
