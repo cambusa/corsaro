@@ -749,10 +749,15 @@ function ryQuiver(missing){
                 if(settings.clear!=missing){settings.clear(propobj)};
             }
 			function manageclear(cast){
-				if(propsysid!="" && (cast || !propfocusout))
-					$("#"+propname+"_clear").show();
-				else
-					$("#"+propname+"_clear").hide();
+                if(propenabled){
+                    if(propsysid!="" && (cast || !propfocusout))
+                        $("#"+propname+"_clear").show();
+                    else
+                        $("#"+propname+"_clear").hide();
+                }
+                else{
+                    $("#"+propname+"_clear").hide();
+                }
 			}
 			return this;
 		},

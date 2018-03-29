@@ -259,11 +259,11 @@ class ryVlad{
                             // CERCO LA PROSSIMA OCCORRENZA...
                             if(strlen($strcurr)>$lenbegin){
                                 // ...DALLA FINE DELL'INIZIO DEL BLOCCO
-                                $nexttrovati=preg_match($livello->match, substr($strcurr, $lenbegin), $matchsucc, PREG_OFFSET_CAPTURE);
+                                $nexttrovati=preg_match("/".$livello->match."/mi", substr($strcurr, $lenbegin), $matchsucc, PREG_OFFSET_CAPTURE);
                             }
                             else{
                                 // ...SIMULANDO UNA RICERCA POICHE' NON C'E' UN DOPO
-                                $nexttrovati=preg_match($livello->match, "", $matchsucc, PREG_OFFSET_CAPTURE);
+                                $nexttrovati=preg_match("/".$livello->match."/mi", "", $matchsucc, PREG_OFFSET_CAPTURE);
                             }
                             if($nexttrovati>0 || ($flagroot==true && $this->remaining==0) || $flagroot==false){
                                 // HO TROVATO UNA PROSSIMA OCCORRENZA

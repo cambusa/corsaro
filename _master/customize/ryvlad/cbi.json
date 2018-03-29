@@ -6,39 +6,41 @@
         "levels":{
             "testata":{
                 "match":"^ 61(.{7}).{42}(.{5}).{5}(.{12})(.{3})(.{6})(.)(.{15}).*$",
-                "matchtype":"A",
+                "matchtype":"B",
                 "reset":"1",
                 "method":"SET",
                 "attributes":{
                     "BANCA":{"index":"2"},
                     "CONTO":{"index":"3"},
                     "DIVISA":{"index":"4"}
-                }
-            },
-            "dettaglio":{
-                "match":"^ 62(.{3}).{7}(.{6})(.{6})(.{1})(.{15})(.{2}).{2}(.{16}).{25}(.{34}).*$",
-                "matchtype":"B",
-                "reset":"0",
-                "method":"SET",
-                "indexes":"",
-                "attributes":{
-                    "DATAVAL":{"index":"2", "type":"D", "format":"DMY", "output":"Ymd"},
-                    "DATABAN":{"index":"3", "type":"D", "format":"DMY", "output":"Ymd"},
-                    "SEGNO":{"index":"4"},
-                    "IMPORTO":{"index":"5", "type":"N", "sepdec":"," , "minus":"D"},
-                    "CAUSALE":{"index":"6"},
-                    "DESCRIZIONE":{"index":"8"},
-                    "REGISTRO":{"index":"0", "remove":"1"}
                 },
                 "levels":{
-                    "registro":{
-                        "match":"^ 63.{10}(.*)$",
-                        "matchtype":"A",
+                    "dettaglio":{
+                        "match":"^ 62(.{3}).{7}(.{6})(.{6})(.{1})(.{15})(.{2}).{2}(.{16}).{25}(.{34}).*$",
+                        "matchtype":"B",
                         "reset":"0",
                         "method":"SET",
                         "indexes":"",
                         "attributes":{
-                            "REGISTRO":{"index":"1", "conflict":"OLD.' '.NEW"}
+                            "DATAVAL":{"index":"2", "type":"D", "format":"DMY", "output":"Ymd"},
+                            "DATABAN":{"index":"3", "type":"D", "format":"DMY", "output":"Ymd"},
+                            "SEGNO":{"index":"4"},
+                            "IMPORTO":{"index":"5", "type":"N", "sepdec":"," , "minus":"D"},
+                            "CAUSALE":{"index":"6"},
+                            "DESCRIZIONE":{"index":"8"},
+                            "REGISTRO":{"index":"0", "remove":"1"}
+                        },
+                        "levels":{
+                            "registro":{
+                                "match":"^ 63.{10}(.*)$",
+                                "matchtype":"A",
+                                "reset":"0",
+                                "method":"SET",
+                                "indexes":"",
+                                "attributes":{
+                                    "REGISTRO":{"index":"1", "conflict":"OLD.' '.NEW"}
+                                }
+                            }
                         }
                     }
                 }

@@ -40,6 +40,20 @@ function pluto_preview($DEVELOPER){
     $tassopag=0;
     $spreadpag=0;
     $totale=0;
+    $totalestar=0;
+    $totaleinvest=0;
+    $mindate=false;
+    $maxdate=false;
+    foreach($DEVELOPER->sviluppo as $flusso){
+        $DATA=$flusso["DATA"];
+        $d=date_create(substr($DATA,0,4)."-".substr($DATA,4,2)."-".substr($DATA,6,2));
+        if($maxdate===false){
+            $maxdate=$d;
+        }
+        elseif($maxdate<$d){
+            $maxdate=$d;
+        }
+    }
     foreach($DEVELOPER->sviluppo as $flusso){
         $DATA=$flusso["DATA"];
         $DATAFLUSSO=substr($DATA,6,2)."/".substr($DATA,4,2)."/".substr($DATA,0,4);
@@ -127,9 +141,23 @@ function pluto_preview($DEVELOPER){
             }
         }
         $HTML.="</tr>";
-        $totale+=$TOT;
+        $d=date_create(substr($DATA,0,4)."-".substr($DATA,4,2)."-".substr($DATA,6,2));
+        if($mindate===false){
+            $mindate=$d;
+        }
+        $totale+=$TOT/pow(1+$DEVELOPER->attualizzazione/100, ry_datediff365($mindate, $d)/365 );
+        if($TOT>0)
+            $totalestar+=$TOT*pow(1+$DEVELOPER->reinvestimento/100, ry_datediff($d, $maxdate)/365 );
+        elseif($TOT<0)
+            $totaleinvest+=$TOT/pow(1+$DEVELOPER->attualizzazione/100, ry_datediff($mindate, $d)/365 );
+
     }
     $HTML.="<tr>";
+    
+    if($mindate!==false && $maxdate!==false)
+        $totalestar=$totalestar/pow(1+$DEVELOPER->attualizzazione/100, ry_datediff365($mindate, $maxdate)/365 );
+    $totalestar+=$totaleinvest;    
+    /*
     if($DEVELOPER->swap)
         $HTML.="<td colspan='7'></td>";
     else
@@ -137,6 +165,7 @@ function pluto_preview($DEVELOPER){
     $HTML.="<td><div class='winz-cell-right'>&nbsp;</div></td>";
     $HTML.="<td><div class='winz-cell-right' style='color:maroon'>".pluto_numero($totale, 2)."</div></td>";
     $HTML.="</tr>";
+    */
     
     $HTML.="</table>";
     $HTML.="<br/>";
@@ -170,6 +199,12 @@ function pluto_preview($DEVELOPER){
         $HTML.="</div></td></tr>";
         $HTML.="<tr><td>TAEG:&nbsp;</td><td><div style='text-align:right;'>";
         $HTML.=pluto_numero(100*$TAEG, 4);
+        $HTML.="</div></td></tr>";
+        $HTML.="<tr><td>VAN:&nbsp;</td><td><div style='text-align:right;'>";
+        $HTML.=pluto_numero($totale, 2);
+        $HTML.="</div></td></tr>";
+        $HTML.="<tr><td>VAN*:&nbsp;</td><td><div style='text-align:right;'>";
+        $HTML.=pluto_numero($totalestar, 2);
         $HTML.="</div></td></tr>";
         $HTML.="</table>";
     }

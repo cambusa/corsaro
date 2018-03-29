@@ -62,11 +62,26 @@ function class_qvmovimenti(settings,missing){
     
     // RICERCA MOVIMENTI
     $(prefix+"lbf_search").rylabel({left:20, top:offsety, caption:"Ricerca"});
-    var txf_search=$(prefix+"txf_search").rytext({left:100, top:offsety, width:450, 
+    var txf_search=$(prefix+"txf_search").rytext({left:100, top:offsety, width:150, 
         assigned:function(){
             refreshselection();
         }
     });
+    
+    $(prefix+"lbf_limit").rylabel({left:300, top:offsety, caption:"Limite"});
+    var txf_limit=$(prefix+"txf_limit").rylist({left:400, top:offsety, width:150, 
+        assigned:function(){
+            //refreshselection();
+        }
+    });
+    txf_limit
+        .additem({caption:"1.000 movimenti", key:1000})
+        .additem({caption:"10.000 movimenti", key:10000})
+        .additem({caption:"50.000 movimenti", key:50000})
+        .additem({caption:"100.000 movimenti", key:100000})
+        .additem({caption:"250.000 movimenti", key:250000})
+        .additem({caption:"500.000 movimenti", key:500000});
+    
     offsety+=30;
     
     $(prefix+"lbf_genre").rylabel({left:20, top:offsety, caption:"Divisa*"});
@@ -153,6 +168,7 @@ function class_qvmovimenti(settings,missing){
             var datamin=txf_datemin.text();
             var datamax=txf_datemax.text();
             var amount=txf_amount.value();
+            var limit=txf_limit.key();
 
             oper_new.enabled( genreid!="" && motiveid!="" );
             
@@ -173,6 +189,7 @@ function class_qvmovimenti(settings,missing){
                 q+=" AND (AMOUNT>="+(amount*0.95)+" AND AMOUNT<="+(amount*1.05)+")";
 
             objgridsel.where(q);
+            objgridsel.limit(limit);
             objgridsel.query({
                 args:{
                     "DESCRIPTION":t,
@@ -590,7 +607,9 @@ function class_qvmovimenti(settings,missing){
     RYWINZ.KeyTools(formid, objtabs);
     RYBOX.localize(_sessioninfo.language, formid,
         function(){
-            txf_genre.value(curreuroid, true);
+            // Tolta: riduce le prestazioni 
+            //txf_genre.value(curreuroid, true);
+            refreshselection();
             winzClearMess(formid);
             txf_search.focus();
         }

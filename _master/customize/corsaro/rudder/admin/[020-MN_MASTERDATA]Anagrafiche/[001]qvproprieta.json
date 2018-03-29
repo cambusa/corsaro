@@ -1,10 +1,10 @@
 {
     "type":"form",
-    "title":"Propriet&agrave;",
+    "title":"Societ&agrave;",
     "babelcode":"MN_OWNERSHIP",
     "params":{
         "name":"qvproprieta",
         "path":"qvanagrafiche/",
-        "title":"Propriet&agrave;"
+        "title":"Societ&agrave;"
     }
 }

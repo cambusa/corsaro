@@ -842,10 +842,15 @@ var globalcolorfocus="#FFF4E6";
                 if(settings.exception!=missing){settings.exception(propobj)}
             }
 			function manageclear(cast){
-				if(!propobj.isempty() && (cast || !propfocusout))
-					$("#"+propname+"_clear").show();
-				else
-					$("#"+propname+"_clear").hide();
+				if(propenabled){
+                    if(!propobj.isempty() && (cast || !propfocusout))
+                        $("#"+propname+"_clear").show();
+                    else
+                        $("#"+propname+"_clear").hide();
+                }
+                else{
+                    $("#"+propname+"_clear").hide();
+                }
 			}
             if(!propenabled)
                 propobj.enabled(0);
@@ -1767,10 +1772,15 @@ var globalcolorfocus="#FFF4E6";
                 objectFocus(propname);
             }
 			function manageclear(cast){
-				if(!propobj.isempty() && (cast || !propfocusout))
-					$("#"+propname+"_clear").show();
-				else
-					$("#"+propname+"_clear").hide();
+                if(propenabled){
+                    if(!propobj.isempty() && (cast || !propfocusout))
+                        $("#"+propname+"_clear").show();
+                    else
+                        $("#"+propname+"_clear").hide();
+                }
+                else{
+                    $("#"+propname+"_clear").hide();
+                }
 			}
             if(!propenabled)
                 propobj.enabled(0);
@@ -2143,10 +2153,15 @@ var globalcolorfocus="#FFF4E6";
 				}
 			}
 			function manageclear(cast){
-				if($("#"+propname+"_anchor").val()!="" && (cast || !propfocusout))
-					$("#"+propname+"_clear").show();
-				else
-					$("#"+propname+"_clear").hide();
+                if(propenabled){
+                    if($("#"+propname+"_anchor").val()!="" && (cast || !propfocusout))
+                        $("#"+propname+"_clear").show();
+                    else
+                        $("#"+propname+"_clear").hide();
+                }
+                else{
+                    $("#"+propname+"_clear").hide();
+                }
 			}
             if(!propenabled)
                 propobj.enabled(0);

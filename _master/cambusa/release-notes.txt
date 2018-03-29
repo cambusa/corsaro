@@ -1,4 +1,14 @@
 ==================================
+Rilascio v2.0.30    del 29/03/2018
+==================================
+
+ryVlad: corretti errori di sintassi nelle espressioni regolari
+
+Aggiunto il massimo di record estratti in manutenzione movimenti
+
+Pluto: calcolo dell'NPV modificato
+
+==================================
 Rilascio v2.0.29    del 05/03/2018
 ==================================
 

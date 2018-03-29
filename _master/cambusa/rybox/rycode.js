@@ -705,10 +705,15 @@ var _globalcodeinsert=_$($.cookie("codeinsert"), 1).booleanNumber();
                 propchanged=false;
             }
             function manageclear(cast){
-                if(propcode!="" && (cast || !propfocusout))
-                    $("#"+propname+"_clear").show();
-                else
+                if(propenabled){
+                    if(propcode!="" && (cast || !propfocusout))
+                        $("#"+propname+"_clear").show();
+                    else
+                        $("#"+propname+"_clear").hide();
+                }
+                else{
                     $("#"+propname+"_clear").hide();
+                }
             }
             if(!propenabled)
                 propobj.enabled(0);

@@ -145,6 +145,12 @@ function qv_pluto_execute($maestro, $data){
                 $DEVELOPER->dvspag=intval($DEVELOPER->parametri["DVSPAG"]);
             }
         }
+        if(isset($DEVELOPER->parametri["ATTUALIZZAZIONE"])){
+            $DEVELOPER->attualizzazione=floatval($DEVELOPER->parametri["ATTUALIZZAZIONE"]);
+        }
+        if(isset($DEVELOPER->parametri["REINVESTIMENTO"])){
+            $DEVELOPER->reinvestimento=floatval($DEVELOPER->parametri["REINVESTIMENTO"]);
+        }
         // ARRICCHISCO I PARAMETRI CON VOCI AD USO INTERNO
         $DEVELOPER->parametri["_CONTROID"]=$CONTROID;
         $DEVELOPER->parametri["_GENREID"]=$GENREID;

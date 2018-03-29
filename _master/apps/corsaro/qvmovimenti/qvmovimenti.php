@@ -17,6 +17,7 @@
 <div relid="tabs" >
     <div>
         <div relid="lbf_search"></div><div relid="txf_search"></div>
+        <div relid="lbf_limit"></div><div relid="txf_limit"></div>
         <div relid="lbf_genre"></div><div relid="txf_genre"></div>
         <div relid="lbf_motives"></div><div relid="txf_motives"></div>
         <div relid="lbf_conto"></div><div relid="txf_conto"></div>

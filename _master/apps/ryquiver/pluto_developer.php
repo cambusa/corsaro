@@ -34,6 +34,7 @@ class ryDeveloper{
     public $sviluppo;
     public $swap;
     public $simulazione;
+    public $reinvestimento;
     
     function __construct(){
         $this->maestro=false;
@@ -60,6 +61,8 @@ class ryDeveloper{
         $this->sviluppo=array();
         $this->swap=false;
         $this->simulazione=false;
+        $this->attualizzazione=0;
+        $this->reinvestimento=0;
     }
     public function datediff($d1, $d2){
         $d1=date_create(substr($d1,0,4)."-".substr($d1,4,2)."-".substr($d1,6,2));
