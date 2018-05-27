@@ -1700,7 +1700,7 @@ function class_qvpratiche(settings,missing){
         caption:"Elimina selezione",
         button:true,
         click:function(o){
-            qv_filedelete(formid, griddocs,
+            qv_filedelete(formid, griddocs, "", 
                 function(){
                     setTimeout(function(){gridattivita.dataload()}, 100);
                 }

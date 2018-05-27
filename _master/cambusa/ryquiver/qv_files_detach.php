@@ -18,14 +18,21 @@ function qv_files_detach($maestro, $data){
         $message="Operazione riuscita";
         $SYSID="";
         $FILEID="";
+        
+        $RECORDID="";
+        if(isset($data["EXCLUDEDID"]))
+            $EXCLUDEDID=$data["EXCLUDEDID"];
+        else
+            $EXCLUDEDID="";
 
         // INDIVIDUAZIONE RECORD
         qv_solverecord($maestro, $data, "QVTABLEFILE", "SYSID", "", $SYSID);
         if($SYSID!=""){
             // DETERMINO FILEID
-            maestro_query($maestro,"SELECT FILEID FROM QVTABLEFILE WHERE SYSID='$SYSID'",$r);
+            maestro_query($maestro,"SELECT FILEID,RECORDID FROM QVTABLEFILE WHERE SYSID='$SYSID'",$r);
             if(count($r)==1){
                 $FILEID=$r[0]["FILEID"];
+                $RECORDID=$r[0]["RECORDID"];
             }
         }
         else{
@@ -33,9 +40,10 @@ function qv_files_detach($maestro, $data){
             qv_tripletattach($maestro, $data, $TABLENAME, $RECORDID, $FILEID);
 
             // DETERMINO SYSID
-            maestro_query($maestro,"SELECT SYSID FROM QVTABLEFILE WHERE [:UPPER(TABLENAME)]='".strtoupper($TABLENAME)."' AND RECORDID='$RECORDID' AND FILEID='$FILEID'",$r);
+            maestro_query($maestro,"SELECT SYSID,RECORDID FROM QVTABLEFILE WHERE [:UPPER(TABLENAME)]='".strtoupper($TABLENAME)."' AND RECORDID='$RECORDID' AND FILEID='$FILEID'",$r);
             if(count($r)==1){
                 $SYSID=$r[0]["SYSID"];
+                $RECORDID=$r[0]["RECORDID"];
             }
             else{
                 $babelcode="QVERR_NOATTACH";
@@ -45,17 +53,22 @@ function qv_files_detach($maestro, $data){
             }
         }
         
-        // CANCELLO IL LEGAME DALLA TABELLA CROSS
-        $sql="DELETE FROM QVTABLEFILE WHERE SYSID='$SYSID'";
-        if(maestro_execute($maestro, $sql, false)){
-            $babelparams["FILEID"]=$FILEID;
+        if($RECORDID!=$EXCLUDEDID){
+            // CANCELLO IL LEGAME DALLA TABELLA CROSS
+            $sql="DELETE FROM QVTABLEFILE WHERE SYSID='$SYSID'";
+            if(maestro_execute($maestro, $sql, false)){
+                $babelparams["FILEID"]=$FILEID;
+            }
+            else{
+                $babelcode="QVERR_EXECUTE";
+                $trace=debug_backtrace();
+                $b_params=array("FUNCTION" => $trace[0]["function"] );
+                $b_pattern=$maestro->errdescr;
+                throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+            }
         }
         else{
-            $babelcode="QVERR_EXECUTE";
-            $trace=debug_backtrace();
-            $b_params=array("FUNCTION" => $trace[0]["function"] );
-            $b_pattern=$maestro->errdescr;
-            throw new Exception( qv_babeltranslate($b_pattern, $b_params) );
+            $babelparams["FILEID"]=$FILEID;
         }
     }
     catch(Exception $e){

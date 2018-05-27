@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.31    del 27/05/2018
+==================================
+
+Cancellazione allegati: gli allegato ereditati dalla tipologia non vengono più cancellati.
+
+==================================
 Rilascio v2.0.30    del 29/03/2018
 ==================================
 
