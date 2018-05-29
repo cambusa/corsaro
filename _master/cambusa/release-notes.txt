@@ -1,4 +1,10 @@
 ==================================
+Rilascio v2.0.32    del 29/05/2018
+==================================
+
+Aggiunto pathseg.js a SVG-Edit per ovviare ai problemi di incompatibilità con i browser
+
+==================================
 Rilascio v2.0.31    del 27/05/2018
 ==================================
 

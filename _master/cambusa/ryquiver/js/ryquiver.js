@@ -160,7 +160,7 @@ function qv_bulkdelete(formid, objgrid, prefix){
         }
     });
 }
-function qv_filedelete(formid, objgrid, after, missing){
+function qv_filedelete(formid, objgrid, excludedid, after, missing){
     winzMessageBox(formid, {
         message:RYBOX.babels("MSG_DELETESELROWS"),
         ok:RYBOX.babels("BUTTON_DELETE"),
@@ -171,19 +171,20 @@ function qv_filedelete(formid, objgrid, after, missing){
                     s=s.split("|");
                     var stats=[];
                     for(var i in s){    // Carico le istruzioni di cancellazione
-                        stats[2*i]={
+                        stats.push({
                             "function":"files_detach",
                             "data":{
-                                "SYSID":s[i]
+                                "SYSID":s[i],
+                                "EXCLUDEDID": excludedid
                             },
                             "pipe":{
                                 "SYSID":"#FILEID"
                             }
-                        };
-                        stats[2*i+1]={
+                        });
+                        stats.push({
                             "function":"files_delete",
                             "data":{}
-                        };
+                        });
                     }
                     $.engage(_systeminfo.relative.cambusa+"ryquiver/quiver.php", 
                         {
@@ -279,6 +280,8 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     var loadedsysid="";
     var filecrossid="";
     var filesysid="";
+    var tipologyid="";
+    var propobj=this; 
     var merge=missing;
     var paramchangerow=missing;
     var paramsolveid=missing;
@@ -335,7 +338,8 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             columns:[
                 {id:"DESCRIPTION", caption:"Descrizione", width:230, code:"FILE_DESCRIPTION"},
                 {id:"AUXTIME", caption:"Data", width:90, type:"/", code:"FILE_DATE"},
-                {id:"SORTER", caption:"", width:38, type:0}
+                {id:"SORTER", caption:"", width:38, type:0},
+                {id:"RECORDID", caption:"", width:0, type:""}
             ],
             orderby: "SORTER,AUXTIME DESC,FILEID DESC",
             changerow:function(o,i){
@@ -743,7 +747,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
             formid:formid,
             button:true,
             click:function(o){
-                qv_filedelete(formid, objgriddocs,
+                qv_filedelete(formid, objgriddocs, propobj.tipologyid, 
                     function(){
                         if(paramupdate!=missing){
                             setTimeout(function(){paramupdate("")}, 100);
@@ -756,6 +760,7 @@ function qv_filemanager(objform, formid, tablename, params, missing){
     this.initialize=function(sysid, context, typologyid, missing){
         if(lb_docs_context){
             lb_docs_context.caption(context);
+            propobj.tipologyid=typologyid;
             if(sysid!=loadedsysid){
                 if(window.console&&_sessioninfo.debugmode){console.log("Caricamento documenti "+sysid)}
                 currsysid=sysid;
