@@ -442,6 +442,38 @@
                         propobj.dataload();
                     }
                 );
+                
+                //attivo lo swipe    
+                $("#"+propname).swipe( {
+                    swipeUp:function(event, direction, distance, duration) {
+                        // console.log("UP:You swiped " + direction)
+                        propobj.pagedown(1);
+                        propobj.dataload();
+                    },
+                    
+                    swipeDown:function(event, direction, distance, duration) {
+                        // console.log("DOWN:You swiped " + direction) 
+                        
+                        propobj.pageup(1);
+                        propobj.dataload();
+                    },
+                    swipeLeft:function(event, direction, distance, duration) {
+                        // console.log("Left:You swiped " + direction)
+                        scrollRight();
+                    },
+                    swipeRight:function(event, direction, distance, duration) {
+                        // console.log("Right:You swiped " + direction)
+                        
+                        scrollLeft();
+                    },
+                    click:function(event, target) { 
+                        
+                        
+                    },
+                    threshold:100,
+                    allowPageScroll:"vertical"
+                });
+                
                 $("#"+propname+"_vscroll").mousedown(
                     function(evt){
                         if(!propenabled){return}
@@ -1742,6 +1774,14 @@
 					propeditmode=v.actualBoolean();
                 return propeditmode;
 			}
+            this.colwidth=function(c, v){
+                propdims[c-1]=v;
+                if(v>0){
+                    $("#"+propname+" .column_"+c).css({"position":"absolute","visibility":"visible"});
+                    $("#"+propname+"_sep"+c).css({"position":"absolute","visibility":"visible"});
+                }
+                fitcolumns();
+            }
             this.focus=function(){
                 if(RYBOX)
                     castFocus(propname);

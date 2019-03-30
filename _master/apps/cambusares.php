@@ -85,6 +85,7 @@ RYBOX;
             CambusaLibraryAdd("jquery.ui.draggable.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.draggable.js' ></script>");
             CambusaLibraryAdd("jquery.ui.resizable.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.resizable.js' ></script>");
             //CambusaLibraryAdd("jquery.ui.dialog.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.dialog.js' ></script>");
+            CambusaLibraryAdd("touchswipe.js", "<script type='text/javascript' src='".$url_cambusa."jquery/touchswipe.js' ></script>");
 			break;
             
         case "ryque":
@@ -96,6 +97,7 @@ RYBOX;
             CambusaLibraryAdd("jquery.ui.mouse.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.mouse.js'></script>");
             CambusaLibraryAdd("jquery.ui.draggable.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.draggable.js'></script>");
             CambusaLibraryAdd("jquery.ui.mousewheel.js", "<script type='text/javascript' src='".$url_cambusa."jquery/jquery.ui.mousewheel.js'></script>");
+            CambusaLibraryAdd("touchswipe.js", "<script type='text/javascript' src='".$url_cambusa."jquery/touchswipe.js' ></script>");
             CambusaLibraryAdd("rygeneral.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/rygeneral.js?ver=$cacheversion' ></script>");
             CambusaLibraryAdd("script-cambusa", $script_cambusa);
             CambusaLibraryAdd("ryque.js", "<script type='text/javascript' src='".$url_cambusa."ryque/ryque.js?ver=$cacheversion' ></script>");

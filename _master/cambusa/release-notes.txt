@@ -1,4 +1,11 @@
 ==================================
+Rilascio v2.0.33    del 30/03/2019
+==================================
+
+ryUnbound: aggiunto il metodo colwidth.
+ryUnbound, ryQue: aggiunto lo scroll per touchscreen.
+
+==================================
 Rilascio v2.0.32    del 29/05/2018
 ==================================
 

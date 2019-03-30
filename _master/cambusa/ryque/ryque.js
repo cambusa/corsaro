@@ -395,6 +395,39 @@ var globalryqueattempts=0;
                         propobj.dataload();
                     }
                 );
+                
+                
+                //attivo lo swipe    
+                $("#"+propname).swipe( {
+                    swipeUp:function(event, direction, distance, duration) {
+                        // console.log("UP:You swiped " + direction)
+                        propobj.pagedown(1);
+                        propobj.dataload();
+                    },
+                    
+                    swipeDown:function(event, direction, distance, duration) {
+                        // console.log("DOWN:You swiped " + direction) 
+                        
+                        propobj.pageup(1);
+                        propobj.dataload();
+                    },
+                    swipeLeft:function(event, direction, distance, duration) {
+                        // console.log("Left:You swiped " + direction)
+                        propobj.rowright();
+                    },
+                    swipeRight:function(event, direction, distance, duration) {
+                        // console.log("Right:You swiped " + direction)
+                        
+                        propobj.rowleft();
+                    },
+                    click:function(event, target) { 
+                        
+                        
+                    },
+                    threshold:100,
+                    allowPageScroll:"vertical"
+                });
+                
                 $("#"+propname+"_vscroll").mousedown(
                     function(evt){
                         if(!propenabled){return}
