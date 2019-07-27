@@ -1,0 +1,5 @@
+<?php
+
+$google_apikey="";
+
+?>

@@ -15,7 +15,7 @@ $include_lib=Array();
 
 function CambusaLibrary($id){
     global $url_base, $url_cambusa, $url_applications, $url_customize;
-    global $path_root, $path_cambusa, $path_applications, $path_customize;
+    global $path_root, $path_cambusa, $path_applications, $path_customize, $path_databases;
     global $relative_base;
     global $include_lib, $google_maps, $google_zoom, $google_lat, $google_lng;
     global $cacheversion;
@@ -238,7 +238,8 @@ RYBOX;
             if($google_maps){
                 CambusaLibraryAdd("script-google", $script_gmaps);
                 //CambusaLibraryAdd("googleapis.js", "<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=it'></script>");
-				CambusaLibraryAdd("googlekey.js", "<script async defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBwsoPEPXLjtfQo2fcEJQV4Fg3kLCAIL50&language=it' type='text/javascript'></script>");
+                $google_apikey="";
+				CambusaLibraryAdd("googlekey.js", "<script async defer src='https://maps.googleapis.com/maps/api/js?key=".$google_apikey."&language=it' type='text/javascript'></script>");
                 CambusaLibraryAdd("googlemaps.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/googlemaps.js' ></script>");
             }
             break;
