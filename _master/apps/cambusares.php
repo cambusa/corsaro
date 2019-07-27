@@ -239,6 +239,7 @@ RYBOX;
                 CambusaLibraryAdd("script-google", $script_gmaps);
                 //CambusaLibraryAdd("googleapis.js", "<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=it'></script>");
                 $google_apikey="";
+                @include($path_databases."_configs/google.php");
 				CambusaLibraryAdd("googlekey.js", "<script async defer src='https://maps.googleapis.com/maps/api/js?key=".$google_apikey."&language=it' type='text/javascript'></script>");
                 CambusaLibraryAdd("googlemaps.js", "<script type='text/javascript' src='".$url_cambusa."rygeneral/googlemaps.js' ></script>");
             }
