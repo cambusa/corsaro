@@ -1,4 +1,11 @@
 ==================================
+Rilascio v2.0.34    del 27/07/2019
+==================================
+
+ryQue, ryUnbound: tolto lo swipe per problemi di scroll.
+ryQue, ryUnbound: mouse+ctrl oppure shift+ctrl per deselezionare.
+
+==================================
 Rilascio v2.0.33    del 30/03/2019
 ==================================
 

@@ -220,9 +220,16 @@
                             break;
                         case 40:
                             if(propshift){
-                                selectrow(propindex, true);
-                                propobj.rowdown();
-                                selectrow(propindex, true);
+                                if(propctrl){
+                                    selectrow(propindex, true, false);
+                                    propobj.rowdown();
+                                    selectrow(propindex, true, false);
+                                }
+                                else{
+                                    selectrow(propindex, true);
+                                    propobj.rowdown();
+                                    selectrow(propindex, true);
+                                }
                             }
                             else if(propctrl){
                                 propobj.index(proptoprow+proprows-1)
@@ -232,9 +239,16 @@
                             break;
                         case 38:
                             if(propshift){
-                                selectrow(propindex, true);
-                                propobj.rowup();
-                                selectrow(propindex, true);
+                                if(propctrl){
+                                    selectrow(propindex, true, false);
+                                    propobj.rowup();
+                                    selectrow(propindex, true, false);
+                                }
+                                else{
+                                    selectrow(propindex, true);
+                                    propobj.rowup();
+                                    selectrow(propindex, true);
+                                }
                             }
                             else if(propctrl)
                                 propobj.index(proptoprow);
@@ -246,70 +260,7 @@
                         case 32:propobj.seltoggle(0);break;
                         case 13:
                             if(propeditmode && propctrl){
-                                if(settings.edit!=missing){
-                                    var p0=$( "#"+propname+"_"+(propindex-proptoprow+1)+"_"+propcolumn ).position();
-                                    var p1=$( "#"+propname+"_tr"+(propindex-proptoprow+1) ).position();
-                                    var p2=$( "#"+propname+"_grid" ).position();
-                                    var p3=$( "#"+propname+"_outgrid" ).position();
-                                    var id=propcols[propcolumn-1];
-                                    var t=proptyps[propcolumn-1];
-                                    var worig=$( "#"+propname+"_"+(propindex-proptoprow+1)+"_"+propcolumn ).width();
-                                    var w=worig+12;
-                                    var l=propleft+p0.left+p1.left+p2.left+p3.left;
-                                    var info={
-                                        id:id, 
-                                        row:propindex, 
-                                        col:propcolumn, 
-                                        width:w, 
-                                        height:proprowh, 
-                                        left:l, 
-                                        top:proptop+p0.top+p1.top+p2.top+p3.top, 
-                                        type:t, 
-                                        value:__(propobj.matrix[propindex-1][id]),
-                                        editor:false
-                                    };
-                                    settings.edit(propobj, info);
-                                    if(info.editor){
-                                        // Metodi in uscita
-                                        info.back=function(v){
-                                            if(v==missing){
-                                                if(info.editor.type=="list")
-                                                    v=info.editor.key();
-                                                else
-                                                    v=info.editor.value();
-                                                if(v==null)
-                                                    v="";
-                                            }
-                                            propobj.cells(propindex, id, v);
-                                            propobj.refresh();
-                                            propobj.focus();
-                                        };
-                                        info.abandon=function(){
-                                            info.editor.visible(0);
-                                            propobj.focus();
-                                        };
-                                        // Posizionamento dell'editor
-                                        if(info.editor.type=="check")
-                                            info.left+=Math.floor(worig/2);
-                                        info.editor.move({"left":info.left, "top":info.top, "width":info.width});
-                                        // Valorizzazione dell'editor
-                                        if(info.editor.type=="list")
-                                            info.editor.setkey(info.value);
-                                        else
-                                            info.editor.value(info.value);
-                                        
-                                        // Eventuale disabilitazione dell'helper
-                                        //if(info.editor.type.match(/^(date|number|code)$/))
-                                        //    info.editor.helper(0);
-                                        
-                                        // Se l'editor è numerico, disabilito l'incremento mediante frecce
-                                        if(info.editor.type=="number")
-                                            info.editor.incremental(0);
-                                        // Show e focus
-                                        info.editor.visible(1);
-                                        RYBOX.setfocus(info.editor.name());
-                                    }
-                                }
+                                editmanagement();
                             }
                             else if(settings.enter!=missing){
                                 settings.enter(propobj, propindex);
@@ -377,9 +328,16 @@
                                 case 33:if(proppageon==0){proppageon=1}propobj.pageup(1);break;
                                 case 40:
                                     if(propshift){
-                                        selectrow(propindex, false);
-                                        propobj.rowdown();
-                                        selectrow(propindex, true);
+                                        if(propctrl){
+                                            selectrow(propindex, false, false);
+                                            propobj.rowdown();
+                                            selectrow(propindex, true, false);
+                                        }
+                                        else{
+                                            selectrow(propindex, false);
+                                            propobj.rowdown();
+                                            selectrow(propindex, true);
+                                        }
                                         return false;
                                     }
                                     else
@@ -387,9 +345,16 @@
                                     break;
                                 case 38:
                                     if(propshift){
-                                        selectrow(propindex, false);
-                                        propobj.rowup();
-                                        selectrow(propindex, true);
+                                        if(propctrl){
+                                            selectrow(propindex, false, false);
+                                            propobj.rowup();
+                                            selectrow(propindex, true, false);
+                                        }
+                                        else{
+                                            selectrow(propindex, false);
+                                            propobj.rowup();
+                                            selectrow(propindex, true);
+                                        }
                                         return false;
                                     }
                                     else
@@ -444,6 +409,7 @@
                 );
                 
                 //attivo lo swipe    
+                /*
                 $("#"+propname).swipe( {
                     swipeUp:function(event, direction, distance, duration) {
                         // console.log("UP:You swiped " + direction)
@@ -473,6 +439,7 @@
                     threshold:100,
                     allowPageScroll:"vertical"
                 });
+                */
                 
                 $("#"+propname+"_vscroll").mousedown(
                     function(evt){
@@ -743,14 +710,14 @@
                                 if(reff>propmouseprev){
                                     for(var m=propmouseprev; m<=reff; m++){
                                         propsuspendchange=true;
-                                        selectrow(m, true, !evt.shiftKey);
+                                        selectrow(m, true, !evt.ctrlKey);
                                     }
                                     propmouseprev=reff;
                                 }
                                 else if(reff<propmouseprev){
                                     for(var m=propmouseprev; m>=reff; m--){
                                         propsuspendchange=true;
-                                        selectrow(m, true, !evt.shiftKey);
+                                        selectrow(m, true, !evt.ctrlKey);
                                     }
                                     propmouseprev=reff;
                                 }
@@ -765,34 +732,40 @@
                 $("#"+propname).dblclick(
                     function(evt){
                         if(!propenabled){return}
-                        var tid=evt.target.id;
-                        var r,c;
-                        if(tid.indexOf("_tr")>0){
-                            r=parseInt(tid.replace(/^.*_tr(\d+)$/,"$1"));
-                            c=-1;
-                        }
-                        else if(tid.indexOf("_zr")>0){
-                            r=parseInt(tid.replace(/^.*_zr(\d+)$/,"$1"));
-                            c=0;
+                        if(propeditmode){
+                            editmanagement();
                         }
                         else{
-                            r=parseInt(tid.replace(/^.*_(\d+)_\d+$/,"$1"));
-                            c=parseInt(tid.replace(/^.*_\d+_(\d+)$/,"$1"));
-                            if(r<=propcount){
-                                if(settings.cellclick!=missing){
-									var reff=proptoprow+r-1; 
-                                    setTimeout(function(){settings.cellclick(propobj, reff ,c)}, 50);
+                            var tid=evt.target.id;
+                            var r,c;
+                            if(tid.indexOf("_tr")>0){
+                                r=parseInt(tid.replace(/^.*_tr(\d+)$/,"$1"));
+                                c=-1;
+                            }
+                            else if(tid.indexOf("_zr")>0){
+                                r=parseInt(tid.replace(/^.*_zr(\d+)$/,"$1"));
+                                c=0;
+                            }
+                            else{
+                                r=parseInt(tid.replace(/^.*_(\d+)_\d+$/,"$1"));
+                                c=parseInt(tid.replace(/^.*_\d+_(\d+)$/,"$1"));
+                                if(r<=propcount){
+                                    if(settings.cellclick!=missing){
+                                        var reff=proptoprow+r-1; 
+                                        setTimeout(function(){settings.cellclick(propobj, reff ,c)}, 50);
+                                    }
                                 }
                             }
-                        }
-                        if(r>0 && ((c!=0 && propcheckable) || !propcheckable)){
-                            r=proptoprow+r-1;
-                            if(r<=propcount){
-                                // Gestione eventi e callback
-                                if(settings.enter!=missing){
-                                    setTimeout(function(){settings.enter(propobj,r)}, 200);
+                            if(r>0 && ((c!=0 && propcheckable) || !propcheckable)){
+                                r=proptoprow+r-1;
+                                if(r<=propcount){
+                                    // Gestione eventi e callback
+                                    if(settings.enter!=missing){
+                                        setTimeout(function(){settings.enter(propobj,r)}, 200);
+                                    }
                                 }
                             }
+                         
                         }
                     }
                 );
@@ -2497,6 +2470,72 @@
                 if(cng){
                     $("#"+propname+"_grid").css({"left":-propleftcol});
                     propobj.hscrefresh();
+                }
+            }
+            function editmanagement(){
+                if(settings.edit!=missing){
+                    var p0=$( "#"+propname+"_"+(propindex-proptoprow+1)+"_"+propcolumn ).position();
+                    var p1=$( "#"+propname+"_tr"+(propindex-proptoprow+1) ).position();
+                    var p2=$( "#"+propname+"_grid" ).position();
+                    var p3=$( "#"+propname+"_outgrid" ).position();
+                    var id=propcols[propcolumn-1];
+                    var t=proptyps[propcolumn-1];
+                    var worig=$( "#"+propname+"_"+(propindex-proptoprow+1)+"_"+propcolumn ).width();
+                    var w=worig+12;
+                    var l=propleft+p0.left+p1.left+p2.left+p3.left;
+                    var info={
+                        id:id, 
+                        row:propindex, 
+                        col:propcolumn, 
+                        width:w, 
+                        height:proprowh, 
+                        left:l, 
+                        top:proptop+p0.top+p1.top+p2.top+p3.top, 
+                        type:t, 
+                        value:__(propobj.matrix[propindex-1][id]),
+                        editor:false
+                    };
+                    settings.edit(propobj, info);
+                    if(info.editor){
+                        // Metodi in uscita
+                        info.back=function(v){
+                            if(v==missing){
+                                if(info.editor.type=="list")
+                                    v=info.editor.key();
+                                else
+                                    v=info.editor.value();
+                                if(v==null)
+                                    v="";
+                            }
+                            propobj.cells(propindex, id, v);
+                            propobj.refresh();
+                            propobj.focus();
+                        };
+                        info.abandon=function(){
+                            info.editor.visible(0);
+                            propobj.focus();
+                        };
+                        // Posizionamento dell'editor
+                        if(info.editor.type=="check")
+                            info.left+=Math.floor(worig/2);
+                        info.editor.move({"left":info.left, "top":info.top, "width":info.width});
+                        // Valorizzazione dell'editor
+                        if(info.editor.type=="list")
+                            info.editor.setkey(info.value);
+                        else
+                            info.editor.value(info.value);
+                        
+                        // Eventuale disabilitazione dell'helper
+                        //if(info.editor.type.match(/^(date|number|code)$/))
+                        //    info.editor.helper(0);
+                        
+                        // Se l'editor è numerico, disabilito l'incremento mediante frecce
+                        if(info.editor.type=="number")
+                            info.editor.incremental(0);
+                        // Show e focus
+                        info.editor.visible(1);
+                        RYBOX.setfocus(info.editor.name());
+                    }
                 }
             }
 			return this;

@@ -246,9 +246,16 @@ var globalryqueattempts=0;
                             break;
                         case 40:
                             if(propshift){
-                                selectrow(propindex, true);
-                                propobj.rowdown();
-                                selectrow(propindex, true);
+                                if(propctrl){
+                                    selectrow(propindex, true, false);
+                                    propobj.rowdown();
+                                    selectrow(propindex, true, false);
+                                }
+                                else{
+                                    selectrow(propindex, true);
+                                    propobj.rowdown();
+                                    selectrow(propindex, true);
+                                }
                             }
                             else if(propctrl){
                                 propobj.index(proptoprow+proprows-1)
@@ -258,9 +265,16 @@ var globalryqueattempts=0;
                             break;
                         case 38:
                             if(propshift){
-                                selectrow(propindex, true);
-                                propobj.rowup();
-                                selectrow(propindex, true);
+                                if(propctrl){
+                                    selectrow(propindex, true, false);
+                                    propobj.rowup();
+                                    selectrow(propindex, true, false);
+                                }
+                                else{
+                                    selectrow(propindex, true);
+                                    propobj.rowup();
+                                    selectrow(propindex, true);
+                                }
                             }
                             else if(propctrl)
                                 propobj.index(proptoprow);
@@ -330,9 +344,16 @@ var globalryqueattempts=0;
                                 case 33:if(proppageon==0){proppageon=1}propobj.pageup(1);break;
                                 case 40:
                                     if(propshift){
-                                        selectrow(propindex, false);
-                                        propobj.rowdown();
-                                        selectrow(propindex, true);
+                                        if(propctrl){
+                                            selectrow(propindex, false, false);
+                                            propobj.rowdown();
+                                            selectrow(propindex, true, false);
+                                        }
+                                        else{
+                                            selectrow(propindex, false);
+                                            propobj.rowdown();
+                                            selectrow(propindex, true);
+                                        }
                                         return false;
                                     }
                                     else
@@ -340,9 +361,16 @@ var globalryqueattempts=0;
                                     break;
                                 case 38:
                                     if(propshift){
-                                        selectrow(propindex, false);
-                                        propobj.rowup();
-                                        selectrow(propindex, true);
+                                        if(propctrl){
+                                            selectrow(propindex, false, false);
+                                            propobj.rowup();
+                                            selectrow(propindex, true, false);
+                                        }
+                                        else{
+                                            selectrow(propindex, false);
+                                            propobj.rowup();
+                                            selectrow(propindex, true);
+                                        }
                                         return false;
                                     }
                                     else
@@ -398,6 +426,7 @@ var globalryqueattempts=0;
                 
                 
                 //attivo lo swipe    
+                /*
                 $("#"+propname).swipe( {
                     swipeUp:function(event, direction, distance, duration) {
                         // console.log("UP:You swiped " + direction)
@@ -427,6 +456,7 @@ var globalryqueattempts=0;
                     threshold:100,
                     allowPageScroll:"vertical"
                 });
+                */
                 
                 $("#"+propname+"_vscroll").mousedown(
                     function(evt){
@@ -683,14 +713,14 @@ var globalryqueattempts=0;
                                 if(reff>propmouseprev){
                                     for(var m=propmouseprev; m<=reff; m++){
                                         propsuspendchange=true;
-                                        selectrow(m, true, !evt.shiftKey);
+                                        selectrow(m, true, !evt.ctrlKey);
                                     }
                                     propmouseprev=reff;
                                 }
                                 else if(reff<propmouseprev){
                                     for(var m=propmouseprev; m>=reff; m--){
                                         propsuspendchange=true;
-                                        selectrow(m, true, !evt.shiftKey);
+                                        selectrow(m, true, !evt.ctrlKey);
                                     }
                                     propmouseprev=reff;
                                 }
